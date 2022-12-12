@@ -6,14 +6,19 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
+		<item key="selection" value="if (!PhaseBegin(600)) return 0;"/>
 		<list key="findhistory">
+			<item value="success = PhaseBegin(600);"/>
+			<item value="lastError"/>
+			<item value="Er. 7"/>
 		</list>
 		<list key="replacehistory">
+			<item value="if (!PhaseBegin(600)) return 0;"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item key="DIALOG_X_ORIGIN" value="804"/>
-		<item key="DIALOG_Y_ORIGIN" value="653"/>
+		<item key="DIALOG_X_ORIGIN" value="567"/>
+		<item key="DIALOG_Y_ORIGIN" value="178"/>
 		<item key="DIALOG_WIDTH" value="322"/>
 		<item key="DIALOG_HEIGHT" value="391"/>
 		<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>

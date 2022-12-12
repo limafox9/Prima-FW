@@ -1,0 +1,15 @@
+printer.c:208:6:PrinterInit	1
+printer.c:226:6:PrintSize	1
+printer.c:236:6:PrintTestPage	1
+printer.c:240:6:PrintError	3
+printer.c:257:6:PrintSend	2
+printer.c:273:6:Print	4
+printer.c:295:6:PrintPowerTestHeader	3
+printer.c:329:6:PrintSettings	7
+printer.c:432:6:PrintLogo	1
+printer.c:454:6:PrintHeader	15
+printer.c:534:6:PrintFooter	3
+printer.c:559:6:PrintStepLine	1
+printer.c:563:6:PrintDivisor	1
+printer.c:568:6:PrintLF	2
+printer.c:577:15:reverse_byte	1

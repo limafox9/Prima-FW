@@ -1,8 +1,0 @@
-12 2022
-Luca Favenzi for Galbiati srl
-
-1.
-PB3 and PB4 are shared with programming interface.
-To use them as output pins it is required to set debug as 'Serial Wire'.
-In CubeMX Pinout and Configuration tab > System Core > SYS > Debug > Serial Wire
-
