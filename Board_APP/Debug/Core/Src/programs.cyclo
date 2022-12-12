@@ -1,0 +1,13 @@
+programs.c:92:6:StartProgramTask	22
+programs.c:166:6:ProgramOpenDoorRelease	1
+programs.c:170:9:ProgramResumeDry	7
+programs.c:276:9:ProgramUnwrapped	13
+programs.c:374:9:ProgramWrapped	16
+programs.c:483:9:ProgramPrion	15
+programs.c:590:9:ProgramGentle	15
+programs.c:694:9:ProgramUser	38
+programs.c:847:9:ProgramHelixTest	16
+programs.c:956:9:ProgramVacuumTest	8
+programs.c:1041:9:PowerTest	1
+programs.c:1182:9:ProgramWash	2
+programs.c:1218:9:ProgramWaterLoad	2

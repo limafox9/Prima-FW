@@ -1,0 +1,8 @@
+BAT2U.c:49:6:BAT2U_Init	1
+BAT2U.c:54:10:BAT2U_GetTDSValue	6
+BAT2U.c:97:10:BAT2U_GetTempValue	3
+BAT2U.c:121:10:BAT2U_TDSCalibration	1
+BAT2U.c:139:10:BAT2U_NTCCalibration	1
+BAT2U.c:155:16:ByteInBuffer	3
+BAT2U.c:166:16:GetChecksum	2
+BAT2U.c:175:16:Timeout	3

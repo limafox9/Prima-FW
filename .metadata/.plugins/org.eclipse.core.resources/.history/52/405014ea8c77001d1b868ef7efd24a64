@@ -1,0 +1,38 @@
+/*
+ * serial.h
+ *
+ *  Created on: Dec 6, 2022
+ *      Author: josh
+ */
+
+#ifndef INC_SERIAL_H_
+#define INC_SERIAL_H_
+
+#include <crc16.h>
+#include "main.h"
+#include "globals.h"
+
+#define UART huart1
+#define SERIAL_TX_TIMEOUT 50
+
+//#define COMMAND_KEYS_PRESSED 0x11
+//#define SERIAL_DIGITS_PACKET_IDENTIFIER (char[]){'D', 'I', 'G'}
+//#define SERIAL_PANEL_PACKET_IDENTIFIER (char[]){'P', 'A', 'N'}
+//#define SERIAL_PROGRESS_PACKET_IDENTIFIER (char[]){'P', 'R', 'O'}
+//#define SERIAL_BUZZER_PACKET_IDENTIFIER (char[]){'B', 'E', 'P'}
+
+#define SERIAL_PACKET_HEAD 0x12345678
+#define SERIAL_PACKET_TAIL 0x87654321
+
+typedef enum {
+	BEEP = 0x1b,
+	KEYS_PRESSED = 0x11,
+	DISPLAY_DIGITS = 0x1d,
+	PANEL_LEDS = 0x1e,
+	PROGRESS_LEDS = 0x1f
+} serialCommands_e;
+
+extern void SendKeys(uint8_t keys);
+//void sendSerialData(struct serialKeys_s* keys, UART_HandleTypeDef* huart);
+
+#endif /* INC_SERIAL_H_ */

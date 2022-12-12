@@ -1,0 +1,32 @@
+/*
+ * PanelLeds.h
+ *
+ *  Created on: 2 dic 2022
+ *      Author: josh
+ */
+
+#ifndef PANELLEDS_H_
+#define PANELLEDS_H_
+
+#include "globals.h"
+
+#define LED_OFF 0
+#define LED_ON 1
+#define LED_FLASH 2
+
+class PanelLeds
+{
+private:
+
+	u8 warningCTL;
+
+public:
+
+	void setWarningCTL(int status);
+	void PanelLeds::setWarningLSH(int status);
+
+	PanelLeds();
+	virtual ~PanelLeds();
+};
+
+#endif /* PANELLEDS_H_ */

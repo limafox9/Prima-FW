@@ -1,0 +1,16 @@
+phases.c:86:9:PhaseBegin	19
+phases.c:208:9:PhaseResume	5
+phases.c:246:9:PhasePreheat	1
+phases.c:252:9:PhaseHeatUp	9
+phases.c:307:9:CheckError	11
+phases.c:342:9:PhaseRelease	8
+phases.c:394:9:PhaseVacuum	9
+phases.c:473:9:PhasePressure	8
+phases.c:610:9:PhaseSteril	33
+phases.c:846:9:PhaseDry	15
+phases.c:960:9:PhaseClean	10
+phases.c:1046:9:PhaseWaterLoad	5
+phases.c:1083:9:PhaseVacuumHold	5
+phases.c:1138:9:PhaseWait	4
+phases.c:1183:9:PhaseFinish	7
+phases.c:1269:6:PhaseTestPID	1

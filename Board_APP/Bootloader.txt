@@ -1,0 +1,27 @@
+
+File: /Board_APP/STM32F105VCTX_FLASH.ld
+
+*** QUOTE
+/* Memories definition */
+MEMORY
+{
+  RAM    (xrw)    : ORIGIN = 0x20000000,   LENGTH = 64K
+  FLASH    (rx)    : ORIGIN = 0x800E000,   LENGTH = 200K
+}
+***UNQUOTE
+
+With bootloader:       FLASH    (rx)    : ORIGIN = 0x800E000,   LENGTH = 200K
+Without bootloader :   FLASH    (rx)    : ORIGIN = 0x8000000,   LENGTH = 200K
+
+
+
+File: /Board_APP/Core/Src/system_stm32f1xx.c
+
+With bootloader:
+- uncomment: #define USER_VECT_TAB_ADDRESS
+- #define VECT_TAB_OFFSET         0x0000E000U     /*!< Vector Table base offset field.
+
+Without bootloader:
+- comment: #define USER_VECT_TAB_ADDRESS
+OR
+- #define VECT_TAB_OFFSET         0x00000000U     /*!< Vector Table base offset field.

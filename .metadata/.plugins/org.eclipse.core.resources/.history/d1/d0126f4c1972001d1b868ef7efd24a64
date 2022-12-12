@@ -1,0 +1,18 @@
+/*
+ * PanelLeds.h
+ *
+ *  Created on: 2 dic 2022
+ *      Author: josh
+ */
+
+#ifndef PANELLEDS_H_
+#define PANELLEDS_H_
+
+class PanelLeds
+{
+public:
+	PanelLeds();
+	virtual ~PanelLeds();
+};
+
+#endif /* PANELLEDS_H_ */
