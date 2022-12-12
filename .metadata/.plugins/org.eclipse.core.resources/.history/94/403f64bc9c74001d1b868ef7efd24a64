@@ -1,0 +1,6 @@
+
+
+PB3 e PB4 sono in comune con l'interfaccia di programmazione.
+Per utilizzarli come output è necessario impostare come debug, serial wire.
+In CubeMX SYS > Debug > Serial Wire
+

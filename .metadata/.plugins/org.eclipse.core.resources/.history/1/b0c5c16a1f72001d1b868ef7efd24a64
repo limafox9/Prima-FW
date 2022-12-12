@@ -1,0 +1,20 @@
+/*
+ * PanelLeds.cpp
+ *
+ *  Created on: 2 dic 2022
+ *      Author: josh
+ */
+
+#include "PanelLeds.h"
+
+PanelLeds::PanelLeds()
+{
+	// TODO Auto-generated constructor stub
+
+}
+
+PanelLeds::~PanelLeds()
+{
+	// TODO Auto-generated destructor stub
+}
+

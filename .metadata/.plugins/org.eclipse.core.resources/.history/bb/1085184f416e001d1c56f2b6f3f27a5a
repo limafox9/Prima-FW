@@ -1,0 +1,10 @@
+/*
+ * globals.c
+ *
+ *  Created on: Nov 27, 2022
+ *      Author: josh
+ */
+
+u8 str1[10];
+u8 str2[10];
+u8 str3[10];

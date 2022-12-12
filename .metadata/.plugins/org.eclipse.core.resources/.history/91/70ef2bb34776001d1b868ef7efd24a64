@@ -1,0 +1,86 @@
+/*
+ * serial.c
+ *
+ *  Created on: Dec 6, 2022
+ *      Author: josh
+ */
+
+#include "serial.h"
+
+
+void serialSendPacket(uint8_t* payload[], char* identifier[]);
+void serialTransmit(uint8_t* txBuffer[]);
+
+
+//void SendKeysSerial(KeyPressedStruct* keys) {
+//
+//	char message[50];
+//
+//	sprintf(message, "<~%i:%i~>", keys->keys, keys->CRC16);
+//
+//	HAL_GPIO_WritePin(USART1_CTS_GPIO_Port, USART1_CTS_Pin, 1);
+//
+////	HAL_UART_Transmit(&huart1,message,sizeof(message),10);// Sending in normal mode
+//	HAL_UART_Transmit(&huart1,keys,sizeof(*keys),10);// Sending in normal mode
+//
+//	HAL_GPIO_WritePin(USART1_CTS_GPIO_Port, USART1_CTS_Pin, 0);
+//
+//}
+
+void sendSerialData(struct serialKeys_s* keys){
+//	void sendSerialData(struct serialKeys_s* keys, UART_HandleTypeDef * huart){
+
+	char buffer[sizeof(*keys)]; // Create a char buffer of right size
+
+	//char message[] = "CIAO\r\n";
+	strncpy(keys->markHead, SERIAL_PACKET_HEAD, sizeof(SERIAL_PACKET_HEAD));
+	strncpy(keys->markTail, SERIAL_PACKET_TAIL, sizeof(SERIAL_PACKET_TAIL));
+
+	keys->CRC16 = 0;
+	//checksum = crc16(&keys, sizeof(*keys));
+	keys->CRC16 = crc16(keys, sizeof(*keys));
+
+  // UART can only send unsigned int
+  // Thus we need to convert our struct data
+
+
+  // Copy the data to buffer
+
+	memcpy(buffer, keys, sizeof(*keys)); // Copy and convert the data
+
+	uint8_t payload[] = {keys->keysPressed};
+
+	serialSendPacket(&payload, SERIAL_KEYS_PACKET_IDENTIFIER);
+//	HAL_GPIO_WritePin(USART1_CTS_GPIO_Port, USART1_CTS_Pin, 1);
+//	HAL_UART_Transmit(&UART, (uint8_t *)buffer, sizeof(buffer), 50);
+//	HAL_GPIO_WritePin(USART1_CTS_GPIO_Port, USART1_CTS_Pin, 0);
+}
+
+void serialSendPacket(uint8_t* payload[], char* identifier[]) {
+
+	uint16_t checksum;
+	size_t headSize = sizeof(SERIAL_PACKET_HEAD);
+	size_t identifierSize = sizeof(identifier);
+	size_t tailSize = sizeof(SERIAL_PACKET_TAIL);
+	size_t payloadSize = sizeof(*payload);
+	size_t checksumSize = sizeof(checksum);
+
+	checksum = crc16(payload, sizeof(*payload));
+
+	uint8_t* txBuffer = malloc(8 * (headSize + identifierSize + payloadSize + checksumSize + tailSize));
+	memcpy(txBuffer, SERIAL_PACKET_HEAD, headSize); // copy 4 floats from x to total[0]...total[3]
+	memcpy(txBuffer + headSize, *identifier, identifierSize); // copy 4 floats from x to total[0]...total[3]
+	memcpy(txBuffer + headSize + identifierSize, *payload, payloadSize); // copy 4 floats from x to total[0]...total[3]
+	memcpy(txBuffer + headSize + identifierSize + payloadSize, checksum, checksumSize); // copy 4 floats from x to total[0]...total[3]
+	memcpy(txBuffer + headSize + identifierSize + payloadSize + checksumSize, SERIAL_PACKET_TAIL, tailSize); // copy 4 floats from x to total[0]...total[3]
+
+	serialTransmit(txBuffer);
+}
+
+void serialTransmit(uint8_t* txBuffer[]) {
+
+	HAL_GPIO_WritePin(USART1_CTS_GPIO_Port, USART1_CTS_Pin, 1);
+	HAL_UART_Transmit(&UART, txBuffer, sizeof(*txBuffer), SERIAL_TX_TIMEOUT);
+	HAL_GPIO_WritePin(USART1_CTS_GPIO_Port, USART1_CTS_Pin, 0);
+
+}

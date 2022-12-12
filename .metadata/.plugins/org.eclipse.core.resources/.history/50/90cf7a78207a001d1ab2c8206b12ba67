@@ -1,0 +1,124 @@
+/*==============================================================================
+
+Filename: serial_protocol.c
+
+Created on: Dec 9, 2022
+
+Original work: Copyright (c) 2022 Luca Favenzi
+Modified work:
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+Visit www.favenzi.it
+      luca@favenzi.it
+
+==================================================================================
+PURPOSE:
+USAGE:
+================================================================================*/
+
+#include <string.h>
+#include "crc16.h"
+#include "serial_protocol.h"
+
+UART_HandleTypeDef* p_activeUART;
+const uint16_t activeTxTimeout = 50;
+const char activeProtocolHead[] = {'<', '~'};
+const char activeProtocolTail[] =  {'~', '>'};
+const char activeProtocolEOF = '\n';
+
+const uint8_t pos_head = 0;
+const uint8_t  pos_command = 2;
+const uint8_t  pos_param1 = 6;
+const uint8_t  pos_param2 = 10;
+const uint8_t  pos_param3 = 14;
+const uint8_t  pos_param4 = 18;
+const uint8_t  pos_checksum = 22;
+const uint8_t  pos_tail = 24;
+const uint8_t  pos_EOF = 26;
+
+
+void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize);
+
+void ProtocolSendKeys(UART_HandleTypeDef* huart, uint8_t keys) {
+
+	p_activeUART = huart;
+
+	uint8_t payload[14];
+	memset(payload,0,14);
+
+	uint16_t command = COMMAND_KEYS_PRESSED;
+	uint32_t param1, param2, param3;
+
+	param1 = keys;
+	param2 = 0;
+	param3 = 0;
+
+	memcpy(payload, &command, 2);
+	memcpy(payload + 2, &param1, 4);
+	memcpy(payload + 2 + 4, &param2, 4);
+	memcpy(payload + 2 + 4 + 4, &param3, 4);
+//	payload[0] = COMMAND_KEYS_PRESSED >> 8;
+//	payload[1] = COMMAND_KEYS_PRESSED & 0xFF;
+//	payload[2] = keys;
+	//ProtocolTransmit(command, payload, 14);
+
+}
+
+void ProtocolTransmit(UART_HandleTypeDef* huart, uint16_t command, uint32_t param1, uint32_t param2, uint32_t param3, uint32_t param4) {
+
+	uint16_t bufferSize;
+	uint16_t checksum;
+
+	p_activeUART = huart;
+
+	bufferSize = pos_EOF + 1;
+	uint8_t p_txBuffer[bufferSize];
+	memset(p_txBuffer, 0xFF, bufferSize);
+
+	memcpy(p_txBuffer + pos_head, activeProtocolHead, 2);
+	memcpy(p_txBuffer + pos_command, &command, 2);
+	memcpy(p_txBuffer + pos_param1, &param1, 4);
+	memcpy(p_txBuffer + pos_param2, &param2, 4);
+	memcpy(p_txBuffer + pos_param3, &param3, 4);
+	memcpy(p_txBuffer + pos_param4, &param4, 4);
+	memcpy(p_txBuffer + pos_tail, activeProtocolTail, 2);
+	memcpy(p_txBuffer + pos_EOF, &activeProtocolEOF, 1);
+
+	checksum = crc16(p_txBuffer, bufferSize - 1);
+	memcpy(p_txBuffer + pos_checksum, &checksum, 2);
+
+	//char* str_txBufferTerminated[10];
+	//sprintf(str_txBufferTerminated, "%s%s%s\n", (const char*)s, (const char*)ptr_payload, (const char*)activeProtocolTail.packetTerminator);
+
+	SerialTransmit(p_txBuffer, bufferSize);
+
+}
+
+void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+
+	// Chip 485 ENABLE
+	//HAL_GPIO_WritePin(USART1_CTS_GPIO_Port, USART1_CTS_Pin, 1);
+	// TRANSMIT
+	HAL_UART_Transmit(p_activeUART, p_Buffer, txBufferSize, activeTxTimeout);
+	// Chip 485 DISABLE
+	//HAL_GPIO_WritePin(USART1_CTS_GPIO_Port, USART1_CTS_Pin, 0);
+
+}
+

@@ -1,0 +1,26 @@
+15:47:26 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
+../Core/Src/serial_protocol.c: In function 'SerialReceive':
+../Core/Src/serial_protocol.c:108:17: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
+  108 |  SerialTransmit("OK", 2);
+      |                 ^~~~
+      |                 |
+      |                 char *
+../Core/Src/serial_protocol.c:96:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+   96 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+arm-none-eabi-gcc -o "N-F103RB_Serial.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_Serial.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_Serial.elf
+ 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_Serial.elf  > "N-F103RB_Serial.list"
+   text	   data	    bss	    dec	    hex	filename
+   8268	     20	   1740	  10028	   272c	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_Serial.list
+ 
+
+15:47:27 Build Finished. 0 errors, 1 warnings. (took 969ms)
+

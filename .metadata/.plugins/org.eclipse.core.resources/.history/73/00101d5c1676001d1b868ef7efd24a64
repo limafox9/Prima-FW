@@ -1,0 +1,21 @@
+/*
+ * serial.h
+ *
+ *  Created on: Dec 6, 2022
+ *      Author: josh
+ */
+
+#ifndef INC_SERIAL_H_
+#define INC_SERIAL_H_
+
+#include "main.h"
+#include "globals.h"
+
+typedef struct s{
+	int a;
+	int b;
+} h;
+
+void sendSerialData(s * keys, UART_HandleTypeDef * huart);
+
+#endif /* INC_SERIAL_H_ */

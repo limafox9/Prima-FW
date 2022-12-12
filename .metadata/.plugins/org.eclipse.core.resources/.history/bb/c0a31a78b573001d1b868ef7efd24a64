@@ -1,0 +1,50 @@
+/*
+ * leds.c
+ *
+ *  Created on: Dec 4, 2022
+ *      Author: josh
+ */
+
+#include "leds.h"
+
+const GPIO_PIN ledModeUnwrapped = {LED_MODE_UNWRAPPED_GPIO_Port, LED_MODE_UNWRAPPED_Pin, &panelLedsBits, 0};
+const GPIO_PIN ledModeWrapped = {LED_MODE_WRAPPED_GPIO_Port, LED_MODE_WRAPPED_Pin, &panelLedsBits, 1};
+const GPIO_PIN ledModePrion = {LED_MODE_PRION_GPIO_Port, LED_MODE_PRION_Pin, &panelLedsBits, 2};
+const GPIO_PIN ledModeGentle = {LED_MODE_GENTLE_GPIO_Port, LED_MODE_GENTLE_Pin, &panelLedsBits, 3};
+const GPIO_PIN ledTestHelix = {LED_TEST_HELIX_GPIO_Port, LED_TEST_HELIX_Pin, &panelLedsBits, 4};
+const GPIO_PIN ledTestVacuum = {LED_TEST_VACUUM_GPIO_Port, LED_TEST_VACUUM_Pin, &panelLedsBits, 5};
+const GPIO_PIN ledWarningCTL = {LED_WARNING_CTL_GPIO_Port, LED_WARNING_CTL_Pin, &panelLedsBits, 6};
+const GPIO_PIN ledWarningLSH = {LED_WARNING_LSH_GPIO_Port, LED_WARNING_LSH_Pin, &panelLedsBits, 7};
+const GPIO_PIN ledWarningTDS = {LED_WARNING_TDS_GPIO_Port, LED_WARNING_TDS_Pin, &panelLedsBits, 8};
+const GPIO_PIN ledTemp121 = {LED_TEMP_121_GPIO_Port, LED_TEMP_121_Pin, &panelLedsBits, 9};
+const GPIO_PIN ledTemp134 = {LED_TEMP_134_GPIO_Port, LED_TEMP_134_Pin, &panelLedsBits, 10};
+
+const GPIO_PIN ledModeBClass = {NULL, NULL, &panelLedsBits, 11};
+const GPIO_PIN ledAutoWaterFill = {NULL, NULL, &panelLedsBits, 12};
+const GPIO_PIN ledAutoClean = {NULL, NULL, &panelLedsBits, 13};
+
+void SetAll() {
+	//HAL_GPIO_WritePin(LED_TEMP_134_GPIO_Port, LED_TEMP_134_Pin, GPIO_PIN_SET);
+	SetLed(&ledModeUnwrapped, LED_STATE.LED_ON);
+	SetLed(&ledModeWrapped, LED_ON);
+	SetLed(&ledModePrion, LED_ON);
+	SetLed(&ledModeGentle, LED_ON);
+	SetLed(&ledTestHelix, LED_ON);
+	SetLed(&ledTestVacuum, LED_ON);
+	SetLed(&ledWarningCTL, LED_ON);
+	SetLed(&ledWarningLSH, LED_ON);
+	SetLed(&ledWarningTDS, LED_ON);
+	SetLed(&ledTemp121, LED_ON);
+	SetLed(&ledTemp134, LED_ON);
+}
+
+void SetLed(GPIO_PIN* led, LED_STATE status) {
+	if (status == LED_OFF) {
+		HAL_GPIO_WritePin(led->GPIO_Port, led->GPIO_Pin, LED_OFF);
+	} else if (status == LED_ON) {
+		HAL_GPIO_WritePin(led->GPIO_Port, led->GPIO_Pin, LED_ON);
+	} else {
+		HAL_GPIO_WritePin(led->GPIO_Port, led->GPIO_Pin, LED_OFF);
+	}
+//	HAL_GPIO_WritePin(led->GPIO_Port, led->GPIO_Pin, status);
+}

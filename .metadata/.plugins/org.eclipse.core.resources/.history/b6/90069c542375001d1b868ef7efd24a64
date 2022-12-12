@@ -1,0 +1,51 @@
+/*
+ * keys.c
+ *
+ *  Created on: Dec 6, 2022
+ *      Author: josh
+ */
+
+#include "keys.h"
+
+uint8_t GetPressedKeys();
+
+uint8_t GetKeys() {
+
+	static uint8_t lastValue = 0;
+	uint8_t currentKeys = 0;
+	uint32_t startKeypress;
+
+	while (lastValue > 0) {
+		osDelay(20)
+	}
+
+	currentKeys = GetPressedKeys();
+
+	startKeypress = HAL_GetTick();
+
+	// Keys active low
+	while (currentKeys > 0) {
+		lastValue = currentKeys;
+		currentKeys = GetPressedKeys();
+		if (GetSafeDeltaTick(startKeypress, HAL_GetTick()) > KEY_LONG_PRESS_MS) {
+			// bit 4 = long press
+			lastValue += 8;
+			break;
+		}
+		osDelay(20);
+	}
+
+	return lastValue;
+}
+
+uint8_t GetPressedKeys() {
+
+	uint8_t currentKeys = 0;
+
+	currentKeys = !(HAL_GPIO_ReadPin(KEY_PROG_GPIO_Port, KEY_PROG_Pin));
+	currentKeys += !(HAL_GPIO_ReadPin(KEY_TEST_GPIO_Port, KEY_TEST_Pin)) << 1;
+	currentKeys += !(HAL_GPIO_ReadPin(KEY_START_GPIO_Port, KEY_START_Pin)) << 2;
+
+	return currentKeys;
+}
+

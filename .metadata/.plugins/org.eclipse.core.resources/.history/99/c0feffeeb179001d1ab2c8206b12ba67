@@ -1,0 +1,97 @@
+/*==============================================================================
+
+Filename: serial_protocol.c
+
+Created on: Dec 9, 2022
+
+Original work: Copyright (c) 2022 Luca Favenzi
+Modified work:
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+Visit www.favenzi.it
+      luca@favenzi.it
+
+==================================================================================
+PURPOSE:
+USAGE:
+================================================================================*/
+
+#include <string.h>
+#include "serial_protocol.h"
+
+UART_HandleTypeDef* p_activeUART = &huart2;
+uint16_t activeTxTimeout = 50;
+char* activeProtocolHead = "<~";
+char* activeProtocolTail = "~>";
+
+void SerialTransmit(uint8_t* ptr_txBuffer);;
+
+
+void ProtocolSendKeys(uint8_t keys) {
+
+	uint8_t payload[15];
+	memset(payload,0,15);
+
+	uint16_t command = COMMAND_KEYS_PRESSED;
+	uint32_t param1, param2, param3;
+
+	param1 = keys;
+	param2 = 0;
+	param3 = 0;
+
+	memcpy(payload, &command, 2);
+	memcpy(payload + 2, &param1, 4);
+	memcpy(payload + 4, &param2, 4);
+	memcpy(payload + 4, &param3, 4);
+//	payload[0] = COMMAND_KEYS_PRESSED >> 8;
+//	payload[1] = COMMAND_KEYS_PRESSED & 0xFF;
+//	payload[2] = keys;
+	ProtocolTransmit(command, payload, 15);
+
+}
+
+void ProtocolTransmit(uint8_t command, uint8_t* p_data, uint16_t dataSize) {
+
+	uint8_t* p_txBuffer;
+	uint16_t bufferSize;
+	uint16_t checksum;
+	bufferSize = strlen(activeProtocolHead) + dataSize + sizeof(checksum) + strlen(activeProtocolTail);
+	calloc(p_txBuffer, bufferSize);
+	memcpy(p_txBuffer, activeProtocolHead, strlen(activeProtocolHead));
+
+
+	char* str_txBufferTerminated[10];
+	//sprintf(str_txBufferTerminated, "%s%s%s\n", (const char*)s, (const char*)ptr_payload, (const char*)activeProtocolTail.packetTerminator);
+
+	SerialTransmit(str_txBufferTerminated);
+
+}
+
+void SerialTransmit(uint8_t* ptr_txBuffer) {
+
+	// Chip 485 ENABLE
+	//HAL_GPIO_WritePin(USART1_CTS_GPIO_Port, USART1_CTS_Pin, 1);
+	// TRANSMIT
+	HAL_UART_Transmit(p_activeUART, ptr_txBuffer, strlen((const char*)ptr_txBuffer), activeTxTimeout);
+	// Chip 485 DISABLE
+	//HAL_GPIO_WritePin(USART1_CTS_GPIO_Port, USART1_CTS_Pin, 0);
+
+}
+

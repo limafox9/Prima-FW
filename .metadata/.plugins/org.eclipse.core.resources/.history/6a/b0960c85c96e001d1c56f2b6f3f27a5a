@@ -1,0 +1,12 @@
+/*
+ * globals.c
+ *
+ *  Created on: Nov 27, 2022
+ *      Author: josh
+ */
+
+#include "globals.h"
+
+char digitsRow1[10];
+char digitsRow2[10];
+char digitsRow3[10];

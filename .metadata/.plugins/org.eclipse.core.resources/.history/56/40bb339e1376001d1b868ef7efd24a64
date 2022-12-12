@@ -1,0 +1,36 @@
+/*
+ * serial.c
+ *
+ *  Created on: Dec 6, 2022
+ *      Author: josh
+ */
+
+#include "serial.h"
+
+void SendKeysSerial(KeyPressedStruct* keys) {
+
+	char message[50];
+
+	sprintf(message, "<~%i:%i~>", keys->keys, keys->CRC16);
+
+	HAL_GPIO_WritePin(USART1_CTS_GPIO_Port, USART1_CTS_Pin, 1);
+
+//	HAL_UART_Transmit(&huart1,message,sizeof(message),10);// Sending in normal mode
+	HAL_UART_Transmit(&huart1,keys,sizeof(*keys),10);// Sending in normal mode
+
+	HAL_GPIO_WritePin(USART1_CTS_GPIO_Port, USART1_CTS_Pin, 0);
+
+}
+
+void sendSerialData(KeyPressedStruct * keys, UART_HandleTypeDef * huart){
+  // UART can only send unsigned int
+  // Thus we need to convert our struct data
+  char buffer[sizeof(*keys)]; // Create a char buffer of right size
+
+  // Copy the data to buffer
+  memcpy(buffer, keys, sizeof(*keys)); // Copy and convert the data
+  // Ideally buffer will be 12B long, 4B for each axes data
+  // Now we can finally send this data
+  HAL_UART_Transmit(huart, (uint8_t *)buffer, sizeof(buffer), 50);
+  // The last param is timeout duration in ms
+}

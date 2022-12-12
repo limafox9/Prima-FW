@@ -1,0 +1,19 @@
+/*
+ * buzzer.h
+ *
+ *  Created on: Nov 26, 2022
+ *      Author: josh
+ */
+
+#ifndef INC_BUZZER_H_
+#define INC_BUZZER_H_
+
+#include "main.h"
+#include "cmsis_os.h"
+#include "globals.h"
+
+extern IO_PIN beepPin;
+
+void Beep(u8 hits, u16 onDelay, u16 offDelay);
+
+#endif /* INC_BUZZER_H_ */

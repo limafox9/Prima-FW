@@ -1,0 +1,85 @@
+/*
+ * globals.h
+ *
+ *  Created on: Nov 26, 2022
+ *      Author: josh
+ */
+
+#ifndef INC_GLOBALS_H_
+#define INC_GLOBALS_H_
+
+#include <stdio.h>
+#include "main.h"
+
+#define FW_VERSION_MAJOR 1
+#define FW_VERSION_MINOR 0
+#define FW_VERSION_BUILD 21
+
+#define PLED_PROG_UNWRAPPED_BIT			0
+#define PLED_PROG_WRAPPED_BIT			1
+#define PLED_PROG_PRION_BIT				2
+#define PLED_PROG_GENTLE_BIT			3
+#define PLED_TEST_HELIX_BIT				4
+#define PLED_TEST_VACUUM_BIT			5
+#define PLED_WARN_CLEAN_WATER_LOW_BIT	6
+#define PLED_WARN_USED_WATER_HIGH_BIT	7
+#define PLED_WARN_WATER_QUALITY_BIT		8
+#define PLED_TEMP_121_BIT				9
+#define PLED_TEMP_134_BIT				10
+#define PLED_MODE_BCLASS_BIT			11
+#define PLED_AUTO_WATER_FILL_BIT		12
+#define PLED_AUTO_CLEAN_BIT				13
+
+//#define LED_OFF 0
+//#define LED_ON 1
+
+typedef struct {
+	GPIO_TypeDef* GPIO_Port;
+	uint16_t GPIO_Pin;
+	uint8_t bit;
+} GPIO_PIN;
+
+typedef struct {
+	GPIO_PIN* GPIO_Pin_Strobe;
+	GPIO_PIN* GPIO_Pin_Data;
+	GPIO_PIN* GPIO_Pin_Clock;
+} SER2PAR;
+
+typedef enum {
+	LED_OFF = 0,
+	LED_ON = 1
+} LED_STATE;
+
+//typedef uint8_t		uint8_t;
+//typedef uint16_t	uint16_t;
+//typedef uint32_t	u32;
+//typedef int8_t		s8;
+//typedef int16_t		s16;
+//typedef int32_t		s32;
+
+extern char digitsRow1[10];
+extern char digitsRow2[10];
+extern char digitsRow3[10];
+
+extern uint16_t progressBarBits;
+extern uint16_t progressBarBitsBlink;
+
+extern uint16_t panelLedsBits;
+extern uint16_t panelLedsBitsBlink;
+
+extern uint32_t digitsBits;
+
+// Bitwise operations ----------------------------------------------------------
+#define BIT(n)					(1 << (x)) // Return the number representing the n_th bit
+#define SETBIT(x, n)			((x) |= (1 << (n))) // Set n_th bit in x
+#define SETBITS(x, n, p)		((x) |= (((0x00000001U << n) - 1) << p)) // Set n bits from position p in x
+#define SETBITSMASK(x, m)		((x) |= (m)) // Set all bits in x masked by m; 0 leave bits unchanged
+#define CLEARBIT(x, n)			((x) &= ~(0x00000001U << (n))) // Clear n_th bit in x
+#define CLEARBITSMASK(x, m)		((x) &= ~(m)) // Clear all bits in x masked by m; 0 leave bits unchanged
+#define TOGGLEBIT(x, n)			((x) ^= (0x00000001U << (n))) // Toggle n_th bit in x
+#define TOGGLEBITSMASK(x, m)	((x) ^= (m)) // Toggle all bits in x masked by m; 0 leave bits unchanged
+#define COPYBITS(x, y, n, p)	((x) = ((x) & ~((((0x00000001U << n) - 1) << p))) | ((y) & (((0x00000001U << n) - 1) << p))) // Copy n bits from position p of y to same position of x
+#define COPYBITSMASK(x, y, m)	((x) = ((x) & ~(m)) | ((y) & (m))) // Copy bits from y to x masked by m; 0 leave bits unchanged
+#define CHECKBIT(x, n)			((x) & (1 << (n))) // Return 1 if n_th bit of x is 1, else 0
+
+#endif /* INC_GLOBALS_H_ */

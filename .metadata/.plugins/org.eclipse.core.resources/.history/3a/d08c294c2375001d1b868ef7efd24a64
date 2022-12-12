@@ -1,0 +1,23 @@
+/*
+ * globals.c
+ *
+ *  Created on: Nov 27, 2022
+ *      Author: josh
+ */
+
+#include "globals.h"
+
+uint8_t digitsRow1[10];
+uint8_t digitsRow2[10];
+uint8_t digitsRow3[10];
+
+uint16_t progressBarBits;
+uint16_t progressBarBitsBlink;
+
+uint32_t digitsBits;
+uint32_t digitsBitsBlink;
+
+uint16_t panelLedsBits;
+uint16_t panelLedsBitsBlink;
+
+uint8_t keysPressed;

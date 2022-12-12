@@ -1,0 +1,21 @@
+/*
+ * leds.c
+ *
+ *  Created on: Dec 4, 2022
+ *      Author: josh
+ */
+
+#include "leds.h"
+
+GPIO_PIN ledTemp121Pin = {LED_TEMP_121_GPIO_Port, LED_TEMP_121_Pin};
+GPIO_PIN ledTemp134Pin = {LED_TEMP_134_GPIO_Port, LED_TEMP_134_Pin};
+GPIO_PIN ledTestHelix = {LED_TEST_HELIX_GPIO_Port, LED_TEST_HELIX_Pin};
+GPIO_PIN ledTestVacuum = {LED_TEST_VACUUM_GPIO_Port, LED_TEST_VACUUM_Pin};
+GPIO_PIN ledModeUnwrapped = {LED_MODE_UNWRAPPED_GPIO_Port, LED_MODE_UNWRAPPED_Pin};;
+GPIO_PIN ledModeWrapped = {LED_MODE_WRAPPED_GPIO_Port, LED_MODE_WRAPPED_Pin};
+GPIO_PIN ledModePrion = {LED_MODE_PRION_GPIO_Port, LED_MODE_PRION_Pin};
+GPIO_PIN ledModeGentle = {LED_MODE_GENTLE_GPIO_Port, LED_MODE_GENTLE_Pin};
+GPIO_PIN ledWarningCTL = {LED_WARNING_CTL_GPIO_Port, LED_WARNING_CTL_Pin};
+GPIO_PIN ledWarningLSH = {LED_WARNING_LSH_GPIO_Port, LED_WARNING_LSH_Pin};
+GPIO_PIN ledWarningTDS = {LED_WARNING_TDS_GPIO_Port, LED_WARNING_TDS_Pin};
+

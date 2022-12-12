@@ -1,0 +1,18 @@
+/*
+ * serial.c
+ *
+ *  Created on: Dec 6, 2022
+ *      Author: josh
+ */
+
+#include "serial.h"
+
+void SendKeysSerial(KeyPressedStruct keys) {
+
+	HAL_GPIO_WritePin(USART1_CTS_GPIO_Port, USART1_CTS_Pin, 1);
+
+	HAL_UART_Transmit(&huart1,keys,sizeof(keys),10);// Sending in normal mode
+
+	HAL_GPIO_WritePin(USART1_CTS_GPIO_Port, USART1_CTS_Pin, 0);
+
+}

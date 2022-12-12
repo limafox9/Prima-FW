@@ -1,0 +1,33 @@
+/*
+ * keys.c
+ *
+ *  Created on: Dec 6, 2022
+ *      Author: josh
+ */
+
+#include "keys.h"
+
+extern uint8_t GetKeys() {
+
+	uint8_t lastValue = 0;
+	uint8_t currentKeys = 0;
+
+	currentKeys = !(HAL_GPIO_ReadPin(KEY_PROG_GPIO_Port, KEY_PROG_Pin));
+
+	// Keys active low
+	while (currentKeys > 0) {
+		lastValue = currentKeys;
+		currentKeys = !(HAL_GPIO_ReadPin(KEY_PROG_GPIO_Port, KEY_PROG_Pin));
+	}
+//	keysPressed += !(HAL_GPIO_ReadPin(KEY_PROG_GPIO_Port, KEY_PROG_Pin)) << 1;
+//	keysPressed += !(HAL_GPIO_ReadPin(KEY_PROG_GPIO_Port, KEY_PROG_Pin)) << 2;
+
+	return lastValue;
+	}
+//	if (keysPressed & 2) {
+//		Beep(2, 200, 100);
+//	}
+//	if (keysPressed & 4) {
+//		Beep(3, 200, 100);
+//	}
+}
