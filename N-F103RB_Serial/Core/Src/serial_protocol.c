@@ -53,13 +53,14 @@ const uint8_t  pos_checksum = 20;
 const uint8_t  pos_tail = 22;
 const uint8_t  pos_EOF = 24;
 
-uint8_t UART_rxBuffer[25] = {0};
-
+uint8_t UART_rxBuffer[3] = {0};
+uint8_t rxData[25] = {0};
+uint16_t rxDataPos = 0;
 
 void ProtocolInit(UART_HandleTypeDef* huart) {
 
 	p_activeUART = huart;
-	HAL_UART_Receive_DMA(p_activeUART, UART_rxBuffer, 25);
+	HAL_UART_Receive_DMA(p_activeUART, UART_rxBuffer, 3);
 
 }
 
@@ -105,10 +106,18 @@ void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
 }
 
 void SerialReceive() {
-	SerialTransmit("OK", 2);
+
+	uint16_t rec;
+	char* str;
+
+	memcpy(&rec, UART_rxBuffer, 2);
+	rxDataPos++;
+	if (rxDataPos > 24) rxDataPos = 0;
+	str= sprintf("%d", rec);
+	SerialTransmit(str, strlen(str));
 }
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
-	HAL_UART_Receive_DMA(p_activeUART, UART_rxBuffer, 25);
+	HAL_UART_Receive_DMA(p_activeUART, UART_rxBuffer, 3);
 	SerialReceive();
 }

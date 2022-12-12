@@ -1,14 +1,31 @@
-15:47:26 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+20:08:00 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
 make -j24 all 
 arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
 ../Core/Src/serial_protocol.c: In function 'SerialReceive':
-../Core/Src/serial_protocol.c:108:17: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
-  108 |  SerialTransmit("OK", 2);
-      |                 ^~~~
+../Core/Src/serial_protocol.c:116:7: warning: implicit declaration of function 'sprintf' [-Wimplicit-function-declaration]
+  116 |  str= sprintf("%d", rec);
+      |       ^~~~~~~
+../Core/Src/serial_protocol.c:116:7: warning: incompatible implicit declaration of built-in function 'sprintf'
+../Core/Src/serial_protocol.c:39:1: note: include '<stdio.h>' or provide a declaration of 'sprintf'
+   38 | #include "serial_protocol.h"
+  +++ |+#include <stdio.h>
+   39 | 
+../Core/Src/serial_protocol.c:116:21: warning: passing argument 2 of 'sprintf' makes pointer from integer without a cast [-Wint-conversion]
+  116 |  str= sprintf("%d", rec);
+      |                     ^~~
+      |                     |
+      |                     uint16_t {aka short unsigned int}
+../Core/Src/serial_protocol.c:116:21: note: expected 'const char *' but argument is of type 'uint16_t' {aka 'short unsigned int'}
+../Core/Src/serial_protocol.c:116:5: warning: assignment to 'char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+  116 |  str= sprintf("%d", rec);
+      |     ^
+../Core/Src/serial_protocol.c:117:17: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
+  117 |  SerialTransmit(str, strlen(str));
+      |                 ^~~
       |                 |
       |                 char *
-../Core/Src/serial_protocol.c:96:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
-   96 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+../Core/Src/serial_protocol.c:97:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+   97 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
       |                     ~~~~~~~~~^~~~~~~~
 arm-none-eabi-gcc -o "N-F103RB_Serial.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_Serial.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: N-F103RB_Serial.elf
@@ -16,11 +33,11 @@ Finished building target: N-F103RB_Serial.elf
 arm-none-eabi-size   N-F103RB_Serial.elf 
 arm-none-eabi-objdump -h -S  N-F103RB_Serial.elf  > "N-F103RB_Serial.list"
    text	   data	    bss	    dec	    hex	filename
-   8268	     20	   1740	  10028	   272c	N-F103RB_Serial.elf
+  10820	    120	   1736	  12676	   3184	N-F103RB_Serial.elf
 Finished building: default.size.stdout
  
 Finished building: N-F103RB_Serial.list
  
 
-15:47:27 Build Finished. 0 errors, 1 warnings. (took 969ms)
+20:08:01 Build Finished. 0 errors, 5 warnings. (took 957ms)
 
