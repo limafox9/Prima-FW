@@ -16968,3 +16968,1997 @@ Finished building: default.size.stdout
  
 Finished building: N-F103RB_Serial.list
  
+08:13:03 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
+arm-none-eabi-gcc "../Core/Src/stm32f1xx_hal_msp.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/stm32f1xx_hal_msp.d" -MT"Core/Src/stm32f1xx_hal_msp.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/stm32f1xx_hal_msp.o"
+arm-none-eabi-gcc "../Core/Src/stm32f1xx_it.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/stm32f1xx_it.d" -MT"Core/Src/stm32f1xx_it.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/stm32f1xx_it.o"
+../Core/Src/serial_protocol.c: In function 'SerialReceive':
+../Core/Src/serial_protocol.c:124:22: warning: comparison of distinct pointer types lacks a cast
+  124 |  if (huart->Instance == p_activeUART) {
+      |                      ^~
+../Core/Src/serial_protocol.c:129:8: warning: implicit declaration of function 'sprintf' [-Wimplicit-function-declaration]
+  129 |   str= sprintf("%d", rec);
+      |        ^~~~~~~
+../Core/Src/serial_protocol.c:129:8: warning: incompatible implicit declaration of built-in function 'sprintf'
+../Core/Src/serial_protocol.c:39:1: note: include '<stdio.h>' or provide a declaration of 'sprintf'
+   38 | #include "serial_protocol.h"
+  +++ |+#include <stdio.h>
+   39 | 
+../Core/Src/serial_protocol.c:129:22: warning: passing argument 2 of 'sprintf' makes pointer from integer without a cast [-Wint-conversion]
+  129 |   str= sprintf("%d", rec);
+      |                      ^~~
+      |                      |
+      |                      uint16_t {aka short unsigned int}
+../Core/Src/serial_protocol.c:129:22: note: expected 'const char *' but argument is of type 'uint16_t' {aka 'short unsigned int'}
+../Core/Src/serial_protocol.c:129:6: warning: assignment to 'char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+  129 |   str= sprintf("%d", rec);
+      |      ^
+../Core/Src/serial_protocol.c:130:18: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
+  130 |   SerialTransmit(str, strlen(str));
+      |                  ^~~
+      |                  |
+      |                  char *
+../Core/Src/serial_protocol.c:107:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+  107 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+../Core/Src/serial_protocol.c: At top level:
+../Core/Src/serial_protocol.c:135:10: error: expected ';' before 'void'
+  135 | HAL_UART_
+      |          ^
+      |          ;
+  136 | 
+  137 | void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
+      | ~~~~      
+../Core/Src/serial_protocol.c: In function 'HAL_UART_RxCpltCallback':
+../Core/Src/serial_protocol.c:140:16: error: expected expression before 'UART_HandleTypeDef'
+  140 |  SerialReceive(UART_HandleTypeDef *huart);
+      |                ^~~~~~~~~~~~~~~~~~
+In file included from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h:30,
+                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h:29,
+                 from ../Core/Inc/stm32f1xx_hal_conf.h:238,
+                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:30,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Inc/serial_protocol.h:39,
+                 from ../Core/Src/serial_protocol.c:38:
+../Core/Src/serial_protocol.c:144:23: error: 'hdma' undeclared (first use in this function)
+  144 |  __HAL_DMA_DISABLE_IT(hdma, DMA_IT_HT); // Disable half buffer received interrupt
+      |                       ^~~~
+../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h:180:33: note: in definition of macro 'CLEAR_BIT'
+  180 | #define CLEAR_BIT(REG, BIT)   ((REG) &= ~(BIT))
+      |                                 ^~~
+../Core/Src/serial_protocol.c:144:2: note: in expansion of macro '__HAL_DMA_DISABLE_IT'
+  144 |  __HAL_DMA_DISABLE_IT(hdma, DMA_IT_HT); // Disable half buffer received interrupt
+      |  ^~~~~~~~~~~~~~~~~~~~
+../Core/Src/serial_protocol.c:144:23: note: each undeclared identifier is reported only once for each function it appears in
+  144 |  __HAL_DMA_DISABLE_IT(hdma, DMA_IT_HT); // Disable half buffer received interrupt
+      |                       ^~~~
+../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h:180:33: note: in definition of macro 'CLEAR_BIT'
+  180 | #define CLEAR_BIT(REG, BIT)   ((REG) &= ~(BIT))
+      |                                 ^~~
+../Core/Src/serial_protocol.c:144:2: note: in expansion of macro '__HAL_DMA_DISABLE_IT'
+  144 |  __HAL_DMA_DISABLE_IT(hdma, DMA_IT_HT); // Disable half buffer received interrupt
+      |  ^~~~~~~~~~~~~~~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:100:3: error: too few arguments to function 'ProtocolInit'
+  100 |   ProtocolInit(&huart2);
+      |   ^~~~~~~~~~~~
+In file included from ../Core/Src/main.c:24:
+../Core/Inc/serial_protocol.h:67:6: note: declared here
+   67 | void ProtocolInit(UART_HandleTypeDef* huart, DMA_HandleTypeDef* hdma);
+      |      ^~~~~~~~~~~~
+make: *** [Core/Src/subdir.mk:40: Core/Src/main.o] Error 1
+make: *** Waiting for unfinished jobs....
+make: *** [Core/Src/subdir.mk:40: Core/Src/serial_protocol.o] Error 1
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+08:13:04 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+08:13:05 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  16960	    132	   5924	  23016	   59e8	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+08:13:59 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:100:3: error: too few arguments to function 'ProtocolInit'
+  100 |   ProtocolInit(&huart2);
+      |   ^~~~~~~~~~~~
+In file included from ../Core/Src/main.c:24:
+../Core/Inc/serial_protocol.h:67:6: note: declared here
+   67 | void ProtocolInit(UART_HandleTypeDef* huart, DMA_HandleTypeDef* hdma);
+      |      ^~~~~~~~~~~~
+../Core/Src/serial_protocol.c: In function 'SerialReceive':
+../Core/Src/serial_protocol.c:124:22: warning: comparison of distinct pointer types lacks a cast
+  124 |  if (huart->Instance == p_activeUART) {
+      |                      ^~
+../Core/Src/serial_protocol.c:129:8: warning: implicit declaration of function 'sprintf' [-Wimplicit-function-declaration]
+  129 |   str= sprintf("%d", rec);
+      |        ^~~~~~~
+../Core/Src/serial_protocol.c:129:8: warning: incompatible implicit declaration of built-in function 'sprintf'
+../Core/Src/serial_protocol.c:39:1: note: include '<stdio.h>' or provide a declaration of 'sprintf'
+   38 | #include "serial_protocol.h"
+  +++ |+#include <stdio.h>
+   39 | 
+../Core/Src/serial_protocol.c:129:22: warning: passing argument 2 of 'sprintf' makes pointer from integer without a cast [-Wint-conversion]
+  129 |   str= sprintf("%d", rec);
+      |                      ^~~
+      |                      |
+      |                      uint16_t {aka short unsigned int}
+../Core/Src/serial_protocol.c:129:22: note: expected 'const char *' but argument is of type 'uint16_t' {aka 'short unsigned int'}
+../Core/Src/serial_protocol.c:129:6: warning: assignment to 'char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+  129 |   str= sprintf("%d", rec);
+      |      ^
+../Core/Src/serial_protocol.c:130:18: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
+  130 |   SerialTransmit(str, strlen(str));
+      |                  ^~~
+      |                  |
+      |                  char *
+../Core/Src/serial_protocol.c:107:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+  107 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+../Core/Src/serial_protocol.c: At top level:
+../Core/Src/serial_protocol.c:135:10: error: expected ';' before 'void'
+  135 | HAL_UART_
+      |          ^
+      |          ;
+  136 | 
+  137 | void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
+      | ~~~~      
+In file included from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h:30,
+                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h:29,
+                 from ../Core/Inc/stm32f1xx_hal_conf.h:238,
+                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:30,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Inc/serial_protocol.h:39,
+                 from ../Core/Src/serial_protocol.c:38:
+../Core/Src/serial_protocol.c: In function 'HAL_UART_RxCpltCallback':
+../Core/Src/serial_protocol.c:144:23: error: 'hdma' undeclared (first use in this function)
+  144 |  __HAL_DMA_DISABLE_IT(hdma, DMA_IT_HT); // Disable half buffer received interrupt
+      |                       ^~~~
+../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h:180:33: note: in definition of macro 'CLEAR_BIT'
+  180 | #define CLEAR_BIT(REG, BIT)   ((REG) &= ~(BIT))
+      |                                 ^~~
+../Core/Src/serial_protocol.c:144:2: note: in expansion of macro '__HAL_DMA_DISABLE_IT'
+  144 |  __HAL_DMA_DISABLE_IT(hdma, DMA_IT_HT); // Disable half buffer received interrupt
+      |  ^~~~~~~~~~~~~~~~~~~~
+../Core/Src/serial_protocol.c:144:23: note: each undeclared identifier is reported only once for each function it appears in
+  144 |  __HAL_DMA_DISABLE_IT(hdma, DMA_IT_HT); // Disable half buffer received interrupt
+      |                       ^~~~
+../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h:180:33: note: in definition of macro 'CLEAR_BIT'
+  180 | #define CLEAR_BIT(REG, BIT)   ((REG) &= ~(BIT))
+      |                                 ^~~
+../Core/Src/serial_protocol.c:144:2: note: in expansion of macro '__HAL_DMA_DISABLE_IT'
+  144 |  __HAL_DMA_DISABLE_IT(hdma, DMA_IT_HT); // Disable half buffer received interrupt
+      |  ^~~~~~~~~~~~~~~~~~~~
+make: *** [Core/Src/subdir.mk:40: Core/Src/main.o] Error 1
+make: *** Waiting for unfinished jobs....
+make: *** [Core/Src/subdir.mk:40: Core/Src/serial_protocol.o] Error 1
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+08:14:00 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+08:14:00 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  16960	    132	   5924	  23016	   59e8	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+08:15:41 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:100:3: error: too few arguments to function 'ProtocolInit'
+  100 |   ProtocolInit(&huart2);
+      |   ^~~~~~~~~~~~
+In file included from ../Core/Src/main.c:24:
+../Core/Inc/serial_protocol.h:67:6: note: declared here
+   67 | void ProtocolInit(UART_HandleTypeDef* huart, DMA_HandleTypeDef* hdma);
+      |      ^~~~~~~~~~~~
+make: *** [Core/Src/subdir.mk:40: Core/Src/main.o] Error 1
+make: *** Waiting for unfinished jobs....
+../Core/Src/serial_protocol.c: In function 'SerialReceive':
+../Core/Src/serial_protocol.c:127:22: warning: comparison of distinct pointer types lacks a cast
+  127 |  if (huart->Instance == p_activeUART) {
+      |                      ^~
+../Core/Src/serial_protocol.c:132:8: warning: implicit declaration of function 'sprintf' [-Wimplicit-function-declaration]
+  132 |   str= sprintf("%d", rec);
+      |        ^~~~~~~
+../Core/Src/serial_protocol.c:132:8: warning: incompatible implicit declaration of built-in function 'sprintf'
+../Core/Src/serial_protocol.c:39:1: note: include '<stdio.h>' or provide a declaration of 'sprintf'
+   38 | #include "serial_protocol.h"
+  +++ |+#include <stdio.h>
+   39 | 
+../Core/Src/serial_protocol.c:132:22: warning: passing argument 2 of 'sprintf' makes pointer from integer without a cast [-Wint-conversion]
+  132 |   str= sprintf("%d", rec);
+      |                      ^~~
+      |                      |
+      |                      uint16_t {aka short unsigned int}
+../Core/Src/serial_protocol.c:132:22: note: expected 'const char *' but argument is of type 'uint16_t' {aka 'short unsigned int'}
+../Core/Src/serial_protocol.c:132:6: warning: assignment to 'char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+  132 |   str= sprintf("%d", rec);
+      |      ^
+../Core/Src/serial_protocol.c:133:18: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
+  133 |   SerialTransmit(str, strlen(str));
+      |                  ^~~
+      |                  |
+      |                  char *
+../Core/Src/serial_protocol.c:110:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+  110 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+../Core/Src/serial_protocol.c: At top level:
+../Core/Src/serial_protocol.c:138:10: error: expected ';' before 'void'
+  138 | HAL_UART_
+      |          ^
+      |          ;
+  139 | 
+  140 | void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
+      | ~~~~      
+make: *** [Core/Src/subdir.mk:40: Core/Src/serial_protocol.o] Error 1
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+08:15:42 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+08:15:42 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  16960	    132	   5924	  23016	   59e8	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+08:16:59 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:100:3: error: too few arguments to function 'ProtocolInit'
+  100 |   ProtocolInit(&huart2);
+      |   ^~~~~~~~~~~~
+In file included from ../Core/Src/main.c:24:
+../Core/Inc/serial_protocol.h:67:6: note: declared here
+   67 | void ProtocolInit(UART_HandleTypeDef* huart, DMA_HandleTypeDef* hdma);
+      |      ^~~~~~~~~~~~
+../Core/Src/serial_protocol.c: In function 'SerialReceive':
+../Core/Src/serial_protocol.c:127:22: warning: comparison of distinct pointer types lacks a cast
+  127 |  if (huart->Instance == p_activeUART) {
+      |                      ^~
+../Core/Src/serial_protocol.c:132:8: warning: implicit declaration of function 'sprintf' [-Wimplicit-function-declaration]
+  132 |   str= sprintf("%d", rec);
+      |        ^~~~~~~
+../Core/Src/serial_protocol.c:132:8: warning: incompatible implicit declaration of built-in function 'sprintf'
+../Core/Src/serial_protocol.c:39:1: note: include '<stdio.h>' or provide a declaration of 'sprintf'
+   38 | #include "serial_protocol.h"
+  +++ |+#include <stdio.h>
+   39 | 
+../Core/Src/serial_protocol.c:132:22: warning: passing argument 2 of 'sprintf' makes pointer from integer without a cast [-Wint-conversion]
+  132 |   str= sprintf("%d", rec);
+      |                      ^~~
+      |                      |
+      |                      uint16_t {aka short unsigned int}
+../Core/Src/serial_protocol.c:132:22: note: expected 'const char *' but argument is of type 'uint16_t' {aka 'short unsigned int'}
+../Core/Src/serial_protocol.c:132:6: warning: assignment to 'char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+  132 |   str= sprintf("%d", rec);
+      |      ^
+../Core/Src/serial_protocol.c:133:31: warning: passing argument 1 of 'strlen' makes pointer from integer without a cast [-Wint-conversion]
+  133 |   SerialTransmit(*str, strlen(*str));
+      |                               ^~~~
+      |                               |
+      |                               char
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:41:17: note: expected 'const char *' but argument is of type 'char'
+   41 | size_t  strlen (const char *);
+      |                 ^~~~~~~~~~~~
+../Core/Src/serial_protocol.c:133:18: warning: passing argument 1 of 'SerialTransmit' makes pointer from integer without a cast [-Wint-conversion]
+  133 |   SerialTransmit(*str, strlen(*str));
+      |                  ^~~~
+      |                  |
+      |                  char
+../Core/Src/serial_protocol.c:110:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char'
+  110 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+../Core/Src/serial_protocol.c: At top level:
+../Core/Src/serial_protocol.c:138:10: error: expected ';' before 'void'
+  138 | HAL_UART_
+      |          ^
+      |          ;
+  139 | 
+  140 | void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
+      | ~~~~      
+make: *** [Core/Src/subdir.mk:40: Core/Src/main.o] Error 1
+make: *** Waiting for unfinished jobs....
+make: *** [Core/Src/subdir.mk:40: Core/Src/serial_protocol.o] Error 1
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+08:17:08 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:100:3: error: too few arguments to function 'ProtocolInit'
+  100 |   ProtocolInit(&huart2);
+      |   ^~~~~~~~~~~~
+In file included from ../Core/Src/main.c:24:
+../Core/Inc/serial_protocol.h:67:6: note: declared here
+   67 | void ProtocolInit(UART_HandleTypeDef* huart, DMA_HandleTypeDef* hdma);
+      |      ^~~~~~~~~~~~
+../Core/Src/serial_protocol.c: In function 'SerialReceive':
+../Core/Src/serial_protocol.c:127:22: warning: comparison of distinct pointer types lacks a cast
+  127 |  if (huart->Instance == p_activeUART) {
+      |                      ^~
+../Core/Src/serial_protocol.c:132:8: warning: implicit declaration of function 'sprintf' [-Wimplicit-function-declaration]
+  132 |   str= sprintf("%d", rec);
+      |        ^~~~~~~
+../Core/Src/serial_protocol.c:132:8: warning: incompatible implicit declaration of built-in function 'sprintf'
+../Core/Src/serial_protocol.c:39:1: note: include '<stdio.h>' or provide a declaration of 'sprintf'
+   38 | #include "serial_protocol.h"
+  +++ |+#include <stdio.h>
+   39 | 
+../Core/Src/serial_protocol.c:132:22: warning: passing argument 2 of 'sprintf' makes pointer from integer without a cast [-Wint-conversion]
+  132 |   str= sprintf("%d", rec);
+      |                      ^~~
+      |                      |
+      |                      uint16_t {aka short unsigned int}
+../Core/Src/serial_protocol.c:132:22: note: expected 'const char *' but argument is of type 'uint16_t' {aka 'short unsigned int'}
+../Core/Src/serial_protocol.c:132:6: warning: assignment to 'char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+  132 |   str= sprintf("%d", rec);
+      |      ^
+../Core/Src/serial_protocol.c:133:31: warning: passing argument 1 of 'strlen' makes pointer from integer without a cast [-Wint-conversion]
+  133 |   SerialTransmit(*str, strlen(*str));
+      |                               ^~~~
+      |                               |
+      |                               char
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:41:17: note: expected 'const char *' but argument is of type 'char'
+   41 | size_t  strlen (const char *);
+      |                 ^~~~~~~~~~~~
+../Core/Src/serial_protocol.c:133:18: warning: passing argument 1 of 'SerialTransmit' makes pointer from integer without a cast [-Wint-conversion]
+  133 |   SerialTransmit(*str, strlen(*str));
+      |                  ^~~~
+      |                  |
+      |                  char
+../Core/Src/serial_protocol.c:110:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char'
+  110 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+make: *** [Core/Src/subdir.mk:40: Core/Src/main.o] Error 1
+make: *** Waiting for unfinished jobs....
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+08:17:26 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:100:25: error: incompatible type for argument 2 of 'ProtocolInit'
+  100 |   ProtocolInit(&huart2, hdma_usart2_rx);
+      |                         ^~~~~~~~~~~~~~
+      |                         |
+      |                         DMA_HandleTypeDef {aka struct __DMA_HandleTypeDef}
+In file included from ../Core/Src/main.c:24:
+../Core/Inc/serial_protocol.h:67:65: note: expected 'DMA_HandleTypeDef *' {aka 'struct __DMA_HandleTypeDef *'} but argument is of type 'DMA_HandleTypeDef' {aka 'struct __DMA_HandleTypeDef'}
+   67 | void ProtocolInit(UART_HandleTypeDef* huart, DMA_HandleTypeDef* hdma);
+      |                                              ~~~~~~~~~~~~~~~~~~~^~~~
+make: *** [Core/Src/subdir.mk:40: Core/Src/main.o] Error 1
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+08:17:34 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "N-F103RB_Serial.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_Serial.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_Serial.elf
+ 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_Serial.elf  > "N-F103RB_Serial.list"
+   text	   data	    bss	    dec	    hex	filename
+  12812	    120	   1800	  14732	   398c	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_Serial.list
+ 
+08:18:18 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  12812	    120	   1800	  14732	   398c	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+08:19:34 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
+../Core/Src/serial_protocol.c: In function 'SerialReceive':
+../Core/Src/serial_protocol.c:127:22: warning: comparison of distinct pointer types lacks a cast
+  127 |  if (huart->Instance == p_activeUART) {
+      |                      ^~
+../Core/Src/serial_protocol.c:132:8: warning: implicit declaration of function 'sprintf' [-Wimplicit-function-declaration]
+  132 |   str= sprintf("%d", rec);
+      |        ^~~~~~~
+../Core/Src/serial_protocol.c:132:8: warning: incompatible implicit declaration of built-in function 'sprintf'
+../Core/Src/serial_protocol.c:39:1: note: include '<stdio.h>' or provide a declaration of 'sprintf'
+   38 | #include "serial_protocol.h"
+  +++ |+#include <stdio.h>
+   39 | 
+../Core/Src/serial_protocol.c:132:22: warning: passing argument 2 of 'sprintf' makes pointer from integer without a cast [-Wint-conversion]
+  132 |   str= sprintf("%d", rec);
+      |                      ^~~
+      |                      |
+      |                      uint16_t {aka short unsigned int}
+../Core/Src/serial_protocol.c:132:22: note: expected 'const char *' but argument is of type 'uint16_t' {aka 'short unsigned int'}
+../Core/Src/serial_protocol.c:132:6: warning: assignment to 'char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+  132 |   str= sprintf("%d", rec);
+      |      ^
+../Core/Src/serial_protocol.c:133:31: warning: passing argument 1 of 'strlen' makes pointer from integer without a cast [-Wint-conversion]
+  133 |   SerialTransmit(*str, strlen(*str));
+      |                               ^~~~
+      |                               |
+      |                               char
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:41:17: note: expected 'const char *' but argument is of type 'char'
+   41 | size_t  strlen (const char *);
+      |                 ^~~~~~~~~~~~
+../Core/Src/serial_protocol.c:133:18: warning: passing argument 1 of 'SerialTransmit' makes pointer from integer without a cast [-Wint-conversion]
+  133 |   SerialTransmit(*str, strlen(*str));
+      |                  ^~~~
+      |                  |
+      |                  char
+../Core/Src/serial_protocol.c:110:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char'
+  110 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+arm-none-eabi-gcc -o "N-F103RB_Serial.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_Serial.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_Serial.elf
+ 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_Serial.elf  > "N-F103RB_Serial.list"
+   text	   data	    bss	    dec	    hex	filename
+   9680	     20	   1748	  11448	   2cb8	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_Serial.list
+ 
+08:20:03 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
+../Core/Src/serial_protocol.c: In function 'SerialReceive':
+../Core/Src/serial_protocol.c:127:22: warning: comparison of distinct pointer types lacks a cast
+  127 |  if (huart->Instance == p_activeUART) {
+      |                      ^~
+../Core/Src/serial_protocol.c:132:8: warning: implicit declaration of function 'sprintf' [-Wimplicit-function-declaration]
+  132 |   str= sprintf("%d", rec);
+      |        ^~~~~~~
+../Core/Src/serial_protocol.c:132:8: warning: incompatible implicit declaration of built-in function 'sprintf'
+../Core/Src/serial_protocol.c:39:1: note: include '<stdio.h>' or provide a declaration of 'sprintf'
+   38 | #include "serial_protocol.h"
+  +++ |+#include <stdio.h>
+   39 | 
+../Core/Src/serial_protocol.c:132:22: warning: passing argument 2 of 'sprintf' makes pointer from integer without a cast [-Wint-conversion]
+  132 |   str= sprintf("%d", rec);
+      |                      ^~~
+      |                      |
+      |                      uint16_t {aka short unsigned int}
+../Core/Src/serial_protocol.c:132:22: note: expected 'const char *' but argument is of type 'uint16_t' {aka 'short unsigned int'}
+../Core/Src/serial_protocol.c:132:6: warning: assignment to 'char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+  132 |   str= sprintf("%d", rec);
+      |      ^
+../Core/Src/serial_protocol.c:133:31: warning: passing argument 1 of 'strlen' makes pointer from integer without a cast [-Wint-conversion]
+  133 |   SerialTransmit(*str, strlen(*str));
+      |                               ^~~~
+      |                               |
+      |                               char
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:41:17: note: expected 'const char *' but argument is of type 'char'
+   41 | size_t  strlen (const char *);
+      |                 ^~~~~~~~~~~~
+../Core/Src/serial_protocol.c:133:18: warning: passing argument 1 of 'SerialTransmit' makes pointer from integer without a cast [-Wint-conversion]
+  133 |   SerialTransmit(*str, strlen(*str));
+      |                  ^~~~
+      |                  |
+      |                  char
+../Core/Src/serial_protocol.c:110:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char'
+  110 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+../Core/Src/serial_protocol.c: At top level:
+../Core/Src/serial_protocol.c:138:6: error: conflicting types for 'HAL_UARTEx_RxEventCallback'
+  138 | void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart) {
+      |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ../Core/Inc/stm32f1xx_hal_conf.h:338,
+                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:30,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Inc/serial_protocol.h:39,
+                 from ../Core/Src/serial_protocol.c:38:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h:757:6: note: previous declaration of 'HAL_UARTEx_RxEventCallback' was here
+  757 | void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size);
+      |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Core/Src/subdir.mk:40: Core/Src/serial_protocol.o] Error 1
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+08:21:17 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
+../Core/Src/serial_protocol.c: In function 'SerialReceive':
+../Core/Src/serial_protocol.c:127:22: warning: comparison of distinct pointer types lacks a cast
+  127 |  if (huart->Instance == p_activeUART) {
+      |                      ^~
+../Core/Src/serial_protocol.c:132:8: warning: implicit declaration of function 'sprintf' [-Wimplicit-function-declaration]
+  132 |   str= sprintf("%d", rec);
+      |        ^~~~~~~
+../Core/Src/serial_protocol.c:132:8: warning: incompatible implicit declaration of built-in function 'sprintf'
+../Core/Src/serial_protocol.c:39:1: note: include '<stdio.h>' or provide a declaration of 'sprintf'
+   38 | #include "serial_protocol.h"
+  +++ |+#include <stdio.h>
+   39 | 
+../Core/Src/serial_protocol.c:132:22: warning: passing argument 2 of 'sprintf' makes pointer from integer without a cast [-Wint-conversion]
+  132 |   str= sprintf("%d", rec);
+      |                      ^~~
+      |                      |
+      |                      uint16_t {aka short unsigned int}
+../Core/Src/serial_protocol.c:132:22: note: expected 'const char *' but argument is of type 'uint16_t' {aka 'short unsigned int'}
+../Core/Src/serial_protocol.c:132:6: warning: assignment to 'char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+  132 |   str= sprintf("%d", rec);
+      |      ^
+../Core/Src/serial_protocol.c:133:31: warning: passing argument 1 of 'strlen' makes pointer from integer without a cast [-Wint-conversion]
+  133 |   SerialTransmit(*str, strlen(*str));
+      |                               ^~~~
+      |                               |
+      |                               char
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:41:17: note: expected 'const char *' but argument is of type 'char'
+   41 | size_t  strlen (const char *);
+      |                 ^~~~~~~~~~~~
+../Core/Src/serial_protocol.c:133:18: warning: passing argument 1 of 'SerialTransmit' makes pointer from integer without a cast [-Wint-conversion]
+  133 |   SerialTransmit(*str, strlen(*str));
+      |                  ^~~~
+      |                  |
+      |                  char
+../Core/Src/serial_protocol.c:110:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char'
+  110 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+arm-none-eabi-gcc -o "N-F103RB_Serial.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_Serial.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_Serial.elf
+ 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_Serial.elf  > "N-F103RB_Serial.list"
+   text	   data	    bss	    dec	    hex	filename
+  12820	    120	   1800	  14740	   3994	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_Serial.list
+ 
+08:21:19 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+08:21:19 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  16960	    132	   5924	  23016	   59e8	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+08:21:23 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  12820	    120	   1800	  14740	   3994	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+08:21:47 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  12820	    120	   1800	  14740	   3994	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+08:31:59 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
+../Core/Src/serial_protocol.c: In function 'SerialReceive':
+../Core/Src/serial_protocol.c:132:8: warning: implicit declaration of function 'sprintf' [-Wimplicit-function-declaration]
+  132 |   str= sprintf("%d", rec);
+      |        ^~~~~~~
+../Core/Src/serial_protocol.c:132:8: warning: incompatible implicit declaration of built-in function 'sprintf'
+../Core/Src/serial_protocol.c:39:1: note: include '<stdio.h>' or provide a declaration of 'sprintf'
+   38 | #include "serial_protocol.h"
+  +++ |+#include <stdio.h>
+   39 | 
+../Core/Src/serial_protocol.c:132:22: warning: passing argument 2 of 'sprintf' makes pointer from integer without a cast [-Wint-conversion]
+  132 |   str= sprintf("%d", rec);
+      |                      ^~~
+      |                      |
+      |                      uint16_t {aka short unsigned int}
+../Core/Src/serial_protocol.c:132:22: note: expected 'const char *' but argument is of type 'uint16_t' {aka 'short unsigned int'}
+../Core/Src/serial_protocol.c:132:6: warning: assignment to 'char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+  132 |   str= sprintf("%d", rec);
+      |      ^
+../Core/Src/serial_protocol.c:133:31: warning: passing argument 1 of 'strlen' makes pointer from integer without a cast [-Wint-conversion]
+  133 |   SerialTransmit(*str, strlen(*str));
+      |                               ^~~~
+      |                               |
+      |                               char
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:41:17: note: expected 'const char *' but argument is of type 'char'
+   41 | size_t  strlen (const char *);
+      |                 ^~~~~~~~~~~~
+../Core/Src/serial_protocol.c:133:18: warning: passing argument 1 of 'SerialTransmit' makes pointer from integer without a cast [-Wint-conversion]
+  133 |   SerialTransmit(*str, strlen(*str));
+      |                  ^~~~
+      |                  |
+      |                  char
+../Core/Src/serial_protocol.c:110:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char'
+  110 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+arm-none-eabi-gcc -o "N-F103RB_Serial.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_Serial.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_Serial.elf
+ 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_Serial.elf  > "N-F103RB_Serial.list"
+   text	   data	    bss	    dec	    hex	filename
+  12820	    120	   1800	  14740	   3994	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_Serial.list
+ 
+08:33:22 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
+../Core/Src/serial_protocol.c: In function 'SerialReceive':
+../Core/Src/serial_protocol.c:132:8: warning: implicit declaration of function 'sprintf' [-Wimplicit-function-declaration]
+  132 |   str= sprintf("%d", rec);
+      |        ^~~~~~~
+../Core/Src/serial_protocol.c:132:8: warning: incompatible implicit declaration of built-in function 'sprintf'
+../Core/Src/serial_protocol.c:39:1: note: include '<stdio.h>' or provide a declaration of 'sprintf'
+   38 | #include "serial_protocol.h"
+  +++ |+#include <stdio.h>
+   39 | 
+../Core/Src/serial_protocol.c:132:22: warning: passing argument 2 of 'sprintf' makes pointer from integer without a cast [-Wint-conversion]
+  132 |   str= sprintf("%d", rec);
+      |                      ^~~
+      |                      |
+      |                      uint16_t {aka short unsigned int}
+../Core/Src/serial_protocol.c:132:22: note: expected 'const char *' but argument is of type 'uint16_t' {aka 'short unsigned int'}
+../Core/Src/serial_protocol.c:132:6: warning: assignment to 'char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+  132 |   str= sprintf("%d", rec);
+      |      ^
+../Core/Src/serial_protocol.c:133:30: warning: passing argument 1 of 'strlen' makes pointer from integer without a cast [-Wint-conversion]
+  133 |   SerialTransmit(str, strlen(*str));
+      |                              ^~~~
+      |                              |
+      |                              char
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:41:17: note: expected 'const char *' but argument is of type 'char'
+   41 | size_t  strlen (const char *);
+      |                 ^~~~~~~~~~~~
+../Core/Src/serial_protocol.c:133:18: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
+  133 |   SerialTransmit(str, strlen(*str));
+      |                  ^~~
+      |                  |
+      |                  char *
+../Core/Src/serial_protocol.c:110:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+  110 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+arm-none-eabi-gcc -o "N-F103RB_Serial.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_Serial.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_Serial.elf
+ 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_Serial.elf  > "N-F103RB_Serial.list"
+   text	   data	    bss	    dec	    hex	filename
+  12816	    120	   1800	  14736	   3990	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_Serial.list
+ 
+08:34:05 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  12816	    120	   1800	  14736	   3990	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+08:36:00 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  12816	    120	   1800	  14736	   3990	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+08:37:53 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
+../Core/Src/serial_protocol.c: In function 'SerialReceive':
+../Core/Src/serial_protocol.c:132:3: warning: implicit declaration of function 'sprintf' [-Wimplicit-function-declaration]
+  132 |   sprintf(str, "%d", rec);
+      |   ^~~~~~~
+../Core/Src/serial_protocol.c:132:3: warning: incompatible implicit declaration of built-in function 'sprintf'
+../Core/Src/serial_protocol.c:39:1: note: include '<stdio.h>' or provide a declaration of 'sprintf'
+   38 | #include "serial_protocol.h"
+  +++ |+#include <stdio.h>
+   39 | 
+../Core/Src/serial_protocol.c:133:30: warning: passing argument 1 of 'strlen' makes pointer from integer without a cast [-Wint-conversion]
+  133 |   SerialTransmit(str, strlen(*str));
+      |                              ^~~~
+      |                              |
+      |                              char
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:41:17: note: expected 'const char *' but argument is of type 'char'
+   41 | size_t  strlen (const char *);
+      |                 ^~~~~~~~~~~~
+../Core/Src/serial_protocol.c:133:18: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
+  133 |   SerialTransmit(str, strlen(*str));
+      |                  ^~~
+      |                  |
+      |                  char *
+../Core/Src/serial_protocol.c:110:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+  110 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+../Core/Src/serial_protocol.c:132:3: warning: 'str' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  132 |   sprintf(str, "%d", rec);
+      |   ^~~~~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "N-F103RB_Serial.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_Serial.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_Serial.elf
+ 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_Serial.elf  > "N-F103RB_Serial.list"
+   text	   data	    bss	    dec	    hex	filename
+  12812	    120	   1800	  14732	   398c	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_Serial.list
+ 
+08:38:50 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
+../Core/Src/serial_protocol.c: In function 'SerialReceive':
+../Core/Src/serial_protocol.c:132:3: warning: implicit declaration of function 'sprintf' [-Wimplicit-function-declaration]
+  132 |   sprintf(str, "%d", rec);
+      |   ^~~~~~~
+../Core/Src/serial_protocol.c:132:3: warning: incompatible implicit declaration of built-in function 'sprintf'
+../Core/Src/serial_protocol.c:39:1: note: include '<stdio.h>' or provide a declaration of 'sprintf'
+   38 | #include "serial_protocol.h"
+  +++ |+#include <stdio.h>
+   39 | 
+../Core/Src/serial_protocol.c:133:18: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
+  133 |   SerialTransmit(str, strlen(str));
+      |                  ^~~
+      |                  |
+      |                  char *
+../Core/Src/serial_protocol.c:110:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+  110 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+../Core/Src/serial_protocol.c:132:3: warning: 'str' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  132 |   sprintf(str, "%d", rec);
+      |   ^~~~~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "N-F103RB_Serial.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_Serial.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_Serial.elf
+ 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_Serial.elf  > "N-F103RB_Serial.list"
+   text	   data	    bss	    dec	    hex	filename
+  12808	    120	   1800	  14728	   3988	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_Serial.list
+ 
+08:39:18 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  12808	    120	   1800	  14728	   3988	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+08:42:48 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  12808	    120	   1800	  14728	   3988	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+08:44:04 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
+../Core/Src/serial_protocol.c: In function 'SerialReceive':
+../Core/Src/serial_protocol.c:132:3: warning: implicit declaration of function 'sprintf' [-Wimplicit-function-declaration]
+  132 |   sprintf(str, "%d", rec);
+      |   ^~~~~~~
+../Core/Src/serial_protocol.c:132:3: warning: incompatible implicit declaration of built-in function 'sprintf'
+../Core/Src/serial_protocol.c:39:1: note: include '<stdio.h>' or provide a declaration of 'sprintf'
+   38 | #include "serial_protocol.h"
+  +++ |+#include <stdio.h>
+   39 | 
+../Core/Src/serial_protocol.c:133:18: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
+  133 |   SerialTransmit(str, strlen(str));
+      |                  ^~~
+      |                  |
+      |                  char *
+../Core/Src/serial_protocol.c:110:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+  110 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+../Core/Src/serial_protocol.c:132:3: warning: 'str' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  132 |   sprintf(str, "%d", rec);
+      |   ^~~~~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "N-F103RB_Serial.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_Serial.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_Serial.elf
+ 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_Serial.elf  > "N-F103RB_Serial.list"
+   text	   data	    bss	    dec	    hex	filename
+  12808	    120	   1768	  14696	   3968	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_Serial.list
+ 
+08:46:16 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
+../Core/Src/serial_protocol.c: In function 'SerialReceive':
+../Core/Src/serial_protocol.c:132:3: warning: implicit declaration of function 'sprintf' [-Wimplicit-function-declaration]
+  132 |   sprintf(str, "%d", rec);
+      |   ^~~~~~~
+../Core/Src/serial_protocol.c:132:3: warning: incompatible implicit declaration of built-in function 'sprintf'
+../Core/Src/serial_protocol.c:39:1: note: include '<stdio.h>' or provide a declaration of 'sprintf'
+   38 | #include "serial_protocol.h"
+  +++ |+#include <stdio.h>
+   39 | 
+../Core/Src/serial_protocol.c:133:18: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
+  133 |   SerialTransmit(str, strlen(str));
+      |                  ^~~
+      |                  |
+      |                  char *
+../Core/Src/serial_protocol.c:110:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+  110 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+arm-none-eabi-gcc -o "N-F103RB_Serial.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_Serial.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_Serial.elf
+ 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_Serial.elf  > "N-F103RB_Serial.list"
+   text	   data	    bss	    dec	    hex	filename
+  12820	    120	   1768	  14708	   3974	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_Serial.list
+ 
+09:15:32 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
+../Core/Src/serial_protocol.c: In function 'SerialReceive':
+../Core/Src/serial_protocol.c:127:18: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
+  127 |   SerialTransmit("HEADER OK\n", 10);
+      |                  ^~~~~~~~~~~~~
+      |                  |
+      |                  char *
+../Core/Src/serial_protocol.c:110:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+  110 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+../Core/Src/serial_protocol.c:124:7: warning: unused variable 'str' [-Wunused-variable]
+  124 |  char str[20];
+      |       ^~~
+../Core/Src/serial_protocol.c:123:11: warning: unused variable 'rec' [-Wunused-variable]
+  123 |  uint16_t rec;
+      |           ^~~
+arm-none-eabi-gcc -o "N-F103RB_Serial.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_Serial.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_Serial.elf
+ 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_Serial.elf  > "N-F103RB_Serial.list"
+   text	   data	    bss	    dec	    hex	filename
+  10304	     20	   1748	  12072	   2f28	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_Serial.list
+ 
+10:10:55 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
+../Core/Src/serial_protocol.c: In function 'SerialReceive':
+../Core/Src/serial_protocol.c:132:31: error: array subscript is not an integer
+  132 |    memcpy(rxCRC16, &uartBuffer[uartBuffer], 2);
+      |                               ^
+../Core/Src/serial_protocol.c:132:11: warning: passing argument 1 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  132 |    memcpy(rxCRC16, &uartBuffer[uartBuffer], 2);
+      |           ^~~~~~~
+      |           |
+      |           uint16_t {aka short unsigned int}
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:31:17: note: expected 'void * restrict' but argument is of type 'uint16_t' {aka 'short unsigned int'}
+   31 | void *  memcpy (void *__restrict, const void *__restrict, size_t);
+      |                 ^
+../Core/Src/serial_protocol.c:133:4: warning: null argument where non-null required (argument 2) [-Wnonnull]
+  133 |    memcpy(uartBuffer + _pos_EOF, 0, 2);
+      |    ^~~~~~
+../Core/Src/serial_protocol.c:134:22: error: 'p_txBuffer' undeclared (first use in this function); did you mean 'rxBuffer'?
+  134 |    calcCRC16 = crc16(p_txBuffer, _pos_EOF);
+      |                      ^~~~~~~~~~
+      |                      rxBuffer
+../Core/Src/serial_protocol.c:134:22: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/serial_protocol.c:136:20: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
+  136 |     SerialTransmit("PACKET OK\n", 10);
+      |                    ^~~~~~~~~~~~~
+      |                    |
+      |                    char *
+../Core/Src/serial_protocol.c:110:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+  110 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+../Core/Src/serial_protocol.c:128:7: warning: unused variable 'str' [-Wunused-variable]
+  128 |  char str[20];
+      |       ^~~
+../Core/Src/serial_protocol.c:125:11: warning: unused variable 'rec' [-Wunused-variable]
+  125 |  uint16_t rec;
+      |           ^~~
+make: *** [Core/Src/subdir.mk:40: Core/Src/serial_protocol.o] Error 1
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+10:11:27 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
+../Core/Src/serial_protocol.c: In function 'SerialReceive':
+../Core/Src/serial_protocol.c:132:11: warning: passing argument 1 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  132 |    memcpy(rxCRC16, &uartBuffer[_pos_EOF], 2);
+      |           ^~~~~~~
+      |           |
+      |           uint16_t {aka short unsigned int}
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:31:17: note: expected 'void * restrict' but argument is of type 'uint16_t' {aka 'short unsigned int'}
+   31 | void *  memcpy (void *__restrict, const void *__restrict, size_t);
+      |                 ^
+../Core/Src/serial_protocol.c:133:4: warning: null argument where non-null required (argument 2) [-Wnonnull]
+  133 |    memcpy(uartBuffer + _pos_EOF, 0, 2);
+      |    ^~~~~~
+../Core/Src/serial_protocol.c:134:22: error: 'p_txBuffer' undeclared (first use in this function); did you mean 'rxBuffer'?
+  134 |    calcCRC16 = crc16(p_txBuffer, _pos_EOF);
+      |                      ^~~~~~~~~~
+      |                      rxBuffer
+../Core/Src/serial_protocol.c:134:22: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/serial_protocol.c:136:20: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
+  136 |     SerialTransmit("PACKET OK\n", 10);
+      |                    ^~~~~~~~~~~~~
+      |                    |
+      |                    char *
+../Core/Src/serial_protocol.c:110:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+  110 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+../Core/Src/serial_protocol.c:128:7: warning: unused variable 'str' [-Wunused-variable]
+  128 |  char str[20];
+      |       ^~~
+../Core/Src/serial_protocol.c:125:11: warning: unused variable 'rec' [-Wunused-variable]
+  125 |  uint16_t rec;
+      |           ^~~
+make: *** [Core/Src/subdir.mk:40: Core/Src/serial_protocol.o] Error 1
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+10:11:39 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
+../Core/Src/serial_protocol.c: In function 'SerialReceive':
+../Core/Src/serial_protocol.c:132:11: warning: passing argument 1 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  132 |    memcpy(rxCRC16, &uartBuffer[_pos_EOF], 2);
+      |           ^~~~~~~
+      |           |
+      |           uint16_t {aka short unsigned int}
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:31:17: note: expected 'void * restrict' but argument is of type 'uint16_t' {aka 'short unsigned int'}
+   31 | void *  memcpy (void *__restrict, const void *__restrict, size_t);
+      |                 ^
+../Core/Src/serial_protocol.c:133:4: warning: null argument where non-null required (argument 2) [-Wnonnull]
+  133 |    memcpy(uartBuffer + _pos_EOF, 0, 2);
+      |    ^~~~~~
+../Core/Src/serial_protocol.c:136:20: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
+  136 |     SerialTransmit("PACKET OK\n", 10);
+      |                    ^~~~~~~~~~~~~
+      |                    |
+      |                    char *
+../Core/Src/serial_protocol.c:110:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+  110 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+../Core/Src/serial_protocol.c:128:7: warning: unused variable 'str' [-Wunused-variable]
+  128 |  char str[20];
+      |       ^~~
+../Core/Src/serial_protocol.c:125:11: warning: unused variable 'rec' [-Wunused-variable]
+  125 |  uint16_t rec;
+      |           ^~~
+../Core/Src/serial_protocol.c:132:4: warning: 'rxCRC16' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  132 |    memcpy(rxCRC16, &uartBuffer[_pos_EOF], 2);
+      |    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "N-F103RB_Serial.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_Serial.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_Serial.elf
+ 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_Serial.elf  > "N-F103RB_Serial.list"
+   text	   data	    bss	    dec	    hex	filename
+  10984	     20	   1748	  12752	   31d0	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_Serial.list
+ 
+10:12:17 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10984	     20	   1748	  12752	   31d0	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+10:13:48 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
+../Core/Src/serial_protocol.c: In function 'SerialReceive':
+../Core/Src/serial_protocol.c:132:11: warning: passing argument 1 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  132 |    memcpy(rxCRC16, &uartBuffer[_pos_checksum], 2);
+      |           ^~~~~~~
+      |           |
+      |           uint16_t {aka short unsigned int}
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:31:17: note: expected 'void * restrict' but argument is of type 'uint16_t' {aka 'short unsigned int'}
+   31 | void *  memcpy (void *__restrict, const void *__restrict, size_t);
+      |                 ^
+../Core/Src/serial_protocol.c:133:4: warning: null argument where non-null required (argument 2) [-Wnonnull]
+  133 |    memcpy(uartBuffer + _pos_checksum, 0, 2);
+      |    ^~~~~~
+../Core/Src/serial_protocol.c:136:20: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
+  136 |     SerialTransmit("PACKET OK\n", 10);
+      |                    ^~~~~~~~~~~~~
+      |                    |
+      |                    char *
+../Core/Src/serial_protocol.c:110:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+  110 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+../Core/Src/serial_protocol.c:128:7: warning: unused variable 'str' [-Wunused-variable]
+  128 |  char str[20];
+      |       ^~~
+../Core/Src/serial_protocol.c:125:11: warning: unused variable 'rec' [-Wunused-variable]
+  125 |  uint16_t rec;
+      |           ^~~
+../Core/Src/serial_protocol.c:132:4: warning: 'rxCRC16' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  132 |    memcpy(rxCRC16, &uartBuffer[_pos_checksum], 2);
+      |    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "N-F103RB_Serial.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_Serial.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_Serial.elf
+ 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_Serial.elf  > "N-F103RB_Serial.list"
+   text	   data	    bss	    dec	    hex	filename
+  10984	     20	   1748	  12752	   31d0	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_Serial.list
+ 
+10:18:39 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
+../Core/Src/serial_protocol.c: In function 'SerialReceive':
+../Core/Src/serial_protocol.c:132:11: warning: passing argument 1 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  132 |    memcpy(rxCRC16, &uartBuffer[_pos_checksum], 2);
+      |           ^~~~~~~
+      |           |
+      |           uint16_t {aka short unsigned int}
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:31:17: note: expected 'void * restrict' but argument is of type 'uint16_t' {aka 'short unsigned int'}
+   31 | void *  memcpy (void *__restrict, const void *__restrict, size_t);
+      |                 ^
+../Core/Src/serial_protocol.c:133:4: warning: null argument where non-null required (argument 2) [-Wnonnull]
+  133 |    memcpy(uartBuffer + _pos_checksum, 0, 2);
+      |    ^~~~~~
+../Core/Src/serial_protocol.c:136:20: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
+  136 |     SerialTransmit("PACKET OK\n", 10);
+      |                    ^~~~~~~~~~~~~
+      |                    |
+      |                    char *
+../Core/Src/serial_protocol.c:110:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+  110 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+../Core/Src/serial_protocol.c:128:7: warning: unused variable 'str' [-Wunused-variable]
+  128 |  char str[20];
+      |       ^~~
+../Core/Src/serial_protocol.c:125:11: warning: unused variable 'rec' [-Wunused-variable]
+  125 |  uint16_t rec;
+      |           ^~~
+../Core/Src/serial_protocol.c:132:4: warning: 'rxCRC16' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  132 |    memcpy(rxCRC16, &uartBuffer[_pos_checksum], 2);
+      |    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "N-F103RB_Serial.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_Serial.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_Serial.elf
+ 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_Serial.elf  > "N-F103RB_Serial.list"
+   text	   data	    bss	    dec	    hex	filename
+  10984	     20	   1748	  12752	   31d0	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_Serial.list
+ 
+10:19:44 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
+../Core/Src/serial_protocol.c: In function 'SerialReceive':
+../Core/Src/serial_protocol.c:132:11: warning: passing argument 1 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  132 |    memcpy(rxCRC16, &uartBuffer[_pos_checksum], 2);
+      |           ^~~~~~~
+      |           |
+      |           uint16_t {aka short unsigned int}
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:31:17: note: expected 'void * restrict' but argument is of type 'uint16_t' {aka 'short unsigned int'}
+   31 | void *  memcpy (void *__restrict, const void *__restrict, size_t);
+      |                 ^
+../Core/Src/serial_protocol.c:133:4: warning: null argument where non-null required (argument 2) [-Wnonnull]
+  133 |    memcpy(uartBuffer + _pos_checksum, 0, 2);
+      |    ^~~~~~
+../Core/Src/serial_protocol.c:136:20: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
+  136 |     SerialTransmit("PACKET OK\n", 10);
+      |                    ^~~~~~~~~~~~~
+      |                    |
+      |                    char *
+../Core/Src/serial_protocol.c:110:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+  110 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+../Core/Src/serial_protocol.c:128:7: warning: unused variable 'str' [-Wunused-variable]
+  128 |  char str[20];
+      |       ^~~
+../Core/Src/serial_protocol.c:125:11: warning: unused variable 'rec' [-Wunused-variable]
+  125 |  uint16_t rec;
+      |           ^~~
+../Core/Src/serial_protocol.c:132:4: warning: 'rxCRC16' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  132 |    memcpy(rxCRC16, &uartBuffer[_pos_checksum], 2);
+      |    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "N-F103RB_Serial.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_Serial.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_Serial.elf
+ 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_Serial.elf  > "N-F103RB_Serial.list"
+   text	   data	    bss	    dec	    hex	filename
+  10984	     20	   1748	  12752	   31d0	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_Serial.list
+ 
+10:23:22 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
+../Core/Src/serial_protocol.c: In function 'SerialReceive':
+../Core/Src/serial_protocol.c:132:11: warning: passing argument 1 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  132 |    memcpy(rxCRC16, uartBuffer+_pos_checksum-1, 2);
+      |           ^~~~~~~
+      |           |
+      |           uint16_t {aka short unsigned int}
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:31:17: note: expected 'void * restrict' but argument is of type 'uint16_t' {aka 'short unsigned int'}
+   31 | void *  memcpy (void *__restrict, const void *__restrict, size_t);
+      |                 ^
+../Core/Src/serial_protocol.c:133:4: warning: null argument where non-null required (argument 2) [-Wnonnull]
+  133 |    memcpy(uartBuffer + _pos_checksum, 0, 2);
+      |    ^~~~~~
+../Core/Src/serial_protocol.c:136:20: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
+  136 |     SerialTransmit("PACKET OK\n", 10);
+      |                    ^~~~~~~~~~~~~
+      |                    |
+      |                    char *
+../Core/Src/serial_protocol.c:110:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+  110 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+../Core/Src/serial_protocol.c:128:7: warning: unused variable 'str' [-Wunused-variable]
+  128 |  char str[20];
+      |       ^~~
+../Core/Src/serial_protocol.c:125:11: warning: unused variable 'rec' [-Wunused-variable]
+  125 |  uint16_t rec;
+      |           ^~~
+../Core/Src/serial_protocol.c:132:4: warning: 'rxCRC16' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  132 |    memcpy(rxCRC16, uartBuffer+_pos_checksum-1, 2);
+      |    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "N-F103RB_Serial.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_Serial.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_Serial.elf
+ 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_Serial.elf  > "N-F103RB_Serial.list"
+   text	   data	    bss	    dec	    hex	filename
+  10984	     20	   1748	  12752	   31d0	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_Serial.list
+ 
+10:25:44 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
+../Core/Src/serial_protocol.c: In function 'SerialReceive':
+../Core/Src/serial_protocol.c:133:4: warning: null argument where non-null required (argument 2) [-Wnonnull]
+  133 |    memcpy(uartBuffer + _pos_checksum, 0, 2);
+      |    ^~~~~~
+../Core/Src/serial_protocol.c:136:20: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
+  136 |     SerialTransmit("PACKET OK\n", 10);
+      |                    ^~~~~~~~~~~~~
+      |                    |
+      |                    char *
+../Core/Src/serial_protocol.c:110:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+  110 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+../Core/Src/serial_protocol.c:128:7: warning: unused variable 'str' [-Wunused-variable]
+  128 |  char str[20];
+      |       ^~~
+../Core/Src/serial_protocol.c:125:11: warning: unused variable 'rec' [-Wunused-variable]
+  125 |  uint16_t rec;
+      |           ^~~
+arm-none-eabi-gcc -o "N-F103RB_Serial.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_Serial.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_Serial.elf
+ 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_Serial.elf  > "N-F103RB_Serial.list"
+   text	   data	    bss	    dec	    hex	filename
+  10980	     20	   1748	  12748	   31cc	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_Serial.list
+ 
+10:26:26 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
+../Core/Src/serial_protocol.c: In function 'SerialReceive':
+../Core/Src/serial_protocol.c:133:4: warning: null argument where non-null required (argument 2) [-Wnonnull]
+  133 |    memcpy(uartBuffer + _pos_checksum, 0, 2);
+      |    ^~~~~~
+../Core/Src/serial_protocol.c:136:20: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
+  136 |     SerialTransmit("PACKET OK\n", 10);
+      |                    ^~~~~~~~~~~~~
+      |                    |
+      |                    char *
+../Core/Src/serial_protocol.c:110:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+  110 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+../Core/Src/serial_protocol.c:128:7: warning: unused variable 'str' [-Wunused-variable]
+  128 |  char str[20];
+      |       ^~~
+../Core/Src/serial_protocol.c:125:11: warning: unused variable 'rec' [-Wunused-variable]
+  125 |  uint16_t rec;
+      |           ^~~
+arm-none-eabi-gcc -o "N-F103RB_Serial.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_Serial.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_Serial.elf
+ 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_Serial.elf  > "N-F103RB_Serial.list"
+   text	   data	    bss	    dec	    hex	filename
+  10980	     20	   1748	  12748	   31cc	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_Serial.list
+ 
+10:29:05 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
+../Core/Src/serial_protocol.c: In function 'SerialReceive':
+../Core/Src/serial_protocol.c:136:20: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
+  136 |     SerialTransmit("PACKET OK\n", 10);
+      |                    ^~~~~~~~~~~~~
+      |                    |
+      |                    char *
+../Core/Src/serial_protocol.c:110:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+  110 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+../Core/Src/serial_protocol.c:128:7: warning: unused variable 'str' [-Wunused-variable]
+  128 |  char str[20];
+      |       ^~~
+../Core/Src/serial_protocol.c:125:11: warning: unused variable 'rec' [-Wunused-variable]
+  125 |  uint16_t rec;
+      |           ^~~
+arm-none-eabi-gcc -o "N-F103RB_Serial.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_Serial.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_Serial.elf
+ 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_Serial.elf  > "N-F103RB_Serial.list"
+   text	   data	    bss	    dec	    hex	filename
+  10984	     20	   1748	  12752	   31d0	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_Serial.list
+ 
+10:30:33 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
+../Core/Src/serial_protocol.c: In function 'SerialReceive':
+../Core/Src/serial_protocol.c:136:20: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
+  136 |     SerialTransmit("PACKET OK\n", 10);
+      |                    ^~~~~~~~~~~~~
+      |                    |
+      |                    char *
+../Core/Src/serial_protocol.c:110:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+  110 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+../Core/Src/serial_protocol.c:128:7: warning: unused variable 'str' [-Wunused-variable]
+  128 |  char str[20];
+      |       ^~~
+../Core/Src/serial_protocol.c:125:11: warning: unused variable 'rec' [-Wunused-variable]
+  125 |  uint16_t rec;
+      |           ^~~
+arm-none-eabi-gcc -o "N-F103RB_Serial.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_Serial.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_Serial.elf
+ 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_Serial.elf  > "N-F103RB_Serial.list"
+   text	   data	    bss	    dec	    hex	filename
+  10984	     20	   1748	  12752	   31d0	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_Serial.list
+ 
+10:31:16 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10984	     20	   1748	  12752	   31d0	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+10:38:46 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
+../Core/Src/serial_protocol.c: In function 'SerialReceive':
+../Core/Src/serial_protocol.c:136:20: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
+  136 |     SerialTransmit("PACKET OK\n", 10);
+      |                    ^~~~~~~~~~~~~
+      |                    |
+      |                    char *
+../Core/Src/serial_protocol.c:110:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+  110 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+../Core/Src/serial_protocol.c:128:7: warning: unused variable 'str' [-Wunused-variable]
+  128 |  char str[20];
+      |       ^~~
+../Core/Src/serial_protocol.c:125:11: warning: unused variable 'rec' [-Wunused-variable]
+  125 |  uint16_t rec;
+      |           ^~~
+arm-none-eabi-gcc -o "N-F103RB_Serial.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_Serial.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_Serial.elf
+ 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_Serial.elf  > "N-F103RB_Serial.list"
+   text	   data	    bss	    dec	    hex	filename
+  10996	     20	   1748	  12764	   31dc	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_Serial.list
+ 
+10:47:25 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
+../Core/Src/serial_protocol.c: In function 'SerialReceive':
+../Core/Src/serial_protocol.c:141:20: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
+  141 |     SerialTransmit("PACKET OK\n", 10);
+      |                    ^~~~~~~~~~~~~
+      |                    |
+      |                    char *
+../Core/Src/serial_protocol.c:115:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+  115 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+../Core/Src/serial_protocol.c:133:7: warning: unused variable 'str' [-Wunused-variable]
+  133 |  char str[20];
+      |       ^~~
+../Core/Src/serial_protocol.c:130:11: warning: unused variable 'rec' [-Wunused-variable]
+  130 |  uint16_t rec;
+      |           ^~~
+arm-none-eabi-gcc -o "N-F103RB_Serial.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_Serial.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_Serial.elf
+ 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_Serial.elf  > "N-F103RB_Serial.list"
+   text	   data	    bss	    dec	    hex	filename
+  10980	     20	   1748	  12748	   31cc	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_Serial.list
+ 
+11:05:34 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
+../Core/Src/serial_protocol.c: In function 'SerialReceive':
+../Core/Src/serial_protocol.c:141:12: warning: passing argument 1 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  141 |     memcpy(command, uartBuffer + _pos_command, 2);
+      |            ^~~~~~~
+      |            |
+      |            uint16_t {aka short unsigned int}
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:31:17: note: expected 'void * restrict' but argument is of type 'uint16_t' {aka 'short unsigned int'}
+   31 | void *  memcpy (void *__restrict, const void *__restrict, size_t);
+      |                 ^
+../Core/Src/serial_protocol.c:142:12: warning: passing argument 1 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  142 |     memcpy(command, uartBuffer + _pos_param1, 4);
+      |            ^~~~~~~
+      |            |
+      |            uint16_t {aka short unsigned int}
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:31:17: note: expected 'void * restrict' but argument is of type 'uint16_t' {aka 'short unsigned int'}
+   31 | void *  memcpy (void *__restrict, const void *__restrict, size_t);
+      |                 ^
+../Core/Src/serial_protocol.c:143:12: warning: passing argument 1 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  143 |     memcpy(command, uartBuffer + _pos_param2, 4);
+      |            ^~~~~~~
+      |            |
+      |            uint16_t {aka short unsigned int}
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:31:17: note: expected 'void * restrict' but argument is of type 'uint16_t' {aka 'short unsigned int'}
+   31 | void *  memcpy (void *__restrict, const void *__restrict, size_t);
+      |                 ^
+../Core/Src/serial_protocol.c:144:12: warning: passing argument 1 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  144 |     memcpy(command, uartBuffer + _pos_param3, 4);
+      |            ^~~~~~~
+      |            |
+      |            uint16_t {aka short unsigned int}
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:31:17: note: expected 'void * restrict' but argument is of type 'uint16_t' {aka 'short unsigned int'}
+   31 | void *  memcpy (void *__restrict, const void *__restrict, size_t);
+      |                 ^
+../Core/Src/serial_protocol.c:145:12: warning: passing argument 1 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  145 |     memcpy(command, uartBuffer + _pos_param4, 4);
+      |            ^~~~~~~
+      |            |
+      |            uint16_t {aka short unsigned int}
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:31:17: note: expected 'void * restrict' but argument is of type 'uint16_t' {aka 'short unsigned int'}
+   31 | void *  memcpy (void *__restrict, const void *__restrict, size_t);
+      |                 ^
+../Core/Src/serial_protocol.c:146:20: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
+  146 |     SerialTransmit("PACKET OK\n", 10);
+      |                    ^~~~~~~~~~~~~
+      |                    |
+      |                    char *
+../Core/Src/serial_protocol.c:115:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+  115 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+../Core/Src/serial_protocol.c:133:35: warning: unused variable 'param4' [-Wunused-variable]
+  133 |  uint32_t param1, param2, param3, param4;
+      |                                   ^~~~~~
+../Core/Src/serial_protocol.c:133:27: warning: unused variable 'param3' [-Wunused-variable]
+  133 |  uint32_t param1, param2, param3, param4;
+      |                           ^~~~~~
+../Core/Src/serial_protocol.c:133:19: warning: unused variable 'param2' [-Wunused-variable]
+  133 |  uint32_t param1, param2, param3, param4;
+      |                   ^~~~~~
+../Core/Src/serial_protocol.c:133:11: warning: unused variable 'param1' [-Wunused-variable]
+  133 |  uint32_t param1, param2, param3, param4;
+      |           ^~~~~~
+../Core/Src/serial_protocol.c:141:5: warning: 'command' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  141 |     memcpy(command, uartBuffer + _pos_command, 2);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "N-F103RB_Serial.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_Serial.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_Serial.elf
+ 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_Serial.elf  > "N-F103RB_Serial.list"
+   text	   data	    bss	    dec	    hex	filename
+  11060	     20	   1748	  12828	   321c	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_Serial.list
+ 
+11:06:25 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
+../Core/Src/serial_protocol.c: In function 'SerialReceive':
+../Core/Src/serial_protocol.c:141:12: warning: passing argument 1 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  141 |     memcpy(command, uartBuffer + _pos_command, 2);
+      |            ^~~~~~~
+      |            |
+      |            uint16_t {aka short unsigned int}
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:31:17: note: expected 'void * restrict' but argument is of type 'uint16_t' {aka 'short unsigned int'}
+   31 | void *  memcpy (void *__restrict, const void *__restrict, size_t);
+      |                 ^
+../Core/Src/serial_protocol.c:142:12: warning: passing argument 1 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  142 |     memcpy(param1, uartBuffer + _pos_param1, 4);
+      |            ^~~~~~
+      |            |
+      |            uint32_t {aka long unsigned int}
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:31:17: note: expected 'void * restrict' but argument is of type 'uint32_t' {aka 'long unsigned int'}
+   31 | void *  memcpy (void *__restrict, const void *__restrict, size_t);
+      |                 ^
+../Core/Src/serial_protocol.c:143:12: warning: passing argument 1 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  143 |     memcpy(param2, uartBuffer + _pos_param2, 4);
+      |            ^~~~~~
+      |            |
+      |            uint32_t {aka long unsigned int}
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:31:17: note: expected 'void * restrict' but argument is of type 'uint32_t' {aka 'long unsigned int'}
+   31 | void *  memcpy (void *__restrict, const void *__restrict, size_t);
+      |                 ^
+../Core/Src/serial_protocol.c:144:12: warning: passing argument 1 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  144 |     memcpy(param3, uartBuffer + _pos_param3, 4);
+      |            ^~~~~~
+      |            |
+      |            uint32_t {aka long unsigned int}
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:31:17: note: expected 'void * restrict' but argument is of type 'uint32_t' {aka 'long unsigned int'}
+   31 | void *  memcpy (void *__restrict, const void *__restrict, size_t);
+      |                 ^
+../Core/Src/serial_protocol.c:145:12: warning: passing argument 1 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  145 |     memcpy(param4, uartBuffer + _pos_param4, 4);
+      |            ^~~~~~
+      |            |
+      |            uint32_t {aka long unsigned int}
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:31:17: note: expected 'void * restrict' but argument is of type 'uint32_t' {aka 'long unsigned int'}
+   31 | void *  memcpy (void *__restrict, const void *__restrict, size_t);
+      |                 ^
+../Core/Src/serial_protocol.c:146:20: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
+  146 |     SerialTransmit("PACKET OK\n", 10);
+      |                    ^~~~~~~~~~~~~
+      |                    |
+      |                    char *
+../Core/Src/serial_protocol.c:115:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+  115 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+../Core/Src/serial_protocol.c:141:5: warning: 'command' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  141 |     memcpy(command, uartBuffer + _pos_command, 2);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/serial_protocol.c:142:5: warning: 'param1' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  142 |     memcpy(param1, uartBuffer + _pos_param1, 4);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/serial_protocol.c:143:5: warning: 'param2' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  143 |     memcpy(param2, uartBuffer + _pos_param2, 4);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/serial_protocol.c:144:5: warning: 'param3' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  144 |     memcpy(param3, uartBuffer + _pos_param3, 4);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/serial_protocol.c:145:5: warning: 'param4' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  145 |     memcpy(param4, uartBuffer + _pos_param4, 4);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "N-F103RB_Serial.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_Serial.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_Serial.elf
+ 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_Serial.elf  > "N-F103RB_Serial.list"
+   text	   data	    bss	    dec	    hex	filename
+  11052	     20	   1748	  12820	   3214	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_Serial.list
+ 
+11:09:49 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
+../Core/Src/serial_protocol.c: In function 'SerialReceive':
+../Core/Src/serial_protocol.c:141:12: warning: passing argument 1 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  141 |     memcpy(command, &uartBuffer[_pos_command], 2);
+      |            ^~~~~~~
+      |            |
+      |            uint16_t {aka short unsigned int}
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:31:17: note: expected 'void * restrict' but argument is of type 'uint16_t' {aka 'short unsigned int'}
+   31 | void *  memcpy (void *__restrict, const void *__restrict, size_t);
+      |                 ^
+../Core/Src/serial_protocol.c:142:12: warning: passing argument 1 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  142 |     memcpy(param1, &uartBuffer[_pos_param1], 4);
+      |            ^~~~~~
+      |            |
+      |            uint32_t {aka long unsigned int}
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:31:17: note: expected 'void * restrict' but argument is of type 'uint32_t' {aka 'long unsigned int'}
+   31 | void *  memcpy (void *__restrict, const void *__restrict, size_t);
+      |                 ^
+../Core/Src/serial_protocol.c:143:12: warning: passing argument 1 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  143 |     memcpy(param2, &uartBuffer[_pos_param2], 4);
+      |            ^~~~~~
+      |            |
+      |            uint32_t {aka long unsigned int}
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:31:17: note: expected 'void * restrict' but argument is of type 'uint32_t' {aka 'long unsigned int'}
+   31 | void *  memcpy (void *__restrict, const void *__restrict, size_t);
+      |                 ^
+../Core/Src/serial_protocol.c:144:12: warning: passing argument 1 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  144 |     memcpy(param3, &uartBuffer[_pos_param3], 4);
+      |            ^~~~~~
+      |            |
+      |            uint32_t {aka long unsigned int}
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:31:17: note: expected 'void * restrict' but argument is of type 'uint32_t' {aka 'long unsigned int'}
+   31 | void *  memcpy (void *__restrict, const void *__restrict, size_t);
+      |                 ^
+../Core/Src/serial_protocol.c:145:12: warning: passing argument 1 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  145 |     memcpy(param4, &uartBuffer[_pos_param4], 4);
+      |            ^~~~~~
+      |            |
+      |            uint32_t {aka long unsigned int}
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:31:17: note: expected 'void * restrict' but argument is of type 'uint32_t' {aka 'long unsigned int'}
+   31 | void *  memcpy (void *__restrict, const void *__restrict, size_t);
+      |                 ^
+../Core/Src/serial_protocol.c:146:20: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
+  146 |     SerialTransmit("PACKET OK\n", 10);
+      |                    ^~~~~~~~~~~~~
+      |                    |
+      |                    char *
+../Core/Src/serial_protocol.c:115:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+  115 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+../Core/Src/serial_protocol.c:141:5: warning: 'command' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  141 |     memcpy(command, &uartBuffer[_pos_command], 2);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/serial_protocol.c:142:5: warning: 'param1' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  142 |     memcpy(param1, &uartBuffer[_pos_param1], 4);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/serial_protocol.c:143:5: warning: 'param2' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  143 |     memcpy(param2, &uartBuffer[_pos_param2], 4);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/serial_protocol.c:144:5: warning: 'param3' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  144 |     memcpy(param3, &uartBuffer[_pos_param3], 4);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/serial_protocol.c:145:5: warning: 'param4' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  145 |     memcpy(param4, &uartBuffer[_pos_param4], 4);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "N-F103RB_Serial.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_Serial.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_Serial.elf
+ 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_Serial.elf  > "N-F103RB_Serial.list"
+   text	   data	    bss	    dec	    hex	filename
+  11052	     20	   1748	  12820	   3214	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_Serial.list
+ 
+11:11:49 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
+../Core/Src/serial_protocol.c: In function 'SerialReceive':
+../Core/Src/serial_protocol.c:141:12: warning: passing argument 1 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  141 |     memcpy(command, uartBuffer + _pos_command, 2);
+      |            ^~~~~~~
+      |            |
+      |            uint16_t {aka short unsigned int}
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:31:17: note: expected 'void * restrict' but argument is of type 'uint16_t' {aka 'short unsigned int'}
+   31 | void *  memcpy (void *__restrict, const void *__restrict, size_t);
+      |                 ^
+../Core/Src/serial_protocol.c:142:12: warning: passing argument 1 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  142 |     memcpy(param1, &uartBuffer[_pos_param1], 4);
+      |            ^~~~~~
+      |            |
+      |            uint32_t {aka long unsigned int}
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:31:17: note: expected 'void * restrict' but argument is of type 'uint32_t' {aka 'long unsigned int'}
+   31 | void *  memcpy (void *__restrict, const void *__restrict, size_t);
+      |                 ^
+../Core/Src/serial_protocol.c:143:12: warning: passing argument 1 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  143 |     memcpy(param2, &uartBuffer[_pos_param2], 4);
+      |            ^~~~~~
+      |            |
+      |            uint32_t {aka long unsigned int}
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:31:17: note: expected 'void * restrict' but argument is of type 'uint32_t' {aka 'long unsigned int'}
+   31 | void *  memcpy (void *__restrict, const void *__restrict, size_t);
+      |                 ^
+../Core/Src/serial_protocol.c:144:12: warning: passing argument 1 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  144 |     memcpy(param3, &uartBuffer[_pos_param3], 4);
+      |            ^~~~~~
+      |            |
+      |            uint32_t {aka long unsigned int}
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:31:17: note: expected 'void * restrict' but argument is of type 'uint32_t' {aka 'long unsigned int'}
+   31 | void *  memcpy (void *__restrict, const void *__restrict, size_t);
+      |                 ^
+../Core/Src/serial_protocol.c:145:12: warning: passing argument 1 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  145 |     memcpy(param4, &uartBuffer[_pos_param4], 4);
+      |            ^~~~~~
+      |            |
+      |            uint32_t {aka long unsigned int}
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:31:17: note: expected 'void * restrict' but argument is of type 'uint32_t' {aka 'long unsigned int'}
+   31 | void *  memcpy (void *__restrict, const void *__restrict, size_t);
+      |                 ^
+../Core/Src/serial_protocol.c:146:20: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
+  146 |     SerialTransmit("PACKET OK\n", 10);
+      |                    ^~~~~~~~~~~~~
+      |                    |
+      |                    char *
+../Core/Src/serial_protocol.c:115:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+  115 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+../Core/Src/serial_protocol.c:141:5: warning: 'command' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  141 |     memcpy(command, uartBuffer + _pos_command, 2);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/serial_protocol.c:142:5: warning: 'param1' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  142 |     memcpy(param1, &uartBuffer[_pos_param1], 4);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/serial_protocol.c:143:5: warning: 'param2' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  143 |     memcpy(param2, &uartBuffer[_pos_param2], 4);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/serial_protocol.c:144:5: warning: 'param3' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  144 |     memcpy(param3, &uartBuffer[_pos_param3], 4);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/serial_protocol.c:145:5: warning: 'param4' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  145 |     memcpy(param4, &uartBuffer[_pos_param4], 4);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "N-F103RB_Serial.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_Serial.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_Serial.elf
+ 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_Serial.elf  > "N-F103RB_Serial.list"
+   text	   data	    bss	    dec	    hex	filename
+  11052	     20	   1748	  12820	   3214	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_Serial.list
+ 
+11:20:09 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
+../Core/Src/serial_protocol.c: In function 'SerialReceive':
+../Core/Src/serial_protocol.c:141:12: warning: passing argument 1 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  141 |     memcpy(command, uartBuffer + _pos_command, 2);
+      |            ^~~~~~~
+      |            |
+      |            uint16_t {aka short unsigned int}
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:31:17: note: expected 'void * restrict' but argument is of type 'uint16_t' {aka 'short unsigned int'}
+   31 | void *  memcpy (void *__restrict, const void *__restrict, size_t);
+      |                 ^
+../Core/Src/serial_protocol.c:142:12: warning: passing argument 1 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  142 |     memcpy(param1, uartBuffer + _pos_param1, 4);
+      |            ^~~~~~
+      |            |
+      |            uint32_t {aka long unsigned int}
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:31:17: note: expected 'void * restrict' but argument is of type 'uint32_t' {aka 'long unsigned int'}
+   31 | void *  memcpy (void *__restrict, const void *__restrict, size_t);
+      |                 ^
+../Core/Src/serial_protocol.c:143:12: warning: passing argument 1 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  143 |     memcpy(param2, uartBuffer + _pos_param2, 4);
+      |            ^~~~~~
+      |            |
+      |            uint32_t {aka long unsigned int}
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:31:17: note: expected 'void * restrict' but argument is of type 'uint32_t' {aka 'long unsigned int'}
+   31 | void *  memcpy (void *__restrict, const void *__restrict, size_t);
+      |                 ^
+../Core/Src/serial_protocol.c:144:12: warning: passing argument 1 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  144 |     memcpy(param3, uartBuffer + _pos_param3, 4);
+      |            ^~~~~~
+      |            |
+      |            uint32_t {aka long unsigned int}
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:31:17: note: expected 'void * restrict' but argument is of type 'uint32_t' {aka 'long unsigned int'}
+   31 | void *  memcpy (void *__restrict, const void *__restrict, size_t);
+      |                 ^
+../Core/Src/serial_protocol.c:145:12: warning: passing argument 1 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  145 |     memcpy(param4, uartBuffer + _pos_param4, 4);
+      |            ^~~~~~
+      |            |
+      |            uint32_t {aka long unsigned int}
+In file included from ../Core/Src/serial_protocol.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:31:17: note: expected 'void * restrict' but argument is of type 'uint32_t' {aka 'long unsigned int'}
+   31 | void *  memcpy (void *__restrict, const void *__restrict, size_t);
+      |                 ^
+../Core/Src/serial_protocol.c:146:20: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
+  146 |     SerialTransmit("PACKET OK\n", 10);
+      |                    ^~~~~~~~~~~~~
+      |                    |
+      |                    char *
+../Core/Src/serial_protocol.c:115:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+  115 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+../Core/Src/serial_protocol.c:141:5: warning: 'command' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  141 |     memcpy(command, uartBuffer + _pos_command, 2);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/serial_protocol.c:142:5: warning: 'param1' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  142 |     memcpy(param1, uartBuffer + _pos_param1, 4);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/serial_protocol.c:143:5: warning: 'param2' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  143 |     memcpy(param2, uartBuffer + _pos_param2, 4);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/serial_protocol.c:144:5: warning: 'param3' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  144 |     memcpy(param3, uartBuffer + _pos_param3, 4);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/serial_protocol.c:145:5: warning: 'param4' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  145 |     memcpy(param4, uartBuffer + _pos_param4, 4);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "N-F103RB_Serial.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_Serial.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_Serial.elf
+ 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_Serial.elf  > "N-F103RB_Serial.list"
+   text	   data	    bss	    dec	    hex	filename
+  11052	     20	   1748	  12820	   3214	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_Serial.list
+ 
+11:21:00 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/serial_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial_protocol.d" -MT"Core/Src/serial_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial_protocol.o"
+../Core/Src/serial_protocol.c: In function 'SerialReceive':
+../Core/Src/serial_protocol.c:146:20: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
+  146 |     SerialTransmit("PACKET OK\n", 10);
+      |                    ^~~~~~~~~~~~~
+      |                    |
+      |                    char *
+../Core/Src/serial_protocol.c:115:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+  115 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+arm-none-eabi-gcc -o "N-F103RB_Serial.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_Serial.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_Serial.elf
+ 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_Serial.elf  > "N-F103RB_Serial.list"
+   text	   data	    bss	    dec	    hex	filename
+  11040	     20	   1748	  12808	   3208	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_Serial.list
+ 
+12:45:27 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/crc16.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/crc16.d" -MT"Core/Src/crc16.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/crc16.o"
+arm-none-eabi-gcc "../Core/Src/display_serial.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/display_serial.d" -MT"Core/Src/display_serial.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/display_serial.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/stm32f1xx_hal_msp.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/stm32f1xx_hal_msp.d" -MT"Core/Src/stm32f1xx_hal_msp.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/stm32f1xx_hal_msp.o"
+arm-none-eabi-gcc "../Core/Src/stm32f1xx_it.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/stm32f1xx_it.d" -MT"Core/Src/stm32f1xx_it.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/stm32f1xx_it.o"
+arm-none-eabi-gcc "../Core/Src/syscalls.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/syscalls.d" -MT"Core/Src/syscalls.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/syscalls.o"
+arm-none-eabi-gcc "../Core/Src/sysmem.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/sysmem.d" -MT"Core/Src/sysmem.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/sysmem.o"
+arm-none-eabi-gcc "../Core/Src/system_stm32f1xx.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/system_stm32f1xx.d" -MT"Core/Src/system_stm32f1xx.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/system_stm32f1xx.o"
+../Core/Src/display_serial.c:128:1: warning: return type defaults to 'int' [-Wimplicit-int]
+  128 | DisplaySerialReceive(UART_HandleTypeDef *huart, uint16_t size) {
+      | ^~~~~~~~~~~~~~~~~~~~
+../Core/Src/display_serial.c:128:1: warning: conflicting types for 'DisplaySerialReceive'
+In file included from ../Core/Src/display_serial.c:36:
+../Core/Inc/display_serial.h:69:6: note: previous declaration of 'DisplaySerialReceive' was here
+   69 | void DisplaySerialReceive(UART_HandleTypeDef *huart, uint16_t size);
+      |      ^~~~~~~~~~~~~~~~~~~~
+../Core/Src/display_serial.c: In function 'ParseCommand':
+../Core/Src/display_serial.c:161:2: error: label at end of compound statement
+  161 |  default:
+      |  ^~~~~~~
+../Core/Src/display_serial.c:164:17: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
+  164 |  SerialTransmit("COMMAND OK\n", 11);
+      |                 ^~~~~~~~~~~~~~
+      |                 |
+      |                 char *
+../Core/Src/display_serial.c:117:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+  117 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+make: *** [Core/Src/subdir.mk:40: Core/Src/display_serial.o] Error 1
+make: *** Waiting for unfinished jobs....
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+12:45:28 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+12:45:29 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  16960	    132	   5924	  23016	   59e8	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+12:45:34 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/display_serial.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/display_serial.d" -MT"Core/Src/display_serial.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/display_serial.o"
+../Core/Src/display_serial.c:128:1: warning: return type defaults to 'int' [-Wimplicit-int]
+  128 | DisplaySerialReceive(UART_HandleTypeDef *huart, uint16_t size) {
+      | ^~~~~~~~~~~~~~~~~~~~
+../Core/Src/display_serial.c:128:1: warning: conflicting types for 'DisplaySerialReceive'
+In file included from ../Core/Src/display_serial.c:36:
+../Core/Inc/display_serial.h:69:6: note: previous declaration of 'DisplaySerialReceive' was here
+   69 | void DisplaySerialReceive(UART_HandleTypeDef *huart, uint16_t size);
+      |      ^~~~~~~~~~~~~~~~~~~~
+../Core/Src/display_serial.c: In function 'ParseCommand':
+../Core/Src/display_serial.c:161:2: error: label at end of compound statement
+  161 |  default:
+      |  ^~~~~~~
+../Core/Src/display_serial.c:164:17: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
+  164 |  SerialTransmit("COMMAND OK\n", 11);
+      |                 ^~~~~~~~~~~~~~
+      |                 |
+      |                 char *
+../Core/Src/display_serial.c:117:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+  117 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+make: *** [Core/Src/subdir.mk:40: Core/Src/display_serial.o] Error 1
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+12:45:35 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+12:45:35 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  16960	    132	   5924	  23016	   59e8	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+12:54:20 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/display_serial.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/display_serial.d" -MT"Core/Src/display_serial.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/display_serial.o"
+../Core/Src/display_serial.c:43:38: error: 'USART1_CTS_GPIO_Port' undeclared here (not in a function); did you mean 'USART_TX_GPIO_Port'?
+   43 | const GPIO_TypeDef* _rs485_CS_Port = USART1_CTS_GPIO_Port;
+      |                                      ^~~~~~~~~~~~~~~~~~~~
+      |                                      USART_TX_GPIO_Port
+../Core/Src/display_serial.c:44:32: error: 'USART1_CTS_Pin' undeclared here (not in a function); did you mean 'USART_TX_Pin'?
+   44 | const uint16_t _rs485_CS_Pin = USART1_CTS_Pin;
+      |                                ^~~~~~~~~~~~~~
+      |                                USART_TX_Pin
+../Core/Src/display_serial.c:131:1: warning: return type defaults to 'int' [-Wimplicit-int]
+  131 | DisplaySerialReceive(UART_HandleTypeDef *huart, uint16_t size) {
+      | ^~~~~~~~~~~~~~~~~~~~
+../Core/Src/display_serial.c:131:1: warning: conflicting types for 'DisplaySerialReceive'
+In file included from ../Core/Src/display_serial.c:36:
+../Core/Inc/display_serial.h:69:6: note: previous declaration of 'DisplaySerialReceive' was here
+   69 | void DisplaySerialReceive(UART_HandleTypeDef *huart, uint16_t size);
+      |      ^~~~~~~~~~~~~~~~~~~~
+../Core/Src/display_serial.c: In function 'ParseCommand':
+../Core/Src/display_serial.c:164:2: error: label at end of compound statement
+  164 |  default:
+      |  ^~~~~~~
+../Core/Src/display_serial.c:167:17: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
+  167 |  SerialTransmit("COMMAND OK\n", 11);
+      |                 ^~~~~~~~~~~~~~
+      |                 |
+      |                 char *
+../Core/Src/display_serial.c:120:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+  120 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+make: *** [Core/Src/subdir.mk:40: Core/Src/display_serial.o] Error 1
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+12:54:21 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+12:54:21 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  16960	    132	   5924	  23016	   59e8	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+13:04:54 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/display_serial.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/display_serial.d" -MT"Core/Src/display_serial.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/display_serial.o"
+../Core/Src/display_serial.c:131:1: warning: return type defaults to 'int' [-Wimplicit-int]
+  131 | DisplaySerialReceive(UART_HandleTypeDef *huart, uint16_t size) {
+      | ^~~~~~~~~~~~~~~~~~~~
+../Core/Src/display_serial.c:131:1: warning: conflicting types for 'DisplaySerialReceive'
+In file included from ../Core/Src/display_serial.c:36:
+../Core/Inc/display_serial.h:69:6: note: previous declaration of 'DisplaySerialReceive' was here
+   69 | void DisplaySerialReceive(UART_HandleTypeDef *huart, uint16_t size);
+      |      ^~~~~~~~~~~~~~~~~~~~
+../Core/Src/display_serial.c: In function 'ParseCommand':
+../Core/Src/display_serial.c:164:2: error: label at end of compound statement
+  164 |  default:
+      |  ^~~~~~~
+../Core/Src/display_serial.c:167:17: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
+  167 |  SerialTransmit("COMMAND OK\n", 11);
+      |                 ^~~~~~~~~~~~~~
+      |                 |
+      |                 char *
+../Core/Src/display_serial.c:120:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+  120 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+      |                     ~~~~~~~~~^~~~~~~~
+make: *** [Core/Src/subdir.mk:40: Core/Src/display_serial.o] Error 1
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+13:04:54 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+13:04:54 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  16960	    132	   5924	  23016	   59e8	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
