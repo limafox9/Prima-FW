@@ -40,10 +40,7 @@ USAGE:
 UART_HandleTypeDef* p_activeUART;
 DMA_HandleTypeDef* p_activeDMA;
 
-//const GPIO_TypeDef* _rs485_CS_Port = USART1_CTS_GPIO_Port;
-//const uint16_t _rs485_CS_Pin = USART1_CTS_Pin;
-
-const uint16_t activeTxTimeout = 50;
+const uint16_t activeTxTimeout = 100;
 const char activeProtocolHead[] = {'<', '~'};
 const char activeProtocolTail[] =  {'~', '>'};
 const char activeProtocolEOF = '\n';
@@ -58,126 +55,101 @@ const uint8_t _pos_checksum = 20;
 const uint8_t _pos_tail = 22;
 const uint8_t _pos_EOF = 24;
 
-uint8_t UART_rxBuffer[30] = {0};
 uint8_t rxData[25] = {0};
 uint16_t rxDataPos = 0;
 
-#define UART_BUFFER_SIZE 30
-#define RX_BUFFER_SIZE 50
-uint8_t uartBuffer[UART_BUFFER_SIZE];
-uint8_t rxBuffer[RX_BUFFER_SIZE];
+#define BUFFER_SIZE 30
+uint8_t uartBuffer[BUFFER_SIZE];
 
-void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize);
-//void DisplaySerialReceive(UART_HandleTypeDef *huart, uint16_t size);
-void ParseCommand();
+void SerialTransmit(UART_HandleTypeDef* huart, uint8_t* p_Buffer, uint16_t txBufferSize);
+void ParseCommand(uint8_t* buffer);
 
-void DisplaySerialInit(UART_HandleTypeDef* huart, DMA_HandleTypeDef* hdma) {
+void DisplaySerialInit(UART_HandleTypeDef* huart, DMA_HandleTypeDef* hdma, uint8_t* buffer, uint16_t bufferSize) {
 
 	p_activeUART = huart;
 	p_activeDMA = hdma;
-	//HAL_UART_Receive_DMA(p_activeUART, UART_rxBuffer, 3);
 	// Start receive
-	HAL_UARTEx_ReceiveToIdle_DMA(p_activeUART, uartBuffer, UART_BUFFER_SIZE); // Interrupt on receive buffer full or idle (end receive)
-	__HAL_DMA_DISABLE_IT(hdma, DMA_IT_HT); // Disable half buffer received interrupt
+//	HAL_UARTEx_ReceiveToIdle_DMA(p_activeUART, uartBuffer, UART_BUFFER_SIZE); // Interrupt on receive buffer full or idle (end receive)
+//	__HAL_DMA_DISABLE_IT(hdma, DMA_IT_HT); // Disable half buffer received interrupt
 
 }
 
-void DisplaySerialTransmit(uint16_t command, uint32_t param1, uint32_t param2, uint32_t param3, uint32_t param4) {
+void DisplaySerialTransmit(UART_HandleTypeDef* huart, uint16_t command, uint32_t param1, uint32_t param2, uint32_t param3, uint32_t param4) {
 
-	uint16_t bufferSize;
-	uint16_t crc;
-
-//	p_activeUART = huart;
-
-	bufferSize = _pos_EOF + 1;
-	uint8_t p_txBuffer[bufferSize];
-	memset(p_txBuffer, 0, bufferSize);
+	const uint16_t txBufferSize = _pos_EOF + 1;
+	uint8_t txBuffer[txBufferSize];
+	memset(txBuffer, 0, txBufferSize);
 
 	// Head
-	memcpy(p_txBuffer + _pos_head, activeProtocolHead, 2);
+	memcpy(txBuffer + _pos_head, activeProtocolHead, 2);
 	// Command
-	memcpy(p_txBuffer + _pos_command, &command, 2);
+	memcpy(txBuffer + _pos_command, &command, 2);
 	// Data
-	memcpy(p_txBuffer + _pos_param1, &param1, 4);
-	memcpy(p_txBuffer + _pos_param2, &param2, 4);
-	memcpy(p_txBuffer + _pos_param3, &param3, 4);
-	memcpy(p_txBuffer + _pos_param4, &param4, 4);
+	memcpy(txBuffer + _pos_param1, &param1, 4);
+	memcpy(txBuffer + _pos_param2, &param2, 4);
+	memcpy(txBuffer + _pos_param3, &param3, 4);
+	memcpy(txBuffer + _pos_param4, &param4, 4);
 	// CRC (Command + Data)
-	crc = crc16(p_txBuffer + _pos_command, _pos_checksum - _pos_command);
-	memcpy(p_txBuffer + _pos_checksum, &crc, 2);
+	uint16_t crc;
+	crc = crc16(txBuffer + _pos_command, _pos_checksum - _pos_command);
+	memcpy(txBuffer + _pos_checksum, &crc, 2);
 	// Tail
-	memcpy(p_txBuffer + _pos_tail, activeProtocolTail, 2);
+	memcpy(txBuffer + _pos_tail, activeProtocolTail, 2);
 	// EOF
-	memcpy(p_txBuffer + _pos_EOF, &activeProtocolEOF, 1);
+	memcpy(txBuffer + _pos_EOF, &activeProtocolEOF, 1);
 
 	//char* str_txBufferTerminated[10];
 	//sprintf(str_txBufferTerminated, "%s%s%s\n", (const char*)s, (const char*)ptr_payload, (const char*)activeProtocolTail.packetTerminator);
 
-	SerialTransmit(p_txBuffer, bufferSize);
+	SerialTransmit(huart, txBuffer, txBufferSize);
 
 }
 
-void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
+void SerialTransmit(UART_HandleTypeDef* huart, uint8_t* p_Buffer, uint16_t txBufferSize) {
 
 	// Chip 485 ENABLE
 	// HAL_GPIO_WritePin(U_rs485_CS_Port, _rs485_CS_Pin, 1);
 	// Transmit
-	HAL_UART_Transmit(p_activeUART, p_Buffer, txBufferSize, activeTxTimeout);
+	HAL_UART_Transmit(huart, p_Buffer, txBufferSize, activeTxTimeout);
 	// Chip 485 DISABLE
 	// HAL_GPIO_WritePin(U_rs485_CS_Port, _rs485_CS_Pin, 0);
 
 }
 
-DisplaySerialReceive(UART_HandleTypeDef *huart, uint16_t size) {
-
-	// 3C7E05010100000002000000030000000400000011117E3E10
+DisplaySerialReceive(uint8_t* buffer, uint16_t size) {
 
 	uint16_t rxCRC16;
 	uint16_t calcCRC16;
 
-	if ((uartBuffer[_pos_head] == activeProtocolHead[0]) && (uartBuffer[_pos_head + 1] == activeProtocolHead[1])) { // Header found
-		if ((uartBuffer[_pos_tail] == activeProtocolTail[0]) && (uartBuffer[_pos_tail + 1] == activeProtocolTail[1])) { // Tail found
-			memcpy(&rxCRC16, uartBuffer + _pos_checksum, 2);
+	if ((buffer[_pos_head] == activeProtocolHead[0]) && (buffer[_pos_head + 1] == activeProtocolHead[1])) { // Header found
+		if ((buffer[_pos_tail] == activeProtocolTail[0]) && (buffer[_pos_tail + 1] == activeProtocolTail[1])) { // Tail found
+			memcpy(&rxCRC16, buffer + _pos_checksum, 2);
 			//memset(uartBuffer + _pos_checksum, 0, 2);
-			calcCRC16 = crc16(uartBuffer + _pos_command, _pos_checksum - _pos_command);
+			calcCRC16 = crc16(buffer + _pos_command, _pos_checksum - _pos_command);
 			if (rxCRC16 == calcCRC16) {
-				ParseCommand(); // Valid command
+				ParseCommand(buffer); // Valid command
 			}
 		}
 	}
 }
 
-void ParseCommand() {
+void ParseCommand(uint8_t* buffer) {
 
 	uint16_t command;
 	uint32_t param1, param2, param3, param4;
 
-	memcpy(&command, uartBuffer + _pos_command, 2);
-	memcpy(&param1, uartBuffer + _pos_param1, 4);
-	memcpy(&param2, uartBuffer + _pos_param2, 4);
-	memcpy(&param3, uartBuffer + _pos_param3, 4);
-	memcpy(&param4, uartBuffer + _pos_param4, 4);
+	memcpy(&command, buffer + _pos_command, 2);
+	memcpy(&param1, buffer + _pos_param1, 4);
+	memcpy(&param2, buffer + _pos_param2, 4);
+	memcpy(&param3, buffer + _pos_param3, 4);
+	memcpy(&param4, buffer + _pos_param4, 4);
 
 	switch (command) {
-
-	case COMMAND_PLAY_BEEP:
-	default:
+		case COMMAND_PLAY_BEEP:
+			// Beep(param1, param2, param3);
+			break;
 	}
 
-	SerialTransmit("COMMAND OK\n", 11);
-
-}
-
-void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
-	//HAL_UART_Receive_DMA(p_activeUART, UART_rxBuffer, 3);
-
-	// Check for UART
-	if (huart->Instance == p_activeUART->Instance) {
-		DisplaySerialReceive(huart, Size);
-	}
-
-	// Receive again
-	HAL_UARTEx_ReceiveToIdle_DMA(p_activeUART, uartBuffer, UART_BUFFER_SIZE); // Interrupt on receive buffer full or idle (end receive)
-	__HAL_DMA_DISABLE_IT(p_activeDMA, DMA_IT_HT); // Disable half buffer received interrupt
+	//SerialTransmit("COMMAND OK\n", 11);
 
 }

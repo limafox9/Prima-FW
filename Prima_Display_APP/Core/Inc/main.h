@@ -37,7 +37,7 @@ extern "C" {
 #include "globals.h"
 #include "leds.h"
 #include "keys.h"
-#include "serial.h"
+#include "display_serial.h"
 #include <string.h>
 
 /* USER CODE END Includes */

@@ -64,8 +64,8 @@ typedef enum protocolCommand_e{
 	COMMAND_SET_PROGRESS_LEDS = 0xDF
 } protocolCommand_e;
 
-void DisplaySerialInit(UART_HandleTypeDef* huart, DMA_HandleTypeDef* hdma);
-void DisplaySerialTransmit(uint16_t command, uint32_t param1, uint32_t param2, uint32_t param3, uint32_t param4);
-void DisplaySerialReceive(UART_HandleTypeDef *huart, uint16_t size);
+void DisplaySerialInit(UART_HandleTypeDef* huart, DMA_HandleTypeDef* hdma, uint8_t* buffer, uint16_t bufferSize);
+void DisplaySerialTransmit(UART_HandleTypeDef* huart, uint16_t command, uint32_t param1, uint32_t param2, uint32_t param3, uint32_t param4);
+void DisplaySerialReceive(uint8_t* buffer, uint16_t size);
 
 #endif /* INC_SERIAL_PROTOCOL_H_ */

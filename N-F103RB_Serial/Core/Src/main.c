@@ -58,6 +58,23 @@ static void MX_USART2_UART_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+#define UART_BUFFER_SIZE 30
+uint8_t UART_rxBuffer[UART_BUFFER_SIZE] = {0};
+
+void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
+	//HAL_UART_Receive_DMA(p_activeUART, UART_rxBuffer, 3);
+
+	// Check for UART
+	if (huart->Instance == huart2.Instance) {
+		DisplaySerialReceive(UART_rxBuffer, Size);
+	}
+
+	// Receive again
+	HAL_UARTEx_ReceiveToIdle_DMA(huart, UART_rxBuffer, UART_BUFFER_SIZE); // Interrupt on receive buffer full or idle (end receive)
+	__HAL_DMA_DISABLE_IT(&hdma_usart2_rx, DMA_IT_HT); // Disable half buffer received interrupt
+
+}
+
 /* USER CODE END 0 */
 
 /**
@@ -97,7 +114,11 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
-  DisplaySerialInit(&huart2, &hdma_usart2_rx);
+  // DisplaySerialInit(&huart2, &hdma_usart2_rx);
+
+  // Receive begin
+  HAL_UARTEx_ReceiveToIdle_DMA(&huart2, UART_rxBuffer, UART_BUFFER_SIZE); // Interrupt on receive buffer full or idle (end receive)
+  __HAL_DMA_DISABLE_IT(&hdma_usart2_rx, DMA_IT_HT); // Disable half buffer received interrupt
 
   while (1)
   {

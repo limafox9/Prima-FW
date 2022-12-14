@@ -15,9 +15,9 @@ void Beep(uint8_t hits, uint16_t onDelay, uint16_t offDelay) {
 
 	for (i = 0; i < hits; i++) {
 		HAL_GPIO_WritePin(beepPin.GPIO_Port, beepPin.GPIO_Pin, GPIO_PIN_SET);
-		osDelay(onDelay);
+		HAL_Delay(onDelay);
 		HAL_GPIO_WritePin(beepPin.GPIO_Port, beepPin.GPIO_Pin, GPIO_PIN_RESET);
 //		HAL_GPIO_WritePin(BEEP_GPIO_Port, BEEP_Pin, GPIO_PIN_RESET);
-		osDelay(offDelay);
+		HAL_Delay(onDelay);
 	}
 }

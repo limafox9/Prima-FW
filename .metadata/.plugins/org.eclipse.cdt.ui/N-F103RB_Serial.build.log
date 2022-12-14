@@ -1,28 +1,17 @@
-13:04:54 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+10:33:18 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
 make -j24 all 
-arm-none-eabi-gcc "../Core/Src/display_serial.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/display_serial.d" -MT"Core/Src/display_serial.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/display_serial.o"
-../Core/Src/display_serial.c:131:1: warning: return type defaults to 'int' [-Wimplicit-int]
-  131 | DisplaySerialReceive(UART_HandleTypeDef *huart, uint16_t size) {
-      | ^~~~~~~~~~~~~~~~~~~~
-../Core/Src/display_serial.c:131:1: warning: conflicting types for 'DisplaySerialReceive'
-In file included from ../Core/Src/display_serial.c:36:
-../Core/Inc/display_serial.h:69:6: note: previous declaration of 'DisplaySerialReceive' was here
-   69 | void DisplaySerialReceive(UART_HandleTypeDef *huart, uint16_t size);
-      |      ^~~~~~~~~~~~~~~~~~~~
-../Core/Src/display_serial.c: In function 'ParseCommand':
-../Core/Src/display_serial.c:164:2: error: label at end of compound statement
-  164 |  default:
-      |  ^~~~~~~
-../Core/Src/display_serial.c:167:17: warning: pointer targets in passing argument 1 of 'SerialTransmit' differ in signedness [-Wpointer-sign]
-  167 |  SerialTransmit("COMMAND OK\n", 11);
-      |                 ^~~~~~~~~~~~~~
-      |                 |
-      |                 char *
-../Core/Src/display_serial.c:120:30: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
-  120 | void SerialTransmit(uint8_t* p_Buffer, uint16_t txBufferSize) {
-      |                     ~~~~~~~~~^~~~~~~~
-make: *** [Core/Src/subdir.mk:40: Core/Src/display_serial.o] Error 1
-"make -j24 all" terminated with exit code 2. Build might be incomplete.
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "N-F103RB_Serial.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_Serial.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_Serial.elf
+ 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_Serial.elf  > "N-F103RB_Serial.list"
+   text	   data	    bss	    dec	    hex	filename
+  10508	     20	   1740	  12268	   2fec	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_Serial.list
+ 
 
-13:04:54 Build Failed. 2 errors, 3 warnings. (took 326ms)
+10:33:19 Build Finished. 0 errors, 0 warnings. (took 968ms)
 

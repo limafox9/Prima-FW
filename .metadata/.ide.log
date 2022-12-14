@@ -10926,3 +10926,1566 @@
 2022-12-12 14:37:11,766 [INFO] ProjectBuilder:4351 - Time for Generating toolchain IDE Files: 1239mS.
 2022-12-12 14:37:11,767 [INFO] ProjectBuilder:2790 - Time for Copy CMSIS : 1mS.
 2022-12-12 14:37:11,768 [INFO] ProjectBuilder:2790 - Time for Copy CMSIS : 0mS.
+2022-12-13 07:49:23,616 [INFO] MainUpdater:2800 - connection check result : 10
+2022-12-13 07:49:23,617 [INFO] MainUpdater:2800 - connection check result : 10
+2022-12-13 07:49:23,655 [INFO] MicroXplorer:451 - Change Database Path : 
+2022-12-13 07:49:23,655 [INFO] MicroXplorer:481 - Change Database Version : DB.6.0.70
+2022-12-13 07:49:23,765 [WARN] ThirdParty:845 - waiting for thirdparty lock release [close project]
+2022-12-13 07:49:23,765 [INFO] ThirdParty:847 - entering critical section [close project]
+2022-12-13 07:49:23,765 [INFO] ThirdParty:857 - exiting critical section [close project]
+2022-12-13 07:49:23,766 [INFO] PinOutPanel:1477 - setPackage(No Configuration,No Configuration)
+2022-12-13 07:49:23,768 [INFO] UtilMem:74 - Begin LoadConfig() Used Memory: 531978408 Bytes (732954624)
+2022-12-13 07:49:23,768 [INFO] MicroXplorer:451 - Change Database Path : 
+2022-12-13 07:49:23,768 [INFO] MicroXplorer:481 - Change Database Version : DB.6.0.70
+2022-12-13 07:49:23,768 [INFO] OpenFileManager:307 - Change cursor
+2022-12-13 07:49:23,797 [INFO] RulesReader:61 - Compatibility file has been processed (283 Rules)
+2022-12-13 07:49:23,815 [INFO] Mcu:1925 - Initializing MCU STM32F103R(8-B)Tx STM32F103RBTx STM32F103RBT6
+2022-12-13 07:49:24,455 [INFO] Context:654 - Trying to add GPIOservice into a context  which must be forbidden
+2022-12-13 07:49:24,656 [INFO] RtosManager:489 - Registered RTOS mode: class=CMSIS, group=RTOS, mode=CMSIS_V1, owner=FREERTOS
+2022-12-13 07:49:24,656 [INFO] RtosManager:489 - Registered RTOS mode: class=CMSIS, group=RTOS2, mode=CMSIS_V2, owner=FREERTOS
+2022-12-13 07:49:24,656 [INFO] RtosManager:489 - Registered RTOS mode: class=RTOS, group=Core, mode=CMSIS_V1, owner=FREERTOS
+2022-12-13 07:49:24,656 [INFO] RtosManager:489 - Registered RTOS mode: class=RTOS, group=Core, mode=CMSIS_V2, owner=FREERTOS
+2022-12-13 07:49:24,656 [WARN] ModelIntegratedComponent:185 - Missing modes for component STMicroelectronics:FreeRTOS:0.0.1:STMicroelectronics:RTOS:FreeRTOS:Core:::10.2.0:
+2022-12-13 07:49:24,664 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-13 07:49:24,664 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-13 07:49:24,664 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-13 07:49:24,664 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-13 07:49:24,664 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-13 07:49:24,664 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-13 07:49:24,664 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-13 07:49:24,664 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-13 07:49:24,664 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-13 07:49:24,664 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-13 07:49:24,664 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-13 07:49:24,664 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-13 07:49:24,665 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-13 07:49:24,665 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-13 07:49:24,665 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-13 07:49:24,665 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-13 07:49:24,665 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-13 07:49:24,665 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-13 07:49:24,665 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-13 07:49:24,665 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-13 07:49:24,665 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-13 07:49:24,666 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-13 07:49:24,666 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-13 07:49:24,666 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-13 07:49:24,666 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-13 07:49:24,666 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-13 07:49:24,666 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-13 07:49:24,666 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-13 07:49:24,666 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-13 07:49:24,666 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-13 07:49:24,666 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-13 07:49:24,666 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-13 07:49:24,666 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-13 07:49:24,748 [INFO] ThirdPartyModel:294 - Start build external matchings
+2022-12-13 07:49:25,392 [INFO] ThirdPartyModel:310 - End build external matchings
+2022-12-13 07:49:25,418 [INFO] ImportTextPane:193 - (OptionalMessage_ERROR) IP (DMA) : Parameter (Instance) has Id (USART2_RX) currently not set
+2022-12-13 07:49:25,418 [INFO] ImportTextPane:193 - (OptionalMessage_ERROR) IP (DMA) : Parameter (Direction) has Id (USART2_RX) currently not set
+2022-12-13 07:49:25,418 [INFO] ImportTextPane:193 - (OptionalMessage_ERROR) IP (DMA) : Parameter (PeriphInc) has Id (USART2_RX) currently not set
+2022-12-13 07:49:25,418 [INFO] ImportTextPane:193 - (OptionalMessage_ERROR) IP (DMA) : Parameter (MemInc) has Id (USART2_RX) currently not set
+2022-12-13 07:49:25,418 [INFO] ImportTextPane:193 - (OptionalMessage_ERROR) IP (DMA) : Parameter (PeriphDataAlignment) has Id (USART2_RX) currently not set
+2022-12-13 07:49:25,418 [INFO] ImportTextPane:193 - (OptionalMessage_ERROR) IP (DMA) : Parameter (MemDataAlignment) has Id (USART2_RX) currently not set
+2022-12-13 07:49:25,418 [INFO] ImportTextPane:193 - (OptionalMessage_ERROR) IP (DMA) : Parameter (Mode) has Id (USART2_RX) currently not set
+2022-12-13 07:49:25,418 [INFO] ImportTextPane:193 - (OptionalMessage_ERROR) IP (DMA) : Parameter (Priority) has Id (USART2_RX) currently not set
+2022-12-13 07:49:25,419 [INFO] ImportTextPane:193 - (OptionalMessage_ERROR) IP (RCC) : Parameter (ADCFreqValue) has invalid value (32000000)
+2022-12-13 07:49:25,419 [INFO] ImportTextPane:193 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (FamilyName)
+2022-12-13 07:49:25,419 [INFO] ImportTextPane:193 - (OptionalMessage_ERROR) IP (RCC) : Parameter (MCOFreq_Value) has invalid value (64000000)
+2022-12-13 07:49:25,419 [INFO] ImportTextPane:193 - (OptionalMessage_ERROR) IP (RCC) : Parameter (USBFreq_Value) has invalid value (64000000)
+2022-12-13 07:49:25,585 [INFO] UtilMem:74 - End LoadConfig() Used Memory: 450282416 Bytes (732954624)
+2022-12-13 07:49:25,679 [WARN] ThirdParty:807 - waiting for thirdparty lock release [change project]
+2022-12-13 07:49:25,679 [INFO] ThirdParty:809 - entering critical section [change project]
+2022-12-13 07:49:25,679 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-ISPU 1.1.0
+2022-12-13 07:49:25,679 [INFO] ThirdParty:999 - CMSIS Pack Vendor :wolfSSL I-CUBE-wolfSSL 5.2.0
+2022-12-13 07:49:25,679 [INFO] ThirdParty:999 - CMSIS Pack Vendor :RoweBots I-CUBE-UNISONRTOS 5.5.0-4
+2022-12-13 07:49:25,679 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-GNSS1 6.0.0
+2022-12-13 07:49:25,679 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-H7 2.1.0
+2022-12-13 07:49:25,679 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics USB_HOST 2.0.0
+2022-12-13 07:49:25,679 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-F4 1.1.0
+2022-12-13 07:49:25,679 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics LIBJPEG 8.0.0
+2022-12-13 07:49:25,679 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics USB_DEVICE 3.0.0
+2022-12-13 07:49:25,679 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-MEMS1 9.2.0
+2022-12-13 07:49:25,679 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-BLEMGR 1.2.0
+2022-12-13 07:49:25,680 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-F7 1.1.0
+2022-12-13 07:49:25,680 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-MEMS1 9.4.0
+2022-12-13 07:49:25,680 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics USB_DEVICE 2.0.0
+2022-12-13 07:49:25,680 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AI 7.3.0
+2022-12-13 07:49:25,680 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AI 7.1.0
+2022-12-13 07:49:25,680 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-TOUCHGFX 4.19.1
+2022-12-13 07:49:25,680 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-BLE1 6.2.3
+2022-12-13 07:49:25,680 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-ALGOBUILD 1.3.0
+2022-12-13 07:49:25,680 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-BLE1 6.2.4
+2022-12-13 07:49:25,680 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-L5 1.1.0
+2022-12-13 07:49:25,680 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics FreeRTOS 0.0.1
+2022-12-13 07:49:25,680 [INFO] ThirdParty:999 - CMSIS Pack Vendor :emotas I-CUBE-CANOPEN 1.1.3
+2022-12-13 07:49:25,680 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-G0 1.1.0
+2022-12-13 07:49:25,680 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-SUBG2 5.0.0
+2022-12-13 07:49:25,680 [INFO] ThirdParty:999 - CMSIS Pack Vendor :SEGGER I-CUBE-embOS 1.2.0
+2022-12-13 07:49:25,680 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics STM32_WPAN 1.0.0
+2022-12-13 07:49:25,680 [INFO] ThirdParty:999 - CMSIS Pack Vendor :SEGGER I-CUBE-embOS 1.2.1
+2022-12-13 07:49:25,680 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics lwIP 2.0.3
+2022-12-13 07:49:25,680 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-NFC4 2.0.5
+2022-12-13 07:49:25,680 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-NFC4 2.0.4
+2022-12-13 07:49:25,680 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-BLE2 3.2.2
+2022-12-13 07:49:25,680 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics USB_HOST 1.0.0
+2022-12-13 07:49:25,680 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-NFC4 2.0.3
+2022-12-13 07:49:25,680 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics PDM2PCM 3.1.0
+2022-12-13 07:49:25,680 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics FP-ATR-ASTRA1 1.1.1
+2022-12-13 07:49:25,680 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-TOUCHGFX 4.19.0
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics PDM2PCM 3.3.0
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-SFXS2LP1 3.1.0
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-BLEMGR 1.3.0
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :wolfSSL I-CUBE-wolfSSL 5.5.3
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-F4 1.0.0
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-H7 2.0.0
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-G4 1.0.0
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics FP-ATR-SIGFOX1 3.2.0
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-L4 1.0.0
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics HAL Drivers 0.0.0
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics MBEDTLS 2.16.2
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :emotas I-CUBE-CANOPEN 1.1.2
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-TOUCHGFX 4.20.0
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics MBEDTLS 2.14.1
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-NFC7 1.0.0
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-F7 1.0.0
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-WL 1.0.0
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-SUBG2 4.2.0
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-MEMS1 9.1.0
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-MEMS1 9.3.0
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :portGmbH I-Cube-SoM-uGOAL 1.1.0
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-ALS 1.0.1
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics ThreadX 1.0.0
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-WB 1.1.0
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-L5 1.0.0
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics USB_DEVICE 1.0.0
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-G0 1.0.0
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-EEPRMA1 3.1.1
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-GNSS1 5.2.0
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics ThreadX 0.0.2
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics lwIP 2.1.2
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-SFXS2LP1 4.0.0
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-BLE2 3.3.0
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-DISPLAY 2.0.1
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-DISPLAY 2.2.0
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-TOF1 3.2.0
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics PDM2PCM 3.2.0
+2022-12-13 07:49:25,681 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-TOF1 3.0.0
+2022-12-13 07:49:25,682 [INFO] ThirdParty:815 - exiting critical section [change project]
+2022-12-13 07:49:25,768 [INFO] PinOutPanel:1477 - setPackage(No Configuration,No Configuration)
+2022-12-13 07:49:25,769 [INFO] PinOutPanel:1477 - setPackage(STM32F103RBTx,LQFP64)
+2022-12-13 07:49:25,948 [INFO] UtilMem:74 - Before build in PCC Used Memory: 533117264 Bytes (732954624)
+2022-12-13 07:49:26,155 [INFO] UtilMem:74 - After build in PCC Used Memory: 575066464 Bytes (732954624)
+2022-12-13 07:49:26,165 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-13 07:49:26,165 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-13 07:49:26,165 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-13 07:49:26,165 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-13 07:49:26,165 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-13 07:49:26,165 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-13 07:49:26,165 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-13 07:49:26,165 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-13 07:49:26,166 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-13 07:49:26,166 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-13 07:49:26,166 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-13 07:49:26,166 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-13 07:49:26,166 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-13 07:49:26,166 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-13 07:49:26,166 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-13 07:49:26,166 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-13 07:49:26,166 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-13 07:49:26,166 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-13 07:49:26,167 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-13 07:49:26,167 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-13 07:49:26,167 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-13 07:49:26,167 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-13 07:49:26,167 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-13 07:49:26,167 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-13 07:49:26,167 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-13 07:49:26,167 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-13 07:49:26,167 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-13 07:49:26,194 [INFO] CADModel:164 - CPN selected for project levelSTM32F103RBT6
+2022-12-13 07:49:26,194 [INFO] CADModel:113 - Register for checkConnection events
+2022-12-13 07:49:26,271 [INFO] OpenFileManager:327 - Restore cursor
+2022-12-13 07:49:41,191 [INFO] NvicIntPanel:100 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2022-12-13 07:49:45,627 [INFO] NvicIntPanel:100 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2022-12-13 07:49:47,947 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 497612640 Bytes (732954624)
+2022-12-13 07:49:55,802 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 607203056 Bytes (732954624)
+2022-12-13 07:49:56,007 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: NVIC
+2022-12-13 07:49:56,008 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: USART
+2022-12-13 07:49:56,008 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: DMA
+2022-12-13 07:49:56,008 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: SYS
+2022-12-13 07:49:56,008 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: GPIO
+2022-12-13 07:49:56,008 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: RCC
+2022-12-13 07:49:56,009 [INFO] CodeGenerator:692 - code generatio: config db path: C:\ST\STM32CubeIDE_1.9.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.7.0.202211181646\\db\
+2022-12-13 07:49:56,015 [INFO] Argument:300 - Argument : hdmavalue: null
+2022-12-13 07:49:56,015 [INFO] Argument:302 - 	 sub Args: 
+2022-12-13 07:49:56,015 [INFO] Argument:300 - Argument : Instancevalue: DMA1_Channel6
+2022-12-13 07:49:56,015 [INFO] Argument:310 - Argument : Instancevalue: DMA1_Channel6
+2022-12-13 07:49:56,015 [INFO] Argument:300 - Argument : Initvalue: null
+2022-12-13 07:49:56,015 [INFO] Argument:302 - 	 sub Args: 
+2022-12-13 07:49:56,015 [INFO] Argument:300 - Argument : Directionvalue: DMA_PERIPH_TO_MEMORY
+2022-12-13 07:49:56,015 [INFO] Argument:310 - Argument : Directionvalue: DMA_PERIPH_TO_MEMORY
+2022-12-13 07:49:56,015 [INFO] Argument:300 - Argument : PeriphIncvalue: DMA_PINC_DISABLE
+2022-12-13 07:49:56,015 [INFO] Argument:310 - Argument : PeriphIncvalue: DMA_PINC_DISABLE
+2022-12-13 07:49:56,015 [INFO] Argument:300 - Argument : MemIncvalue: DMA_MINC_ENABLE
+2022-12-13 07:49:56,015 [INFO] Argument:310 - Argument : MemIncvalue: DMA_MINC_ENABLE
+2022-12-13 07:49:56,015 [INFO] Argument:300 - Argument : PeriphDataAlignmentvalue: DMA_PDATAALIGN_BYTE
+2022-12-13 07:49:56,015 [INFO] Argument:310 - Argument : PeriphDataAlignmentvalue: DMA_PDATAALIGN_BYTE
+2022-12-13 07:49:56,015 [INFO] Argument:300 - Argument : MemDataAlignmentvalue: DMA_MDATAALIGN_BYTE
+2022-12-13 07:49:56,015 [INFO] Argument:310 - Argument : MemDataAlignmentvalue: DMA_MDATAALIGN_BYTE
+2022-12-13 07:49:56,015 [INFO] Argument:300 - Argument : Modevalue: DMA_NORMAL
+2022-12-13 07:49:56,015 [INFO] Argument:310 - Argument : Modevalue: DMA_NORMAL
+2022-12-13 07:49:56,015 [INFO] Argument:300 - Argument : Priorityvalue: DMA_PRIORITY_LOW
+2022-12-13 07:49:56,015 [INFO] Argument:310 - Argument : Priorityvalue: DMA_PRIORITY_LOW
+2022-12-13 07:49:56,015 [INFO] Argument:300 - Argument : Lockvalue: null
+2022-12-13 07:49:56,015 [INFO] Argument:310 - Argument : Lockvalue: null
+2022-12-13 07:49:56,015 [INFO] Argument:300 - Argument : Statevalue: null
+2022-12-13 07:49:56,015 [INFO] Argument:310 - Argument : Statevalue: null
+2022-12-13 07:49:56,015 [INFO] Argument:300 - Argument : Parentvalue: null
+2022-12-13 07:49:56,015 [INFO] Argument:310 - Argument : Parentvalue: null
+2022-12-13 07:49:56,015 [INFO] Argument:300 - Argument : XferCpltCallbackvalue: null
+2022-12-13 07:49:56,015 [INFO] Argument:310 - Argument : XferCpltCallbackvalue: null
+2022-12-13 07:49:56,015 [INFO] Argument:300 - Argument : XferHalfCpltCallbackvalue: null
+2022-12-13 07:49:56,015 [INFO] Argument:310 - Argument : XferHalfCpltCallbackvalue: null
+2022-12-13 07:49:56,015 [INFO] Argument:300 - Argument : XferErrorCallbackvalue: null
+2022-12-13 07:49:56,016 [INFO] Argument:310 - Argument : XferErrorCallbackvalue: null
+2022-12-13 07:49:56,016 [INFO] Argument:300 - Argument : ErrorCodevalue: null
+2022-12-13 07:49:56,016 [INFO] Argument:310 - Argument : ErrorCodevalue: null
+2022-12-13 07:49:56,194 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\MXTmpFiles\license.tmp_save
+2022-12-13 07:49:56,326 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\MXTmpFiles\license.tmp
+2022-12-13 07:49:56,400 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\MXTmpFiles\gpio.tmp_save
+2022-12-13 07:49:56,521 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\MXTmpFiles\gpio.tmp
+2022-12-13 07:49:56,635 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\MXTmpFiles\dma.tmp_save
+2022-12-13 07:49:56,752 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\MXTmpFiles\dma.tmp
+2022-12-13 07:49:56,779 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\MXTmpFiles\dma_GV.tmp_save
+2022-12-13 07:49:56,837 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\MXTmpFiles\dma_GV.tmp
+2022-12-13 07:49:56,882 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\Core\Src\stm32f1xx_it.c_save
+2022-12-13 07:49:57,150 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\Core\Src\stm32f1xx_it.c
+2022-12-13 07:49:57,196 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\Core\Inc\stm32f1xx_it.h_save
+2022-12-13 07:49:57,301 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\Core\Inc\stm32f1xx_it.h
+2022-12-13 07:49:57,357 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\Core\Src\stm32f1xx_hal_msp.c_save
+2022-12-13 07:49:57,520 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\Core\Src\stm32f1xx_hal_msp.c
+2022-12-13 07:49:57,552 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\MXTmpFiles\system.tmp_save
+2022-12-13 07:49:57,638 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\MXTmpFiles\system.tmp
+2022-12-13 07:49:57,684 [INFO] CodeEngine:303 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\Core\Inc\stm32f1xx_hal_conf.h_save
+2022-12-13 07:49:57,822 [INFO] CodeEngine:327 - Generated code: D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\Core\Inc\stm32f1xx_hal_conf.h
+2022-12-13 07:49:57,878 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\Core\Inc\main.h_save
+2022-12-13 07:49:58,023 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\Core\Inc\main.h
+2022-12-13 07:49:58,059 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\Core\Src\main.c_save
+2022-12-13 07:49:58,246 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\N-F103RB_Serial\Core\Src\main.c
+2022-12-13 07:49:59,670 [INFO] ProjectBuilder:2919 - Time for Copy HAL[1] : 1116mS.
+2022-12-13 07:49:59,673 [INFO] ProjectBuilder:4183 - Project Generator version: 3.18.0-B7
+2022-12-13 07:49:59,963 [INFO] ConfigFileManager:1396 - The Die is : DIE410
+2022-12-13 07:49:59,992 [INFO] ApiDbMcu:505 - Load IP Config File for FATFS
+2022-12-13 07:50:00,009 [INFO] ApiDbMcu:505 - Load IP Config File for FREERTOS
+2022-12-13 07:50:00,030 [INFO] ApiDbMcu:505 - Load IP Config File for USB_DEVICE
+2022-12-13 07:50:01,635 [INFO] ProjectBuilder:4351 - Time for Generating toolchain IDE Files: 1962mS.
+2022-12-13 07:50:01,636 [INFO] ProjectBuilder:2790 - Time for Copy CMSIS : 1mS.
+2022-12-13 07:50:01,637 [INFO] ProjectBuilder:2790 - Time for Copy CMSIS : 0mS.
+2022-12-13 14:22:34,388 [INFO] JxBrowserEngine:114 - Initiate JxBrowser Engine with user profile folder
+2022-12-13 14:22:37,972 [INFO] WebAppUi:459 - Close the Jxbrowser engine manually
+2022-12-13 14:22:38,006 [INFO] WebAppUi:462 - Profiles folder deleted
+2022-12-13 14:22:39,151 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2022-12-13 14:23:15,838 [INFO] Activator:179 - 
+
+
+2022-12-13 14:23:15,839 [INFO] Activator:180 - !SESSION log4j initialized
+2022-12-14 08:15:39,799 [INFO] McuFinderGlobals:52 - Set McuFinder mode to 2 (CubeIDE integrated)
+2022-12-14 08:15:40,532 [INFO] ApplicationProperties:181 - Using Application install path: C:\ST\STM32CubeIDE_1.9.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.7.0.202211181646
+2022-12-14 08:15:40,549 [INFO] DbMcusXml:77 - Set database path to: C:\ST\STM32CubeIDE_1.9.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.7.0.202211181646\\db\/mcu/
+2022-12-14 08:15:40,549 [INFO] ApiDb:273 - Set plugin database path to: C:\ST\STM32CubeIDE_1.9.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.7.0.202211181646\\db\/plugins/boardmanager/
+2022-12-14 08:15:40,551 [WARN] ApiDb:258 - Overriding images path with different value:  => C:\ST\STM32CubeIDE_1.9.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.7.0.202211181646\\db\/plugins/mcufinder/images/
+2022-12-14 08:15:40,576 [INFO] ApiDb:249 - Set database path to: C:\Users\josh\.stmcufinder\plugins\mcufinder//mcu/
+2022-12-14 08:15:40,577 [INFO] DbMcusAds:124 - Set database path to: C:\Users\josh\.stmcufinder\plugins\mcufinder//mcu/
+2022-12-14 08:15:40,585 [INFO] CrossReferenceDbSqlite:202 - Set database path to: C:\Users\josh\.stmcufinder\plugins\mcufinder//mcu/cs/
+2022-12-14 08:15:40,692 [INFO] RulesReader:61 - Compatibility file has been processed (283 Rules)
+2022-12-14 08:15:40,794 [INFO] DbMcusXml:77 - Set database path to: C:\ST\STM32CubeIDE_1.9.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.7.0.202211181646\\db\/mcu/
+2022-12-14 08:15:40,794 [INFO] ApiDb:273 - Set plugin database path to: C:\ST\STM32CubeIDE_1.9.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.7.0.202211181646\\db\/plugins/boardmanager/
+2022-12-14 08:15:40,795 [INFO] ApiDb:260 - Set plugin images path to: C:\ST\STM32CubeIDE_1.9.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.7.0.202211181646\\db\/plugins/mcufinder/images/
+2022-12-14 08:15:40,795 [WARN] DbFile:40 - Overriding database path with different value: C:\Users\josh\.stmcufinder\plugins\mcufinder/ => C:\Users\josh\.stmcufinder\plugins\mcufinder
+2022-12-14 08:15:40,795 [INFO] ApiDb:249 - Set database path to: C:\Users\josh\.stmcufinder\plugins\mcufinder//mcu/
+2022-12-14 08:15:40,795 [WARN] DbFile:40 - Overriding database path with different value: C:\Users\josh\.stmcufinder\plugins\mcufinder/ => C:\Users\josh\.stmcufinder\plugins\mcufinder
+2022-12-14 08:15:40,795 [INFO] DbMcusAds:124 - Set database path to: C:\Users\josh\.stmcufinder\plugins\mcufinder//mcu/
+2022-12-14 08:15:40,796 [WARN] DbFile:40 - Overriding database path with different value: C:\Users\josh\.stmcufinder\plugins\mcufinder/ => C:\Users\josh\.stmcufinder\plugins\mcufinder
+2022-12-14 08:15:40,796 [WARN] DbFile:40 - Overriding database path with different value: C:\Users\josh\.stmcufinder\plugins\mcufinder/ => C:\Users\josh\.stmcufinder\plugins\mcufinder
+2022-12-14 08:15:40,796 [INFO] CrossReferenceDbSqlite:202 - Set database path to: C:\Users\josh\.stmcufinder\plugins\mcufinder//mcu/cs/
+2022-12-14 08:15:40,855 [INFO] MainPanel:252 - HeapMemory: 277872640
+2022-12-14 08:15:40,929 [INFO] DbMcusXml:77 - Set database path to: C:\ST\STM32CubeIDE_1.9.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.7.0.202211181646\\db\/mcu/
+2022-12-14 08:15:40,929 [INFO] ApiDb:273 - Set plugin database path to: C:\ST\STM32CubeIDE_1.9.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.7.0.202211181646\\db\/plugins/boardmanager/
+2022-12-14 08:15:40,929 [INFO] ApiDb:260 - Set plugin images path to: C:\ST\STM32CubeIDE_1.9.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.7.0.202211181646\\db\/plugins/mcufinder/images/
+2022-12-14 08:15:40,930 [WARN] DbFile:40 - Overriding database path with different value: C:\Users\josh\.stmcufinder\plugins\mcufinder/ => C:\Users\josh\.stmcufinder\plugins\mcufinder
+2022-12-14 08:15:40,930 [INFO] ApiDb:249 - Set database path to: C:\Users\josh\.stmcufinder\plugins\mcufinder//mcu/
+2022-12-14 08:15:40,930 [WARN] DbFile:40 - Overriding database path with different value: C:\Users\josh\.stmcufinder\plugins\mcufinder/ => C:\Users\josh\.stmcufinder\plugins\mcufinder
+2022-12-14 08:15:40,930 [INFO] DbMcusAds:124 - Set database path to: C:\Users\josh\.stmcufinder\plugins\mcufinder//mcu/
+2022-12-14 08:15:40,930 [WARN] DbFile:40 - Overriding database path with different value: C:\Users\josh\.stmcufinder\plugins\mcufinder/ => C:\Users\josh\.stmcufinder\plugins\mcufinder
+2022-12-14 08:15:40,931 [WARN] DbFile:40 - Overriding database path with different value: C:\Users\josh\.stmcufinder\plugins\mcufinder/ => C:\Users\josh\.stmcufinder\plugins\mcufinder
+2022-12-14 08:15:40,931 [INFO] CrossReferenceDbSqlite:202 - Set database path to: C:\Users\josh\.stmcufinder\plugins\mcufinder//mcu/cs/
+2022-12-14 08:15:40,947 [INFO] ApplicationProperties:181 - Using Application install path: C:\ST\STM32CubeIDE_1.9.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.7.0.202211181646
+2022-12-14 08:15:40,948 [INFO] PluginManage:193 - Search for loadable plugins [exclusion list=, ]
+2022-12-14 08:15:40,949 [INFO] PluginManage:307 - Check plugin analytics
+2022-12-14 08:15:41,106 [INFO] AnalyticsPlugin:262 - Accepted Software Licenses: 
+2022-12-14 08:15:41,107 [INFO] AnalyticsPlugin:264 - Accepted CMSIS Pack Licenses: 
+2022-12-14 08:15:41,107 [INFO] AnalyticsPlugin:266 - Accepted Firmware Licenses: 
+2022-12-14 08:15:41,113 [INFO] PluginManage:356 - Loaded plugin analytics (category:tool,tabindex:-1)
+2022-12-14 08:15:41,113 [INFO] PluginManage:307 - Check plugin cadmodel
+2022-12-14 08:15:41,134 [INFO] CADModel:104 - Init CAD model plugin
+2022-12-14 08:15:41,135 [INFO] PluginManage:356 - Loaded plugin cadmodel (category:power,tabindex:5)
+2022-12-14 08:15:41,135 [INFO] PluginManage:307 - Check plugin clock
+2022-12-14 08:15:41,310 [INFO] PluginManage:356 - Loaded plugin clock (category:base,tabindex:2)
+2022-12-14 08:15:41,310 [INFO] PluginManage:307 - Check plugin ddr
+2022-12-14 08:15:41,312 [INFO] PluginManage:356 - Loaded plugin ddr (category:tool,tabindex:6)
+2022-12-14 08:15:41,312 [INFO] PluginManage:307 - Check plugin filemanager
+2022-12-14 08:15:41,422 [INFO] PluginManage:356 - Loaded plugin filemanager (category:base,tabindex:10)
+2022-12-14 08:15:41,422 [INFO] PluginManage:307 - Check plugin ipmanager
+2022-12-14 08:15:41,427 [INFO] PluginManage:356 - Loaded plugin ipmanager (category:base,tabindex:5)
+2022-12-14 08:15:41,428 [INFO] PluginManage:307 - Check plugin lpbam
+2022-12-14 08:15:41,480 [INFO] PluginManage:356 - Loaded plugin lpbam (category:base,tabindex:0)
+2022-12-14 08:15:41,480 [INFO] PluginManage:307 - Check plugin pinoutandconfiguration
+2022-12-14 08:15:41,572 [INFO] PluginManage:356 - Loaded plugin pinoutandconfiguration (category:base,tabindex:1)
+2022-12-14 08:15:41,573 [INFO] PluginManage:307 - Check plugin pinoutconfig
+2022-12-14 08:15:41,668 [INFO] PluginManage:356 - Loaded plugin pinoutconfig (category:base,tabindex:0)
+2022-12-14 08:15:41,668 [INFO] PluginManage:307 - Check plugin power
+2022-12-14 08:15:41,691 [INFO] PluginManage:356 - Loaded plugin power (category:power,tabindex:4)
+2022-12-14 08:15:41,691 [INFO] PluginManage:307 - Check plugin projectmanager
+2022-12-14 08:15:41,703 [INFO] PluginManage:356 - Loaded plugin projectmanager (category:projectmanager,tabindex:3)
+2022-12-14 08:15:41,703 [INFO] PluginManage:307 - Check plugin thirdparty
+2022-12-14 08:15:42,079 [INFO] PluginManage:356 - Loaded plugin thirdparty (category:base,tabindex:-1)
+2022-12-14 08:15:42,079 [WARN] IntegrityCheckThread:82 - waiting for thirdparty lock release [integrity check]
+2022-12-14 08:15:42,079 [INFO] PluginManage:307 - Check plugin tools
+2022-12-14 08:15:42,080 [INFO] IntegrityCheckThread:84 - entering critical section [integrity check]
+2022-12-14 08:15:42,082 [INFO] ThirdPartyUpdaterWithRetryManager:70 - Updater plugin not ready yet. [1/15]
+2022-12-14 08:15:42,098 [INFO] PluginManage:356 - Loaded plugin tools (category:base,tabindex:7)
+2022-12-14 08:15:42,098 [INFO] PluginManage:307 - Check plugin tutovideos
+2022-12-14 08:15:42,336 [INFO] PluginManage:356 - Loaded plugin tutovideos (category:base,tabindex:-1)
+2022-12-14 08:15:42,336 [INFO] PluginManage:307 - Check plugin updater
+2022-12-14 08:15:42,349 [INFO] PluginManage:356 - Loaded plugin updater (category:base,tabindex:12)
+2022-12-14 08:15:42,349 [INFO] PluginManage:280 - PluginManage : Loaded plugins [15]
+2022-12-14 08:15:42,561 [INFO] PinOutPanel:1477 - setPackage(No Configuration,No Configuration)
+2022-12-14 08:15:42,613 [INFO] CADModel:164 - CPN selected for project level
+2022-12-14 08:15:42,613 [INFO] CADModel:113 - Register for checkConnection events
+2022-12-14 08:15:42,649 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:42,649 [INFO] PluginManager:219 - loadIPPluginJar : add adc
+2022-12-14 08:15:42,667 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:42,667 [INFO] PluginManager:219 - loadIPPluginJar : add aes
+2022-12-14 08:15:42,685 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:42,685 [INFO] PluginManager:219 - loadIPPluginJar : add can
+2022-12-14 08:15:42,701 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:42,701 [INFO] PluginManager:219 - loadIPPluginJar : add comp
+2022-12-14 08:15:42,721 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:42,721 [INFO] PluginManager:219 - loadIPPluginJar : add cryp
+2022-12-14 08:15:42,741 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:42,741 [INFO] PluginManager:219 - loadIPPluginJar : add dfsdm
+2022-12-14 08:15:42,768 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:42,769 [INFO] PluginManager:219 - loadIPPluginJar : add dma
+2022-12-14 08:15:42,788 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:42,788 [INFO] PluginManager:219 - loadIPPluginJar : add dma3
+2022-12-14 08:15:42,804 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:42,804 [INFO] PluginManager:219 - loadIPPluginJar : add fatfs
+2022-12-14 08:15:42,824 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:42,824 [INFO] PluginManager:219 - loadIPPluginJar : add fmc
+2022-12-14 08:15:42,903 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:42,903 [INFO] PluginManager:219 - loadIPPluginJar : add freertos
+2022-12-14 08:15:42,919 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:42,919 [INFO] PluginManager:219 - loadIPPluginJar : add genericplugin
+2022-12-14 08:15:42,942 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:42,942 [INFO] PluginManager:219 - loadIPPluginJar : add gfxmmu
+2022-12-14 08:15:42,971 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:42,972 [INFO] PluginManager:219 - loadIPPluginJar : add gic
+2022-12-14 08:15:43,010 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:43,010 [INFO] PluginManager:219 - loadIPPluginJar : add gpio
+2022-12-14 08:15:43,032 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:43,032 [INFO] PluginManager:219 - loadIPPluginJar : add gtzc
+2022-12-14 08:15:43,050 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:43,050 [INFO] PluginManager:219 - loadIPPluginJar : add hash
+2022-12-14 08:15:43,069 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:43,069 [INFO] PluginManager:219 - loadIPPluginJar : add i2c
+2022-12-14 08:15:43,088 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:43,088 [INFO] PluginManager:219 - loadIPPluginJar : add i2s
+2022-12-14 08:15:43,111 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:43,111 [INFO] PluginManager:219 - loadIPPluginJar : add ipddr
+2022-12-14 08:15:43,139 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:43,139 [INFO] PluginManager:219 - loadIPPluginJar : add linkedlist
+2022-12-14 08:15:43,158 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:43,158 [INFO] PluginManager:219 - loadIPPluginJar : add lorawan
+2022-12-14 08:15:43,175 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:43,176 [INFO] PluginManager:219 - loadIPPluginJar : add ltdc
+2022-12-14 08:15:43,212 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:43,213 [INFO] PluginManager:219 - loadIPPluginJar : add mdma
+2022-12-14 08:15:43,254 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:43,254 [INFO] PluginManager:219 - loadIPPluginJar : add nvic
+2022-12-14 08:15:43,273 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:43,273 [INFO] PluginManager:219 - loadIPPluginJar : add opamp
+2022-12-14 08:15:43,295 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:43,295 [INFO] PluginManager:219 - loadIPPluginJar : add openamp
+2022-12-14 08:15:43,314 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:43,315 [INFO] PluginManager:219 - loadIPPluginJar : add pdm2pcm
+2022-12-14 08:15:43,353 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:43,355 [INFO] PluginManager:219 - loadIPPluginJar : add plateformsettings
+2022-12-14 08:15:43,371 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:43,372 [INFO] PluginManager:219 - loadIPPluginJar : add quadspi
+2022-12-14 08:15:43,466 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:43,466 [INFO] PluginManager:219 - loadIPPluginJar : add resmgrutility
+2022-12-14 08:15:43,485 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:43,485 [INFO] PluginManager:219 - loadIPPluginJar : add sai
+2022-12-14 08:15:43,503 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:43,503 [INFO] PluginManager:219 - loadIPPluginJar : add spi
+2022-12-14 08:15:43,523 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:43,524 [INFO] PluginManager:219 - loadIPPluginJar : add stm32_wpan
+2022-12-14 08:15:43,539 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:43,540 [INFO] PluginManager:219 - loadIPPluginJar : add tim
+2022-12-14 08:15:43,559 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:43,560 [INFO] PluginManager:219 - loadIPPluginJar : add touchsensing
+2022-12-14 08:15:43,575 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:43,576 [INFO] PluginManager:219 - loadIPPluginJar : add tracer_emb
+2022-12-14 08:15:43,592 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:43,593 [INFO] PluginManager:219 - loadIPPluginJar : add ts
+2022-12-14 08:15:43,608 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:43,608 [INFO] PluginManager:219 - loadIPPluginJar : add tsc
+2022-12-14 08:15:43,624 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:43,624 [INFO] PluginManager:219 - loadIPPluginJar : add ucpd
+2022-12-14 08:15:43,643 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:43,643 [INFO] PluginManager:219 - loadIPPluginJar : add usart
+2022-12-14 08:15:43,662 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:43,662 [INFO] PluginManager:219 - loadIPPluginJar : add usbx
+2022-12-14 08:15:43,779 [INFO] CADModel:164 - CPN selected for project level
+2022-12-14 08:15:43,780 [INFO] CADModel:113 - Register for checkConnection events
+2022-12-14 08:15:43,780 [FATAL] Updater:308 - Updater called before beeing initialized
+2022-12-14 08:15:43,780 [ERROR] CADModel:124 - Updater not yet initialized, retry later 
+2022-12-14 08:15:43,931 [INFO] CADModel:164 - CPN selected for project level
+2022-12-14 08:15:43,931 [INFO] CADModel:113 - Register for checkConnection events
+2022-12-14 08:15:43,931 [FATAL] Updater:308 - Updater called before beeing initialized
+2022-12-14 08:15:43,931 [ERROR] CADModel:124 - Updater not yet initialized, retry later 
+2022-12-14 08:15:43,934 [FATAL] Updater:308 - Updater called before beeing initialized
+2022-12-14 08:15:44,072 [FATAL] Updater:308 - Updater called before beeing initialized
+2022-12-14 08:15:44,093 [INFO] DbMcusAds:52 - JSON generation date=Thu Sep 30 08:55:09 CEST 2021 (1632984909377)
+2022-12-14 08:15:44,093 [FATAL] Updater:308 - Updater called before beeing initialized
+2022-12-14 08:15:44,138 [WARN] DetailPanel:344 - Failed to get advertising image, set to default
+2022-12-14 08:15:44,239 [FATAL] Updater:308 - Updater called before beeing initialized
+2022-12-14 08:15:44,241 [FATAL] Updater:308 - Updater called before beeing initialized
+2022-12-14 08:15:44,242 [FATAL] Updater:308 - Updater called before beeing initialized
+2022-12-14 08:15:44,242 [WARN] DetailPanel:344 - Failed to get advertising image, set to default
+2022-12-14 08:15:44,243 [FATAL] Updater:308 - Updater called before beeing initialized
+2022-12-14 08:15:44,326 [ERROR] Updater:1120 - MainUpdater not yet initialized. External WinMGr cannot be set.
+2022-12-14 08:15:44,342 [INFO] Updater:1056 - Updater Version found : 6.7.0
+2022-12-14 08:15:44,360 [INFO] ApplicationProperties:181 - Using Application install path: C:\ST\STM32CubeIDE_1.9.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.7.0.202211181646
+2022-12-14 08:15:44,610 [INFO] MainUpdater:2800 - connection check result : 10
+2022-12-14 08:15:44,611 [INFO] MainUpdater:282 - Updater Check For Update Now.
+2022-12-14 08:15:44,611 [INFO] MicroXplorer:481 - Change Database Version : DB.6.0.70
+2022-12-14 08:15:44,810 [INFO] CheckServerUpdateThread:119 - End of CheckServer Thread
+2022-12-14 08:15:44,852 [INFO] MainUpdater:2800 - connection check result : 10
+2022-12-14 08:15:44,866 [INFO] MainUpdater:2800 - connection check result : 10
+2022-12-14 08:15:45,173 [INFO] MicroXplorer:451 - Change Database Path : 
+2022-12-14 08:15:45,174 [INFO] MicroXplorer:481 - Change Database Version : DB.6.0.70
+2022-12-14 08:15:45,174 [WARN] ThirdParty:845 - waiting for thirdparty lock release [close project]
+2022-12-14 08:15:45,245 [WARN] PackLoader:242 - Cannot read IP mode file for wolfSSL.I-CUBE-wolfSSL.5.2.0
+2022-12-14 08:15:45,270 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-GNSS1.6.0.0
+2022-12-14 08:15:45,311 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-AZRTOS-F4.1.1.0
+2022-12-14 08:15:45,380 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-MEMS1.9.2.0
+2022-12-14 08:15:45,574 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-BLEMGR.1.2.0
+2022-12-14 08:15:45,658 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-AZRTOS-F7.1.1.0
+2022-12-14 08:15:45,687 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-AI.7.1.0
+2022-12-14 08:15:45,708 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-TOUCHGFX.4.19.1
+2022-12-14 08:15:45,729 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-BLE1.6.2.3
+2022-12-14 08:15:45,751 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-BLE1.6.2.4
+2022-12-14 08:15:45,778 [WARN] PackLoader:242 - Cannot read IP mode file for emotas.I-CUBE-CANOPEN.1.1.3
+2022-12-14 08:15:45,799 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-NFC4.2.0.5
+2022-12-14 08:15:45,819 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-NFC4.2.0.4
+2022-12-14 08:15:45,838 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-BLE2.3.2.2
+2022-12-14 08:15:45,861 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-NFC4.2.0.3
+2022-12-14 08:15:45,882 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-TOUCHGFX.4.19.0
+2022-12-14 08:15:45,904 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-SFXS2LP1.3.1.0
+2022-12-14 08:15:45,935 [WARN] PackLoader:242 - Cannot read IP mode file for wolfSSL.I-CUBE-wolfSSL.5.5.3
+2022-12-14 08:15:45,975 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-AZRTOS-F4.1.0.0
+2022-12-14 08:15:45,998 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-NFC7.1.0.0
+2022-12-14 08:15:46,022 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-SUBG2.4.2.0
+2022-12-14 08:15:46,074 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-MEMS1.9.3.0
+2022-12-14 08:15:46,213 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-AZRTOS-G0.1.0.0
+2022-12-14 08:15:46,247 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-SFXS2LP1.4.0.0
+2022-12-14 08:15:46,271 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-BLE2.3.3.0
+2022-12-14 08:15:46,295 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-DISPLAY.2.2.0
+2022-12-14 08:15:46,324 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-TOF1.3.2.0
+2022-12-14 08:15:46,352 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-ISPU.1.1.0
+2022-12-14 08:15:46,375 [WARN] PackLoader:242 - Cannot read IP mode file for RoweBots.I-CUBE-UNISONRTOS.5.5.0-4
+2022-12-14 08:15:46,416 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-AZRTOS-H7.2.1.0
+2022-12-14 08:15:46,459 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-MEMS1.9.4.0
+2022-12-14 08:15:46,589 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-AI.7.3.0
+2022-12-14 08:15:46,611 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-ALGOBUILD.1.3.0
+2022-12-14 08:15:46,640 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-AZRTOS-L5.1.1.0
+2022-12-14 08:15:46,671 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-AZRTOS-G0.1.1.0
+2022-12-14 08:15:46,697 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-SUBG2.5.0.0
+2022-12-14 08:15:46,748 [WARN] PackLoader:242 - Cannot read IP mode file for SEGGER.I-CUBE-embOS.1.2.0
+2022-12-14 08:15:46,806 [WARN] PackLoader:242 - Cannot read IP mode file for SEGGER.I-CUBE-embOS.1.2.1
+2022-12-14 08:15:46,851 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.FP-ATR-ASTRA1.1.1.1
+2022-12-14 08:15:46,902 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-BLEMGR.1.3.0
+2022-12-14 08:15:46,939 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-AZRTOS-H7.2.0.0
+2022-12-14 08:15:46,972 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-AZRTOS-G4.1.0.0
+2022-12-14 08:15:46,992 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.FP-ATR-SIGFOX1.3.2.0
+2022-12-14 08:15:47,022 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-AZRTOS-L4.1.0.0
+2022-12-14 08:15:47,044 [WARN] PackLoader:242 - Cannot read IP mode file for emotas.I-CUBE-CANOPEN.1.1.2
+2022-12-14 08:15:47,067 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-TOUCHGFX.4.20.0
+2022-12-14 08:15:47,100 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-AZRTOS-F7.1.0.0
+2022-12-14 08:15:47,128 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-AZRTOS-WL.1.0.0
+2022-12-14 08:15:47,177 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-MEMS1.9.1.0
+2022-12-14 08:15:47,250 [WARN] PackLoader:242 - Cannot read IP mode file for portGmbH.I-Cube-SoM-uGOAL.1.1.0
+2022-12-14 08:15:47,268 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-ALS.1.0.1
+2022-12-14 08:15:47,321 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-AZRTOS-WB.1.1.0
+2022-12-14 08:15:47,351 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-AZRTOS-L5.1.0.0
+2022-12-14 08:15:47,371 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-EEPRMA1.3.1.1
+2022-12-14 08:15:47,390 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-GNSS1.5.2.0
+2022-12-14 08:15:47,408 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-DISPLAY.2.0.1
+2022-12-14 08:15:47,426 [WARN] PackLoader:242 - Cannot read IP mode file for STMicroelectronics.X-CUBE-TOF1.3.0.0
+2022-12-14 08:15:47,427 [INFO] ThirdParty:947 - Integrity check success = true
+2022-12-14 08:15:47,427 [INFO] IntegrityCheckThread:98 - exiting critical section [integrity check]
+2022-12-14 08:15:47,427 [INFO] IntegrityCheckThread:101 - End integrity checks thread
+2022-12-14 08:15:47,427 [INFO] ThirdParty:847 - entering critical section [close project]
+2022-12-14 08:15:47,428 [INFO] ThirdParty:857 - exiting critical section [close project]
+2022-12-14 08:15:47,432 [INFO] PinOutPanel:1477 - setPackage(No Configuration,No Configuration)
+2022-12-14 08:15:47,436 [INFO] UtilMem:74 - Begin LoadConfig() Used Memory: 263931840 Bytes (346030080)
+2022-12-14 08:15:47,437 [INFO] MicroXplorer:451 - Change Database Path : 
+2022-12-14 08:15:47,437 [INFO] MicroXplorer:481 - Change Database Version : DB.6.0.70
+2022-12-14 08:15:47,437 [INFO] OpenFileManager:307 - Change cursor
+2022-12-14 08:15:47,478 [INFO] Mcu:1925 - Initializing MCU STM32F103C(8-B)Tx STM32F103C8Tx STM32F103C8T6
+2022-12-14 08:15:48,279 [INFO] Context:654 - Trying to add GPIOservice into a context  which must be forbidden
+2022-12-14 08:15:48,665 [INFO] RtosManager:489 - Registered RTOS mode: class=CMSIS, group=RTOS, mode=CMSIS_V1, owner=FREERTOS
+2022-12-14 08:15:48,665 [INFO] RtosManager:489 - Registered RTOS mode: class=CMSIS, group=RTOS2, mode=CMSIS_V2, owner=FREERTOS
+2022-12-14 08:15:48,665 [INFO] RtosManager:489 - Registered RTOS mode: class=RTOS, group=Core, mode=CMSIS_V1, owner=FREERTOS
+2022-12-14 08:15:48,665 [INFO] RtosManager:489 - Registered RTOS mode: class=RTOS, group=Core, mode=CMSIS_V2, owner=FREERTOS
+2022-12-14 08:15:48,665 [WARN] ModelIntegratedComponent:185 - Missing modes for component STMicroelectronics:FreeRTOS:0.0.1:STMicroelectronics:RTOS:FreeRTOS:Core:::10.2.0:
+2022-12-14 08:15:48,675 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-14 08:15:48,675 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-14 08:15:48,676 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-14 08:15:48,676 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-14 08:15:48,676 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-14 08:15:48,676 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-14 08:15:48,676 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-14 08:15:48,676 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-14 08:15:48,676 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-14 08:15:48,676 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-14 08:15:48,676 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-14 08:15:48,676 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-14 08:15:48,676 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-14 08:15:48,676 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-14 08:15:48,676 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-14 08:15:48,677 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-14 08:15:48,677 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-14 08:15:48,677 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-14 08:15:48,677 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-14 08:15:48,677 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-14 08:15:48,677 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-14 08:15:48,677 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-14 08:15:48,677 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-14 08:15:48,677 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-14 08:15:48,677 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-14 08:15:48,677 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-14 08:15:48,677 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-14 08:15:48,677 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-14 08:15:48,678 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-14 08:15:48,678 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-14 08:15:48,678 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-14 08:15:48,678 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-14 08:15:48,678 [WARN] ModelIntegratedComponent:64 - No mode defined for component null
+2022-12-14 08:15:48,790 [INFO] ThirdPartyModel:294 - Start build external matchings
+2022-12-14 08:15:49,391 [INFO] ThirdPartyModel:310 - End build external matchings
+2022-12-14 08:15:49,416 [INFO] RtosManager:802 - Current active RTOS is FREERTOS [Cortex-M3NS]
+2022-12-14 08:15:49,645 [INFO] UtilMem:74 - End LoadConfig() Used Memory: 275433216 Bytes (375390208)
+2022-12-14 08:15:49,739 [INFO] ApiDb:580 - Connected to CubeFinder SQLite database (C:\Users\josh\.stmcufinder\plugins\mcufinder\mcu\cube-finder-db.db)
+2022-12-14 08:15:49,798 [INFO] ApiDb:667 - CubeFinder database Data Model version=2.1
+2022-12-14 08:15:49,798 [INFO] ApiDb:668 - CubeFinder database Configuration version=3.0.35
+2022-12-14 08:15:49,798 [INFO] ApiDb:669 - CubeFinder database generation date=2022-11-18 (1668769384)
+2022-12-14 08:15:49,798 [INFO] ApiDb:670 - CubeFinder database FW Pack versions=[FP-ATR-ASTRA1_V1.1.1, STM32Cube_FW_C0_V1.0.0, STM32Cube_FW_F4_V1.27.1, STM32Cube_FW_F7_V1.17.0, STM32Cube_FW_G0_V1.6.1, STM32Cube_FW_G4_V1.5.0, STM32Cube_FW_H5_V0.5.1, STM32Cube_FW_H7_V1.11.0, STM32Cube_FW_L5_V1.5.0, STM32Cube_FW_U5_V1.1.1, STM32Cube_FW_WBA_V0.2.0, STM32Cube_FW_WB_V1.15.0, STM32Cube_FW_WB_V1.15.0RC1, STM32Cube_FW_WL_V1.3.0, X-CUBE-ALGOBUILD_V1.3.0, X-CUBE-ALS_V1.0.1, X-CUBE-AZRTOS-F4_V1.1.0, X-CUBE-AZRTOS-F7_V1.1.0, X-CUBE-AZRTOS-G0_V1.1.0, X-CUBE-AZRTOS-G4_V1.0.0, X-CUBE-AZRTOS-H7_V2.1.0, X-CUBE-AZRTOS-L4_V1.0.0, X-CUBE-AZRTOS-L5_V1.0.0, X-CUBE-AZRTOS-WL_V1.0.0, X-CUBE-BLE1_V6.2.4, X-CUBE-BLE2_V3.3.0, X-CUBE-BLEMGR_V1.2.0, X-CUBE-EEPRMA1_V3.1.1, X-CUBE-GNSS1_V6.0.0, X-CUBE-MEMS1_V9.1.0, X-CUBE-MEMS1_V9.3.0, X-CUBE-NFC4_V2.0.4, X-CUBE-NFC7_V1.0.0, X-CUBE-SFXS2LP1_V4.0.0, X-CUBE-SUBG2_V5.0.0]
+2022-12-14 08:15:51,482 [INFO] ApiDb:239 - Found 143 in-development CPN: [B-WB1M-WPAN1, B-WL5M-SUBG1, NUCLEO-C031C6, STEVAL-PROTEUS1, STEVAL-STWINBX1, STM320518-EVAL, STM32C0116-DK, STM32C011D6Y3TR, STM32C011D6Y6TR, STM32C011F4P3, STM32C011F4P6, STM32C011F4U3, STM32C011F4U6TR, STM32C011F6P3, STM32C011F6P6, STM32C011F6U3, STM32C011F6U6TR, STM32C011J4M3, STM32C011J4M6, STM32C011J6M3, STM32C011J6M6, STM32C0316-DK, STM32C031C4T3, STM32C031C4T6, STM32C031C4U3, STM32C031C4U6, STM32C031C6T3, STM32C031C6T6, STM32C031C6U3, STM32C031C6U6, STM32C031F4P3, STM32C031F4P6, STM32C031F6P3, STM32C031F6P6, STM32C031G4U3, STM32C031G4U6, STM32C031G6U3, STM32C031G6U6, STM32C031K4T3, STM32C031K4T6, STM32C031K4U3, STM32C031K4U6, STM32C031K6T3, STM32C031K6T6, STM32C031K6U3, STM32C031K6U6, STM32G071K8TXN, STM32G071K8UXN, STM32G081GBU6N, STM32G081KBT6N, STM32G081KBUXN, STM32G0B1CCT6N, STM32G0B1KCT6, STM32G0B1NEY6TR, STM32G0B1RCT6N, STM32G0C1CCT6, STM32G0C1CCT6N, STM32G0C1CCU6N, STM32G0C1CET6N, STM32G0C1CEU6N, STM32G0C1KCT6, STM32G0C1NEY6TR, STM32G0C1RCI6N, STM32G0C1RCT6N, STM32G0C1REI6N, STM32G0C1RET6N, STM32G0C1VCI6, STM32G0C1VEI6, STM32G471CCT6, STM32G471CCU6, STM32G471CET3, STM32G471CET6, STM32G471CEU3, STM32G471CEU6, STM32G471MCT6, STM32G471MET3, STM32G471MET6, STM32G471MEY6TR, STM32G471QCT6, STM32G471QET3, STM32G471RCT6, STM32G471RET3, STM32G471RET6, STM32G471VCH6, STM32G471VCI6, STM32G471VCT6, STM32G471VEH3, STM32G471VEH6, STM32G471VEI3, STM32G471VEI6, STM32G471VET3, STM32G471VET6, STM32G474CCT6, STM32L476VGY6PTR, STM32L4R5QGI6STR, STM32MP131AAE3, STM32MP131AAF3, STM32MP131AAG3, STM32MP131CAE3, STM32MP131CAF3, STM32MP131CAG3, STM32MP131DAE7, STM32MP131DAF7, STM32MP131DAG7, STM32MP131FAE7, STM32MP131FAF7, STM32MP131FAG7, STM32MP133AAE3, STM32MP133AAF3, STM32MP133AAG3, STM32MP133CAE3, STM32MP133CAF3, STM32MP133CAG3, STM32MP133DAE7, STM32MP133DAF7, STM32MP133DAG7, STM32MP133FAE7, STM32MP133FAF7, STM32MP133FAG7, STM32MP135AAE3, STM32MP135AAF3, STM32MP135AAG3, STM32MP135CAE3, STM32MP135CAF3, STM32MP135CAG3, STM32MP135DAE7, STM32MP135DAF7, STM32MP135DAG7, STM32MP135F-DK, STM32MP135FAE7, STM32MP135FAF7, STM32MP135FAF7T, STM32MP135FAF7U, STM32MP135FAG7, STM32U595ZJT6Q, STM32U599BJY6QTR, STM32U599NIH6Q, STM32U599NJH6Q, STM32U5A5ZJT6Q, STM32U5A9BJY6QTR, STM32U5A9NJH6Q, STM32WB1MMCH6, STM32WL5MOCH6TR]
+2022-12-14 08:15:51,485 [INFO] DbMcus:215 - Found 3582 MCUs, 3582 are supported
+2022-12-14 08:15:51,488 [INFO] ApiDb:422 - Load user favorites file C:\Users\josh/.stm32cubeide/favorites.mcus.txt: 0 item(s)
+2022-12-14 08:15:51,488 [INFO] ApiDb:426 - User favorites MCUs=[]
+2022-12-14 08:15:51,488 [INFO] DbMcus:221 - Set 0 / 0 favorites MCUs
+2022-12-14 08:15:51,755 [WARN] ThirdParty:807 - waiting for thirdparty lock release [change project]
+2022-12-14 08:15:51,756 [INFO] ThirdParty:809 - entering critical section [change project]
+2022-12-14 08:15:51,756 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-ISPU 1.1.0
+2022-12-14 08:15:51,756 [INFO] ThirdParty:999 - CMSIS Pack Vendor :wolfSSL I-CUBE-wolfSSL 5.2.0
+2022-12-14 08:15:51,756 [INFO] ThirdParty:999 - CMSIS Pack Vendor :RoweBots I-CUBE-UNISONRTOS 5.5.0-4
+2022-12-14 08:15:51,756 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-GNSS1 6.0.0
+2022-12-14 08:15:51,756 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-H7 2.1.0
+2022-12-14 08:15:51,756 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics USB_HOST 2.0.0
+2022-12-14 08:15:51,756 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-F4 1.1.0
+2022-12-14 08:15:51,756 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics LIBJPEG 8.0.0
+2022-12-14 08:15:51,756 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics USB_DEVICE 3.0.0
+2022-12-14 08:15:51,756 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-MEMS1 9.2.0
+2022-12-14 08:15:51,756 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-BLEMGR 1.2.0
+2022-12-14 08:15:51,756 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-F7 1.1.0
+2022-12-14 08:15:51,756 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-MEMS1 9.4.0
+2022-12-14 08:15:51,756 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics USB_DEVICE 2.0.0
+2022-12-14 08:15:51,756 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AI 7.3.0
+2022-12-14 08:15:51,756 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AI 7.1.0
+2022-12-14 08:15:51,756 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-TOUCHGFX 4.19.1
+2022-12-14 08:15:51,756 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-BLE1 6.2.3
+2022-12-14 08:15:51,756 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-ALGOBUILD 1.3.0
+2022-12-14 08:15:51,756 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-BLE1 6.2.4
+2022-12-14 08:15:51,756 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-L5 1.1.0
+2022-12-14 08:15:51,756 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics FreeRTOS 0.0.1
+2022-12-14 08:15:51,756 [INFO] ThirdParty:999 - CMSIS Pack Vendor :emotas I-CUBE-CANOPEN 1.1.3
+2022-12-14 08:15:51,756 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-G0 1.1.0
+2022-12-14 08:15:51,756 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-SUBG2 5.0.0
+2022-12-14 08:15:51,756 [INFO] ThirdParty:999 - CMSIS Pack Vendor :SEGGER I-CUBE-embOS 1.2.0
+2022-12-14 08:15:51,756 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics STM32_WPAN 1.0.0
+2022-12-14 08:15:51,757 [INFO] ThirdParty:999 - CMSIS Pack Vendor :SEGGER I-CUBE-embOS 1.2.1
+2022-12-14 08:15:51,757 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics lwIP 2.0.3
+2022-12-14 08:15:51,757 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-NFC4 2.0.5
+2022-12-14 08:15:51,757 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-NFC4 2.0.4
+2022-12-14 08:15:51,757 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-BLE2 3.2.2
+2022-12-14 08:15:51,757 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics USB_HOST 1.0.0
+2022-12-14 08:15:51,757 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-NFC4 2.0.3
+2022-12-14 08:15:51,757 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics PDM2PCM 3.1.0
+2022-12-14 08:15:51,757 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics FP-ATR-ASTRA1 1.1.1
+2022-12-14 08:15:51,757 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-TOUCHGFX 4.19.0
+2022-12-14 08:15:51,757 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics PDM2PCM 3.3.0
+2022-12-14 08:15:51,757 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-SFXS2LP1 3.1.0
+2022-12-14 08:15:51,757 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-BLEMGR 1.3.0
+2022-12-14 08:15:51,757 [INFO] ThirdParty:999 - CMSIS Pack Vendor :wolfSSL I-CUBE-wolfSSL 5.5.3
+2022-12-14 08:15:51,757 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-F4 1.0.0
+2022-12-14 08:15:51,757 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-H7 2.0.0
+2022-12-14 08:15:51,757 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-G4 1.0.0
+2022-12-14 08:15:51,757 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics FP-ATR-SIGFOX1 3.2.0
+2022-12-14 08:15:51,757 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-L4 1.0.0
+2022-12-14 08:15:51,757 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics HAL Drivers 0.0.0
+2022-12-14 08:15:51,757 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics MBEDTLS 2.16.2
+2022-12-14 08:15:51,757 [INFO] ThirdParty:999 - CMSIS Pack Vendor :emotas I-CUBE-CANOPEN 1.1.2
+2022-12-14 08:15:51,757 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-TOUCHGFX 4.20.0
+2022-12-14 08:15:51,757 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics MBEDTLS 2.14.1
+2022-12-14 08:15:51,757 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-NFC7 1.0.0
+2022-12-14 08:15:51,757 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-F7 1.0.0
+2022-12-14 08:15:51,757 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-WL 1.0.0
+2022-12-14 08:15:51,757 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-SUBG2 4.2.0
+2022-12-14 08:15:51,757 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-MEMS1 9.1.0
+2022-12-14 08:15:51,757 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-MEMS1 9.3.0
+2022-12-14 08:15:51,757 [INFO] ThirdParty:999 - CMSIS Pack Vendor :portGmbH I-Cube-SoM-uGOAL 1.1.0
+2022-12-14 08:15:51,757 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-ALS 1.0.1
+2022-12-14 08:15:51,758 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics ThreadX 1.0.0
+2022-12-14 08:15:51,758 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-WB 1.1.0
+2022-12-14 08:15:51,758 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-L5 1.0.0
+2022-12-14 08:15:51,758 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics USB_DEVICE 1.0.0
+2022-12-14 08:15:51,758 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-G0 1.0.0
+2022-12-14 08:15:51,758 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-EEPRMA1 3.1.1
+2022-12-14 08:15:51,758 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-GNSS1 5.2.0
+2022-12-14 08:15:51,758 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics ThreadX 0.0.2
+2022-12-14 08:15:51,758 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics lwIP 2.1.2
+2022-12-14 08:15:51,758 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-SFXS2LP1 4.0.0
+2022-12-14 08:15:51,758 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-BLE2 3.3.0
+2022-12-14 08:15:51,758 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-DISPLAY 2.0.1
+2022-12-14 08:15:51,758 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-DISPLAY 2.2.0
+2022-12-14 08:15:51,758 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-TOF1 3.2.0
+2022-12-14 08:15:51,758 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics PDM2PCM 3.2.0
+2022-12-14 08:15:51,758 [INFO] ThirdParty:999 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-TOF1 3.0.0
+2022-12-14 08:15:51,758 [INFO] ThirdParty:815 - exiting critical section [change project]
+2022-12-14 08:15:51,995 [INFO] PinOutPanel:1477 - setPackage(No Configuration,No Configuration)
+2022-12-14 08:15:51,997 [INFO] PinOutPanel:1477 - setPackage(STM32F103C8Tx,LQFP48)
+2022-12-14 08:15:52,514 [INFO] UtilMem:74 - Before build in PCC Used Memory: 287087744 Bytes (375390208)
+2022-12-14 08:15:53,399 [INFO] UtilMem:74 - After build in PCC Used Memory: 312708912 Bytes (375390208)
+2022-12-14 08:15:53,483 [INFO] ApiDbMcu:505 - Load IP Config File for FREERTOS
+2022-12-14 08:15:53,506 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:53,506 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:53,506 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:53,507 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:53,507 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:53,507 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:53,508 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:53,508 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:53,508 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:53,508 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:53,508 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:53,508 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:53,508 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:53,509 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:53,509 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:53,509 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:53,509 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:53,509 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:53,509 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:53,509 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:53,510 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:53,510 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:53,510 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:53,510 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:53,510 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:53,511 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:53,511 [INFO] IPUIPlugin:79 - create IPUIPlugin
+2022-12-14 08:15:53,552 [WARN] FreeRTOS:1022 - Null or empty value: should not occur! (nothing added to the table)
+2022-12-14 08:15:53,722 [INFO] CADModel:164 - CPN selected for project levelSTM32F103C8T6
+2022-12-14 08:15:53,722 [INFO] CADModel:113 - Register for checkConnection events
+2022-12-14 08:15:53,724 [INFO] RtosManager:615 - Active RTOS found at IOC load: FREERTOS [Cortex-M3NS]
+2022-12-14 08:15:53,816 [INFO] OpenFileManager:327 - Restore cursor
+2022-12-14 08:16:05,690 [INFO] NvicIntPanel:100 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2022-12-14 08:16:12,814 [INFO] NvicIntPanel:100 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2022-12-14 08:16:16,881 [INFO] NvicIntPanel:100 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2022-12-14 08:16:24,408 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 299078512 Bytes (375390208)
+2022-12-14 08:16:29,886 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 300544112 Bytes (375390208)
+2022-12-14 08:16:30,453 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: NVIC
+2022-12-14 08:16:30,453 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: FREERTOS
+2022-12-14 08:16:30,453 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: USART
+2022-12-14 08:16:30,453 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: DMA
+2022-12-14 08:16:30,453 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: TIM1_8F1
+2022-12-14 08:16:30,453 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: SYS
+2022-12-14 08:16:30,454 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: GPIO
+2022-12-14 08:16:30,454 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: RCC
+2022-12-14 08:16:30,455 [INFO] CodeGenerator:692 - code generatio: config db path: C:\ST\STM32CubeIDE_1.9.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.7.0.202211181646\\db\
+2022-12-14 08:16:30,786 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\license.tmp_save
+2022-12-14 08:16:31,176 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\license.tmp
+2022-12-14 08:16:31,341 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\gpio.tmp_save
+2022-12-14 08:16:31,621 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\gpio.tmp
+2022-12-14 08:16:32,013 [INFO] Middleware:1435 - No code input for Bsp Dependency
+2022-12-14 08:16:32,036 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_inc.tmp_save
+2022-12-14 08:16:32,173 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_inc.tmp
+2022-12-14 08:16:32,210 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_vars.tmp_save
+2022-12-14 08:16:32,319 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_vars.tmp
+2022-12-14 08:16:32,351 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_pfp.tmp_save
+2022-12-14 08:16:32,443 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_pfp.tmp
+2022-12-14 08:16:32,474 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_obj_creat.tmp_save
+2022-12-14 08:16:32,572 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_obj_creat.tmp
+2022-12-14 08:16:32,601 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_kernelStart.tmp_save
+2022-12-14 08:16:32,690 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_kernelStart.tmp
+2022-12-14 08:16:32,732 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_default_thread.tmp_save
+2022-12-14 08:16:32,833 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_default_thread.tmp
+2022-12-14 08:16:32,865 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_threads.tmp_save
+2022-12-14 08:16:32,970 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_threads.tmp
+2022-12-14 08:16:32,993 [INFO] Middleware:1435 - No code input for Bsp Dependency
+2022-12-14 08:16:33,011 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_inc.tmp_save
+2022-12-14 08:16:33,118 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_inc.tmp
+2022-12-14 08:16:33,136 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_vars.tmp_save
+2022-12-14 08:16:33,214 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_vars.tmp
+2022-12-14 08:16:33,231 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_pfp.tmp_save
+2022-12-14 08:16:33,305 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_pfp.tmp
+2022-12-14 08:16:33,321 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_obj_creat.tmp_save
+2022-12-14 08:16:33,399 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_obj_creat.tmp
+2022-12-14 08:16:33,415 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_kernelStart.tmp_save
+2022-12-14 08:16:33,485 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_kernelStart.tmp
+2022-12-14 08:16:33,502 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_default_thread.tmp_save
+2022-12-14 08:16:33,575 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_default_thread.tmp
+2022-12-14 08:16:33,591 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_threads.tmp_save
+2022-12-14 08:16:33,675 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_threads.tmp
+2022-12-14 08:16:33,728 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\FreeRTOSConfig.h_save
+2022-12-14 08:16:33,830 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\FreeRTOSConfig.h
+2022-12-14 08:16:33,861 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\freertos.c_save
+2022-12-14 08:16:33,962 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\freertos.c
+2022-12-14 08:16:33,995 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\dma.tmp_save
+2022-12-14 08:16:34,124 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\dma.tmp
+2022-12-14 08:16:34,155 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\dma_GV.tmp_save
+2022-12-14 08:16:34,213 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\dma_GV.tmp
+2022-12-14 08:16:34,247 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_it.c_save
+2022-12-14 08:16:34,406 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_it.c
+2022-12-14 08:16:34,480 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\stm32f1xx_it.h_save
+2022-12-14 08:16:34,575 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\stm32f1xx_it.h
+2022-12-14 08:16:34,627 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_hal_msp.c_save
+2022-12-14 08:16:34,790 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_hal_msp.c
+2022-12-14 08:16:34,823 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\system.tmp_save
+2022-12-14 08:16:34,922 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\system.tmp
+2022-12-14 08:16:34,996 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_hal_timebase_tim.c_save
+2022-12-14 08:16:35,092 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_hal_timebase_tim.c
+2022-12-14 08:16:35,127 [INFO] CodeEngine:303 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\stm32f1xx_hal_conf.h_save
+2022-12-14 08:16:35,263 [INFO] CodeEngine:327 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\stm32f1xx_hal_conf.h
+2022-12-14 08:16:35,308 [WARN] IPConfigManager:3414 - IP not found : TIM
+2022-12-14 08:16:35,310 [WARN] CodeGenerator:3583 - IP not found : null
+2022-12-14 08:16:35,347 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\main.h_save
+2022-12-14 08:16:35,485 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\main.h
+2022-12-14 08:16:35,531 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\main.c_save
+2022-12-14 08:16:35,744 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\main.c
+2022-12-14 08:16:37,878 [INFO] ProjectBuilder:2919 - Time for Copy HAL[1] : 1662mS.
+2022-12-14 08:16:37,891 [INFO] ProjectBuilder:4183 - Project Generator version: 3.18.0-B7
+2022-12-14 08:16:38,162 [INFO] ConfigFileManager:1396 - The Die is : DIE410
+2022-12-14 08:16:38,182 [INFO] ApiDbMcu:505 - Load IP Config File for FATFS
+2022-12-14 08:16:38,216 [INFO] ApiDbMcu:505 - Load IP Config File for USB_DEVICE
+2022-12-14 08:16:41,455 [INFO] ProjectBuilder:4351 - Time for Generating toolchain IDE Files: 3564mS.
+2022-12-14 08:16:41,456 [INFO] ProjectBuilder:2790 - Time for Copy CMSIS : 1mS.
+2022-12-14 08:16:41,460 [INFO] ProjectBuilder:2790 - Time for Copy CMSIS : 0mS.
+2022-12-14 08:35:55,360 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 336544544 Bytes (559939584)
+2022-12-14 08:36:06,679 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 393866832 Bytes (559939584)
+2022-12-14 08:36:06,972 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: NVIC
+2022-12-14 08:36:06,972 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: FREERTOS
+2022-12-14 08:36:06,972 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: USART
+2022-12-14 08:36:06,972 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: DMA
+2022-12-14 08:36:06,972 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: TIM1_8F1
+2022-12-14 08:36:06,972 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: SYS
+2022-12-14 08:36:06,972 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: GPIO
+2022-12-14 08:36:06,972 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: RCC
+2022-12-14 08:36:06,973 [INFO] CodeGenerator:692 - code generatio: config db path: C:\ST\STM32CubeIDE_1.9.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.7.0.202211181646\\db\
+2022-12-14 08:36:06,982 [INFO] Argument:300 - Argument : hdmavalue: null
+2022-12-14 08:36:06,982 [INFO] Argument:302 - 	 sub Args: 
+2022-12-14 08:36:06,982 [INFO] Argument:300 - Argument : Instancevalue: DMA1_Channel5
+2022-12-14 08:36:06,982 [INFO] Argument:310 - Argument : Instancevalue: DMA1_Channel5
+2022-12-14 08:36:06,982 [INFO] Argument:300 - Argument : Initvalue: null
+2022-12-14 08:36:06,982 [INFO] Argument:302 - 	 sub Args: 
+2022-12-14 08:36:06,982 [INFO] Argument:300 - Argument : Directionvalue: DMA_PERIPH_TO_MEMORY
+2022-12-14 08:36:06,982 [INFO] Argument:310 - Argument : Directionvalue: DMA_PERIPH_TO_MEMORY
+2022-12-14 08:36:06,982 [INFO] Argument:300 - Argument : PeriphIncvalue: DMA_PINC_DISABLE
+2022-12-14 08:36:06,982 [INFO] Argument:310 - Argument : PeriphIncvalue: DMA_PINC_DISABLE
+2022-12-14 08:36:06,982 [INFO] Argument:300 - Argument : MemIncvalue: DMA_MINC_ENABLE
+2022-12-14 08:36:06,982 [INFO] Argument:310 - Argument : MemIncvalue: DMA_MINC_ENABLE
+2022-12-14 08:36:06,982 [INFO] Argument:300 - Argument : PeriphDataAlignmentvalue: DMA_PDATAALIGN_BYTE
+2022-12-14 08:36:06,982 [INFO] Argument:310 - Argument : PeriphDataAlignmentvalue: DMA_PDATAALIGN_BYTE
+2022-12-14 08:36:06,982 [INFO] Argument:300 - Argument : MemDataAlignmentvalue: DMA_MDATAALIGN_BYTE
+2022-12-14 08:36:06,982 [INFO] Argument:310 - Argument : MemDataAlignmentvalue: DMA_MDATAALIGN_BYTE
+2022-12-14 08:36:06,982 [INFO] Argument:300 - Argument : Modevalue: DMA_NORMAL
+2022-12-14 08:36:06,982 [INFO] Argument:310 - Argument : Modevalue: DMA_NORMAL
+2022-12-14 08:36:06,982 [INFO] Argument:300 - Argument : Priorityvalue: DMA_PRIORITY_LOW
+2022-12-14 08:36:06,982 [INFO] Argument:310 - Argument : Priorityvalue: DMA_PRIORITY_LOW
+2022-12-14 08:36:06,983 [INFO] Argument:300 - Argument : Lockvalue: null
+2022-12-14 08:36:06,983 [INFO] Argument:310 - Argument : Lockvalue: null
+2022-12-14 08:36:06,983 [INFO] Argument:300 - Argument : Statevalue: null
+2022-12-14 08:36:06,983 [INFO] Argument:310 - Argument : Statevalue: null
+2022-12-14 08:36:06,983 [INFO] Argument:300 - Argument : Parentvalue: null
+2022-12-14 08:36:06,983 [INFO] Argument:310 - Argument : Parentvalue: null
+2022-12-14 08:36:06,983 [INFO] Argument:300 - Argument : XferCpltCallbackvalue: null
+2022-12-14 08:36:06,983 [INFO] Argument:310 - Argument : XferCpltCallbackvalue: null
+2022-12-14 08:36:06,983 [INFO] Argument:300 - Argument : XferHalfCpltCallbackvalue: null
+2022-12-14 08:36:06,983 [INFO] Argument:310 - Argument : XferHalfCpltCallbackvalue: null
+2022-12-14 08:36:06,983 [INFO] Argument:300 - Argument : XferErrorCallbackvalue: null
+2022-12-14 08:36:06,983 [INFO] Argument:310 - Argument : XferErrorCallbackvalue: null
+2022-12-14 08:36:06,983 [INFO] Argument:300 - Argument : ErrorCodevalue: null
+2022-12-14 08:36:06,983 [INFO] Argument:310 - Argument : ErrorCodevalue: null
+2022-12-14 08:36:07,083 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\license.tmp_save
+2022-12-14 08:36:07,258 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\license.tmp
+2022-12-14 08:36:07,315 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\gpio.tmp_save
+2022-12-14 08:36:07,455 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\gpio.tmp
+2022-12-14 08:36:07,591 [INFO] Middleware:1435 - No code input for Bsp Dependency
+2022-12-14 08:36:07,595 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_inc.tmp_save
+2022-12-14 08:36:07,737 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_inc.tmp
+2022-12-14 08:36:07,752 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_vars.tmp_save
+2022-12-14 08:36:07,836 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_vars.tmp
+2022-12-14 08:36:07,850 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_pfp.tmp_save
+2022-12-14 08:36:07,933 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_pfp.tmp
+2022-12-14 08:36:07,948 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_obj_creat.tmp_save
+2022-12-14 08:36:08,039 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_obj_creat.tmp
+2022-12-14 08:36:08,054 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_kernelStart.tmp_save
+2022-12-14 08:36:08,137 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_kernelStart.tmp
+2022-12-14 08:36:08,151 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_default_thread.tmp_save
+2022-12-14 08:36:08,236 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_default_thread.tmp
+2022-12-14 08:36:08,251 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_threads.tmp_save
+2022-12-14 08:36:08,342 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_threads.tmp
+2022-12-14 08:36:08,365 [INFO] Middleware:1435 - No code input for Bsp Dependency
+2022-12-14 08:36:08,383 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_inc.tmp_save
+2022-12-14 08:36:08,480 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_inc.tmp
+2022-12-14 08:36:08,496 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_vars.tmp_save
+2022-12-14 08:36:08,579 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_vars.tmp
+2022-12-14 08:36:08,595 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_pfp.tmp_save
+2022-12-14 08:36:08,665 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_pfp.tmp
+2022-12-14 08:36:08,680 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_obj_creat.tmp_save
+2022-12-14 08:36:08,755 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_obj_creat.tmp
+2022-12-14 08:36:08,771 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_kernelStart.tmp_save
+2022-12-14 08:36:08,839 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_kernelStart.tmp
+2022-12-14 08:36:08,855 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_default_thread.tmp_save
+2022-12-14 08:36:08,925 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_default_thread.tmp
+2022-12-14 08:36:08,941 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_threads.tmp_save
+2022-12-14 08:36:09,010 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_threads.tmp
+2022-12-14 08:36:09,027 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\FreeRTOSConfig.h_save
+2022-12-14 08:36:09,124 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\FreeRTOSConfig.h
+2022-12-14 08:36:09,141 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\freertos.c_save
+2022-12-14 08:36:09,230 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\freertos.c
+2022-12-14 08:36:09,242 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\dma.tmp_save
+2022-12-14 08:36:09,354 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\dma.tmp
+2022-12-14 08:36:09,369 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\dma_GV.tmp_save
+2022-12-14 08:36:09,424 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\dma_GV.tmp
+2022-12-14 08:36:09,445 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_it.c_save
+2022-12-14 08:36:09,655 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_it.c
+2022-12-14 08:36:09,689 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\stm32f1xx_it.h_save
+2022-12-14 08:36:09,782 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\stm32f1xx_it.h
+2022-12-14 08:36:09,818 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_hal_msp.c_save
+2022-12-14 08:36:09,961 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_hal_msp.c
+2022-12-14 08:36:09,964 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\system.tmp_save
+2022-12-14 08:36:10,049 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\system.tmp
+2022-12-14 08:36:10,077 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_hal_timebase_tim.c_save
+2022-12-14 08:36:10,170 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_hal_timebase_tim.c
+2022-12-14 08:36:10,204 [INFO] CodeEngine:303 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\stm32f1xx_hal_conf.h_save
+2022-12-14 08:36:10,333 [INFO] CodeEngine:327 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\stm32f1xx_hal_conf.h
+2022-12-14 08:36:10,357 [WARN] IPConfigManager:3414 - IP not found : TIM
+2022-12-14 08:36:10,357 [WARN] CodeGenerator:3583 - IP not found : null
+2022-12-14 08:36:10,375 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\main.h_save
+2022-12-14 08:36:10,500 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\main.h
+2022-12-14 08:36:10,531 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\main.c_save
+2022-12-14 08:36:10,657 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\main.c
+2022-12-14 08:36:11,179 [INFO] ProjectBuilder:2919 - Time for Copy HAL[1] : 139mS.
+2022-12-14 08:36:11,183 [INFO] ProjectBuilder:4183 - Project Generator version: 3.18.0-B7
+2022-12-14 08:36:11,508 [INFO] ConfigFileManager:1396 - The Die is : DIE410
+2022-12-14 08:36:12,560 [INFO] ProjectBuilder:4351 - Time for Generating toolchain IDE Files: 1377mS.
+2022-12-14 08:36:12,561 [INFO] ProjectBuilder:2790 - Time for Copy CMSIS : 1mS.
+2022-12-14 08:36:12,564 [INFO] ProjectBuilder:2790 - Time for Copy CMSIS : 0mS.
+2022-12-14 08:40:40,905 [INFO] NvicIntPanel:100 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2022-12-14 08:44:17,472 [ERROR] RtosPanel:557 - Can not restore the selected Tab for FREERTOS(A reason can be that the tab is no more available.)
+2022-12-14 08:44:19,563 [INFO] TasksAndQueuesTab:756 - Dynamic
+2022-12-14 08:44:19,564 [WARN] TasksAndQueuesTab:762 - 128 128
+2022-12-14 08:44:19,564 [WARN] TasksAndQueuesTab:774 - max value is: 768.0
+2022-12-14 08:44:19,564 [INFO] TasksAndQueuesTab:756 - Dynamic
+2022-12-14 08:44:19,564 [WARN] TasksAndQueuesTab:762 - 128 128
+2022-12-14 08:44:19,564 [WARN] TasksAndQueuesTab:774 - max value is: 768.0
+2022-12-14 08:44:19,565 [INFO] TasksAndQueuesTab:756 - Dynamic
+2022-12-14 08:44:19,565 [WARN] TasksAndQueuesTab:762 - 128 128
+2022-12-14 08:44:19,565 [WARN] TasksAndQueuesTab:774 - max value is: 768.0
+2022-12-14 08:44:36,528 [INFO] EditThreadDialog:703 - RAM SIZE (in KB): 20
+2022-12-14 08:44:36,528 [INFO] EditThreadDialog:705 - RAM SIZE (in words): 5120
+2022-12-14 08:46:01,393 [INFO] TasksAndQueuesTab:756 - Dynamic
+2022-12-14 08:46:01,394 [WARN] TasksAndQueuesTab:762 - 128 128
+2022-12-14 08:46:01,394 [WARN] TasksAndQueuesTab:774 - max value is: 768.0
+2022-12-14 08:46:01,394 [INFO] TasksAndQueuesTab:756 - Dynamic
+2022-12-14 08:46:01,394 [WARN] TasksAndQueuesTab:762 - 128 128
+2022-12-14 08:46:01,394 [WARN] TasksAndQueuesTab:774 - max value is: 768.0
+2022-12-14 08:46:01,394 [INFO] TasksAndQueuesTab:756 - Dynamic
+2022-12-14 08:46:01,394 [WARN] TasksAndQueuesTab:762 - 128 128
+2022-12-14 08:46:01,394 [WARN] TasksAndQueuesTab:774 - max value is: 768.0
+2022-12-14 08:46:01,394 [INFO] TasksAndQueuesTab:756 - Dynamic
+2022-12-14 08:46:01,394 [WARN] TasksAndQueuesTab:762 - 128 128
+2022-12-14 08:46:01,394 [WARN] TasksAndQueuesTab:774 - max value is: 768.0
+2022-12-14 08:46:10,291 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 547391680 Bytes (725614592)
+2022-12-14 08:46:17,417 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 353157120 Bytes (725614592)
+2022-12-14 08:46:17,713 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: NVIC
+2022-12-14 08:46:17,713 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: FREERTOS
+2022-12-14 08:46:17,713 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: USART
+2022-12-14 08:46:17,713 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: DMA
+2022-12-14 08:46:17,713 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: TIM1_8F1
+2022-12-14 08:46:17,713 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: SYS
+2022-12-14 08:46:17,713 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: GPIO
+2022-12-14 08:46:17,713 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: RCC
+2022-12-14 08:46:17,714 [INFO] CodeGenerator:692 - code generatio: config db path: C:\ST\STM32CubeIDE_1.9.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.7.0.202211181646\\db\
+2022-12-14 08:46:17,721 [INFO] Argument:300 - Argument : hdmavalue: null
+2022-12-14 08:46:17,721 [INFO] Argument:302 - 	 sub Args: 
+2022-12-14 08:46:17,721 [INFO] Argument:300 - Argument : Instancevalue: DMA1_Channel5
+2022-12-14 08:46:17,721 [INFO] Argument:310 - Argument : Instancevalue: DMA1_Channel5
+2022-12-14 08:46:17,721 [INFO] Argument:300 - Argument : Initvalue: null
+2022-12-14 08:46:17,721 [INFO] Argument:302 - 	 sub Args: 
+2022-12-14 08:46:17,721 [INFO] Argument:300 - Argument : Directionvalue: DMA_PERIPH_TO_MEMORY
+2022-12-14 08:46:17,721 [INFO] Argument:310 - Argument : Directionvalue: DMA_PERIPH_TO_MEMORY
+2022-12-14 08:46:17,721 [INFO] Argument:300 - Argument : PeriphIncvalue: DMA_PINC_DISABLE
+2022-12-14 08:46:17,722 [INFO] Argument:310 - Argument : PeriphIncvalue: DMA_PINC_DISABLE
+2022-12-14 08:46:17,722 [INFO] Argument:300 - Argument : MemIncvalue: DMA_MINC_ENABLE
+2022-12-14 08:46:17,722 [INFO] Argument:310 - Argument : MemIncvalue: DMA_MINC_ENABLE
+2022-12-14 08:46:17,722 [INFO] Argument:300 - Argument : PeriphDataAlignmentvalue: DMA_PDATAALIGN_BYTE
+2022-12-14 08:46:17,722 [INFO] Argument:310 - Argument : PeriphDataAlignmentvalue: DMA_PDATAALIGN_BYTE
+2022-12-14 08:46:17,722 [INFO] Argument:300 - Argument : MemDataAlignmentvalue: DMA_MDATAALIGN_BYTE
+2022-12-14 08:46:17,722 [INFO] Argument:310 - Argument : MemDataAlignmentvalue: DMA_MDATAALIGN_BYTE
+2022-12-14 08:46:17,722 [INFO] Argument:300 - Argument : Modevalue: DMA_NORMAL
+2022-12-14 08:46:17,723 [INFO] Argument:310 - Argument : Modevalue: DMA_NORMAL
+2022-12-14 08:46:17,723 [INFO] Argument:300 - Argument : Priorityvalue: DMA_PRIORITY_LOW
+2022-12-14 08:46:17,723 [INFO] Argument:310 - Argument : Priorityvalue: DMA_PRIORITY_LOW
+2022-12-14 08:46:17,723 [INFO] Argument:300 - Argument : Lockvalue: null
+2022-12-14 08:46:17,723 [INFO] Argument:310 - Argument : Lockvalue: null
+2022-12-14 08:46:17,723 [INFO] Argument:300 - Argument : Statevalue: null
+2022-12-14 08:46:17,723 [INFO] Argument:310 - Argument : Statevalue: null
+2022-12-14 08:46:17,723 [INFO] Argument:300 - Argument : Parentvalue: null
+2022-12-14 08:46:17,723 [INFO] Argument:310 - Argument : Parentvalue: null
+2022-12-14 08:46:17,723 [INFO] Argument:300 - Argument : XferCpltCallbackvalue: null
+2022-12-14 08:46:17,723 [INFO] Argument:310 - Argument : XferCpltCallbackvalue: null
+2022-12-14 08:46:17,723 [INFO] Argument:300 - Argument : XferHalfCpltCallbackvalue: null
+2022-12-14 08:46:17,723 [INFO] Argument:310 - Argument : XferHalfCpltCallbackvalue: null
+2022-12-14 08:46:17,723 [INFO] Argument:300 - Argument : XferErrorCallbackvalue: null
+2022-12-14 08:46:17,723 [INFO] Argument:310 - Argument : XferErrorCallbackvalue: null
+2022-12-14 08:46:17,723 [INFO] Argument:300 - Argument : ErrorCodevalue: null
+2022-12-14 08:46:17,723 [INFO] Argument:310 - Argument : ErrorCodevalue: null
+2022-12-14 08:46:17,824 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\license.tmp_save
+2022-12-14 08:46:17,943 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\license.tmp
+2022-12-14 08:46:17,978 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\gpio.tmp_save
+2022-12-14 08:46:18,097 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\gpio.tmp
+2022-12-14 08:46:18,213 [INFO] Middleware:1435 - No code input for Bsp Dependency
+2022-12-14 08:46:18,217 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_inc.tmp_save
+2022-12-14 08:46:18,337 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_inc.tmp
+2022-12-14 08:46:18,352 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_vars.tmp_save
+2022-12-14 08:46:18,440 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_vars.tmp
+2022-12-14 08:46:18,454 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_pfp.tmp_save
+2022-12-14 08:46:18,539 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_pfp.tmp
+2022-12-14 08:46:18,555 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_obj_creat.tmp_save
+2022-12-14 08:46:18,680 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_obj_creat.tmp
+2022-12-14 08:46:18,697 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_kernelStart.tmp_save
+2022-12-14 08:46:18,786 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_kernelStart.tmp
+2022-12-14 08:46:18,802 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_default_thread.tmp_save
+2022-12-14 08:46:18,887 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_default_thread.tmp
+2022-12-14 08:46:18,902 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_threads.tmp_save
+2022-12-14 08:46:18,984 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_threads.tmp
+2022-12-14 08:46:19,006 [INFO] Middleware:1435 - No code input for Bsp Dependency
+2022-12-14 08:46:19,023 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_inc.tmp_save
+2022-12-14 08:46:19,120 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_inc.tmp
+2022-12-14 08:46:19,136 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_vars.tmp_save
+2022-12-14 08:46:19,206 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_vars.tmp
+2022-12-14 08:46:19,222 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_pfp.tmp_save
+2022-12-14 08:46:19,292 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_pfp.tmp
+2022-12-14 08:46:19,309 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_obj_creat.tmp_save
+2022-12-14 08:46:19,380 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_obj_creat.tmp
+2022-12-14 08:46:19,396 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_kernelStart.tmp_save
+2022-12-14 08:46:19,465 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_kernelStart.tmp
+2022-12-14 08:46:19,480 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_default_thread.tmp_save
+2022-12-14 08:46:19,550 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_default_thread.tmp
+2022-12-14 08:46:19,567 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_threads.tmp_save
+2022-12-14 08:46:19,640 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_threads.tmp
+2022-12-14 08:46:19,658 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\FreeRTOSConfig.h_save
+2022-12-14 08:46:19,749 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\FreeRTOSConfig.h
+2022-12-14 08:46:19,767 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\freertos.c_save
+2022-12-14 08:46:19,855 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\freertos.c
+2022-12-14 08:46:19,868 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\dma.tmp_save
+2022-12-14 08:46:19,981 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\dma.tmp
+2022-12-14 08:46:19,996 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\dma_GV.tmp_save
+2022-12-14 08:46:20,054 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\dma_GV.tmp
+2022-12-14 08:46:20,075 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_it.c_save
+2022-12-14 08:46:20,194 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_it.c
+2022-12-14 08:46:20,210 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\stm32f1xx_it.h_save
+2022-12-14 08:46:20,298 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\stm32f1xx_it.h
+2022-12-14 08:46:20,319 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_hal_msp.c_save
+2022-12-14 08:46:20,451 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_hal_msp.c
+2022-12-14 08:46:20,454 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\system.tmp_save
+2022-12-14 08:46:20,538 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\system.tmp
+2022-12-14 08:46:20,567 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_hal_timebase_tim.c_save
+2022-12-14 08:46:20,653 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_hal_timebase_tim.c
+2022-12-14 08:46:20,673 [INFO] CodeEngine:303 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\stm32f1xx_hal_conf.h_save
+2022-12-14 08:46:20,831 [INFO] CodeEngine:327 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\stm32f1xx_hal_conf.h
+2022-12-14 08:46:20,857 [WARN] IPConfigManager:3414 - IP not found : TIM
+2022-12-14 08:46:20,858 [WARN] CodeGenerator:3583 - IP not found : null
+2022-12-14 08:46:20,891 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\main.h_save
+2022-12-14 08:46:21,020 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\main.h
+2022-12-14 08:46:21,053 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\main.c_save
+2022-12-14 08:46:21,181 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\main.c
+2022-12-14 08:46:21,714 [INFO] ProjectBuilder:2919 - Time for Copy HAL[1] : 187mS.
+2022-12-14 08:46:21,718 [INFO] ProjectBuilder:4183 - Project Generator version: 3.18.0-B7
+2022-12-14 08:46:21,909 [INFO] ConfigFileManager:1396 - The Die is : DIE410
+2022-12-14 08:46:22,930 [INFO] ProjectBuilder:4351 - Time for Generating toolchain IDE Files: 1212mS.
+2022-12-14 08:46:22,931 [INFO] ProjectBuilder:2790 - Time for Copy CMSIS : 0mS.
+2022-12-14 08:46:22,935 [INFO] ProjectBuilder:2790 - Time for Copy CMSIS : 0mS.
+2022-12-14 09:14:41,918 [INFO] NvicIntPanel:100 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,539x664,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2022-12-14 09:14:45,437 [INFO] NvicIntPanel:100 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2022-12-14 09:15:00,894 [INFO] NvicIntPanel:100 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,539x664,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2022-12-14 09:15:10,255 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 496772936 Bytes (749731840)
+2022-12-14 09:15:18,784 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 363005184 Bytes (749731840)
+2022-12-14 09:15:19,077 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: NVIC
+2022-12-14 09:15:19,077 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: FREERTOS
+2022-12-14 09:15:19,077 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: USART
+2022-12-14 09:15:19,078 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: TIM1_8F1
+2022-12-14 09:15:19,078 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: SYS
+2022-12-14 09:15:19,078 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: GPIO
+2022-12-14 09:15:19,078 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: RCC
+2022-12-14 09:15:19,079 [INFO] CodeGenerator:692 - code generatio: config db path: C:\ST\STM32CubeIDE_1.9.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.7.0.202211181646\\db\
+2022-12-14 09:15:19,185 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\license.tmp_save
+2022-12-14 09:15:19,312 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\license.tmp
+2022-12-14 09:15:19,347 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\gpio.tmp_save
+2022-12-14 09:15:19,465 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\gpio.tmp
+2022-12-14 09:15:19,606 [INFO] Middleware:1435 - No code input for Bsp Dependency
+2022-12-14 09:15:19,610 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_inc.tmp_save
+2022-12-14 09:15:19,725 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_inc.tmp
+2022-12-14 09:15:19,741 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_vars.tmp_save
+2022-12-14 09:15:19,826 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_vars.tmp
+2022-12-14 09:15:19,841 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_pfp.tmp_save
+2022-12-14 09:15:19,925 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_pfp.tmp
+2022-12-14 09:15:19,940 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_obj_creat.tmp_save
+2022-12-14 09:15:20,026 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_obj_creat.tmp
+2022-12-14 09:15:20,041 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_kernelStart.tmp_save
+2022-12-14 09:15:20,124 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_kernelStart.tmp
+2022-12-14 09:15:20,140 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_default_thread.tmp_save
+2022-12-14 09:15:20,225 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_default_thread.tmp
+2022-12-14 09:15:20,241 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_threads.tmp_save
+2022-12-14 09:15:20,327 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_threads.tmp
+2022-12-14 09:15:20,348 [INFO] Middleware:1435 - No code input for Bsp Dependency
+2022-12-14 09:15:20,366 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_inc.tmp_save
+2022-12-14 09:15:20,466 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_inc.tmp
+2022-12-14 09:15:20,482 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_vars.tmp_save
+2022-12-14 09:15:20,552 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_vars.tmp
+2022-12-14 09:15:20,567 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_pfp.tmp_save
+2022-12-14 09:15:20,637 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_pfp.tmp
+2022-12-14 09:15:20,655 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_obj_creat.tmp_save
+2022-12-14 09:15:20,735 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_obj_creat.tmp
+2022-12-14 09:15:20,755 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_kernelStart.tmp_save
+2022-12-14 09:15:20,830 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_kernelStart.tmp
+2022-12-14 09:15:20,848 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_default_thread.tmp_save
+2022-12-14 09:15:20,922 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_default_thread.tmp
+2022-12-14 09:15:20,940 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_threads.tmp_save
+2022-12-14 09:15:21,014 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_threads.tmp
+2022-12-14 09:15:21,033 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\FreeRTOSConfig.h_save
+2022-12-14 09:15:21,125 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\FreeRTOSConfig.h
+2022-12-14 09:15:21,142 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\freertos.c_save
+2022-12-14 09:15:21,229 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\freertos.c
+2022-12-14 09:15:21,249 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_it.c_save
+2022-12-14 09:15:21,473 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_it.c
+2022-12-14 09:15:21,509 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\stm32f1xx_it.h_save
+2022-12-14 09:15:21,599 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\stm32f1xx_it.h
+2022-12-14 09:15:21,634 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_hal_msp.c_save
+2022-12-14 09:15:21,780 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_hal_msp.c
+2022-12-14 09:15:21,796 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\system.tmp_save
+2022-12-14 09:15:21,880 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\system.tmp
+2022-12-14 09:15:21,909 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_hal_timebase_tim.c_save
+2022-12-14 09:15:21,999 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_hal_timebase_tim.c
+2022-12-14 09:15:22,018 [INFO] CodeEngine:303 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\stm32f1xx_hal_conf.h_save
+2022-12-14 09:15:22,141 [INFO] CodeEngine:327 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\stm32f1xx_hal_conf.h
+2022-12-14 09:15:22,176 [WARN] IPConfigManager:3414 - IP not found : TIM
+2022-12-14 09:15:22,177 [WARN] CodeGenerator:3583 - IP not found : null
+2022-12-14 09:15:22,194 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\main.h_save
+2022-12-14 09:15:22,320 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\main.h
+2022-12-14 09:15:22,351 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\main.c_save
+2022-12-14 09:15:22,486 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\main.c
+2022-12-14 09:15:22,989 [INFO] ProjectBuilder:2919 - Time for Copy HAL[1] : 141mS.
+2022-12-14 09:15:22,993 [INFO] ProjectBuilder:4183 - Project Generator version: 3.18.0-B7
+2022-12-14 09:15:23,226 [INFO] ConfigFileManager:1396 - The Die is : DIE410
+2022-12-14 09:15:24,249 [INFO] ProjectBuilder:4351 - Time for Generating toolchain IDE Files: 1256mS.
+2022-12-14 09:15:24,249 [INFO] ProjectBuilder:2790 - Time for Copy CMSIS : 0mS.
+2022-12-14 09:15:24,253 [INFO] ProjectBuilder:2790 - Time for Copy CMSIS : 0mS.
+2022-12-14 10:20:39,078 [INFO] NvicIntPanel:100 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,539x664,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2022-12-14 10:20:40,426 [INFO] NvicIntPanel:100 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2022-12-14 10:20:56,570 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 612588920 Bytes (763363328)
+2022-12-14 10:21:03,761 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 387681184 Bytes (763363328)
+2022-12-14 10:21:03,997 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: NVIC
+2022-12-14 10:21:03,997 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: FREERTOS
+2022-12-14 10:21:03,997 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: USART
+2022-12-14 10:21:03,997 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: DMA
+2022-12-14 10:21:03,997 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: TIM1_8F1
+2022-12-14 10:21:03,997 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: SYS
+2022-12-14 10:21:03,997 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: GPIO
+2022-12-14 10:21:03,997 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: RCC
+2022-12-14 10:21:03,998 [INFO] CodeGenerator:692 - code generatio: config db path: C:\ST\STM32CubeIDE_1.9.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.7.0.202211181646\\db\
+2022-12-14 10:21:04,105 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\license.tmp_save
+2022-12-14 10:21:04,232 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\license.tmp
+2022-12-14 10:21:04,265 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\gpio.tmp_save
+2022-12-14 10:21:04,390 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\gpio.tmp
+2022-12-14 10:21:04,534 [INFO] Middleware:1435 - No code input for Bsp Dependency
+2022-12-14 10:21:04,538 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_inc.tmp_save
+2022-12-14 10:21:04,651 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_inc.tmp
+2022-12-14 10:21:04,668 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_vars.tmp_save
+2022-12-14 10:21:04,755 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_vars.tmp
+2022-12-14 10:21:04,771 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_pfp.tmp_save
+2022-12-14 10:21:04,855 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_pfp.tmp
+2022-12-14 10:21:04,870 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_obj_creat.tmp_save
+2022-12-14 10:21:04,959 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_obj_creat.tmp
+2022-12-14 10:21:04,974 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_kernelStart.tmp_save
+2022-12-14 10:21:05,059 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_kernelStart.tmp
+2022-12-14 10:21:05,074 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_default_thread.tmp_save
+2022-12-14 10:21:05,159 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_default_thread.tmp
+2022-12-14 10:21:05,174 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_threads.tmp_save
+2022-12-14 10:21:05,258 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_threads.tmp
+2022-12-14 10:21:05,280 [INFO] Middleware:1435 - No code input for Bsp Dependency
+2022-12-14 10:21:05,297 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_inc.tmp_save
+2022-12-14 10:21:05,396 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_inc.tmp
+2022-12-14 10:21:05,413 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_vars.tmp_save
+2022-12-14 10:21:05,486 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_vars.tmp
+2022-12-14 10:21:05,503 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_pfp.tmp_save
+2022-12-14 10:21:05,577 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_pfp.tmp
+2022-12-14 10:21:05,595 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_obj_creat.tmp_save
+2022-12-14 10:21:05,672 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_obj_creat.tmp
+2022-12-14 10:21:05,690 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_kernelStart.tmp_save
+2022-12-14 10:21:05,765 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_kernelStart.tmp
+2022-12-14 10:21:05,783 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_default_thread.tmp_save
+2022-12-14 10:21:05,861 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_default_thread.tmp
+2022-12-14 10:21:05,879 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_threads.tmp_save
+2022-12-14 10:21:05,954 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_threads.tmp
+2022-12-14 10:21:05,973 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\FreeRTOSConfig.h_save
+2022-12-14 10:21:06,072 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\FreeRTOSConfig.h
+2022-12-14 10:21:06,091 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\freertos.c_save
+2022-12-14 10:21:06,182 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\freertos.c
+2022-12-14 10:21:06,194 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\dma.tmp_save
+2022-12-14 10:21:06,312 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\dma.tmp
+2022-12-14 10:21:06,327 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\dma_GV.tmp_save
+2022-12-14 10:21:06,385 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\dma_GV.tmp
+2022-12-14 10:21:06,407 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_it.c_save
+2022-12-14 10:21:06,605 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_it.c
+2022-12-14 10:21:06,668 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\stm32f1xx_it.h_save
+2022-12-14 10:21:06,767 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\stm32f1xx_it.h
+2022-12-14 10:21:06,803 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_hal_msp.c_save
+2022-12-14 10:21:06,953 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_hal_msp.c
+2022-12-14 10:21:06,970 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\system.tmp_save
+2022-12-14 10:21:07,062 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\system.tmp
+2022-12-14 10:21:07,095 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_hal_timebase_tim.c_save
+2022-12-14 10:21:07,188 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_hal_timebase_tim.c
+2022-12-14 10:21:07,221 [INFO] CodeEngine:303 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\stm32f1xx_hal_conf.h_save
+2022-12-14 10:21:07,341 [INFO] CodeEngine:327 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\stm32f1xx_hal_conf.h
+2022-12-14 10:21:07,376 [WARN] IPConfigManager:3414 - IP not found : TIM
+2022-12-14 10:21:07,376 [WARN] CodeGenerator:3583 - IP not found : null
+2022-12-14 10:21:07,395 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\main.h_save
+2022-12-14 10:21:07,523 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\main.h
+2022-12-14 10:21:07,554 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\main.c_save
+2022-12-14 10:21:07,678 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\main.c
+2022-12-14 10:21:08,187 [INFO] ProjectBuilder:2919 - Time for Copy HAL[1] : 136mS.
+2022-12-14 10:21:08,190 [INFO] ProjectBuilder:4183 - Project Generator version: 3.18.0-B7
+2022-12-14 10:21:08,415 [INFO] ConfigFileManager:1396 - The Die is : DIE410
+2022-12-14 10:21:09,485 [INFO] ProjectBuilder:4351 - Time for Generating toolchain IDE Files: 1295mS.
+2022-12-14 10:21:09,486 [INFO] ProjectBuilder:2790 - Time for Copy CMSIS : 0mS.
+2022-12-14 10:21:09,490 [INFO] ProjectBuilder:2790 - Time for Copy CMSIS : 0mS.
+2022-12-14 10:29:57,650 [INFO] NvicIntPanel:100 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2022-12-14 10:46:34,358 [INFO] NvicIntPanel:100 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2022-12-14 10:46:41,012 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 592196048 Bytes (776994816)
+2022-12-14 10:46:47,252 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 411578120 Bytes (776994816)
+2022-12-14 10:46:47,535 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: NVIC
+2022-12-14 10:46:47,535 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: FREERTOS
+2022-12-14 10:46:47,535 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: USART
+2022-12-14 10:46:47,535 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: DMA
+2022-12-14 10:46:47,535 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: TIM1_8F1
+2022-12-14 10:46:47,535 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: SYS
+2022-12-14 10:46:47,536 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: GPIO
+2022-12-14 10:46:47,536 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: RCC
+2022-12-14 10:46:47,536 [INFO] CodeGenerator:692 - code generatio: config db path: C:\ST\STM32CubeIDE_1.9.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.7.0.202211181646\\db\
+2022-12-14 10:46:47,544 [INFO] Argument:300 - Argument : hdmavalue: null
+2022-12-14 10:46:47,544 [INFO] Argument:302 - 	 sub Args: 
+2022-12-14 10:46:47,544 [INFO] Argument:300 - Argument : Instancevalue: DMA1_Channel5
+2022-12-14 10:46:47,544 [INFO] Argument:310 - Argument : Instancevalue: DMA1_Channel5
+2022-12-14 10:46:47,544 [INFO] Argument:300 - Argument : Initvalue: null
+2022-12-14 10:46:47,544 [INFO] Argument:302 - 	 sub Args: 
+2022-12-14 10:46:47,544 [INFO] Argument:300 - Argument : Directionvalue: DMA_PERIPH_TO_MEMORY
+2022-12-14 10:46:47,544 [INFO] Argument:310 - Argument : Directionvalue: DMA_PERIPH_TO_MEMORY
+2022-12-14 10:46:47,545 [INFO] Argument:300 - Argument : PeriphIncvalue: DMA_PINC_DISABLE
+2022-12-14 10:46:47,545 [INFO] Argument:310 - Argument : PeriphIncvalue: DMA_PINC_DISABLE
+2022-12-14 10:46:47,545 [INFO] Argument:300 - Argument : MemIncvalue: DMA_MINC_ENABLE
+2022-12-14 10:46:47,545 [INFO] Argument:310 - Argument : MemIncvalue: DMA_MINC_ENABLE
+2022-12-14 10:46:47,545 [INFO] Argument:300 - Argument : PeriphDataAlignmentvalue: DMA_PDATAALIGN_BYTE
+2022-12-14 10:46:47,545 [INFO] Argument:310 - Argument : PeriphDataAlignmentvalue: DMA_PDATAALIGN_BYTE
+2022-12-14 10:46:47,545 [INFO] Argument:300 - Argument : MemDataAlignmentvalue: DMA_MDATAALIGN_BYTE
+2022-12-14 10:46:47,545 [INFO] Argument:310 - Argument : MemDataAlignmentvalue: DMA_MDATAALIGN_BYTE
+2022-12-14 10:46:47,545 [INFO] Argument:300 - Argument : Modevalue: DMA_NORMAL
+2022-12-14 10:46:47,545 [INFO] Argument:310 - Argument : Modevalue: DMA_NORMAL
+2022-12-14 10:46:47,545 [INFO] Argument:300 - Argument : Priorityvalue: DMA_PRIORITY_LOW
+2022-12-14 10:46:47,545 [INFO] Argument:310 - Argument : Priorityvalue: DMA_PRIORITY_LOW
+2022-12-14 10:46:47,545 [INFO] Argument:300 - Argument : Lockvalue: null
+2022-12-14 10:46:47,545 [INFO] Argument:310 - Argument : Lockvalue: null
+2022-12-14 10:46:47,545 [INFO] Argument:300 - Argument : Statevalue: null
+2022-12-14 10:46:47,545 [INFO] Argument:310 - Argument : Statevalue: null
+2022-12-14 10:46:47,545 [INFO] Argument:300 - Argument : Parentvalue: null
+2022-12-14 10:46:47,545 [INFO] Argument:310 - Argument : Parentvalue: null
+2022-12-14 10:46:47,545 [INFO] Argument:300 - Argument : XferCpltCallbackvalue: null
+2022-12-14 10:46:47,545 [INFO] Argument:310 - Argument : XferCpltCallbackvalue: null
+2022-12-14 10:46:47,545 [INFO] Argument:300 - Argument : XferHalfCpltCallbackvalue: null
+2022-12-14 10:46:47,546 [INFO] Argument:310 - Argument : XferHalfCpltCallbackvalue: null
+2022-12-14 10:46:47,546 [INFO] Argument:300 - Argument : XferErrorCallbackvalue: null
+2022-12-14 10:46:47,546 [INFO] Argument:310 - Argument : XferErrorCallbackvalue: null
+2022-12-14 10:46:47,546 [INFO] Argument:300 - Argument : ErrorCodevalue: null
+2022-12-14 10:46:47,546 [INFO] Argument:310 - Argument : ErrorCodevalue: null
+2022-12-14 10:46:47,647 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\license.tmp_save
+2022-12-14 10:46:47,771 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\license.tmp
+2022-12-14 10:46:47,806 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\gpio.tmp_save
+2022-12-14 10:46:47,925 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\gpio.tmp
+2022-12-14 10:46:48,029 [INFO] Middleware:1435 - No code input for Bsp Dependency
+2022-12-14 10:46:48,033 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_inc.tmp_save
+2022-12-14 10:46:48,146 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_inc.tmp
+2022-12-14 10:46:48,162 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_vars.tmp_save
+2022-12-14 10:46:48,248 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_vars.tmp
+2022-12-14 10:46:48,263 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_pfp.tmp_save
+2022-12-14 10:46:48,348 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_pfp.tmp
+2022-12-14 10:46:48,364 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_obj_creat.tmp_save
+2022-12-14 10:46:48,514 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_obj_creat.tmp
+2022-12-14 10:46:48,530 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_kernelStart.tmp_save
+2022-12-14 10:46:48,620 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_kernelStart.tmp
+2022-12-14 10:46:48,636 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_default_thread.tmp_save
+2022-12-14 10:46:48,725 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_default_thread.tmp
+2022-12-14 10:46:48,740 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_threads.tmp_save
+2022-12-14 10:46:48,825 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_threads.tmp
+2022-12-14 10:46:48,846 [INFO] Middleware:1435 - No code input for Bsp Dependency
+2022-12-14 10:46:48,865 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_inc.tmp_save
+2022-12-14 10:46:48,972 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_inc.tmp
+2022-12-14 10:46:48,990 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_vars.tmp_save
+2022-12-14 10:46:49,062 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_vars.tmp
+2022-12-14 10:46:49,078 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_pfp.tmp_save
+2022-12-14 10:46:49,149 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_pfp.tmp
+2022-12-14 10:46:49,165 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_obj_creat.tmp_save
+2022-12-14 10:46:49,239 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_obj_creat.tmp
+2022-12-14 10:46:49,256 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_kernelStart.tmp_save
+2022-12-14 10:46:49,328 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_kernelStart.tmp
+2022-12-14 10:46:49,345 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_default_thread.tmp_save
+2022-12-14 10:46:49,414 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_default_thread.tmp
+2022-12-14 10:46:49,431 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_threads.tmp_save
+2022-12-14 10:46:49,502 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_threads.tmp
+2022-12-14 10:46:49,518 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\FreeRTOSConfig.h_save
+2022-12-14 10:46:49,612 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\FreeRTOSConfig.h
+2022-12-14 10:46:49,630 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\freertos.c_save
+2022-12-14 10:46:49,717 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\freertos.c
+2022-12-14 10:46:49,730 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\dma.tmp_save
+2022-12-14 10:46:49,844 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\dma.tmp
+2022-12-14 10:46:49,859 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\dma_GV.tmp_save
+2022-12-14 10:46:49,916 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\dma_GV.tmp
+2022-12-14 10:46:49,938 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_it.c_save
+2022-12-14 10:46:50,125 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_it.c
+2022-12-14 10:46:50,143 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\stm32f1xx_it.h_save
+2022-12-14 10:46:50,274 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\stm32f1xx_it.h
+2022-12-14 10:46:50,296 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_hal_msp.c_save
+2022-12-14 10:46:50,445 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_hal_msp.c
+2022-12-14 10:46:50,463 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\system.tmp_save
+2022-12-14 10:46:50,550 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\system.tmp
+2022-12-14 10:46:50,580 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_hal_timebase_tim.c_save
+2022-12-14 10:46:50,678 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_hal_timebase_tim.c
+2022-12-14 10:46:50,699 [INFO] CodeEngine:303 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\stm32f1xx_hal_conf.h_save
+2022-12-14 10:46:50,828 [INFO] CodeEngine:327 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\stm32f1xx_hal_conf.h
+2022-12-14 10:46:50,851 [WARN] IPConfigManager:3414 - IP not found : TIM
+2022-12-14 10:46:50,852 [WARN] CodeGenerator:3583 - IP not found : null
+2022-12-14 10:46:50,872 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\main.h_save
+2022-12-14 10:46:51,007 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\main.h
+2022-12-14 10:46:51,041 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\main.c_save
+2022-12-14 10:46:51,167 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\main.c
+2022-12-14 10:46:51,699 [INFO] ProjectBuilder:2919 - Time for Copy HAL[1] : 149mS.
+2022-12-14 10:46:51,702 [INFO] ProjectBuilder:4183 - Project Generator version: 3.18.0-B7
+2022-12-14 10:46:51,930 [INFO] ConfigFileManager:1396 - The Die is : DIE410
+2022-12-14 10:46:52,934 [INFO] ProjectBuilder:4351 - Time for Generating toolchain IDE Files: 1232mS.
+2022-12-14 10:46:52,934 [INFO] ProjectBuilder:2790 - Time for Copy CMSIS : 0mS.
+2022-12-14 10:46:52,938 [INFO] ProjectBuilder:2790 - Time for Copy CMSIS : 0mS.
+2022-12-14 10:52:05,005 [INFO] NvicIntPanel:100 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2022-12-14 10:58:27,149 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 651353888 Bytes (791674880)
+2022-12-14 10:58:35,497 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 393158696 Bytes (791674880)
+2022-12-14 10:58:35,898 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: NVIC
+2022-12-14 10:58:35,898 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: FREERTOS
+2022-12-14 10:58:35,898 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: USART
+2022-12-14 10:58:35,899 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: DMA
+2022-12-14 10:58:35,899 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: TIM1_8F1
+2022-12-14 10:58:35,899 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: SYS
+2022-12-14 10:58:35,899 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: GPIO
+2022-12-14 10:58:35,899 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: RCC
+2022-12-14 10:58:35,899 [INFO] CodeGenerator:692 - code generatio: config db path: C:\ST\STM32CubeIDE_1.9.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.7.0.202211181646\\db\
+2022-12-14 10:58:35,906 [INFO] Argument:300 - Argument : hdmavalue: null
+2022-12-14 10:58:35,906 [INFO] Argument:302 - 	 sub Args: 
+2022-12-14 10:58:35,906 [INFO] Argument:300 - Argument : Instancevalue: DMA1_Channel5
+2022-12-14 10:58:35,906 [INFO] Argument:310 - Argument : Instancevalue: DMA1_Channel5
+2022-12-14 10:58:35,906 [INFO] Argument:300 - Argument : Initvalue: null
+2022-12-14 10:58:35,906 [INFO] Argument:302 - 	 sub Args: 
+2022-12-14 10:58:35,906 [INFO] Argument:300 - Argument : Directionvalue: DMA_PERIPH_TO_MEMORY
+2022-12-14 10:58:35,906 [INFO] Argument:310 - Argument : Directionvalue: DMA_PERIPH_TO_MEMORY
+2022-12-14 10:58:35,906 [INFO] Argument:300 - Argument : PeriphIncvalue: DMA_PINC_DISABLE
+2022-12-14 10:58:35,906 [INFO] Argument:310 - Argument : PeriphIncvalue: DMA_PINC_DISABLE
+2022-12-14 10:58:35,906 [INFO] Argument:300 - Argument : MemIncvalue: DMA_MINC_ENABLE
+2022-12-14 10:58:35,906 [INFO] Argument:310 - Argument : MemIncvalue: DMA_MINC_ENABLE
+2022-12-14 10:58:35,906 [INFO] Argument:300 - Argument : PeriphDataAlignmentvalue: DMA_PDATAALIGN_BYTE
+2022-12-14 10:58:35,906 [INFO] Argument:310 - Argument : PeriphDataAlignmentvalue: DMA_PDATAALIGN_BYTE
+2022-12-14 10:58:35,906 [INFO] Argument:300 - Argument : MemDataAlignmentvalue: DMA_MDATAALIGN_BYTE
+2022-12-14 10:58:35,906 [INFO] Argument:310 - Argument : MemDataAlignmentvalue: DMA_MDATAALIGN_BYTE
+2022-12-14 10:58:35,906 [INFO] Argument:300 - Argument : Modevalue: DMA_NORMAL
+2022-12-14 10:58:35,907 [INFO] Argument:310 - Argument : Modevalue: DMA_NORMAL
+2022-12-14 10:58:35,907 [INFO] Argument:300 - Argument : Priorityvalue: DMA_PRIORITY_HIGH
+2022-12-14 10:58:35,907 [INFO] Argument:310 - Argument : Priorityvalue: DMA_PRIORITY_HIGH
+2022-12-14 10:58:35,907 [INFO] Argument:300 - Argument : Lockvalue: null
+2022-12-14 10:58:35,907 [INFO] Argument:310 - Argument : Lockvalue: null
+2022-12-14 10:58:35,907 [INFO] Argument:300 - Argument : Statevalue: null
+2022-12-14 10:58:35,907 [INFO] Argument:310 - Argument : Statevalue: null
+2022-12-14 10:58:35,907 [INFO] Argument:300 - Argument : Parentvalue: null
+2022-12-14 10:58:35,907 [INFO] Argument:310 - Argument : Parentvalue: null
+2022-12-14 10:58:35,907 [INFO] Argument:300 - Argument : XferCpltCallbackvalue: null
+2022-12-14 10:58:35,907 [INFO] Argument:310 - Argument : XferCpltCallbackvalue: null
+2022-12-14 10:58:35,907 [INFO] Argument:300 - Argument : XferHalfCpltCallbackvalue: null
+2022-12-14 10:58:35,907 [INFO] Argument:310 - Argument : XferHalfCpltCallbackvalue: null
+2022-12-14 10:58:35,907 [INFO] Argument:300 - Argument : XferErrorCallbackvalue: null
+2022-12-14 10:58:35,907 [INFO] Argument:310 - Argument : XferErrorCallbackvalue: null
+2022-12-14 10:58:35,907 [INFO] Argument:300 - Argument : ErrorCodevalue: null
+2022-12-14 10:58:35,907 [INFO] Argument:310 - Argument : ErrorCodevalue: null
+2022-12-14 10:58:36,007 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\license.tmp_save
+2022-12-14 10:58:36,137 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\license.tmp
+2022-12-14 10:58:36,173 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\gpio.tmp_save
+2022-12-14 10:58:36,318 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\gpio.tmp
+2022-12-14 10:58:36,441 [INFO] Middleware:1435 - No code input for Bsp Dependency
+2022-12-14 10:58:36,444 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_inc.tmp_save
+2022-12-14 10:58:36,558 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_inc.tmp
+2022-12-14 10:58:36,573 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_vars.tmp_save
+2022-12-14 10:58:36,659 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_vars.tmp
+2022-12-14 10:58:36,676 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_pfp.tmp_save
+2022-12-14 10:58:36,761 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_pfp.tmp
+2022-12-14 10:58:36,776 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_obj_creat.tmp_save
+2022-12-14 10:58:36,865 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_obj_creat.tmp
+2022-12-14 10:58:36,880 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_kernelStart.tmp_save
+2022-12-14 10:58:36,967 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_kernelStart.tmp
+2022-12-14 10:58:36,982 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_default_thread.tmp_save
+2022-12-14 10:58:37,067 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_default_thread.tmp
+2022-12-14 10:58:37,084 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_threads.tmp_save
+2022-12-14 10:58:37,190 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_threads.tmp
+2022-12-14 10:58:37,212 [INFO] Middleware:1435 - No code input for Bsp Dependency
+2022-12-14 10:58:37,285 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_inc.tmp_save
+2022-12-14 10:58:37,394 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_inc.tmp
+2022-12-14 10:58:37,412 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_vars.tmp_save
+2022-12-14 10:58:37,487 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_vars.tmp
+2022-12-14 10:58:37,504 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_pfp.tmp_save
+2022-12-14 10:58:37,576 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_pfp.tmp
+2022-12-14 10:58:37,593 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_obj_creat.tmp_save
+2022-12-14 10:58:37,669 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_obj_creat.tmp
+2022-12-14 10:58:37,687 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_kernelStart.tmp_save
+2022-12-14 10:58:37,760 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_kernelStart.tmp
+2022-12-14 10:58:37,777 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_default_thread.tmp_save
+2022-12-14 10:58:37,849 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_default_thread.tmp
+2022-12-14 10:58:37,867 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_threads.tmp_save
+2022-12-14 10:58:37,940 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_threads.tmp
+2022-12-14 10:58:37,958 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\FreeRTOSConfig.h_save
+2022-12-14 10:58:38,053 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\FreeRTOSConfig.h
+2022-12-14 10:58:38,071 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\freertos.c_save
+2022-12-14 10:58:38,162 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\freertos.c
+2022-12-14 10:58:38,174 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\dma.tmp_save
+2022-12-14 10:58:38,294 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\dma.tmp
+2022-12-14 10:58:38,309 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\dma_GV.tmp_save
+2022-12-14 10:58:38,366 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\dma_GV.tmp
+2022-12-14 10:58:38,388 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_it.c_save
+2022-12-14 10:58:38,569 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_it.c
+2022-12-14 10:58:38,586 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\stm32f1xx_it.h_save
+2022-12-14 10:58:38,673 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\stm32f1xx_it.h
+2022-12-14 10:58:38,695 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_hal_msp.c_save
+2022-12-14 10:58:38,842 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_hal_msp.c
+2022-12-14 10:58:38,858 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\system.tmp_save
+2022-12-14 10:58:38,945 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\system.tmp
+2022-12-14 10:58:38,976 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_hal_timebase_tim.c_save
+2022-12-14 10:58:39,065 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_hal_timebase_tim.c
+2022-12-14 10:58:39,085 [INFO] CodeEngine:303 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\stm32f1xx_hal_conf.h_save
+2022-12-14 10:58:39,209 [INFO] CodeEngine:327 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\stm32f1xx_hal_conf.h
+2022-12-14 10:58:39,232 [WARN] IPConfigManager:3414 - IP not found : TIM
+2022-12-14 10:58:39,233 [WARN] CodeGenerator:3583 - IP not found : null
+2022-12-14 10:58:39,252 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\main.h_save
+2022-12-14 10:58:39,381 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\main.h
+2022-12-14 10:58:39,414 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\main.c_save
+2022-12-14 10:58:39,544 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\main.c
+2022-12-14 10:58:40,035 [INFO] ProjectBuilder:2919 - Time for Copy HAL[1] : 138mS.
+2022-12-14 10:58:40,038 [INFO] ProjectBuilder:4183 - Project Generator version: 3.18.0-B7
+2022-12-14 10:58:40,239 [INFO] ConfigFileManager:1396 - The Die is : DIE410
+2022-12-14 10:58:41,292 [INFO] ProjectBuilder:4351 - Time for Generating toolchain IDE Files: 1254mS.
+2022-12-14 10:58:41,293 [INFO] ProjectBuilder:2790 - Time for Copy CMSIS : 0mS.
+2022-12-14 10:58:41,297 [INFO] ProjectBuilder:2790 - Time for Copy CMSIS : 0mS.
+2022-12-14 12:34:50,846 [ERROR] RtosPanel:557 - Can not restore the selected Tab for FREERTOS(A reason can be that the tab is no more available.)
+2022-12-14 12:34:53,422 [INFO] TasksAndQueuesTab:756 - Dynamic
+2022-12-14 12:34:53,422 [WARN] TasksAndQueuesTab:762 - 128 128
+2022-12-14 12:34:53,422 [WARN] TasksAndQueuesTab:774 - max value is: 768.0
+2022-12-14 12:34:53,422 [INFO] TasksAndQueuesTab:756 - Dynamic
+2022-12-14 12:34:53,422 [WARN] TasksAndQueuesTab:762 - 128 128
+2022-12-14 12:34:53,422 [WARN] TasksAndQueuesTab:774 - max value is: 768.0
+2022-12-14 12:34:53,422 [INFO] TasksAndQueuesTab:756 - Dynamic
+2022-12-14 12:34:53,422 [WARN] TasksAndQueuesTab:762 - 128 128
+2022-12-14 12:34:53,422 [WARN] TasksAndQueuesTab:774 - max value is: 768.0
+2022-12-14 12:34:53,422 [INFO] TasksAndQueuesTab:756 - Dynamic
+2022-12-14 12:34:53,422 [WARN] TasksAndQueuesTab:762 - 128 128
+2022-12-14 12:34:53,422 [WARN] TasksAndQueuesTab:774 - max value is: 768.0
+2022-12-14 12:35:13,565 [INFO] EditThreadDialog:703 - RAM SIZE (in KB): 20
+2022-12-14 12:35:13,565 [INFO] EditThreadDialog:705 - RAM SIZE (in words): 5120
+2022-12-14 12:35:25,593 [INFO] TasksAndQueuesTab:756 - Dynamic
+2022-12-14 12:35:25,593 [WARN] TasksAndQueuesTab:762 - 128 128
+2022-12-14 12:35:25,593 [WARN] TasksAndQueuesTab:774 - max value is: 768.0
+2022-12-14 12:35:25,593 [INFO] TasksAndQueuesTab:756 - Dynamic
+2022-12-14 12:35:25,593 [WARN] TasksAndQueuesTab:762 - 128 128
+2022-12-14 12:35:25,593 [WARN] TasksAndQueuesTab:774 - max value is: 768.0
+2022-12-14 12:35:25,593 [INFO] TasksAndQueuesTab:756 - Dynamic
+2022-12-14 12:35:25,593 [WARN] TasksAndQueuesTab:762 - 128 128
+2022-12-14 12:35:25,593 [WARN] TasksAndQueuesTab:774 - max value is: 768.0
+2022-12-14 12:35:25,593 [INFO] TasksAndQueuesTab:756 - Dynamic
+2022-12-14 12:35:25,593 [WARN] TasksAndQueuesTab:762 - 128 128
+2022-12-14 12:35:25,593 [WARN] TasksAndQueuesTab:774 - max value is: 768.0
+2022-12-14 12:35:27,056 [INFO] EditThreadDialog:703 - RAM SIZE (in KB): 20
+2022-12-14 12:35:27,056 [INFO] EditThreadDialog:705 - RAM SIZE (in words): 5120
+2022-12-14 12:35:31,234 [INFO] EditThreadDialog:703 - RAM SIZE (in KB): 20
+2022-12-14 12:35:31,234 [INFO] EditThreadDialog:705 - RAM SIZE (in words): 5120
+2022-12-14 12:35:36,822 [INFO] TasksAndQueuesTab:756 - Dynamic
+2022-12-14 12:35:36,822 [WARN] TasksAndQueuesTab:762 - 128 128
+2022-12-14 12:35:36,822 [WARN] TasksAndQueuesTab:774 - max value is: 768.0
+2022-12-14 12:35:36,822 [INFO] TasksAndQueuesTab:756 - Dynamic
+2022-12-14 12:35:36,822 [WARN] TasksAndQueuesTab:762 - 128 128
+2022-12-14 12:35:36,822 [WARN] TasksAndQueuesTab:774 - max value is: 768.0
+2022-12-14 12:35:36,823 [INFO] TasksAndQueuesTab:756 - Dynamic
+2022-12-14 12:35:36,823 [WARN] TasksAndQueuesTab:762 - 128 128
+2022-12-14 12:35:36,823 [WARN] TasksAndQueuesTab:774 - max value is: 768.0
+2022-12-14 12:35:36,823 [INFO] TasksAndQueuesTab:756 - Dynamic
+2022-12-14 12:35:36,823 [WARN] TasksAndQueuesTab:762 - 128 128
+2022-12-14 12:35:36,823 [WARN] TasksAndQueuesTab:774 - max value is: 768.0
+2022-12-14 12:35:38,290 [INFO] EditThreadDialog:703 - RAM SIZE (in KB): 20
+2022-12-14 12:35:38,290 [INFO] EditThreadDialog:705 - RAM SIZE (in words): 5120
+2022-12-14 12:35:42,353 [INFO] TasksAndQueuesTab:756 - Dynamic
+2022-12-14 12:35:42,353 [WARN] TasksAndQueuesTab:762 - 128 128
+2022-12-14 12:35:42,353 [WARN] TasksAndQueuesTab:774 - max value is: 768.0
+2022-12-14 12:35:42,353 [INFO] TasksAndQueuesTab:756 - Dynamic
+2022-12-14 12:35:42,353 [WARN] TasksAndQueuesTab:762 - 128 128
+2022-12-14 12:35:42,353 [WARN] TasksAndQueuesTab:774 - max value is: 768.0
+2022-12-14 12:35:42,353 [INFO] TasksAndQueuesTab:756 - Dynamic
+2022-12-14 12:35:42,353 [WARN] TasksAndQueuesTab:762 - 128 128
+2022-12-14 12:35:42,353 [WARN] TasksAndQueuesTab:774 - max value is: 768.0
+2022-12-14 12:35:42,353 [INFO] TasksAndQueuesTab:756 - Dynamic
+2022-12-14 12:35:42,353 [WARN] TasksAndQueuesTab:762 - 128 128
+2022-12-14 12:35:42,353 [WARN] TasksAndQueuesTab:774 - max value is: 768.0
+2022-12-14 12:35:45,080 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 733363792 Bytes (872415232)
+2022-12-14 12:35:56,210 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 836124240 Bytes (872415232)
+2022-12-14 12:35:56,527 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: NVIC
+2022-12-14 12:35:56,527 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: FREERTOS
+2022-12-14 12:35:56,527 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: USART
+2022-12-14 12:35:56,527 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: DMA
+2022-12-14 12:35:56,527 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: TIM1_8F1
+2022-12-14 12:35:56,527 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: SYS
+2022-12-14 12:35:56,527 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: GPIO
+2022-12-14 12:35:56,527 [INFO] BlockDiagram:2759 - set Specific Code input for plugin: RCC
+2022-12-14 12:35:56,528 [INFO] CodeGenerator:692 - code generatio: config db path: C:\ST\STM32CubeIDE_1.9.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.7.0.202211181646\\db\
+2022-12-14 12:35:56,534 [INFO] Argument:300 - Argument : hdmavalue: null
+2022-12-14 12:35:56,535 [INFO] Argument:302 - 	 sub Args: 
+2022-12-14 12:35:56,535 [INFO] Argument:300 - Argument : Instancevalue: DMA1_Channel5
+2022-12-14 12:35:56,535 [INFO] Argument:310 - Argument : Instancevalue: DMA1_Channel5
+2022-12-14 12:35:56,535 [INFO] Argument:300 - Argument : Initvalue: null
+2022-12-14 12:35:56,535 [INFO] Argument:302 - 	 sub Args: 
+2022-12-14 12:35:56,535 [INFO] Argument:300 - Argument : Directionvalue: DMA_PERIPH_TO_MEMORY
+2022-12-14 12:35:56,535 [INFO] Argument:310 - Argument : Directionvalue: DMA_PERIPH_TO_MEMORY
+2022-12-14 12:35:56,535 [INFO] Argument:300 - Argument : PeriphIncvalue: DMA_PINC_DISABLE
+2022-12-14 12:35:56,535 [INFO] Argument:310 - Argument : PeriphIncvalue: DMA_PINC_DISABLE
+2022-12-14 12:35:56,535 [INFO] Argument:300 - Argument : MemIncvalue: DMA_MINC_ENABLE
+2022-12-14 12:35:56,535 [INFO] Argument:310 - Argument : MemIncvalue: DMA_MINC_ENABLE
+2022-12-14 12:35:56,535 [INFO] Argument:300 - Argument : PeriphDataAlignmentvalue: DMA_PDATAALIGN_BYTE
+2022-12-14 12:35:56,535 [INFO] Argument:310 - Argument : PeriphDataAlignmentvalue: DMA_PDATAALIGN_BYTE
+2022-12-14 12:35:56,535 [INFO] Argument:300 - Argument : MemDataAlignmentvalue: DMA_MDATAALIGN_BYTE
+2022-12-14 12:35:56,535 [INFO] Argument:310 - Argument : MemDataAlignmentvalue: DMA_MDATAALIGN_BYTE
+2022-12-14 12:35:56,535 [INFO] Argument:300 - Argument : Modevalue: DMA_NORMAL
+2022-12-14 12:35:56,535 [INFO] Argument:310 - Argument : Modevalue: DMA_NORMAL
+2022-12-14 12:35:56,535 [INFO] Argument:300 - Argument : Priorityvalue: DMA_PRIORITY_LOW
+2022-12-14 12:35:56,535 [INFO] Argument:310 - Argument : Priorityvalue: DMA_PRIORITY_LOW
+2022-12-14 12:35:56,535 [INFO] Argument:300 - Argument : Lockvalue: null
+2022-12-14 12:35:56,535 [INFO] Argument:310 - Argument : Lockvalue: null
+2022-12-14 12:35:56,535 [INFO] Argument:300 - Argument : Statevalue: null
+2022-12-14 12:35:56,535 [INFO] Argument:310 - Argument : Statevalue: null
+2022-12-14 12:35:56,535 [INFO] Argument:300 - Argument : Parentvalue: null
+2022-12-14 12:35:56,535 [INFO] Argument:310 - Argument : Parentvalue: null
+2022-12-14 12:35:56,535 [INFO] Argument:300 - Argument : XferCpltCallbackvalue: null
+2022-12-14 12:35:56,535 [INFO] Argument:310 - Argument : XferCpltCallbackvalue: null
+2022-12-14 12:35:56,535 [INFO] Argument:300 - Argument : XferHalfCpltCallbackvalue: null
+2022-12-14 12:35:56,535 [INFO] Argument:310 - Argument : XferHalfCpltCallbackvalue: null
+2022-12-14 12:35:56,535 [INFO] Argument:300 - Argument : XferErrorCallbackvalue: null
+2022-12-14 12:35:56,535 [INFO] Argument:310 - Argument : XferErrorCallbackvalue: null
+2022-12-14 12:35:56,535 [INFO] Argument:300 - Argument : ErrorCodevalue: null
+2022-12-14 12:35:56,536 [INFO] Argument:310 - Argument : ErrorCodevalue: null
+2022-12-14 12:35:56,636 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\license.tmp_save
+2022-12-14 12:35:56,761 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\license.tmp
+2022-12-14 12:35:56,796 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\gpio.tmp_save
+2022-12-14 12:35:56,921 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\gpio.tmp
+2022-12-14 12:35:57,062 [INFO] Middleware:1435 - No code input for Bsp Dependency
+2022-12-14 12:35:57,066 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_inc.tmp_save
+2022-12-14 12:35:57,182 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_inc.tmp
+2022-12-14 12:35:57,197 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_vars.tmp_save
+2022-12-14 12:35:57,284 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_vars.tmp
+2022-12-14 12:35:57,299 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_pfp.tmp_save
+2022-12-14 12:35:57,384 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_pfp.tmp
+2022-12-14 12:35:57,399 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_obj_creat.tmp_save
+2022-12-14 12:35:57,491 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_obj_creat.tmp
+2022-12-14 12:35:57,507 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_kernelStart.tmp_save
+2022-12-14 12:35:57,595 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_kernelStart.tmp
+2022-12-14 12:35:57,612 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_default_thread.tmp_save
+2022-12-14 12:35:57,699 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_default_thread.tmp
+2022-12-14 12:35:57,715 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_threads.tmp_save
+2022-12-14 12:35:57,801 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_threads.tmp
+2022-12-14 12:35:57,823 [INFO] Middleware:1435 - No code input for Bsp Dependency
+2022-12-14 12:35:57,840 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_inc.tmp_save
+2022-12-14 12:35:57,941 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_inc.tmp
+2022-12-14 12:35:57,957 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_vars.tmp_save
+2022-12-14 12:35:58,029 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_vars.tmp
+2022-12-14 12:35:58,047 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_pfp.tmp_save
+2022-12-14 12:35:58,119 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_pfp.tmp
+2022-12-14 12:35:58,136 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_obj_creat.tmp_save
+2022-12-14 12:35:58,210 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_obj_creat.tmp
+2022-12-14 12:35:58,226 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_kernelStart.tmp_save
+2022-12-14 12:35:58,297 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_kernelStart.tmp
+2022-12-14 12:35:58,314 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_default_thread.tmp_save
+2022-12-14 12:35:58,386 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_default_thread.tmp
+2022-12-14 12:35:58,403 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_threads.tmp_save
+2022-12-14 12:35:58,475 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\rtos_threads.tmp
+2022-12-14 12:35:58,492 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\FreeRTOSConfig.h_save
+2022-12-14 12:35:58,591 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\FreeRTOSConfig.h
+2022-12-14 12:35:58,608 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\freertos.c_save
+2022-12-14 12:35:58,697 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\freertos.c
+2022-12-14 12:35:58,709 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\dma.tmp_save
+2022-12-14 12:35:58,825 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\dma.tmp
+2022-12-14 12:35:58,840 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\dma_GV.tmp_save
+2022-12-14 12:35:58,897 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\dma_GV.tmp
+2022-12-14 12:35:58,919 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_it.c_save
+2022-12-14 12:35:59,143 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_it.c
+2022-12-14 12:35:59,163 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\stm32f1xx_it.h_save
+2022-12-14 12:35:59,250 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\stm32f1xx_it.h
+2022-12-14 12:35:59,271 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_hal_msp.c_save
+2022-12-14 12:35:59,419 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_hal_msp.c
+2022-12-14 12:35:59,422 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\system.tmp_save
+2022-12-14 12:35:59,511 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\MXTmpFiles\system.tmp
+2022-12-14 12:35:59,543 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_hal_timebase_tim.c_save
+2022-12-14 12:35:59,634 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\stm32f1xx_hal_timebase_tim.c
+2022-12-14 12:35:59,654 [INFO] CodeEngine:303 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\stm32f1xx_hal_conf.h_save
+2022-12-14 12:35:59,774 [INFO] CodeEngine:327 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\stm32f1xx_hal_conf.h
+2022-12-14 12:35:59,797 [WARN] IPConfigManager:3414 - IP not found : TIM
+2022-12-14 12:35:59,797 [WARN] CodeGenerator:3583 - IP not found : null
+2022-12-14 12:35:59,816 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\main.h_save
+2022-12-14 12:35:59,946 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Inc\main.h
+2022-12-14 12:35:59,977 [INFO] CodeEngine:247 - oldGeneratedFile, D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\main.c_save
+2022-12-14 12:36:00,114 [INFO] CodeEngine:271 - Generated code: D:\Galbiati\Prima Firmware\Source\Prima_Display_APP\Core\Src\main.c
+2022-12-14 12:36:00,640 [INFO] ProjectBuilder:2919 - Time for Copy HAL[1] : 145mS.
+2022-12-14 12:36:00,643 [INFO] ProjectBuilder:4183 - Project Generator version: 3.18.0-B7
+2022-12-14 12:36:00,861 [INFO] ConfigFileManager:1396 - The Die is : DIE410
+2022-12-14 12:36:01,896 [INFO] ProjectBuilder:4351 - Time for Generating toolchain IDE Files: 1253mS.
+2022-12-14 12:36:01,896 [INFO] ProjectBuilder:2790 - Time for Copy CMSIS : 0mS.
+2022-12-14 12:36:01,900 [INFO] ProjectBuilder:2790 - Time for Copy CMSIS : 0mS.

@@ -29,7 +29,7 @@ void _task_Keys() {
 	 //if (i > 0 && i > 16) Beep(i-16,500,100);
 
 //	 a.keysPressed = i;
-	 SendKeys(i);
+	 DisplaySerialTransmit(&huart1, COMMAND_KEYS_PRESSED, i, 0, 0, 0);
 	 osDelay(50);
   }
 }

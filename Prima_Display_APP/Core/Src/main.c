@@ -43,10 +43,12 @@
 TIM_HandleTypeDef htim1;
 
 UART_HandleTypeDef huart1;
+DMA_HandleTypeDef hdma_usart1_rx;
 
 osThreadId defaultTaskHandle;
 osThreadId displayTaskHandle;
 osThreadId displayBlinkTasHandle;
+osThreadId displaySerialReHandle;
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -54,11 +56,13 @@ osThreadId displayBlinkTasHandle;
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
+static void MX_DMA_Init(void);
 static void MX_TIM1_Init(void);
 static void MX_USART1_UART_Init(void);
 void StartDefaultTask(void const * argument);
 void StartDisplayTask(void const * argument);
 void StartDisplayBlinkTask(void const * argument);
+void StartDisplaySerialReceiveTask(void const * argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -66,6 +70,24 @@ void StartDisplayBlinkTask(void const * argument);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+#define UART_BUFFER_SIZE 30
+uint8_t UART_rxBuffer[UART_BUFFER_SIZE] = {0};
+
+void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
+	//HAL_UART_Receive_DMA(p_activeUART, UART_rxBuffer, 3);
+
+	HAL_UARTEx_ReceiveToIdle_DMA(huart, UART_rxBuffer, UART_BUFFER_SIZE); // Interrupt on receive buffer full or idle (end receive)
+	__HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT); // Disable half buffer received interrupt
+
+	// Check for UART
+	if (huart->Instance == huart1.Instance) {
+		DisplaySerialReceive(UART_rxBuffer, Size);
+	}
+
+	// Receive again
+
+}
 
 /* USER CODE END 0 */
 
@@ -97,9 +119,14 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_TIM1_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
+
+
+HAL_UARTEx_ReceiveToIdle_DMA(&huart1, UART_rxBuffer, UART_BUFFER_SIZE); // Interrupt on receive buffer full or idle (end receive)
+__HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT); // Disable half buffer received interrupt
 
   /* USER CODE END 2 */
 
@@ -121,7 +148,7 @@ int main(void)
 
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
-  osThreadDef(defaultTask, StartDefaultTask, osPriorityHigh, 0, 128);
+  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* definition and creation of displayTask */
@@ -129,11 +156,16 @@ int main(void)
   displayTaskHandle = osThreadCreate(osThread(displayTask), NULL);
 
   /* definition and creation of displayBlinkTas */
-  osThreadDef(displayBlinkTas, StartDisplayBlinkTask, osPriorityIdle, 0, 128);
+  osThreadDef(displayBlinkTas, StartDisplayBlinkTask, osPriorityNormal, 0, 128);
   displayBlinkTasHandle = osThreadCreate(osThread(displayBlinkTas), NULL);
+
+  /* definition and creation of displaySerialRe */
+  osThreadDef(displaySerialRe, StartDisplaySerialReceiveTask, osPriorityNormal, 0, 128);
+  displaySerialReHandle = osThreadCreate(osThread(displaySerialRe), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
+
 
   /* USER CODE END RTOS_THREADS */
 
@@ -264,6 +296,22 @@ static void MX_USART1_UART_Init(void)
   /* USER CODE BEGIN USART1_Init 2 */
 
   /* USER CODE END USART1_Init 2 */
+
+}
+
+/**
+  * Enable DMA controller clock
+  */
+static void MX_DMA_Init(void)
+{
+
+  /* DMA controller clock enable */
+  __HAL_RCC_DMA1_CLK_ENABLE();
+
+  /* DMA interrupt init */
+  /* DMA1_Channel5_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Channel5_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Channel5_IRQn);
 
 }
 
@@ -403,6 +451,26 @@ void StartDisplayBlinkTask(void const * argument)
     osDelay(1000);
   }
   /* USER CODE END StartDisplayBlinkTask */
+}
+
+/* USER CODE BEGIN Header_StartDisplaySerialReceiveTask */
+/**
+* @brief Function implementing the displaySerialRe thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartDisplaySerialReceiveTask */
+void StartDisplaySerialReceiveTask(void const * argument)
+{
+  /* USER CODE BEGIN StartDisplaySerialReceiveTask */
+  /* Infinite loop */
+//	_task_DisplaySerialReceive();
+
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END StartDisplaySerialReceiveTask */
 }
 
 /**

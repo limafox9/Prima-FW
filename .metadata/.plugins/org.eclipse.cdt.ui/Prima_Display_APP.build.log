@@ -1,10 +1,10 @@
-13:04:54 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+12:36:50 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
 make -j24 all 
 arm-none-eabi-size   Prima_Display_APP.elf 
    text	   data	    bss	    dec	    hex	filename
-  16960	    132	   5924	  23016	   59e8	Prima_Display_APP.elf
+  20964	    132	   6020	  27116	   69ec	Prima_Display_APP.elf
 Finished building: default.size.stdout
  
 
-13:04:55 Build Finished. 0 errors, 0 warnings. (took 402ms)
+12:36:50 Build Finished. 0 errors, 0 warnings. (took 395ms)
 
