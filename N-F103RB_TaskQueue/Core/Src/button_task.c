@@ -46,7 +46,7 @@ void StartButtonTask() {
 			  }
 
 		}
-		osDelay(10);
+		osDelay(100);
 	}
 
 }

@@ -24896,3 +24896,54 @@ arm-none-eabi-size   N-F103RB_TaskQueue.elf
   17272	    124	   5828	  23224	   5ab8	N-F103RB_TaskQueue.elf
 Finished building: default.size.stdout
  
+22:11:12 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "N-F103RB_TaskQueue.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_TaskQueue\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_TaskQueue.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_TaskQueue.elf
+ 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_TaskQueue.elf  > "N-F103RB_TaskQueue.list"
+   text	   data	    bss	    dec	    hex	filename
+  17272	    124	   5828	  23224	   5ab8	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_TaskQueue.list
+ 
+22:14:39 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/led_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/led_task.d" -MT"Core/Src/led_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/led_task.o"
+../Core/Src/led_task.c: In function 'StartLedTask':
+../Core/Src/led_task.c:14:10: warning: assignment to 'uint16_t' {aka 'short unsigned int'} from 'void *' makes integer from pointer without a cast [-Wint-conversion]
+   14 |    flash = evt.value.p;
+      |          ^
+arm-none-eabi-gcc -o "N-F103RB_TaskQueue.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_TaskQueue\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_TaskQueue.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_TaskQueue.elf
+ 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_TaskQueue.elf  > "N-F103RB_TaskQueue.list"
+   text	   data	    bss	    dec	    hex	filename
+  17352	    124	   5828	  23304	   5b08	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_TaskQueue.list
+ 
+22:17:03 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/button_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/button_task.d" -MT"Core/Src/button_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/button_task.o"
+arm-none-eabi-gcc "../Core/Src/led_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/led_task.d" -MT"Core/Src/led_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/led_task.o"
+../Core/Src/led_task.c: In function 'StartLedTask':
+../Core/Src/led_task.c:14:10: warning: assignment to 'uint16_t' {aka 'short unsigned int'} from 'void *' makes integer from pointer without a cast [-Wint-conversion]
+   14 |    flash = evt.value.p;
+      |          ^
+arm-none-eabi-gcc -o "N-F103RB_TaskQueue.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_TaskQueue\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_TaskQueue.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_TaskQueue.elf
+ 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_TaskQueue.elf  > "N-F103RB_TaskQueue.list"
+   text	   data	    bss	    dec	    hex	filename
+  17272	    124	   5828	  23224	   5ab8	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_TaskQueue.list
+ 

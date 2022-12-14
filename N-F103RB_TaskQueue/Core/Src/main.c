@@ -114,7 +114,7 @@ int main(void)
 
   /* Create the queue(s) */
   /* definition and creation of myQueue01 */
-  osMessageQDef(myQueue01, 16, uint16_t);
+  osMessageQDef(myQueue01, 1, uint16_t);
   myQueue01Handle = osMessageCreate(osMessageQ(myQueue01), NULL);
 
   /* USER CODE BEGIN RTOS_QUEUES */

@@ -20,5 +20,6 @@ void StartLedTask() {
 			}
 		}
 	}
+	osDelay(50);
 
 }
