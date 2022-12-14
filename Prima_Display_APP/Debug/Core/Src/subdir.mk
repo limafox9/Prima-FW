@@ -6,7 +6,7 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../Core/Src/a.c \
-../Core/Src/buzzer.c \
+../Core/Src/buzzer_task.c \
 ../Core/Src/crc16.c \
 ../Core/Src/display.c \
 ../Core/Src/display_serial.c \
@@ -25,7 +25,7 @@ C_SRCS += \
 
 OBJS += \
 ./Core/Src/a.o \
-./Core/Src/buzzer.o \
+./Core/Src/buzzer_task.o \
 ./Core/Src/crc16.o \
 ./Core/Src/display.o \
 ./Core/Src/display_serial.o \
@@ -44,7 +44,7 @@ OBJS += \
 
 C_DEPS += \
 ./Core/Src/a.d \
-./Core/Src/buzzer.d \
+./Core/Src/buzzer_task.d \
 ./Core/Src/crc16.d \
 ./Core/Src/display.d \
 ./Core/Src/display_serial.d \
@@ -69,7 +69,7 @@ Core/Src/%.o Core/Src/%.su: ../Core/Src/%.c Core/Src/subdir.mk
 clean: clean-Core-2f-Src
 
 clean-Core-2f-Src:
-	-$(RM) ./Core/Src/a.d ./Core/Src/a.o ./Core/Src/a.su ./Core/Src/buzzer.d ./Core/Src/buzzer.o ./Core/Src/buzzer.su ./Core/Src/crc16.d ./Core/Src/crc16.o ./Core/Src/crc16.su ./Core/Src/display.d ./Core/Src/display.o ./Core/Src/display.su ./Core/Src/display_serial.d ./Core/Src/display_serial.o ./Core/Src/display_serial.su ./Core/Src/freertos.d ./Core/Src/freertos.o ./Core/Src/freertos.su ./Core/Src/globals.d ./Core/Src/globals.o ./Core/Src/globals.su ./Core/Src/keys.d ./Core/Src/keys.o ./Core/Src/keys.su ./Core/Src/leds.d ./Core/Src/leds.o ./Core/Src/leds.su ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/progress.d ./Core/Src/progress.o ./Core/Src/progress.su ./Core/Src/stm32f1xx_hal_msp.d ./Core/Src/stm32f1xx_hal_msp.o ./Core/Src/stm32f1xx_hal_msp.su ./Core/Src/stm32f1xx_hal_timebase_tim.d ./Core/Src/stm32f1xx_hal_timebase_tim.o ./Core/Src/stm32f1xx_hal_timebase_tim.su ./Core/Src/stm32f1xx_it.d ./Core/Src/stm32f1xx_it.o ./Core/Src/stm32f1xx_it.su ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system_stm32f1xx.d ./Core/Src/system_stm32f1xx.o ./Core/Src/system_stm32f1xx.su
+	-$(RM) ./Core/Src/a.d ./Core/Src/a.o ./Core/Src/a.su ./Core/Src/buzzer_task.d ./Core/Src/buzzer_task.o ./Core/Src/buzzer_task.su ./Core/Src/crc16.d ./Core/Src/crc16.o ./Core/Src/crc16.su ./Core/Src/display.d ./Core/Src/display.o ./Core/Src/display.su ./Core/Src/display_serial.d ./Core/Src/display_serial.o ./Core/Src/display_serial.su ./Core/Src/freertos.d ./Core/Src/freertos.o ./Core/Src/freertos.su ./Core/Src/globals.d ./Core/Src/globals.o ./Core/Src/globals.su ./Core/Src/keys.d ./Core/Src/keys.o ./Core/Src/keys.su ./Core/Src/leds.d ./Core/Src/leds.o ./Core/Src/leds.su ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/progress.d ./Core/Src/progress.o ./Core/Src/progress.su ./Core/Src/stm32f1xx_hal_msp.d ./Core/Src/stm32f1xx_hal_msp.o ./Core/Src/stm32f1xx_hal_msp.su ./Core/Src/stm32f1xx_hal_timebase_tim.d ./Core/Src/stm32f1xx_hal_timebase_tim.o ./Core/Src/stm32f1xx_hal_timebase_tim.su ./Core/Src/stm32f1xx_it.d ./Core/Src/stm32f1xx_it.o ./Core/Src/stm32f1xx_it.su ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system_stm32f1xx.d ./Core/Src/system_stm32f1xx.o ./Core/Src/system_stm32f1xx.su
 
 .PHONY: clean-Core-2f-Src
 

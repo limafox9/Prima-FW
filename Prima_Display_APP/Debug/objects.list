@@ -1,5 +1,5 @@
 "./Core/Src/a.o"
-"./Core/Src/buzzer.o"
+"./Core/Src/buzzer_task.o"
 "./Core/Src/crc16.o"
 "./Core/Src/display.o"
 "./Core/Src/display_serial.o"

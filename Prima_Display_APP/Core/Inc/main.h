@@ -32,8 +32,9 @@ extern "C" {
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
+#include "cmsis_os.h"
 #include "display.h"
-#include "buzzer.h"
+#include "buzzer_task.h"
 #include "globals.h"
 #include "leds.h"
 #include "keys.h"
@@ -121,6 +122,10 @@ void Error_Handler(void);
 #define LED_WARNING_LSH_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
+
+extern osMessageQId qBeepHandle;
+extern osMessageQId qSendHandle;
+extern osMessageQId qReceiveHandle;
 
 extern UART_HandleTypeDef huart1;
 

@@ -139,6 +139,7 @@ void ParseCommand(uint8_t* buffer) {
 
 	uint16_t command;
 	uint32_t param1, param2, param3, param4;
+	uint64_t message = 0;
 	static uint8_t i = 0;
 
 	memcpy(&command, buffer + _pos_command, 2);
@@ -149,7 +150,12 @@ void ParseCommand(uint8_t* buffer) {
 
 	switch (command) {
 		case COMMAND_PLAY_BEEP:
-			Beep((uint8_t)param1, (uint16_t)param2, (uint16_t)param3);
+			//Beep((uint8_t)param1, (uint16_t)param2, (uint16_t)param3);
+//			memcpy(&message, &param1, 1);
+//			memcpy(&message + 1, &param2, 2);
+//			memcpy(&message + 3, &param3, 2);
+			message = param1 + (param2 << 8) + (param3 << 24);
+			osMessagePut(qBeepHandle, &message, osWaitForever);
 			if (i > 1) i = 0;
 			if (i == 1) {
 				PanelSetAll();

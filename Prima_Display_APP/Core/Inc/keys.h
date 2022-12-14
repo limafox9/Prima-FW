@@ -8,10 +8,10 @@
 #ifndef INC_KEYS_H_
 #define INC_KEYS_H_
 
+#include <buzzer_task.h>
 #include "main.h"
 #include "cmsis_os.h"
 #include "globals.h"
-#include "buzzer.h"
 
 extern void _task_Keys();
 
