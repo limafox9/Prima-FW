@@ -35,11 +35,18 @@ USAGE:
 
 #include "button_task.h"
 
+extern osMessageQId myQueue01Handle;
+
 void StartButtonTask() {
 
 	for (;;) {
-		HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-		osDelay(200);
+		if (!HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin)) {
+			  if (osMessagePut(myQueue01Handle, 3, osWaitForever) == osOK) {
+				  osDelay(10);
+			  }
+
+		}
+		osDelay(10);
 	}
 
 }

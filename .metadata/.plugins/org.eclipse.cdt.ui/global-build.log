@@ -23858,3 +23858,1041 @@ arm-none-eabi-size   Prima_Display_APP.elf
   24084	    132	   6020	  30236	   761c	Prima_Display_APP.elf
 Finished building: default.size.stdout
  
+18:42:13 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10508	     20	   1740	  12268	   2fec	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+18:42:13 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/button_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/button_task.d" -MT"Core/Src/button_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/button_task.o"
+arm-none-eabi-gcc "../Core/Src/freertos.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/freertos.d" -MT"Core/Src/freertos.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/freertos.o"
+arm-none-eabi-gcc "../Core/Src/led_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/led_task.d" -MT"Core/Src/led_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/led_task.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/stm32f1xx_hal_msp.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/stm32f1xx_hal_msp.d" -MT"Core/Src/stm32f1xx_hal_msp.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/stm32f1xx_hal_msp.o"
+arm-none-eabi-gcc "../Core/Src/stm32f1xx_it.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/stm32f1xx_it.d" -MT"Core/Src/stm32f1xx_it.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/stm32f1xx_it.o"
+In file included from ../Core/Inc/main.h:34,
+                 from ../Core/Src/main.c:20:
+../Core/Src/main.c: In function 'main':
+../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h:766:23: warning: unused variable 'os_messageQ_def_qLed' [-Wunused-variable]
+  766 | const osMessageQDef_t os_messageQ_def_##name = \
+      |                       ^~~~~~~~~~~~~~~~
+../Core/Src/main.c:116:3: note: in expansion of macro 'osMessageQDef'
+  116 |   osMessageQDef(qLed, 5, uint8_t);
+      |   ^~~~~~~~~~~~~
+At top level:
+../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h:766:23: warning: 'os_messageQ_def_qLed' defined but not used [-Wunused-const-variable=]
+  766 | const osMessageQDef_t os_messageQ_def_##name = \
+      |                       ^~~~~~~~~~~~~~~~
+../Core/Src/main.c:116:3: note: in expansion of macro 'osMessageQDef'
+  116 |   osMessageQDef(qLed, 5, uint8_t);
+      |   ^~~~~~~~~~~~~
+arm-none-eabi-gcc -o "N-F103RB_TaskQueue.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_TaskQueue\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_TaskQueue.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_TaskQueue.elf
+ 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_TaskQueue.elf  > "N-F103RB_TaskQueue.list"
+   text	   data	    bss	    dec	    hex	filename
+  12928	    124	   5828	  18880	   49c0	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_TaskQueue.list
+ 
+18:42:14 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+18:42:15 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24084	    132	   6020	  30236	   761c	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+18:46:36 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10508	     20	   1740	  12268	   2fec	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+18:46:36 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "N-F103RB_TaskQueue.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_TaskQueue\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_TaskQueue.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_TaskQueue.elf
+ 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_TaskQueue.elf  > "N-F103RB_TaskQueue.list"
+   text	   data	    bss	    dec	    hex	filename
+  13904	    124	   5828	  19856	   4d90	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_TaskQueue.list
+ 
+18:46:38 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+18:46:39 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24084	    132	   6020	  30236	   761c	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+19:07:27 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10508	     20	   1740	  12268	   2fec	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+19:07:27 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/button_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/button_task.d" -MT"Core/Src/button_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/button_task.o"
+arm-none-eabi-gcc -o "N-F103RB_TaskQueue.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_TaskQueue\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_TaskQueue.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_TaskQueue.elf
+ 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_TaskQueue.elf  > "N-F103RB_TaskQueue.list"
+   text	   data	    bss	    dec	    hex	filename
+  13952	    124	   5828	  19904	   4dc0	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_TaskQueue.list
+ 
+19:07:28 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+19:07:29 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24084	    132	   6020	  30236	   761c	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+19:08:55 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10508	     20	   1740	  12268	   2fec	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+19:08:56 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/button_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/button_task.d" -MT"Core/Src/button_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/button_task.o"
+../Core/Src/button_task.c: In function 'StartButtonTask':
+../Core/Src/button_task.c:42:19: error: 'qLed' undeclared (first use in this function)
+   42 |      osMessagePut(qLed, 1, osWaitForever);  // Send Message
+      |                   ^~~~
+../Core/Src/button_task.c:42:19: note: each undeclared identifier is reported only once for each function it appears in
+make: *** [Core/Src/subdir.mk:46: Core/Src/button_task.o] Error 1
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+19:08:56 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+19:08:56 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24084	    132	   6020	  30236	   761c	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+19:11:34 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10508	     20	   1740	  12268	   2fec	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+19:11:34 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/button_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/button_task.d" -MT"Core/Src/button_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/button_task.o"
+arm-none-eabi-gcc -o "N-F103RB_TaskQueue.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_TaskQueue\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_TaskQueue.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_TaskQueue.elf
+ 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_TaskQueue.elf  > "N-F103RB_TaskQueue.list"
+   text	   data	    bss	    dec	    hex	filename
+  16184	    124	   5836	  22144	   5680	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_TaskQueue.list
+ 
+19:11:35 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+19:11:36 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24084	    132	   6020	  30236	   761c	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+19:12:25 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+   text	   data	    bss	    dec	    hex	filename
+  16184	    124	   5836	  22144	   5680	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+19:12:32 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+   text	   data	    bss	    dec	    hex	filename
+  16184	    124	   5836	  22144	   5680	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+19:12:42 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+   text	   data	    bss	    dec	    hex	filename
+  16184	    124	   5836	  22144	   5680	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+19:13:26 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/button_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/button_task.d" -MT"Core/Src/button_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/button_task.o"
+arm-none-eabi-gcc -o "N-F103RB_TaskQueue.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_TaskQueue\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_TaskQueue.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_TaskQueue.elf
+ 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_TaskQueue.elf  > "N-F103RB_TaskQueue.list"
+   text	   data	    bss	    dec	    hex	filename
+  16184	    124	   5836	  22144	   5680	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_TaskQueue.list
+ 
+19:14:36 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+   text	   data	    bss	    dec	    hex	filename
+  16184	    124	   5836	  22144	   5680	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+19:18:32 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/button_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/button_task.d" -MT"Core/Src/button_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/button_task.o"
+arm-none-eabi-gcc -o "N-F103RB_TaskQueue.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_TaskQueue\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_TaskQueue.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_TaskQueue.elf
+ 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_TaskQueue.elf  > "N-F103RB_TaskQueue.list"
+   text	   data	    bss	    dec	    hex	filename
+  16200	    124	   5836	  22160	   5690	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_TaskQueue.list
+ 
+19:18:59 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+   text	   data	    bss	    dec	    hex	filename
+  16200	    124	   5836	  22160	   5690	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+19:19:23 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+   text	   data	    bss	    dec	    hex	filename
+  16200	    124	   5836	  22160	   5690	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+19:25:24 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10508	     20	   1740	  12268	   2fec	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+19:25:24 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/button_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/button_task.d" -MT"Core/Src/button_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/button_task.o"
+arm-none-eabi-gcc "../Core/Src/freertos.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/freertos.d" -MT"Core/Src/freertos.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/freertos.o"
+arm-none-eabi-gcc "../Core/Src/led_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/led_task.d" -MT"Core/Src/led_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/led_task.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/stm32f1xx_hal_msp.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/stm32f1xx_hal_msp.d" -MT"Core/Src/stm32f1xx_hal_msp.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/stm32f1xx_hal_msp.o"
+arm-none-eabi-gcc "../Core/Src/stm32f1xx_it.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/stm32f1xx_it.d" -MT"Core/Src/stm32f1xx_it.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/stm32f1xx_it.o"
+arm-none-eabi-gcc -o "N-F103RB_TaskQueue.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_TaskQueue\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_TaskQueue.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\bin\ld.exe: ./Core/Src/freertos.o:D:/Galbiati/Prima Firmware/Source/N-F103RB_TaskQueue/Debug/../Core/Inc/main.h:80: multiple definition of `qLed'; ./Core/Src/button_task.o:D:/Galbiati/Prima Firmware/Source/N-F103RB_TaskQueue/Debug/../Core/Inc/main.h:80: first defined here
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\bin\ld.exe: ./Core/Src/led_task.o:D:/Galbiati/Prima Firmware/Source/N-F103RB_TaskQueue/Debug/../Core/Inc/main.h:80: multiple definition of `qLed'; ./Core/Src/button_task.o:D:/Galbiati/Prima Firmware/Source/N-F103RB_TaskQueue/Debug/../Core/Inc/main.h:80: first defined here
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\bin\ld.exe: ./Core/Src/main.o:D:/Galbiati/Prima Firmware/Source/N-F103RB_TaskQueue/Debug/../Core/Inc/main.h:80: multiple definition of `qLed'; ./Core/Src/button_task.o:D:/Galbiati/Prima Firmware/Source/N-F103RB_TaskQueue/Debug/../Core/Inc/main.h:80: first defined here
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\bin\ld.exe: ./Core/Src/stm32f1xx_hal_msp.o:D:/Galbiati/Prima Firmware/Source/N-F103RB_TaskQueue/Debug/../Core/Inc/main.h:80: multiple definition of `qLed'; ./Core/Src/button_task.o:D:/Galbiati/Prima Firmware/Source/N-F103RB_TaskQueue/Debug/../Core/Inc/main.h:80: first defined here
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\bin\ld.exe: ./Core/Src/stm32f1xx_it.o:D:/Galbiati/Prima Firmware/Source/N-F103RB_TaskQueue/Debug/../Core/Inc/main.h:80: multiple definition of `qLed'; ./Core/Src/button_task.o:D:/Galbiati/Prima Firmware/Source/N-F103RB_TaskQueue/Debug/../Core/Inc/main.h:80: first defined here
+collect2.exe: error: ld returned 1 exit status
+make: *** [makefile:68: N-F103RB_TaskQueue.elf] Error 1
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+19:25:26 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+19:25:26 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24084	    132	   6020	  30236	   761c	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+19:29:09 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10508	     20	   1740	  12268	   2fec	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+19:29:09 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/button_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/button_task.d" -MT"Core/Src/button_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/button_task.o"
+arm-none-eabi-gcc "../Core/Src/freertos.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/freertos.d" -MT"Core/Src/freertos.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/freertos.o"
+arm-none-eabi-gcc "../Core/Src/led_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/led_task.d" -MT"Core/Src/led_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/led_task.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/stm32f1xx_hal_msp.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/stm32f1xx_hal_msp.d" -MT"Core/Src/stm32f1xx_hal_msp.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/stm32f1xx_hal_msp.o"
+arm-none-eabi-gcc "../Core/Src/stm32f1xx_it.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/stm32f1xx_it.d" -MT"Core/Src/stm32f1xx_it.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/stm32f1xx_it.o"
+../Core/Src/button_task.c: In function 'StartButtonTask':
+../Core/Src/button_task.c:42:23: error: 'qLedHandle' undeclared (first use in this function)
+   42 |      if (osMessagePut(qLedHandle, 1, osWaitForever) == osOK) {
+      |                       ^~~~~~~~~~
+../Core/Src/button_task.c:42:23: note: each undeclared identifier is reported only once for each function it appears in
+make: *** [Core/Src/subdir.mk:46: Core/Src/button_task.o] Error 1
+make: *** Waiting for unfinished jobs....
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+19:29:10 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+19:29:10 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24084	    132	   6020	  30236	   761c	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+19:29:50 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10508	     20	   1740	  12268	   2fec	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+19:29:51 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/button_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/button_task.d" -MT"Core/Src/button_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/button_task.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+../Core/Src/button_task.c: In function 'StartButtonTask':
+../Core/Src/button_task.c:42:23: error: 'qLedHandle' undeclared (first use in this function)
+   42 |      if (osMessagePut(qLedHandle, 1, osWaitForever) == osOK) {
+      |                       ^~~~~~~~~~
+../Core/Src/button_task.c:42:23: note: each undeclared identifier is reported only once for each function it appears in
+make: *** [Core/Src/subdir.mk:46: Core/Src/button_task.o] Error 1
+make: *** Waiting for unfinished jobs....
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+19:29:52 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+19:29:52 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24084	    132	   6020	  30236	   761c	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+19:52:07 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10508	     20	   1740	  12268	   2fec	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+19:52:07 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/button_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/button_task.d" -MT"Core/Src/button_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/button_task.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+../Core/Src/button_task.c: In function 'StartButtonTask':
+../Core/Src/button_task.c:42:23: error: 'myQueue01Handle' undeclared (first use in this function); did you mean 'xQueueHandle'?
+   42 |      if (osMessagePut(myQueue01Handle, 1, osWaitForever) == osOK) {
+      |                       ^~~~~~~~~~~~~~~
+      |                       xQueueHandle
+../Core/Src/button_task.c:42:23: note: each undeclared identifier is reported only once for each function it appears in
+make: *** [Core/Src/subdir.mk:46: Core/Src/button_task.o] Error 1
+make: *** Waiting for unfinished jobs....
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+19:52:09 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+19:52:09 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24084	    132	   6020	  30236	   761c	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+19:54:13 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10508	     20	   1740	  12268	   2fec	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+19:54:13 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/button_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/button_task.d" -MT"Core/Src/button_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/button_task.o"
+../Core/Src/button_task.c: In function 'StartButtonTask':
+../Core/Src/button_task.c:42:23: error: 'myQueue01' undeclared (first use in this function)
+   42 |      if (osMessagePut(myQueue01, 1, osWaitForever) == osOK) {
+      |                       ^~~~~~~~~
+../Core/Src/button_task.c:42:23: note: each undeclared identifier is reported only once for each function it appears in
+make: *** [Core/Src/subdir.mk:46: Core/Src/button_task.o] Error 1
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+19:54:13 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+19:54:14 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24084	    132	   6020	  30236	   761c	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+19:54:36 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10508	     20	   1740	  12268	   2fec	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+19:54:37 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/button_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/button_task.d" -MT"Core/Src/button_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/button_task.o"
+../Core/Src/button_task.c: In function 'StartButtonTask':
+../Core/Src/button_task.c:42:23: error: 'myQueue01Handle' undeclared (first use in this function); did you mean 'xQueueHandle'?
+   42 |      if (osMessagePut(myQueue01Handle, 1, osWaitForever) == osOK) {
+      |                       ^~~~~~~~~~~~~~~
+      |                       xQueueHandle
+../Core/Src/button_task.c:42:23: note: each undeclared identifier is reported only once for each function it appears in
+make: *** [Core/Src/subdir.mk:46: Core/Src/button_task.o] Error 1
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+19:54:37 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+19:54:38 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24084	    132	   6020	  30236	   761c	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+19:55:36 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10508	     20	   1740	  12268	   2fec	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+19:55:36 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/button_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/button_task.d" -MT"Core/Src/button_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/button_task.o"
+arm-none-eabi-gcc "../Core/Src/freertos.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/freertos.d" -MT"Core/Src/freertos.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/freertos.o"
+arm-none-eabi-gcc "../Core/Src/led_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/led_task.d" -MT"Core/Src/led_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/led_task.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/stm32f1xx_hal_msp.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/stm32f1xx_hal_msp.d" -MT"Core/Src/stm32f1xx_hal_msp.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/stm32f1xx_hal_msp.o"
+arm-none-eabi-gcc "../Core/Src/stm32f1xx_it.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/stm32f1xx_it.d" -MT"Core/Src/stm32f1xx_it.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/stm32f1xx_it.o"
+arm-none-eabi-gcc -o "N-F103RB_TaskQueue.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_TaskQueue\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_TaskQueue.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\bin\ld.exe: ./Core/Src/freertos.o:D:/Galbiati/Prima Firmware/Source/N-F103RB_TaskQueue/Debug/../Core/Inc/main.h:80: multiple definition of `myQueue01Handle'; ./Core/Src/button_task.o:D:/Galbiati/Prima Firmware/Source/N-F103RB_TaskQueue/Debug/../Core/Inc/main.h:80: first defined here
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\bin\ld.exe: ./Core/Src/led_task.o:D:/Galbiati/Prima Firmware/Source/N-F103RB_TaskQueue/Debug/../Core/Inc/main.h:80: multiple definition of `myQueue01Handle'; ./Core/Src/button_task.o:D:/Galbiati/Prima Firmware/Source/N-F103RB_TaskQueue/Debug/../Core/Inc/main.h:80: first defined here
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\bin\ld.exe: ./Core/Src/main.o:D:/Galbiati/Prima Firmware/Source/N-F103RB_TaskQueue/Debug/../Core/Inc/main.h:80: multiple definition of `myQueue01Handle'; ./Core/Src/button_task.o:D:/Galbiati/Prima Firmware/Source/N-F103RB_TaskQueue/Debug/../Core/Inc/main.h:80: first defined here
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\bin\ld.exe: ./Core/Src/stm32f1xx_hal_msp.o:D:/Galbiati/Prima Firmware/Source/N-F103RB_TaskQueue/Debug/../Core/Inc/main.h:80: multiple definition of `myQueue01Handle'; ./Core/Src/button_task.o:D:/Galbiati/Prima Firmware/Source/N-F103RB_TaskQueue/Debug/../Core/Inc/main.h:80: first defined here
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\bin\ld.exe: ./Core/Src/stm32f1xx_it.o:D:/Galbiati/Prima Firmware/Source/N-F103RB_TaskQueue/Debug/../Core/Inc/main.h:80: multiple definition of `myQueue01Handle'; ./Core/Src/button_task.o:D:/Galbiati/Prima Firmware/Source/N-F103RB_TaskQueue/Debug/../Core/Inc/main.h:80: first defined here
+collect2.exe: error: ld returned 1 exit status
+make: *** [makefile:68: N-F103RB_TaskQueue.elf] Error 1
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+19:55:37 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+19:55:38 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24084	    132	   6020	  30236	   761c	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+19:56:30 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10508	     20	   1740	  12268	   2fec	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+19:56:31 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/button_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/button_task.d" -MT"Core/Src/button_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/button_task.o"
+arm-none-eabi-gcc "../Core/Src/freertos.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/freertos.d" -MT"Core/Src/freertos.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/freertos.o"
+arm-none-eabi-gcc "../Core/Src/led_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/led_task.d" -MT"Core/Src/led_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/led_task.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/stm32f1xx_hal_msp.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/stm32f1xx_hal_msp.d" -MT"Core/Src/stm32f1xx_hal_msp.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/stm32f1xx_hal_msp.o"
+arm-none-eabi-gcc "../Core/Src/stm32f1xx_it.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/stm32f1xx_it.d" -MT"Core/Src/stm32f1xx_it.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/stm32f1xx_it.o"
+arm-none-eabi-gcc -o "N-F103RB_TaskQueue.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_TaskQueue\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_TaskQueue.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\bin\ld.exe: ./Core/Src/button_task.o: in function `StartButtonTask':
+D:/Galbiati/Prima Firmware/Source/N-F103RB_TaskQueue/Debug/../Core/Src/button_task.c:41: undefined reference to `myQueue01Handle'
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\bin\ld.exe: ./Core/Src/main.o: in function `main':
+D:/Galbiati/Prima Firmware/Source/N-F103RB_TaskQueue/Debug/../Core/Src/main.c:144: undefined reference to `myQueue01Handle'
+collect2.exe: error: ld returned 1 exit status
+make: *** [makefile:68: N-F103RB_TaskQueue.elf] Error 1
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+19:56:32 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+19:56:32 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24084	    132	   6020	  30236	   761c	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+20:02:58 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10508	     20	   1740	  12268	   2fec	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+20:02:59 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/button_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/button_task.d" -MT"Core/Src/button_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/button_task.o"
+arm-none-eabi-gcc "../Core/Src/freertos.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/freertos.d" -MT"Core/Src/freertos.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/freertos.o"
+arm-none-eabi-gcc "../Core/Src/led_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/led_task.d" -MT"Core/Src/led_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/led_task.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/stm32f1xx_hal_msp.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/stm32f1xx_hal_msp.d" -MT"Core/Src/stm32f1xx_hal_msp.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/stm32f1xx_hal_msp.o"
+arm-none-eabi-gcc "../Core/Src/stm32f1xx_it.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/stm32f1xx_it.d" -MT"Core/Src/stm32f1xx_it.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/stm32f1xx_it.o"
+../Core/Src/button_task.c: In function 'StartButtonTask':
+../Core/Src/button_task.c:42:23: error: 'myQueue01Handle' undeclared (first use in this function); did you mean 'xQueueHandle'?
+   42 |      if (osMessagePut(myQueue01Handle, 1, osWaitForever) == osOK) {
+      |                       ^~~~~~~~~~~~~~~
+      |                       xQueueHandle
+../Core/Src/button_task.c:42:23: note: each undeclared identifier is reported only once for each function it appears in
+make: *** [Core/Src/subdir.mk:46: Core/Src/button_task.o] Error 1
+make: *** Waiting for unfinished jobs....
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+20:02:59 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+20:03:00 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24084	    132	   6020	  30236	   761c	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+20:07:27 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10508	     20	   1740	  12268	   2fec	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+20:07:28 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/button_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/button_task.d" -MT"Core/Src/button_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/button_task.o"
+arm-none-eabi-gcc "../Core/Src/freertos.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/freertos.d" -MT"Core/Src/freertos.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/freertos.o"
+arm-none-eabi-gcc "../Core/Src/led_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/led_task.d" -MT"Core/Src/led_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/led_task.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/stm32f1xx_hal_msp.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/stm32f1xx_hal_msp.d" -MT"Core/Src/stm32f1xx_hal_msp.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/stm32f1xx_hal_msp.o"
+arm-none-eabi-gcc "../Core/Src/stm32f1xx_it.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/stm32f1xx_it.d" -MT"Core/Src/stm32f1xx_it.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/stm32f1xx_it.o"
+arm-none-eabi-gcc -o "N-F103RB_TaskQueue.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_TaskQueue\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_TaskQueue.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_TaskQueue.elf
+ 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_TaskQueue.elf  > "N-F103RB_TaskQueue.list"
+   text	   data	    bss	    dec	    hex	filename
+  16200	    124	   5828	  22152	   5688	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_TaskQueue.list
+ 
+20:07:29 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+20:07:30 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24084	    132	   6020	  30236	   761c	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+20:08:08 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+   text	   data	    bss	    dec	    hex	filename
+  16200	    124	   5828	  22152	   5688	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+20:13:54 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/button_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/button_task.d" -MT"Core/Src/button_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/button_task.o"
+../Core/Src/button_task.c: In function 'StartButtonTask':
+../Core/Src/button_task.c:42:23: error: 'myQueue01' undeclared (first use in this function)
+   42 |      if (osMessagePut(myQueue01, 1, osWaitForever) == osOK) {
+      |                       ^~~~~~~~~
+../Core/Src/button_task.c:42:23: note: each undeclared identifier is reported only once for each function it appears in
+make: *** [Core/Src/subdir.mk:46: Core/Src/button_task.o] Error 1
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+20:14:05 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10508	     20	   1740	  12268	   2fec	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+20:14:05 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/button_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/button_task.d" -MT"Core/Src/button_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/button_task.o"
+../Core/Src/button_task.c: In function 'StartButtonTask':
+../Core/Src/button_task.c:42:23: error: 'myQueue01' undeclared (first use in this function)
+   42 |      if (osMessagePut(myQueue01, 1, osWaitForever) == osOK) {
+      |                       ^~~~~~~~~
+../Core/Src/button_task.c:42:23: note: each undeclared identifier is reported only once for each function it appears in
+make: *** [Core/Src/subdir.mk:46: Core/Src/button_task.o] Error 1
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+20:14:06 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+20:14:06 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24084	    132	   6020	  30236	   761c	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+20:46:42 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10508	     20	   1740	  12268	   2fec	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+20:46:43 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/button_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/button_task.d" -MT"Core/Src/button_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/button_task.o"
+arm-none-eabi-gcc -o "N-F103RB_TaskQueue.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_TaskQueue\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_TaskQueue.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_TaskQueue.elf
+ 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_TaskQueue.elf  > "N-F103RB_TaskQueue.list"
+   text	   data	    bss	    dec	    hex	filename
+  16200	    124	   5828	  22152	   5688	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_TaskQueue.list
+ 
+20:46:44 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+20:46:44 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24084	    132	   6020	  30236	   761c	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+20:47:55 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10508	     20	   1740	  12268	   2fec	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+20:47:56 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/button_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/button_task.d" -MT"Core/Src/button_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/button_task.o"
+../Core/Src/button_task.c: In function 'StartButtonTask':
+../Core/Src/button_task.c:42:10: warning: implicit declaration of function 'osMessageQueuePut'; did you mean 'osMessagePut'? [-Wimplicit-function-declaration]
+   42 |      if (osMessageQueuePut(myQueue01Handle, 1, 0, osWaitForever) == osOK) {
+      |          ^~~~~~~~~~~~~~~~~
+      |          osMessagePut
+arm-none-eabi-gcc -o "N-F103RB_TaskQueue.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_TaskQueue\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_TaskQueue.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\bin\ld.exe: ./Core/Src/button_task.o: in function `StartButtonTask':
+D:/Galbiati/Prima Firmware/Source/N-F103RB_TaskQueue/Debug/../Core/Src/button_task.c:42: undefined reference to `osMessageQueuePut'
+collect2.exe: error: ld returned 1 exit status
+make: *** [makefile:68: N-F103RB_TaskQueue.elf] Error 1
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+20:47:57 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+20:47:57 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24084	    132	   6020	  30236	   761c	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+20:56:46 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10508	     20	   1740	  12268	   2fec	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+20:56:47 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/button_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/button_task.d" -MT"Core/Src/button_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/button_task.o"
+../Core/Src/button_task.c: In function 'StartButtonTask':
+../Core/Src/button_task.c:42:10: error: too many arguments to function 'osMessagePut'
+   42 |      if (osMessagePut(myQueue01Handle, 1, 0, osWaitForever) == osOK) {
+      |          ^~~~~~~~~~~~
+In file included from ../Core/Inc/main.h:34,
+                 from ../Core/Inc/button_task.h:41,
+                 from ../Core/Src/button_task.c:36:
+../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h:800:10: note: declared here
+  800 | osStatus osMessagePut (osMessageQId queue_id, uint32_t info, uint32_t millisec);
+      |          ^~~~~~~~~~~~
+make: *** [Core/Src/subdir.mk:46: Core/Src/button_task.o] Error 1
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+20:56:47 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+20:56:48 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24084	    132	   6020	  30236	   761c	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+20:57:28 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10508	     20	   1740	  12268	   2fec	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+20:57:29 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/button_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/button_task.d" -MT"Core/Src/button_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/button_task.o"
+arm-none-eabi-gcc -o "N-F103RB_TaskQueue.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_TaskQueue\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_TaskQueue.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_TaskQueue.elf
+ 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_TaskQueue.elf  > "N-F103RB_TaskQueue.list"
+   text	   data	    bss	    dec	    hex	filename
+  16200	    124	   5828	  22152	   5688	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_TaskQueue.list
+ 
+20:57:30 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+20:57:30 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24084	    132	   6020	  30236	   761c	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+20:58:37 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10508	     20	   1740	  12268	   2fec	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+20:58:38 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/button_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/button_task.d" -MT"Core/Src/button_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/button_task.o"
+arm-none-eabi-gcc "../Core/Src/freertos.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/freertos.d" -MT"Core/Src/freertos.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/freertos.o"
+arm-none-eabi-gcc "../Core/Src/led_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/led_task.d" -MT"Core/Src/led_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/led_task.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/stm32f1xx_hal_msp.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/stm32f1xx_hal_msp.d" -MT"Core/Src/stm32f1xx_hal_msp.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/stm32f1xx_hal_msp.o"
+arm-none-eabi-gcc "../Core/Src/stm32f1xx_it.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/stm32f1xx_it.d" -MT"Core/Src/stm32f1xx_it.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/stm32f1xx_it.o"
+../Core/Src/button_task.c: In function 'StartButtonTask':
+../Core/Src/button_task.c:42:23: error: 'myQueue01Handle' undeclared (first use in this function); did you mean 'myQueue01Handle1'?
+   42 |      if (osMessagePut(myQueue01Handle, 1, osWaitForever) == osOK) {
+      |                       ^~~~~~~~~~~~~~~
+      |                       myQueue01Handle1
+../Core/Src/button_task.c:42:23: note: each undeclared identifier is reported only once for each function it appears in
+make: *** [Core/Src/subdir.mk:46: Core/Src/button_task.o] Error 1
+make: *** Waiting for unfinished jobs....
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+20:58:39 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+20:58:39 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24084	    132	   6020	  30236	   761c	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+20:58:45 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10508	     20	   1740	  12268	   2fec	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+20:58:46 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/button_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/button_task.d" -MT"Core/Src/button_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/button_task.o"
+arm-none-eabi-gcc "../Core/Src/freertos.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/freertos.d" -MT"Core/Src/freertos.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/freertos.o"
+arm-none-eabi-gcc "../Core/Src/led_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/led_task.d" -MT"Core/Src/led_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/led_task.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/stm32f1xx_hal_msp.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/stm32f1xx_hal_msp.d" -MT"Core/Src/stm32f1xx_hal_msp.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/stm32f1xx_hal_msp.o"
+arm-none-eabi-gcc "../Core/Src/stm32f1xx_it.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/stm32f1xx_it.d" -MT"Core/Src/stm32f1xx_it.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/stm32f1xx_it.o"
+arm-none-eabi-gcc -o "N-F103RB_TaskQueue.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_TaskQueue\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_TaskQueue.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_TaskQueue.elf
+ 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_TaskQueue.elf  > "N-F103RB_TaskQueue.list"
+   text	   data	    bss	    dec	    hex	filename
+  16200	    124	   5828	  22152	   5688	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_TaskQueue.list
+ 
+20:58:47 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+20:58:47 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24084	    132	   6020	  30236	   761c	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+21:13:01 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+   text	   data	    bss	    dec	    hex	filename
+  16200	    124	   5828	  22152	   5688	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+21:20:03 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10508	     20	   1740	  12268	   2fec	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+21:20:04 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/button_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/button_task.d" -MT"Core/Src/button_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/button_task.o"
+arm-none-eabi-gcc "../Core/Src/freertos.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/freertos.d" -MT"Core/Src/freertos.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/freertos.o"
+arm-none-eabi-gcc "../Core/Src/led_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/led_task.d" -MT"Core/Src/led_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/led_task.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/stm32f1xx_hal_msp.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/stm32f1xx_hal_msp.d" -MT"Core/Src/stm32f1xx_hal_msp.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/stm32f1xx_hal_msp.o"
+arm-none-eabi-gcc "../Core/Src/stm32f1xx_it.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/stm32f1xx_it.d" -MT"Core/Src/stm32f1xx_it.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/stm32f1xx_it.o"
+../Core/Src/led_task.c: In function 'StartLedTask':
+../Core/Src/led_task.c:14:10: warning: assignment to 'uint16_t' {aka 'short unsigned int'} from 'void *' makes integer from pointer without a cast [-Wint-conversion]
+   14 |    flash = evt.value.p;
+      |          ^
+arm-none-eabi-gcc -o "N-F103RB_TaskQueue.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_TaskQueue\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_TaskQueue.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_TaskQueue.elf
+ 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_TaskQueue.elf  > "N-F103RB_TaskQueue.list"
+   text	   data	    bss	    dec	    hex	filename
+  17272	    124	   5828	  23224	   5ab8	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_TaskQueue.list
+ 
+21:20:05 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+21:20:05 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24084	    132	   6020	  30236	   761c	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+21:20:21 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+   text	   data	    bss	    dec	    hex	filename
+  17272	    124	   5828	  23224	   5ab8	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+21:21:12 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/button_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/button_task.d" -MT"Core/Src/button_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/button_task.o"
+arm-none-eabi-gcc "../Core/Src/led_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/led_task.d" -MT"Core/Src/led_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/led_task.o"
+../Core/Src/led_task.c: In function 'StartLedTask':
+../Core/Src/led_task.c:14:10: warning: assignment to 'uint16_t' {aka 'short unsigned int'} from 'void *' makes integer from pointer without a cast [-Wint-conversion]
+   14 |    flash = evt.value.p;
+      |          ^
+arm-none-eabi-gcc -o "N-F103RB_TaskQueue.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_TaskQueue\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_TaskQueue.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_TaskQueue.elf
+ 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_TaskQueue.elf  > "N-F103RB_TaskQueue.list"
+   text	   data	    bss	    dec	    hex	filename
+  17272	    124	   5828	  23224	   5ab8	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_TaskQueue.list
+ 
+21:24:37 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10508	     20	   1740	  12268	   2fec	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+21:24:37 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/led_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/led_task.d" -MT"Core/Src/led_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/led_task.o"
+arm-none-eabi-gcc -o "N-F103RB_TaskQueue.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_TaskQueue\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_TaskQueue.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_TaskQueue.elf
+ 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_TaskQueue.elf  > "N-F103RB_TaskQueue.list"
+   text	   data	    bss	    dec	    hex	filename
+  17288	    124	   5828	  23240	   5ac8	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_TaskQueue.list
+ 
+21:24:38 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+21:24:39 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24084	    132	   6020	  30236	   761c	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+21:24:44 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+   text	   data	    bss	    dec	    hex	filename
+  17288	    124	   5828	  23240	   5ac8	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+21:25:32 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+   text	   data	    bss	    dec	    hex	filename
+  17288	    124	   5828	  23240	   5ac8	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+21:27:39 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/led_task.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/led_task.d" -MT"Core/Src/led_task.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/led_task.o"
+../Core/Src/led_task.c: In function 'StartLedTask':
+../Core/Src/led_task.c:14:10: warning: assignment to 'uint16_t' {aka 'short unsigned int'} from 'void *' makes integer from pointer without a cast [-Wint-conversion]
+   14 |    flash = evt.value.p;
+      |          ^
+arm-none-eabi-gcc -o "N-F103RB_TaskQueue.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\N-F103RB_TaskQueue\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="N-F103RB_TaskQueue.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: N-F103RB_TaskQueue.elf
+ 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+arm-none-eabi-objdump -h -S  N-F103RB_TaskQueue.elf  > "N-F103RB_TaskQueue.list"
+   text	   data	    bss	    dec	    hex	filename
+  17272	    124	   5828	  23224	   5ab8	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+Finished building: N-F103RB_TaskQueue.list
+ 
+21:42:26 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+   text	   data	    bss	    dec	    hex	filename
+  17272	    124	   5828	  23224	   5ab8	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 

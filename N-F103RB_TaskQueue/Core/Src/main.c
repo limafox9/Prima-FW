@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "cmsis_os.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -42,11 +43,12 @@
 UART_HandleTypeDef huart2;
 
 osThreadId defaultTaskHandle;
+osMessageQId myQueue01Handle;
+
 /* USER CODE BEGIN PV */
 
 osThreadId buttonTaskHandle;
 osThreadId ledTaskHandle;
-
 
 /* USER CODE END PV */
 
@@ -110,8 +112,13 @@ int main(void)
   /* start timers, add new ones, ... */
   /* USER CODE END RTOS_TIMERS */
 
+  /* Create the queue(s) */
+  /* definition and creation of myQueue01 */
+  osMessageQDef(myQueue01, 16, uint16_t);
+  myQueue01Handle = osMessageCreate(osMessageQ(myQueue01), NULL);
+
   /* USER CODE BEGIN RTOS_QUEUES */
-  /* add queues, ... */
+
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
