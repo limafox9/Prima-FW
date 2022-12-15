@@ -23,6 +23,10 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
+#include "buzzer.h"
+#include "panel_serial.h"
+#include "keys.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -45,14 +49,12 @@ TIM_HandleTypeDef htim1;
 UART_HandleTypeDef huart1;
 DMA_HandleTypeDef hdma_usart1_rx;
 
-osThreadId dispTaskHandle;
-osThreadId dispBlinkTaskHandle;
-osThreadId dispSerialTaskHandle;
-osThreadId buzzerTaskHandle;
-osMessageQId qBeepHandle;
-osMessageQId qSendHandle;
-osMessageQId qReceiveHandle;
+osThreadId serialTaskHandle;
+osMessageQId serialRxQueueHandle;
 /* USER CODE BEGIN PV */
+
+osThreadId keysTaskHandle;
+
 
 /* USER CODE END PV */
 
@@ -62,10 +64,7 @@ static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
 static void MX_TIM1_Init(void);
 static void MX_USART1_UART_Init(void);
-void StartDisplayTask(void const * argument);
-void StartDisplayBlinkTask(void const * argument);
-void StartDisplaySerialReceiveTask(void const * argument);
-void StartBuzzerTask(void const * argument);
+void StartSerialTask(void const * argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -73,6 +72,24 @@ void StartBuzzerTask(void const * argument);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+#define UART_BUFFER_SIZE 30
+uint8_t UART_rxBuffer[UART_BUFFER_SIZE] = {0};
+
+void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
+	//HAL_UART_Receive_DMA(p_activeUART, UART_rxBuffer, 3);
+
+	HAL_UARTEx_ReceiveToIdle_DMA(huart, UART_rxBuffer, UART_BUFFER_SIZE); // Interrupt on receive buffer full or idle (end receive)
+	__HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT); // Disable half buffer received interrupt
+
+	// Check for UART
+	if (huart->Instance == huart1.Instance) {
+		PanelSerialReceive(UART_rxBuffer, Size);
+	}
+
+	// Receive again
+
+}
 
 /* USER CODE END 0 */
 
@@ -109,6 +126,12 @@ int main(void)
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
+  Beep(3,100,100);
+  PanelSerialInit(&huart1);
+
+  HAL_UARTEx_ReceiveToIdle_DMA(&huart1, UART_rxBuffer, UART_BUFFER_SIZE); // Interrupt on receive buffer full or idle (end receive)
+  __HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT); // Disable half buffer received interrupt
+
   /* USER CODE END 2 */
 
   /* USER CODE BEGIN RTOS_MUTEX */
@@ -124,41 +147,23 @@ int main(void)
   /* USER CODE END RTOS_TIMERS */
 
   /* Create the queue(s) */
-  /* definition and creation of qBeep */
-  osMessageQDef(qBeep, 3, uint64_t);
-  qBeepHandle = osMessageCreate(osMessageQ(qBeep), NULL);
-
-  /* definition and creation of qSend */
-  osMessageQDef(qSend, 16, uint16_t);
-  qSendHandle = osMessageCreate(osMessageQ(qSend), NULL);
-
-  /* definition and creation of qReceive */
-  osMessageQDef(qReceive, 16, uint16_t);
-  qReceiveHandle = osMessageCreate(osMessageQ(qReceive), NULL);
+  /* definition and creation of serialRxQueue */
+  osMessageQDef(serialRxQueue, 3, 30);
+  serialRxQueueHandle = osMessageCreate(osMessageQ(serialRxQueue), NULL);
 
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
-  /* definition and creation of dispTask */
-  osThreadDef(dispTask, StartDisplayTask, osPriorityNormal, 0, 128);
-  dispTaskHandle = osThreadCreate(osThread(dispTask), NULL);
-
-  /* definition and creation of dispBlinkTask */
-  osThreadDef(dispBlinkTask, StartDisplayBlinkTask, osPriorityIdle, 0, 128);
-  dispBlinkTaskHandle = osThreadCreate(osThread(dispBlinkTask), NULL);
-
-  /* definition and creation of dispSerialTask */
-  osThreadDef(dispSerialTask, StartDisplaySerialReceiveTask, osPriorityIdle, 0, 128);
-  dispSerialTaskHandle = osThreadCreate(osThread(dispSerialTask), NULL);
-
-  /* definition and creation of buzzerTask */
-  osThreadDef(buzzerTask, StartBuzzerTask, osPriorityIdle, 0, 128);
-  buzzerTaskHandle = osThreadCreate(osThread(buzzerTask), NULL);
+  /* definition and creation of serialTask */
+  osThreadDef(serialTask, StartSerialTask, osPriorityNormal, 0, 128);
+  serialTaskHandle = osThreadCreate(osThread(serialTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
+  osThreadDef(keysTask, StartKeysTask, osPriorityHigh, 1, 128);
+  keysTaskHandle = osThreadCreate(osThread(keysTask), NULL);
   /* USER CODE END RTOS_THREADS */
 
   /* Start scheduler */
@@ -375,14 +380,14 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE END 4 */
 
-/* USER CODE BEGIN Header_StartDisplayTask */
+/* USER CODE BEGIN Header_StartSerialTask */
 /**
-  * @brief  Function implementing the dispTask thread.
+  * @brief  Function implementing the serialTask thread.
   * @param  argument: Not used
   * @retval None
   */
-/* USER CODE END Header_StartDisplayTask */
-void StartDisplayTask(void const * argument)
+/* USER CODE END Header_StartSerialTask */
+void StartSerialTask(void const * argument)
 {
   /* USER CODE BEGIN 5 */
   /* Infinite loop */
@@ -393,63 +398,9 @@ void StartDisplayTask(void const * argument)
   /* USER CODE END 5 */
 }
 
-/* USER CODE BEGIN Header_StartDisplayBlinkTask */
-/**
-* @brief Function implementing the dispBlinkTask thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_StartDisplayBlinkTask */
-void StartDisplayBlinkTask(void const * argument)
-{
-  /* USER CODE BEGIN StartDisplayBlinkTask */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
-  /* USER CODE END StartDisplayBlinkTask */
-}
-
-/* USER CODE BEGIN Header_StartDisplaySerialReceiveTask */
-/**
-* @brief Function implementing the dispSerialTask thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_StartDisplaySerialReceiveTask */
-void StartDisplaySerialReceiveTask(void const * argument)
-{
-  /* USER CODE BEGIN StartDisplaySerialReceiveTask */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
-  /* USER CODE END StartDisplaySerialReceiveTask */
-}
-
-/* USER CODE BEGIN Header_StartBuzzerTask */
-/**
-* @brief Function implementing the buzzerTask thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_StartBuzzerTask */
-void StartBuzzerTask(void const * argument)
-{
-  /* USER CODE BEGIN StartBuzzerTask */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
-  /* USER CODE END StartBuzzerTask */
-}
-
 /**
   * @brief  Period elapsed callback in non blocking mode
-  * @note   This function is called  when TIM3 interrupt took place, inside
+  * @note   This function is called  when TIM4 interrupt took place, inside
   * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
   * a global variable "uwTick" used as application time base.
   * @param  htim : TIM handle
@@ -460,7 +411,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   /* USER CODE BEGIN Callback 0 */
 
   /* USER CODE END Callback 0 */
-  if (htim->Instance == TIM3) {
+  if (htim->Instance == TIM4) {
     HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 1 */

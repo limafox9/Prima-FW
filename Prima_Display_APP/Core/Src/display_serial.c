@@ -172,7 +172,6 @@ void ParseCommand(uint8_t* buffer) {
 
 }
 
-
 void SwapBytes(void *pv, size_t n) {
     char *p = pv;
     size_t lo, hi;

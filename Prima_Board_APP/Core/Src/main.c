@@ -507,10 +507,13 @@ void StartDefaultTask(void const * argument)
 {
   /* USER CODE BEGIN 5 */
   /* Infinite loop */
+
+
+
   for(;;)
   {
 	HAL_GPIO_TogglePin(LED_HEART_GPIO_Port, LED_HEART_Pin);
-    osDelay(500);
+    osDelay(200);
   }
   /* USER CODE END 5 */
 }

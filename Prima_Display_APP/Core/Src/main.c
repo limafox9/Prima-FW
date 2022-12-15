@@ -128,8 +128,8 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
 
-HAL_UARTEx_ReceiveToIdle_DMA(&huart1, UART_rxBuffer, UART_BUFFER_SIZE); // Interrupt on receive buffer full or idle (end receive)
-__HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT); // Disable half buffer received interrupt
+  HAL_UARTEx_ReceiveToIdle_DMA(&huart1, UART_rxBuffer, UART_BUFFER_SIZE); // Interrupt on receive buffer full or idle (end receive)
+  __HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT); // Disable half buffer received interrupt
 
 progressBarBits = 0x0;
 PanelSetAll();
