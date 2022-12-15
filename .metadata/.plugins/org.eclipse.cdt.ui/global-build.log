@@ -24947,3 +24947,31 @@ Finished building: default.size.stdout
  
 Finished building: N-F103RB_TaskQueue.list
  
+08:53:27 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10508	     20	   1740	  12268	   2fec	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+08:53:27 **** Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+   text	   data	    bss	    dec	    hex	filename
+  17272	    124	   5828	  23224	   5ab8	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+08:53:28 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+08:53:28 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24084	    132	   6020	  30236	   761c	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
