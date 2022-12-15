@@ -35,6 +35,22 @@ USAGE:
 
 #include "globals.h"
 
+uint32_t _UID[3];
+
+uint8_t digitsRow1[4];
+uint8_t digitsRow2[4];
+uint8_t digitsRow3[4];
+
+uint16_t progressBarBits;
+uint16_t progressBarBitsBlink;
+
+uint16_t panelLedsBits;
+uint16_t panelLedsBitsBlink;
+
+uint32_t digitsBits;
+
+uint8_t keysPressed;
+
 
 uint32_t GetSafeDeltaTick(uint32_t startTick, uint32_t endTick) {
 

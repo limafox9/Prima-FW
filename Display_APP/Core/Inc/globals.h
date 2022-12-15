@@ -34,19 +34,21 @@ USAGE:
 ================================================================================*/
 
 
-
 #ifndef INC_GLOBALS_H_
 #define INC_GLOBALS_H_
 
 #include "main.h"
 #include <stdio.h>
 
+#define FW_VERSION_MAJOR 1
+#define FW_VERSION_MINOR 0
+#define FW_VERSION_REVISION 21
+
 typedef struct _gpioPin {
 	GPIO_TypeDef* GPIO_Port;
 	uint16_t GPIO_Pin;
 	uint8_t bit;
 } gpioPin;
-
 
 typedef enum {LED_OFF, LED_ON} LED_STATE;
 typedef enum {BUZZER_OFF, BUZZER_ON} BUZZER_STATE;

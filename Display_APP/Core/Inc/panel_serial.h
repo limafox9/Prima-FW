@@ -43,10 +43,13 @@ USAGE:
 typedef enum _protocolCommand {
 	COMMAND_PLAY_BEEP = 0xDB,			// param1: n. of beeps, param2: onTIme(ms), param3: offTime(ms)
 	COMMAND_KEYS_PRESSED = 0x6666,
-	COMMAND_DISPLAY_DIGITS = 0xD7,
-	COMMAND_SET_PANEL_LEDS = 0xDE,
+	COMMAND_WRITE_DIGITS_ROW_1 = 0xD1,
+	COMMAND_WRITE_DIGITS_ROW_2 = 0xD2,
+	COMMAND_WRITE_DIGITS_ROW_3 = 0xD3,
+	COMMAND_SET_DASHBOARD_LEDS = 0xDE,
 	COMMAND_SET_PROGRESS_LEDS = 0xDF,
-	COMMAND_SET_PANEL_KEYS_BEEP = 0x55	// param1: 1 = panel buzzer beep on keypress, 0 = mute
+	COMMAND_SET_PANEL_KEYS_BEEP = 0x55,	// param1: 1 = panel buzzer beep on keypress, 0 = mute
+	COMMAND_PANEL_READY = 0x43
 } protocolCommand;
 
 #define PANEL_SERIAL_TX_TIMEOUT 100

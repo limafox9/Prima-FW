@@ -37,6 +37,7 @@ USAGE:
 
 #include "panel_serial.h"
 #include "crc16.h"
+#include "leds.h"
 
 UART_HandleTypeDef* pActiveUART;
 
@@ -133,21 +134,22 @@ void ParseCommand(uint8_t* buffer) {
 
 	switch (command) {
 		case COMMAND_PLAY_BEEP:
-			//Beep((uint8_t)param1, (uint16_t)param2, (uint16_t)param3);
-//			memcpy(&message, &param1, 1);
-//			memcpy(&message + 1, &param2, 2);
-//			memcpy(&message + 3, &param3, 2);
-			message = param1 + (param2 << 8) + (param3 << 24);
 			Beep(param1, param2, param3);
-			if (i > 1) i = 0;
-			if (i == 1) {
-				//PanelSetAll();
-				i++;
-			} else {
-				//PanelClearAll();
-				i++;
-			}
-
+			break;
+		case COMMAND_WRITE_DIGITS_ROW_1:
+			DigitsWriteRow1(&param1);
+			break;
+		case COMMAND_WRITE_DIGITS_ROW_2:
+			DigitsWriteRow2(&param1);
+			break;
+		case COMMAND_WRITE_DIGITS_ROW_3:
+			DigitsWriteRow3(&param1);
+			break;
+		case COMMAND_SET_DASHBOARD_LEDS:
+			DigitsWriteRow1(&param1);
+			break;
+		case COMMAND_SET_PROGRESS_LEDS:
+			DigitsWriteRow1(&param1);
 			break;
 	}
 

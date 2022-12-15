@@ -26,6 +26,12 @@
 #include "buzzer.h"
 #include "panel_serial.h"
 #include "keys.h"
+#include "globals.h"
+#include "digits.h"
+
+extern uint8_t digitsRow1[4];
+extern uint8_t digitsRow2[4];
+extern uint8_t digitsRow3[4];
 
 /* USER CODE END Includes */
 
@@ -54,6 +60,7 @@ osMessageQId serialRxQueueHandle;
 /* USER CODE BEGIN PV */
 
 osThreadId keysTaskHandle;
+osThreadId digitsTaskHandle;
 
 
 /* USER CODE END PV */
@@ -126,8 +133,27 @@ int main(void)
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
-  Beep(3,100,100);
   PanelSerialInit(&huart1);
+
+  PanelSetAll();
+  ProgressSetAll();
+  HAL_Delay(2000);
+  PanelClearAll();
+  ProgressClearAll();
+
+  //memcpy(digitsRow1, "CIAo", 4);
+//  digitsRow1[0] = 'C';
+//  digitsRow1[1] = 'I';
+//  digitsRow1[2] = 'A';
+//  digitsRow1[3] = 'o';
+
+  DigitsWriteRow1("CIAO");
+  DigitsWriteRow2("JOSh");
+  char str[4];
+  sprintf(str,"%d", 142);
+  DigitsWriteRow3(str);
+
+  Beep(3,100,100);
 
   HAL_UARTEx_ReceiveToIdle_DMA(&huart1, UART_rxBuffer, UART_BUFFER_SIZE); // Interrupt on receive buffer full or idle (end receive)
   __HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT); // Disable half buffer received interrupt
@@ -162,8 +188,13 @@ int main(void)
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
+
   osThreadDef(keysTask, StartKeysTask, osPriorityHigh, 1, 128);
   keysTaskHandle = osThreadCreate(osThread(keysTask), NULL);
+
+  osThreadDef(digitsTask, DigitsRefresh, osPriorityHigh, 1, 128);
+  digitsTaskHandle = osThreadCreate(osThread(digitsTask), NULL);
+
   /* USER CODE END RTOS_THREADS */
 
   /* Start scheduler */
@@ -389,13 +420,18 @@ static void MX_GPIO_Init(void)
 /* USER CODE END Header_StartSerialTask */
 void StartSerialTask(void const * argument)
 {
-  /* USER CODE BEGIN 5 */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
-  /* USER CODE END 5 */
+	/* USER CODE BEGIN 5 */
+	/* Infinite loop */
+
+	osDelay(500);
+	PanelSerialTransmit(COMMAND_PANEL_READY, FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION, 0);
+	DigitsWriteRow1("----");
+
+	for(;;)
+	{
+		osDelay(100);
+	}
+	/* USER CODE END 5 */
 }
 
 /**
