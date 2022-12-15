@@ -30,6 +30,11 @@ void PanelRefresh();
 
 //---------------------------------------------------------------------------
 
+void PanelWriteLeds(uint16_t leds) {
+	COPYBITS(panelLedsBits, leds, 14, 0);
+//	memcpy(&panelLedsBits, leds, 11);
+	PanelRefresh();
+}
 
 void PanelSetAll() {
 	//panelLedsBits = 0b00000000000000;

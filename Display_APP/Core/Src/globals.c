@@ -66,5 +66,15 @@ uint32_t GetSafeDeltaTick(uint32_t startTick, uint32_t endTick) {
 	return deltaTick;
 }
 
+void SwapBytes(void *pBytes, size_t size) {
+    char *p = pBytes;
+    size_t lo, hi;
+    for(lo=0, hi=size-1; hi>lo; lo++, hi--)
+    {
+        char tmp=p[lo];
+        p[lo] = p[hi];
+        p[hi] = tmp;
+    }
+}
 
 

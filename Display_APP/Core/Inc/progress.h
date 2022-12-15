@@ -11,6 +11,7 @@
 #include "main.h"
 #include "globals.h"
 
+void ProgressWriteLeds(uint16_t leds);
 void ProgressRefresh();
 void ProgressSetAll();
 void ProgressClearAll();

@@ -37,7 +37,8 @@ USAGE:
 
 #define KEY_LONG_PRESS_MS 3000
 #define KEY_DOBLECLICK_INTERVAL_MS 100
-#define KEYS_BEEP_ACTIVE 1
+
+uint8_t _keysBeepActive = TRUE;
 
 static uint8_t GetKeys();
 static uint8_t GetPressedKeys();
@@ -59,7 +60,7 @@ void StartKeysTask() {
 	 lastKeys = currKeys;
 
 	 if (currKeys > 0) {
-		 if (KEYS_BEEP_ACTIVE) Beep(1, 100, 100);
+		 if (_keysBeepActive) Beep(1, 100, 100);
 		 PanelSerialTransmit(COMMAND_KEYS_PRESSED, currKeys, 0, 0, 0);
 	 }
 

@@ -31901,3 +31901,1420 @@ arm-none-eabi-size   Display_APP.elf
   24840	    132	   6044	  31016	   7928	Display_APP.elf
 Finished building: default.size.stdout
  
+21:08:01 **** Incremental Build of configuration Debug for project Display_APP ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/leds.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/leds.d" -MT"Core/Src/leds.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/leds.o"
+arm-none-eabi-gcc "../Core/Src/panel_serial.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/panel_serial.d" -MT"Core/Src/panel_serial.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/panel_serial.o"
+../Core/Src/leds.c: In function 'PanelWriteLeds':
+../Core/Src/leds.c:34:2: warning: implicit declaration of function 'memcpy' [-Wimplicit-function-declaration]
+   34 |  memcpy(&panelLedsBits, &leds, 11);
+      |  ^~~~~~
+../Core/Src/leds.c:34:2: warning: incompatible implicit declaration of built-in function 'memcpy'
+../Core/Src/leds.c:10:1: note: include '<string.h>' or provide a declaration of 'memcpy'
+    9 | #include "globals.h"
+  +++ |+#include <string.h>
+   10 | 
+../Core/Src/panel_serial.c: In function 'PanelSerialTransmit':
+../Core/Src/panel_serial.c:70:2: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+   70 |  memset(txBuffer, 0, txBufferSize);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:70:2: warning: incompatible implicit declaration of built-in function 'memset'
+../Core/Src/panel_serial.c:41:1: note: include '<string.h>' or provide a declaration of 'memset'
+   40 | #include "leds.h"
+  +++ |+#include <string.h>
+   41 | 
+../Core/Src/panel_serial.c:73:2: warning: implicit declaration of function 'memcpy' [-Wimplicit-function-declaration]
+   73 |  memcpy(txBuffer + pos_head, activeProtocolHead, 2);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:73:2: warning: incompatible implicit declaration of built-in function 'memcpy'
+../Core/Src/panel_serial.c:73:2: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/panel_serial.c: In function 'PanelSerialReceive':
+../Core/Src/panel_serial.c:112:4: warning: incompatible implicit declaration of built-in function 'memcpy'
+  112 |    memcpy(&rxCRC16, buffer + pos_checksum, 2);
+      |    ^~~~~~
+../Core/Src/panel_serial.c:112:4: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/panel_serial.c:116:5: warning: implicit declaration of function 'ParseCommand' [-Wimplicit-function-declaration]
+  116 |     ParseCommand(buffer); // Valid command
+      |     ^~~~~~~~~~~~
+../Core/Src/panel_serial.c: At top level:
+../Core/Src/panel_serial.c:122:6: warning: conflicting types for 'ParseCommand'
+  122 | void ParseCommand(uint8_t* buffer) {
+      |      ^~~~~~~~~~~~
+../Core/Src/panel_serial.c:116:5: note: previous implicit declaration of 'ParseCommand' was here
+  116 |     ParseCommand(buffer); // Valid command
+      |     ^~~~~~~~~~~~
+../Core/Src/panel_serial.c: In function 'ParseCommand':
+../Core/Src/panel_serial.c:129:2: warning: incompatible implicit declaration of built-in function 'memcpy'
+  129 |  memcpy(&command, buffer + pos_command, 2);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:129:2: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/panel_serial.c:140:4: warning: implicit declaration of function 'DigitsWriteRow1' [-Wimplicit-function-declaration]
+  140 |    DigitsWriteRow1(&param1);
+      |    ^~~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:143:4: warning: implicit declaration of function 'DigitsWriteRow2' [-Wimplicit-function-declaration]
+  143 |    DigitsWriteRow2(&param1);
+      |    ^~~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:146:4: warning: implicit declaration of function 'DigitsWriteRow3' [-Wimplicit-function-declaration]
+  146 |    DigitsWriteRow3(&param1);
+      |    ^~~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:149:19: warning: passing argument 1 of 'PanelWriteLeds' makes integer from pointer without a cast [-Wint-conversion]
+  149 |    PanelWriteLeds(&param1);
+      |                   ^~~~~~~
+      |                   |
+      |                   uint32_t * {aka long unsigned int *}
+In file included from ../Core/Src/panel_serial.c:40:
+../Core/Inc/leds.h:15:30: note: expected 'uint16_t' {aka 'short unsigned int'} but argument is of type 'uint32_t *' {aka 'long unsigned int *'}
+   15 | void PanelWriteLeds(uint16_t leds);
+      |                     ~~~~~~~~~^~~~
+../Core/Src/panel_serial.c:127:17: warning: unused variable 'i' [-Wunused-variable]
+  127 |  static uint8_t i = 0;
+      |                 ^
+../Core/Src/panel_serial.c:126:11: warning: unused variable 'message' [-Wunused-variable]
+  126 |  uint64_t message = 0;
+      |           ^~~~~~~
+At top level:
+../Core/Src/panel_serial.c:127:17: warning: 'i' defined but not used [-Wunused-variable]
+  127 |  static uint8_t i = 0;
+      |                 ^
+arm-none-eabi-gcc -o "Display_APP.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Display_APP\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Display_APP.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Display_APP.elf
+ 
+arm-none-eabi-size   Display_APP.elf 
+arm-none-eabi-objdump -h -S  Display_APP.elf  > "Display_APP.list"
+   text	   data	    bss	    dec	    hex	filename
+  25000	    132	   6044	  31176	   79c8	Display_APP.elf
+Finished building: default.size.stdout
+ 
+Finished building: Display_APP.list
+ 
+21:08:02 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10508	     20	   1740	  12268	   2fec	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+21:08:02 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+   text	   data	    bss	    dec	    hex	filename
+  17272	    124	   5828	  23224	   5ab8	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+21:08:03 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+21:08:03 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24084	    132	   6020	  30236	   761c	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+21:08:30 **** Incremental Build of configuration Debug for project Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  25000	    132	   6044	  31176	   79c8	Display_APP.elf
+Finished building: default.size.stdout
+ 
+21:11:51 **** Incremental Build of configuration Debug for project Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  25000	    132	   6044	  31176	   79c8	Display_APP.elf
+Finished building: default.size.stdout
+ 
+21:14:32 **** Incremental Build of configuration Debug for project Display_APP ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/leds.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/leds.d" -MT"Core/Src/leds.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/leds.o"
+../Core/Src/leds.c:33:6: error: conflicting types for 'PanelWriteLeds'
+   33 | void PanelWriteLeds(uint16_t* leds) {
+      |      ^~~~~~~~~~~~~~
+In file included from ../Core/Src/leds.c:8:
+../Core/Inc/leds.h:15:6: note: previous declaration of 'PanelWriteLeds' was here
+   15 | void PanelWriteLeds(uint16_t leds);
+      |      ^~~~~~~~~~~~~~
+../Core/Src/leds.c: In function 'PanelWriteLeds':
+../Core/Src/leds.c:34:2: warning: implicit declaration of function 'memcpy' [-Wimplicit-function-declaration]
+   34 |  memcpy(&panelLedsBits, leds, 11);
+      |  ^~~~~~
+../Core/Src/leds.c:34:2: warning: incompatible implicit declaration of built-in function 'memcpy'
+../Core/Src/leds.c:10:1: note: include '<string.h>' or provide a declaration of 'memcpy'
+    9 | #include "globals.h"
+  +++ |+#include <string.h>
+   10 | 
+make: *** [Core/Src/subdir.mk:64: Core/Src/leds.o] Error 1
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+21:15:04 **** Incremental Build of configuration Debug for project Display_APP ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/leds.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/leds.d" -MT"Core/Src/leds.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/leds.o"
+arm-none-eabi-gcc "../Core/Src/panel_serial.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/panel_serial.d" -MT"Core/Src/panel_serial.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/panel_serial.o"
+../Core/Src/leds.c:33:3: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+   33 | v {
+      |   ^
+make: *** [Core/Src/subdir.mk:64: Core/Src/leds.o] Error 1
+make: *** Waiting for unfinished jobs....
+../Core/Src/panel_serial.c: In function 'PanelSerialTransmit':
+../Core/Src/panel_serial.c:70:2: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+   70 |  memset(txBuffer, 0, txBufferSize);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:70:2: warning: incompatible implicit declaration of built-in function 'memset'
+../Core/Src/panel_serial.c:41:1: note: include '<string.h>' or provide a declaration of 'memset'
+   40 | #include "leds.h"
+  +++ |+#include <string.h>
+   41 | 
+../Core/Src/panel_serial.c:73:2: warning: implicit declaration of function 'memcpy' [-Wimplicit-function-declaration]
+   73 |  memcpy(txBuffer + pos_head, activeProtocolHead, 2);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:73:2: warning: incompatible implicit declaration of built-in function 'memcpy'
+../Core/Src/panel_serial.c:73:2: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/panel_serial.c: In function 'PanelSerialReceive':
+../Core/Src/panel_serial.c:112:4: warning: incompatible implicit declaration of built-in function 'memcpy'
+  112 |    memcpy(&rxCRC16, buffer + pos_checksum, 2);
+      |    ^~~~~~
+../Core/Src/panel_serial.c:112:4: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/panel_serial.c:116:5: warning: implicit declaration of function 'ParseCommand' [-Wimplicit-function-declaration]
+  116 |     ParseCommand(buffer); // Valid command
+      |     ^~~~~~~~~~~~
+../Core/Src/panel_serial.c: At top level:
+../Core/Src/panel_serial.c:122:6: warning: conflicting types for 'ParseCommand'
+  122 | void ParseCommand(uint8_t* buffer) {
+      |      ^~~~~~~~~~~~
+../Core/Src/panel_serial.c:116:5: note: previous implicit declaration of 'ParseCommand' was here
+  116 |     ParseCommand(buffer); // Valid command
+      |     ^~~~~~~~~~~~
+../Core/Src/panel_serial.c: In function 'ParseCommand':
+../Core/Src/panel_serial.c:129:2: warning: incompatible implicit declaration of built-in function 'memcpy'
+  129 |  memcpy(&command, buffer + pos_command, 2);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:129:2: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/panel_serial.c:140:4: warning: implicit declaration of function 'DigitsWriteRow1' [-Wimplicit-function-declaration]
+  140 |    DigitsWriteRow1(&param1);
+      |    ^~~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:143:4: warning: implicit declaration of function 'DigitsWriteRow2' [-Wimplicit-function-declaration]
+  143 |    DigitsWriteRow2(&param1);
+      |    ^~~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:146:4: warning: implicit declaration of function 'DigitsWriteRow3' [-Wimplicit-function-declaration]
+  146 |    DigitsWriteRow3(&param1);
+      |    ^~~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:149:19: warning: passing argument 1 of 'PanelWriteLeds' from incompatible pointer type [-Wincompatible-pointer-types]
+  149 |    PanelWriteLeds(&param1);
+      |                   ^~~~~~~
+      |                   |
+      |                   uint32_t * {aka long unsigned int *}
+In file included from ../Core/Src/panel_serial.c:40:
+../Core/Inc/leds.h:15:31: note: expected 'uint16_t *' {aka 'short unsigned int *'} but argument is of type 'uint32_t *' {aka 'long unsigned int *'}
+   15 | void PanelWriteLeds(uint16_t* leds);
+      |                     ~~~~~~~~~~^~~~
+../Core/Src/panel_serial.c:127:17: warning: unused variable 'i' [-Wunused-variable]
+  127 |  static uint8_t i = 0;
+      |                 ^
+../Core/Src/panel_serial.c:126:11: warning: unused variable 'message' [-Wunused-variable]
+  126 |  uint64_t message = 0;
+      |           ^~~~~~~
+At top level:
+../Core/Src/panel_serial.c:127:17: warning: 'i' defined but not used [-Wunused-variable]
+  127 |  static uint8_t i = 0;
+      |                 ^
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+21:15:41 **** Incremental Build of configuration Debug for project Display_APP ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/leds.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/leds.d" -MT"Core/Src/leds.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/leds.o"
+../Core/Src/leds.c: In function 'PanelWriteLeds':
+../Core/Src/leds.c:34:2: warning: implicit declaration of function 'memcpy' [-Wimplicit-function-declaration]
+   34 |  memcpy(&panelLedsBits, leds, 11);
+      |  ^~~~~~
+../Core/Src/leds.c:34:2: warning: incompatible implicit declaration of built-in function 'memcpy'
+../Core/Src/leds.c:10:1: note: include '<string.h>' or provide a declaration of 'memcpy'
+    9 | #include "globals.h"
+  +++ |+#include <string.h>
+   10 | 
+arm-none-eabi-gcc -o "Display_APP.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Display_APP\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Display_APP.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Display_APP.elf
+ 
+arm-none-eabi-size   Display_APP.elf 
+arm-none-eabi-objdump -h -S  Display_APP.elf  > "Display_APP.list"
+   text	   data	    bss	    dec	    hex	filename
+  24984	    132	   6044	  31160	   79b8	Display_APP.elf
+Finished building: default.size.stdout
+ 
+Finished building: Display_APP.list
+ 
+21:16:13 **** Incremental Build of configuration Debug for project Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24984	    132	   6044	  31160	   79b8	Display_APP.elf
+Finished building: default.size.stdout
+ 
+21:18:13 **** Incremental Build of configuration Debug for project Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24984	    132	   6044	  31160	   79b8	Display_APP.elf
+Finished building: default.size.stdout
+ 
+21:23:56 **** Incremental Build of configuration Debug for project Display_APP ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/leds.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/leds.d" -MT"Core/Src/leds.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/leds.o"
+arm-none-eabi-gcc "../Core/Src/panel_serial.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/panel_serial.d" -MT"Core/Src/panel_serial.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/panel_serial.o"
+../Core/Src/panel_serial.c: In function 'PanelSerialTransmit':
+../Core/Src/panel_serial.c:70:2: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+   70 |  memset(txBuffer, 0, txBufferSize);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:70:2: warning: incompatible implicit declaration of built-in function 'memset'
+../Core/Src/panel_serial.c:41:1: note: include '<string.h>' or provide a declaration of 'memset'
+   40 | #include "leds.h"
+  +++ |+#include <string.h>
+   41 | 
+../Core/Src/panel_serial.c:73:2: warning: implicit declaration of function 'memcpy' [-Wimplicit-function-declaration]
+   73 |  memcpy(txBuffer + pos_head, activeProtocolHead, 2);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:73:2: warning: incompatible implicit declaration of built-in function 'memcpy'
+../Core/Src/panel_serial.c:73:2: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/panel_serial.c: In function 'PanelSerialReceive':
+../Core/Src/panel_serial.c:112:4: warning: incompatible implicit declaration of built-in function 'memcpy'
+  112 |    memcpy(&rxCRC16, buffer + pos_checksum, 2);
+      |    ^~~~~~
+../Core/Src/panel_serial.c:112:4: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/panel_serial.c:116:5: warning: implicit declaration of function 'ParseCommand' [-Wimplicit-function-declaration]
+  116 |     ParseCommand(buffer); // Valid command
+      |     ^~~~~~~~~~~~
+../Core/Src/panel_serial.c: At top level:
+../Core/Src/panel_serial.c:122:6: warning: conflicting types for 'ParseCommand'
+  122 | void ParseCommand(uint8_t* buffer) {
+      |      ^~~~~~~~~~~~
+../Core/Src/panel_serial.c:116:5: note: previous implicit declaration of 'ParseCommand' was here
+  116 |     ParseCommand(buffer); // Valid command
+      |     ^~~~~~~~~~~~
+../Core/Src/panel_serial.c: In function 'ParseCommand':
+../Core/Src/panel_serial.c:129:2: warning: incompatible implicit declaration of built-in function 'memcpy'
+  129 |  memcpy(&command, buffer + pos_command, 2);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:129:2: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/panel_serial.c:140:4: warning: implicit declaration of function 'DigitsWriteRow1' [-Wimplicit-function-declaration]
+  140 |    DigitsWriteRow1(&param1);
+      |    ^~~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:143:4: warning: implicit declaration of function 'DigitsWriteRow2' [-Wimplicit-function-declaration]
+  143 |    DigitsWriteRow2(&param1);
+      |    ^~~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:146:4: warning: implicit declaration of function 'DigitsWriteRow3' [-Wimplicit-function-declaration]
+  146 |    DigitsWriteRow3(&param1);
+      |    ^~~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:127:17: warning: unused variable 'i' [-Wunused-variable]
+  127 |  static uint8_t i = 0;
+      |                 ^
+../Core/Src/panel_serial.c:126:11: warning: unused variable 'message' [-Wunused-variable]
+  126 |  uint64_t message = 0;
+      |           ^~~~~~~
+At top level:
+../Core/Src/panel_serial.c:127:17: warning: 'i' defined but not used [-Wunused-variable]
+  127 |  static uint8_t i = 0;
+      |                 ^
+arm-none-eabi-gcc -o "Display_APP.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Display_APP\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Display_APP.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Display_APP.elf
+ 
+arm-none-eabi-size   Display_APP.elf 
+arm-none-eabi-objdump -h -S  Display_APP.elf  > "Display_APP.list"
+   text	   data	    bss	    dec	    hex	filename
+  25000	    132	   6044	  31176	   79c8	Display_APP.elf
+Finished building: default.size.stdout
+ 
+Finished building: Display_APP.list
+ 
+21:30:44 **** Incremental Build of configuration Debug for project Display_APP ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/leds.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/leds.d" -MT"Core/Src/leds.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/leds.o"
+arm-none-eabi-gcc "../Core/Src/panel_serial.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/panel_serial.d" -MT"Core/Src/panel_serial.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/panel_serial.o"
+arm-none-eabi-gcc "../Core/Src/progress.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/progress.d" -MT"Core/Src/progress.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/progress.o"
+../Core/Src/panel_serial.c: In function 'PanelSerialTransmit':
+../Core/Src/panel_serial.c:70:2: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+   70 |  memset(txBuffer, 0, txBufferSize);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:70:2: warning: incompatible implicit declaration of built-in function 'memset'
+../Core/Src/panel_serial.c:41:1: note: include '<string.h>' or provide a declaration of 'memset'
+   40 | #include "leds.h"
+  +++ |+#include <string.h>
+   41 | 
+../Core/Src/panel_serial.c:73:2: warning: implicit declaration of function 'memcpy' [-Wimplicit-function-declaration]
+   73 |  memcpy(txBuffer + pos_head, activeProtocolHead, 2);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:73:2: warning: incompatible implicit declaration of built-in function 'memcpy'
+../Core/Src/panel_serial.c:73:2: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/panel_serial.c: In function 'PanelSerialReceive':
+../Core/Src/panel_serial.c:112:4: warning: incompatible implicit declaration of built-in function 'memcpy'
+  112 |    memcpy(&rxCRC16, buffer + pos_checksum, 2);
+      |    ^~~~~~
+../Core/Src/panel_serial.c:112:4: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/panel_serial.c:116:5: warning: implicit declaration of function 'ParseCommand' [-Wimplicit-function-declaration]
+  116 |     ParseCommand(buffer); // Valid command
+      |     ^~~~~~~~~~~~
+../Core/Src/panel_serial.c: At top level:
+../Core/Src/panel_serial.c:122:6: warning: conflicting types for 'ParseCommand'
+  122 | void ParseCommand(uint8_t* buffer) {
+      |      ^~~~~~~~~~~~
+../Core/Src/panel_serial.c:116:5: note: previous implicit declaration of 'ParseCommand' was here
+  116 |     ParseCommand(buffer); // Valid command
+      |     ^~~~~~~~~~~~
+../Core/Src/panel_serial.c: In function 'ParseCommand':
+../Core/Src/panel_serial.c:129:2: warning: incompatible implicit declaration of built-in function 'memcpy'
+  129 |  memcpy(&command, buffer + pos_command, 2);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:129:2: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/progress.c: In function 'ProgressWriteLeds':
+../Core/Src/progress.c:17:2: warning: implicit declaration of function 'PanelRefresh' [-Wimplicit-function-declaration]
+   17 |  PanelRefresh();
+      |  ^~~~~~~~~~~~
+../Core/Src/progress.c: In function 'ProgressSetAll':
+../Core/Src/progress.c:21:2: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+   21 |  memset(&progressBarBits, 0xFF, 11);
+      |  ^~~~~~
+../Core/Src/progress.c:21:2: warning: incompatible implicit declaration of built-in function 'memset'
+../Core/Src/progress.c:10:1: note: include '<string.h>' or provide a declaration of 'memset'
+    9 | #include "progress.h"
+  +++ |+#include <string.h>
+   10 | 
+../Core/Src/progress.c: In function 'ProgressClearAll':
+../Core/Src/progress.c:26:2: warning: incompatible implicit declaration of built-in function 'memset'
+   26 |  memset(&progressBarBits, 0x00, 11);
+      |  ^~~~~~
+../Core/Src/progress.c:26:2: note: include '<string.h>' or provide a declaration of 'memset'
+../Core/Src/panel_serial.c:140:4: warning: implicit declaration of function 'DigitsWriteRow1' [-Wimplicit-function-declaration]
+  140 |    DigitsWriteRow1(&param1);
+      |    ^~~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:143:4: warning: implicit declaration of function 'DigitsWriteRow2' [-Wimplicit-function-declaration]
+  143 |    DigitsWriteRow2(&param1);
+      |    ^~~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:146:4: warning: implicit declaration of function 'DigitsWriteRow3' [-Wimplicit-function-declaration]
+  146 |    DigitsWriteRow3(&param1);
+      |    ^~~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:127:17: warning: unused variable 'i' [-Wunused-variable]
+  127 |  static uint8_t i = 0;
+      |                 ^
+../Core/Src/panel_serial.c:126:11: warning: unused variable 'message' [-Wunused-variable]
+  126 |  uint64_t message = 0;
+      |           ^~~~~~~
+At top level:
+../Core/Src/panel_serial.c:127:17: warning: 'i' defined but not used [-Wunused-variable]
+  127 |  static uint8_t i = 0;
+      |                 ^
+arm-none-eabi-gcc -o "Display_APP.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Display_APP\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Display_APP.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Display_APP.elf
+ 
+arm-none-eabi-size   Display_APP.elf 
+arm-none-eabi-objdump -h -S  Display_APP.elf  > "Display_APP.list"
+   text	   data	    bss	    dec	    hex	filename
+  25064	    132	   6044	  31240	   7a08	Display_APP.elf
+Finished building: default.size.stdout
+ 
+Finished building: Display_APP.list
+ 
+21:30:45 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10508	     20	   1740	  12268	   2fec	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+21:30:45 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+   text	   data	    bss	    dec	    hex	filename
+  17272	    124	   5828	  23224	   5ab8	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+21:30:46 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+21:30:46 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24084	    132	   6020	  30236	   761c	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+21:47:33 **** Incremental Build of configuration Debug for project Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  25064	    132	   6044	  31240	   7a08	Display_APP.elf
+Finished building: default.size.stdout
+ 
+21:47:59 **** Incremental Build of configuration Debug for project Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  25064	    132	   6044	  31240	   7a08	Display_APP.elf
+Finished building: default.size.stdout
+ 
+21:50:11 **** Incremental Build of configuration Debug for project Display_APP ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/progress.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/progress.d" -MT"Core/Src/progress.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/progress.o"
+../Core/Src/progress.c: In function 'ProgressSetAll':
+../Core/Src/progress.c:21:2: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+   21 |  memset(&progressBarBits, 0xFF, 11);
+      |  ^~~~~~
+../Core/Src/progress.c:21:2: warning: incompatible implicit declaration of built-in function 'memset'
+../Core/Src/progress.c:10:1: note: include '<string.h>' or provide a declaration of 'memset'
+    9 | #include "progress.h"
+  +++ |+#include <string.h>
+   10 | 
+../Core/Src/progress.c: In function 'ProgressClearAll':
+../Core/Src/progress.c:26:2: warning: incompatible implicit declaration of built-in function 'memset'
+   26 |  memset(&progressBarBits, 0x00, 11);
+      |  ^~~~~~
+../Core/Src/progress.c:26:2: note: include '<string.h>' or provide a declaration of 'memset'
+arm-none-eabi-gcc -o "Display_APP.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Display_APP\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Display_APP.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Display_APP.elf
+ 
+arm-none-eabi-size   Display_APP.elf 
+arm-none-eabi-objdump -h -S  Display_APP.elf  > "Display_APP.list"
+   text	   data	    bss	    dec	    hex	filename
+  25064	    132	   6044	  31240	   7a08	Display_APP.elf
+Finished building: default.size.stdout
+ 
+Finished building: Display_APP.list
+ 
+21:50:33 **** Incremental Build of configuration Debug for project Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  25064	    132	   6044	  31240	   7a08	Display_APP.elf
+Finished building: default.size.stdout
+ 
+21:54:56 **** Incremental Build of configuration Debug for project Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  25064	    132	   6044	  31240	   7a08	Display_APP.elf
+Finished building: default.size.stdout
+ 
+21:58:26 **** Incremental Build of configuration Debug for project Display_APP ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/progress.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/progress.d" -MT"Core/Src/progress.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/progress.o"
+../Core/Src/progress.c: In function 'ProgressSetAll':
+../Core/Src/progress.c:21:2: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+   21 |  memset(&progressBarBits, 0xFF, 11);
+      |  ^~~~~~
+../Core/Src/progress.c:21:2: warning: incompatible implicit declaration of built-in function 'memset'
+../Core/Src/progress.c:10:1: note: include '<string.h>' or provide a declaration of 'memset'
+    9 | #include "progress.h"
+  +++ |+#include <string.h>
+   10 | 
+../Core/Src/progress.c: In function 'ProgressClearAll':
+../Core/Src/progress.c:26:2: warning: incompatible implicit declaration of built-in function 'memset'
+   26 |  memset(&progressBarBits, 0x00, 11);
+      |  ^~~~~~
+../Core/Src/progress.c:26:2: note: include '<string.h>' or provide a declaration of 'memset'
+arm-none-eabi-gcc -o "Display_APP.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Display_APP\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Display_APP.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Display_APP.elf
+ 
+arm-none-eabi-size   Display_APP.elf 
+arm-none-eabi-objdump -h -S  Display_APP.elf  > "Display_APP.list"
+   text	   data	    bss	    dec	    hex	filename
+  25064	    132	   6044	  31240	   7a08	Display_APP.elf
+Finished building: default.size.stdout
+ 
+Finished building: Display_APP.list
+ 
+22:59:45 **** Incremental Build of configuration Debug for project Display_APP ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/progress.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/progress.d" -MT"Core/Src/progress.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/progress.o"
+../Core/Src/progress.c: In function 'ProgressSetAll':
+../Core/Src/progress.c:21:2: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+   21 |  memset(&progressBarBits, 0xFF, 11);
+      |  ^~~~~~
+../Core/Src/progress.c:21:2: warning: incompatible implicit declaration of built-in function 'memset'
+../Core/Src/progress.c:10:1: note: include '<string.h>' or provide a declaration of 'memset'
+    9 | #include "progress.h"
+  +++ |+#include <string.h>
+   10 | 
+../Core/Src/progress.c: In function 'ProgressClearAll':
+../Core/Src/progress.c:26:2: warning: incompatible implicit declaration of built-in function 'memset'
+   26 |  memset(&progressBarBits, 0x00, 11);
+      |  ^~~~~~
+../Core/Src/progress.c:26:2: note: include '<string.h>' or provide a declaration of 'memset'
+arm-none-eabi-gcc -o "Display_APP.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Display_APP\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Display_APP.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Display_APP.elf
+ 
+arm-none-eabi-size   Display_APP.elf 
+arm-none-eabi-objdump -h -S  Display_APP.elf  > "Display_APP.list"
+   text	   data	    bss	    dec	    hex	filename
+  25064	    132	   6044	  31240	   7a08	Display_APP.elf
+Finished building: default.size.stdout
+ 
+Finished building: Display_APP.list
+ 
+23:15:46 **** Incremental Build of configuration Debug for project Display_APP ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/buzzer.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/buzzer.d" -MT"Core/Src/buzzer.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/buzzer.o"
+arm-none-eabi-gcc "../Core/Src/digits.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/digits.d" -MT"Core/Src/digits.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/digits.o"
+arm-none-eabi-gcc "../Core/Src/globals.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/globals.d" -MT"Core/Src/globals.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/globals.o"
+arm-none-eabi-gcc "../Core/Src/keys.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/keys.d" -MT"Core/Src/keys.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/keys.o"
+arm-none-eabi-gcc "../Core/Src/leds.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/leds.d" -MT"Core/Src/leds.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/leds.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/panel_serial.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/panel_serial.d" -MT"Core/Src/panel_serial.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/panel_serial.o"
+arm-none-eabi-gcc "../Core/Src/progress.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/progress.d" -MT"Core/Src/progress.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/progress.o"
+../Core/Src/digits.c: In function 'DigitsWriteRow1':
+../Core/Src/digits.c:74:2: warning: implicit declaration of function 'memcpy' [-Wimplicit-function-declaration]
+   74 |  memcpy(digitsRow1, digits, 4);
+      |  ^~~~~~
+../Core/Src/digits.c:74:2: warning: incompatible implicit declaration of built-in function 'memcpy'
+../Core/Src/digits.c:13:1: note: include '<string.h>' or provide a declaration of 'memcpy'
+   12 | #include "digits.h"
+  +++ |+#include <string.h>
+   13 | 
+../Core/Src/digits.c: In function 'DigitsWriteRow2':
+../Core/Src/digits.c:78:2: warning: incompatible implicit declaration of built-in function 'memcpy'
+   78 |  memcpy(digitsRow2, digits, 4);
+      |  ^~~~~~
+../Core/Src/digits.c:78:2: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/digits.c: In function 'DigitsWriteRow3':
+../Core/Src/digits.c:82:2: warning: incompatible implicit declaration of built-in function 'memcpy'
+   82 |  memcpy(digitsRow3, digits, 4);
+      |  ^~~~~~
+../Core/Src/digits.c:82:2: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/panel_serial.c: In function 'PanelSerialTransmit':
+../Core/Src/panel_serial.c:70:2: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+   70 |  memset(txBuffer, 0, txBufferSize);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:70:2: warning: incompatible implicit declaration of built-in function 'memset'
+../Core/Src/panel_serial.c:41:1: note: include '<string.h>' or provide a declaration of 'memset'
+   40 | #include "leds.h"
+  +++ |+#include <string.h>
+   41 | 
+../Core/Src/panel_serial.c:73:2: warning: implicit declaration of function 'memcpy' [-Wimplicit-function-declaration]
+   73 |  memcpy(txBuffer + pos_head, activeProtocolHead, 2);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:73:2: warning: incompatible implicit declaration of built-in function 'memcpy'
+../Core/Src/panel_serial.c:73:2: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/panel_serial.c: In function 'PanelSerialReceive':
+../Core/Src/panel_serial.c:112:4: warning: incompatible implicit declaration of built-in function 'memcpy'
+  112 |    memcpy(&rxCRC16, buffer + pos_checksum, 2);
+      |    ^~~~~~
+../Core/Src/panel_serial.c:112:4: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:138:3: warning: implicit declaration of function 'PanelSetAll' [-Wimplicit-function-declaration]
+  138 |   PanelSetAll();
+      |   ^~~~~~~~~~~
+../Core/Src/panel_serial.c:116:5: warning: implicit declaration of function 'ParseCommand' [-Wimplicit-function-declaration]
+  116 |     ParseCommand(buffer); // Valid command
+      |     ^~~~~~~~~~~~
+../Core/Src/panel_serial.c: At top level:
+../Core/Src/panel_serial.c:122:6: warning: conflicting types for 'ParseCommand'
+  122 | void ParseCommand(uint8_t* buffer) {
+      |      ^~~~~~~~~~~~
+../Core/Src/panel_serial.c:116:5: note: previous implicit declaration of 'ParseCommand' was here
+  116 |     ParseCommand(buffer); // Valid command
+      |     ^~~~~~~~~~~~
+../Core/Src/panel_serial.c: In function 'ParseCommand':
+../Core/Src/panel_serial.c:129:2: warning: incompatible implicit declaration of built-in function 'memcpy'
+  129 |  memcpy(&command, buffer + pos_command, 2);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:129:2: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/progress.c: In function 'ProgressSetAll':
+../Core/Src/progress.c:21:2: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+   21 |  memset(&progressBarBits, 0xFF, 11);
+      |  ^~~~~~
+../Core/Src/progress.c:21:2: warning: incompatible implicit declaration of built-in function 'memset'
+../Core/Src/progress.c:10:1: note: include '<string.h>' or provide a declaration of 'memset'
+    9 | #include "progress.h"
+  +++ |+#include <string.h>
+   10 | 
+../Core/Src/progress.c: In function 'ProgressClearAll':
+../Core/Src/progress.c:26:2: warning: incompatible implicit declaration of built-in function 'memset'
+   26 |  memset(&progressBarBits, 0x00, 11);
+      |  ^~~~~~
+../Core/Src/progress.c:26:2: note: include '<string.h>' or provide a declaration of 'memset'
+../Core/Src/main.c:139:3: warning: implicit declaration of function 'ProgressSetAll' [-Wimplicit-function-declaration]
+  139 |   ProgressSetAll();
+      |   ^~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:140:4: warning: implicit declaration of function 'DigitsWriteRow1' [-Wimplicit-function-declaration]
+  140 |    DigitsWriteRow1(&param1);
+      |    ^~~~~~~~~~~~~~~
+../Core/Src/main.c:141:3: warning: implicit declaration of function 'PanelClearAll' [-Wimplicit-function-declaration]
+  141 |   PanelClearAll();
+      |   ^~~~~~~~~~~~~
+../Core/Src/panel_serial.c:143:4: warning: implicit declaration of function 'DigitsWriteRow2' [-Wimplicit-function-declaration]
+  143 |    DigitsWriteRow2(&param1);
+      |    ^~~~~~~~~~~~~~~
+../Core/Src/main.c:142:3: warning: implicit declaration of function 'ProgressClearAll' [-Wimplicit-function-declaration]
+  142 |   ProgressClearAll();
+      |   ^~~~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:146:4: warning: implicit declaration of function 'DigitsWriteRow3' [-Wimplicit-function-declaration]
+  146 |    DigitsWriteRow3(&param1);
+      |    ^~~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:127:17: warning: unused variable 'i' [-Wunused-variable]
+  127 |  static uint8_t i = 0;
+      |                 ^
+../Core/Src/panel_serial.c:126:11: warning: unused variable 'message' [-Wunused-variable]
+  126 |  uint64_t message = 0;
+      |           ^~~~~~~
+At top level:
+../Core/Src/panel_serial.c:127:17: warning: 'i' defined but not used [-Wunused-variable]
+  127 |  static uint8_t i = 0;
+      |                 ^
+arm-none-eabi-gcc -o "Display_APP.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Display_APP\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Display_APP.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Display_APP.elf
+ 
+arm-none-eabi-size   Display_APP.elf 
+arm-none-eabi-objdump -h -S  Display_APP.elf  > "Display_APP.list"
+   text	   data	    bss	    dec	    hex	filename
+  25160	    132	   6044	  31336	   7a68	Display_APP.elf
+Finished building: default.size.stdout
+ 
+Finished building: Display_APP.list
+ 
+23:21:55 **** Incremental Build of configuration Debug for project Display_APP ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/panel_serial.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/panel_serial.d" -MT"Core/Src/panel_serial.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/panel_serial.o"
+../Core/Src/panel_serial.c: In function 'PanelSerialTransmit':
+../Core/Src/panel_serial.c:70:2: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+   70 |  memset(txBuffer, 0, txBufferSize);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:70:2: warning: incompatible implicit declaration of built-in function 'memset'
+../Core/Src/panel_serial.c:41:1: note: include '<string.h>' or provide a declaration of 'memset'
+   40 | #include "leds.h"
+  +++ |+#include <string.h>
+   41 | 
+../Core/Src/panel_serial.c:73:2: warning: implicit declaration of function 'memcpy' [-Wimplicit-function-declaration]
+   73 |  memcpy(txBuffer + pos_head, activeProtocolHead, 2);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:73:2: warning: incompatible implicit declaration of built-in function 'memcpy'
+../Core/Src/panel_serial.c:73:2: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/panel_serial.c: In function 'PanelSerialReceive':
+../Core/Src/panel_serial.c:112:4: warning: incompatible implicit declaration of built-in function 'memcpy'
+  112 |    memcpy(&rxCRC16, buffer + pos_checksum, 2);
+      |    ^~~~~~
+../Core/Src/panel_serial.c:112:4: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/panel_serial.c:118:4: warning: implicit declaration of function 'ParseCommand' [-Wimplicit-function-declaration]
+  118 |    ParseCommand(buffer);
+      |    ^~~~~~~~~~~~
+../Core/Src/panel_serial.c:108:11: warning: variable 'calcCRC16' set but not used [-Wunused-but-set-variable]
+  108 |  uint16_t calcCRC16;
+      |           ^~~~~~~~~
+../Core/Src/panel_serial.c: At top level:
+../Core/Src/panel_serial.c:123:6: warning: conflicting types for 'ParseCommand'
+  123 | void ParseCommand(uint8_t* buffer) {
+      |      ^~~~~~~~~~~~
+../Core/Src/panel_serial.c:118:4: note: previous implicit declaration of 'ParseCommand' was here
+  118 |    ParseCommand(buffer);
+      |    ^~~~~~~~~~~~
+../Core/Src/panel_serial.c: In function 'ParseCommand':
+../Core/Src/panel_serial.c:130:2: warning: incompatible implicit declaration of built-in function 'memcpy'
+  130 |  memcpy(&command, buffer + pos_command, 2);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:130:2: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/panel_serial.c:141:4: warning: implicit declaration of function 'DigitsWriteRow1' [-Wimplicit-function-declaration]
+  141 |    DigitsWriteRow1(&param1);
+      |    ^~~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:144:4: warning: implicit declaration of function 'DigitsWriteRow2' [-Wimplicit-function-declaration]
+  144 |    DigitsWriteRow2(&param1);
+      |    ^~~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:147:4: warning: implicit declaration of function 'DigitsWriteRow3' [-Wimplicit-function-declaration]
+  147 |    DigitsWriteRow3(&param1);
+      |    ^~~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:128:17: warning: unused variable 'i' [-Wunused-variable]
+  128 |  static uint8_t i = 0;
+      |                 ^
+../Core/Src/panel_serial.c:127:11: warning: unused variable 'message' [-Wunused-variable]
+  127 |  uint64_t message = 0;
+      |           ^~~~~~~
+At top level:
+../Core/Src/panel_serial.c:128:17: warning: 'i' defined but not used [-Wunused-variable]
+  128 |  static uint8_t i = 0;
+      |                 ^
+arm-none-eabi-gcc -o "Display_APP.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Display_APP\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Display_APP.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Display_APP.elf
+ 
+arm-none-eabi-size   Display_APP.elf 
+arm-none-eabi-objdump -h -S  Display_APP.elf  > "Display_APP.list"
+   text	   data	    bss	    dec	    hex	filename
+  25144	    132	   6044	  31320	   7a58	Display_APP.elf
+Finished building: default.size.stdout
+ 
+Finished building: Display_APP.list
+ 
+23:32:11 **** Incremental Build of configuration Debug for project Display_APP ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/progress.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/progress.d" -MT"Core/Src/progress.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/progress.o"
+../Core/Src/progress.c: In function 'ProgressSetAll':
+../Core/Src/progress.c:21:2: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+   21 |  memset(&progressBarBits, 0xFF, 11);
+      |  ^~~~~~
+../Core/Src/progress.c:21:2: warning: incompatible implicit declaration of built-in function 'memset'
+../Core/Src/progress.c:10:1: note: include '<string.h>' or provide a declaration of 'memset'
+    9 | #include "progress.h"
+  +++ |+#include <string.h>
+   10 | 
+../Core/Src/progress.c: In function 'ProgressClearAll':
+../Core/Src/progress.c:26:2: warning: incompatible implicit declaration of built-in function 'memset'
+   26 |  memset(&progressBarBits, 0x00, 11);
+      |  ^~~~~~
+../Core/Src/progress.c:26:2: note: include '<string.h>' or provide a declaration of 'memset'
+arm-none-eabi-gcc -o "Display_APP.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Display_APP\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Display_APP.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Display_APP.elf
+ 
+arm-none-eabi-size   Display_APP.elf 
+arm-none-eabi-objdump -h -S  Display_APP.elf  > "Display_APP.list"
+   text	   data	    bss	    dec	    hex	filename
+  25144	    132	   6044	  31320	   7a58	Display_APP.elf
+Finished building: default.size.stdout
+ 
+Finished building: Display_APP.list
+ 
+23:32:12 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10508	     20	   1740	  12268	   2fec	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+23:32:12 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+   text	   data	    bss	    dec	    hex	filename
+  17272	    124	   5828	  23224	   5ab8	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+23:32:13 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+23:32:13 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24084	    132	   6020	  30236	   761c	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+23:44:04 **** Incremental Build of configuration Debug for project Display_APP ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/keys.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/keys.d" -MT"Core/Src/keys.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/keys.o"
+arm-none-eabi-gcc "../Core/Src/panel_serial.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/panel_serial.d" -MT"Core/Src/panel_serial.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/panel_serial.o"
+arm-none-eabi-gcc "../Core/Src/progress.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/progress.d" -MT"Core/Src/progress.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/progress.o"
+../Core/Src/panel_serial.c: In function 'PanelSerialTransmit':
+../Core/Src/panel_serial.c:70:2: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+   70 |  memset(txBuffer, 0, txBufferSize);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:70:2: warning: incompatible implicit declaration of built-in function 'memset'
+../Core/Src/panel_serial.c:41:1: note: include '<string.h>' or provide a declaration of 'memset'
+   40 | #include "leds.h"
+  +++ |+#include <string.h>
+   41 | 
+../Core/Src/panel_serial.c:73:2: warning: implicit declaration of function 'memcpy' [-Wimplicit-function-declaration]
+   73 |  memcpy(txBuffer + pos_head, activeProtocolHead, 2);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:73:2: warning: incompatible implicit declaration of built-in function 'memcpy'
+../Core/Src/panel_serial.c:73:2: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/keys.c:70:16: error: static declaration of 'GetKeys' follows non-static declaration
+   70 | static uint8_t GetKeys() {
+      |                ^~~~~~~
+../Core/Src/keys.c:42:9: note: previous declaration of 'GetKeys' was here
+   42 | uint8_t GetKeys();
+      |         ^~~~~~~
+../Core/Src/panel_serial.c: In function 'PanelSerialReceive':
+../Core/Src/keys.c:107:16: error: static declaration of 'GetPressedKeys' follows non-static declaration
+  107 | static uint8_t GetPressedKeys() {
+      |                ^~~~~~~~~~~~~~
+../Core/Src/keys.c:43:9: note: previous declaration of 'GetPressedKeys' was here
+   43 | uint8_t GetPressedKeys();
+      |         ^~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:112:4: warning: incompatible implicit declaration of built-in function 'memcpy'
+  112 |    memcpy(&rxCRC16, buffer + pos_checksum, 2);
+      |    ^~~~~~
+../Core/Src/panel_serial.c:112:4: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/keys.c:107:16: warning: 'GetPressedKeys' defined but not used [-Wunused-function]
+  107 | static uint8_t GetPressedKeys() {
+      |                ^~~~~~~~~~~~~~
+../Core/Src/keys.c:70:16: warning: 'GetKeys' defined but not used [-Wunused-function]
+   70 | static uint8_t GetKeys() {
+      |                ^~~~~~~
+../Core/Src/progress.c: In function 'ProgressSetAll':
+../Core/Src/progress.c:21:2: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+   21 |  memset(&progressBarBits, 0xFF, 11);
+      |  ^~~~~~
+../Core/Src/progress.c:21:2: warning: incompatible implicit declaration of built-in function 'memset'
+../Core/Src/progress.c:10:1: note: include '<string.h>' or provide a declaration of 'memset'
+    9 | #include "progress.h"
+  +++ |+#include <string.h>
+   10 | 
+../Core/Src/progress.c: In function 'ProgressClearAll':
+../Core/Src/progress.c:27:2: warning: incompatible implicit declaration of built-in function 'memset'
+   27 |  memset(&progressBarBits, 0x00, 11);
+      |  ^~~~~~
+../Core/Src/progress.c:27:2: note: include '<string.h>' or provide a declaration of 'memset'
+../Core/Src/panel_serial.c:118:4: warning: implicit declaration of function 'ParseCommand' [-Wimplicit-function-declaration]
+  118 |    ParseCommand(buffer);
+      |    ^~~~~~~~~~~~
+../Core/Src/panel_serial.c:108:11: warning: variable 'calcCRC16' set but not used [-Wunused-but-set-variable]
+  108 |  uint16_t calcCRC16;
+      |           ^~~~~~~~~
+../Core/Src/panel_serial.c: At top level:
+../Core/Src/panel_serial.c:123:6: warning: conflicting types for 'ParseCommand'
+  123 | void ParseCommand(uint8_t* buffer) {
+      |      ^~~~~~~~~~~~
+../Core/Src/panel_serial.c:118:4: note: previous implicit declaration of 'ParseCommand' was here
+  118 |    ParseCommand(buffer);
+      |    ^~~~~~~~~~~~
+make: *** [Core/Src/subdir.mk:64: Core/Src/keys.o] Error 1
+make: *** Waiting for unfinished jobs....
+../Core/Src/panel_serial.c: In function 'ParseCommand':
+../Core/Src/panel_serial.c:130:2: warning: incompatible implicit declaration of built-in function 'memcpy'
+  130 |  memcpy(&command, buffer + pos_command, 2);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:130:2: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/panel_serial.c:141:4: warning: implicit declaration of function 'DigitsWriteRow1' [-Wimplicit-function-declaration]
+  141 |    DigitsWriteRow1(&param1);
+      |    ^~~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:144:4: warning: implicit declaration of function 'DigitsWriteRow2' [-Wimplicit-function-declaration]
+  144 |    DigitsWriteRow2(&param1);
+      |    ^~~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:147:4: warning: implicit declaration of function 'DigitsWriteRow3' [-Wimplicit-function-declaration]
+  147 |    DigitsWriteRow3(&param1);
+      |    ^~~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:128:17: warning: unused variable 'i' [-Wunused-variable]
+  128 |  static uint8_t i = 0;
+      |                 ^
+../Core/Src/panel_serial.c:127:11: warning: unused variable 'message' [-Wunused-variable]
+  127 |  uint64_t message = 0;
+      |           ^~~~~~~
+At top level:
+../Core/Src/panel_serial.c:128:17: warning: 'i' defined but not used [-Wunused-variable]
+  128 |  static uint8_t i = 0;
+      |                 ^
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+23:44:04 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10508	     20	   1740	  12268	   2fec	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+23:44:05 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+   text	   data	    bss	    dec	    hex	filename
+  17272	    124	   5828	  23224	   5ab8	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+23:44:05 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+23:44:06 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24084	    132	   6020	  30236	   761c	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+23:47:46 **** Incremental Build of configuration Debug for project Display_APP ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/buzzer.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/buzzer.d" -MT"Core/Src/buzzer.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/buzzer.o"
+arm-none-eabi-gcc "../Core/Src/digits.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/digits.d" -MT"Core/Src/digits.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/digits.o"
+arm-none-eabi-gcc "../Core/Src/globals.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/globals.d" -MT"Core/Src/globals.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/globals.o"
+arm-none-eabi-gcc "../Core/Src/keys.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/keys.d" -MT"Core/Src/keys.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/keys.o"
+arm-none-eabi-gcc "../Core/Src/leds.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/leds.d" -MT"Core/Src/leds.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/leds.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/panel_serial.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/panel_serial.d" -MT"Core/Src/panel_serial.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/panel_serial.o"
+arm-none-eabi-gcc "../Core/Src/progress.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/progress.d" -MT"Core/Src/progress.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/progress.o"
+../Core/Src/digits.c: In function 'DigitsWriteRow1':
+../Core/Src/digits.c:74:2: warning: implicit declaration of function 'memcpy' [-Wimplicit-function-declaration]
+   74 |  memcpy(digitsRow1, digits, 4);
+      |  ^~~~~~
+../Core/Src/digits.c:74:2: warning: incompatible implicit declaration of built-in function 'memcpy'
+../Core/Src/digits.c:13:1: note: include '<string.h>' or provide a declaration of 'memcpy'
+   12 | #include "digits.h"
+  +++ |+#include <string.h>
+   13 | 
+../Core/Src/digits.c: In function 'DigitsWriteRow2':
+../Core/Src/digits.c:78:2: warning: incompatible implicit declaration of built-in function 'memcpy'
+   78 |  memcpy(digitsRow2, digits, 4);
+      |  ^~~~~~
+../Core/Src/digits.c:78:2: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/digits.c: In function 'DigitsWriteRow3':
+../Core/Src/digits.c:82:2: warning: incompatible implicit declaration of built-in function 'memcpy'
+   82 |  memcpy(digitsRow3, digits, 4);
+      |  ^~~~~~
+../Core/Src/digits.c:82:2: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/keys.c:44:8: warning: type defaults to 'int' in declaration of 'GetPressedKeys' [-Wimplicit-int]
+   44 | static GetPressedKeys();
+      |        ^~~~~~~~~~~~~~
+../Core/Src/keys.c: In function 'StartKeysTask':
+../Core/Src/keys.c:63:8: error: 'KEYS_BEEP_ACTIVE' undeclared (first use in this function)
+   63 |    if (KEYS_BEEP_ACTIVE) Beep(1, 100, 100);
+      |        ^~~~~~~~~~~~~~~~
+../Core/Src/keys.c:63:8: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/keys.c: At top level:
+../Core/Src/keys.c:108:16: error: conflicting types for 'GetPressedKeys'
+  108 | static uint8_t GetPressedKeys() {
+      |                ^~~~~~~~~~~~~~
+../Core/Src/keys.c:44:8: note: previous declaration of 'GetPressedKeys' was here
+   44 | static GetPressedKeys();
+      |        ^~~~~~~~~~~~~~
+../Core/Src/keys.c:44:8: warning: 'GetPressedKeys' used but never defined
+../Core/Src/keys.c:108:16: warning: 'GetPressedKeys' defined but not used [-Wunused-function]
+  108 | static uint8_t GetPressedKeys() {
+      |                ^~~~~~~~~~~~~~
+make: *** [Core/Src/subdir.mk:64: Core/Src/keys.o] Error 1
+make: *** Waiting for unfinished jobs....
+../Core/Src/panel_serial.c: In function 'PanelSerialTransmit':
+../Core/Src/panel_serial.c:70:2: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+   70 |  memset(txBuffer, 0, txBufferSize);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:70:2: warning: incompatible implicit declaration of built-in function 'memset'
+../Core/Src/panel_serial.c:41:1: note: include '<string.h>' or provide a declaration of 'memset'
+   40 | #include "leds.h"
+  +++ |+#include <string.h>
+   41 | 
+../Core/Src/panel_serial.c:73:2: warning: implicit declaration of function 'memcpy' [-Wimplicit-function-declaration]
+   73 |  memcpy(txBuffer + pos_head, activeProtocolHead, 2);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:73:2: warning: incompatible implicit declaration of built-in function 'memcpy'
+../Core/Src/panel_serial.c:73:2: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/panel_serial.c: In function 'PanelSerialReceive':
+../Core/Src/panel_serial.c:112:4: warning: incompatible implicit declaration of built-in function 'memcpy'
+  112 |    memcpy(&rxCRC16, buffer + pos_checksum, 2);
+      |    ^~~~~~
+../Core/Src/panel_serial.c:112:4: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:138:3: warning: implicit declaration of function 'PanelSetAll' [-Wimplicit-function-declaration]
+  138 |   PanelSetAll();
+      |   ^~~~~~~~~~~
+../Core/Src/progress.c: In function 'ProgressSetAll':
+../Core/Src/progress.c:21:2: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+   21 |  memset(&progressBarBits, 0xFF, 11);
+      |  ^~~~~~
+../Core/Src/progress.c:21:2: warning: incompatible implicit declaration of built-in function 'memset'
+../Core/Src/progress.c:10:1: note: include '<string.h>' or provide a declaration of 'memset'
+    9 | #include "progress.h"
+  +++ |+#include <string.h>
+   10 | 
+../Core/Src/progress.c: In function 'ProgressClearAll':
+../Core/Src/progress.c:27:2: warning: incompatible implicit declaration of built-in function 'memset'
+   27 |  memset(&progressBarBits, 0x00, 11);
+      |  ^~~~~~
+../Core/Src/progress.c:27:2: note: include '<string.h>' or provide a declaration of 'memset'
+../Core/Src/panel_serial.c:118:4: warning: implicit declaration of function 'ParseCommand' [-Wimplicit-function-declaration]
+  118 |    ParseCommand(buffer);
+      |    ^~~~~~~~~~~~
+../Core/Src/panel_serial.c:108:11: warning: variable 'calcCRC16' set but not used [-Wunused-but-set-variable]
+  108 |  uint16_t calcCRC16;
+      |           ^~~~~~~~~
+../Core/Src/panel_serial.c: At top level:
+../Core/Src/panel_serial.c:123:6: warning: conflicting types for 'ParseCommand'
+  123 | void ParseCommand(uint8_t* buffer) {
+      |      ^~~~~~~~~~~~
+../Core/Src/panel_serial.c:118:4: note: previous implicit declaration of 'ParseCommand' was here
+  118 |    ParseCommand(buffer);
+      |    ^~~~~~~~~~~~
+../Core/Src/panel_serial.c: In function 'ParseCommand':
+../Core/Src/panel_serial.c:130:2: warning: incompatible implicit declaration of built-in function 'memcpy'
+  130 |  memcpy(&command, buffer + pos_command, 2);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:130:2: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/main.c:139:3: warning: implicit declaration of function 'ProgressSetAll' [-Wimplicit-function-declaration]
+  139 |   ProgressSetAll();
+      |   ^~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:141:4: warning: implicit declaration of function 'DigitsWriteRow1' [-Wimplicit-function-declaration]
+  141 |    DigitsWriteRow1(&param1);
+      |    ^~~~~~~~~~~~~~~
+../Core/Src/main.c:141:3: warning: implicit declaration of function 'PanelClearAll' [-Wimplicit-function-declaration]
+  141 |   PanelClearAll();
+      |   ^~~~~~~~~~~~~
+../Core/Src/panel_serial.c:144:4: warning: implicit declaration of function 'DigitsWriteRow2' [-Wimplicit-function-declaration]
+  144 |    DigitsWriteRow2(&param1);
+      |    ^~~~~~~~~~~~~~~
+../Core/Src/main.c:142:3: warning: implicit declaration of function 'ProgressClearAll' [-Wimplicit-function-declaration]
+  142 |   ProgressClearAll();
+      |   ^~~~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:147:4: warning: implicit declaration of function 'DigitsWriteRow3' [-Wimplicit-function-declaration]
+  147 |    DigitsWriteRow3(&param1);
+      |    ^~~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:128:17: warning: unused variable 'i' [-Wunused-variable]
+  128 |  static uint8_t i = 0;
+      |                 ^
+../Core/Src/panel_serial.c:127:11: warning: unused variable 'message' [-Wunused-variable]
+  127 |  uint64_t message = 0;
+      |           ^~~~~~~
+At top level:
+../Core/Src/panel_serial.c:128:17: warning: 'i' defined but not used [-Wunused-variable]
+  128 |  static uint8_t i = 0;
+      |                 ^
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+23:47:47 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10508	     20	   1740	  12268	   2fec	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+23:47:47 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+   text	   data	    bss	    dec	    hex	filename
+  17272	    124	   5828	  23224	   5ab8	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+23:47:47 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+23:47:48 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24084	    132	   6020	  30236	   761c	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+23:48:57 **** Incremental Build of configuration Debug for project Display_APP ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/keys.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/keys.d" -MT"Core/Src/keys.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/keys.o"
+../Core/Src/keys.c:44:8: warning: type defaults to 'int' in declaration of 'GetPressedKeys' [-Wimplicit-int]
+   44 | static GetPressedKeys();
+      |        ^~~~~~~~~~~~~~
+../Core/Src/keys.c:108:16: error: conflicting types for 'GetPressedKeys'
+  108 | static uint8_t GetPressedKeys() {
+      |                ^~~~~~~~~~~~~~
+../Core/Src/keys.c:44:8: note: previous declaration of 'GetPressedKeys' was here
+   44 | static GetPressedKeys();
+      |        ^~~~~~~~~~~~~~
+../Core/Src/keys.c:44:8: warning: 'GetPressedKeys' used but never defined
+../Core/Src/keys.c:108:16: warning: 'GetPressedKeys' defined but not used [-Wunused-function]
+  108 | static uint8_t GetPressedKeys() {
+      |                ^~~~~~~~~~~~~~
+make: *** [Core/Src/subdir.mk:64: Core/Src/keys.o] Error 1
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+23:48:58 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10508	     20	   1740	  12268	   2fec	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+23:48:58 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+   text	   data	    bss	    dec	    hex	filename
+  17272	    124	   5828	  23224	   5ab8	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+23:48:59 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+23:48:59 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24084	    132	   6020	  30236	   761c	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+23:51:40 **** Incremental Build of configuration Debug for project Display_APP ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/keys.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/keys.d" -MT"Core/Src/keys.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/keys.o"
+arm-none-eabi-gcc "../Core/Src/panel_serial.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/panel_serial.d" -MT"Core/Src/panel_serial.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/panel_serial.o"
+../Core/Src/panel_serial.c: In function 'PanelSerialTransmit':
+../Core/Src/panel_serial.c:70:2: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+   70 |  memset(txBuffer, 0, txBufferSize);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:70:2: warning: incompatible implicit declaration of built-in function 'memset'
+../Core/Src/panel_serial.c:41:1: note: include '<string.h>' or provide a declaration of 'memset'
+   40 | #include "leds.h"
+  +++ |+#include <string.h>
+   41 | 
+../Core/Src/panel_serial.c:73:2: warning: implicit declaration of function 'memcpy' [-Wimplicit-function-declaration]
+   73 |  memcpy(txBuffer + pos_head, activeProtocolHead, 2);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:73:2: warning: incompatible implicit declaration of built-in function 'memcpy'
+../Core/Src/panel_serial.c:73:2: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/panel_serial.c: In function 'PanelSerialReceive':
+../Core/Src/panel_serial.c:112:4: warning: incompatible implicit declaration of built-in function 'memcpy'
+  112 |    memcpy(&rxCRC16, buffer + pos_checksum, 2);
+      |    ^~~~~~
+../Core/Src/panel_serial.c:112:4: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/panel_serial.c:118:4: warning: implicit declaration of function 'ParseCommand' [-Wimplicit-function-declaration]
+  118 |    ParseCommand(buffer);
+      |    ^~~~~~~~~~~~
+../Core/Src/panel_serial.c:108:11: warning: variable 'calcCRC16' set but not used [-Wunused-but-set-variable]
+  108 |  uint16_t calcCRC16;
+      |           ^~~~~~~~~
+../Core/Src/panel_serial.c: At top level:
+../Core/Src/panel_serial.c:123:6: warning: conflicting types for 'ParseCommand'
+  123 | void ParseCommand(uint8_t* buffer) {
+      |      ^~~~~~~~~~~~
+../Core/Src/panel_serial.c:118:4: note: previous implicit declaration of 'ParseCommand' was here
+  118 |    ParseCommand(buffer);
+      |    ^~~~~~~~~~~~
+../Core/Src/panel_serial.c: In function 'ParseCommand':
+../Core/Src/panel_serial.c:130:2: warning: incompatible implicit declaration of built-in function 'memcpy'
+  130 |  memcpy(&command, buffer + pos_command, 2);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:130:2: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/panel_serial.c:141:4: warning: implicit declaration of function 'DigitsWriteRow1' [-Wimplicit-function-declaration]
+  141 |    DigitsWriteRow1(&param1);
+      |    ^~~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:144:4: warning: implicit declaration of function 'DigitsWriteRow2' [-Wimplicit-function-declaration]
+  144 |    DigitsWriteRow2(&param1);
+      |    ^~~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:147:4: warning: implicit declaration of function 'DigitsWriteRow3' [-Wimplicit-function-declaration]
+  147 |    DigitsWriteRow3(&param1);
+      |    ^~~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:156:4: error: '_keysBeepActive' undeclared (first use in this function)
+  156 |    _keysBeepActive = (uint8_t)param1;
+      |    ^~~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:156:4: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/panel_serial.c:128:17: warning: unused variable 'i' [-Wunused-variable]
+  128 |  static uint8_t i = 0;
+      |                 ^
+../Core/Src/panel_serial.c:127:11: warning: unused variable 'message' [-Wunused-variable]
+  127 |  uint64_t message = 0;
+      |           ^~~~~~~
+At top level:
+../Core/Src/panel_serial.c:128:17: warning: 'i' defined but not used [-Wunused-variable]
+  128 |  static uint8_t i = 0;
+      |                 ^
+make: *** [Core/Src/subdir.mk:64: Core/Src/panel_serial.o] Error 1
+make: *** Waiting for unfinished jobs....
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+23:51:40 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10508	     20	   1740	  12268	   2fec	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+23:51:41 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+   text	   data	    bss	    dec	    hex	filename
+  17272	    124	   5828	  23224	   5ab8	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+23:51:41 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+23:51:42 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24084	    132	   6020	  30236	   761c	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+23:51:56 **** Incremental Build of configuration Debug for project Display_APP ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/panel_serial.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/panel_serial.d" -MT"Core/Src/panel_serial.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/panel_serial.o"
+../Core/Src/panel_serial.c: In function 'PanelSerialTransmit':
+../Core/Src/panel_serial.c:70:2: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+   70 |  memset(txBuffer, 0, txBufferSize);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:70:2: warning: incompatible implicit declaration of built-in function 'memset'
+../Core/Src/panel_serial.c:41:1: note: include '<string.h>' or provide a declaration of 'memset'
+   40 | #include "leds.h"
+  +++ |+#include <string.h>
+   41 | 
+../Core/Src/panel_serial.c:73:2: warning: implicit declaration of function 'memcpy' [-Wimplicit-function-declaration]
+   73 |  memcpy(txBuffer + pos_head, activeProtocolHead, 2);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:73:2: warning: incompatible implicit declaration of built-in function 'memcpy'
+../Core/Src/panel_serial.c:73:2: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/panel_serial.c: In function 'PanelSerialReceive':
+../Core/Src/panel_serial.c:112:4: warning: incompatible implicit declaration of built-in function 'memcpy'
+  112 |    memcpy(&rxCRC16, buffer + pos_checksum, 2);
+      |    ^~~~~~
+../Core/Src/panel_serial.c:112:4: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/panel_serial.c:118:4: warning: implicit declaration of function 'ParseCommand' [-Wimplicit-function-declaration]
+  118 |    ParseCommand(buffer);
+      |    ^~~~~~~~~~~~
+../Core/Src/panel_serial.c:108:11: warning: variable 'calcCRC16' set but not used [-Wunused-but-set-variable]
+  108 |  uint16_t calcCRC16;
+      |           ^~~~~~~~~
+../Core/Src/panel_serial.c: At top level:
+../Core/Src/panel_serial.c:123:6: warning: conflicting types for 'ParseCommand'
+  123 | void ParseCommand(uint8_t* buffer) {
+      |      ^~~~~~~~~~~~
+../Core/Src/panel_serial.c:118:4: note: previous implicit declaration of 'ParseCommand' was here
+  118 |    ParseCommand(buffer);
+      |    ^~~~~~~~~~~~
+../Core/Src/panel_serial.c: In function 'ParseCommand':
+../Core/Src/panel_serial.c:130:2: warning: incompatible implicit declaration of built-in function 'memcpy'
+  130 |  memcpy(&command, buffer + pos_command, 2);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:130:2: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/panel_serial.c:141:4: warning: implicit declaration of function 'DigitsWriteRow1' [-Wimplicit-function-declaration]
+  141 |    DigitsWriteRow1(&param1);
+      |    ^~~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:144:4: warning: implicit declaration of function 'DigitsWriteRow2' [-Wimplicit-function-declaration]
+  144 |    DigitsWriteRow2(&param1);
+      |    ^~~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:147:4: warning: implicit declaration of function 'DigitsWriteRow3' [-Wimplicit-function-declaration]
+  147 |    DigitsWriteRow3(&param1);
+      |    ^~~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:156:4: error: '_keysBeepActive' undeclared (first use in this function)
+  156 |    _keysBeepActive = (uint8_t)param1;
+      |    ^~~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:156:4: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/panel_serial.c:128:17: warning: unused variable 'i' [-Wunused-variable]
+  128 |  static uint8_t i = 0;
+      |                 ^
+../Core/Src/panel_serial.c:127:11: warning: unused variable 'message' [-Wunused-variable]
+  127 |  uint64_t message = 0;
+      |           ^~~~~~~
+At top level:
+../Core/Src/panel_serial.c:128:17: warning: 'i' defined but not used [-Wunused-variable]
+  128 |  static uint8_t i = 0;
+      |                 ^
+make: *** [Core/Src/subdir.mk:64: Core/Src/panel_serial.o] Error 1
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+23:51:57 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10508	     20	   1740	  12268	   2fec	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+23:51:57 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+   text	   data	    bss	    dec	    hex	filename
+  17272	    124	   5828	  23224	   5ab8	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+23:51:57 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+23:51:58 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24084	    132	   6020	  30236	   761c	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 
+23:52:32 **** Incremental Build of configuration Debug for project Display_APP ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/panel_serial.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/panel_serial.d" -MT"Core/Src/panel_serial.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/panel_serial.o"
+../Core/Src/panel_serial.c: In function 'PanelSerialTransmit':
+../Core/Src/panel_serial.c:72:2: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+   72 |  memset(txBuffer, 0, txBufferSize);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:72:2: warning: incompatible implicit declaration of built-in function 'memset'
+../Core/Src/panel_serial.c:41:1: note: include '<string.h>' or provide a declaration of 'memset'
+   40 | #include "leds.h"
+  +++ |+#include <string.h>
+   41 | 
+../Core/Src/panel_serial.c:75:2: warning: implicit declaration of function 'memcpy' [-Wimplicit-function-declaration]
+   75 |  memcpy(txBuffer + pos_head, activeProtocolHead, 2);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:75:2: warning: incompatible implicit declaration of built-in function 'memcpy'
+../Core/Src/panel_serial.c:75:2: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/panel_serial.c: In function 'PanelSerialReceive':
+../Core/Src/panel_serial.c:114:4: warning: incompatible implicit declaration of built-in function 'memcpy'
+  114 |    memcpy(&rxCRC16, buffer + pos_checksum, 2);
+      |    ^~~~~~
+../Core/Src/panel_serial.c:114:4: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/panel_serial.c:120:4: warning: implicit declaration of function 'ParseCommand' [-Wimplicit-function-declaration]
+  120 |    ParseCommand(buffer);
+      |    ^~~~~~~~~~~~
+../Core/Src/panel_serial.c:110:11: warning: variable 'calcCRC16' set but not used [-Wunused-but-set-variable]
+  110 |  uint16_t calcCRC16;
+      |           ^~~~~~~~~
+../Core/Src/panel_serial.c: At top level:
+../Core/Src/panel_serial.c:125:6: warning: conflicting types for 'ParseCommand'
+  125 | void ParseCommand(uint8_t* buffer) {
+      |      ^~~~~~~~~~~~
+../Core/Src/panel_serial.c:120:4: note: previous implicit declaration of 'ParseCommand' was here
+  120 |    ParseCommand(buffer);
+      |    ^~~~~~~~~~~~
+../Core/Src/panel_serial.c: In function 'ParseCommand':
+../Core/Src/panel_serial.c:132:2: warning: incompatible implicit declaration of built-in function 'memcpy'
+  132 |  memcpy(&command, buffer + pos_command, 2);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:132:2: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/panel_serial.c:143:4: warning: implicit declaration of function 'DigitsWriteRow1' [-Wimplicit-function-declaration]
+  143 |    DigitsWriteRow1(&param1);
+      |    ^~~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:146:4: warning: implicit declaration of function 'DigitsWriteRow2' [-Wimplicit-function-declaration]
+  146 |    DigitsWriteRow2(&param1);
+      |    ^~~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:149:4: warning: implicit declaration of function 'DigitsWriteRow3' [-Wimplicit-function-declaration]
+  149 |    DigitsWriteRow3(&param1);
+      |    ^~~~~~~~~~~~~~~
+../Core/Src/panel_serial.c:130:17: warning: unused variable 'i' [-Wunused-variable]
+  130 |  static uint8_t i = 0;
+      |                 ^
+../Core/Src/panel_serial.c:129:11: warning: unused variable 'message' [-Wunused-variable]
+  129 |  uint64_t message = 0;
+      |           ^~~~~~~
+At top level:
+../Core/Src/panel_serial.c:130:17: warning: 'i' defined but not used [-Wunused-variable]
+  130 |  static uint8_t i = 0;
+      |                 ^
+arm-none-eabi-gcc -o "Display_APP.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Display_APP\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Display_APP.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Display_APP.elf
+ 
+arm-none-eabi-size   Display_APP.elf 
+arm-none-eabi-objdump -h -S  Display_APP.elf  > "Display_APP.list"
+   text	   data	    bss	    dec	    hex	filename
+  25192	    136	   6040	  31368	   7a88	Display_APP.elf
+Finished building: default.size.stdout
+ 
+Finished building: Display_APP.list
+ 
+23:52:33 **** Incremental Build of configuration Debug for project N-F103RB_Serial ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_Serial.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10508	     20	   1740	  12268	   2fec	N-F103RB_Serial.elf
+Finished building: default.size.stdout
+ 
+23:52:33 **** Incremental Build of configuration Debug for project N-F103RB_TaskQueue ****
+make -j24 all 
+arm-none-eabi-size   N-F103RB_TaskQueue.elf 
+   text	   data	    bss	    dec	    hex	filename
+  17272	    124	   5828	  23224	   5ab8	N-F103RB_TaskQueue.elf
+Finished building: default.size.stdout
+ 
+23:52:33 **** Incremental Build of configuration Debug for project Prima_Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18340	    124	   7988	  26452	   6754	Prima_Board_APP.elf
+Finished building: default.size.stdout
+ 
+23:52:34 **** Incremental Build of configuration Debug for project Prima_Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Prima_Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24084	    132	   6020	  30236	   761c	Prima_Display_APP.elf
+Finished building: default.size.stdout
+ 

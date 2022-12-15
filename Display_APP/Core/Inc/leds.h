@@ -12,8 +12,9 @@
 #include "globals.h"
 #include "progress.h"
 
-extern void PanelSetAll();
-extern void PanelClearAll();
-extern void PanelRefresh();
+void PanelWriteLeds(uint16_t leds);
+void PanelSetAll();
+void PanelClearAll();
+void PanelRefresh();
 
 #endif /* INC_LEDS_H_ */

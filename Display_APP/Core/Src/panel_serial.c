@@ -39,6 +39,8 @@ USAGE:
 #include "crc16.h"
 #include "leds.h"
 
+extern uint8_t _keysBeepActive;
+
 UART_HandleTypeDef* pActiveUART;
 
 const char activeProtocolHead[] = {'<', '~'};
@@ -112,9 +114,10 @@ void PanelSerialReceive(uint8_t* buffer, uint16_t size) {
 			memcpy(&rxCRC16, buffer + pos_checksum, 2);
 			//memset(uartBuffer + _pos_checksum, 0, 2);
 			calcCRC16 = crc16(buffer + pos_command, pos_checksum - pos_command);
-			if (rxCRC16 == calcCRC16) {
-				ParseCommand(buffer); // Valid command
-			}
+//			if (rxCRC16 == calcCRC16) {
+//				ParseCommand(buffer); // Valid command
+//			}
+			ParseCommand(buffer);
 		}
 	}
 }
@@ -146,24 +149,16 @@ void ParseCommand(uint8_t* buffer) {
 			DigitsWriteRow3(&param1);
 			break;
 		case COMMAND_SET_DASHBOARD_LEDS:
-			DigitsWriteRow1(&param1);
+			PanelWriteLeds((uint16_t)param1);
 			break;
 		case COMMAND_SET_PROGRESS_LEDS:
-			DigitsWriteRow1(&param1);
+			ProgressWriteLeds((uint16_t)param1);
+			break;
+		case COMMAND_SET_PANEL_KEYS_BEEP:
+			_keysBeepActive = (uint8_t)param1;
 			break;
 	}
 
 	//SerialTransmit("COMMAND OK\n", 11);
 
-}
-
-void SwapBytes(void *pv, size_t n) {
-    char *p = pv;
-    size_t lo, hi;
-    for(lo=0, hi=n-1; hi>lo; lo++, hi--)
-    {
-        char tmp=p[lo];
-        p[lo] = p[hi];
-        p[hi] = tmp;
-    }
 }

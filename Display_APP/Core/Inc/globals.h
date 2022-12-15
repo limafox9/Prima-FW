@@ -52,8 +52,10 @@ typedef struct _gpioPin {
 
 typedef enum {LED_OFF, LED_ON} LED_STATE;
 typedef enum {BUZZER_OFF, BUZZER_ON} BUZZER_STATE;
+typedef enum {FALSE, TRUE} LOGIC_STATE;
 
 uint32_t GetSafeDeltaTick(uint32_t startTick, uint32_t endTick);
+void SwapBytes(void *pBytes, size_t size);
 
 // Bitwise operations ----------------------------------------------------------
 #define BIT(n)					(1 << (x)) // Return the number representing the n_th bit
