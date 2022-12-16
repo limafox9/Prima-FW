@@ -86,15 +86,14 @@ uint8_t UART_rxBuffer[UART_BUFFER_SIZE] = {0};
 void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
 	//HAL_UART_Receive_DMA(p_activeUART, UART_rxBuffer, 3);
 
-	HAL_UARTEx_ReceiveToIdle_DMA(huart, UART_rxBuffer, UART_BUFFER_SIZE); // Interrupt on receive buffer full or idle (end receive)
-	__HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT); // Disable half buffer received interrupt
-
 	// Check for UART
 	if (huart->Instance == huart1.Instance) {
 		PanelSerialReceive(UART_rxBuffer, Size);
 	}
 
 	// Receive again
+	HAL_UARTEx_ReceiveToIdle_DMA(huart, UART_rxBuffer, UART_BUFFER_SIZE); // Interrupt on receive buffer full or idle (end receive)
+	__HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT); // Disable half buffer received interrupt
 
 }
 
@@ -147,10 +146,10 @@ int main(void)
 //  digitsRow1[2] = 'A';
 //  digitsRow1[3] = 'o';
 
-  DigitsWriteRow1("CIAO");
+  DigitsWriteRow1("CIAo");
   DigitsWriteRow2("JOSh");
   char str[4];
-  sprintf(str,"%d", 142);
+  sprintf(str,"%d", 199);
   DigitsWriteRow3(str);
 
   Beep(3,100,100);

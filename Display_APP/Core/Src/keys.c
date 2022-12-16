@@ -61,7 +61,7 @@ void StartKeysTask() {
 
 	 if (currKeys > 0) {
 		 if (_keysBeepActive) Beep(1, 100, 100);
-		 PanelSerialTransmit(COMMAND_KEYS_PRESSED, currKeys, 0, 0, 0);
+		 PanelSerialTransmit(COMMAND_KEYS_PRESSED, currKeys, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
 	 }
 
 	 osDelay(20);
