@@ -67,6 +67,14 @@ void Error_Handler(void);
 #define SW_DOOR_GPIO_Port GPIOE
 #define LED_HEART_Pin GPIO_PIN_6
 #define LED_HEART_GPIO_Port GPIOA
+#define VAL_VACUUM_Pin GPIO_PIN_9
+#define VAL_VACUUM_GPIO_Port GPIOE
+#define VAL_WATER_STEAM_Pin GPIO_PIN_10
+#define VAL_WATER_STEAM_GPIO_Port GPIOE
+#define VAL_DRY_AIR_Pin GPIO_PIN_11
+#define VAL_DRY_AIR_GPIO_Port GPIOE
+#define VAL_DRAIN_STEAM_Pin GPIO_PIN_13
+#define VAL_DRAIN_STEAM_GPIO_Port GPIOE
 #define USART3_CTS_Pin GPIO_PIN_15
 #define USART3_CTS_GPIO_Port GPIOE
 #define BEEP_Pin GPIO_PIN_13

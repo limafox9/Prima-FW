@@ -28,6 +28,8 @@
 #include "panel_serial.h"
 #include "leds.h"
 
+#include "actuators.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -134,8 +136,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   PanelSerialInit(&huart3);
-
-
+ValveVacuum(ON);
   /* USER CODE END 2 */
 
   /* USER CODE BEGIN RTOS_MUTEX */
@@ -408,7 +409,8 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(LED_HEART_GPIO_Port, LED_HEART_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(USART3_CTS_GPIO_Port, USART3_CTS_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOE, VAL_VACUUM_Pin|VAL_WATER_STEAM_Pin|VAL_DRY_AIR_Pin|VAL_DRAIN_STEAM_Pin
+                          |USART3_CTS_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(BEEP_GPIO_Port, BEEP_Pin, GPIO_PIN_RESET);
@@ -426,12 +428,14 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(LED_HEART_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : USART3_CTS_Pin */
-  GPIO_InitStruct.Pin = USART3_CTS_Pin;
+  /*Configure GPIO pins : VAL_VACUUM_Pin VAL_WATER_STEAM_Pin VAL_DRY_AIR_Pin VAL_DRAIN_STEAM_Pin
+                           USART3_CTS_Pin */
+  GPIO_InitStruct.Pin = VAL_VACUUM_Pin|VAL_WATER_STEAM_Pin|VAL_DRY_AIR_Pin|VAL_DRAIN_STEAM_Pin
+                          |USART3_CTS_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(USART3_CTS_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
   /*Configure GPIO pin : BEEP_Pin */
   GPIO_InitStruct.Pin = BEEP_Pin;

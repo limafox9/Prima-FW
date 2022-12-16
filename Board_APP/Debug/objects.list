@@ -1,3 +1,4 @@
+"./Core/Src/actuators.o"
 "./Core/Src/buzzer.o"
 "./Core/Src/crc16.o"
 "./Core/Src/freertos.o"

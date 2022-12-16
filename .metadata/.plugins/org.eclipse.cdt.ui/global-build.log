@@ -1,134 +1,7 @@
-17:17:20 **** Incremental Build of configuration Debug for project Board_APP ****
+19:22:56 **** Incremental Build of configuration Debug for project Board_APP ****
 make -j4 all 
-arm-none-eabi-size   Board_APP.elf 
-   text	   data	    bss	    dec	    hex	filename
-  25292	    132	   7908	  33332	   8234	Board_APP.elf
-Finished building: default.size.stdout
- 
-17:17:34 **** Incremental Build of configuration Debug for project Board_APP ****
-make -j4 all 
-arm-none-eabi-size   Board_APP.elf 
-   text	   data	    bss	    dec	    hex	filename
-  25292	    132	   7908	  33332	   8234	Board_APP.elf
-Finished building: default.size.stdout
- 
-17:18:33 **** Incremental Build of configuration Debug for project Board_APP ****
-make -j4 all 
-arm-none-eabi-size   Board_APP.elf 
-   text	   data	    bss	    dec	    hex	filename
-  25292	    132	   7908	  33332	   8234	Board_APP.elf
-Finished building: default.size.stdout
- 
-17:20:32 **** Incremental Build of configuration Debug for project Board_APP ****
-make -j4 all 
-arm-none-eabi-gcc "../Core/Src/leds.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/leds.d" -MT"Core/Src/leds.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/leds.o"
-../Core/Src/leds.c: In function 'StartLedsTask':
-../Core/Src/leds.c:60:3: warning: implicit declaration of function 'osDelay' [-Wimplicit-function-declaration]
-   60 |   osDelay(10);
-      |   ^~~~~~~
-arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Board_APP.elf
- 
-arm-none-eabi-size   Board_APP.elf 
-arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
-   text	   data	    bss	    dec	    hex	filename
-  25308	    132	   7908	  33348	   8244	Board_APP.elf
-arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
-Finished building: default.size.stdout
-arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
- 
-Finished building: Board_APP.hex
-Finished building: Board_APP.bin
-Finished building: Board_APP.list
- 
- 
- 
-17:26:46 **** Incremental Build of configuration Debug for project Board_APP ****
-make -j4 all 
-arm-none-eabi-size   Board_APP.elf 
-   text	   data	    bss	    dec	    hex	filename
-  25308	    132	   7908	  33348	   8244	Board_APP.elf
-Finished building: default.size.stdout
- 
-17:40:21 **** Incremental Build of configuration Debug for project Board_APP ****
-make -j4 all 
-arm-none-eabi-gcc "../Core/Src/leds.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/leds.d" -MT"Core/Src/leds.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/leds.o"
-../Core/Src/leds.c: In function 'StartLedsTask':
-../Core/Src/leds.c:60:3: warning: implicit declaration of function 'osDelay' [-Wimplicit-function-declaration]
-   60 |   osDelay(10);
-      |   ^~~~~~~
-arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Board_APP.elf
- 
-arm-none-eabi-size   Board_APP.elf 
-arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
-   text	   data	    bss	    dec	    hex	filename
-  25308	    132	   7908	  33348	   8244	Board_APP.elf
-arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
-arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
-Finished building: default.size.stdout
- 
-Finished building: Board_APP.hex
-Finished building: Board_APP.list
-Finished building: Board_APP.bin
- 
- 
- 
-17:42:34 **** Incremental Build of configuration Debug for project Board_APP ****
-make -j4 all 
-arm-none-eabi-gcc "../Core/Src/leds.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/leds.d" -MT"Core/Src/leds.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/leds.o"
-../Core/Src/leds.c: In function 'StartLedsTask':
-../Core/Src/leds.c:60:3: warning: implicit declaration of function 'osDelay' [-Wimplicit-function-declaration]
-   60 |   osDelay(10);
-      |   ^~~~~~~
-arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Board_APP.elf
- 
-arm-none-eabi-size   Board_APP.elf 
-arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
-   text	   data	    bss	    dec	    hex	filename
-  25292	    132	   7908	  33332	   8234	Board_APP.elf
-arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
-arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
-Finished building: default.size.stdout
- 
-Finished building: Board_APP.hex
-Finished building: Board_APP.bin
-Finished building: Board_APP.list
- 
- 
- 
-17:44:29 **** Incremental Build of configuration Debug for project Board_APP ****
-make -j4 all 
-arm-none-eabi-gcc "../Core/Src/leds.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/leds.d" -MT"Core/Src/leds.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/leds.o"
-../Core/Src/leds.c: In function 'StartLedsTask':
-../Core/Src/leds.c:60:3: warning: implicit declaration of function 'osDelay' [-Wimplicit-function-declaration]
-   60 |   osDelay(10);
-      |   ^~~~~~~
-arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Board_APP.elf
- 
-arm-none-eabi-size   Board_APP.elf 
-arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
-   text	   data	    bss	    dec	    hex	filename
-  25292	    132	   7908	  33332	   8234	Board_APP.elf
-arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
-Finished building: default.size.stdout
-arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
- 
-Finished building: Board_APP.hex
-Finished building: Board_APP.bin
-Finished building: Board_APP.list
- 
- 
- 
-17:48:08 **** Incremental Build of configuration Debug for project Board_APP ****
-make -j4 all 
-arm-none-eabi-gcc "../Core/Src/leds.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/leds.d" -MT"Core/Src/leds.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/leds.o"
-../Core/Src/leds.c: In function 'StartLedsTask':
-../Core/Src/leds.c:61:3: warning: implicit declaration of function 'osDelay' [-Wimplicit-function-declaration]
-   61 |   osDelay(10);
-      |   ^~~~~~~
+arm-none-eabi-gcc "../Core/Src/actuators.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/actuators.d" -MT"Core/Src/actuators.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/actuators.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
 arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: Board_APP.elf
  
@@ -136,68 +9,13 @@ arm-none-eabi-size   Board_APP.elf
 arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
 arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
    text	   data	    bss	    dec	    hex	filename
-  25324	    132	   7908	  33364	   8254	Board_APP.elf
-arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
-Finished building: default.size.stdout
- 
-Finished building: Board_APP.hex
-Finished building: Board_APP.list
-Finished building: Board_APP.bin
- 
- 
- 
-17:49:57 **** Incremental Build of configuration Debug for project Board_APP ****
-make -j4 all 
-arm-none-eabi-size   Board_APP.elf 
-   text	   data	    bss	    dec	    hex	filename
-  25324	    132	   7908	  33364	   8254	Board_APP.elf
-Finished building: default.size.stdout
- 
-17:53:30 **** Incremental Build of configuration Debug for project Board_APP ****
-make -j4 all 
-arm-none-eabi-gcc "../Core/Src/leds.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/leds.d" -MT"Core/Src/leds.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/leds.o"
-../Core/Src/leds.c: In function 'StartLedsTask':
-../Core/Src/leds.c:61:3: warning: implicit declaration of function 'osDelay' [-Wimplicit-function-declaration]
-   61 |   osDelay(10);
-      |   ^~~~~~~
-arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Board_APP.elf
- 
-arm-none-eabi-size   Board_APP.elf 
-arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
-arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
-   text	   data	    bss	    dec	    hex	filename
-  25324	    132	   7908	  33364	   8254	Board_APP.elf
+  25372	    132	   7908	  33412	   8284	Board_APP.elf
 arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
 Finished building: default.size.stdout
  
 Finished building: Board_APP.hex
 Finished building: Board_APP.bin
-Finished building: Board_APP.list
- 
- 
- 
-17:54:54 **** Incremental Build of configuration Debug for project Board_APP ****
-make -j4 all 
-arm-none-eabi-gcc "../Core/Src/leds.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/leds.d" -MT"Core/Src/leds.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/leds.o"
-../Core/Src/leds.c: In function 'StartLedsTask':
-../Core/Src/leds.c:61:3: warning: implicit declaration of function 'osDelay' [-Wimplicit-function-declaration]
-   61 |   osDelay(10);
-      |   ^~~~~~~
-arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Board_APP.elf
- 
-arm-none-eabi-size   Board_APP.elf 
-arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
-arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
-   text	   data	    bss	    dec	    hex	filename
-  25324	    132	   7908	  33364	   8254	Board_APP.elf
-arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
-Finished building: default.size.stdout
-Finished building: Board_APP.hex
- 
  
 Finished building: Board_APP.list
-Finished building: Board_APP.bin
  
  
