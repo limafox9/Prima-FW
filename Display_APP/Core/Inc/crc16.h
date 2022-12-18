@@ -36,9 +36,8 @@ USAGE:
 #ifndef INC_CRC16_H_
 #define INC_CRC16_H_
 
-#include <stdint.h>
+#include <stdio.h>
 
-
-extern uint16_t crc16( const unsigned char* buf, unsigned int len);
+uint16_t CRC16( const unsigned char* buf, unsigned int len);
 
 #endif /* INC_CRC16_H_ */

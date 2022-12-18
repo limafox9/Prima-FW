@@ -25,7 +25,7 @@ const gpioPin panelBits[] = {
 		{LED_TEMP_134_GPIO_Port, LED_TEMP_134_Pin, 10}
 };
 
-void SetLed(const gpioPin* led, LED_STATE status);
+void SetLed(const gpioPin* led, POWER_STATE status);
 void PanelRefresh();
 
 //---------------------------------------------------------------------------
@@ -56,7 +56,7 @@ void PanelRefresh() {
 
 	for (int i = 0; i < 11; i++) {
 //		SetLed(&a[i], ((panelLedsBits & (1 << a[i].bit)) > 0) ? LED_ON : LED_OFF);
-		SetLed(&panelBits[i], CHECKBIT(panelLedsBits, panelBits[i].bit) > 0 ? LED_ON : LED_OFF);
+		SetLed(&panelBits[i], CHECKBIT(panelLedsBits, panelBits[i].bit) > 0 ? ON : OFF);
 	}
 
 	for (int i = 11; i < 14; i++) {
@@ -66,13 +66,13 @@ void PanelRefresh() {
 	ProgressRefresh();
 }
 
-void SetLed(const gpioPin* led, LED_STATE status) {
-	if (status == LED_OFF) {
-		HAL_GPIO_WritePin(led->GPIO_Port, led->GPIO_Pin, LED_OFF);
+void SetLed(const gpioPin* led, POWER_STATE status) {
+	if (status == OFF) {
+		HAL_GPIO_WritePin(led->GPIO_Port, led->GPIO_Pin, OFF);
 //	} else if (status == LED_ON) {
 //		HAL_GPIO_WritePin(led->GPIO_Port, led->GPIO_Pin, LED_ON);
 	} else {
-		HAL_GPIO_WritePin(led->GPIO_Port, led->GPIO_Pin, LED_ON);
+		HAL_GPIO_WritePin(led->GPIO_Port, led->GPIO_Pin, ON);
 	}
 //	HAL_GPIO_WritePin(led->GPIO_Port, led->GPIO_Pin, status);
 }

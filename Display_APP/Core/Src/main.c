@@ -17,6 +17,7 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
+#include <serial.h>
 #include "main.h"
 #include "cmsis_os.h"
 
@@ -24,14 +25,13 @@
 /* USER CODE BEGIN Includes */
 
 #include "buzzer.h"
-#include "panel_serial.h"
 #include "keys.h"
 #include "globals.h"
 #include "digits.h"
 
-extern uint8_t digitsRow1[4];
-extern uint8_t digitsRow2[4];
-extern uint8_t digitsRow3[4];
+extern uint8_t digitsRow1[DIGIT_ROW_BUFFER_SIZE];
+extern uint8_t digitsRow2[DIGIT_ROW_BUFFER_SIZE];
+extern uint8_t digitsRow3[DIGIT_ROW_BUFFER_SIZE];
 
 /* USER CODE END Includes */
 
@@ -80,21 +80,31 @@ void StartSerialTask(void const * argument);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-#define UART_BUFFER_SIZE 30
+#define UART_BUFFER_SIZE 25
 uint8_t UART_rxBuffer[UART_BUFFER_SIZE] = {0};
 
-void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
-	//HAL_UART_Receive_DMA(p_activeUART, UART_rxBuffer, 3);
+//void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
+//	//HAL_UART_Receive_DMA(p_activeUART, UART_rxBuffer, 3);
+//
+//	// Check for UART
+//	if (huart->Instance == huart1.Instance) {
+//		PanelSerialReceive(UART_rxBuffer, Size);
+//	}
+//
+//	// Receive again
+//	HAL_UARTEx_ReceiveToIdle_DMA(huart, UART_rxBuffer, UART_BUFFER_SIZE); // Interrupt on receive buffer full or idle (end receive)
+//	__HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT); // Disable half buffer received interrupt
+//
+//}
 
-	// Check for UART
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
 	if (huart->Instance == huart1.Instance) {
-		PanelSerialReceive(UART_rxBuffer, Size);
+		PanelSerialReceive(UART_rxBuffer, UART_BUFFER_SIZE);
 	}
 
-	// Receive again
-	HAL_UARTEx_ReceiveToIdle_DMA(huart, UART_rxBuffer, UART_BUFFER_SIZE); // Interrupt on receive buffer full or idle (end receive)
-	__HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT); // Disable half buffer received interrupt
-
+	HAL_UART_Receive_DMA(huart, UART_rxBuffer, UART_BUFFER_SIZE);
+	__HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT);
 }
 
 /* USER CODE END 0 */
@@ -132,30 +142,11 @@ int main(void)
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
-  PanelSerialInit(&huart1);
+//  HAL_UARTEx_ReceiveToIdle_DMA(&huart1, UART_rxBuffer, UART_BUFFER_SIZE); // Interrupt on receive buffer full or idle (end receive)
+//  __HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT); // Disable half buffer received interrupt
 
-  PanelSetAll();
-  ProgressSetAll();
-  HAL_Delay(2000);
-  PanelClearAll();
-  ProgressClearAll();
-
-  //memcpy(digitsRow1, "CIAo", 4);
-//  digitsRow1[0] = 'C';
-//  digitsRow1[1] = 'I';
-//  digitsRow1[2] = 'A';
-//  digitsRow1[3] = 'o';
-
-  DigitsWriteRow1("CIAo");
-  DigitsWriteRow2("JOSh");
-  char str[4];
-  sprintf(str,"%d", 199);
-  DigitsWriteRow3(str);
-
-  Beep(3,100,100);
-
-  HAL_UARTEx_ReceiveToIdle_DMA(&huart1, UART_rxBuffer, UART_BUFFER_SIZE); // Interrupt on receive buffer full or idle (end receive)
-  __HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT); // Disable half buffer received interrupt
+  HAL_UART_Receive_DMA(&huart1, UART_rxBuffer, UART_BUFFER_SIZE);
+	__HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT);
 
   /* USER CODE END 2 */
 
@@ -419,18 +410,31 @@ static void MX_GPIO_Init(void)
 /* USER CODE END Header_StartSerialTask */
 void StartSerialTask(void const * argument)
 {
-	/* USER CODE BEGIN 5 */
+  /* USER CODE BEGIN 5 */
 	/* Infinite loop */
+
+	PanelSerialInit(&huart1);
+
+	PanelSetAll();
+	ProgressSetAll();
+	DigitsSetAll();
+	osDelay(2000);
+
+	PanelClearAll();
+	ProgressClearAll();
+	DigitsClearAll();
+
+	Beep(3,100,100);
 
 	osDelay(500);
 	PanelSerialTransmit(COMMAND_PANEL_READY, FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION, 0);
-	DigitsWriteRow1("----");
+	//DigitsWriteRow1("----");
 
 	for(;;)
 	{
 		osDelay(100);
 	}
-	/* USER CODE END 5 */
+  /* USER CODE END 5 */
 }
 
 /**

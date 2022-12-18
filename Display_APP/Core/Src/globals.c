@@ -37,9 +37,10 @@ USAGE:
 
 uint32_t _UID[3];
 
-uint8_t digitsRow1[4];
-uint8_t digitsRow2[4];
-uint8_t digitsRow3[4];
+uint8_t digitsRow1[DIGIT_ROW_BUFFER_SIZE];
+uint8_t digitsRow2[DIGIT_ROW_BUFFER_SIZE];
+uint8_t digitsRow3[DIGIT_ROW_BUFFER_SIZE];
+
 
 uint16_t progressBarBits;
 uint16_t progressBarBitsBlink;

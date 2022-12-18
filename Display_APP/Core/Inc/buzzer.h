@@ -8,8 +8,8 @@
 #ifndef INC_BUZZER_H_
 #define INC_BUZZER_H_
 
-#include "globals.h"
 #include "main.h"
+#include "globals.h"
 
 void Beep(uint8_t hits, uint16_t onDelay, uint16_t offDelay);
 

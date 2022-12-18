@@ -29,11 +29,17 @@ Visit www.favenzi.it
       luca@favenzi.it
 
 ==================================================================================
-PURPOSE: Modbus CRC16 calculation
+PURPOSE:
 USAGE:
 ================================================================================*/
 
 #include "keys.h"
+
+#include "main.h"
+#include "cmsis_os.h"
+#include "globals.h"
+#include "serial.h"
+#include "buzzer.h"
 
 #define KEY_LONG_PRESS_MS 3000
 #define KEY_DOBLECLICK_INTERVAL_MS 100
@@ -50,22 +56,22 @@ void StartKeysTask() {
 	uint8_t currKeys;
 	static uint8_t lastKeys;
 
-  for (;;) {
-	 currKeys = GetKeys();
-	 while ((lastKeys == currKeys)) {
-		 currKeys = GetKeys();
-		 osDelay(50);
-	 }
+	for (;;) {
+		currKeys = GetKeys();
+		while ((lastKeys == currKeys)) {
+			currKeys = GetKeys();
+			osDelay(30);
+		}
 
-	 lastKeys = currKeys;
+		lastKeys = currKeys;
 
-	 if (currKeys > 0) {
-		 if (_keysBeepActive) Beep(1, 100, 100);
-		 PanelSerialTransmit(COMMAND_KEYS_PRESSED, currKeys, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
-	 }
+		if (currKeys > 0) {
+			if (_keysBeepActive) Beep(1, 100, 100);
+			PanelSerialTransmit(COMMAND_KEYS_PRESSED, currKeys, 0, 0, 0);
+		}
 
-	 osDelay(20);
-  }
+	 osDelay(30);
+	}
 }
 
 static uint8_t GetKeys() {
@@ -77,7 +83,7 @@ static uint8_t GetKeys() {
 
 	while (lastKeys > 0) {
 		lastKeys = GetPressedKeys();
-		osDelay(20);
+		osDelay(30);
 	}
 
 	currentKeys = GetPressedKeys();
@@ -97,7 +103,7 @@ static uint8_t GetKeys() {
 			break;
 		}
 		currentKeys = GetPressedKeys();
-		osDelay(20);
+		osDelay(30);
 	}
 
 	if (lastKeys > 0) lastKeypress = HAL_GetTick();

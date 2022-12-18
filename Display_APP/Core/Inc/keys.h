@@ -38,12 +38,6 @@ USAGE:
 #ifndef INC_KEYS_H_
 #define INC_KEYS_H_
 
-#include "buzzer.h"
-#include "main.h"
-#include "cmsis_os.h"
-#include "globals.h"
-#include "panel_serial.h"
-
 void StartKeysTask();
 
 #endif /* INC_KEYS_H_ */

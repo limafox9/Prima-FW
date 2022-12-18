@@ -52,7 +52,7 @@ typedef enum _protocolCommand {
 	COMMAND_PANEL_READY = 0x43
 } protocolCommand;
 
-#define PANEL_SERIAL_TX_TIMEOUT 100
+#define PANEL_SERIAL_TX_TIMEOUT 10
 
 void PanelSerialInit(UART_HandleTypeDef* pUART);
 void PanelSerialTransmit(uint16_t command, uint32_t param1, uint32_t param2, uint32_t param3, uint32_t param4);

@@ -1,6 +1,6 @@
 /*==============================================================================
 
-Filename: panel_serial.h
+Filename: serial.h
 
 Created on: Dec 15, 2022
 
@@ -29,16 +29,15 @@ Visit www.favenzi.it
       luca@favenzi.it
 
 ==================================================================================
-PURPOSE: Modbus CRC16 calculation
+PURPOSE:
 USAGE:
 ================================================================================*/
 
-#ifndef INC_PANEL_SERIAL_H_
-#define INC_PANEL_SERIAL_H_
+#ifndef INC_SERIAL_H_
+#define INC_SERIAL_H_
 
 #include "main.h"
 #include "globals.h"
-#include "buzzer.h"
 
 typedef enum _protocolCommand {
 	COMMAND_PLAY_BEEP = 0xDB,			// param1: n. of beeps, param2: onTIme(ms), param3: offTime(ms)
@@ -49,7 +48,8 @@ typedef enum _protocolCommand {
 	COMMAND_SET_DASHBOARD_LEDS = 0xDE,
 	COMMAND_SET_PROGRESS_LEDS = 0xDF,
 	COMMAND_SET_PANEL_KEYS_BEEP = 0x55,	// param1: 1 = panel buzzer beep on keypress, 0 = mute
-	COMMAND_PANEL_READY = 0x43
+	COMMAND_PANEL_READY = 0x43,
+	COMMAND_PANEL_CHECK = 0x32
 } protocolCommand;
 
 #define PANEL_SERIAL_TX_TIMEOUT 100
@@ -58,4 +58,4 @@ void PanelSerialInit(UART_HandleTypeDef* pUART);
 void PanelSerialTransmit(uint16_t command, uint32_t param1, uint32_t param2, uint32_t param3, uint32_t param4);
 void PanelSerialReceive(uint8_t* buffer, uint16_t size);
 
-#endif /* INC_PANEL_SERIAL_H_ */
+#endif /* INC_SERIAL_H_ */

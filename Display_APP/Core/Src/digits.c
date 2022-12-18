@@ -11,9 +11,9 @@
 #include "main.h"
 #include "digits.h"
 
-extern uint8_t digitsRow1[4];
-extern uint8_t digitsRow2[4];
-extern uint8_t digitsRow3[4];
+extern uint8_t digitsRow1[DIGIT_ROW_BUFFER_SIZE];
+extern uint8_t digitsRow2[DIGIT_ROW_BUFFER_SIZE];
+extern uint8_t digitsRow3[DIGIT_ROW_BUFFER_SIZE];
 
 // Character to segments conversion - @ for all segments
 // Segments:	dp g f e d c b a
@@ -71,39 +71,77 @@ void DigitsInit()
 }
 
 void DigitsWriteRow1(char* digits) {
-	memcpy(digitsRow1, digits, 4);
+	memset(digitsRow1, 0x00, 10);
+	memcpy(digitsRow1, digits, 10);
 }
 
 void DigitsWriteRow2(char* digits) {
-	memcpy(digitsRow2, digits, 4);
+	memset(digitsRow2, 0x00, 10);
+	memcpy(digitsRow2, digits, 10);
 }
 
 void DigitsWriteRow3(char* digits) {
-	memcpy(digitsRow3, digits, 4);
+	memset(digitsRow3, 0x00, 10);
+	memcpy(digitsRow3, digits, 10);
 }
 
 void DigitsRefresh() {
 
 	uint8_t columnIndex;
+	uint8_t bufferIndex1, bufferIndex2, bufferIndex3;
 	uint32_t k, columnDataBit, columnData;
+	uint8_t digit1, digit2, digit3;
+	uint8_t timeDots;
 
 	// Release latch
 	HAL_GPIO_WritePin(DISPLAY_STROBE_GPIO_Port, DISPLAY_STROBE_Pin, GPIO_PIN_RESET);
 
 	for (;;) {
+
+		bufferIndex1 = 0;
+		bufferIndex2 = 0;
+		bufferIndex3 = 0;
+		timeDots = OFF;
+
 		for (columnIndex = 0; columnIndex < 4; columnIndex++) {
 
-			//if (str[columnIndex + 1] == '.') segmants += 0x8
+			columnData = 0;
 
-			columnData = displayChar[digitsRow1[columnIndex]] << 8;
-			columnData += displayChar[digitsRow2[columnIndex]] << 16;
-			columnData += displayChar[digitsRow3[columnIndex]];
+			digit1 = displayChar[digitsRow1[bufferIndex1]];
+			if (digitsRow1[bufferIndex1 + 1] == '.') {
+				digit1 += 0x80;
+				bufferIndex1++;
+			}
+			digit2 = displayChar[digitsRow2[bufferIndex2]];
+			if (digitsRow2[bufferIndex2 + 1] == '.') {
+				digit2 += 0x80;
+				bufferIndex2++;
+			}
+
+			if (digitsRow3[bufferIndex3] == ':') {
+				timeDots = ON;
+				bufferIndex3++;
+			}
+			digit3 = displayChar[digitsRow3[bufferIndex3]];
+			if (digitsRow3[bufferIndex3 + 1] == '.') {
+				digit3 += 0x80;
+				bufferIndex3++;
+			}
+
+			columnData = digit1 << 8;
+			columnData += digit2 << 16;
+			columnData += digit3;
+
+			bufferIndex1++;
+			bufferIndex2++;
+			bufferIndex3++;
 
 			// All columns OFF while pushing serial data
 			HAL_GPIO_WritePin(DISPLAY_DIGIT_1_GPIO_Port, DISPLAY_DIGIT_1_Pin, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(DISPLAY_DIGIT_2_GPIO_Port, DISPLAY_DIGIT_2_Pin, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(DISPLAY_DIGIT_3_GPIO_Port, DISPLAY_DIGIT_3_Pin, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(DISPLAY_DIGIT_4_GPIO_Port, DISPLAY_DIGIT_4_Pin, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(DISPLAY_TIME_DOTS_GPIO_Port, DISPLAY_TIME_DOTS_Pin, timeDots);
 
 			// Pushing segment serial data
 			for (columnDataBit = 0; columnDataBit < 24; columnDataBit++) {
@@ -138,8 +176,21 @@ void DigitsRefresh() {
 					HAL_GPIO_WritePin(DISPLAY_DIGIT_4_GPIO_Port, DISPLAY_DIGIT_4_Pin, GPIO_PIN_SET);
 					break;
 				}
+
 			osDelay(DISPLAY_REFRESH_MILLIS);
 		}
 	}
 
+}
+
+void DigitsClearAll() {
+	DigitsWriteRow1("    ");
+	DigitsWriteRow2("    ");
+	DigitsWriteRow3("    ");
+}
+
+void DigitsSetAll() {
+	DigitsWriteRow1("8.8.8.8");
+	DigitsWriteRow2("8.8.8.8");
+	DigitsWriteRow3("8.8.:8.8");
 }

@@ -70,7 +70,7 @@ static const uint16_t polynomial[256] = {
 0x8201, 0x42C0, 0x4380, 0x8341, 0x4100, 0x81C1, 0x8081, 0x4040
 };
 
-uint16_t crc16( const unsigned char* buf, unsigned int len) {
+uint16_t CRC16( const unsigned char* buf, unsigned int len) {
 
 	uint8_t xor = 0;
 	uint16_t crc = 0xFFFF;

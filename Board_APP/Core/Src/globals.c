@@ -33,13 +33,20 @@ PURPOSE: Modbus CRC16 calculation
 USAGE:
 ================================================================================*/
 
+#include <stdio.h>
+#include <stdarg.h>
 #include "globals.h"
+
+extern UART_HandleTypeDef huart1;
+
+#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
 
 uint32_t _UID[3];
 
-uint8_t digitsRow1[4];
-uint8_t digitsRow2[4];
-uint8_t digitsRow3[4];
+#define DIGIT_BUFFER_SIZE 10
+uint8_t digitsRow1[DIGIT_BUFFER_SIZE];
+uint8_t digitsRow2[DIGIT_BUFFER_SIZE];
+uint8_t digitsRow3[DIGIT_BUFFER_SIZE];
 
 uint16_t progressBarBits;
 uint16_t progressBarBitsBlink;
@@ -51,6 +58,7 @@ uint32_t digitsBits;
 
 uint8_t keysPressed;
 
+uint32_t UnitID_Part_1, UnitID_Part_2, UnitID_Part_3;
 
 uint32_t GetSafeDeltaTick(uint32_t startTick, uint32_t endTick) {
 
@@ -69,7 +77,7 @@ uint32_t GetSafeDeltaTick(uint32_t startTick, uint32_t endTick) {
 void SwapBytes(void *pBytes, size_t size) {
     char *p = pBytes;
     size_t lo, hi;
-    for(lo=0, hi=size-1; hi>lo; lo++, hi--)
+    for (lo=0, hi=size-1; hi>lo; lo++, hi--)
     {
         char tmp=p[lo];
         p[lo] = p[hi];
@@ -77,4 +85,28 @@ void SwapBytes(void *pBytes, size_t size) {
     }
 }
 
+void Log(LOG_LEVEL logLevel, const char* format, ...) {
+
+	if (logLevel <= ACTIVE_LOG_LEVEL) {
+		  va_list args;
+		  char* buf;
+		  va_start(args, format);
+		  vsprintf(buf, format, args);
+		  va_end(args);
+
+		  //printf(buf);
+		  HAL_UART_Transmit(&huart1, buf, strlen(buf), 100);
+		  HAL_UART_Transmit(&huart1, "\n", 1, 100);
+	}
+}
+
+// Redirect printf to serial monitor
+PUTCHAR_PROTOTYPE
+{
+  /* Place your implementation of fputc here */
+  /* e.g. write a character to the USART1 and Loop until the end of transmission */
+  HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xFFFF);
+
+  return ch;
+}
 

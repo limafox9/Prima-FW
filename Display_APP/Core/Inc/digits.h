@@ -16,5 +16,7 @@ void DigitsRefresh();
 void DigitsWriteRow1(char* digits);
 void DigitsWriteRow2(char* digits);
 void DigitsWriteRow3(char* digits);
+void DigitsClearAll();
+void DigitsSetAll();
 
 #endif /* INC_DIGITS_H_ */

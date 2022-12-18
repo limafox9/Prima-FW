@@ -39,6 +39,6 @@ USAGE:
 #include <stdint.h>
 
 
-extern uint16_t crc16( const unsigned char* buf, unsigned int len);
+extern uint16_t CRC16( const unsigned char* buf, unsigned int len);
 
 #endif /* INC_CRC16_H_ */

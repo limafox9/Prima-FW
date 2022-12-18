@@ -44,15 +44,16 @@ USAGE:
 #define FW_VERSION_MINOR 0
 #define FW_VERSION_REVISION 21
 
+#define DIGIT_ROW_BUFFER_SIZE 10
+
 typedef struct _gpioPin {
 	GPIO_TypeDef* GPIO_Port;
 	uint16_t GPIO_Pin;
 	uint8_t bit;
 } gpioPin;
 
-typedef enum {LED_OFF, LED_ON} LED_STATE;
-typedef enum {BUZZER_OFF, BUZZER_ON} BUZZER_STATE;
 typedef enum {FALSE, TRUE} LOGIC_STATE;
+typedef enum {OFF, ON} POWER_STATE;
 
 uint32_t GetSafeDeltaTick(uint32_t startTick, uint32_t endTick);
 void SwapBytes(void *pBytes, size_t size);

@@ -37,6 +37,7 @@ USAGE:
 
 #include "panel_serial.h"
 #include "crc16.h"
+#include "main.h"
 //#include "leds.h"
 
 extern uint8_t _keysBeepActive;
@@ -82,7 +83,7 @@ void PanelSerialTransmit(uint16_t command, uint32_t param1, uint32_t param2, uin
 	memcpy(txBuffer + pos_param4, &param4, 4);
 	// CRC (Command + Data)
 	uint16_t crc;
-	crc = crc16(txBuffer + pos_command, pos_checksum - pos_command);
+	crc = CRC16(txBuffer + pos_command, pos_checksum - pos_command);
 	memcpy(txBuffer + pos_checksum, &crc, 2);
 	// Tail
 	memcpy(txBuffer + pos_tail, activeProtocolTail, 2);
@@ -103,17 +104,49 @@ void SerialTransmit(uint8_t* data, uint16_t dataSize) {
 	HAL_GPIO_WritePin(USART3_CTS_GPIO_Port, USART3_CTS_Pin, 0);
 
 }
+#define BUFFER_SIZE 25
+uint16_t newPos = 0;
+uint16_t oldPos = 0;
+uint8_t MainBuf[BUFFER_SIZE];
+
 
 void PanelSerialReceive(uint8_t* buffer, uint16_t size) {
 
 	uint16_t rxCRC16;
 	uint16_t calcCRC16;
 
+
+	oldPos = newPos;  // Update the last position before copying new data
+
+	/* If the data in large and it is about to exceed the buffer size, we have to route it to the start of the buffer
+	 * This is to maintain the circular buffer
+	 * The old data in the main buffer will be overlapped
+	 */
+	if ((oldPos + size) > BUFFER_SIZE)  // If the current position + new data size is greater than the main buffer
+	{
+		uint16_t datatocopy = BUFFER_SIZE - oldPos;  // find out how much space is left in the main buffer
+		memcpy ((uint8_t *)MainBuf+oldPos, buffer, datatocopy);  // copy data in that remaining space
+
+		oldPos = 0;  // point to the start of the buffer
+		memcpy ((uint8_t *)MainBuf, (uint8_t *)buffer + datatocopy, (size - datatocopy));  // copy the remaining data
+		newPos = (size - datatocopy);  // update the position
+	}
+
+	/* if the current position + new data size is less than the main buffer
+	 * we will simply copy the data into the buffer and update the position
+	 */
+	else
+	{
+		memcpy ((uint8_t *)MainBuf + oldPos, buffer, size);
+		newPos = size + oldPos;
+	}
+
+
 	if ((buffer[pos_head] == activeProtocolHead[0]) && (buffer[pos_head + 1] == activeProtocolHead[1])) { // Header found
 		if ((buffer[pos_tail] == activeProtocolTail[0]) && (buffer[pos_tail + 1] == activeProtocolTail[1])) { // Tail found
 			memcpy(&rxCRC16, buffer + pos_checksum, 2);
 			//memset(uartBuffer + _pos_checksum, 0, 2);
-			calcCRC16 = crc16(buffer + pos_command, pos_checksum - pos_command);
+			calcCRC16 = CRC16(buffer + pos_command, pos_checksum - pos_command);
 //			if (rxCRC16 == calcCRC16) {
 //				ParseCommand(buffer); // Valid command
 //			}

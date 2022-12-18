@@ -35,9 +35,14 @@ USAGE:
 
 // 3C7EDB0002000000640000006400000000000000CCCE7E3E10 -> 2 beeps
 
-#include "panel_serial.h"
+#include "serial.h"
 #include "crc16.h"
 #include "leds.h"
+#include "digits.h"
+#include "cmsis_os.h"
+#include "buzzer.h"
+#include <string.h>
+#include <stdio.h>
 
 extern uint8_t _keysBeepActive;
 
@@ -58,6 +63,7 @@ const uint8_t pos_tail = 22;
 const uint8_t pos_EOF = 24;
 
 void SerialTransmit(uint8_t* data, uint16_t dataSize);
+void ParseCommand(uint8_t* buffer);
 
 
 void PanelSerialInit(UART_HandleTypeDef* pUART) {
@@ -82,7 +88,7 @@ void PanelSerialTransmit(uint16_t command, uint32_t param1, uint32_t param2, uin
 	memcpy(txBuffer + pos_param4, &param4, 4);
 	// CRC (Command + Data)
 	uint16_t crc;
-	crc = crc16(txBuffer + pos_command, pos_checksum - pos_command);
+	crc = CRC16(txBuffer + pos_command, pos_checksum - pos_command);
 	memcpy(txBuffer + pos_checksum, &crc, 2);
 	// Tail
 	memcpy(txBuffer + pos_tail, activeProtocolTail, 2);
@@ -111,13 +117,12 @@ void PanelSerialReceive(uint8_t* buffer, uint16_t size) {
 
 	if ((buffer[pos_head] == activeProtocolHead[0]) && (buffer[pos_head + 1] == activeProtocolHead[1])) { // Header found
 		if ((buffer[pos_tail] == activeProtocolTail[0]) && (buffer[pos_tail + 1] == activeProtocolTail[1])) { // Tail found
-			memcpy(&rxCRC16, buffer + pos_checksum, 2);
-			//memset(uartBuffer + _pos_checksum, 0, 2);
-			calcCRC16 = crc16(buffer + pos_command, pos_checksum - pos_command);
-//			if (rxCRC16 == calcCRC16) {
-//				ParseCommand(buffer); // Valid command
-//			}
-			ParseCommand(buffer);
+			memcpy(&rxCRC16, buffer + pos_checksum, 2); // store received crc
+			memset(buffer + pos_checksum, 0, 2); // 0 CRC before calculation
+			calcCRC16 = CRC16(buffer + pos_command, pos_checksum - pos_command); // crc for payload (command + parameters)
+			if (rxCRC16 == calcCRC16) {
+				ParseCommand(buffer); // valid received command > parse
+			}
 		}
 	}
 }
@@ -126,8 +131,6 @@ void ParseCommand(uint8_t* buffer) {
 
 	uint16_t command;
 	uint32_t param1, param2, param3, param4;
-	uint64_t message = 0;
-	static uint8_t i = 0;
 
 	memcpy(&command, buffer + pos_command, 2);
 	memcpy(&param1, buffer + pos_param1, 4);
@@ -157,8 +160,23 @@ void ParseCommand(uint8_t* buffer) {
 		case COMMAND_SET_PANEL_KEYS_BEEP:
 			_keysBeepActive = (uint8_t)param1;
 			break;
+		case COMMAND_PANEL_CHECK:
+			PanelSetAll();
+			ProgressSetAll();
+			DigitsSetAll();
+			osDelay(2000);
+			PanelClearAll();
+			ProgressClearAll();
+			DigitsClearAll();
+			Beep(3,100,100);
+			break;
+
 	}
 
 	//SerialTransmit("COMMAND OK\n", 11);
+
+}
+
+void SendPanelReady() {
 
 }

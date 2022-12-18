@@ -40,9 +40,11 @@ USAGE:
 #include "main.h"
 #include <stdio.h>
 
-#define FW_VERSION_MAJOR 1
-#define FW_VERSION_MINOR 0
-#define FW_VERSION_REVISION 21
+#define FW_VERSION_MAJOR 2
+#define FW_VERSION_MINOR 1
+#define FW_VERSION_REVISION 14
+
+#define ACTIVE_LOG_LEVEL 1
 
 typedef struct _gpioPin {
 	GPIO_TypeDef* GPIO_Port;
@@ -50,13 +52,19 @@ typedef struct _gpioPin {
 	uint8_t bit;
 } gpioPin;
 
-typedef enum {LED_OFF, LED_ON} LED_STATE;
-typedef enum {BUZZER_OFF, BUZZER_ON} BUZZER_STATE;
 typedef enum {FALSE, TRUE} LOGIC_STATE;
 typedef enum {OFF, ON} POWER_STATE;
 
+typedef enum {
+	LOG_LEVEL_RELEASE,
+	LOG_LEVEL_1,
+	LOG_LEVEL_2,
+	LOG_LEVEL_3
+} LOG_LEVEL;
+
 uint32_t GetSafeDeltaTick(uint32_t startTick, uint32_t endTick);
 void SwapBytes(void *pBytes, size_t size);
+void Debug(uint8_t level, const char* message, ...);
 
 // Bitwise operations ----------------------------------------------------------
 #define BIT(n)					(1 << (x)) // Return the number representing the n_th bit

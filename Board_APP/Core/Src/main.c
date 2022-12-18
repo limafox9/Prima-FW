@@ -29,6 +29,8 @@
 #include "leds.h"
 
 #include "actuators.h"
+#include "devices.h"
+#include "system.h"
 
 /* USER CODE END Includes */
 
@@ -51,6 +53,8 @@ I2C_HandleTypeDef hi2c1;
 
 SPI_HandleTypeDef hspi2;
 
+UART_HandleTypeDef huart4;
+UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart3;
 DMA_HandleTypeDef hdma_usart3_rx;
 
@@ -62,6 +66,8 @@ osThreadId defaultTaskHandle;
 osThreadId keysTaskHandle;
 osThreadId ledsTaskHandle;
 
+extern uint32_t  UID_1, UID_2, UID_3;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -72,6 +78,8 @@ static void MX_USART3_UART_Init(void);
 static void MX_I2C1_Init(void);
 static void MX_SPI2_Init(void);
 static void MX_USB_OTG_FS_HCD_Init(void);
+static void MX_USART1_UART_Init(void);
+static void MX_UART4_Init(void);
 void StartDefaultTask(void const * argument);
 
 /* USER CODE BEGIN PFP */
@@ -81,21 +89,31 @@ void StartDefaultTask(void const * argument);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-#define UART_BUFFER_SIZE 30
+#define UART_BUFFER_SIZE 25
 uint8_t UART_rxBuffer[UART_BUFFER_SIZE] = {0};
 
-void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
-	//HAL_UART_Receive_DMA(p_activeUART, UART_rxBuffer, 3);
+//void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
+//	//HAL_UART_Receive_DMA(p_activeUART, UART_rxBuffer, 3);
+//
+//	// Check for UART
+//	if (huart->Instance == huart3.Instance) {
+//		PanelSerialReceive(UART_rxBuffer, Size);
+//	}
+//
+//	// Receive again
+//	HAL_UARTEx_ReceiveToIdle_DMA(huart, UART_rxBuffer, UART_BUFFER_SIZE); // Interrupt on receive buffer full or idle (end receive)
+//	__HAL_DMA_DISABLE_IT(&hdma_usart3_rx, DMA_IT_HT); // Disable half buffer received interrupt
+//
+//}
 
-	// Check for UART
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
 	if (huart->Instance == huart3.Instance) {
-		PanelSerialReceive(UART_rxBuffer, Size);
+		PanelSerialReceive(UART_rxBuffer, UART_BUFFER_SIZE);
 	}
 
-	// Receive again
-	HAL_UARTEx_ReceiveToIdle_DMA(huart, UART_rxBuffer, UART_BUFFER_SIZE); // Interrupt on receive buffer full or idle (end receive)
-	__HAL_DMA_DISABLE_IT(&hdma_usart3_rx, DMA_IT_HT); // Disable half buffer received interrupt
-
+	HAL_UART_Receive_DMA(huart, UART_rxBuffer, UART_BUFFER_SIZE);
+	__HAL_DMA_DISABLE_IT(&hdma_usart3_rx, DMA_IT_HT);
 }
 
 /* USER CODE END 0 */
@@ -133,10 +151,21 @@ int main(void)
   MX_I2C1_Init();
   MX_SPI2_Init();
   MX_USB_OTG_FS_HCD_Init();
+  MX_USART1_UART_Init();
+  MX_UART4_Init();
   /* USER CODE BEGIN 2 */
 
   PanelSerialInit(&huart3);
-ValveVacuum(ON);
+  ValveVacuum(ON);
+
+//  SysInit();
+//
+//  Log(LOG_LEVEL_RELEASE, "\n\n****************************************");
+//  Log(LOG_LEVEL_RELEASE, "PRIMA Board APP v%d.%d.%d", FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION);
+//  Log(LOG_LEVEL_RELEASE, "UID: %08X %08X %08X", UID_1, UID_2, UID_3);
+//  Log(LOG_LEVEL_RELEASE, "\nKernel Started");
+
+
   /* USER CODE END 2 */
 
   /* USER CODE BEGIN RTOS_MUTEX */
@@ -311,6 +340,72 @@ static void MX_SPI2_Init(void)
 }
 
 /**
+  * @brief UART4 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_UART4_Init(void)
+{
+
+  /* USER CODE BEGIN UART4_Init 0 */
+
+  /* USER CODE END UART4_Init 0 */
+
+  /* USER CODE BEGIN UART4_Init 1 */
+
+  /* USER CODE END UART4_Init 1 */
+  huart4.Instance = UART4;
+  huart4.Init.BaudRate = 9600;
+  huart4.Init.WordLength = UART_WORDLENGTH_8B;
+  huart4.Init.StopBits = UART_STOPBITS_1;
+  huart4.Init.Parity = UART_PARITY_NONE;
+  huart4.Init.Mode = UART_MODE_TX_RX;
+  huart4.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart4.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart4) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN UART4_Init 2 */
+
+  /* USER CODE END UART4_Init 2 */
+
+}
+
+/**
+  * @brief USART1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART1_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART1_Init 0 */
+
+  /* USER CODE END USART1_Init 0 */
+
+  /* USER CODE BEGIN USART1_Init 1 */
+
+  /* USER CODE END USART1_Init 1 */
+  huart1.Instance = USART1;
+  huart1.Init.BaudRate = 115200;
+  huart1.Init.WordLength = UART_WORDLENGTH_8B;
+  huart1.Init.StopBits = UART_STOPBITS_1;
+  huart1.Init.Parity = UART_PARITY_NONE;
+  huart1.Init.Mode = UART_MODE_TX_RX;
+  huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart1.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART1_Init 2 */
+
+  /* USER CODE END USART1_Init 2 */
+
+}
+
+/**
   * @brief USART3 Initialization Function
   * @param None
   * @retval None
@@ -469,8 +564,10 @@ void StartDefaultTask(void const * argument)
   /* Infinite loop */
 
 
-	  HAL_UARTEx_ReceiveToIdle_DMA(&huart3, UART_rxBuffer, UART_BUFFER_SIZE); // Interrupt on receive buffer full or idle (end receive)
-	  __HAL_DMA_DISABLE_IT(&hdma_usart3_rx, DMA_IT_HT); // Disable half buffer received interrupt
+//	  HAL_UARTEx_ReceiveToIdle_DMA(&huart3, UART_rxBuffer, UART_BUFFER_SIZE); // Interrupt on receive buffer full or idle (end receive)
+//	  __HAL_DMA_DISABLE_IT(&hdma_usart3_rx, DMA_IT_HT); // Disable half buffer received interrupt
+	HAL_UART_Receive_DMA(&huart3, UART_rxBuffer, UART_BUFFER_SIZE);
+	__HAL_DMA_DISABLE_IT(&hdma_usart3_rx, DMA_IT_HT);
 
   for(;;)
   {

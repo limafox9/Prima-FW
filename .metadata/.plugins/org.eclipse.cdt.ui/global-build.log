@@ -1,21 +1,48 @@
-19:22:56 **** Incremental Build of configuration Debug for project Board_APP ****
-make -j4 all 
-arm-none-eabi-gcc "../Core/Src/actuators.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/actuators.d" -MT"Core/Src/actuators.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/actuators.o"
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
-arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Board_APP.elf
+20:44:21 **** Incremental Build of configuration Debug for project Display_APP ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/serial.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial.d" -MT"Core/Src/serial.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial.o"
+../Core/Src/serial.c: In function 'ParseCommand':
+../Core/Src/serial.c:146:20: warning: passing argument 1 of 'DigitsWriteRow1' from incompatible pointer type [-Wincompatible-pointer-types]
+  146 |    DigitsWriteRow1(&param1);
+      |                    ^~~~~~~
+      |                    |
+      |                    uint32_t * {aka long unsigned int *}
+In file included from ../Core/Src/serial.c:41:
+../Core/Inc/digits.h:16:28: note: expected 'char *' but argument is of type 'uint32_t *' {aka 'long unsigned int *'}
+   16 | void DigitsWriteRow1(char* digits);
+      |                      ~~~~~~^~~~~~
+../Core/Src/serial.c:149:20: warning: passing argument 1 of 'DigitsWriteRow2' from incompatible pointer type [-Wincompatible-pointer-types]
+  149 |    DigitsWriteRow2(&param1);
+      |                    ^~~~~~~
+      |                    |
+      |                    uint32_t * {aka long unsigned int *}
+In file included from ../Core/Src/serial.c:41:
+../Core/Inc/digits.h:17:28: note: expected 'char *' but argument is of type 'uint32_t *' {aka 'long unsigned int *'}
+   17 | void DigitsWriteRow2(char* digits);
+      |                      ~~~~~~^~~~~~
+../Core/Src/serial.c:152:20: warning: passing argument 1 of 'DigitsWriteRow3' from incompatible pointer type [-Wincompatible-pointer-types]
+  152 |    DigitsWriteRow3(&param1);
+      |                    ^~~~~~~
+      |                    |
+      |                    uint32_t * {aka long unsigned int *}
+In file included from ../Core/Src/serial.c:41:
+../Core/Inc/digits.h:18:28: note: expected 'char *' but argument is of type 'uint32_t *' {aka 'long unsigned int *'}
+   18 | void DigitsWriteRow3(char* digits);
+      |                      ~~~~~~^~~~~~
+arm-none-eabi-gcc -o "Display_APP.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Display_APP\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Display_APP.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Display_APP.elf
  
-arm-none-eabi-size   Board_APP.elf 
-arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
-arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
+arm-none-eabi-size   Display_APP.elf 
+arm-none-eabi-objdump -h -S  Display_APP.elf  > "Display_APP.list"
+arm-none-eabi-objcopy  -O ihex  Display_APP.elf  "Display_APP.hex"
+arm-none-eabi-objcopy  -O binary  Display_APP.elf  "Display_APP.bin"
    text	   data	    bss	    dec	    hex	filename
-  25372	    132	   7908	  33412	   8284	Board_APP.elf
-arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
+  45656	    496	   6056	  52208	   cbf0	Display_APP.elf
 Finished building: default.size.stdout
  
-Finished building: Board_APP.hex
-Finished building: Board_APP.bin
+Finished building: Display_APP.hex
+Finished building: Display_APP.bin
  
-Finished building: Board_APP.list
  
+Finished building: Display_APP.list
  
