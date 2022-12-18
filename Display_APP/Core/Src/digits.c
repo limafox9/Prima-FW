@@ -6,6 +6,8 @@
  */
 
 #include <stdio.h>
+#include <stdarg.h>
+
 #include "globals.h"
 #include "cmsis_os.h"
 #include "main.h"
@@ -80,9 +82,13 @@ void DigitsWriteRow2(char* digits) {
 	memcpy(digitsRow2, digits, 10);
 }
 
-void DigitsWriteRow3(char* digits) {
+void DigitsWriteRow3(const char* digits, ...) {
+	va_list args;
 	memset(digitsRow3, 0x00, 10);
-	memcpy(digitsRow3, digits, 10);
+	va_start(args, digits);
+	vsprintf(digitsRow3, digits, args);
+	va_end(args);
+//	memcpy(digitsRow3, digits, 10);
 }
 
 void DigitsRefresh() {

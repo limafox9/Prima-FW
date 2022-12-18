@@ -46,7 +46,12 @@ USAGE:
 
 extern uint8_t _keysBeepActive;
 
+
+#define UART_BUFFER_SIZE 25
+uint8_t UART_rxBuffer[UART_BUFFER_SIZE] = {0};
+
 UART_HandleTypeDef* pActiveUART;
+DMA_HandleTypeDef* pActiveHDMA;
 
 const char activeProtocolHead[] = {'<', '~'};
 const char activeProtocolTail[] =  {'~', '>'};
@@ -66,9 +71,18 @@ void SerialTransmit(uint8_t* data, uint16_t dataSize);
 void ParseCommand(uint8_t* buffer);
 
 
-void PanelSerialInit(UART_HandleTypeDef* pUART) {
+void PanelSerialInit(UART_HandleTypeDef* pUART, DMA_HandleTypeDef* pDMA) {
 	pActiveUART = pUART;
+	pActiveHDMA = pDMA;
+	// Activate serial DMA serial receive
+	HAL_UART_Receive_DMA(pActiveUART, UART_rxBuffer, UART_BUFFER_SIZE);
+	__HAL_DMA_DISABLE_IT(pActiveHDMA, DMA_IT_HT);
+
 }
+
+// ==============================================================
+// TRANSMIT
+// ==============================================================
 
 void PanelSerialTransmit(uint16_t command, uint32_t param1, uint32_t param2, uint32_t param3, uint32_t param4) {
 
@@ -110,6 +124,20 @@ void SerialTransmit(uint8_t* data, uint16_t dataSize) {
 
 }
 
+// ==============================================================
+// RECEIVE
+// ==============================================================
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+	if (huart->Instance == pActiveUART->Instance) {
+		PanelSerialReceive(UART_rxBuffer, UART_BUFFER_SIZE);
+	}
+
+	HAL_UART_Receive_DMA(huart, UART_rxBuffer, UART_BUFFER_SIZE);
+	__HAL_DMA_DISABLE_IT(pActiveHDMA, DMA_IT_HT);
+}
+
 void PanelSerialReceive(uint8_t* buffer, uint16_t size) {
 
 	uint16_t rxCRC16;
@@ -126,6 +154,10 @@ void PanelSerialReceive(uint8_t* buffer, uint16_t size) {
 		}
 	}
 }
+
+// ==============================================================
+// COMMANDS
+// ==============================================================
 
 void ParseCommand(uint8_t* buffer) {
 
@@ -160,6 +192,9 @@ void ParseCommand(uint8_t* buffer) {
 		case COMMAND_SET_PANEL_KEYS_BEEP:
 			_keysBeepActive = (uint8_t)param1;
 			break;
+		case COMMAND_GET_PANEL_FW_VERSION:
+			SendFWVersion();
+			break;
 		case COMMAND_PANEL_CHECK:
 			PanelSetAll();
 			ProgressSetAll();
@@ -170,13 +205,17 @@ void ParseCommand(uint8_t* buffer) {
 			DigitsClearAll();
 			Beep(3,100,100);
 			break;
-
 	}
+}
 
-	//SerialTransmit("COMMAND OK\n", 11);
-
+void SendCommandOK() {
+	PanelSerialTransmit(COMMAND_OK, 0, 0, 0, 0);
 }
 
 void SendPanelReady() {
+	PanelSerialTransmit(COMMAND_PANEL_READY, FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION, 0);
+}
 
+void SendFWVersion() {
+	PanelSerialTransmit(COMMAND_GET_PANEL_FW_VERSION, FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION, 0);
 }

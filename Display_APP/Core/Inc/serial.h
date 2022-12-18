@@ -40,6 +40,7 @@ USAGE:
 #include "globals.h"
 
 typedef enum _protocolCommand {
+	COMMAND_OK = 0x100,
 	COMMAND_PLAY_BEEP = 0xDB,			// param1: n. of beeps, param2: onTIme(ms), param3: offTime(ms)
 	COMMAND_KEYS_PRESSED = 0x6666,
 	COMMAND_WRITE_DIGITS_ROW_1 = 0xD1,
@@ -49,12 +50,13 @@ typedef enum _protocolCommand {
 	COMMAND_SET_PROGRESS_LEDS = 0xDF,
 	COMMAND_SET_PANEL_KEYS_BEEP = 0x55,	// param1: 1 = panel buzzer beep on keypress, 0 = mute
 	COMMAND_PANEL_READY = 0x43,
-	COMMAND_PANEL_CHECK = 0x32
+	COMMAND_PANEL_CHECK = 0x32,
+	COMMAND_GET_PANEL_FW_VERSION = 0x12
 } protocolCommand;
 
 #define PANEL_SERIAL_TX_TIMEOUT 100
 
-void PanelSerialInit(UART_HandleTypeDef* pUART);
+void PanelSerialInit(UART_HandleTypeDef* pUART, DMA_HandleTypeDef* pDMA);
 void PanelSerialTransmit(uint16_t command, uint32_t param1, uint32_t param2, uint32_t param3, uint32_t param4);
 void PanelSerialReceive(uint8_t* buffer, uint16_t size);
 

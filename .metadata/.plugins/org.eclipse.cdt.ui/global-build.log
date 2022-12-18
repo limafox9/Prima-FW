@@ -1,48 +1,157 @@
-20:44:21 **** Incremental Build of configuration Debug for project Display_APP ****
+21:44:20 **** Incremental Build of configuration Debug for project Board_APP ****
 make -j24 all 
-arm-none-eabi-gcc "../Core/Src/serial.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial.d" -MT"Core/Src/serial.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial.o"
-../Core/Src/serial.c: In function 'ParseCommand':
-../Core/Src/serial.c:146:20: warning: passing argument 1 of 'DigitsWriteRow1' from incompatible pointer type [-Wincompatible-pointer-types]
-  146 |    DigitsWriteRow1(&param1);
-      |                    ^~~~~~~
-      |                    |
-      |                    uint32_t * {aka long unsigned int *}
-In file included from ../Core/Src/serial.c:41:
-../Core/Inc/digits.h:16:28: note: expected 'char *' but argument is of type 'uint32_t *' {aka 'long unsigned int *'}
-   16 | void DigitsWriteRow1(char* digits);
-      |                      ~~~~~~^~~~~~
-../Core/Src/serial.c:149:20: warning: passing argument 1 of 'DigitsWriteRow2' from incompatible pointer type [-Wincompatible-pointer-types]
-  149 |    DigitsWriteRow2(&param1);
-      |                    ^~~~~~~
-      |                    |
-      |                    uint32_t * {aka long unsigned int *}
-In file included from ../Core/Src/serial.c:41:
-../Core/Inc/digits.h:17:28: note: expected 'char *' but argument is of type 'uint32_t *' {aka 'long unsigned int *'}
-   17 | void DigitsWriteRow2(char* digits);
-      |                      ~~~~~~^~~~~~
-../Core/Src/serial.c:152:20: warning: passing argument 1 of 'DigitsWriteRow3' from incompatible pointer type [-Wincompatible-pointer-types]
-  152 |    DigitsWriteRow3(&param1);
-      |                    ^~~~~~~
-      |                    |
-      |                    uint32_t * {aka long unsigned int *}
-In file included from ../Core/Src/serial.c:41:
-../Core/Inc/digits.h:18:28: note: expected 'char *' but argument is of type 'uint32_t *' {aka 'long unsigned int *'}
-   18 | void DigitsWriteRow3(char* digits);
-      |                      ~~~~~~^~~~~~
-arm-none-eabi-gcc -o "Display_APP.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Display_APP\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Display_APP.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Display_APP.elf
+arm-none-eabi-gcc "../Core/Src/crc16.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/crc16.d" -MT"Core/Src/crc16.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/crc16.o"
+arm-none-eabi-gcc "../Core/Src/globals.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/globals.d" -MT"Core/Src/globals.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/globals.o"
+arm-none-eabi-gcc "../Core/Src/keys.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/keys.d" -MT"Core/Src/keys.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/keys.o"
+arm-none-eabi-gcc "../Core/Src/leds.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/leds.d" -MT"Core/Src/leds.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/leds.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/panel_serial.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/panel_serial.d" -MT"Core/Src/panel_serial.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/panel_serial.o"
+../Core/Src/globals.c: In function 'Log':
+../Core/Src/globals.c:98:37: warning: implicit declaration of function 'strlen' [-Wimplicit-function-declaration]
+   98 |     HAL_UART_Transmit(&huart1, buf, strlen(buf), 100);
+      |                                     ^~~~~~
+../Core/Src/globals.c:98:37: warning: incompatible implicit declaration of built-in function 'strlen'
+../Core/Src/globals.c:39:1: note: include '<string.h>' or provide a declaration of 'strlen'
+   38 | #include "globals.h"
+  +++ |+#include <string.h>
+   39 | 
+../Core/Src/globals.c:98:32: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+   98 |     HAL_UART_Transmit(&huart1, buf, strlen(buf), 100);
+      |                                ^~~
+      |                                |
+      |                                char *
+In file included from ../Core/Inc/stm32f1xx_hal_conf.h:338,
+                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:30,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Inc/globals.h:40,
+                 from ../Core/Src/globals.c:38:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h:725:73: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+  725 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+      |                                                                ~~~~~~~~~^~~~~
+../Core/Src/globals.c:99:32: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+   99 |     HAL_UART_Transmit(&huart1, "\n", 1, 100);
+      |                                ^~~~
+      |                                |
+      |                                char *
+In file included from ../Core/Inc/stm32f1xx_hal_conf.h:338,
+                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:30,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Inc/globals.h:40,
+                 from ../Core/Src/globals.c:38:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h:725:73: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+  725 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+      |                                                                ~~~~~~~~~^~~~~
+../Core/Src/globals.c:94:5: warning: 'buf' may be used uninitialized in this function [-Wmaybe-uninitialized]
+   94 |     vsprintf(buf, format, args);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/panel_serial.c: In function 'PanelSerialTransmit':
+../Core/Src/panel_serial.c:73:2: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+   73 |  memset(txBuffer, 0, txBufferSize);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:73:2: warning: incompatible implicit declaration of built-in function 'memset'
+../Core/Src/panel_serial.c:41:1: note: include '<string.h>' or provide a declaration of 'memset'
+   40 | #include "main.h"
+  +++ |+#include <string.h>
+   41 | //#include "leds.h"
+../Core/Src/panel_serial.c:76:2: warning: implicit declaration of function 'memcpy' [-Wimplicit-function-declaration]
+   76 |  memcpy(txBuffer + pos_head, activeProtocolHead, 2);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:76:2: warning: incompatible implicit declaration of built-in function 'memcpy'
+../Core/Src/panel_serial.c:76:2: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/panel_serial.c: In function 'PanelSerialReceive':
+../Core/Src/panel_serial.c:128:3: warning: incompatible implicit declaration of built-in function 'memcpy'
+  128 |   memcpy ((uint8_t *)MainBuf+oldPos, buffer, datatocopy);  // copy data in that remaining space
+      |   ^~~~~~
+../Core/Src/panel_serial.c:128:3: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/panel_serial.c:140:3: warning: incompatible implicit declaration of built-in function 'memcpy'
+  140 |   memcpy ((uint8_t *)MainBuf + oldPos, buffer, size);
+      |   ^~~~~~
+../Core/Src/panel_serial.c:140:3: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/panel_serial.c:147:4: warning: incompatible implicit declaration of built-in function 'memcpy'
+  147 |    memcpy(&rxCRC16, buffer + pos_checksum, 2);
+      |    ^~~~~~
+../Core/Src/panel_serial.c:147:4: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/leds.c: In function 'StartLedsTask':
+../Core/Src/leds.c:61:3: warning: implicit declaration of function 'osDelay' [-Wimplicit-function-declaration]
+   61 |   osDelay(10);
+      |   ^~~~~~~
+In file included from ../Core/Src/main.c:33:
+../Core/Inc/system.h:41: warning: "FLASHSIZE_BASE" redefined
+   41 | #define FLASHSIZE_BASE 0x1FFFF7E0U // FLASH Size register base address
+      | 
+In file included from ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h:137,
+                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h:30,
+                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h:29,
+                 from ../Core/Inc/stm32f1xx_hal_conf.h:238,
+                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:30,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f105xc.h:794: note: this is the location of the previous definition
+  794 | #define FLASHSIZE_BASE        0x1FFFF7E0UL    /*!< FLASH Size register base address */
+      | 
+In file included from ../Core/Src/main.c:33:
+../Core/Inc/system.h:42: warning: "UID_BASE" redefined
+   42 | #define UID_BASE 0x1FFFF7E8U // Unique device ID register base address
+      | 
+In file included from ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h:137,
+                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h:30,
+                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h:29,
+                 from ../Core/Inc/stm32f1xx_hal_conf.h:238,
+                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:30,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f105xc.h:795: note: this is the location of the previous definition
+  795 | #define UID_BASE              0x1FFFF7E8UL    /*!< Unique device ID register base address */
+      | 
+../Core/Src/panel_serial.c:153:4: warning: implicit declaration of function 'ParseCommand' [-Wimplicit-function-declaration]
+  153 |    ParseCommand(buffer);
+      |    ^~~~~~~~~~~~
+../Core/Src/panel_serial.c:116:11: warning: variable 'calcCRC16' set but not used [-Wunused-but-set-variable]
+  116 |  uint16_t calcCRC16;
+      |           ^~~~~~~~~
+../Core/Src/panel_serial.c: At top level:
+../Core/Src/panel_serial.c:158:6: warning: conflicting types for 'ParseCommand'
+  158 | void ParseCommand(uint8_t* buffer) {
+      |      ^~~~~~~~~~~~
+../Core/Src/panel_serial.c:153:4: note: previous implicit declaration of 'ParseCommand' was here
+  153 |    ParseCommand(buffer);
+      |    ^~~~~~~~~~~~
+../Core/Src/panel_serial.c: In function 'ParseCommand':
+../Core/Src/panel_serial.c:165:2: warning: incompatible implicit declaration of built-in function 'memcpy'
+  165 |  memcpy(&command, buffer + pos_command, 2);
+      |  ^~~~~~
+../Core/Src/panel_serial.c:165:2: note: include '<string.h>' or provide a declaration of 'memcpy'
+../Core/Src/panel_serial.c:163:17: warning: unused variable 'i' [-Wunused-variable]
+  163 |  static uint8_t i = 0;
+      |                 ^
+../Core/Src/panel_serial.c:162:11: warning: unused variable 'message' [-Wunused-variable]
+  162 |  uint64_t message = 0;
+      |           ^~~~~~~
+At top level:
+../Core/Src/panel_serial.c:163:17: warning: 'i' defined but not used [-Wunused-variable]
+  163 |  static uint8_t i = 0;
+      |                 ^
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Board_APP.elf
  
-arm-none-eabi-size   Display_APP.elf 
-arm-none-eabi-objdump -h -S  Display_APP.elf  > "Display_APP.list"
-arm-none-eabi-objcopy  -O ihex  Display_APP.elf  "Display_APP.hex"
-arm-none-eabi-objcopy  -O binary  Display_APP.elf  "Display_APP.bin"
+arm-none-eabi-size   Board_APP.elf 
+arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
+arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
+arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
    text	   data	    bss	    dec	    hex	filename
-  45656	    496	   6056	  52208	   cbf0	Display_APP.elf
+  48432	    500	   8084	  57016	   deb8	Board_APP.elf
 Finished building: default.size.stdout
  
-Finished building: Display_APP.hex
-Finished building: Display_APP.bin
+Finished building: Board_APP.hex
+Finished building: Board_APP.bin
  
  
-Finished building: Display_APP.list
+Finished building: Board_APP.list
+ 
+21:44:31 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  48432	    500	   8084	  57016	   deb8	Board_APP.elf
+Finished building: default.size.stdout
  

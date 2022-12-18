@@ -17,7 +17,6 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
-#include <serial.h>
 #include "main.h"
 #include "cmsis_os.h"
 
@@ -28,6 +27,7 @@
 #include "keys.h"
 #include "globals.h"
 #include "digits.h"
+#include "serial.h"
 
 extern uint8_t digitsRow1[DIGIT_ROW_BUFFER_SIZE];
 extern uint8_t digitsRow2[DIGIT_ROW_BUFFER_SIZE];
@@ -55,7 +55,7 @@ TIM_HandleTypeDef htim1;
 UART_HandleTypeDef huart1;
 DMA_HandleTypeDef hdma_usart1_rx;
 
-osThreadId serialTaskHandle;
+osThreadId defaultTaskHandle;
 osMessageQId serialRxQueueHandle;
 /* USER CODE BEGIN PV */
 
@@ -71,7 +71,7 @@ static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
 static void MX_TIM1_Init(void);
 static void MX_USART1_UART_Init(void);
-void StartSerialTask(void const * argument);
+void StartDefaultTask(void const * argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -79,9 +79,6 @@ void StartSerialTask(void const * argument);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
-#define UART_BUFFER_SIZE 25
-uint8_t UART_rxBuffer[UART_BUFFER_SIZE] = {0};
 
 //void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
 //	//HAL_UART_Receive_DMA(p_activeUART, UART_rxBuffer, 3);
@@ -96,16 +93,16 @@ uint8_t UART_rxBuffer[UART_BUFFER_SIZE] = {0};
 //	__HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT); // Disable half buffer received interrupt
 //
 //}
-
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-{
-	if (huart->Instance == huart1.Instance) {
-		PanelSerialReceive(UART_rxBuffer, UART_BUFFER_SIZE);
-	}
-
-	HAL_UART_Receive_DMA(huart, UART_rxBuffer, UART_BUFFER_SIZE);
-	__HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT);
-}
+//
+//void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+//{
+//	if (huart->Instance == huart1.Instance) {
+//		PanelSerialReceive(UART_rxBuffer, UART_BUFFER_SIZE);
+//	}
+//
+//	HAL_UART_Receive_DMA(huart, UART_rxBuffer, UART_BUFFER_SIZE);
+//	__HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT);
+//}
 
 /* USER CODE END 0 */
 
@@ -142,12 +139,6 @@ int main(void)
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
-//  HAL_UARTEx_ReceiveToIdle_DMA(&huart1, UART_rxBuffer, UART_BUFFER_SIZE); // Interrupt on receive buffer full or idle (end receive)
-//  __HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT); // Disable half buffer received interrupt
-
-  HAL_UART_Receive_DMA(&huart1, UART_rxBuffer, UART_BUFFER_SIZE);
-	__HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT);
-
   /* USER CODE END 2 */
 
   /* USER CODE BEGIN RTOS_MUTEX */
@@ -172,9 +163,9 @@ int main(void)
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
-  /* definition and creation of serialTask */
-  osThreadDef(serialTask, StartSerialTask, osPriorityNormal, 0, 128);
-  serialTaskHandle = osThreadCreate(osThread(serialTask), NULL);
+  /* definition and creation of defaultTask */
+  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
+  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -401,19 +392,18 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE END 4 */
 
-/* USER CODE BEGIN Header_StartSerialTask */
+/* USER CODE BEGIN Header_StartDefaultTask */
 /**
-  * @brief  Function implementing the serialTask thread.
+  * @brief  Function implementing the defaultTask thread.
   * @param  argument: Not used
   * @retval None
   */
-/* USER CODE END Header_StartSerialTask */
-void StartSerialTask(void const * argument)
+/* USER CODE END Header_StartDefaultTask */
+void StartDefaultTask(void const * argument)
 {
   /* USER CODE BEGIN 5 */
-	/* Infinite loop */
 
-	PanelSerialInit(&huart1);
+	PanelSerialInit(&huart1, &hdma_usart1_rx);
 
 	PanelSetAll();
 	ProgressSetAll();
@@ -424,16 +414,21 @@ void StartSerialTask(void const * argument)
 	ProgressClearAll();
 	DigitsClearAll();
 
+	DigitsWriteRow3("%d.%d.%d", FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION);
+	osDelay(2000);
+	DigitsClearAll();
+
 	Beep(3,100,100);
 
 	osDelay(500);
-	PanelSerialTransmit(COMMAND_PANEL_READY, FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION, 0);
-	//DigitsWriteRow1("----");
+	SendPanelReady();
 
+	/* Infinite loop */
 	for(;;)
 	{
 		osDelay(100);
 	}
+
   /* USER CODE END 5 */
 }
 
