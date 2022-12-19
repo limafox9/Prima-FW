@@ -64,10 +64,20 @@ void StartKeysTask() {
 //		 PanelSerialTransmit(COMMAND_KEYS_PRESSED, currKeys, 0, 0, 0);
 		 //Beep(currKeys, 100, 100);
 
-		 PanelSerialTransmit(COMMAND_SET_PROGRESS_LEDS, (uint32_t)currKeys, 0, 0, 0);
-	 }
+//		 PanelSerialTransmit(COMMAND_SET_PROGRESS_LEDS, (uint32_t)currKeys, 0, 0, 0);
+
+		 if (currKeys == 1) {
+			 // Unlock
+			 SolenoidSet(LOCK);
+
+		 } else if (currKeys == 2) {
+			 // Lock
+			 SolenoidSet(UNLOCK);
+
+		 }
 
 	 osDelay(10);
+	 }
   }
 }
 

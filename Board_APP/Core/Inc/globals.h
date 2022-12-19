@@ -46,6 +46,8 @@ USAGE:
 
 #define ACTIVE_LOG_LEVEL 1
 
+#define DEFAULT_SOLENOID_IMPULSE_DURATION 1000
+
 typedef struct _gpioPin {
 	GPIO_TypeDef* GPIO_Port;
 	uint16_t GPIO_Pin;
@@ -54,6 +56,7 @@ typedef struct _gpioPin {
 
 typedef enum {FALSE, TRUE} LOGIC_STATE;
 typedef enum {OFF, ON} POWER_STATE;
+typedef enum {UNLOCK, LOCK} LOCK_STATE;
 
 typedef enum {
 	LOG_LEVEL_RELEASE,

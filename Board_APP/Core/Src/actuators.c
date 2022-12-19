@@ -34,31 +34,49 @@ USAGE:
 ================================================================================*/
 
 #include "actuators.h"
-#include "globals.h"
+
+extern uint16_t _solenoidImpulseDuration;
 
 void ValvesOFF() {
-	ValveVacuum(OFF);
-	ValveDrainSteam(OFF);
-	ValveDryIntake(OFF);
-	ValveWaterSteam(OFF);
+	ValveVacuumSet(OFF);
+	ValveDrainSteamSet(OFF);
+	ValveDryIntakeSet(OFF);
+	ValveWaterSteamSet(OFF);
 }
 
-void ValveVacuum(POWER_STATE status) {
+void ValveVacuumSet(POWER_STATE status) {
 	HAL_GPIO_WritePin(VAL_VACUUM_GPIO_Port, VAL_VACUUM_Pin, status);
 }
 
-void ValveDryIntake(POWER_STATE status) {
+void ValveDryIntakeSet(POWER_STATE status) {
 	HAL_GPIO_WritePin(VAL_DRY_AIR_GPIO_Port, VAL_DRY_AIR_Pin, status);
 }
 
-void ValveDrainSteam(POWER_STATE status) {
+void ValveDrainSteamSet(POWER_STATE status) {
 	HAL_GPIO_WritePin(VAL_DRAIN_STEAM_GPIO_Port, VAL_DRAIN_STEAM_Pin, status);
 }
 
-void ValveWaterSteam(POWER_STATE status) {
+void ValveWaterSteamSet(POWER_STATE status) {
 	HAL_GPIO_WritePin(VAL_WATER_STEAM_GPIO_Port, VAL_WATER_STEAM_Pin, status);
 }
 
+LOCK_STATE SolenoidSet(LOCK_STATE status) {
+	 if (status == LOCK) {
+		 HAL_GPIO_WritePin(SOLENOID_V1_GPIO_Port, SOLENOID_V1_Pin, OFF);
+		 HAL_GPIO_WritePin(SOLENOID_V2_GPIO_Port, SOLENOID_V2_Pin, ON);
+	 } else if (status == UNLOCK) {
+		 HAL_GPIO_WritePin(SOLENOID_V1_GPIO_Port, SOLENOID_V1_Pin, ON);
+		 HAL_GPIO_WritePin(SOLENOID_V2_GPIO_Port, SOLENOID_V2_Pin, OFF);
+	 } else {
+		 HAL_GPIO_WritePin(SOLENOID_V1_GPIO_Port, SOLENOID_V1_Pin, OFF);
+		 HAL_GPIO_WritePin(SOLENOID_V2_GPIO_Port, SOLENOID_V2_Pin, OFF);
+	 }
+	 osDelay(_solenoidImpulseDuration);
+	 HAL_GPIO_WritePin(SOLENOID_V1_GPIO_Port, SOLENOID_V1_Pin, OFF);
+	 HAL_GPIO_WritePin(SOLENOID_V2_GPIO_Port, SOLENOID_V2_Pin, OFF);
+
+	 return HAL_GPIO_ReadPin(SW_SOLENOID_GPIO_Port, SW_SOLENOID_Pin);
+}
 
 
 

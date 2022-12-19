@@ -156,15 +156,23 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   PanelSerialInit(&huart3);
-  ValveVacuum(ON);
+  ValveVacuumSet(OFF);
 
-//  SysInit();
+  SysInit();
 //
-//  Log(LOG_LEVEL_RELEASE, "\n\n****************************************");
-//  Log(LOG_LEVEL_RELEASE, "PRIMA Board APP v%d.%d.%d", FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION);
-//  Log(LOG_LEVEL_RELEASE, "UID: %08X %08X %08X", UID_1, UID_2, UID_3);
-//  Log(LOG_LEVEL_RELEASE, "\nKernel Started");
+  Log(LOG_LEVEL_RELEASE, "\n\n****************************************");
+  Log(LOG_LEVEL_RELEASE, "PRIMA Board APP v%d.%d.%d", FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION);
+  Log(LOG_LEVEL_RELEASE, "UID: %08X %08X %08X", UID_1, UID_2, UID_3);
+  Log(LOG_LEVEL_RELEASE, "\nKernel Started");
 
+  HAL_GPIO_WritePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin, OFF);
+  HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, OFF);
+  HAL_GPIO_WritePin(PUMP_WATER_LOAD_GPIO_Port, PUMP_WATER_LOAD_Pin, OFF);
+  HAL_GPIO_WritePin(PUMP_VACUUM_GPIO_Port, PUMP_VACUUM_Pin, OFF);
+  HAL_GPIO_WritePin(PUMP_STEAM_GEN_GPIO_Port, PUMP_STEAM_GEN_Pin, OFF);
+  HAL_GPIO_WritePin(FAN_GPIO_Port, FAN_Pin, OFF);
+  HAL_GPIO_WritePin(SOLENOID_V1_GPIO_Port, SOLENOID_V1_Pin, OFF);
+  HAL_GPIO_WritePin(SOLENOID_V2_GPIO_Port, SOLENOID_V2_Pin, OFF);
 
   /* USER CODE END 2 */
 
@@ -495,20 +503,21 @@ static void MX_GPIO_Init(void)
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOE_CLK_ENABLE();
+  __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
-  __HAL_RCC_GPIOC_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(LED_HEART_GPIO_Port, LED_HEART_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, LED_HEART_Pin|FAN_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOE, VAL_VACUUM_Pin|VAL_WATER_STEAM_Pin|VAL_DRY_AIR_Pin|VAL_DRAIN_STEAM_Pin
-                          |USART3_CTS_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOE, SOLENOID_V1_Pin|SOLENOID_V2_Pin|VAL_VACUUM_Pin|VAL_WATER_STEAM_Pin
+                          |VAL_DRY_AIR_Pin|VAL_DRAIN_STEAM_Pin|USART3_CTS_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(BEEP_GPIO_Port, BEEP_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOD, HEATER_RING_Pin|HEATER_STEAM_GEN_Pin|PUMP_WATER_LOAD_Pin|PUMP_VACUUM_Pin
+                          |PUMP_STEAM_GEN_Pin|BEEP_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : SW_CSH_Pin SW_CSL_Pin SW_LSH_Pin SW_DOOR_Pin */
   GPIO_InitStruct.Pin = SW_CSH_Pin|SW_CSL_Pin|SW_LSH_Pin|SW_DOOR_Pin;
@@ -516,34 +525,36 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : LED_HEART_Pin */
-  GPIO_InitStruct.Pin = LED_HEART_Pin;
+  /*Configure GPIO pins : SW_SOLENOID_Pin KEY_S1_Pin KEY_S2_Pin KEY_S3_Pin */
+  GPIO_InitStruct.Pin = SW_SOLENOID_Pin|KEY_S1_Pin|KEY_S2_Pin|KEY_S3_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : LED_HEART_Pin FAN_Pin */
+  GPIO_InitStruct.Pin = LED_HEART_Pin|FAN_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(LED_HEART_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : VAL_VACUUM_Pin VAL_WATER_STEAM_Pin VAL_DRY_AIR_Pin VAL_DRAIN_STEAM_Pin
-                           USART3_CTS_Pin */
-  GPIO_InitStruct.Pin = VAL_VACUUM_Pin|VAL_WATER_STEAM_Pin|VAL_DRY_AIR_Pin|VAL_DRAIN_STEAM_Pin
-                          |USART3_CTS_Pin;
+  /*Configure GPIO pins : SOLENOID_V1_Pin SOLENOID_V2_Pin VAL_VACUUM_Pin VAL_WATER_STEAM_Pin
+                           VAL_DRY_AIR_Pin VAL_DRAIN_STEAM_Pin USART3_CTS_Pin */
+  GPIO_InitStruct.Pin = SOLENOID_V1_Pin|SOLENOID_V2_Pin|VAL_VACUUM_Pin|VAL_WATER_STEAM_Pin
+                          |VAL_DRY_AIR_Pin|VAL_DRAIN_STEAM_Pin|USART3_CTS_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : BEEP_Pin */
-  GPIO_InitStruct.Pin = BEEP_Pin;
+  /*Configure GPIO pins : HEATER_RING_Pin HEATER_STEAM_GEN_Pin PUMP_WATER_LOAD_Pin PUMP_VACUUM_Pin
+                           PUMP_STEAM_GEN_Pin BEEP_Pin */
+  GPIO_InitStruct.Pin = HEATER_RING_Pin|HEATER_STEAM_GEN_Pin|PUMP_WATER_LOAD_Pin|PUMP_VACUUM_Pin
+                          |PUMP_STEAM_GEN_Pin|BEEP_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(BEEP_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : KEY_S1_Pin KEY_S2_Pin KEY_S3_Pin */
-  GPIO_InitStruct.Pin = KEY_S1_Pin|KEY_S2_Pin|KEY_S3_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
 }
 
@@ -572,7 +583,7 @@ void StartDefaultTask(void const * argument)
   for(;;)
   {
 	HAL_GPIO_TogglePin(LED_HEART_GPIO_Port, LED_HEART_Pin);
-    osDelay(1000);
+    osDelay(500);
   }
   /* USER CODE END 5 */
 }

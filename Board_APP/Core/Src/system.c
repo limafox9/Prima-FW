@@ -36,11 +36,15 @@ USAGE:
 #include "main.h"
 #include "system.h"
 
+extern I2C_HandleTypeDef hi2c1;
 uint32_t UID_1, UID_2, UID_3;
+uint16_t machineSerial;
 
 void SysInit() {
 
 	GetUID();
+
+//	HAL_I2C_Mem_Read(&hi2c1, DevAddress, MemAddress, MemAddSize, pData, Size, Timeout);
 
 }
 

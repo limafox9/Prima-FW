@@ -65,8 +65,14 @@ void Error_Handler(void);
 #define SW_LSH_GPIO_Port GPIOE
 #define SW_DOOR_Pin GPIO_PIN_5
 #define SW_DOOR_GPIO_Port GPIOE
+#define SW_SOLENOID_Pin GPIO_PIN_1
+#define SW_SOLENOID_GPIO_Port GPIOC
 #define LED_HEART_Pin GPIO_PIN_6
 #define LED_HEART_GPIO_Port GPIOA
+#define SOLENOID_V1_Pin GPIO_PIN_7
+#define SOLENOID_V1_GPIO_Port GPIOE
+#define SOLENOID_V2_Pin GPIO_PIN_8
+#define SOLENOID_V2_GPIO_Port GPIOE
 #define VAL_VACUUM_Pin GPIO_PIN_9
 #define VAL_VACUUM_GPIO_Port GPIOE
 #define VAL_WATER_STEAM_Pin GPIO_PIN_10
@@ -77,6 +83,16 @@ void Error_Handler(void);
 #define VAL_DRAIN_STEAM_GPIO_Port GPIOE
 #define USART3_CTS_Pin GPIO_PIN_15
 #define USART3_CTS_GPIO_Port GPIOE
+#define HEATER_RING_Pin GPIO_PIN_8
+#define HEATER_RING_GPIO_Port GPIOD
+#define HEATER_STEAM_GEN_Pin GPIO_PIN_9
+#define HEATER_STEAM_GEN_GPIO_Port GPIOD
+#define PUMP_WATER_LOAD_Pin GPIO_PIN_10
+#define PUMP_WATER_LOAD_GPIO_Port GPIOD
+#define PUMP_VACUUM_Pin GPIO_PIN_11
+#define PUMP_VACUUM_GPIO_Port GPIOD
+#define PUMP_STEAM_GEN_Pin GPIO_PIN_12
+#define PUMP_STEAM_GEN_GPIO_Port GPIOD
 #define BEEP_Pin GPIO_PIN_13
 #define BEEP_GPIO_Port GPIOD
 #define KEY_S1_Pin GPIO_PIN_6
@@ -85,6 +101,8 @@ void Error_Handler(void);
 #define KEY_S2_GPIO_Port GPIOC
 #define KEY_S3_Pin GPIO_PIN_8
 #define KEY_S3_GPIO_Port GPIOC
+#define FAN_Pin GPIO_PIN_8
+#define FAN_GPIO_Port GPIOA
 
 /* USER CODE BEGIN Private defines */
 

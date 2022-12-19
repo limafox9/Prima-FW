@@ -41,9 +41,9 @@ USAGE:
 #include "globals.h"
 
 void ValvesOFF();
-void ValveVacuum(POWER_STATE status);
-void ValveDryIntake(POWER_STATE status);
-void ValveDrainSteam(POWER_STATE status);
-void ValveWaterSteam(POWER_STATE status);
+void ValveVacuumSet(POWER_STATE status);
+void ValveDryIntakeSet(POWER_STATE status);
+void ValveDrainSteamSet(POWER_STATE status);
+void ValveWaterSteamSet(POWER_STATE status);
 
 #endif /* INC_ACTUATORS_H_ */
