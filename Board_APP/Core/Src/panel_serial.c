@@ -38,6 +38,7 @@ USAGE:
 #include "panel_serial.h"
 #include "crc16.h"
 #include "main.h"
+#include "keys.h"
 //#include "leds.h"
 
 extern uint8_t _keysBeepActive;
@@ -173,7 +174,7 @@ void ParseCommand(uint8_t* buffer) {
 		Beep(param1, param2, param3);
 		break;
 	case COMMAND_KEYS_PRESSED:
-		Beep(param1, 100, 100);
+		KeysReceived(param1);
 		break;
 //		case COMMAND_WRITE_DIGITS_ROW_1:
 //			DigitsWriteRow1(&param1);

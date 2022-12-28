@@ -130,6 +130,15 @@ static uint8_t GetPressedKeys() {
 	return currentKeys;
 }
 
+void KeysReceived(uint8_t keysCode) {
+	switch (keysCode) {
+	case 1:
+		ValveVacuumSet(ON);
+		break;
+	case 2:
+		ValveVacuumSet(OFF);
+	}
+}
 
 
 

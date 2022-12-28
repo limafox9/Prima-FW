@@ -45,5 +45,6 @@ USAGE:
 #include "panel_serial.h"
 
 void StartKeysTask();
+void KeysReceived(uint8_t keysCode);
 
 #endif /* SRC_KEYS_H_ */
