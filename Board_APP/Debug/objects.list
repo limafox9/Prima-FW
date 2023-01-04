@@ -1,3 +1,4 @@
+"./Core/Src/TM7705.o"
 "./Core/Src/actuators.o"
 "./Core/Src/buzzer.o"
 "./Core/Src/crc16.o"

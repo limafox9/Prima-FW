@@ -38,6 +38,12 @@ USAGE:
 
 #include "main.h"
 
+typedef enum ADCChannel_e {
+	SENSOR_TEMP_ADC_ZFQ = 0,
+	SENSOR_TEMP_ADC_GB = 1,
+	SENSOR_TEMP_ADC_T2 = 5
+} ADCChannel_e;
+
 void StartSensorsTask();
 
 #endif /* INC_SENSORS_H_ */

@@ -57,6 +57,7 @@ typedef struct _gpioPin {
 typedef enum {FALSE, TRUE} LOGIC_STATE;
 typedef enum {OFF, ON} POWER_STATE;
 typedef enum {UNLOCK, LOCK} LOCK_STATE;
+typedef enum {HIGH, LOW} LEVEL_STATE;
 
 typedef enum {
 	LOG_LEVEL_RELEASE,
