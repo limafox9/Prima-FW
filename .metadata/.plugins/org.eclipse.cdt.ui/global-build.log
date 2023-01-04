@@ -1,136 +1,218 @@
-17:18:28 **** Incremental Build of configuration Debug for project Board_APP ****
-make -j4 all 
-arm-none-eabi-gcc "../Core/Src/keys.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/keys.d" -MT"Core/Src/keys.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/keys.o"
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
-arm-none-eabi-gcc "../Core/Src/panel_serial.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/panel_serial.d" -MT"Core/Src/panel_serial.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/panel_serial.o"
-../Core/Src/keys.c: In function 'StartKeysTask':
-../Core/Src/keys.c:71:5: warning: implicit declaration of function 'SolenoidSet' [-Wimplicit-function-declaration]
-   71 |     SolenoidSet(LOCK);
-      |     ^~~~~~~~~~~
-../Core/Src/panel_serial.c: In function 'PanelSerialTransmit':
-../Core/Src/panel_serial.c:74:2: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
-   74 |  memset(txBuffer, 0, txBufferSize);
-      |  ^~~~~~
-../Core/Src/panel_serial.c:74:2: warning: incompatible implicit declaration of built-in function 'memset'
-../Core/Src/panel_serial.c:42:1: note: include '<string.h>' or provide a declaration of 'memset'
-   41 | #include "keys.h"
-  +++ |+#include <string.h>
-   42 | //#include "leds.h"
-../Core/Src/panel_serial.c:77:2: warning: implicit declaration of function 'memcpy' [-Wimplicit-function-declaration]
-   77 |  memcpy(txBuffer + pos_head, activeProtocolHead, 2);
-      |  ^~~~~~
-../Core/Src/panel_serial.c:77:2: warning: incompatible implicit declaration of built-in function 'memcpy'
-../Core/Src/panel_serial.c:77:2: note: include '<string.h>' or provide a declaration of 'memcpy'
-../Core/Src/panel_serial.c: In function 'PanelSerialReceive':
-../Core/Src/panel_serial.c:129:3: warning: incompatible implicit declaration of built-in function 'memcpy'
-  129 |   memcpy ((uint8_t *)MainBuf+oldPos, buffer, datatocopy);  // copy data in that remaining space
-      |   ^~~~~~
-../Core/Src/panel_serial.c:129:3: note: include '<string.h>' or provide a declaration of 'memcpy'
-../Core/Src/panel_serial.c:141:3: warning: incompatible implicit declaration of built-in function 'memcpy'
-  141 |   memcpy ((uint8_t *)MainBuf + oldPos, buffer, size);
-      |   ^~~~~~
-../Core/Src/panel_serial.c:141:3: note: include '<string.h>' or provide a declaration of 'memcpy'
-../Core/Src/panel_serial.c:148:4: warning: incompatible implicit declaration of built-in function 'memcpy'
-  148 |    memcpy(&rxCRC16, buffer + pos_checksum, 2);
-      |    ^~~~~~
-../Core/Src/panel_serial.c:148:4: note: include '<string.h>' or provide a declaration of 'memcpy'
-../Core/Src/panel_serial.c:154:4: warning: implicit declaration of function 'ParseCommand' [-Wimplicit-function-declaration]
-  154 |    ParseCommand(buffer);
-      |    ^~~~~~~~~~~~
-../Core/Src/panel_serial.c:117:11: warning: variable 'calcCRC16' set but not used [-Wunused-but-set-variable]
-  117 |  uint16_t calcCRC16;
-      |           ^~~~~~~~~
-../Core/Src/panel_serial.c: At top level:
-../Core/Src/panel_serial.c:159:6: warning: conflicting types for 'ParseCommand'
-  159 | void ParseCommand(uint8_t* buffer) {
-      |      ^~~~~~~~~~~~
-../Core/Src/panel_serial.c:154:4: note: previous implicit declaration of 'ParseCommand' was here
-  154 |    ParseCommand(buffer);
-      |    ^~~~~~~~~~~~
-../Core/Src/panel_serial.c: In function 'ParseCommand':
-../Core/Src/panel_serial.c:166:2: warning: incompatible implicit declaration of built-in function 'memcpy'
-  166 |  memcpy(&command, buffer + pos_command, 2);
-      |  ^~~~~~
-../Core/Src/panel_serial.c:166:2: note: include '<string.h>' or provide a declaration of 'memcpy'
-../Core/Src/panel_serial.c:164:17: warning: unused variable 'i' [-Wunused-variable]
-  164 |  static uint8_t i = 0;
-      |                 ^
-../Core/Src/panel_serial.c:163:11: warning: unused variable 'message' [-Wunused-variable]
-  163 |  uint64_t message = 0;
-      |           ^~~~~~~
-At top level:
-../Core/Src/panel_serial.c:164:17: warning: 'i' defined but not used [-Wunused-variable]
-  164 |  static uint8_t i = 0;
-      |                 ^
-In file included from ../Core/Src/main.c:33:
-../Core/Inc/system.h:41: warning: "FLASHSIZE_BASE" redefined
-   41 | #define FLASHSIZE_BASE 0x1FFFF7E0U // FLASH Size register base address
-      | 
-In file included from ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h:137,
-                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h:30,
-                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h:29,
-                 from ../Core/Inc/stm32f1xx_hal_conf.h:238,
-                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:30,
-                 from ../Core/Inc/main.h:30,
-                 from ../Core/Src/main.c:20:
-../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f105xc.h:794: note: this is the location of the previous definition
-  794 | #define FLASHSIZE_BASE        0x1FFFF7E0UL    /*!< FLASH Size register base address */
-      | 
-In file included from ../Core/Src/main.c:33:
-../Core/Inc/system.h:42: warning: "UID_BASE" redefined
-   42 | #define UID_BASE 0x1FFFF7E8U // Unique device ID register base address
-      | 
-In file included from ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h:137,
-                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h:30,
-                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h:29,
-                 from ../Core/Inc/stm32f1xx_hal_conf.h:238,
-                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:30,
-                 from ../Core/Inc/main.h:30,
-                 from ../Core/Src/main.c:20:
-../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f105xc.h:795: note: this is the location of the previous definition
-  795 | #define UID_BASE              0x1FFFF7E8UL    /*!< Unique device ID register base address */
-      | 
-../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:163:3: warning: implicit declaration of function 'Log' [-Wimplicit-function-declaration]
-  163 |   Log(LOG_LEVEL_RELEASE, "\n\n****************************************");
+01:28:58 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/sensors.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/sensors.d" -MT"Core/Src/sensors.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/sensors.o"
+../Core/Src/sensors.c: In function 'StartSensorsTask':
+../Core/Src/sensors.c:56:3: warning: implicit declaration of function 'Log' [-Wimplicit-function-declaration]
+   56 |   Log(LOG_LEVEL_RELEASE, "%0.1f", Rt);
       |   ^~~
-arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+../Core/Src/sensors.c: In function 'adcToTemp':
+../Core/Src/sensors.c:114:10: warning: implicit declaration of function 'log' [-Wimplicit-function-declaration]
+  114 |  logR2 = log(R2);
+      |          ^~~
+../Core/Src/sensors.c:114:10: warning: incompatible implicit declaration of built-in function 'log'
+../Core/Src/sensors.c:40:1: note: include '<math.h>' or provide a declaration of 'log'
+   39 | #include "cmsis_os.h"
+  +++ |+#include <math.h>
+   40 | 
+../Core/Src/sensors.c:108:38: warning: variable 'tFahrenheit' set but not used [-Wunused-but-set-variable]
+  108 |  float logR2, R2, tKelvin, tCelsius, tFahrenheit;
+      |                                      ^~~~~~~~~~~
+../Core/Src/sensors.c:106:6: warning: unused variable 'Vo' [-Wunused-variable]
+  106 |  int Vo;
+      |      ^~
+../Core/Src/sensors.c:104:25: warning: unused variable 'temperature' [-Wunused-variable]
+  104 |  float readVolt, readR, temperature;
+      |                         ^~~~~~~~~~~
+../Core/Src/sensors.c:104:18: warning: unused variable 'readR' [-Wunused-variable]
+  104 |  float readVolt, readR, temperature;
+      |                  ^~~~~
+../Core/Src/sensors.c:104:8: warning: variable 'readVolt' set but not used [-Wunused-but-set-variable]
+  104 |  float readVolt, readR, temperature;
+      |        ^~~~~~~~
+../Core/Src/sensors.c: In function 'adcToTempBeta':
+../Core/Src/sensors.c:146:12: warning: incompatible implicit declaration of built-in function 'log'
+  146 |    logR2 = log(R2);
+      |            ^~~
+../Core/Src/sensors.c:146:12: note: include '<math.h>' or provide a declaration of 'log'
+../Core/Src/sensors.c:139:14: warning: unused variable 'Ro' [-Wunused-variable]
+  139 |  const float Ro = 10000.0; // Resistance of the thermistor at roomTemp
+      |              ^~
+../Core/Src/sensors.c:138:14: warning: unused variable 'roomTemp' [-Wunused-variable]
+  138 |  const float roomTemp = 298.15;   // room temperature in Kelvin
+      |              ^~~~~~~~
+../Core/Src/sensors.c:137:14: warning: unused variable 'Beta' [-Wunused-variable]
+  137 |  const float Beta     = 3974.0;
+      |              ^~~~
+../Core/Src/sensors.c:136:38: warning: variable 'tFahrenheit' set but not used [-Wunused-but-set-variable]
+  136 |  float R2, logR2, tKelvin, tCelsius, tFahrenheit;
+      |                                      ^~~~~~~~~~~
+../Core/Src/sensors.c:135:6: warning: unused variable 'Vo' [-Wunused-variable]
+  135 |  int Vo; // Holds the ADC Value
+      |      ^~
+../Core/Src/sensors.c:133:25: warning: unused variable 'temperature' [-Wunused-variable]
+  133 |  float readVolt, readR, temperature;
+      |                         ^~~~~~~~~~~
+../Core/Src/sensors.c:133:18: warning: unused variable 'readR' [-Wunused-variable]
+  133 |  float readVolt, readR, temperature;
+      |                  ^~~~~
+../Core/Src/sensors.c:133:8: warning: unused variable 'readVolt' [-Wunused-variable]
+  133 |  float readVolt, readR, temperature;
+      |        ^~~~~~~~
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: Board_APP.elf
  
 arm-none-eabi-size   Board_APP.elf 
 arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
 arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
-   text	   data	    bss	    dec	    hex	filename
-  49404	    504	   8096	  58004	   e294	Board_APP.elf
 arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
+   text	   data	    bss	    dec	    hex	filename
+  56116	    504	   8232	  64852	   fd54	Board_APP.elf
 Finished building: default.size.stdout
  
 Finished building: Board_APP.hex
- 
-Finished building: Board_APP.list
 Finished building: Board_APP.bin
  
  
-17:21:41 **** Incremental Build of configuration Debug for project Board_APP ****
-make -j4 all 
-arm-none-eabi-gcc "../Core/Src/keys.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/keys.d" -MT"Core/Src/keys.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/keys.o"
-../Core/Src/keys.c: In function 'StartKeysTask':
-../Core/Src/keys.c:71:5: warning: implicit declaration of function 'SolenoidSet' [-Wimplicit-function-declaration]
-   71 |     SolenoidSet(LOCK);
-      |     ^~~~~~~~~~~
-../Core/Src/keys.c: In function 'KeysReceived':
-../Core/Src/keys.c:136:3: warning: implicit declaration of function 'ValveVacuumSet' [-Wimplicit-function-declaration]
-  136 |   ValveVacuumSet(ON);
-      |   ^~~~~~~~~~~~~~
-arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building: Board_APP.list
+ 
+01:29:02 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  56116	    504	   8232	  64852	   fd54	Board_APP.elf
+Finished building: default.size.stdout
+ 
+01:35:44 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/sensors.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/sensors.d" -MT"Core/Src/sensors.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/sensors.o"
+../Core/Src/sensors.c: In function 'StartSensorsTask':
+../Core/Src/sensors.c:56:3: warning: implicit declaration of function 'Log' [-Wimplicit-function-declaration]
+   56 |   Log(LOG_LEVEL_RELEASE, "%0.1f", Rt);
+      |   ^~~
+../Core/Src/sensors.c: In function 'adcToTemp':
+../Core/Src/sensors.c:115:10: warning: implicit declaration of function 'log' [-Wimplicit-function-declaration]
+  115 |  logR2 = log(R2);
+      |          ^~~
+../Core/Src/sensors.c:115:10: warning: incompatible implicit declaration of built-in function 'log'
+../Core/Src/sensors.c:40:1: note: include '<math.h>' or provide a declaration of 'log'
+   39 | #include "cmsis_os.h"
+  +++ |+#include <math.h>
+   40 | 
+../Core/Src/sensors.c:108:38: warning: variable 'tFahrenheit' set but not used [-Wunused-but-set-variable]
+  108 |  float logR2, R2, tKelvin, tCelsius, tFahrenheit;
+      |                                      ^~~~~~~~~~~
+../Core/Src/sensors.c:106:6: warning: unused variable 'Vo' [-Wunused-variable]
+  106 |  int Vo;
+      |      ^~
+../Core/Src/sensors.c:104:25: warning: unused variable 'temperature' [-Wunused-variable]
+  104 |  float readVolt, readR, temperature;
+      |                         ^~~~~~~~~~~
+../Core/Src/sensors.c:104:18: warning: unused variable 'readR' [-Wunused-variable]
+  104 |  float readVolt, readR, temperature;
+      |                  ^~~~~
+../Core/Src/sensors.c:104:8: warning: variable 'readVolt' set but not used [-Wunused-but-set-variable]
+  104 |  float readVolt, readR, temperature;
+      |        ^~~~~~~~
+../Core/Src/sensors.c: In function 'adcToTempBeta':
+../Core/Src/sensors.c:95:17: error: expected identifier or '(' before numeric constant
+   95 | #define Vcc     3.3   // Power supply
+      |                 ^~~
+../Core/Src/sensors.c:143:14: note: in expansion of macro 'Vcc'
+  143 |  const float Vcc = 3.3;
+      |              ^~~
+../Core/Src/sensors.c:149:12: warning: incompatible implicit declaration of built-in function 'log'
+  149 |    logR2 = log(R2);
+      |            ^~~
+../Core/Src/sensors.c:149:12: note: include '<math.h>' or provide a declaration of 'log'
+../Core/Src/sensors.c:140:14: warning: unused variable 'Ro' [-Wunused-variable]
+  140 |  const float Ro = 10000.0; // Resistance of the thermistor at roomTemp
+      |              ^~
+../Core/Src/sensors.c:139:14: warning: unused variable 'roomTemp' [-Wunused-variable]
+  139 |  const float roomTemp = 298.15;   // room temperature in Kelvin
+      |              ^~~~~~~~
+../Core/Src/sensors.c:138:14: warning: unused variable 'Beta' [-Wunused-variable]
+  138 |  const float Beta     = 3974.0;
+      |              ^~~~
+../Core/Src/sensors.c:137:38: warning: variable 'tFahrenheit' set but not used [-Wunused-but-set-variable]
+  137 |  float R2, logR2, tKelvin, tCelsius, tFahrenheit;
+      |                                      ^~~~~~~~~~~
+../Core/Src/sensors.c:136:6: warning: unused variable 'Vo' [-Wunused-variable]
+  136 |  int Vo; // Holds the ADC Value
+      |      ^~
+../Core/Src/sensors.c:134:25: warning: unused variable 'temperature' [-Wunused-variable]
+  134 |  float readVolt, readR, temperature;
+      |                         ^~~~~~~~~~~
+../Core/Src/sensors.c:134:18: warning: unused variable 'readR' [-Wunused-variable]
+  134 |  float readVolt, readR, temperature;
+      |                  ^~~~~
+make: *** [Core/Src/subdir.mk:73: Core/Src/sensors.o] Error 1
+"make -j24 all" terminated with exit code 2. Build might be incomplete.
+01:36:25 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/sensors.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/sensors.d" -MT"Core/Src/sensors.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/sensors.o"
+../Core/Src/sensors.c: In function 'StartSensorsTask':
+../Core/Src/sensors.c:56:3: warning: implicit declaration of function 'Log' [-Wimplicit-function-declaration]
+   56 |   Log(LOG_LEVEL_RELEASE, "%0.1f", Rt);
+      |   ^~~
+../Core/Src/sensors.c: In function 'adcToTemp':
+../Core/Src/sensors.c:115:10: warning: implicit declaration of function 'log' [-Wimplicit-function-declaration]
+  115 |  logR2 = log(R2);
+      |          ^~~
+../Core/Src/sensors.c:115:10: warning: incompatible implicit declaration of built-in function 'log'
+../Core/Src/sensors.c:40:1: note: include '<math.h>' or provide a declaration of 'log'
+   39 | #include "cmsis_os.h"
+  +++ |+#include <math.h>
+   40 | 
+../Core/Src/sensors.c:108:38: warning: variable 'tFahrenheit' set but not used [-Wunused-but-set-variable]
+  108 |  float logR2, R2, tKelvin, tCelsius, tFahrenheit;
+      |                                      ^~~~~~~~~~~
+../Core/Src/sensors.c:106:6: warning: unused variable 'Vo' [-Wunused-variable]
+  106 |  int Vo;
+      |      ^~
+../Core/Src/sensors.c:104:25: warning: unused variable 'temperature' [-Wunused-variable]
+  104 |  float readVolt, readR, temperature;
+      |                         ^~~~~~~~~~~
+../Core/Src/sensors.c:104:18: warning: unused variable 'readR' [-Wunused-variable]
+  104 |  float readVolt, readR, temperature;
+      |                  ^~~~~
+../Core/Src/sensors.c:104:8: warning: variable 'readVolt' set but not used [-Wunused-but-set-variable]
+  104 |  float readVolt, readR, temperature;
+      |        ^~~~~~~~
+../Core/Src/sensors.c: In function 'adcToTempBeta':
+../Core/Src/sensors.c:149:12: warning: incompatible implicit declaration of built-in function 'log'
+  149 |    logR2 = log(R2);
+      |            ^~~
+../Core/Src/sensors.c:149:12: note: include '<math.h>' or provide a declaration of 'log'
+../Core/Src/sensors.c:140:14: warning: unused variable 'Ro' [-Wunused-variable]
+  140 |  const float Ro = 10000.0; // Resistance of the thermistor at roomTemp
+      |              ^~
+../Core/Src/sensors.c:139:14: warning: unused variable 'roomTemp' [-Wunused-variable]
+  139 |  const float roomTemp = 298.15;   // room temperature in Kelvin
+      |              ^~~~~~~~
+../Core/Src/sensors.c:138:14: warning: unused variable 'Beta' [-Wunused-variable]
+  138 |  const float Beta     = 3974.0;
+      |              ^~~~
+../Core/Src/sensors.c:137:38: warning: variable 'tFahrenheit' set but not used [-Wunused-but-set-variable]
+  137 |  float R2, logR2, tKelvin, tCelsius, tFahrenheit;
+      |                                      ^~~~~~~~~~~
+../Core/Src/sensors.c:136:6: warning: unused variable 'Vo' [-Wunused-variable]
+  136 |  int Vo; // Holds the ADC Value
+      |      ^~
+../Core/Src/sensors.c:134:25: warning: unused variable 'temperature' [-Wunused-variable]
+  134 |  float readVolt, readR, temperature;
+      |                         ^~~~~~~~~~~
+../Core/Src/sensors.c:134:18: warning: unused variable 'readR' [-Wunused-variable]
+  134 |  float readVolt, readR, temperature;
+      |                  ^~~~~
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: Board_APP.elf
  
 arm-none-eabi-size   Board_APP.elf 
 arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
 arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
-   text	   data	    bss	    dec	    hex	filename
-  49436	    504	   8096	  58036	   e2b4	Board_APP.elf
 arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
+   text	   data	    bss	    dec	    hex	filename
+  56164	    504	   8232	  64900	   fd84	Board_APP.elf
 Finished building: default.size.stdout
  
 Finished building: Board_APP.hex
@@ -138,4 +220,11 @@ Finished building: Board_APP.hex
 Finished building: Board_APP.bin
  
 Finished building: Board_APP.list
+ 
+01:36:51 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  56164	    504	   8232	  64900	   fd84	Board_APP.elf
+Finished building: default.size.stdout
  

@@ -67,6 +67,12 @@ void Error_Handler(void);
 #define SW_DOOR_GPIO_Port GPIOE
 #define SW_SOLENOID_Pin GPIO_PIN_1
 #define SW_SOLENOID_GPIO_Port GPIOC
+#define TEMP_ZFQ_Pin GPIO_PIN_0
+#define TEMP_ZFQ_GPIO_Port GPIOA
+#define TEMP_GB_Pin GPIO_PIN_1
+#define TEMP_GB_GPIO_Port GPIOA
+#define TEMP_T2_Pin GPIO_PIN_5
+#define TEMP_T2_GPIO_Port GPIOA
 #define LED_HEART_Pin GPIO_PIN_6
 #define LED_HEART_GPIO_Port GPIOA
 #define SOLENOID_V1_Pin GPIO_PIN_7
@@ -83,6 +89,8 @@ void Error_Handler(void);
 #define VAL_DRAIN_STEAM_GPIO_Port GPIOE
 #define USART3_CTS_Pin GPIO_PIN_15
 #define USART3_CTS_GPIO_Port GPIOE
+#define SPI2_CS_Pin GPIO_PIN_12
+#define SPI2_CS_GPIO_Port GPIOB
 #define HEATER_RING_Pin GPIO_PIN_8
 #define HEATER_RING_GPIO_Port GPIOD
 #define HEATER_STEAM_GEN_Pin GPIO_PIN_9
@@ -103,6 +111,8 @@ void Error_Handler(void);
 #define KEY_S3_GPIO_Port GPIOC
 #define FAN_Pin GPIO_PIN_8
 #define FAN_GPIO_Port GPIOA
+#define SPI1_CS_Pin GPIO_PIN_7
+#define SPI1_CS_GPIO_Port GPIOD
 
 /* USER CODE BEGIN Private defines */
 

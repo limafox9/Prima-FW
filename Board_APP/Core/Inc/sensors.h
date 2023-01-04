@@ -33,11 +33,11 @@ PURPOSE: Modbus CRC16 calculation
 USAGE:
 ================================================================================*/
 
-
-
 #ifndef INC_SENSORS_H_
 #define INC_SENSORS_H_
 
+#include "main.h"
 
+void StartSensorsTask();
 
 #endif /* INC_SENSORS_H_ */
