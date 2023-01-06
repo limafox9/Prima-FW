@@ -46,6 +46,8 @@ extern SPI_HandleTypeDef hspi1;
 double VRef;
 unsigned int readADResult();
 
+uint8_t dataReady(uint8_t channel);
+
 uint8_t spiTransfer(volatile uint8_t data) {
 
 	uint8_t txData, rxData;
@@ -60,7 +62,7 @@ uint8_t spiTransfer(volatile uint8_t data) {
  }
 
 
-//write communication register
+//Write Communication Register
 //   7        6      5      4      3      2      1      0
 //0/DRDY(0) RS2(0) RS1(0) RS0(0) R/W(0) STBY(0) CH1(0) CH0(0)
 
@@ -79,9 +81,7 @@ void setNextOperation(uint8_t reg, uint8_t channel, uint8_t readWrite) {
 
 void writeClockRegister(uint8_t CLKDIS, uint8_t CLKDIV, uint8_t outputUpdateRate) {
 	uint8_t r = CLKDIS << 4 | CLKDIV << 3 | outputUpdateRate;
-
     r &= ~(1 << 2); // clear CLK
-
     spiTransfer(r);
 }
 
@@ -91,7 +91,6 @@ void writeClockRegister(uint8_t CLKDIS, uint8_t CLKDIV, uint8_t outputUpdateRate
 
 void writeSetupRegister(uint8_t operationMode, uint8_t gain, uint8_t unipolar, uint8_t buffered, uint8_t fsync) {
 	uint8_t r = operationMode << 6 | gain << 3 | unipolar << 2 | buffered << 1 | fsync;
-
     spiTransfer(r);
 }
 
@@ -114,11 +113,11 @@ unsigned int readADResultRaw(uint8_t channel) {
     return readADResult();
 }
 
-double readADResult(uint8_t channel, float refOffset) {
+double readADResultOff(uint8_t channel, float refOffset) {
     return readADResultRaw(channel) * 1.0 / 65536.0 * VRef - refOffset;
 }
 
-bool dataReady(uint8_t channel) {
+uint8_t dataReady(uint8_t channel) {
     setNextOperation(REG_CMM, channel, 1);
 
     uint8_t b1 = spiTransfer(0x0);

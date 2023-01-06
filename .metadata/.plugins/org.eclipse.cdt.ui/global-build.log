@@ -1,59 +1,99 @@
-19:32:08 **** Incremental Build of configuration Debug for project Board_APP ****
-make -j4 all 
-arm-none-eabi-gcc "../Core/Src/TM7705.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/TM7705.d" -MT"Core/Src/TM7705.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/TM7705.o"
-../Core/Src/TM7705.c: In function 'spiTransfer':
-../Core/Src/TM7705.c:55:26: warning: passing argument 2 of 'HAL_SPI_Transmit' makes pointer from integer without a cast [-Wint-conversion]
-   55 |  HAL_SPI_Transmit(&hspi1,txData,1,500);
-      |                          ^~~~~~
-      |                          |
-      |                          uint8_t {aka unsigned char}
-In file included from ../Core/Inc/stm32f1xx_hal_conf.h:330,
-                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:30,
-                 from ../Core/Inc/main.h:30,
-                 from ../Core/Inc/globals.h:40,
-                 from ../Core/Src/TM7705.c:37:
-../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h:671:70: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'uint8_t' {aka 'unsigned char'}
-  671 | HAL_StatusTypeDef HAL_SPI_Transmit(SPI_HandleTypeDef *hspi, uint8_t *pData, uint16_t Size, uint32_t Timeout);
-      |                                                             ~~~~~~~~~^~~~~
-../Core/Src/TM7705.c:56:25: warning: passing argument 2 of 'HAL_SPI_Receive' makes pointer from integer without a cast [-Wint-conversion]
-   56 |  HAL_SPI_Receive(&hspi1,rxData,1,500);
-      |                         ^~~~~~
-      |                         |
-      |                         uint8_t {aka unsigned char}
-In file included from ../Core/Inc/stm32f1xx_hal_conf.h:330,
-                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:30,
-                 from ../Core/Inc/main.h:30,
-                 from ../Core/Inc/globals.h:40,
-                 from ../Core/Src/TM7705.c:37:
-../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h:672:69: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'uint8_t' {aka 'unsigned char'}
-  672 | HAL_StatusTypeDef HAL_SPI_Receive(SPI_HandleTypeDef *hspi, uint8_t *pData, uint16_t Size, uint32_t Timeout);
-      |                                                            ~~~~~~~~~^~~~~
-../Core/Src/TM7705.c: In function 'readADResultRaw':
-../Core/Src/TM7705.c:110:13: warning: implicit declaration of function 'dataReady' [-Wimplicit-function-declaration]
-  110 |     while (!dataReady(channel)) {
-      |             ^~~~~~~~~
-../Core/Src/TM7705.c: At top level:
-../Core/Src/TM7705.c:117:8: error: conflicting types for 'readADResult'
-  117 | double readADResult(uint8_t channel, float refOffset) {
-      |        ^~~~~~~~~~~~
-../Core/Src/TM7705.c:98:14: note: previous definition of 'readADResult' was here
-   98 | unsigned int readADResult() {
-      |              ^~~~~~~~~~~~
-../Core/Src/TM7705.c:121:1: error: unknown type name 'bool'
-  121 | bool dataReady(uint8_t channel) {
-      | ^~~~
-../Core/Src/TM7705.c:121:6: error: conflicting types for 'dataReady'
-  121 | bool dataReady(uint8_t channel) {
-      |      ^~~~~~~~~
-../Core/Src/TM7705.c:121:1: note: an argument type that has a default promotion cannot match an empty parameter name list declaration
-  121 | bool dataReady(uint8_t channel) {
-      | ^~~~
-../Core/Src/TM7705.c:110:13: note: previous implicit declaration of 'dataReady' was here
-  110 |     while (!dataReady(channel)) {
-      |             ^~~~~~~~~
-../Core/Src/TM7705.c: In function 'TM7705_Init_Def':
-../Core/Src/TM7705.c:160:5: warning: implicit declaration of function 'init' [-Wimplicit-function-declaration]
-  160 |     init(channel, CLK_DIV_1, BIPOLAR, GAIN_1, UPDATE_RATE_25);
-      |     ^~~~
-make: *** [Core/Src/subdir.mk:76: Core/Src/TM7705.o] Error 1
-"make -j4 all" terminated with exit code 2. Build might be incomplete.
+10:32:03 **** Incremental Build of configuration Debug for project Board_APP_cpp ****
+make -j24 all 
+arm-none-eabi-g++ "../Core/Src/utils.cpp" -mcpu=cortex-m3 -std=gnu++14 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Src/utils.d" -MT"Core/Src/utils.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/utils.o"
+arm-none-eabi-g++ -o "Board_APP_cpp.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Board_APP_cpp\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP_cpp.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: Board_APP_cpp.elf
+ 
+arm-none-eabi-size   Board_APP_cpp.elf 
+arm-none-eabi-objdump -h -S  Board_APP_cpp.elf  > "Board_APP_cpp.list"
+   text	   data	    bss	    dec	    hex	filename
+  32572	    124	  12404	  45100	   b02c	Board_APP_cpp.elf
+Finished building: default.size.stdout
+ 
+Finished building: Board_APP_cpp.list
+ 
+10:37:41 **** Incremental Build of configuration Debug for project Board_APP_cpp ****
+make -j24 all 
+arm-none-eabi-g++ "../Core/Src/task_alive.cpp" -mcpu=cortex-m3 -std=gnu++14 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Src/task_alive.d" -MT"Core/Src/task_alive.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/task_alive.o"
+arm-none-eabi-g++ "../Core/Src/utils.cpp" -mcpu=cortex-m3 -std=gnu++14 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Src/utils.d" -MT"Core/Src/utils.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/utils.o"
+arm-none-eabi-g++ -o "Board_APP_cpp.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Board_APP_cpp\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP_cpp.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: Board_APP_cpp.elf
+ 
+arm-none-eabi-size   Board_APP_cpp.elf 
+arm-none-eabi-objdump -h -S  Board_APP_cpp.elf  > "Board_APP_cpp.list"
+   text	   data	    bss	    dec	    hex	filename
+  32536	    124	  12404	  45064	   b008	Board_APP_cpp.elf
+Finished building: default.size.stdout
+ 
+Finished building: Board_APP_cpp.list
+ 
+10:39:33 **** Incremental Build of configuration Debug for project Board_APP_cpp ****
+make -j24 all 
+arm-none-eabi-g++ "../Core/Src/task_alive.cpp" -mcpu=cortex-m3 -std=gnu++14 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Src/task_alive.d" -MT"Core/Src/task_alive.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/task_alive.o"
+arm-none-eabi-g++ -o "Board_APP_cpp.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Board_APP_cpp\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP_cpp.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: Board_APP_cpp.elf
+ 
+arm-none-eabi-size   Board_APP_cpp.elf 
+arm-none-eabi-objdump -h -S  Board_APP_cpp.elf  > "Board_APP_cpp.list"
+   text	   data	    bss	    dec	    hex	filename
+  32536	    124	  12404	  45064	   b008	Board_APP_cpp.elf
+Finished building: default.size.stdout
+ 
+Finished building: Board_APP_cpp.list
+ 
+10:40:24 **** Incremental Build of configuration Debug for project Board_APP_cpp ****
+make -j24 all 
+arm-none-eabi-g++ "../Core/Src/task_alive.cpp" -mcpu=cortex-m3 -std=gnu++14 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Src/task_alive.d" -MT"Core/Src/task_alive.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/task_alive.o"
+arm-none-eabi-g++ -o "Board_APP_cpp.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Board_APP_cpp\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP_cpp.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: Board_APP_cpp.elf
+ 
+arm-none-eabi-size   Board_APP_cpp.elf 
+arm-none-eabi-objdump -h -S  Board_APP_cpp.elf  > "Board_APP_cpp.list"
+   text	   data	    bss	    dec	    hex	filename
+  32520	    124	  12404	  45048	   aff8	Board_APP_cpp.elf
+Finished building: default.size.stdout
+ 
+Finished building: Board_APP_cpp.list
+ 
+10:42:52 **** Incremental Build of configuration Debug for project Board_APP_cpp ****
+make -j24 all 
+arm-none-eabi-g++ "../Core/Src/task_alive.cpp" -mcpu=cortex-m3 -std=gnu++14 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Src/task_alive.d" -MT"Core/Src/task_alive.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/task_alive.o"
+arm-none-eabi-g++ -o "Board_APP_cpp.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Board_APP_cpp\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP_cpp.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: Board_APP_cpp.elf
+ 
+arm-none-eabi-size   Board_APP_cpp.elf 
+arm-none-eabi-objdump -h -S  Board_APP_cpp.elf  > "Board_APP_cpp.list"
+   text	   data	    bss	    dec	    hex	filename
+  32552	    124	  12404	  45080	   b018	Board_APP_cpp.elf
+Finished building: default.size.stdout
+ 
+Finished building: Board_APP_cpp.list
+ 
+10:43:24 **** Incremental Build of configuration Debug for project Board_APP_cpp ****
+make -j24 all 
+arm-none-eabi-g++ "../Core/Src/task_alive.cpp" -mcpu=cortex-m3 -std=gnu++14 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Src/task_alive.d" -MT"Core/Src/task_alive.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/task_alive.o"
+arm-none-eabi-g++ -o "Board_APP_cpp.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Board_APP_cpp\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP_cpp.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: Board_APP_cpp.elf
+ 
+arm-none-eabi-size   Board_APP_cpp.elf 
+arm-none-eabi-objdump -h -S  Board_APP_cpp.elf  > "Board_APP_cpp.list"
+   text	   data	    bss	    dec	    hex	filename
+  32552	    124	  12404	  45080	   b018	Board_APP_cpp.elf
+Finished building: default.size.stdout
+ 
+Finished building: Board_APP_cpp.list
+ 
+10:45:25 **** Incremental Build of configuration Debug for project Board_APP_cpp ****
+make -j24 all 
+arm-none-eabi-g++ "../Core/Src/task_alive.cpp" -mcpu=cortex-m3 -std=gnu++14 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Src/task_alive.d" -MT"Core/Src/task_alive.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/task_alive.o"
+arm-none-eabi-g++ -o "Board_APP_cpp.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Board_APP_cpp\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP_cpp.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: Board_APP_cpp.elf
+ 
+arm-none-eabi-size   Board_APP_cpp.elf 
+arm-none-eabi-objdump -h -S  Board_APP_cpp.elf  > "Board_APP_cpp.list"
+   text	   data	    bss	    dec	    hex	filename
+  32488	    124	  12404	  45016	   afd8	Board_APP_cpp.elf
+Finished building: default.size.stdout
+ 
+Finished building: Board_APP_cpp.list
+ 

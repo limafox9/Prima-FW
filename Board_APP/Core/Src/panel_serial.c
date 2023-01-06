@@ -105,6 +105,7 @@ void SerialTransmit(uint8_t* data, uint16_t dataSize) {
 	HAL_GPIO_WritePin(USART3_CTS_GPIO_Port, USART3_CTS_Pin, 0);
 
 }
+
 #define BUFFER_SIZE 25
 uint16_t newPos = 0;
 uint16_t oldPos = 0;
