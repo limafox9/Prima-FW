@@ -37,23 +37,33 @@ USAGE:
 #ifndef INC_CLASS_MACHINE_H_
 #define INC_CLASS_MACHINE_H_
 
+#include <class_RTClock.h>
 #include "main.h"
 #include "globals.h"
 #include "cmsis_os.h"
+#include "class_Settings.h"
+
 
 class machine_c {
 
+public:
+
+	PCF8563_c 	RTClock;
+	settings_c 	Settings;
+
+	void Init();
+	const uint32_t* GetUID();
+	const uint8_t* GetFirmwareVersion();
+	void Beep(uint8_t hits, uint16_t onDelay, uint16_t offDelay);
+
 private:
+
 	const uint32_t uid[3] = {*(uint32_t*)(UID_BASE), *(uint32_t*)(UID_BASE + 0x04), *(uint32_t*)(UID_BASE + 0x08)}; // STM32 MCU Unique ID 96bit
 	const uint8_t fwVersion[3] = {FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION};
 
-	const gpioPin_s beepPin = {BEEP_GPIO_Port, BEEP_Pin};
+	const GPIOPin_s beepPin = {BEEP_GPIO_Port, BEEP_Pin};
 
-public:
-	void Beep(u8 hits, u16 onDelay, u16 offDelay);
-	const uint32_t* GetUID();
-	const uint8_t* GetFirmwareVersion();
-	void Init();
+
 };
 
 #endif /* INC_CLASS_MACHINE_H_ */

@@ -56,7 +56,7 @@ DMA_HandleTypeDef hdma_usart3_rx;
 
 HCD_HandleTypeDef hhcd_USB_OTG_FS;
 
-osThreadId aliveTaskHandle;
+osThreadId taskAliveHandle;
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -73,7 +73,7 @@ static void MX_USART1_UART_Init(void);
 static void MX_UART4_Init(void);
 static void MX_ADC1_Init(void);
 static void MX_SPI1_Init(void);
-void StartAliveTask(void const * argument);
+void StartTaskAlive(void const * argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -142,9 +142,9 @@ int main(void)
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
-  /* definition and creation of aliveTask */
-  osThreadDef(aliveTask, StartAliveTask, osPriorityLow, 0, 1024);
-  aliveTaskHandle = osThreadCreate(osThread(aliveTask), NULL);
+  /* definition and creation of taskAlive */
+  osThreadDef(taskAlive, StartTaskAlive, osPriorityLow, 0, 1024);
+  taskAliveHandle = osThreadCreate(osThread(taskAlive), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -606,19 +606,19 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE END 4 */
 
-/* USER CODE BEGIN Header_StartAliveTask */
+/* USER CODE BEGIN Header_StartTaskAlive */
 /**
-  * @brief  Function implementing the aliveTask thread.
+  * @brief  Function implementing the taskAlive thread.
   * @param  argument: Not used
   * @retval None
   */
-/* USER CODE END Header_StartAliveTask */
-void StartAliveTask(void const * argument)
+/* USER CODE END Header_StartTaskAlive */
+void StartTaskAlive(void const * argument)
 {
   /* USER CODE BEGIN 5 */
   /* Infinite loop */
 
-	AliveTaskC();
+	taskAliveC();
 
   /* USER CODE END 5 */
 }

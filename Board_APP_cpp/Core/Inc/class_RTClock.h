@@ -1,6 +1,6 @@
 /*==============================================================================
 
-Filename: class_RTC.h
+Filename: class_RTClock.h
 
 Created on: Jan 6, 2023
 
@@ -35,12 +35,11 @@ USAGE:
 
 
 
-#ifndef INC_RTC_H_
-#define INC_RTC_H_
+#ifndef INC_CLASS_RTCLOCK_H_
+#define INC_CLASS_RTCLOCK_H_
 
 #include <stdint.h>
-
-//#define PCF8563_USE_DMA
+#include "main.h"
 
 #define PCF8563_ADDRESS              	(0x51<<1)
 #define PCF8563_I2C_TIMEOUT				100
@@ -66,65 +65,88 @@ USAGE:
 //
 //	Controll register 1 0x00
 //
-#define PCF8563_CONTROL1_TEST1		7
-#define PCF8563_CONTROL1_STOP		5
-#define PCF8563_CONTROL1_TESTC		3
+#define PCF8563_CONTROL1_TEST1			7
+#define PCF8563_CONTROL1_STOP			5
+#define PCF8563_CONTROL1_TESTC			3
 
 //
 //	Controll register 2 0x01
 //
-#define PCF8563_CONTROL2_TI_TP		4
-#define PCF8563_CONTROL2_AF			3
-#define PCF8563_CONTROL2_TF			2
-#define PCF8563_CONTROL2_AIE		1
-#define PCF8563_CONTROL2_TIE		0
+#define PCF8563_CONTROL2_TI_TP			4
+#define PCF8563_CONTROL2_AF				3
+#define PCF8563_CONTROL2_TF				2
+#define PCF8563_CONTROL2_AIE			1
+#define PCF8563_CONTROL2_TIE			0
 
 //
 //	CLKOUT control register 0x0D
 //
-#define PCF8563_CLKOUT_CONTROL_FE				7
-#define PCF8563_CLKOUT_CONTROL_FD1				1
-#define PCF8563_CLKOUT_CONTROL_FD0				0
+#define PCF8563_CLKOUT_CONTROL_FE		7
+#define PCF8563_CLKOUT_CONTROL_FD1		1
+#define PCF8563_CLKOUT_CONTROL_FD0		0
 
-typedef enum
-{
-	CLKOUT_FREQ_1HZ 		= 3,
-	CLKOUT_FREQ_32HZ 		= 2,
-	CLKOUT_FREQ_1024HZ 		= 1,
-	CLKOUT_FREQ_32768HZ 	= 0
-}CLKOUT_Freq;
 
-typedef struct
-{
+typedef struct RTCDateTime_s {
 	uint16_t 	Year;
-	uint16_t 	YearShort;
 	uint8_t  	Month;
 	uint8_t		Day;
 	uint8_t		Hour;
 	uint8_t		Minute;
 	uint8_t		Second;
-	uint8_t		DayOfWeek;
-}RTCDateTime;
+} RTCDateTime_s;
 
-void PCF8563_TEST1Enable(uint8_t Enable);
-void PCF8563_STOPEnable(uint8_t Enable);
-void PCF8563_TESTCEnable(uint8_t Enable);
-void PCF8563_InterruptEnable(uint8_t Enable);
-void PCF8563_AlarmFlagEnable(uint8_t Enable);
-void PCF8563_TimerFlagEnable(uint8_t Enable);
-void PCF8563_AlarmInterruptEnable(uint8_t Enable);
-void PCF8563_TimerInterruptEnable(uint8_t Enable);
+typedef struct RTCTimerTime_s {
+	uint16_t	TimeHour;
+	uint8_t		TimeMinute;	// Minutes in 0..59 format
+	uint8_t		TimeSecond;	// Seconds in 0..59 format
+	uint32_t	Seconds;	// Total seconds elapsed
+	uint32_t	Ticks;		// Total Ticks elapsed
+} RTCTimerTime_s;
 
-void PCF8563_ClkoutFrequency(CLKOUT_Freq Frequency);
+typedef enum {
+	CLKOUT_FREQ_1HZ 		= 3,
+	CLKOUT_FREQ_32HZ 		= 2,
+	CLKOUT_FREQ_1024HZ 		= 1,
+	CLKOUT_FREQ_32768HZ 	= 0
+} RTCClockOutFrequency_e;
 
-#ifdef PCF8563_USE_DMA
-void PCF8563_ReceiveDateTimeDMA();	// Use in PCF8563 Interrupt handler
-void PCF8563_CalculateDateTime(RTCDateTime *DateTime);	// Use in DMA Complete Receive interrupt
-#else
-void PCF8563_GetDateTime(RTCDateTime *DateTime);	// Use in blocking/interrupt mode in PCF8563_INT EXTI handler
-#endif
-void PCF8563_SetDateTime(RTCDateTime *DateTime);
-void PCF8563_Init(I2C_HandleTypeDef *hi2c);
+typedef enum {
+	TIMER_POWER_ON,
+	TIMER_LOG,
+	TIMER_CYCLE,
+	TIMER_PHASE,
+	TIMER_1,
+	TIMER_2,
+	TIMER_3,
+	TIMER_4
+} RTCTimer_e;
 
 
-#endif /* INC_RTC_H_ */
+class PCF8563_c {
+
+public:
+
+	void Init(I2C_HandleTypeDef* hi2c);
+	void SetDateTime(RTCDateTime_s* dateTime);
+	void GetDateTime(RTCDateTime_s* dateTime);
+	void GetTimer(uint8_t timer, RTCTimerTime_s* timerTime);
+	void ResetTimer(uint8_t timer);
+
+protected:
+
+private:
+
+//	void PCF8563_CalculateDateTime(RTCDateTime_s* dateTime);
+//	void PCF8563_ClockOutFrequency(RTCClockOutFrequency_e frequency);
+//	void PCF8563_STOPEnable(uint8_t Enable);
+
+//	void PCF8563_TEST1Enable(uint8_t Enable);
+//	void PCF8563_TESTCEnable(uint8_t Enable);
+//	void PCF8563_InterruptEnable(uint8_t Enable);
+//	void PCF8563_AlarmFlagEnable(uint8_t Enable);
+//	void PCF8563_TimerFlagEnable(uint8_t Enable);
+//	void PCF8563_AlarmInterruptEnable(uint8_t Enable);
+//	void PCF8563_TimerInterruptEnable(uint8_t Enable);
+};
+
+#endif /* INC_CLASS_RTCLOCK_H_ */

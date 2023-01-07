@@ -41,13 +41,13 @@ USAGE:
 #include <stdint.h>
 #include <stdio.h>
 
-void MainTaskCpp();		// Cpp function to call into main event loop
+void taskAliveCpp();		// Cpp function to call into main event loop
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
-    void MainTaskpC();	// C function to call into Cpp event loop from main
+    void taskAliveC();	// C function to call into Cpp event loop from main
 #ifdef __cplusplus
 }
 #endif

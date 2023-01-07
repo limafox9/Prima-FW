@@ -52,19 +52,49 @@ typedef enum {LOG_LEVEL_DEBUG = 1, LOG_LEVEL_RELEASE = 2} LOG_LEVEL;
 #define HEART_LED_BLINK_DURATION			200		// Heart LED blink toggle duration (milliseconds)
 #define DEFAULT_SOLENOID_IMPULSE_DURATION 	1000
 
-typedef uint8_t u8;
-typedef uint16_t u16;
-typedef uint32_t u32;
 
-typedef struct gpioPin_s {
+typedef struct GPIOPin_s {
 	GPIO_TypeDef* Port;
 	uint16_t Pin;
-} gpioPin_s;
+} GPIOPin_s;
 
 typedef enum {FALSE, TRUE} LOGIC_STATE;
 typedef enum {OFF, ON} POWER_STATE;
 typedef enum {UNLOCK, LOCK} LOCK_STATE;
 typedef enum {LOW, HIGH} LEVEL_STATE;
+
+typedef enum {LOG_NONE = 0, LOG_DATE = 1, LOG_TIME = 2, LOG_ELAPSED = 4, LOG_ELAPSED_RESET = 8} LOG_TIMESTAMP;
+
+bool PinRead(GPIOPin_s pin);
+void PinWrite(GPIOPin_s pin, bool status);
+void PinToggle(GPIOPin_s pin, uint8_t status);
+
+void Log(LOG_LEVEL logLevel, uint8_t showDateTime, const char* format, ...);
+
+
+// MACROS ======================================================================
+
+#define MAX_VALUE(a) (((unsigned long long)1 << (sizeof(a) * 8)) - 1) // maximum value for the variable type 'a'- MAX_VALUE(char) = 255.
+
+// BITWISE MACROS ==============================================================
+
+#define BIT(n)					(1 << (x)) // Return the number representing the n_th bit
+
+#define SETBIT(x, p)			((x) |= (1 << (p))) // Set p_th bit in x
+#define SETBITS(x, n, p)		((x) |= (((0x00000001U << n) - 1) << p)) // Set n bits from position p in x
+#define SETBITSMASK(x, m)		((x) |= (m)) // Set all bits in x masked by m; 0 leave bits unchanged
+
+#define CLEARBIT(x, n)			((x) &= ~(0x00000001U << (n))) // Clear n_th bit in x
+#define CLEARBITSMASK(x, m)		((x) &= ~(m)) // Clear all bits in x masked by m; 0 leave bits unchanged
+
+#define TOGGLEBIT(x, n)			((x) ^= (0x00000001U << (n))) // Toggle n_th bit in x
+#define TOGGLEBITSMASK(x, m)	((x) ^= (m)) // Toggle all bits in x masked by m; 0 leave bits unchanged
+
+#define COPYBIT(x, y, p)		((x) = ((x) & ~(1 << p)) | ((y) & (1 << p))) // Copy p_th bit from y to x
+#define COPYBITS(x, y, n, p)	((x) = ((x) & ~((((1 << n) - 1) << p))) | ((y) & (((0x00000001U << n) - 1) << p))) // Copy n bits from position p of y to same position of x
+#define COPYBITSMASK(x, y, m)	((x) = ((x) & ~(m)) | ((y) & (m))) // Copy bits from y to x masked by m; 0 leave bits unchanged
+
+#define CHECKBIT(x, n)			((x) & (1 << (n))) // Return 1 if n_th bit of x is 1, else 0
 
 
 #endif /* INC_GLOBALS_H_ */

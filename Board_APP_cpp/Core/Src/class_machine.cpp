@@ -35,10 +35,12 @@ USAGE:
 
 
 #include "class_machine.h"
-#include "utils.h"
 
+
+extern I2C_HandleTypeDef hi2c1;
 
 void machine_c::Init() {
+	RTClock.Init(&hi2c1);
 }
 
 const uint32_t* machine_c::GetUID() {
@@ -50,6 +52,7 @@ const uint8_t* machine_c::GetFirmwareVersion() {
 }
 
 void machine_c::Beep(uint8_t hits, uint16_t onDelay, uint16_t offDelay) {
+
 	for (uint8_t i = 0; i < hits; i++) {
 		PinWrite(beepPin, ON);
 		osDelay(onDelay);

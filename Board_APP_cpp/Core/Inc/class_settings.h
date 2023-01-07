@@ -40,8 +40,22 @@ USAGE:
 
 #include "main.h"
 
+typedef struct setting_s {
+	char* name;
+	union value {
+		char* str;
+		uint8_t u8;
+		uint16_t u16;
+		uint32_t u32;
+		float f;
+	};
+	uint16_t eepromAddress;
+} setting_s;
+
 class settings_c {
+
 public:
+
 	struct FirmwareVersion {
 		uint8_t Major = 2;
 		uint8_t Minor = 3;
@@ -49,6 +63,7 @@ public:
 	};
 
 	typedef enum {LOG_LEVEL_DEBUG = 1, LOG_LEVEL_RELEASE = 2} LOG_LEVEL;
+
 	bool LogActive = true;
 	LOG_LEVEL LogLevel = LOG_LEVEL_DEBUG;
 
