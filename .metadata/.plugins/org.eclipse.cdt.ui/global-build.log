@@ -1,17 +1,60 @@
-05:58:50 **** Incremental Build of configuration Debug for project Board_APP_cpp ****
+08:57:52 **** Incremental Build of configuration Debug for project Board_APP ****
 make -j24 all 
-arm-none-eabi-g++ "../Core/Src/class_machine.cpp" -mcpu=cortex-m3 -std=gnu++14 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Src/class_machine.d" -MT"Core/Src/class_machine.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/class_machine.o"
-arm-none-eabi-g++ "../Core/Src/class_settings.cpp" -mcpu=cortex-m3 -std=gnu++14 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Src/class_settings.d" -MT"Core/Src/class_settings.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/class_settings.o"
-arm-none-eabi-g++ "../Core/Src/globals.cpp" -mcpu=cortex-m3 -std=gnu++14 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Src/globals.d" -MT"Core/Src/globals.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/globals.o"
-arm-none-eabi-g++ "../Core/Src/task_alive.cpp" -mcpu=cortex-m3 -std=gnu++14 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Src/task_alive.d" -MT"Core/Src/task_alive.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/task_alive.o"
-arm-none-eabi-g++ -o "Board_APP_cpp.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Board_APP_cpp\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP_cpp.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
-Finished building target: Board_APP_cpp.elf
+arm-none-eabi-gcc "../Core/Src/sensors.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/sensors.d" -MT"Core/Src/sensors.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/sensors.o"
+arm-none-eabi-gcc "../Core/Src/system.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/system.d" -MT"Core/Src/system.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/system.o"
+../Core/Src/system.c: In function 'Log':
+../Core/Src/system.c:118:20: warning: implicit declaration of function 'malloc' [-Wimplicit-function-declaration]
+  118 |   char* s = (char*)malloc(160);
+      |                    ^~~~~~
+../Core/Src/system.c:118:20: warning: incompatible implicit declaration of built-in function 'malloc'
+../Core/Src/system.c:49:1: note: include '<stdlib.h>' or provide a declaration of 'malloc'
+   48 | #include "sensors.h"
+  +++ |+#include <stdlib.h>
+   49 | 
+../Core/Src/system.c:128:4: warning: implicit declaration of function 'strcat' [-Wimplicit-function-declaration]
+  128 |    strcat(s, buffer);
+      |    ^~~~~~
+../Core/Src/system.c:128:4: warning: incompatible implicit declaration of built-in function 'strcat'
+../Core/Src/system.c:49:1: note: include '<string.h>' or provide a declaration of 'strcat'
+   48 | #include "sensors.h"
+  +++ |+#include <string.h>
+   49 | 
+../Core/Src/system.c:133:4: warning: incompatible implicit declaration of built-in function 'strcat'
+  133 |    strcat(s, buffer);
+      |    ^~~~~~
+../Core/Src/system.c:133:4: note: include '<string.h>' or provide a declaration of 'strcat'
+../Core/Src/system.c:138:4: warning: incompatible implicit declaration of built-in function 'strcat'
+  138 |    strcat(s, buffer);
+      |    ^~~~~~
+../Core/Src/system.c:138:4: note: include '<string.h>' or provide a declaration of 'strcat'
+../Core/Src/system.c:145:3: warning: incompatible implicit declaration of built-in function 'strcat'
+  145 |   strcat(s, buffer);
+      |   ^~~~~~
+../Core/Src/system.c:145:3: note: include '<string.h>' or provide a declaration of 'strcat'
+../Core/Src/system.c:147:43: warning: implicit declaration of function 'strlen' [-Wimplicit-function-declaration]
+  147 |   HAL_UART_Transmit(&huart1, (uint8_t*)s, strlen(s), 100);
+      |                                           ^~~~~~
+../Core/Src/system.c:147:43: warning: incompatible implicit declaration of built-in function 'strlen'
+../Core/Src/system.c:147:43: note: include '<string.h>' or provide a declaration of 'strlen'
+../Core/Src/system.c:150:3: warning: implicit declaration of function 'free' [-Wimplicit-function-declaration]
+  150 |   free(s);
+      |   ^~~~
+../Core/Src/system.c:150:3: warning: incompatible implicit declaration of built-in function 'free'
+../Core/Src/system.c:150:3: note: include '<stdlib.h>' or provide a declaration of 'free'
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Board_APP.elf
  
-arm-none-eabi-size   Board_APP_cpp.elf 
-arm-none-eabi-objdump -h -S  Board_APP_cpp.elf  > "Board_APP_cpp.list"
+arm-none-eabi-size   Board_APP.elf 
+arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
+arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
+arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
    text	   data	    bss	    dec	    hex	filename
-  32584	    128	  12452	  45164	   b06c	Board_APP_cpp.elf
+  66064	    540	   8316	  74920	  124a8	Board_APP.elf
 Finished building: default.size.stdout
  
-Finished building: Board_APP_cpp.list
+Finished building: Board_APP.hex
+Finished building: Board_APP.bin
+ 
+ 
+Finished building: Board_APP.list
  

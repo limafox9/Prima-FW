@@ -28,47 +28,40 @@ SOFTWARE.
 Visit www.favenzi.it
       luca@favenzi.it
 
-==================================================================================
+================================================================================
 PURPOSE: Modbus CRC16 calculation
 USAGE:
-================================================================================*/
+==============================================================================*/
 
 
 #ifndef INC_GLOBALS_H_
 #define INC_GLOBALS_H_
 
 #include "main.h"
-#include <stdio.h>
 
 #define FW_VERSION_MAJOR 2
 #define FW_VERSION_MINOR 1
 #define FW_VERSION_REVISION 14
 
-#define ACTIVE_LOG_LEVEL 1
-
-#define DEFAULT_SOLENOID_IMPULSE_DURATION 1000
-
-typedef struct _gpioPin {
-	GPIO_TypeDef* GPIO_Port;
-	uint16_t GPIO_Pin;
-	uint8_t bit;
-} gpioPin;
-
-typedef enum {FALSE, TRUE} LOGIC_STATE;
-typedef enum {OFF, ON} POWER_STATE;
-typedef enum {UNLOCK, LOCK} LOCK_STATE;
-typedef enum {HIGH, LOW} LEVEL_STATE;
+#define UART_DISPLAY_BUFFER_SIZE 25		// default 25 (bytes)
 
 typedef enum {
-	LOG_LEVEL_RELEASE,
-	LOG_LEVEL_1,
-	LOG_LEVEL_2,
-	LOG_LEVEL_3
-} LOG_LEVEL;
+	UINT8,
+	UINT16,
+	UINT32,
+	FLOAT,
+} e_DataType;
+
+typedef enum {FALSE, TRUE} e_Boolean;
+typedef enum {OFF, ON} e_PowerState;
+typedef enum {UNLOCK, LOCK} e_LockState;
+typedef enum {CLOSED, OPEN} e_OpenClosedState;
+typedef enum {HIGH, LOW} e_LevelState;
 
 uint32_t GetSafeDeltaTick(uint32_t startTick, uint32_t endTick);
 void SwapBytes(void *pBytes, size_t size);
 void Debug(uint8_t level, const char* message, ...);
+
 
 // Bitwise operations ----------------------------------------------------------
 #define BIT(n)					(1 << (x)) // Return the number representing the n_th bit

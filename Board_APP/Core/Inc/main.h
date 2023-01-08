@@ -113,6 +113,10 @@ void Error_Handler(void);
 #define FAN_GPIO_Port GPIOA
 #define SPI1_CS_Pin GPIO_PIN_7
 #define SPI1_CS_GPIO_Port GPIOD
+#define SPI1_DATA_READY_Pin GPIO_PIN_8
+#define SPI1_DATA_READY_GPIO_Port GPIOB
+#define SPI1_RESET_Pin GPIO_PIN_9
+#define SPI1_RESET_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 

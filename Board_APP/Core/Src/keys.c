@@ -50,35 +50,20 @@ void StartKeysTask() {
 	uint8_t currKeys;
 	static uint8_t lastKeys;
 
-  for (;;) {
-	 currKeys = GetKeys();
-	 while ((lastKeys == currKeys)) {
-		 currKeys = GetKeys();
-		 osDelay(10);
-	 }
+	for (;;) {
+		currKeys = GetKeys();
+		while ((lastKeys == currKeys)) {
+			currKeys = GetKeys();
+			osDelay(10);
+		}
 
-	 lastKeys = currKeys;
+		if (currKeys > 0) {
+			KeysReceived(currKeys);
+			lastKeys = currKeys;
+		}
 
-	 if (currKeys > 0) {
-//		 if (_keysBeepActive) Beep(1, 100, 100);
-//		 PanelSerialTransmit(COMMAND_KEYS_PRESSED, currKeys, 0, 0, 0);
-		 //Beep(currKeys, 100, 100);
-
-//		 PanelSerialTransmit(COMMAND_SET_PROGRESS_LEDS, (uint32_t)currKeys, 0, 0, 0);
-
-		 if (currKeys == 1) {
-			 // Unlock
-			 SolenoidSet(LOCK);
-
-		 } else if (currKeys == 2) {
-			 // Lock
-			 SolenoidSet(UNLOCK);
-
-		 }
-
-	 osDelay(10);
-	 }
-  }
+		osDelay(10);
+	}
 }
 
 static uint8_t GetKeys() {
@@ -101,13 +86,11 @@ static uint8_t GetKeys() {
 		lastKeys = currentKeys;
 		if (GetSafeDeltaTick(startKeypress, HAL_GetTick()) > KEY_LONG_PRESS_MS) {
 			// bit 4 = long press
-			lastKeys += 8;
-			break;
+			lastKeys += KEY_LONG_PRESS;
 		}
 		if (GetSafeDeltaTick(lastKeypress, HAL_GetTick()) < KEY_DOBLECLICK_INTERVAL_MS) {
 			// bit 5 = double click
-			lastKeys += 16;
-			break;
+			lastKeys += KEY_LONG_PRESS;
 		}
 		currentKeys = GetPressedKeys();
 		osDelay(10);
@@ -131,12 +114,44 @@ static uint8_t GetPressedKeys() {
 }
 
 void KeysReceived(uint8_t keysCode) {
-	switch (keysCode) {
-	case 1:
-		ValveVacuumSet(ON);
-		break;
-	case 2:
-		ValveVacuumSet(OFF);
+
+	if (keysCode == KEY_S1) {
+		// Button code here
+	} else if (keysCode == KEY_S2) {
+		// Button code here
+		Beep(1,100,100);
+	} else if (keysCode == KEY_S3) {
+		// Button code here
+	} else if (keysCode == KEY_S1 + KEY_LONG_PRESS) {
+		// Button code here
+	} else if (keysCode == KEY_S2 + KEY_LONG_PRESS) {
+		// Button code here
+	} else if (keysCode == KEY_S3 + KEY_LONG_PRESS) {
+		// Button code here
+	} else if (keysCode == KEY_S1 + KEY_DOUBLE_PRESS) {
+		// Button code here
+	} else if (keysCode == KEY_S2 + KEY_DOUBLE_PRESS) {
+		// Button code here
+	} else if (keysCode == KEY_S3 + KEY_DOUBLE_PRESS) {
+		// Button code here
+	} else if (keysCode == KEY_S1 + KEY_S2) {
+		// Button code here
+	} else if (keysCode == KEY_S1 + KEY_S3) {
+		// Button code here
+	} else if (keysCode == KEY_S2 + KEY_S3) {
+		// Button code here
+	} else if (keysCode == KEY_S1 + KEY_S2 + KEY_S3) {
+		// Button code here
+	} else if (keysCode == KEY_S1 + KEY_S2 + KEY_LONG_PRESS) {
+		// Button code here
+	} else if (keysCode == KEY_S1 + KEY_S3 + KEY_LONG_PRESS) {
+		// Button code here
+	} else if (keysCode == KEY_S2 + KEY_S3 + KEY_LONG_PRESS) {
+		// Button code here
+	} else if (keysCode == KEY_S1 + KEY_S2 + KEY_S3 + KEY_LONG_PRESS) {
+		// Button code here
+	} else {
+		// Default code here
 	}
 }
 

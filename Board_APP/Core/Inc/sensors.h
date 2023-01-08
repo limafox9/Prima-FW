@@ -36,14 +36,13 @@ USAGE:
 #ifndef INC_SENSORS_H_
 #define INC_SENSORS_H_
 
-#include "main.h"
-
-typedef enum ADCChannel_e {
-	SENSOR_TEMP_ADC_ZFQ = 0,
-	SENSOR_TEMP_ADC_GB = 1,
-	SENSOR_TEMP_ADC_T2 = 5
-} ADCChannel_e;
+#include "globals.h"
 
 void StartSensorsTask();
+
+e_LockState DoorSolenoidPositionGet();
+e_OpenClosedState DoorPositionGet();
+float TemperatureSteamGeneratorGet();
+float TemperatureChamberHeaterGet();
 
 #endif /* INC_SENSORS_H_ */

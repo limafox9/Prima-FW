@@ -33,9 +33,11 @@ PURPOSE: Modbus CRC16 calculation
 USAGE:
 ================================================================================*/
 
+
+#include "globals.h"
+
 #include <stdio.h>
 #include <stdarg.h>
-#include "globals.h"
 
 extern UART_HandleTypeDef huart1;
 
@@ -58,8 +60,6 @@ uint32_t digitsBits;
 
 uint8_t keysPressed;
 
-uint32_t _UID_1, _UID_2, _UID_3;										// MCU unique ID 96bit parts
-uint16_t _solenoidImpulseDuration = DEFAULT_SOLENOID_IMPULSE_DURATION; 	// solenoid impulse duration ms
 
 uint32_t GetSafeDeltaTick(uint32_t startTick, uint32_t endTick) {
 
@@ -86,21 +86,21 @@ void SwapBytes(void *pBytes, size_t size) {
     }
 }
 
-void Log(LOG_LEVEL logLevel, const char* format, ...) {
-
-	if (logLevel <= ACTIVE_LOG_LEVEL) {
-		  va_list args;
-		  char* buf[80];
-		  va_start(args, format);
-		  vsprintf(buf, format, args);
-		  //printf(buf);
-		  va_end(args);
-
-		  printf("%s\n",buf);
-//		  HAL_UART_Transmit(&huart1, buf, strlen(buf), 100);
-//		  HAL_UART_Transmit(&huart1, "\n", 1, 100);
-	}
-}
+//void Log(LOG_LEVEL logLevel, const char* format, ...) {
+//
+//	if (logLevel <= ACTIVE_LOG_LEVEL) {
+//		  va_list args;
+//		  char* buf[80];
+//		  va_start(args, format);
+//		  vsprintf(buf, format, args);
+//		  //printf(buf);
+//		  va_end(args);
+//
+//		  printf("%s\n",buf);
+////		  HAL_UART_Transmit(&huart1, buf, strlen(buf), 100);
+////		  HAL_UART_Transmit(&huart1, "\n", 1, 100);
+//	}
+//}
 
 // Redirect printf to serial monitor
 PUTCHAR_PROTOTYPE

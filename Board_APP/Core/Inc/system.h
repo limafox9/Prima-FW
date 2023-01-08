@@ -28,20 +28,41 @@ SOFTWARE.
 Visit www.favenzi.it
       luca@favenzi.it
 
-==================================================================================
-PURPOSE: Modbus CRC16 calculation
+================================================================================
+PURPOSE:
 USAGE:
-================================================================================*/
-
+==============================================================================*/
 
 
 #ifndef INC_SYSTEM_H_
 #define INC_SYSTEM_H_
 
-#define FLASHSIZE_BASE 0x1FFFF7E0U // FLASH Size register base address
-#define UID_BASE 0x1FFFF7E8U // Unique device ID register base address
+#include "globals.h"
+
+typedef enum {
+	LOG_LEVEL_ALL = 0,
+	LOG_LEVEL_DEBUG = 1,
+	LOG_LEVEL_RELEASE = 2,
+	LOG_LEVEL_OFF = 99
+} e_LogLevel;
+
+typedef enum {
+	LOG_TIME_NONE = 0,
+	LOG_TIME_DATE = 1,
+	LOG_TIME_TIME = 2,
+	LOG_TIME_ELAPSED = 4,
+	LOG_TIME_ELAPSED_RESET = 8
+} e_LogTimeStamp;
+
+typedef enum {
+	LOG_OUT_NONE = 0,
+	LOG_OUT_SERIAL = 1,
+	LOG_OUT_FILE = 2,
+	LOG_OUT_PRINTER = 4
+} e_LogOutput;
 
 void SysInit();
-void GetUID();
+void Log(e_LogLevel logLevel, e_LogTimeStamp logTimeStamp, e_LogOutput logOutput, const char* format, ...);
+
 
 #endif /* INC_SYSTEM_H_ */

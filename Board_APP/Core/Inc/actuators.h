@@ -28,22 +28,37 @@ SOFTWARE.
 Visit www.favenzi.it
       luca@favenzi.it
 
-==================================================================================
+================================================================================
 PURPOSE: Modbus CRC16 calculation
 USAGE:
-================================================================================*/
-
+==============================================================================*/
 
 
 #ifndef INC_ACTUATORS_H_
 #define INC_ACTUATORS_H_
 
 #include "globals.h"
+#include "settings.h"
 
-void ValvesOFF();
-void ValveVacuumSet(POWER_STATE status);
-void ValveDryIntakeSet(POWER_STATE status);
-void ValveDrainSteamSet(POWER_STATE status);
-void ValveWaterSteamSet(POWER_STATE status);
+void Beep(uint8_t hits, uint16_t onDelay, uint16_t offDelay);
+
+void HeaterChamberSet(e_PowerState status);
+void HeaterSteamGeneratorSet(e_PowerState status);
+
+void PunpWaterLoadSet(e_PowerState status);
+void PumpVacuumSet(e_PowerState status);
+void PunpSteamGeneratorSet(e_PowerState status);
+
+void ValveVacuumSet(e_PowerState status);
+void ValveDryIntakeSet(e_PowerState status);
+void ValveDrainSteamSet(e_PowerState status);
+void ValveWaterSteamSet(e_PowerState status);
+
+void FanSet(e_PowerState status);
+
+e_LockState DoorSolenoidSet(e_LockState status);
+
+void ActuatorsSafeStatus();
+
 
 #endif /* INC_ACTUATORS_H_ */

@@ -28,19 +28,19 @@ SOFTWARE.
 Visit www.favenzi.it
       luca@favenzi.it
 
-==================================================================================
+================================================================================
 PURPOSE: Modbus CRC16 calculation
 USAGE:
-================================================================================*/
+==============================================================================*/
+
 
 #ifndef INC_PANEL_SERIAL_H_
 #define INC_PANEL_SERIAL_H_
 
 #include "main.h"
 #include "globals.h"
-#include "buzzer.h"
 
-typedef enum _protocolCommand {
+typedef enum {
 	COMMAND_OK = 0x100,
 	COMMAND_PLAY_BEEP = 0xDB,			// param1: n. of beeps, param2: onTIme(ms), param3: offTime(ms)
 	COMMAND_KEYS_PRESSED = 0x6666,

@@ -37,7 +37,8 @@ USAGE:
 #ifndef INC_CLASS_MACHINE_H_
 #define INC_CLASS_MACHINE_H_
 
-#include <class_RTClock.h>
+#include "class_RTClock.h"
+#include "class_sensorTemp.h"
 #include "main.h"
 #include "globals.h"
 #include "cmsis_os.h"
@@ -50,6 +51,7 @@ public:
 
 	PCF8563_c 	RTClock;
 	settings_c 	Settings;
+	c_TemperatureSensor TempSensor;
 
 	void Init();
 	const uint32_t* GetUID();

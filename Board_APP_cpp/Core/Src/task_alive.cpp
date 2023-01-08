@@ -59,6 +59,7 @@ void taskAliveCpp() {
 	Log(LOG_LEVEL_RELEASE, LOG_NONE, "Date: %02d-%02d-%02d - Time: %02d:%02d\n", r.Year, r.Month, r.Day, r.Hour, r.Minute);
 
 	Log(LOG_LEVEL_DEBUG, LOG_TIME, "Kernel Started");
+	Log(LOG_LEVEL_DEBUG, LOG_TIME, "Temp: %0.1f %0.1f", M.TempSensor.GetTemp(ADC_ZFQ), M.TempSensor.GetTemp(ADC_GB));
 
 	for (;;) {
 		HAL_GPIO_TogglePin(LED_HEART_GPIO_Port, LED_HEART_Pin);

@@ -28,21 +28,25 @@ SOFTWARE.
 Visit www.favenzi.it
       luca@favenzi.it
 
-==================================================================================
+================================================================================
 PURPOSE: Modbus CRC16 calculation
 USAGE:
-================================================================================*/
-
+==============================================================================*/
 
 
 #ifndef SRC_KEYS_H_
 #define SRC_KEYS_H_
 
-#include "buzzer.h"
-#include "main.h"
-#include "cmsis_os.h"
 #include "globals.h"
 #include "panel_serial.h"
+
+typedef enum {
+	KEY_S1 = 1,
+	KEY_S2 = 2,
+	KEY_S3 = 4,
+	KEY_LONG_PRESS = 8,
+	KEY_DOUBLE_PRESS = 16
+} e_Keys;
 
 void StartKeysTask();
 void KeysReceived(uint8_t keysCode);

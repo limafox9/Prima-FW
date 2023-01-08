@@ -1,0 +1,126 @@
+/*==============================================================================
+
+Filename: time.h
+
+Created on: Jan 7, 2023
+
+Original work: Copyright (c) 2023 Luca Favenzi
+Modified work:
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+Visit www.favenzi.it
+      luca@favenzi.it
+
+================================================================================
+PURPOSE:
+USAGE:
+==============================================================================*/
+
+
+#ifndef INC_TIME_H_
+#define INC_TIME_H_
+
+#include <stdint.h>
+#include "main.h"
+
+
+#define PCF8563_ADDRESS              	(0x51<<1)
+#define PCF8563_I2C_TIMEOUT				100
+
+#define PCF8563_REG_CONTROL_STATUS1     0x00
+#define PCF8563_REG_CONTROL_STATUS2     0x01
+#define PCF8563_REG_TIME         		0x02
+#define PCF8563_REG_SECONDS          	0x02
+#define PCF8563_REG_MINUTES         	0x03
+#define PCF8563_REG_HOURS          		0x04
+#define PCF8563_REG_DATE             	0x05
+#define PCF8563_REG_WEEKDAY             0x06
+#define PCF8563_REG_MONTH            	0x07
+#define PCF8563_REG_YEAR             	0x08
+#define PCF8563_REG_ALARM_MINUTE        0x09
+#define PCF8563_REG_ALARM_HOUR       	0x0A
+#define PCF8563_REG_ALARM_DAY   		0x0B
+#define PCF8563_REG_ALARM_WEEKDAY    	0x0C
+#define PCF8563_REG_CLKOUT    			0x0D
+#define PCF8563_REG_TIMER_CONTROL    	0x0E
+#define PCF8563_REG_TIMER     			0x0F
+
+//	Controll register 1 0x00
+#define PCF8563_CONTROL1_TEST1			7
+#define PCF8563_CONTROL1_STOP			5
+#define PCF8563_CONTROL1_TESTC			3
+
+//	Controll register 2 0x01
+#define PCF8563_CONTROL2_TI_TP			4
+#define PCF8563_CONTROL2_AF				3
+#define PCF8563_CONTROL2_TF				2
+#define PCF8563_CONTROL2_AIE			1
+#define PCF8563_CONTROL2_TIE			0
+
+//	CLKOUT control register 0x0D
+#define PCF8563_CLKOUT_CONTROL_FE		7
+#define PCF8563_CLKOUT_CONTROL_FD1		1
+#define PCF8563_CLKOUT_CONTROL_FD0		0
+
+
+typedef struct RTCDateTime_s {
+	uint16_t 	Year;
+	uint8_t  	Month;
+	uint8_t		Day;
+	uint8_t		Hour;
+	uint8_t		Minute;
+	uint8_t		Second;
+} RTCDateTime_s;
+
+typedef struct RTCTimerTime_s {
+	uint16_t	TimeHour;
+	uint8_t		TimeMinute;	// Minutes in 0..59 format
+	uint8_t		TimeSecond;	// Seconds in 0..59 format
+	uint32_t	Seconds;	// Total seconds elapsed
+	uint32_t	Ticks;		// Total Ticks elapsed
+} RTCTimerTime_s;
+
+typedef enum {
+	CLKOUT_FREQ_1HZ 		= 3,
+	CLKOUT_FREQ_32HZ 		= 2,
+	CLKOUT_FREQ_1024HZ 		= 1,
+	CLKOUT_FREQ_32768HZ 	= 0
+} RTCClockOutFrequency_e;
+
+typedef enum {
+	TIMER_POWER_ON,
+	TIMER_LOG,
+	TIMER_CYCLE,
+	TIMER_PHASE,
+	TIMER_1,
+	TIMER_2,
+	TIMER_3,
+	TIMER_4
+} RTCTimer_e;
+
+
+void ClockInit(I2C_HandleTypeDef* hi2c);
+void SetDateTime(RTCDateTime_s* dateTime);
+void GetDateTime(RTCDateTime_s* dateTime);
+void GetTimer(uint8_t timer, RTCTimerTime_s* timerTime);
+void ResetTimer(uint8_t timer);
+
+
+#endif /* INC_TIME_H_ */
