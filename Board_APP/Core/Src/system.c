@@ -95,7 +95,7 @@ void SysInit() {
 	osThreadDef(ledsTask, StartLedsTask, osPriorityNormal, 1, 128);
 	ledsTaskHandle = osThreadCreate(osThread(ledsTask), NULL);
 
-	osThreadDef(sensorsTask, StartSensorsTask, osPriorityAboveNormal, 1, 256);
+	osThreadDef(sensorsTask, StartSensorsTask, osPriorityNormal, 1, 1024);
 	sensorsTaskHandle = osThreadCreate(osThread(sensorsTask), NULL);
 
 	Log(LOG_LEVEL_DEBUG, LOG_TIME_NONE, LOG_OUT_SERIAL, "Threads started");
@@ -115,8 +115,7 @@ void Log(e_LogLevel logLevel, e_LogTimeStamp logTimeStamp, e_LogOutput logOutput
 	if (*(int8_t*)GetSetting("LOG_ACTIVE") && logLevel >= *(int8_t*)GetSetting("LOG_ACTIVE_LEVEL")) {
 		RTCDateTime_s r;
 		RTCTimerTime_s t;
-		char* s = (char*)malloc(160);
-		s[0] = '\0';
+		char s[256] = {'\0'};
 		char buffer[256];
 
 		if ((logTimeStamp & LOG_TIME_ELAPSED_RESET) == LOG_TIME_ELAPSED_RESET) {
@@ -146,8 +145,6 @@ void Log(e_LogLevel logLevel, e_LogTimeStamp logTimeStamp, e_LogOutput logOutput
 
 		HAL_UART_Transmit(&huart1, (uint8_t*)s, strlen(s), 100);
 		HAL_UART_Transmit(&huart1, (uint8_t*)"\n", 1, 100);
-
-		free(s);
 	}
 }
 

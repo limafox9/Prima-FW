@@ -104,9 +104,12 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
     /**ADC1 GPIO Configuration
     PA0-WKUP     ------> ADC1_IN0
     PA1     ------> ADC1_IN1
+    PA2     ------> ADC1_IN2
+    PA3     ------> ADC1_IN3
     PA5     ------> ADC1_IN5
     */
-    GPIO_InitStruct.Pin = TEMP_ZFQ_Pin|TEMP_GB_Pin|TEMP_T2_Pin;
+    GPIO_InitStruct.Pin = TEMP_STEAM_GEN_Pin|TEMP_CHAMBER_HEATER_Pin|PRESS_CHAMBER_Pin|CURRENT_SENSOR_Pin
+                          |TEMP_T2_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
@@ -136,9 +139,12 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
     /**ADC1 GPIO Configuration
     PA0-WKUP     ------> ADC1_IN0
     PA1     ------> ADC1_IN1
+    PA2     ------> ADC1_IN2
+    PA3     ------> ADC1_IN3
     PA5     ------> ADC1_IN5
     */
-    HAL_GPIO_DeInit(GPIOA, TEMP_ZFQ_Pin|TEMP_GB_Pin|TEMP_T2_Pin);
+    HAL_GPIO_DeInit(GPIOA, TEMP_STEAM_GEN_Pin|TEMP_CHAMBER_HEATER_Pin|PRESS_CHAMBER_Pin|CURRENT_SENSOR_Pin
+                          |TEMP_T2_Pin);
 
   /* USER CODE BEGIN ADC1_MspDeInit 1 */
 

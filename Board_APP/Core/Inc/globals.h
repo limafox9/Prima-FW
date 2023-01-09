@@ -43,7 +43,7 @@ USAGE:
 #define FW_VERSION_MINOR 1
 #define FW_VERSION_REVISION 14
 
-#define UART_DISPLAY_BUFFER_SIZE 25		// default 25 (bytes)
+#define UART_DISPLAY_BUFFER_SIZE 30		// default 30 (bytes)
 
 typedef enum {
 	UINT8,

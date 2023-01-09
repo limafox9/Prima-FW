@@ -42,7 +42,13 @@ void StartSensorsTask();
 
 e_LockState DoorSolenoidPositionGet();
 e_OpenClosedState DoorPositionGet();
+
 float TemperatureSteamGeneratorGet();
 float TemperatureChamberHeaterGet();
+float PressureChamberGet();
+float CurrentGet();
+
+uint16_t TemperatureT1Get();
+uint16_t TemperatureT2Get();
 
 #endif /* INC_SENSORS_H_ */

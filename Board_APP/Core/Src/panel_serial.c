@@ -54,10 +54,10 @@ const uint8_t pos_command = 2;
 const uint8_t pos_param1 = 4;
 const uint8_t pos_param2 = 8;
 const uint8_t pos_param3 = 12;
-const uint8_t pos_param4 = 16;
-const uint8_t pos_checksum = 20;
-const uint8_t pos_tail = 22;
-const uint8_t pos_EOF = 24;
+const uint8_t pos_digits = 16;
+const uint8_t pos_checksum = 24;
+const uint8_t pos_tail = 26;
+const uint8_t pos_EOF = 28;
 
 void SerialTransmit(uint8_t* data, uint16_t dataSize);
 
@@ -66,7 +66,7 @@ void PanelSerialInit(UART_HandleTypeDef* pUART) {
 	pActiveUART = pUART;
 }
 
-void PanelSerialTransmit(uint16_t command, uint32_t param1, uint32_t param2, uint32_t param3, uint32_t param4) {
+void PanelSerialTransmit(uint16_t command, uint32_t param1, uint32_t param2, uint32_t param3, char* digits) {
 
 	const uint16_t txBufferSize = pos_EOF + 1;
 
@@ -78,10 +78,10 @@ void PanelSerialTransmit(uint16_t command, uint32_t param1, uint32_t param2, uin
 	// Command
 	memcpy(txBuffer + pos_command, &command, 2);
 	// Data
-	memcpy(txBuffer + pos_param1, &param1, 4);
+	memcpy(txBuffer + pos_param1, param1, 4);
 	memcpy(txBuffer + pos_param2, &param2, 4);
 	memcpy(txBuffer + pos_param3, &param3, 4);
-	memcpy(txBuffer + pos_param4, &param4, 4);
+	memcpy(txBuffer + pos_digits, digits, 8);
 	// CRC (Command + Data)
 	uint16_t crc;
 	crc = CRC16(txBuffer + pos_command, pos_checksum - pos_command);
@@ -106,7 +106,7 @@ void SerialTransmit(uint8_t* data, uint16_t dataSize) {
 
 }
 
-#define BUFFER_SIZE 25
+#define BUFFER_SIZE 30
 uint16_t newPos = 0;
 uint16_t oldPos = 0;
 uint8_t MainBuf[BUFFER_SIZE];
@@ -160,7 +160,9 @@ void PanelSerialReceive(uint8_t* buffer, uint16_t size) {
 void ParseCommand(uint8_t* buffer) {
 
 	uint16_t command;
-	uint32_t param1, param2, param3, param4;
+	uint32_t param1, param2, param3;
+	char digitsBuffer[8] = {0};
+
 	uint64_t message = 0;
 	static uint8_t i = 0;
 
@@ -168,7 +170,7 @@ void ParseCommand(uint8_t* buffer) {
 	memcpy(&param1, buffer + pos_param1, 4);
 	memcpy(&param2, buffer + pos_param2, 4);
 	memcpy(&param3, buffer + pos_param3, 4);
-	memcpy(&param4, buffer + pos_param4, 4);
+	memcpy(digitsBuffer, buffer + pos_digits, 8);
 
 	switch (command) {
 	case COMMAND_PLAY_BEEP:

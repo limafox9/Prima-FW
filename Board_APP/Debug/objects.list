@@ -1,3 +1,5 @@
+"./Core/Src/BMP280.o"
+"./Core/Src/PCF8563.o"
 "./Core/Src/TM7705.o"
 "./Core/Src/actuators.o"
 "./Core/Src/crc16.o"

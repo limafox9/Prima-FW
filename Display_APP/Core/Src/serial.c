@@ -43,12 +43,17 @@ USAGE:
 #include "buzzer.h"
 #include <string.h>
 #include <stdio.h>
+#include "globals.h"
+
 
 extern uint8_t _keysBeepActive;
+extern uint8_t booting;
 
 
-#define UART_BUFFER_SIZE 25
+#define UART_BUFFER_SIZE 30
 uint8_t UART_rxBuffer[UART_BUFFER_SIZE] = {0};
+
+extern UART_HandleTypeDef huart1;
 
 UART_HandleTypeDef* pActiveUART;
 DMA_HandleTypeDef* pActiveHDMA;
@@ -62,21 +67,25 @@ const uint8_t pos_command = 2;
 const uint8_t pos_param1 = 4;
 const uint8_t pos_param2 = 8;
 const uint8_t pos_param3 = 12;
-const uint8_t pos_param4 = 16;
-const uint8_t pos_checksum = 20;
-const uint8_t pos_tail = 22;
-const uint8_t pos_EOF = 24;
+const uint8_t pos_digits = 16;
+const uint8_t pos_checksum = 24;
+const uint8_t pos_tail = 26;
+const uint8_t pos_EOF = 28;
 
 void SerialTransmit(uint8_t* data, uint16_t dataSize);
 void ParseCommand(uint8_t* buffer);
 
 
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+	PanelSerialReceive(UART_rxBuffer, UART_BUFFER_SIZE);
+	HAL_UART_Receive_DMA(huart, UART_rxBuffer, UART_BUFFER_SIZE);
+}
+
+
 void PanelSerialInit(UART_HandleTypeDef* pUART, DMA_HandleTypeDef* pDMA) {
 	pActiveUART = pUART;
 	pActiveHDMA = pDMA;
-	// Activate serial DMA serial receive
-	HAL_UART_Receive_DMA(pActiveUART, UART_rxBuffer, UART_BUFFER_SIZE);
-	__HAL_DMA_DISABLE_IT(pActiveHDMA, DMA_IT_HT);
 
 }
 
@@ -84,9 +93,12 @@ void PanelSerialInit(UART_HandleTypeDef* pUART, DMA_HandleTypeDef* pDMA) {
 // TRANSMIT
 // ==============================================================
 
-void PanelSerialTransmit(uint16_t command, uint32_t param1, uint32_t param2, uint32_t param3, uint32_t param4) {
+void PanelSerialTransmit(uint16_t command, uint32_t param1, uint32_t param2, uint32_t param3, char* digits) {
 
 	const uint16_t txBufferSize = pos_EOF + 1;
+	char voidBuff[8] = {0};
+
+	if (digits == NULL) digits = voidBuff;
 
 	uint8_t txBuffer[txBufferSize];
 	memset(txBuffer, 0, txBufferSize);
@@ -99,7 +111,7 @@ void PanelSerialTransmit(uint16_t command, uint32_t param1, uint32_t param2, uin
 	memcpy(txBuffer + pos_param1, &param1, 4);
 	memcpy(txBuffer + pos_param2, &param2, 4);
 	memcpy(txBuffer + pos_param3, &param3, 4);
-	memcpy(txBuffer + pos_param4, &param4, 4);
+	memcpy(txBuffer + pos_digits, digits, 8);
 	// CRC (Command + Data)
 	uint16_t crc;
 	crc = CRC16(txBuffer + pos_command, pos_checksum - pos_command);
@@ -128,31 +140,23 @@ void SerialTransmit(uint8_t* data, uint16_t dataSize) {
 // RECEIVE
 // ==============================================================
 
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-{
-	if (huart->Instance == pActiveUART->Instance) {
-		PanelSerialReceive(UART_rxBuffer, UART_BUFFER_SIZE);
-	}
-
-	HAL_UART_Receive_DMA(huart, UART_rxBuffer, UART_BUFFER_SIZE);
-	__HAL_DMA_DISABLE_IT(pActiveHDMA, DMA_IT_HT);
-}
-
 void PanelSerialReceive(uint8_t* buffer, uint16_t size) {
 
 	uint16_t rxCRC16;
 	uint16_t calcCRC16;
 
-	if ((buffer[pos_head] == activeProtocolHead[0]) && (buffer[pos_head + 1] == activeProtocolHead[1])) { // Header found
-		if ((buffer[pos_tail] == activeProtocolTail[0]) && (buffer[pos_tail + 1] == activeProtocolTail[1])) { // Tail found
-			memcpy(&rxCRC16, buffer + pos_checksum, 2); // store received crc
-			memset(buffer + pos_checksum, 0, 2); // 0 CRC before calculation
-			calcCRC16 = CRC16(buffer + pos_command, pos_checksum - pos_command); // crc for payload (command + parameters)
-			if (rxCRC16 == calcCRC16) {
-				ParseCommand(buffer); // valid received command > parse
+
+		if ((buffer[pos_head] == activeProtocolHead[0]) && (buffer[pos_head + 1] == activeProtocolHead[1])) { // Header found
+			if ((buffer[pos_tail] == activeProtocolTail[0]) && (buffer[pos_tail + 1] == activeProtocolTail[1])) { // Tail found
+				memcpy(&rxCRC16, buffer + pos_checksum, 2); // store received crc
+				memset(buffer + pos_checksum, 0, 2); // 0 CRC before calculation
+				calcCRC16 = CRC16(buffer + pos_command, pos_checksum - pos_command); // crc for payload (command + parameters)
+	//			if (rxCRC16 == calcCRC16) {
+					ParseCommand(buffer); // valid received command > parse
+	//			}
 			}
 		}
-	}
+
 }
 
 // ==============================================================
@@ -162,26 +166,27 @@ void PanelSerialReceive(uint8_t* buffer, uint16_t size) {
 void ParseCommand(uint8_t* buffer) {
 
 	uint16_t command;
-	uint32_t param1, param2, param3, param4;
+	uint32_t param1, param2, param3;
+	char digitsBuffer[8] = {0};
 
 	memcpy(&command, buffer + pos_command, 2);
 	memcpy(&param1, buffer + pos_param1, 4);
 	memcpy(&param2, buffer + pos_param2, 4);
 	memcpy(&param3, buffer + pos_param3, 4);
-	memcpy(&param4, buffer + pos_param4, 4);
+	memcpy(digitsBuffer, buffer + pos_digits, 8);
 
 	switch (command) {
 		case COMMAND_PLAY_BEEP:
 			Beep(param1, param2, param3);
 			break;
 		case COMMAND_WRITE_DIGITS_ROW_1:
-			DigitsWriteRow1(&param1);
+			DigitsWriteRow1(digitsBuffer);
 			break;
 		case COMMAND_WRITE_DIGITS_ROW_2:
-			DigitsWriteRow2(&param1);
+			DigitsWriteRow2(digitsBuffer);
 			break;
 		case COMMAND_WRITE_DIGITS_ROW_3:
-			DigitsWriteRow3(&param1);
+			DigitsWriteRow3(digitsBuffer);
 			break;
 		case COMMAND_SET_DASHBOARD_LEDS:
 			PanelWriteLeds((uint16_t)param1);
@@ -212,7 +217,9 @@ void SendCommandOK() {
 	PanelSerialTransmit(COMMAND_OK, 0, 0, 0, 0);
 }
 
-void SendPanelReady() {
+void SendPanelReady(){
+	HAL_UART_Receive_DMA (&huart1, UART_rxBuffer, UART_BUFFER_SIZE);
+
 	PanelSerialTransmit(COMMAND_PANEL_READY, FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION, 0);
 }
 

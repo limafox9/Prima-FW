@@ -33,6 +33,8 @@ extern uint8_t digitsRow1[DIGIT_ROW_BUFFER_SIZE];
 extern uint8_t digitsRow2[DIGIT_ROW_BUFFER_SIZE];
 extern uint8_t digitsRow3[DIGIT_ROW_BUFFER_SIZE];
 
+uint8_t booting;
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -164,16 +166,16 @@ int main(void)
 
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
-  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
+  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 512);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
 
-  osThreadDef(keysTask, StartKeysTask, osPriorityHigh, 1, 128);
+  osThreadDef(keysTask, StartKeysTask, osPriorityHigh, 1, 256);
   keysTaskHandle = osThreadCreate(osThread(keysTask), NULL);
 
-  osThreadDef(digitsTask, DigitsRefresh, osPriorityHigh, 1, 128);
+  osThreadDef(digitsTask, DigitsRefresh, osPriorityHigh, 1, 256);
   digitsTaskHandle = osThreadCreate(osThread(digitsTask), NULL);
 
   /* USER CODE END RTOS_THREADS */
@@ -403,7 +405,9 @@ void StartDefaultTask(void const * argument)
 {
   /* USER CODE BEGIN 5 */
 
-	PanelSerialInit(&huart1, &hdma_usart1_rx);
+	booting = 1;
+
+	DigitsInit();
 
 	PanelSetAll();
 	ProgressSetAll();
@@ -413,8 +417,14 @@ void StartDefaultTask(void const * argument)
 	PanelClearAll();
 	ProgressClearAll();
 	DigitsClearAll();
-
-	DigitsWriteRow3("%d.%d.%d", FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION);
+//
+	char buf[8] = {0};
+//	char buf1[4] = {0};
+//	char buf2[4] = {0};
+	sprintf(buf, "%d.%d.%d", FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION);
+//	memcpy(buf1, buf, 4);
+//	memcpy(buf2, buf + 4, 4);
+	DigitsWriteRow3(buf);
 	osDelay(2000);
 	DigitsClearAll();
 
@@ -422,6 +432,9 @@ void StartDefaultTask(void const * argument)
 
 	osDelay(500);
 	SendPanelReady();
+
+	booting = 0;
+
 
 	/* Infinite loop */
 	for(;;)

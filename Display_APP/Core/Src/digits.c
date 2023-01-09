@@ -12,10 +12,14 @@
 #include "cmsis_os.h"
 #include "main.h"
 #include "digits.h"
+#include "cmsis_os.h"
 
-extern uint8_t digitsRow1[DIGIT_ROW_BUFFER_SIZE];
-extern uint8_t digitsRow2[DIGIT_ROW_BUFFER_SIZE];
-extern uint8_t digitsRow3[DIGIT_ROW_BUFFER_SIZE];
+extern uint8_t digitsRow1[8];
+extern uint8_t digitsRow2[8];
+extern uint8_t digitsRow3[8];
+
+osMutexDef_t (digitsMutex1);
+osMutexId digitsMutex1Id;
 
 // Character to segments conversion - @ for all segments
 // Segments:	dp g f e d c b a
@@ -46,6 +50,8 @@ void DigitsInit()
 
 	// All display off
 
+	digitsMutex1Id = osMutexCreate(osMutex(digitsMutex1));
+
 	// Release latch
 	HAL_GPIO_WritePin(DISPLAY_STROBE_GPIO_Port, DISPLAY_STROBE_Pin, GPIO_PIN_RESET);
 
@@ -73,23 +79,30 @@ void DigitsInit()
 }
 
 void DigitsWriteRow1(char* digits) {
-	memset(digitsRow1, 0x00, 10);
-	memcpy(digitsRow1, digits, 10);
+	osMutexWait(digitsMutex1Id, 200);
+	memset(digitsRow1, 0x00, 8);
+	memcpy(digitsRow1, digits, 8);
+	osMutexRelease(digitsMutex1Id);
 }
 
 void DigitsWriteRow2(char* digits) {
-	memset(digitsRow2, 0x00, 10);
-	memcpy(digitsRow2, digits, 10);
+	memset(digitsRow2, 0x00, 8);
+	memcpy(digitsRow2, digits, 8);
 }
 
-void DigitsWriteRow3(const char* digits, ...) {
-	va_list args;
-	memset(digitsRow3, 0x00, 10);
-	va_start(args, digits);
-	vsprintf(digitsRow3, digits, args);
-	va_end(args);
-//	memcpy(digitsRow3, digits, 10);
+void DigitsWriteRow3(char* digits) {
+	memset(digitsRow3, 0x00, 8);
+	memcpy(digitsRow3, digits, 8);
 }
+
+//void DigitsWriteRow3(const char* digits, ...) {
+//	va_list args;
+//	memset(digitsRow3, 0x00, 10);
+//	va_start(args, digits);
+//	vsprintf(digitsRow3, digits, args);
+//	va_end(args);
+////	memcpy(digitsRow3, digits, 10);
+//}
 
 void DigitsRefresh() {
 
@@ -113,11 +126,14 @@ void DigitsRefresh() {
 
 			columnData = 0;
 
+			osMutexWait(digitsMutex1Id, 200);
 			digit1 = displayChar[digitsRow1[bufferIndex1]];
 			if (digitsRow1[bufferIndex1 + 1] == '.') {
 				digit1 += 0x80;
 				bufferIndex1++;
 			}
+			osMutexRelease(digitsMutex1Id);
+
 			digit2 = displayChar[digitsRow2[bufferIndex2]];
 			if (digitsRow2[bufferIndex2 + 1] == '.') {
 				digit2 += 0x80;
@@ -190,13 +206,13 @@ void DigitsRefresh() {
 }
 
 void DigitsClearAll() {
-	DigitsWriteRow1("    ");
-	DigitsWriteRow2("    ");
-	DigitsWriteRow3("    ");
+	DigitsWriteRow1("        ");
+	DigitsWriteRow2("        ");
+	DigitsWriteRow3("        ");
 }
 
 void DigitsSetAll() {
-	DigitsWriteRow1("8.8.8.8");
-	DigitsWriteRow2("8.8.8.8");
+	DigitsWriteRow1("8.8.8.8 ");
+	DigitsWriteRow2("8.8.8.8 ");
 	DigitsWriteRow3("8.8.:8.8");
 }

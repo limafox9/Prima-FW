@@ -34,66 +34,32 @@ USAGE:
 ==============================================================================*/
 
 
+#include "PCF8563.h"
 #include "time.h"
 
-I2C_HandleTypeDef* hi2c_pcf8563;
-uint8_t Pcf8563Buffer[7];
+
 uint32_t timers[8] = {0};
 
-static void PCF8563_STOPEnable(uint8_t Enable);
-static void PCF8563_ClockOutFrequency(RTCClockOutFrequency_e frequency);
-static void PCF8563_CalculateDateTime(RTCDateTime_s* dateTime);
-static uint8_t bcd2dec(uint8_t BCD);
-static uint8_t dec2bcd(uint8_t DEC);
 static uint32_t GetSafeDeltaTick(uint32_t startTick, uint32_t endTick);
 
 
 void ClockInit(I2C_HandleTypeDef* hi2c) {
 
+	PCF8563_Init(hi2c);
+
 	for (int i = 0; i < 8; i++) {
 		ResetTimer(i);
 	}
-	hi2c_pcf8563 = hi2c;
-	PCF8563_ClockOutFrequency(CLKOUT_FREQ_1HZ);
-	PCF8563_STOPEnable(0);
 }
 
 void GetDateTime(RTCDateTime_s* dateTime) {
 
-	HAL_I2C_Mem_Read(hi2c_pcf8563, PCF8563_ADDRESS, PCF8563_REG_TIME, 1, Pcf8563Buffer, 7, PCF8563_I2C_TIMEOUT);
-	PCF8563_CalculateDateTime(dateTime);
+	PCF8563_GetDateTime(dateTime);
 }
 
 void SetDateTime(RTCDateTime_s* dateTime) {
 
-	uint8_t tmp[7];
-
-	if(dateTime->Second > 59) dateTime->Second = 59;
-	if(dateTime->Minute > 59) dateTime->Minute = 59;
-	if(dateTime->Hour > 23) dateTime->Hour = 23;
-	if(dateTime->Day > 31) dateTime->Day = 31;
-	if(dateTime->Month > 12) dateTime->Month = 12;
-	if(dateTime->Year > 2099) dateTime->Year = 2099;
-	if(dateTime->Year < 2000) dateTime->Year = 2000;
-
-	// 0..59
-	tmp[0] = dec2bcd(dateTime->Second) & 0b01111111;
-	// 0..59
-	tmp[1] = dec2bcd(dateTime->Minute) & 0b01111111;
-	// 0..23
-	tmp[2] = dec2bcd(dateTime->Hour) & 0b00111111;
-	// 1..31
-	tmp[3] = dec2bcd(dateTime->Day) & 0b00111111;
-	// 1..12
-	tmp[5] = dec2bcd(dateTime->Month) & 0b00011111;
-	// If 2000, set the century bit
-	if (dateTime->Year >= 100) {
-		tmp[5] |= 0b10000000; // Set century bit
-	}
-	// 0..99
-	tmp[6] = dec2bcd(dateTime->Year % 100) & 0b11111111;
-
-	HAL_I2C_Mem_Write(hi2c_pcf8563, PCF8563_ADDRESS, PCF8563_REG_TIME, 1, tmp, 7, PCF8563_I2C_TIMEOUT);
+	PCF8563_SetDateTime(dateTime);
 }
 
 void GetTimer(uint8_t timer, RTCTimerTime_s* timerTime) {
@@ -110,66 +76,6 @@ void ResetTimer(uint8_t timer) {
 	timers[timer] = HAL_GetTick();
 }
 
-void PCF8563_CalculateDateTime(RTCDateTime_s* dateTime) {
-
-	uint16_t century;
-
-	// 0..59
-	dateTime->Second = bcd2dec((Pcf8563Buffer[0]) & 0b01111111);
-	// 0..59
-	dateTime->Minute = bcd2dec(Pcf8563Buffer[1] & 0b01111111);
-	// 0..23
-	dateTime->Hour = bcd2dec(Pcf8563Buffer[2] & 0b00111111);
-	// 1..31
-	dateTime->Day = bcd2dec(Pcf8563Buffer[3] & 0b00111111);
-	// 1..12
-	dateTime->Month = bcd2dec(Pcf8563Buffer[5] & 0b00011111);
-	// If century bit set assume it is 2000
-	century = (Pcf8563Buffer[5] & 0b10000000) ? 100 : 0;
-	// 0..99
-	dateTime->Year = 1900 + century + bcd2dec(Pcf8563Buffer[6] & 0b11111111);
-}
-
-void PCF8563_ClockOutFrequency(RTCClockOutFrequency_e frequency) {
-
-	uint8_t tmp;
-
-	if(frequency > CLKOUT_FREQ_1HZ) frequency = CLKOUT_FREQ_1HZ;
-
-	HAL_I2C_Mem_Read(hi2c_pcf8563, PCF8563_ADDRESS, PCF8563_REG_CLKOUT, 1, &tmp, 1, PCF8563_I2C_TIMEOUT);
-	tmp &= ~(3 << PCF8563_CLKOUT_CONTROL_FD0);
-	tmp |= (frequency << PCF8563_CLKOUT_CONTROL_FD0);
-	HAL_I2C_Mem_Write(hi2c_pcf8563, PCF8563_ADDRESS, PCF8563_REG_CLKOUT, 1, &tmp, 1, PCF8563_I2C_TIMEOUT);
-}
-
-void WriteBitToControlRegister(uint8_t ControlRegister, uint8_t BitNumber, uint8_t Value) {
-
-	uint8_t tmp;
-
-	if(Value>1) Value = 1;
-	if(ControlRegister > 1) Value = 1;
-	if(BitNumber > 7) Value = 7;
-
-	HAL_I2C_Mem_Read(hi2c_pcf8563, PCF8563_ADDRESS, ControlRegister?PCF8563_REG_CONTROL_STATUS1:PCF8563_REG_CONTROL_STATUS2, 1, &tmp, 1, PCF8563_I2C_TIMEOUT);
-	tmp &= ~(1 << BitNumber);
-	tmp |= (Value << BitNumber);
-	ControlRegister ? (Value &= 0b10101000) : (Value &= 0b00011111); // Put zeros where zero is needed
-	HAL_I2C_Mem_Write(hi2c_pcf8563, PCF8563_ADDRESS, ControlRegister?PCF8563_REG_CONTROL_STATUS1:PCF8563_REG_CONTROL_STATUS2, 1, &Value, 1, PCF8563_I2C_TIMEOUT);
-}
-
-uint8_t bcd2dec(uint8_t BCD) {
-//	return (((BCD & 0xF0) >> 4) *10) + (BCD & 0xF);
-	return ((BCD  >> 4) *10) + (BCD & 0xF);
-}
-
-uint8_t dec2bcd(uint8_t DEC) {
-	return ((DEC / 10) << 4) + (DEC % 10);
-}
-
-void PCF8563_STOPEnable(uint8_t Enable) {
-	WriteBitToControlRegister(PCF8563_REG_CONTROL_STATUS1, PCF8563_CONTROL1_STOP, Enable);
-}
-
 uint32_t GetSafeDeltaTick(uint32_t startTick, uint32_t endTick) {
 
 	uint32_t deltaTick;
@@ -183,33 +89,3 @@ uint32_t GetSafeDeltaTick(uint32_t startTick, uint32_t endTick) {
 
 	return deltaTick;
 }
-
-//void PCF8563_TEST1Enable(uint8_t Enable) {
-//	WriteBitToControlRegister(PCF8563_REG_CONTROL_STATUS1, PCF8563_CONTROL1_TEST1, Enable);
-//}
-//
-//void PCF8563_TESTCEnable(uint8_t Enable) {
-//	WriteBitToControlRegister(PCF8563_REG_CONTROL_STATUS1, PCF8563_CONTROL1_TESTC, Enable);
-//}
-//
-//void PCF8563_InterruptEnable(uint8_t Enable) {
-//	WriteBitToControlRegister(PCF8563_REG_CONTROL_STATUS1, PCF8563_CONTROL2_TI_TP, Enable);
-//}
-//
-//void PCF8563_AlarmFlagEnable(uint8_t Enable) {
-//	WriteBitToControlRegister(PCF8563_REG_CONTROL_STATUS1, PCF8563_CONTROL2_AF, Enable);
-//}
-//
-//void PCF8563_TimerFlagEnable(uint8_t Enable) {
-//	WriteBitToControlRegister(PCF8563_REG_CONTROL_STATUS1, PCF8563_CONTROL2_TF, Enable);
-//}
-//
-//void PCF8563_AlarmInterruptEnable(uint8_t Enable) {
-//	WriteBitToControlRegister(PCF8563_REG_CONTROL_STATUS1, PCF8563_CONTROL2_AIE, Enable);
-//}
-//
-//void PCF8563_TimerInterruptEnable(uint8_t Enable) {
-//	WriteBitToControlRegister(PCF8563_REG_CONTROL_STATUS1, PCF8563_CONTROL2_TIE, Enable);
-//}
-
-

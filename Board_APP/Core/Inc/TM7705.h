@@ -1,6 +1,6 @@
 /*==============================================================================
 
-Filename: TM7705.h
+Filename: _TM7705.h
 
 Created on: Jan 4, 2023
 
@@ -28,67 +28,144 @@ SOFTWARE.
 Visit www.favenzi.it
       luca@favenzi.it
 
-==================================================================================
-PURPOSE: Modbus CRC16 calculation
+================================================================================
+PURPOSE:
 USAGE:
-================================================================================*/
-
+==============================================================================*/
 
 
 #ifndef INC_TM7705_H_
 #define INC_TM7705_H_
 
-//register selection
-//RS2 RS1 RS0
-static const uint8_t REG_CMM = 0x0; //communication register 8 bit
-static const uint8_t REG_SETUP = 0x1; //setup register 8 bit
-static const uint8_t REG_CLOCK = 0x2; //clock register 8 bit
-static const uint8_t REG_DATA = 0x3; //data register 16 bit, contains conversion result
-static const uint8_t REG_TEST = 0x4; //test register 8 bit, POR 0x0
-static const uint8_t REG_NOP = 0x5; //no operation
-static const uint8_t REG_OFFSET = 0x6; //offset register 24 bit
-static const uint8_t REG_GAIN = 0x7; // gain register 24 bit
+#include <stdio.h>
+#include "main.h"
 
-//channel selection for AD7706 (for AD7705 use the first two channel definitions)
-//CH1 CH0
-static const uint8_t CHN_AIN1 = 0x0; //AIN1; calibration register pair 0
-static const uint8_t CHN_AIN2 = 0x1; //AIN2; calibration register pair 1
-static const uint8_t CHN_COMM = 0x2; //common; calibration register pair 0
-static const uint8_t CHN_AIN3 = 0x3; //AIN3; calibration register pair 2
 
-//output update rate
-//CLK FS1 FS0
-static const uint8_t UPDATE_RATE_20 = 0x0; // 20 Hz
-static const uint8_t UPDATE_RATE_25 = 0x1; // 25 Hz
-static const uint8_t UPDATE_RATE_100 = 0x2; // 100 Hz
-static const uint8_t UPDATE_RATE_200 = 0x3; // 200 Hz
-static const uint8_t UPDATE_RATE_50 = 0x4; // 50 Hz
-static const uint8_t UPDATE_RATE_60 = 0x5; // 60 Hz
-static const uint8_t UPDATE_RATE_250 = 0x6; // 250 Hz
-static const uint8_t UPDATE_RATE_500 = 0x7; // 500 Hz
+typedef enum {
+	CHANNEL_0 = 0,
+	CHANNEL_1 = 1,
+	CHANNEL_0_0 = 2,
+	CHANNEL_0_1 = 3
+} TM7705_Channel;
+
+typedef enum {
+	CLOCK_2_4676 = 0,
+	CLOCK_4_9152 = 1,
+	CLOCK_2 = 2,
+	CLOCK_1	= 3
+} TM7705_ClockFrequency;
+
+typedef enum {
+	MODE_NORMAL = 0,
+	MODE_SELF_CAL = 1,
+	MODE_ZERO_SCALE_CAL = 2,
+	MODE_FULL_SCALE_CAL = 3
+} TM7705_ADCMode;
+
+typedef enum {
+	GAIN_1 = 0,
+	GAIN_2 = 1,
+	GAIN_4 = 2,
+	GAIN_8 = 3,
+	GAIN_16 = 4,
+	GAIN_32 = 5,
+	GAIN_64 = 6,
+	GAIN_128 = 7
+} TM7705_Gain;
+
+typedef enum {
+	UNIPOLAR = 1,
+	BIPOLAR = 0
+} TM7705_Polarity;
+
+typedef enum {
+	WRITE = 0,
+	READ = 1
+} TM7705_ReadWrite;
+
+typedef enum {
+	COM_NO_OP = 0,
+	COM_WRITE_TO_INPUT_REGISTER = 1,
+	COM_UPDATE_DAC_WITH_INPUT = 2,
+	COM_WRITE_AND_UPDATE_DAC = 3,
+	COM_POWER_DOWN_DAC = 4,
+	COM_LDAC_MASK_REGISTER = 5,
+	COM_SOFTWARE_RESET = 6,
+	COM_REFERENCE_SETUP = 7,
+	COM_ENABLE_DAISY_CHAIN = 8,
+	COM_SETUP_READBACK_REG = 9
+} TM7705_Command;
+
+typedef enum {
+    COMMS_REGISTER = 0,
+    SETUP_REGISTER = 1,
+    CLOCK_REGISTER = 2,
+    DATA_REGISTER = 3,
+    TEST_REGISTER = 4,
+    NO_OP_REGISTER = 5,
+    OFFSET_REGISTER = 6,
+    GAIN_REGISTER = 7
+} TM7705_RegisterSelection;
+
+// ==============================================================
+//
+////register selection
+////RS2 RS1 RS0
+//static const uint8_t REG_CMM = 0x0; //communication register 8 bit
+//static const uint8_t REG_SETUP = 0x1; //setup register 8 bit
+//static const uint8_t REG_CLOCK = 0x2; //clock register 8 bit
+//static const uint8_t REG_DATA = 0x3; //data register 16 bit, contains conversion result
+//static const uint8_t REG_TEST = 0x4; //test register 8 bit, POR 0x0
+//static const uint8_t REG_NOP = 0x5; //no operation
+//static const uint8_t REG_OFFSET = 0x6; //offset register 24 bit
+//static const uint8_t REG_GAIN = 0x7; // gain register 24 bit
+//
+////channel selection for AD7706 (for AD7705 use the first two channel definitions)
+////CH1 CH0
+//static const uint8_t CHN_AIN1 = 0x0; //AIN1; calibration register pair 0
+//static const uint8_t CHN_AIN2 = 0x1; //AIN2; calibration register pair 1
+//static const uint8_t CHN_COMM = 0x2; //common; calibration register pair 0
+//static const uint8_t CHN_AIN3 = 0x3; //AIN3; calibration register pair 2
+//
+////output update rate
+////CLK FS1 FS0
+//static const uint8_t UPDATE_RATE_20 = 0x0; // 20 Hz
+//static const uint8_t UPDATE_RATE_25 = 0x1; // 25 Hz
+//static const uint8_t UPDATE_RATE_100 = 0x2; // 100 Hz
+//static const uint8_t UPDATE_RATE_200 = 0x3; // 200 Hz
+//static const uint8_t UPDATE_RATE_50 = 0x4; // 50 Hz
+//static const uint8_t UPDATE_RATE_60 = 0x5; // 60 Hz
+//static const uint8_t UPDATE_RATE_250 = 0x6; // 250 Hz
+//static const uint8_t UPDATE_RATE_500 = 0x7; // 500 Hz
 
 //operating mode options
 //MD1 MD0
-static const uint8_t MODE_NORMAL = 0x0; //normal mode
-static const uint8_t MODE_SELF_CAL = 0x1; //self-calibration
-static const uint8_t MODE_ZERO_SCALE_CAL = 0x2; //zero-scale system calibration, POR 0x1F4000, set FSYNC high before calibration, FSYNC low after calibration
-static const uint8_t MODE_FULL_SCALE_CAL = 0x3; //full-scale system calibration, POR 0x5761AB, set FSYNC high before calibration, FSYNC low after calibration
-
-//gain setting
-static const uint8_t GAIN_1 = 0x0;
-static const uint8_t GAIN_2 = 0x1;
-static const uint8_t GAIN_4 = 0x2;
-static const uint8_t GAIN_8 = 0x3;
-static const uint8_t GAIN_16 = 0x4;
-static const uint8_t GAIN_32 = 0x5;
-static const uint8_t GAIN_64 = 0x6;
-static const uint8_t GAIN_128 = 0x7;
-
-static const uint8_t UNIPOLAR = 0x0;
-static const uint8_t BIPOLAR = 0x1;
+//static const uint8_t MODE_NORMAL = 0x0; //normal mode
+//static const uint8_t MODE_SELF_CAL = 0x1; //self-calibration
+//static const uint8_t MODE_ZERO_SCALE_CAL = 0x2; //zero-scale system calibration, POR 0x1F4000, set FSYNC high before calibration, FSYNC low after calibration
+//static const uint8_t MODE_FULL_SCALE_CAL = 0x3; //full-scale system calibration, POR 0x5761AB, set FSYNC high before calibration, FSYNC low after calibration
+//
+////gain setting
+//static const uint8_t GAIN_1 = 0x0;
+//static const uint8_t GAIN_2 = 0x1;
+//static const uint8_t GAIN_4 = 0x2;
+//static const uint8_t GAIN_8 = 0x3;
+//static const uint8_t GAIN_16 = 0x4;
+//static const uint8_t GAIN_32 = 0x5;
+//static const uint8_t GAIN_64 = 0x6;
+//static const uint8_t GAIN_128 = 0x7;
+//
+//static const uint8_t UNIPOLAR = 0x0;
+//static const uint8_t BIPOLAR = 0x1;
 
 static const uint8_t CLK_DIV_1 = 0x1;
 static const uint8_t CLK_DIV_2 = 0x2;
+
+
+void TM7705_Init(SPI_HandleTypeDef* hspi);
+uint16_t TM7705_GetValue(const TM7705_Channel channel);
+//uint32_t TM7705_ReadOffsetRegister(const TM7705_Channel channel);
+//uint32_t TM7705_ReadFullScaleRegister(const TM7705_Channel channel);
 
 
 #endif /* INC_TM7705_H_ */

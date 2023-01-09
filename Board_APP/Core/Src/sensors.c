@@ -28,10 +28,10 @@ SOFTWARE.
 Visit www.favenzi.it
       luca@favenzi.it
 
-==================================================================================
+================================================================================
 PURPOSE: Modbus CRC16 calculation
 USAGE:
-================================================================================*/
+==============================================================================*/
 
 
 #include "sensors.h"
@@ -40,11 +40,24 @@ USAGE:
 
 #include "globals.h"
 #include "cmsis_os.h"
+#include "TM7705.h"
+#include "system.h"
+#include "panel_serial.h"
 
-#define SENSOR_TEMP_ADC_CHANNEL_STEAM_GENERATOR 0
-#define SENSOR_TEMP_ADC_CHANNEL_CHAMBER_HEATER 1
 
-#define SAMPLE_RATE					5			// Sample per second (SPS/Hz)
+//==============================================================================
+// DEFINES
+//==============================================================================
+
+#define SENSOR_TEMP_STEAM_GENERATOR_ADC_CHANNEL	0 // Internal ADC
+#define SENSOR_TEMPL_CHAMBER_HEATER_ADC_CHANNE	1 // Internal ADC
+#define SENSOR_PRESS_CHAMBER_ADC_CHANNEL		2 // Internal ADC
+#define SENSOR_CURRENT_ADC_CHANNEL				3 // Internal ADC
+
+#define SENSOR_TEMP_T1_ADC_CHANNEL 				0 // External 16bit ADC
+#define SENSOR_TEMP_T2_ADC_CHANNEL 				1 // External 16bit ADC
+
+#define SAMPLE_RATE					1			// Sample per second (SPS/Hz)
 #define AVERAGE_SAMPLES				5			// N. of samples for the average
 #define AVERAGE_SAMPLES_INTERVAL	5			// Interval between samples (milliseconds)
 #define V_REF						3.3			// Power supply
@@ -56,7 +69,12 @@ USAGE:
 #define RTD_A 						3.9083e-3
 #define RTD_B 						-5.775e-7
 
+//==============================================================================
+// VARS
+//==============================================================================
+
 extern ADC_HandleTypeDef hadc1;
+extern SPI_HandleTypeDef hspi1;
 
 const float Z1 = -RTD_A;
 const float Z2 = RTD_A * RTD_A - (4 * RTD_B);
@@ -68,30 +86,46 @@ struct {
 	e_LockState Solenoid;
 	float TemperatureSteamGenerator;
 	float TemperatureChamberHeater;
-	float T1;
-	float T2;
+	uint16_t T1;
+	uint16_t T2;
 	float PressureChamber;
+	float Current;
 } Sensors;
 
 static uint16_t ReadADC(uint32_t channel);
-static float ADCToTemp(float adcValue);
+static float ADCToTemp(uint16_t adcValue);
+static float ADCToPress(uint16_t adcValue);
+static float ADCToCurrent(uint16_t adcValue);
 
 osMutexId mutexSensors;
 osMutexDef(mutexSensors);
 
 //==============================================================================
+// DECLARATIONS
+//==============================================================================
 
 e_LockState DoorSolenoidPositionGet() {return HAL_GPIO_ReadPin(SW_SOLENOID_GPIO_Port, SW_SOLENOID_Pin);}
 e_OpenClosedState DoorPositionGet() {return HAL_GPIO_ReadPin(SW_DOOR_GPIO_Port, SW_DOOR_Pin);}
 
-float TemperatureSteamGeneratorGet() {return ADCToTemp((float)ReadADC(SENSOR_TEMP_ADC_CHANNEL_STEAM_GENERATOR));}
-float TemperatureChamberHeaterGet() {return ADCToTemp((float)ReadADC(SENSOR_TEMP_ADC_CHANNEL_CHAMBER_HEATER));}
+float TemperatureSteamGeneratorGet() {return ADCToTemp(ReadADC(SENSOR_TEMP_STEAM_GENERATOR_ADC_CHANNEL));}
+float TemperatureChamberHeaterGet() {return ADCToTemp(ReadADC(SENSOR_TEMPL_CHAMBER_HEATER_ADC_CHANNE));}
+float PressureChamberGet() {return ADCToPress(ReadADC(SENSOR_PRESS_CHAMBER_ADC_CHANNEL));}
+float CurrentGet() {return ADCToCurrent(ReadADC(SENSOR_CURRENT_ADC_CHANNEL));}
+
+uint16_t TemperatureT1Get() {return TM7705_GetValue(SENSOR_TEMP_T1_ADC_CHANNEL);}
+uint16_t TemperatureT2Get() {return TM7705_GetValue(SENSOR_TEMP_T2_ADC_CHANNEL);}
+
+//==============================================================================
+// DEFINITIONS
+//==============================================================================
 
 void StartSensorsTask() {
 
 	mutexSensors = osMutexCreate(osMutex(mutexSensors));
 
 	HAL_ADCEx_Calibration_Start(&hadc1);
+
+	TM7705_Init(&hspi1);
 
 	for (;;) {
 		osMutexWait(mutexSensors, osWaitForever);
@@ -100,8 +134,18 @@ void StartSensorsTask() {
 		Sensors.Solenoid = DoorPositionGet();
 		Sensors.TemperatureSteamGenerator = TemperatureSteamGeneratorGet();
 		Sensors.TemperatureChamberHeater = TemperatureChamberHeaterGet();
+		Sensors.T1 = TemperatureT1Get();
+//		Sensors.T2 = TemperatureT2Get();
+		Sensors.PressureChamber = PressureChamberGet();
+		Sensors.Current = CurrentGet();
 
 		osMutexRelease(mutexSensors);
+
+		Log(LOG_LEVEL_DEBUG, LOG_TIME_TIME, LOG_OUT_SERIAL, "%0.3f", Sensors.Current);
+		char d[8] = {0};
+		sprintf(d, "%0.1f", Sensors.TemperatureSteamGenerator);
+		PanelSerialTransmit(COMMAND_WRITE_DIGITS_ROW_1, 0, 0, 0, d);
+
 		osDelay(1000 / SAMPLE_RATE);
 	}
 }
@@ -132,18 +176,111 @@ uint16_t ReadADC(uint32_t channel) {
 
 }
 
-float ADCToTemp(float adcValue) {
+float ADCToTemp(uint16_t adcValue) {
 
-	float readVolt, Rt, tCelsius;
+	float readVolt, Rt, rRef, vRef, tCelsius;
 
-	readVolt = ((float)V_REF / pow(2, ADC_BITS) * adcValue); 	// Voltage read
-	Rt = ((V_REF - readVolt) * R_REF / readVolt); // PTC ohm
+	vRef = (float)V_REF;
+	rRef = (float)R_REF;
+
+	readVolt = (vRef / (float)(pow(2, ADC_BITS) - 1) * (float)adcValue); 	// Voltage read
+	Rt = ((vRef - readVolt) * rRef / readVolt); // PTC ohm
 
 	tCelsius = Z2 + (Z3 * Rt);
 	tCelsius = (sqrt(tCelsius) + Z1) / Z4;
 
 	return tCelsius;
+}
 
+float ADCToPress(uint16_t adcValue) {
+
+	float readVolt, vRef, pkPa;
+
+	vRef = (float)V_REF;
+
+	readVolt = (vRef / (float)(pow(2, ADC_BITS) - 1) * (float)adcValue); 	// Voltage read
+
+	// Transfer function: Vout = Vs*(0.0012858*P+0.04) @Vs=5.0V
+	//pkPa = (readVolt - (0,04 * vRefSensor)) / (0.0012858 * vRefSensor);
+
+	pkPa = readVolt;
+	pkPa = pkPa / 4.99;
+	pkPa = pkPa - 0.04;
+	pkPa = pkPa / 0.0012858;
+
+	return pkPa;
+}
+
+float ADCToCurrent(uint16_t adcValue) {
+
+	float readVolt, vRef, pkPa;
+
+	const float VCC   = 4.9;// supply voltage 5V or 3.3V. If using PCB, set to 5V only.
+
+	float cutOffLimit = 1.00;// reading cutt off current. 1.00 is 1 Amper
+
+	/*
+	          "ACS758LCB-050B",// for model use 0
+	          "ACS758LCB-050U",// for model use 1
+	          "ACS758LCB-100B",// for model use 2
+	          "ACS758LCB-100U",// for model use 3
+	          "ACS758KCB-150B",// for model use 4
+	          "ACS758KCB-150U",// for model use 5
+	          "ACS758ECB-200B",// for model use 6
+	          "ACS758ECB-200U"// for model use  7
+	sensitivity array is holding the sensitivy of the  ACS758
+	current sensors. Do not change.
+	*/
+	const int model = 0;   // enter the model (see below)
+
+	float sensitivity[] ={
+	          40.0,// for ACS758LCB-050B
+	          60.0,// for ACS758LCB-050U
+	          20.0,// for ACS758LCB-100B
+	          40.0,// for ACS758LCB-100U
+	          13.3,// for ACS758KCB-150B
+	          16.7,// for ACS758KCB-150U
+	          10.0,// for ACS758ECB-200B
+	          20.0,// for ACS758ECB-200U
+	         };
+
+	/*
+	 *   quiescent Output voltage is factor for VCC that appears at output
+	 *   when the current is zero.
+	 *   for Bidirectional sensor it is 0.5 x VCC
+	 *   for Unidirectional sensor it is 0.12 x VCC
+	 *   for model ACS758LCB-050B, the B at the end represents Bidirectional (polarity doesn't matter)
+	 *   for model ACS758LCB-100U, the U at the end represents Unidirectional (polarity must match)
+	 *    Do not change.
+	 */
+	float quiescent_Output_voltage [] ={
+	          0.5,// for ACS758LCB-050B
+	          0.12,// for ACS758LCB-050U
+	          0.5,// for ACS758LCB-100B
+	          0.12,// for ACS758LCB-100U
+	          0.5,// for ACS758KCB-150B
+	          0.12,// for ACS758KCB-150U
+	          0.5,// for ACS758ECB-200B
+	          0.12,// for ACS758ECB-200U
+	          };
+
+	const float FACTOR = sensitivity[model]/1000;// set sensitivity for selected model
+	const float QOV =   quiescent_Output_voltage [model] * VCC;// set quiescent Output voltage for selected model
+	float voltage;// internal variable for voltage
+	float cutOff = FACTOR/cutOffLimit;// convert current cut off to mV
+
+
+
+
+
+	vRef = (float)V_REF;
+
+	readVolt = (vRef / (float)(pow(2, ADC_BITS) - 1) * (float)adcValue); 	// Voltage read
+
+	voltage =  readVolt - QOV + 0.007 ;// 0.007 is a value to make voltage zero when there is no current
+	float current = voltage / FACTOR;
+
+	return current;
 }
 
 
