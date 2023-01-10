@@ -23,6 +23,9 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "system.h"
+#include "keys.h"
+#include "leds.h"
+#include "sensors.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -51,12 +54,19 @@ SPI_HandleTypeDef hspi2;
 UART_HandleTypeDef huart4;
 UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart3;
+DMA_HandleTypeDef hdma_usart1_rx;
+DMA_HandleTypeDef hdma_usart1_tx;
 DMA_HandleTypeDef hdma_usart3_rx;
+DMA_HandleTypeDef hdma_usart3_tx;
 
 HCD_HandleTypeDef hhcd_USB_OTG_FS;
 
 osThreadId taskAliveHandle;
 /* USER CODE BEGIN PV */
+
+osThreadId keysTaskHandle;
+osThreadId ledsTaskHandle;
+osThreadId sensorsTaskHandle;
 
 /* USER CODE END PV */
 
@@ -147,6 +157,15 @@ int main(void)
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
+	osThreadDef(keysTask, StartKeysTask, osPriorityAboveNormal, 1, 128);
+	keysTaskHandle = osThreadCreate(osThread(keysTask), NULL);
+
+	osThreadDef(ledsTask, StartLedsTask, osPriorityNormal, 1, 128);
+	ledsTaskHandle = osThreadCreate(osThread(ledsTask), NULL);
+
+	osThreadDef(sensorsTask, StartSensorsTask, osPriorityNormal, 1, 1024);
+	sensorsTaskHandle = osThreadCreate(osThread(sensorsTask), NULL);
+
   /* USER CODE END RTOS_THREADS */
 
   /* Start scheduler */
@@ -513,9 +532,18 @@ static void MX_DMA_Init(void)
   __HAL_RCC_DMA1_CLK_ENABLE();
 
   /* DMA interrupt init */
+  /* DMA1_Channel2_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Channel2_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Channel2_IRQn);
   /* DMA1_Channel3_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA1_Channel3_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(DMA1_Channel3_IRQn);
+  /* DMA1_Channel4_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Channel4_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Channel4_IRQn);
+  /* DMA1_Channel5_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Channel5_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Channel5_IRQn);
 
 }
 

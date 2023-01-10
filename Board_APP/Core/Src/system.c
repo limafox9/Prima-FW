@@ -46,6 +46,7 @@ USAGE:
 #include "keys.h"
 #include "leds.h"
 #include "sensors.h"
+#include "serial.h"
 
 
 extern I2C_HandleTypeDef hi2c1;
@@ -56,15 +57,13 @@ extern DMA_HandleTypeDef hdma_usart3_rx;
 uint32_t UID[3] = {0};
 uint16_t machineSerial;
 
-osThreadId keysTaskHandle;
-osThreadId ledsTaskHandle;
-osThreadId sensorsTaskHandle;
-
 uint8_t UART_rxBuffer[UART_DISPLAY_BUFFER_SIZE] = {0};
 
 RTCDateTime_s dt;
 
 void SysInit() {
+
+	SerialInit();
 
 	Log(LOG_LEVEL_RELEASE, LOG_TIME_NONE, LOG_OUT_SERIAL, "\n\n****************************************");
 	Log(LOG_LEVEL_RELEASE, LOG_TIME_NONE, LOG_OUT_SERIAL, "PRIMA Board APP v%d.%d.%d", FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION);
@@ -89,25 +88,26 @@ void SysInit() {
 	Log(LOG_LEVEL_RELEASE, LOG_TIME_NONE, LOG_OUT_SERIAL, "Actuators initialized in safe mode");
 
 	// Create threads
-	osThreadDef(keysTask, StartKeysTask, osPriorityNormal, 1, 128);
-	keysTaskHandle = osThreadCreate(osThread(keysTask), NULL);
-
-	osThreadDef(ledsTask, StartLedsTask, osPriorityNormal, 1, 128);
-	ledsTaskHandle = osThreadCreate(osThread(ledsTask), NULL);
-
-	osThreadDef(sensorsTask, StartSensorsTask, osPriorityNormal, 1, 1024);
-	sensorsTaskHandle = osThreadCreate(osThread(sensorsTask), NULL);
 
 	Log(LOG_LEVEL_DEBUG, LOG_TIME_NONE, LOG_OUT_SERIAL, "Threads started");
 
 	// Display communication init and Start receiving DMA display UART
-	PanelSerialInit(&huart3);
-	HAL_UART_Receive_DMA(&huart3, UART_rxBuffer, UART_DISPLAY_BUFFER_SIZE);
-	__HAL_DMA_DISABLE_IT(&hdma_usart3_rx, DMA_IT_HT);
+//	PanelSerialInit(&huart3);
+//	HAL_UART_Receive_DMA(&huart3, UART_rxBuffer, UART_DISPLAY_BUFFER_SIZE);
+//	__HAL_DMA_DISABLE_IT(&hdma_usart3_rx, DMA_IT_HT);
 
 	Log(LOG_LEVEL_RELEASE, LOG_TIME_NONE, LOG_OUT_SERIAL, "System initialized\n");
 
 	Beep(3, 100, 100);
+}
+
+void Beep(uint8_t hits, uint16_t onDelay, uint16_t offDelay) {
+	for (uint8_t i = 0; i < hits; i++) {
+		HAL_GPIO_WritePin(BEEP_GPIO_Port, BEEP_Pin, ON);
+		osDelay(onDelay);
+		HAL_GPIO_WritePin(BEEP_GPIO_Port, BEEP_Pin, OFF);
+		osDelay(onDelay);
+	}
 }
 
 void Log(e_LogLevel logLevel, e_LogTimeStamp logTimeStamp, e_LogOutput logOutput, const char* format, ...) {
@@ -143,19 +143,11 @@ void Log(e_LogLevel logLevel, e_LogTimeStamp logTimeStamp, e_LogOutput logOutput
 		va_end (args);
 		strcat(s, buffer);
 
-		HAL_UART_Transmit(&huart1, (uint8_t*)s, strlen(s), 100);
-		HAL_UART_Transmit(&huart1, (uint8_t*)"\n", 1, 100);
+//		HAL_UART_Transmit(&huart1, (uint8_t*)s, strlen(s), 100);
+//		HAL_UART_Transmit(&huart1, (uint8_t*)"\n", 1, 100);
+		SerialSend(&huart1, (uint8_t*)s, strlen(s), 100);
+		SerialSend(&huart1, (uint8_t*)"\n", 1, 100);
 	}
 }
 
-// Display DMA UART callback for receiving data
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-{
-	if (huart->Instance == huart3.Instance) {
-		PanelSerialReceive(UART_rxBuffer, UART_DISPLAY_BUFFER_SIZE);
-	}
-
-	HAL_UART_Receive_DMA(huart, UART_rxBuffer, UART_DISPLAY_BUFFER_SIZE);
-	__HAL_DMA_DISABLE_IT(&hdma_usart3_rx, DMA_IT_HT);
-}
 

@@ -40,7 +40,6 @@ USAGE:
 #include "globals.h"
 #include "settings.h"
 
-void Beep(uint8_t hits, uint16_t onDelay, uint16_t offDelay);
 
 void HeaterChamberSet(e_PowerState status);
 void HeaterSteamGeneratorSet(e_PowerState status);

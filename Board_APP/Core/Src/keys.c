@@ -34,105 +34,74 @@ USAGE:
 ================================================================================*/
 
 #include "keys.h"
+#include "system.h"
+#include "cmsis_os.h"
 
 #define KEY_LONG_PRESS_MS 3000
-#define KEY_DOBLECLICK_INTERVAL_MS 100
 
-uint8_t _keysBeepActive = TRUE;
+static const uint8_t KEY_S1 = 1;
+static const uint8_t KEY_S2 = 2;
+static const uint8_t KEY_S3 = 4;
+static const uint8_t KEY_LONG_PRESS = 8;
 
-static uint8_t GetKeys();
+uint8_t _keysBeepActive = 0;
+
 static uint8_t GetPressedKeys();
+static void KeysReceived(uint8_t keysCode);
 
 // ==============================================================
 
 void StartKeysTask() {
 
-	uint8_t currKeys;
-	static uint8_t lastKeys;
+	uint8_t pressKeys;
+	uint32_t keyPressStart;
 
 	for (;;) {
-		currKeys = GetKeys();
-		while ((lastKeys == currKeys)) {
-			currKeys = GetKeys();
-			osDelay(10);
+		pressKeys = GetPressedKeys();
+		keyPressStart = HAL_GetTick();
+		if (pressKeys != 0) {
+			osDelay(100); // Debounce
+			while (pressKeys == GetPressedKeys()) {
+				if ((HAL_GetTick() - keyPressStart) > KEY_LONG_PRESS_MS) {
+					pressKeys += KEY_LONG_PRESS;
+					break;
+				}
+				osDelay(20);
+			}
+			if (_keysBeepActive) Beep(1, 100, 100);
+			KeysReceived(pressKeys);
 		}
-
-		if (currKeys > 0) {
-			KeysReceived(currKeys);
-			lastKeys = currKeys;
-		}
-
-		osDelay(10);
+		osDelay(20);
 	}
-}
-
-static uint8_t GetKeys() {
-
-	static uint8_t lastKeys = 0;
-	uint8_t currentKeys = 0;
-	uint32_t startKeypress;
-	static uint32_t lastKeypress = 0;
-
-	while (lastKeys > 0) {
-		lastKeys = GetPressedKeys();
-		osDelay(10);
-	}
-
-	currentKeys = GetPressedKeys();
-
-	if (currentKeys > 0) startKeypress = HAL_GetTick();
-
-	while (currentKeys > 0) {
-		lastKeys = currentKeys;
-		if (GetSafeDeltaTick(startKeypress, HAL_GetTick()) > KEY_LONG_PRESS_MS) {
-			// bit 4 = long press
-			lastKeys += KEY_LONG_PRESS;
-		}
-		if (GetSafeDeltaTick(lastKeypress, HAL_GetTick()) < KEY_DOBLECLICK_INTERVAL_MS) {
-			// bit 5 = double click
-			lastKeys += KEY_LONG_PRESS;
-		}
-		currentKeys = GetPressedKeys();
-		osDelay(10);
-	}
-
-	if (lastKeys > 0) lastKeypress = HAL_GetTick();
-
-	return lastKeys;
 }
 
 static uint8_t GetPressedKeys() {
 
-	uint8_t currentKeys = 0;
-
+	uint8_t pressKeys = 0;
 	// Keys active low
-	currentKeys = !(HAL_GPIO_ReadPin(KEY_S1_GPIO_Port, KEY_S1_Pin)); // bit 1
-	currentKeys += !(HAL_GPIO_ReadPin(KEY_S2_GPIO_Port, KEY_S2_Pin)) << 1; // bit 2
-	currentKeys += !(HAL_GPIO_ReadPin(KEY_S3_GPIO_Port, KEY_S3_Pin)) << 2; // bit 3
+	pressKeys = !(HAL_GPIO_ReadPin(KEY_S1_GPIO_Port, KEY_S1_Pin)); // bit 1
+	pressKeys += !(HAL_GPIO_ReadPin(KEY_S2_GPIO_Port, KEY_S2_Pin)) << 1; // bit 2
+	pressKeys += !(HAL_GPIO_ReadPin(KEY_S3_GPIO_Port, KEY_S3_Pin)) << 2; // bit 3
 
-	return currentKeys;
+	return pressKeys;
 }
 
-void KeysReceived(uint8_t keysCode) {
+static void KeysReceived(uint8_t keysCode) {
 
 	if (keysCode == KEY_S1) {
 		// Button code here
+		HAL_GPIO_TogglePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin);
 	} else if (keysCode == KEY_S2) {
 		// Button code here
-		Beep(1,100,100);
+		Beep(1, 100, 100);
 	} else if (keysCode == KEY_S3) {
 		// Button code here
+
 	} else if (keysCode == KEY_S1 + KEY_LONG_PRESS) {
 		// Button code here
 	} else if (keysCode == KEY_S2 + KEY_LONG_PRESS) {
 		// Button code here
 	} else if (keysCode == KEY_S3 + KEY_LONG_PRESS) {
-		// Button code here
-	} else if (keysCode == KEY_S1 + KEY_DOUBLE_PRESS) {
-		// Button code here
-	} else if (keysCode == KEY_S2 + KEY_DOUBLE_PRESS) {
-		// Button code here
-	} else if (keysCode == KEY_S3 + KEY_DOUBLE_PRESS) {
 		// Button code here
 	} else if (keysCode == KEY_S1 + KEY_S2) {
 		// Button code here

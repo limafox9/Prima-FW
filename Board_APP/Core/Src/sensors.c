@@ -280,7 +280,7 @@ float ADCToCurrent(uint16_t adcValue) {
 	voltage =  readVolt - QOV + 0.007 ;// 0.007 is a value to make voltage zero when there is no current
 	float current = voltage / FACTOR;
 
-	return current;
+	return readVolt;
 }
 
 

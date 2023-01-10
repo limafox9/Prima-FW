@@ -1,37 +1,33 @@
-05:56:01 **** Incremental Build of configuration Debug for project Display_APP ****
-make -j24 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c: In function 'StartDefaultTask':
-../Core/Src/main.c:418:2: warning: implicit declaration of function 'PanelSetAll' [-Wimplicit-function-declaration]
-  418 |  PanelSetAll();
-      |  ^~~~~~~~~~~
-../Core/Src/main.c:419:2: warning: implicit declaration of function 'ProgressSetAll' [-Wimplicit-function-declaration]
-  419 |  ProgressSetAll();
-      |  ^~~~~~~~~~~~~~
-../Core/Src/main.c:423:2: warning: implicit declaration of function 'PanelClearAll' [-Wimplicit-function-declaration]
-  423 |  PanelClearAll();
-      |  ^~~~~~~~~~~~~
-../Core/Src/main.c:424:2: warning: implicit declaration of function 'ProgressClearAll'; did you mean 'DigitsClearAll'? [-Wimplicit-function-declaration]
-  424 |  ProgressClearAll();
-      |  ^~~~~~~~~~~~~~~~
-      |  DigitsClearAll
-../Core/Src/main.c:440:2: warning: implicit declaration of function 'SendPanelReady' [-Wimplicit-function-declaration]
-  440 |  SendPanelReady();
-      |  ^~~~~~~~~~~~~~
-arm-none-eabi-gcc -o "Display_APP.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Display_APP\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Display_APP.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Display_APP.elf
+17:00:40 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/eeprom.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/eeprom.d" -MT"Core/Src/eeprom.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/eeprom.o"
+../Core/Src/eeprom.c: In function 'EEPROM_Read':
+../Core/Src/eeprom.c:65:29: warning: implicit declaration of function 'bytestowrite' [-Wimplicit-function-declaration]
+   65 |   uint16_t bytesremaining = bytestowrite(size, offset);
+      |                             ^~~~~~~~~~~~
+../Core/Src/eeprom.c: In function 'EEPROM_ErasePage':
+../Core/Src/eeprom.c:114:2: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+  114 |  memset(data,0xff,PAGE_SIZE);
+      |  ^~~~~~
+../Core/Src/eeprom.c:114:2: warning: incompatible implicit declaration of built-in function 'memset'
+../Core/Src/eeprom.c:42:1: note: include '<string.h>' or provide a declaration of 'memset'
+   41 | #include "main.h"
+  +++ |+#include <string.h>
+   42 | 
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Board_APP.elf
  
-arm-none-eabi-size   Display_APP.elf 
-arm-none-eabi-objdump -h -S  Display_APP.elf  > "Display_APP.list"
-arm-none-eabi-objcopy  -O ihex  Display_APP.elf  "Display_APP.hex"
-arm-none-eabi-objcopy  -O binary  Display_APP.elf  "Display_APP.bin"
+arm-none-eabi-size   Board_APP.elf 
+arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
    text	   data	    bss	    dec	    hex	filename
-  48216	    496	  11184	  59896	   e9f8	Display_APP.elf
+  68304	    540	  37196	 106040	  19e38	Board_APP.elf
+arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
+arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
 Finished building: default.size.stdout
  
-Finished building: Display_APP.hex
-Finished building: Display_APP.bin
+Finished building: Board_APP.hex
+Finished building: Board_APP.bin
  
  
-Finished building: Display_APP.list
+Finished building: Board_APP.list
  

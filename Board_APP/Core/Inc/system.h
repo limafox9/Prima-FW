@@ -62,6 +62,7 @@ typedef enum {
 } e_LogOutput;
 
 void SysInit();
+void Beep(uint8_t hits, uint16_t onDelay, uint16_t offDelay);
 void Log(e_LogLevel logLevel, e_LogTimeStamp logTimeStamp, e_LogOutput logOutput, const char* format, ...);
 
 

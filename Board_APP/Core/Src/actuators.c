@@ -39,15 +39,6 @@ USAGE:
 #include "globals.h"
 #include "settings.h"
 
-void Beep(uint8_t hits, uint16_t onDelay, uint16_t offDelay) {
-	for (uint8_t i = 0; i < hits; i++) {
-		HAL_GPIO_WritePin(BEEP_GPIO_Port, BEEP_Pin, ON);
-		osDelay(onDelay);
-		HAL_GPIO_WritePin(BEEP_GPIO_Port, BEEP_Pin, OFF);
-		osDelay(onDelay);
-	}
-}
-
 void HeaterChamberSet(e_PowerState status) {HAL_GPIO_WritePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin, status);}
 void HeaterSteamGeneratorSet(e_PowerState status) {HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, status);}
 
