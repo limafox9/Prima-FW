@@ -55,6 +55,8 @@ uint8_t UART_rxBuffer[UART_BUFFER_SIZE] = {0};
 
 extern UART_HandleTypeDef huart1;
 
+extern osMutexId digitsMutex1Id;
+
 UART_HandleTypeDef* pActiveUART;
 DMA_HandleTypeDef* pActiveHDMA;
 
@@ -180,7 +182,12 @@ void ParseCommand(uint8_t* buffer) {
 			Beep(param1, param2, param3);
 			break;
 		case COMMAND_WRITE_DIGITS_ROW_1:
+			osMutexWait(digitsMutex1Id, 0);
+
 			DigitsWriteRow1(digitsBuffer);
+
+			osMutexRelease(digitsMutex1Id);
+
 			break;
 		case COMMAND_WRITE_DIGITS_ROW_2:
 			DigitsWriteRow2(digitsBuffer);

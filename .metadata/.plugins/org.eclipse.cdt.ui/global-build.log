@@ -1,51 +1,37 @@
-21:26:10 **** Incremental Build of configuration Debug for project Display_APP ****
+05:56:01 **** Incremental Build of configuration Debug for project Display_APP ****
 make -j24 all 
-arm-none-eabi-gcc "../Core/Src/digits.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/digits.d" -MT"Core/Src/digits.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/digits.o"
-In file included from ../Core/Src/digits.c:12:
-../Core/Src/digits.c: In function 'DigitsInit':
-../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h:606:2: error: 'os_mutex_def_digitsMutex1' undeclared (first use in this function)
-  606 | &os_mutex_def_##name
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'StartDefaultTask':
+../Core/Src/main.c:418:2: warning: implicit declaration of function 'PanelSetAll' [-Wimplicit-function-declaration]
+  418 |  PanelSetAll();
+      |  ^~~~~~~~~~~
+../Core/Src/main.c:419:2: warning: implicit declaration of function 'ProgressSetAll' [-Wimplicit-function-declaration]
+  419 |  ProgressSetAll();
+      |  ^~~~~~~~~~~~~~
+../Core/Src/main.c:423:2: warning: implicit declaration of function 'PanelClearAll' [-Wimplicit-function-declaration]
+  423 |  PanelClearAll();
       |  ^~~~~~~~~~~~~
-../Core/Src/digits.c:53:33: note: in expansion of macro 'osMutex'
-   53 |  digitsMutex1Id = osMutexCreate(osMutex(digitsMutex1));
-      |                                 ^~~~~~~
-../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h:606:2: note: each undeclared identifier is reported only once for each function it appears in
-  606 | &os_mutex_def_##name
-      |  ^~~~~~~~~~~~~
-../Core/Src/digits.c:53:33: note: in expansion of macro 'osMutex'
-   53 |  digitsMutex1Id = osMutexCreate(osMutex(digitsMutex1));
-      |                                 ^~~~~~~
-../Core/Src/digits.c: In function 'DigitsWriteRow1':
-../Core/Src/digits.c:83:2: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
-   83 |  memset(digitsRow1, 0x00, 8);
-      |  ^~~~~~
-../Core/Src/digits.c:83:2: warning: incompatible implicit declaration of built-in function 'memset'
-../Core/Src/digits.c:16:1: note: include '<string.h>' or provide a declaration of 'memset'
-   15 | #include "cmsis_os.h"
-  +++ |+#include <string.h>
-   16 | 
-../Core/Src/digits.c:84:2: warning: implicit declaration of function 'memcpy' [-Wimplicit-function-declaration]
-   84 |  memcpy(digitsRow1, digits, 8);
-      |  ^~~~~~
-../Core/Src/digits.c:84:2: warning: incompatible implicit declaration of built-in function 'memcpy'
-../Core/Src/digits.c:84:2: note: include '<string.h>' or provide a declaration of 'memcpy'
-../Core/Src/digits.c: In function 'DigitsWriteRow2':
-../Core/Src/digits.c:89:2: warning: incompatible implicit declaration of built-in function 'memset'
-   89 |  memset(digitsRow2, 0x00, 8);
-      |  ^~~~~~
-../Core/Src/digits.c:89:2: note: include '<string.h>' or provide a declaration of 'memset'
-../Core/Src/digits.c:90:2: warning: incompatible implicit declaration of built-in function 'memcpy'
-   90 |  memcpy(digitsRow2, digits, 8);
-      |  ^~~~~~
-../Core/Src/digits.c:90:2: note: include '<string.h>' or provide a declaration of 'memcpy'
-../Core/Src/digits.c: In function 'DigitsWriteRow3':
-../Core/Src/digits.c:94:2: warning: incompatible implicit declaration of built-in function 'memset'
-   94 |  memset(digitsRow3, 0x00, 8);
-      |  ^~~~~~
-../Core/Src/digits.c:94:2: note: include '<string.h>' or provide a declaration of 'memset'
-../Core/Src/digits.c:95:2: warning: incompatible implicit declaration of built-in function 'memcpy'
-   95 |  memcpy(digitsRow3, digits, 8);
-      |  ^~~~~~
-../Core/Src/digits.c:95:2: note: include '<string.h>' or provide a declaration of 'memcpy'
-make: *** [Core/Src/subdir.mk:64: Core/Src/digits.o] Error 1
-"make -j24 all" terminated with exit code 2. Build might be incomplete.
+../Core/Src/main.c:424:2: warning: implicit declaration of function 'ProgressClearAll'; did you mean 'DigitsClearAll'? [-Wimplicit-function-declaration]
+  424 |  ProgressClearAll();
+      |  ^~~~~~~~~~~~~~~~
+      |  DigitsClearAll
+../Core/Src/main.c:440:2: warning: implicit declaration of function 'SendPanelReady' [-Wimplicit-function-declaration]
+  440 |  SendPanelReady();
+      |  ^~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "Display_APP.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Display_APP\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Display_APP.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Display_APP.elf
+ 
+arm-none-eabi-size   Display_APP.elf 
+arm-none-eabi-objdump -h -S  Display_APP.elf  > "Display_APP.list"
+arm-none-eabi-objcopy  -O ihex  Display_APP.elf  "Display_APP.hex"
+arm-none-eabi-objcopy  -O binary  Display_APP.elf  "Display_APP.bin"
+   text	   data	    bss	    dec	    hex	filename
+  48216	    496	  11184	  59896	   e9f8	Display_APP.elf
+Finished building: default.size.stdout
+ 
+Finished building: Display_APP.hex
+Finished building: Display_APP.bin
+ 
+ 
+Finished building: Display_APP.list
+ 

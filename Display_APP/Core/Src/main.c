@@ -64,6 +64,9 @@ osMessageQId serialRxQueueHandle;
 osThreadId keysTaskHandle;
 osThreadId digitsTaskHandle;
 
+osMutexDef (digitsMutex1);
+osMutexId digitsMutex1Id;
+
 
 /* USER CODE END PV */
 
@@ -132,6 +135,9 @@ int main(void)
 
   /* USER CODE BEGIN SysInit */
 
+
+	digitsMutex1Id = osMutexCreate(osMutex(digitsMutex1));
+
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -172,10 +178,10 @@ int main(void)
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
 
-  osThreadDef(keysTask, StartKeysTask, osPriorityHigh, 1, 256);
+  osThreadDef(keysTask, StartKeysTask, osPriorityNormal, 1, 256);
   keysTaskHandle = osThreadCreate(osThread(keysTask), NULL);
 
-  osThreadDef(digitsTask, DigitsRefresh, osPriorityHigh, 1, 256);
+  osThreadDef(digitsTask, DigitsRefresh, osPriorityNormal, 1, 256);
   digitsTaskHandle = osThreadCreate(osThread(digitsTask), NULL);
 
   /* USER CODE END RTOS_THREADS */

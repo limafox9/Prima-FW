@@ -8,8 +8,6 @@
 #ifndef INC_DIGITS_H_
 #define INC_DIGITS_H_
 
-#define DISPLAY_REFRESH_MILLIS 5
-
 
 void DigitsInit();
 void DigitsRefresh();

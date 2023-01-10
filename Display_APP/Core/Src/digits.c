@@ -12,14 +12,14 @@
 #include "cmsis_os.h"
 #include "main.h"
 #include "digits.h"
-#include "cmsis_os.h"
+
+#define DISPLAY_REFRESH_MILLIS 2
 
 extern uint8_t digitsRow1[8];
 extern uint8_t digitsRow2[8];
 extern uint8_t digitsRow3[8];
 
-osMutexDef_t (digitsMutex1);
-osMutexId digitsMutex1Id;
+extern osMutexId digitsMutex1Id;
 
 // Character to segments conversion - @ for all segments
 // Segments:	dp g f e d c b a
@@ -50,7 +50,6 @@ void DigitsInit()
 
 	// All display off
 
-	digitsMutex1Id = osMutexCreate(osMutex(digitsMutex1));
 
 	// Release latch
 	HAL_GPIO_WritePin(DISPLAY_STROBE_GPIO_Port, DISPLAY_STROBE_Pin, GPIO_PIN_RESET);
@@ -79,10 +78,8 @@ void DigitsInit()
 }
 
 void DigitsWriteRow1(char* digits) {
-	osMutexWait(digitsMutex1Id, 200);
 	memset(digitsRow1, 0x00, 8);
 	memcpy(digitsRow1, digits, 8);
-	osMutexRelease(digitsMutex1Id);
 }
 
 void DigitsWriteRow2(char* digits) {
@@ -126,7 +123,7 @@ void DigitsRefresh() {
 
 			columnData = 0;
 
-			osMutexWait(digitsMutex1Id, 200);
+			osMutexWait(digitsMutex1Id, 0);
 			digit1 = displayChar[digitsRow1[bufferIndex1]];
 			if (digitsRow1[bufferIndex1 + 1] == '.') {
 				digit1 += 0x80;
