@@ -49,10 +49,10 @@ typedef enum {
 } TM7705_Channel;
 
 typedef enum {
-	CLOCK_2_4676 = 0,
-	CLOCK_4_9152 = 1,
+	CLOCK_2_4676 = 1,
+	CLOCK_4_9152 = 3,
 	CLOCK_2 = 2,
-	CLOCK_1	= 3
+	CLOCK_1	= 0
 } TM7705_ClockFrequency;
 
 typedef enum {
@@ -74,9 +74,35 @@ typedef enum {
 } TM7705_Gain;
 
 typedef enum {
-	UNIPOLAR = 1,
-	BIPOLAR = 0
+	UPDATE_RATE_20 = 0, // 20 Hz
+	UPDATE_RATE_25 = 1, // 25 Hz
+	UPDATE_RATE_100 = 2, // 100 Hz
+	UPDATE_RATE_200 = 3, // 200 Hz
+	UPDATE_RATE_50 = 4, // 50 Hz
+	UPDATE_RATE_60 = 5, // 60 Hz
+	UPDATE_RATE_250 = 6, // 250 Hz
+	UPDATE_RATE_500 = 7 // 500 Hz
+} TM7705_Rate;
+
+typedef enum {
+	POLARITY_UNIPOLAR = 1,
+	POLARITY_BIPOLAR = 0
 } TM7705_Polarity;
+
+typedef enum {
+	BUFFER_ON = 1,
+	BUFFER_OFF = 0
+} TM7705_Buffer;
+
+typedef enum {
+	CLKOUT_DISABLE = 1,
+	CLKOUT_ENABLE = 0
+} TM7705_ClockOut;
+
+typedef enum {
+	CLKDIV_DISABLE = 1,
+	CLKDIV_ENABLE = 0
+} TM7705_ClockDiv;
 
 typedef enum {
 	WRITE = 0,

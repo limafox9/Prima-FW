@@ -6,8 +6,10 @@
 		<item key="wholeword" value="true"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="dateTime"/>
+		<item key="selection" value="EEPROM_PAGE_NUM"/>
 		<list key="findhistory">
+			<item value="f"/>
+			<item value="EEPROM_PAGE_NUM"/>
 			<item value="COM_RS_BIT"/>
 			<item value="DateTime"/>
 			<item value="byte"/>

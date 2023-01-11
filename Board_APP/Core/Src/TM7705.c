@@ -61,7 +61,7 @@ const uint8_t CLOCK_FS = 0;
 
 SPI_HandleTypeDef* TM7705_hspi;
 
-static uint8_t spiTransfer(volatile uint8_t data);
+static uint8_t spiTransfer(uint8_t* txByte, uint8_t* rxByte);
 static void waitDataReady();
 static void writeToCommsRegister(TM7705_RegisterSelection registerID, TM7705_ReadWrite readWrite, TM7705_Channel channel);
 static void setClockRegister(TM7705_ClockFrequency clockFrequency, const e_Boolean clockOutDisable);
@@ -69,32 +69,66 @@ static void setSetupRegister(const TM7705_Channel channel, const TM7705_ADCMode 
 static void reset();
 
 
+uint8_t GetCommRegister(TM7705_RegisterSelection regSelect, TM7705_ReadWrite rw, TM7705_Channel ch) {
+	return (regSelect << COM_RS_BIT) | (rw << COM_RW_BIT) | (ch << COM_STBY_BIT) | CHANNEL_0;
+}
+
+uint8_t GetSetupRegister(TM7705_ADCMode mode, TM7705_Gain gain, TM7705_Polarity polarity, TM7705_Buffer buffer) {
+	return (mode << SETUP_MODE_BIT) | (gain << SETUP_GAIN_BIT) | (polarity << SETUP_BIPOLAR_MODE_BIT) | (buffer << SETUP_BUFFER_CTRL_BIT);
+}
+
+uint8_t GetClockRegister(TM7705_ClockOut clkdis, TM7705_ClockFrequency freq, TM7705_Rate rate) {
+	return (clkdis << CLOCK_CLKDIS_BIT) | (freq << CLOCK_CLK_BIT) | rate;
+}
+
 void TM7705_Init(SPI_HandleTypeDef* hspi) {
 
 	TM7705_hspi = hspi;
 
-	reset();
+	TM7705_hspi->Init.Mode = SPI_MODE_MASTER;
+	TM7705_hspi->Init.Direction = SPI_DIRECTION_2LINES;
+	TM7705_hspi->Init.DataSize = SPI_DATASIZE_8BIT;
+	TM7705_hspi->Init.FirstBit = SPI_FIRSTBIT_MSB;
 
-	HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_RESET);
-	HAL_Delay(1);
+	TM7705_hspi->Init.CLKPolarity = SPI_POLARITY_HIGH;
+	TM7705_hspi->Init.CLKPhase = SPI_PHASE_2EDGE;
+	TM7705_hspi->Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_256;
 
-    spiTransfer(0b00100000);
-	HAL_Delay(1);
-    spiTransfer(0b00011100);
-	HAL_Delay(1);
+	TM7705_hspi->Init.NSS = SPI_NSS_SOFT;
+	TM7705_hspi->Init.TIMode = SPI_TIMODE_DISABLE;
+	TM7705_hspi->Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+	TM7705_hspi->Init.CRCPolynomial = 10;
 
-    spiTransfer(0b00010000);
-	HAL_Delay(1);
-    spiTransfer(0b01000000);
-	HAL_Delay(1);
+	if (HAL_SPI_Init(TM7705_hspi) != HAL_OK)
+	{
+		Error_Handler();
+	}
 
-    spiTransfer(0b00010001);
-	HAL_Delay(1);
-    spiTransfer(0b01000000);
-	HAL_Delay(1);
+	uint8_t commReg;
+	uint8_t setupReg  = GetSetupRegister(MODE_NORMAL, GAIN_1, POLARITY_UNIPOLAR, BUFFER_OFF);
+	uint8_t clockReg  = GetClockRegister(CLKOUT_ENABLE, CLOCK_4_9152, UPDATE_RATE_50);
 
-	HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(1);
+	uint8_t rx;
+
+	//reset();
+
+//	HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_RESET);
+//	HAL_Delay(1);
+	commReg = GetCommRegister(SETUP_REGISTER, WRITE, CHANNEL_0);
+	spiTransfer(&commReg, &rx);
+	spiTransfer(&setupReg, &rx);
+
+	commReg = GetCommRegister(CLOCK_REGISTER, WRITE, CHANNEL_0);
+	spiTransfer(&commReg, &rx);
+	spiTransfer(&clockReg, &rx);
+
+//    spiTransfer(0b00100000);
+//    spiTransfer(0b00011100);
+//
+//    spiTransfer(0b00010000);
+//    spiTransfer(0b01000000);
+
+//	HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_SET);
 
 //
 //
@@ -115,13 +149,14 @@ void reset() {
 	HAL_Delay(1);
 }
 
-uint8_t spiTransfer(uint8_t byte) {
+static uint8_t spiTransfer(uint8_t* txByte, uint8_t* rxByte) {
 
-	uint8_t txByte = byte;
-	uint8_t rxByte;
-
-	HAL_SPI_Transmit(TM7705_hspi, &txByte, 1, 500);
-	HAL_SPI_Receive(TM7705_hspi, &rxByte, 1, 500);
+	HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_RESET);
+	HAL_Delay(1);
+	HAL_SPI_Transmit(TM7705_hspi, txByte, 1, 500);
+	HAL_SPI_Receive(TM7705_hspi, rxByte, 1, 500);
+	HAL_Delay(1);
+	HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_SET);
 
 	return rxByte;
 }
@@ -136,28 +171,28 @@ void waitDataReady() {
 	} while (w);
 }
 
-uint16_t TM7705_GetValue(const TM7705_Channel channel) {
-
-	waitDataReady();
-
-	HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_RESET);
-	HAL_Delay(1);
-
-	//writeToCommsRegister(DATA_REGISTER, READ, channel);
-    spiTransfer(0b00111000);
-    //  Wait for data ready to go low
-	HAL_Delay(1);
-
-    uint16_t value = spiTransfer(0) << 8;
-	HAL_Delay(1);
-
-    value |= spiTransfer(0);
-
-    HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(1);
-
-    return value;
-}
+//uint16_t TM7705_GetValue(const TM7705_Channel channel) {
+//
+//	waitDataReady();
+//
+//	HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_RESET);
+//	HAL_Delay(1);
+//
+//	//writeToCommsRegister(DATA_REGISTER, READ, channel);
+//    spiTransfer(0b00111000);
+//    //  Wait for data ready to go low
+//	HAL_Delay(1);
+//
+//    uint16_t value = spiTransfer(0) << 8;
+//	HAL_Delay(1);
+//
+//    value |= spiTransfer(0);
+//
+//    HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(1);
+//
+//    return value;
+//}
 
 
 //

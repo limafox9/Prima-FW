@@ -37,10 +37,16 @@ USAGE:
 #ifndef INC_EEPROM_H_
 #define INC_EEPROM_H_
 
-#include <stdio.h>
+#include "stdint.h"
 
-void EEPROM_Read (uint16_t page, uint16_t offset, uint8_t *data, uint16_t size);
-void EEPROM_Write (uint16_t page, uint16_t offset, uint8_t* data, uint16_t size);
-void EEPROM_ErasePage (uint16_t page);
+void EEPROM_Read(uint16_t address, uint8_t* data, uint16_t size);
+float EEPROM_Read_Float (uint16_t address);
+
+void EEPROM_Write(uint16_t address, uint8_t* data, uint16_t size);
+void EEPROM_Write_Float (uint16_t address, float data);
+
+void EEPROM_PageErase (uint8_t fillChar);
+void EEPROM_EraseAll();
+
 
 #endif /* INC_EEPROM_H_ */

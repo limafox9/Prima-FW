@@ -47,12 +47,17 @@ USAGE:
 #include "leds.h"
 #include "sensors.h"
 #include "serial.h"
+#include "eeprom.h"
+#include "TM7705.h"
 
+#define UART_MONITOR huart1
+#define UART_DISPLAY huart3
 
 extern I2C_HandleTypeDef hi2c1;
 extern UART_HandleTypeDef huart1;
 extern UART_HandleTypeDef huart3;
 extern DMA_HandleTypeDef hdma_usart3_rx;
+extern SPI_HandleTypeDef hspi1;
 
 uint32_t UID[3] = {0};
 uint16_t machineSerial;
@@ -63,42 +68,110 @@ RTCDateTime_s dt;
 
 void SysInit() {
 
-	SerialInit();
+	SerialInit(&UART_MONITOR, 115200);
+	SerialInit(&UART_DISPLAY, 115200);
 
-	Log(LOG_LEVEL_RELEASE, LOG_TIME_NONE, LOG_OUT_SERIAL, "\n\n****************************************");
-	Log(LOG_LEVEL_RELEASE, LOG_TIME_NONE, LOG_OUT_SERIAL, "PRIMA Board APP v%d.%d.%d", FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION);
 
-	// Get MCU unique ID 96 bit
-	UID[0] = *(uint32_t*)(UID_BASE );
-	UID[1] = *(uint32_t*)(UID_BASE + 0x04);
-	UID[2] = *(uint32_t*)(UID_BASE + 0x08);
-	Log(LOG_LEVEL_RELEASE, LOG_TIME_NONE, LOG_OUT_SERIAL, "UID:    %08X %08X %08X", UID[0], UID[1], UID[2]);
+	TM7705_Init(&hspi1);
 
-	Log(LOG_LEVEL_RELEASE, LOG_TIME_NONE, LOG_OUT_SERIAL, "SERIAL: %08X %08X %08X", UID[0], UID[1], UID[2]);
 
-	// Clock initialization and get system date/time
-	ClockInit(&hi2c1);
-	GetDateTime(&dt);
-	Log(LOG_LEVEL_RELEASE, LOG_TIME_NONE, LOG_OUT_SERIAL, "TIME:   %02d-%02d-%02d %02d:%02d\n", dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute);
 
-	Log(LOG_LEVEL_DEBUG, LOG_TIME_NONE, LOG_OUT_SERIAL, "Kernel Started");
+//	SerialSend(&UART_MONITOR, "CIAO\n", 5);
+//	SerialSend(&UART_MONITOR, "MAMMA\n", 6);
 
-	// Set actuators in safe (disconnected) mode
-	ActuatorsSafeStatus();
-	Log(LOG_LEVEL_RELEASE, LOG_TIME_NONE, LOG_OUT_SERIAL, "Actuators initialized in safe mode");
+//
+	//	uint16_t n = 0x5678;
+	////	char a[6] = "ABCDEF";
+	//	EEPROM_Write(2,0,&n,2);
+//	EEPROM_Write(page, offset, data, size)3,0,a,4);
+//
+//	EEPROM_EraseAll();
 
-	// Create threads
 
-	Log(LOG_LEVEL_DEBUG, LOG_TIME_NONE, LOG_OUT_SERIAL, "Threads started");
 
-	// Display communication init and Start receiving DMA display UART
-//	PanelSerialInit(&huart3);
-//	HAL_UART_Receive_DMA(&huart3, UART_rxBuffer, UART_DISPLAY_BUFFER_SIZE);
-//	__HAL_DMA_DISABLE_IT(&hdma_usart3_rx, DMA_IT_HT);
 
-	Log(LOG_LEVEL_RELEASE, LOG_TIME_NONE, LOG_OUT_SERIAL, "System initialized\n");
 
-	Beep(3, 100, 100);
+
+
+
+
+
+	//===============================================================================
+//	uint8_t n[32]= {[0 ... 31] = 0x08};
+//	EEPROM_Write(2,&n,21);
+//	float u = 3.14667;
+//	EEPROM_Write_Float(12, u);
+//
+//
+//	uint16_t pp = 0x4523;
+//	EEPROM_Write(255,&pp,2);
+//
+//	SerialSend(&UART_MONITOR, "\n", 1);
+//
+//	EEPROM_EraseAll();
+//
+//	char s[10];
+//	char r[8];
+//	for (int p = 0; p<32; p++) {
+//		EEPROM_Read(p*8,r,8);
+//		for (int b = 0; b<8; b++) {
+//			sprintf(s,"%02X ", r[b]);
+//			SerialSend(&UART_MONITOR, s, 3);
+//		}
+//		SerialSend(&UART_MONITOR, "\n", 1);
+//	}
+//
+//	char z[10];
+//	float y;
+//	sprintf(z,"%0.6f\n", EEPROM_Read_Float(12));
+//	SerialSend(&UART_MONITOR, z, 10);
+	//===============================================================================
+
+
+
+
+
+
+
+
+//	EEPROM_Read(10, &r, 2);
+//	sprintf(s,"%2X \n", r);
+//	SerialSend(&UART_MONITOR, s, 4);
+
+//	Log(LOG_LEVEL_RELEASE, LOG_TIME_NONE, LOG_OUT_SERIAL, "\n\n****************************************");
+//	Log(LOG_LEVEL_RELEASE, LOG_TIME_NONE, LOG_OUT_SERIAL, "PRIMA Board APP v%d.%d.%d", FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION);
+//
+//	// Get MCU unique ID 96 bit
+//	UID[0] = *(uint32_t*)(UID_BASE );
+//	UID[1] = *(uint32_t*)(UID_BASE + 0x04);
+//	UID[2] = *(uint32_t*)(UID_BASE + 0x08);
+//	Log(LOG_LEVEL_RELEASE, LOG_TIME_NONE, LOG_OUT_SERIAL, "UID:    %08X %08X %08X", UID[0], UID[1], UID[2]);
+//
+//	Log(LOG_LEVEL_RELEASE, LOG_TIME_NONE, LOG_OUT_SERIAL, "SERIAL: %08X %08X %08X", UID[0], UID[1], UID[2]);
+//
+//	// Clock initialization and get system date/time
+//	ClockInit(&hi2c1);
+//	GetDateTime(&dt);
+//	Log(LOG_LEVEL_RELEASE, LOG_TIME_NONE, LOG_OUT_SERIAL, "TIME:   %02d-%02d-%02d %02d:%02d\n", dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute);
+//
+//	Log(LOG_LEVEL_DEBUG, LOG_TIME_NONE, LOG_OUT_SERIAL, "Kernel Started");
+//
+//	// Set actuators in safe (disconnected) mode
+//	ActuatorsSafeStatus();
+//	Log(LOG_LEVEL_RELEASE, LOG_TIME_NONE, LOG_OUT_SERIAL, "Actuators initialized in safe mode");
+//
+//	// Create threads
+//
+//	Log(LOG_LEVEL_DEBUG, LOG_TIME_NONE, LOG_OUT_SERIAL, "Threads started");
+//
+//	// Display communication init and Start receiving DMA display UART
+////	PanelSerialInit(&huart3);
+////	HAL_UART_Receive_DMA(&huart3, UART_rxBuffer, UART_DISPLAY_BUFFER_SIZE);
+////	__HAL_DMA_DISABLE_IT(&hdma_usart3_rx, DMA_IT_HT);
+//
+//	Log(LOG_LEVEL_RELEASE, LOG_TIME_NONE, LOG_OUT_SERIAL, "System initialized\n");
+
+	Beep(2, 100, 100);
 }
 
 void Beep(uint8_t hits, uint16_t onDelay, uint16_t offDelay) {
@@ -145,8 +218,7 @@ void Log(e_LogLevel logLevel, e_LogTimeStamp logTimeStamp, e_LogOutput logOutput
 
 //		HAL_UART_Transmit(&huart1, (uint8_t*)s, strlen(s), 100);
 //		HAL_UART_Transmit(&huart1, (uint8_t*)"\n", 1, 100);
-		SerialSend(&huart1, (uint8_t*)s, strlen(s), 100);
-		SerialSend(&huart1, (uint8_t*)"\n", 1, 100);
+
 	}
 }
 

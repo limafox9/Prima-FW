@@ -38,26 +38,25 @@ USAGE:
 #include <stdio.h>
 #include "main.h"
 
-#define SERIAL_BUFFER_SIZE 32
+#define SERIAL_TX_BUFFER_SIZE 32
+#define SERIAL_RX_BUFFER_SIZE 32
 
-extern UART_HandleTypeDef huart1;
-extern UART_HandleTypeDef huart3;
+uint8_t serialTXBuffer[SERIAL_TX_BUFFER_SIZE];
+uint8_t serialRXBuffer[SERIAL_RX_BUFFER_SIZE];
 
-uint8_t serialBuffer[SERIAL_BUFFER_SIZE];
-
-void SerialInit() {
-	HAL_UART_Receive_DMA(&huart1, serialBuffer, SERIAL_BUFFER_SIZE);
-	HAL_UART_Receive_DMA(&huart3, serialBuffer, SERIAL_BUFFER_SIZE);
+void SerialInit(UART_HandleTypeDef* huart, uint32_t baudRate) {
+	huart->Init.BaudRate = baudRate;
+	HAL_UART_Receive_DMA(huart, serialRXBuffer, SERIAL_RX_BUFFER_SIZE);
 }
 
 void SerialSend(UART_HandleTypeDef* huart, uint8_t* data, uint32_t size) {
-	HAL_UART_Transmit_DMA(huart, data, size);
+	HAL_UART_Transmit(huart, data, size, SERIAL_RX_BUFFER_SIZE);
 }
 
-void SerialReceived(UART_HandleTypeDef* huart) {
-	if (huart->Instance == huart3.Instance) {
-		PanelSerialReceive(serialBuffer, SERIAL_BUFFER_SIZE);
-	}
+__weak void SerialReceived(UART_HandleTypeDef* huart, uint8_t* data, uint32_t size) {
+//	if (huart->Instance == huart3.Instance) {
+//		PanelSerialReceive(serialRXBuffer, SERIAL_RX_BUFFER_SIZE);
+//	}
 }
 
 // =============================================================================
@@ -75,9 +74,9 @@ void HAL_UART_RxHalfCpltCallback(UART_HandleTypeDef* huart) {
 }
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef* huart) {
-	HAL_UART_Receive_DMA(huart, serialBuffer, SERIAL_BUFFER_SIZE);
-//	__HAL_DMA_DISABLE_IT(&hdma_usart3_rx, DMA_IT_HT);
-	SerialReceived(huart);
+	SerialReceived(huart, serialRXBuffer, SERIAL_RX_BUFFER_SIZE);
+	HAL_UART_Receive_DMA(huart, serialRXBuffer, SERIAL_RX_BUFFER_SIZE);
+	//	__HAL_DMA_DISABLE_IT(&hdma_usart3_rx, DMA_IT_HT);
 }
 
 

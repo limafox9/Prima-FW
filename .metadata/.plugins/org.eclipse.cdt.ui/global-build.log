@@ -1,28 +1,25 @@
-17:00:40 **** Incremental Build of configuration Debug for project Board_APP ****
-make -j4 all 
-arm-none-eabi-gcc "../Core/Src/eeprom.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/eeprom.d" -MT"Core/Src/eeprom.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/eeprom.o"
-../Core/Src/eeprom.c: In function 'EEPROM_Read':
-../Core/Src/eeprom.c:65:29: warning: implicit declaration of function 'bytestowrite' [-Wimplicit-function-declaration]
-   65 |   uint16_t bytesremaining = bytestowrite(size, offset);
-      |                             ^~~~~~~~~~~~
-../Core/Src/eeprom.c: In function 'EEPROM_ErasePage':
-../Core/Src/eeprom.c:114:2: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
-  114 |  memset(data,0xff,PAGE_SIZE);
-      |  ^~~~~~
-../Core/Src/eeprom.c:114:2: warning: incompatible implicit declaration of built-in function 'memset'
-../Core/Src/eeprom.c:42:1: note: include '<string.h>' or provide a declaration of 'memset'
-   41 | #include "main.h"
-  +++ |+#include <string.h>
-   42 | 
-arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+17:41:47 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/sensors.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/sensors.d" -MT"Core/Src/sensors.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/sensors.o"
+../Core/Src/sensors.c: In function 'ADCToCurrent':
+../Core/Src/sensors.c:281:8: warning: unused variable 'current' [-Wunused-variable]
+  281 |  float current = voltage / FACTOR;
+      |        ^~~~~~~
+../Core/Src/sensors.c:270:8: warning: unused variable 'cutOff' [-Wunused-variable]
+  270 |  float cutOff = FACTOR/cutOffLimit;// convert current cut off to mV
+      |        ^~~~~~
+../Core/Src/sensors.c:216:24: warning: unused variable 'pkPa' [-Wunused-variable]
+  216 |  float readVolt, vRef, pkPa;
+      |                        ^~~~
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: Board_APP.elf
  
 arm-none-eabi-size   Board_APP.elf 
 arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
-   text	   data	    bss	    dec	    hex	filename
-  68304	    540	  37196	 106040	  19e38	Board_APP.elf
 arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
 arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
+   text	   data	    bss	    dec	    hex	filename
+  65272	    540	  37140	 102952	  19228	Board_APP.elf
 Finished building: default.size.stdout
  
 Finished building: Board_APP.hex
@@ -30,4 +27,18 @@ Finished building: Board_APP.bin
  
  
 Finished building: Board_APP.list
+ 
+17:41:51 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  65272	    540	  37140	 102952	  19228	Board_APP.elf
+Finished building: default.size.stdout
+ 
+17:42:06 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j24 all 
+arm-none-eabi-size   Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  65272	    540	  37140	 102952	  19228	Board_APP.elf
+Finished building: default.size.stdout
  

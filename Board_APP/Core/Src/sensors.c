@@ -112,8 +112,8 @@ float TemperatureChamberHeaterGet() {return ADCToTemp(ReadADC(SENSOR_TEMPL_CHAMB
 float PressureChamberGet() {return ADCToPress(ReadADC(SENSOR_PRESS_CHAMBER_ADC_CHANNEL));}
 float CurrentGet() {return ADCToCurrent(ReadADC(SENSOR_CURRENT_ADC_CHANNEL));}
 
-uint16_t TemperatureT1Get() {return TM7705_GetValue(SENSOR_TEMP_T1_ADC_CHANNEL);}
-uint16_t TemperatureT2Get() {return TM7705_GetValue(SENSOR_TEMP_T2_ADC_CHANNEL);}
+//uint16_t TemperatureT1Get() {return TM7705_GetValue(SENSOR_TEMP_T1_ADC_CHANNEL);}
+//uint16_t TemperatureT2Get() {return TM7705_GetValue(SENSOR_TEMP_T2_ADC_CHANNEL);}
 
 //==============================================================================
 // DEFINITIONS
@@ -134,7 +134,7 @@ void StartSensorsTask() {
 		Sensors.Solenoid = DoorPositionGet();
 		Sensors.TemperatureSteamGenerator = TemperatureSteamGeneratorGet();
 		Sensors.TemperatureChamberHeater = TemperatureChamberHeaterGet();
-		Sensors.T1 = TemperatureT1Get();
+//		Sensors.T1 = TemperatureT1Get();
 //		Sensors.T2 = TemperatureT2Get();
 		Sensors.PressureChamber = PressureChamberGet();
 		Sensors.Current = CurrentGet();
