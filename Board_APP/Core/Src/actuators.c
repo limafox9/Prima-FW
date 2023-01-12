@@ -39,19 +39,47 @@ USAGE:
 #include "globals.h"
 #include "settings.h"
 
-void HeaterChamberSet(e_PowerState status) {HAL_GPIO_WritePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin, status);}
-void HeaterSteamGeneratorSet(e_PowerState status) {HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, status);}
+#define DOOR_SOLENOID_IMPULSE 1000 	// Solenoid impulse duration (milliseconds)
 
-void PunpWaterLoadSet(e_PowerState status) {HAL_GPIO_WritePin(PUMP_WATER_LOAD_GPIO_Port, PUMP_WATER_LOAD_Pin, status);}
-void PumpVacuumSet(e_PowerState status) { HAL_GPIO_WritePin(PUMP_VACUUM_GPIO_Port, PUMP_VACUUM_Pin, status);}
-void PunpSteamGeneratorSet(e_PowerState status) {HAL_GPIO_WritePin(PUMP_STEAM_GEN_GPIO_Port, PUMP_STEAM_GEN_Pin, status);}
+void HeaterChamberSet(e_PowerState status) {
+	HAL_GPIO_WritePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin, status);
+}
 
-void ValveVacuumSet(e_PowerState status) {HAL_GPIO_WritePin(VAL_VACUUM_GPIO_Port, VAL_VACUUM_Pin, status);}
-void ValveDryIntakeSet(e_PowerState status) {HAL_GPIO_WritePin(VAL_DRY_AIR_GPIO_Port, VAL_DRY_AIR_Pin, status);}
-void ValveDrainSteamSet(e_PowerState status) {HAL_GPIO_WritePin(VAL_DRAIN_STEAM_GPIO_Port, VAL_DRAIN_STEAM_Pin, status);}
-void ValveWaterSteamSet(e_PowerState status) {HAL_GPIO_WritePin(VAL_WATER_STEAM_GPIO_Port, VAL_WATER_STEAM_Pin, status);}
+void HeaterSteamGeneratorSet(e_PowerState status) {
+	HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, status);
+}
 
-void FanSet(e_PowerState status) {HAL_GPIO_WritePin(FAN_GPIO_Port, FAN_Pin, status);}
+void PunpWaterLoadSet(e_PowerState status) {
+	HAL_GPIO_WritePin(PUMP_WATER_LOAD_GPIO_Port, PUMP_WATER_LOAD_Pin, status);
+}
+
+void PumpVacuumSet(e_PowerState status) {
+	HAL_GPIO_WritePin(PUMP_VACUUM_GPIO_Port, PUMP_VACUUM_Pin, status);
+}
+
+void PunpSteamGeneratorSet(e_PowerState status) {
+	HAL_GPIO_WritePin(PUMP_STEAM_GEN_GPIO_Port, PUMP_STEAM_GEN_Pin, status);
+}
+
+void ValveVacuumSet(e_PowerState status) {
+	HAL_GPIO_WritePin(VAL_VACUUM_GPIO_Port, VAL_VACUUM_Pin, status);
+}
+
+void ValveDryIntakeSet(e_PowerState status) {
+	HAL_GPIO_WritePin(VAL_DRY_AIR_GPIO_Port, VAL_DRY_AIR_Pin, status);
+}
+
+void ValveDrainSteamSet(e_PowerState status) {
+	HAL_GPIO_WritePin(VAL_DRAIN_STEAM_GPIO_Port, VAL_DRAIN_STEAM_Pin, status);
+}
+
+void ValveWaterSteamSet(e_PowerState status) {
+	HAL_GPIO_WritePin(VAL_WATER_STEAM_GPIO_Port, VAL_WATER_STEAM_Pin, status);
+}
+
+void FanSet(e_PowerState status) {
+	HAL_GPIO_WritePin(FAN_GPIO_Port, FAN_Pin, status);
+}
 
 e_LockState DoorSolenoidSet(e_LockState status) {
 	// All off for safe polarity set
@@ -65,7 +93,7 @@ e_LockState DoorSolenoidSet(e_LockState status) {
 		HAL_GPIO_WritePin(SOLENOID_V1_GPIO_Port, SOLENOID_V1_Pin, ON);
 	}
 
-	osDelay(*(int16_t*)GetSetting("DOOR_SOLENOID_IMPULSE"));
+	osDelay(DOOR_SOLENOID_IMPULSE);
 
 	// All off afetr LOCK/UNLOCK impulse
 	HAL_GPIO_WritePin(SOLENOID_V1_GPIO_Port, SOLENOID_V1_Pin, OFF);

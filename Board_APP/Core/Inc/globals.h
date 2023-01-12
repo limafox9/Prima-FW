@@ -52,11 +52,36 @@ typedef enum {
 	FLOAT,
 } e_DataType;
 
-typedef enum {FALSE, TRUE} e_Boolean;
-typedef enum {OFF, ON} e_PowerState;
-typedef enum {UNLOCK, LOCK} e_LockState;
-typedef enum {CLOSED, OPEN} e_OpenClosedState;
-typedef enum {HIGH, LOW} e_LevelState;
+typedef enum {
+	EMPTY = 0,
+	FULL = 1,
+	NORMAL = 2
+} e_Level;
+
+typedef enum {
+	FALSE = 0,
+	TRUE = 1
+} e_Boolean;
+
+typedef enum {
+	OFF = 0,
+	ON = 1
+} e_PowerState;
+
+typedef enum {
+	UNLOCK = 0,
+	LOCK = 1
+} e_LockState;
+
+typedef enum {
+	CLOSED = 0,
+	OPEN = 1
+} e_OpenClosedState;
+
+typedef enum {
+	LOW = 0,
+	HIGH = 1
+} e_LevelState;
 
 uint32_t GetSafeDeltaTick(uint32_t startTick, uint32_t endTick);
 void SwapBytes(void *pBytes, size_t size);

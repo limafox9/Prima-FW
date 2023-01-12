@@ -41,8 +41,8 @@ USAGE:
 #include "settings.h"
 
 
-void HeaterChamberSet(e_PowerState status);
-void HeaterSteamGeneratorSet(e_PowerState status);
+void ChamberHeaterSet(e_PowerState status);
+void SteamGeneratorHeaterSet(e_PowerState status);
 
 void PunpWaterLoadSet(e_PowerState status);
 void PumpVacuumSet(e_PowerState status);
@@ -55,7 +55,7 @@ void ValveWaterSteamSet(e_PowerState status);
 
 void FanSet(e_PowerState status);
 
-e_LockState DoorSolenoidSet(e_LockState status);
+e_LockState DoorKeydSet(e_LockState status);
 
 void ActuatorsSafeStatus();
 

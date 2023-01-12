@@ -33,7 +33,6 @@ PURPOSE: Modbus CRC16 calculation
 USAGE:
 ==============================================================================*/
 
-
 #include "sensors.h"
 
 #include <math.h>
@@ -90,6 +89,7 @@ struct {
 	uint16_t T2;
 	float PressureChamber;
 	float Current;
+	uint16_t WaterTDS;
 } Sensors;
 
 static uint16_t ReadADC(uint32_t channel);
@@ -104,13 +104,40 @@ osMutexDef(mutexSensors);
 // DECLARATIONS
 //==============================================================================
 
-e_LockState DoorSolenoidPositionGet() {return HAL_GPIO_ReadPin(SW_SOLENOID_GPIO_Port, SW_SOLENOID_Pin);}
-e_OpenClosedState DoorPositionGet() {return HAL_GPIO_ReadPin(SW_DOOR_GPIO_Port, SW_DOOR_Pin);}
+e_LockState DoorSolenoidKeyGet() {
+	return (HAL_GPIO_ReadPin(SW_SOLENOID_GPIO_Port, SW_SOLENOID_Pin) == GPIO_PIN_SET) ? LOCK : UNLOCK;
+}
 
-float TemperatureSteamGeneratorGet() {return ADCToTemp(ReadADC(SENSOR_TEMP_STEAM_GENERATOR_ADC_CHANNEL));}
-float TemperatureChamberHeaterGet() {return ADCToTemp(ReadADC(SENSOR_TEMPL_CHAMBER_HEATER_ADC_CHANNE));}
-float PressureChamberGet() {return ADCToPress(ReadADC(SENSOR_PRESS_CHAMBER_ADC_CHANNEL));}
-float CurrentGet() {return ADCToCurrent(ReadADC(SENSOR_CURRENT_ADC_CHANNEL));}
+e_OpenClosedState DoorPositionGet() {
+	return (HAL_GPIO_ReadPin(SW_DOOR_GPIO_Port, SW_DOOR_Pin) == GPIO_PIN_SET) ? CLOSED : OPEN;
+}
+
+e_Level WaterDumpLevelGet() {
+	return (HAL_GPIO_ReadPin(SW_LSH_GPIO_Port, SW_LSH_Pin) == GPIO_PIN_SET) ? NORMAL : FULL;
+}
+
+e_Level WaterReservoirLevelGet() {
+	uint8_t level = NORMAL;
+	if (HAL_GPIO_ReadPin(SW_CSH_GPIO_Port, SW_CSH_Pin) == GPIO_PIN_SET) level = FULL;
+	if (HAL_GPIO_ReadPin(SW_CSL_GPIO_Port, SW_CSL_Pin) == GPIO_PIN_SET) level = EMPTY;
+	return level;
+}
+
+float SteamGeneratorTempGet() {
+	return ADCToTemp(ReadADC(SENSOR_TEMP_STEAM_GENERATOR_ADC_CHANNEL));
+}
+
+float ChamberHeaterTempGet() {
+	return ADCToTemp(ReadADC(SENSOR_TEMPL_CHAMBER_HEATER_ADC_CHANNE));
+}
+
+float ChamberPressureGet() {
+	return ADCToPress(ReadADC(SENSOR_PRESS_CHAMBER_ADC_CHANNEL));
+}
+
+float CurrentGet() {
+	return ADCToCurrent(ReadADC(SENSOR_CURRENT_ADC_CHANNEL));
+}
 
 //uint16_t TemperatureT1Get() {return TM7705_GetValue(SENSOR_TEMP_T1_ADC_CHANNEL);}
 //uint16_t TemperatureT2Get() {return TM7705_GetValue(SENSOR_TEMP_T2_ADC_CHANNEL);}
@@ -130,13 +157,13 @@ void StartSensorsTask() {
 	for (;;) {
 		osMutexWait(mutexSensors, osWaitForever);
 
-		Sensors.Door = DoorSolenoidPositionGet();
+		Sensors.Door = DoorSolenoidKeyGet();
 		Sensors.Solenoid = DoorPositionGet();
-		Sensors.TemperatureSteamGenerator = TemperatureSteamGeneratorGet();
-		Sensors.TemperatureChamberHeater = TemperatureChamberHeaterGet();
+		Sensors.TemperatureSteamGenerator = SteamGeneratorTempGet();
+		Sensors.TemperatureChamberHeater = ChamberHeaterTempGet();
 //		Sensors.T1 = TemperatureT1Get();
 //		Sensors.T2 = TemperatureT2Get();
-		Sensors.PressureChamber = PressureChamberGet();
+		Sensors.PressureChamber = ChamberPressureGet();
 		Sensors.Current = CurrentGet();
 
 		osMutexRelease(mutexSensors);

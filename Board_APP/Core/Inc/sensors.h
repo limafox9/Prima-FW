@@ -40,15 +40,25 @@ USAGE:
 
 void StartSensorsTask();
 
-e_LockState DoorSolenoidPositionGet();
+e_LockState DoorSolenoidKeyGet();
 e_OpenClosedState DoorPositionGet();
+e_Level WaterDumpLevelGet();			// LSH
+e_Level WaterReservoirLevelGet(); 	// CSH - CSL
 
-float TemperatureSteamGeneratorGet();
-float TemperatureChamberHeaterGet();
-float PressureChamberGet();
+float SteamGeneratorTempGet();
+float ChamberHeaterTempGet();
+float ChamberTempT1Get();
+//float ChamberTempT2Get();
+//float BoardTempGet();
+//float CPUTempGet();
+//float AmbientHumidityGet();
+
+float AmbientPressureGet();
+float ChamberPressureGet();
+
 float CurrentGet();
+uint16_t WaterQualityGet();
 
-uint16_t TemperatureT1Get();
-uint16_t TemperatureT2Get();
+
 
 #endif /* INC_SENSORS_H_ */

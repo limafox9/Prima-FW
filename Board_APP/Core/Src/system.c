@@ -49,9 +49,14 @@ USAGE:
 #include "serial.h"
 #include "eeprom.h"
 #include "TM7705.h"
+#include "BAT2U.h"
+#include "BMP280.h"
 
 #define UART_MONITOR huart1
 #define UART_DISPLAY huart3
+
+#define RTD_A 3.9083e-3
+#define RTD_B -5.775e-7
 
 extern I2C_HandleTypeDef hi2c1;
 extern UART_HandleTypeDef huart1;
@@ -66,18 +71,81 @@ uint8_t UART_rxBuffer[UART_DISPLAY_BUFFER_SIZE] = {0};
 
 RTCDateTime_s dt;
 
+float calTemp(float Rt) {
+	float Z1, Z2, Z3, Z4, temp;
+
+	Z1 = -RTD_A;
+	Z2 = RTD_A * RTD_A - (4 * RTD_B);
+	Z3 = (4 * RTD_B) / 1000;
+	Z4 = 2 * RTD_B;
+
+	temp = Z2 + (Z3 * Rt);
+	temp = (sqrt(temp) + Z1) / Z4;
+
+	return temp;
+}
+
 void SysInit() {
 
 	SerialInit(&UART_MONITOR, 115200);
 	SerialInit(&UART_DISPLAY, 115200);
 
 
-	TM7705_Init(&hspi1);
+	BMP280_HandleTypedef bmp280;
+	float pressure, temperature, humidity;
+	uint16_t size;
+	uint8_t Data[256];
+
+	bmp280_init_default_params(&bmp280.params);
+	bmp280.addr = BMP280_I2C_ADDRESS_0;
+//	bmp280.i2c = &hi2c2;
+
+	while (!bmp280_init(&bmp280, &bmp280.params)) {
+			size = sprintf((char *)Data, "BMP280 initialization failed\n");
+			SerialSend(&UART_MONITOR, Data, size);
+			HAL_Delay(2000);
+	}
+	bool bme280p = bmp280.id == BME280_CHIP_ID;
+	size = sprintf((char *)Data, "BMP280: found %s\n", bme280p ? "BME280" : "BMP280");
+	SerialSend(&UART_MONITOR, Data, size);
 
 
 
-//	SerialSend(&UART_MONITOR, "CIAO\n", 5);
-//	SerialSend(&UART_MONITOR, "MAMMA\n", 6);
+
+	char s[32];
+	uint16_t refRes = WaterTDSGet();
+	sprintf(s,"%d\n", refRes);
+	SerialSend(&UART_MONITOR, s, 32);
+
+
+//
+//	TM7705_Init(&hspi1);
+//
+//	Beep(2, 100, 100);
+//
+//	uint16_t val0, val1;
+//
+//	char s[32];
+//	double res;
+//	uint16_t refRes = 2000;
+//	float tmp0, tmp1;
+//
+//	while (1) {
+//		val0 = TM7705_GetValue(0);
+////		val1 = TM7705_GetValue(CHANNEL_1);
+//
+//		res = ((double)val0) * refRes / 65535;
+//		tmp0 = calTemp(res);
+//
+////		res = ((double)val1) * refRes / 65535;
+////		tmp1 = calTemp(res);
+//
+//		sprintf(s,"%d - %0.2f - %0.2f\n", val0, tmp0, tmp0);
+//		SerialSend(&UART_MONITOR, s, 32);
+//		osDelay(500);
+//	}
+
+	//	SerialSend(&UART_MONITOR, "MAMMA\n", 6);
 
 //
 	//	uint16_t n = 0x5678;
@@ -171,7 +239,6 @@ void SysInit() {
 //
 //	Log(LOG_LEVEL_RELEASE, LOG_TIME_NONE, LOG_OUT_SERIAL, "System initialized\n");
 
-	Beep(2, 100, 100);
 }
 
 void Beep(uint8_t hits, uint16_t onDelay, uint16_t offDelay) {

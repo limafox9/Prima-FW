@@ -55,7 +55,9 @@ void SerialSend(UART_HandleTypeDef* huart, uint8_t* data, uint32_t size) {
 
 __weak void SerialReceived(UART_HandleTypeDef* huart, uint8_t* data, uint32_t size) {
 //	if (huart->Instance == huart3.Instance) {
-//		PanelSerialReceive(serialRXBuffer, SERIAL_RX_BUFFER_SIZE);
+////		PanelSerialReceive(serialRXBuffer, SERIAL_RX_BUFFER_SIZE);
+//	} else if (huart->Instance == huart2.Instance) {
+//
 //	}
 }
 
