@@ -41,7 +41,6 @@ uint8_t digitsRow1[8];
 uint8_t digitsRow2[8];
 uint8_t digitsRow3[8];
 
-
 uint16_t progressBarBits;
 uint16_t progressBarBitsBlink;
 
@@ -70,9 +69,9 @@ uint32_t GetSafeDeltaTick(uint32_t startTick, uint32_t endTick) {
 void SwapBytes(void *pBytes, size_t size) {
     char *p = pBytes;
     size_t lo, hi;
-    for(lo=0, hi=size-1; hi>lo; lo++, hi--)
+    for(lo = 0, hi = size - 1; hi > lo; lo++, hi--)
     {
-        char tmp=p[lo];
+        char tmp = p[lo];
         p[lo] = p[hi];
         p[hi] = tmp;
     }

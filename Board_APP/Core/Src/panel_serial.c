@@ -35,9 +35,9 @@ USAGE:
 
 // 3C7EDB0002000000640000006400000000000000CCCE7E3E10 -> 2 beeps
 
+//#include <CRC.h>
+
 #include "panel_serial.h"
-#include "crc16.h"
-#include "main.h"
 #include "keys.h"
 //#include "leds.h"
 

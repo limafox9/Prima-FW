@@ -33,8 +33,9 @@ PURPOSE: Modbus CRC16 calculation
 USAGE:
 ================================================================================*/
 
-#include "main.h"
+
 #include "print.h"
+#include "main.h"
 
 extern UART_HandleTypeDef huart4;
 

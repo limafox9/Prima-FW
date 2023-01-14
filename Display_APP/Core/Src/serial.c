@@ -36,7 +36,6 @@ USAGE:
 // 3C7EDB0002000000640000006400000000000000CCCE7E3E10 -> 2 beeps
 
 #include "serial.h"
-#include "crc16.h"
 #include "leds.h"
 #include "digits.h"
 #include "cmsis_os.h"
@@ -44,10 +43,13 @@ USAGE:
 #include <string.h>
 #include <stdio.h>
 #include "globals.h"
+#include "Inc/DB_Protocol.h"
+#include "settings.h"
 
 
-extern uint8_t _keysBeepActive;
-extern uint8_t booting;
+extern uint16_t SET_KeysLongPressInterval;
+extern uint16_t SET_FlashInterval;
+extern uint8_t SET_KeysBeep;
 
 
 #define UART_BUFFER_SIZE 30
@@ -60,22 +62,22 @@ extern osMutexId digitsMutex1Id;
 UART_HandleTypeDef* pActiveUART;
 DMA_HandleTypeDef* pActiveHDMA;
 
-const char activeProtocolHead[] = {'<', '~'};
-const char activeProtocolTail[] =  {'~', '>'};
-const char activeProtocolEOF = '\n';
+//const char activeProtocolHead[] = {'<', '~'};
+//const char activeProtocolTail[] =  {'~', '>'};
+//const char activeProtocolEOF = '\n';
+//
+//const uint8_t pos_head = 0;
+//const uint8_t pos_command = 2;
+//const uint8_t pos_param1 = 4;
+//const uint8_t pos_param2 = 8;
+//const uint8_t pos_param3 = 12;
+//const uint8_t pos_digits = 16;
+//const uint8_t pos_checksum = 24;
+//const uint8_t pos_tail = 26;
+//const uint8_t pos_EOF = 28;
 
-const uint8_t pos_head = 0;
-const uint8_t pos_command = 2;
-const uint8_t pos_param1 = 4;
-const uint8_t pos_param2 = 8;
-const uint8_t pos_param3 = 12;
-const uint8_t pos_digits = 16;
-const uint8_t pos_checksum = 24;
-const uint8_t pos_tail = 26;
-const uint8_t pos_EOF = 28;
-
-void SerialTransmit(uint8_t* data, uint16_t dataSize);
-void ParseCommand(uint8_t* buffer);
+static void SerialTransmit(uint8_t* buffer, uint16_t size);
+static void ParseCommand(s_DisplayProtocolData* data);
 
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
@@ -97,42 +99,46 @@ void PanelSerialInit(UART_HandleTypeDef* pUART, DMA_HandleTypeDef* pDMA) {
 
 void PanelSerialTransmit(uint16_t command, uint32_t param1, uint32_t param2, uint32_t param3, char* digits) {
 
-	const uint16_t txBufferSize = pos_EOF + 1;
-	char voidBuff[8] = {0};
+//	const uint16_t txBufferSize = pos_EOF + 1;
+//	char voidBuff[8] = {0};
+//
+//	if (digits == NULL) digits = voidBuff;
+//
+//	uint8_t txBuffer[txBufferSize];
+//	memset(txBuffer, 0, txBufferSize);
+//
+//	// Head
+//	memcpy(txBuffer + pos_head, activeProtocolHead, 2);
+//	// Command
+//	memcpy(txBuffer + pos_command, &command, 2);
+//	// Data
+//	memcpy(txBuffer + pos_param1, &param1, 4);
+//	memcpy(txBuffer + pos_param2, &param2, 4);
+//	memcpy(txBuffer + pos_param3, &param3, 4);
+//	memcpy(txBuffer + pos_digits, digits, 8);
+//	// CRC (Command + Data)
+//	uint16_t crc;
+//	crc = CRC16(txBuffer + pos_command, pos_checksum - pos_command);
+//	memcpy(txBuffer + pos_checksum, &crc, 2);
+//	// Tail
+//	memcpy(txBuffer + pos_tail, activeProtocolTail, 2);
+//	// EOF
+//	memcpy(txBuffer + pos_EOF, &activeProtocolEOF, 1);
+	s_DisplayProtocolData txData = {command, param1, param2, param3, digits, 1};
 
-	if (digits == NULL) digits = voidBuff;
+	uint8_t txBuffer[DISPLAY_PROTOCOL_BUFFER_SIZE];
+	Display_DataToProtocol(&txData, txBuffer);
 
-	uint8_t txBuffer[txBufferSize];
-	memset(txBuffer, 0, txBufferSize);
-
-	// Head
-	memcpy(txBuffer + pos_head, activeProtocolHead, 2);
-	// Command
-	memcpy(txBuffer + pos_command, &command, 2);
-	// Data
-	memcpy(txBuffer + pos_param1, &param1, 4);
-	memcpy(txBuffer + pos_param2, &param2, 4);
-	memcpy(txBuffer + pos_param3, &param3, 4);
-	memcpy(txBuffer + pos_digits, digits, 8);
-	// CRC (Command + Data)
-	uint16_t crc;
-	crc = CRC16(txBuffer + pos_command, pos_checksum - pos_command);
-	memcpy(txBuffer + pos_checksum, &crc, 2);
-	// Tail
-	memcpy(txBuffer + pos_tail, activeProtocolTail, 2);
-	// EOF
-	memcpy(txBuffer + pos_EOF, &activeProtocolEOF, 1);
-
-	SerialTransmit(txBuffer, txBufferSize);
+	SerialTransmit(txBuffer, DISPLAY_PROTOCOL_BUFFER_SIZE);
 
 }
 
-void SerialTransmit(uint8_t* data, uint16_t dataSize) {
+static void SerialTransmit(uint8_t* buffer, uint16_t size) {
 
 	// Chip 485 ENABLE
 	HAL_GPIO_WritePin(USART1_CTS_GPIO_Port, USART1_CTS_Pin, 1);
 	// UART Transmit
-	HAL_UART_Transmit(pActiveUART, data, dataSize, PANEL_SERIAL_TX_TIMEOUT);
+	HAL_UART_Transmit(pActiveUART, buffer, size, PANEL_SERIAL_TX_TIMEOUT);
 	// Chip 485 DISABLE
 	HAL_GPIO_WritePin(USART1_CTS_GPIO_Port, USART1_CTS_Pin, 0);
 
@@ -147,17 +153,20 @@ void PanelSerialReceive(uint8_t* buffer, uint16_t size) {
 	uint16_t rxCRC16;
 	uint16_t calcCRC16;
 
-
-		if ((buffer[pos_head] == activeProtocolHead[0]) && (buffer[pos_head + 1] == activeProtocolHead[1])) { // Header found
-			if ((buffer[pos_tail] == activeProtocolTail[0]) && (buffer[pos_tail + 1] == activeProtocolTail[1])) { // Tail found
-				memcpy(&rxCRC16, buffer + pos_checksum, 2); // store received crc
-				memset(buffer + pos_checksum, 0, 2); // 0 CRC before calculation
-				calcCRC16 = CRC16(buffer + pos_command, pos_checksum - pos_command); // crc for payload (command + parameters)
-	//			if (rxCRC16 == calcCRC16) {
-					ParseCommand(buffer); // valid received command > parse
-	//			}
-			}
-		}
+	s_DisplayProtocolData rxData;
+	Display_ProtocolToData(buffer, &rxData);
+	if (rxData.Valid) {
+		ParseCommand(buffer); // valid received command > parse
+	}
+//		if ((buffer[pos_head] == activeProtocolHead[0]) && (buffer[pos_head + 1] == activeProtocolHead[1])) { // Header found
+//			if ((buffer[pos_tail] == activeProtocolTail[0]) && (buffer[pos_tail + 1] == activeProtocolTail[1])) { // Tail found
+//				memcpy(&rxCRC16, buffer + pos_checksum, 2); // store received crc
+//				memset(buffer + pos_checksum, 0, 2); // 0 CRC before calculation
+//				calcCRC16 = CRC16(buffer + pos_command, pos_checksum - pos_command); // crc for payload (command + parameters)
+//	//			if (rxCRC16 == calcCRC16) {
+//	//			}
+//			}
+//		}
 
 }
 
@@ -165,71 +174,65 @@ void PanelSerialReceive(uint8_t* buffer, uint16_t size) {
 // COMMANDS
 // ==============================================================
 
-void ParseCommand(uint8_t* buffer) {
+static void ParseCommand(s_DisplayProtocolData* data) {
 
 	uint16_t command;
 	uint32_t param1, param2, param3;
 	char digitsBuffer[8] = {0};
 
-	memcpy(&command, buffer + pos_command, 2);
-	memcpy(&param1, buffer + pos_param1, 4);
-	memcpy(&param2, buffer + pos_param2, 4);
-	memcpy(&param3, buffer + pos_param3, 4);
-	memcpy(digitsBuffer, buffer + pos_digits, 8);
+//	memcpy(&command, buffer + pos_command, 2);
+//	memcpy(&param1, buffer + pos_param1, 4);
+//	memcpy(&param2, buffer + pos_param2, 4);
+//	memcpy(&param3, buffer + pos_param3, 4);
+//	memcpy(digitsBuffer, buffer + pos_digits, 8);
 
-	switch (command) {
-		case COMMAND_PLAY_BEEP:
-			Beep(param1, param2, param3);
+	switch (data->Command) {
+		case DISPLAY_CMD_BEEP:
+			Beep(data->Param1, data->Param2, data->Param3);
 			break;
-		case COMMAND_WRITE_DIGITS_ROW_1:
-			osMutexWait(digitsMutex1Id, 0);
-
-			DigitsWriteRow1(digitsBuffer);
-
-			osMutexRelease(digitsMutex1Id);
-
+//		case DISPLAY_CMD_WRITE_DIGITS:
+//			DigitsWriteRow(data->Param1, data->Digits);
+//			break;
+		case DISPLAY_CMD_WRITE_DASHBOARD_LEDS:
+			PanelWriteLeds((uint16_t)data->Param1);
 			break;
-		case COMMAND_WRITE_DIGITS_ROW_2:
-			DigitsWriteRow2(digitsBuffer);
+		case DISPLAY_CMD_WRITE_PROGRESS_LEDS:
+			ProgressWriteLeds((uint16_t)data->Param1);
 			break;
-		case COMMAND_WRITE_DIGITS_ROW_3:
-			DigitsWriteRow3(digitsBuffer);
+		case DISPLAY_CMD_SET_LONG_PRESS_INTERVAL:
+			SET_KeysLongPressInterval = (uint16_t)data->Param1;
 			break;
-		case COMMAND_SET_DASHBOARD_LEDS:
-			PanelWriteLeds((uint16_t)param1);
+		case DISPLAY_CMD_SET_FLASH_INTERVAL:
+			SET_FlashInterval = (uint16_t)data->Param1;
 			break;
-		case COMMAND_SET_PROGRESS_LEDS:
-			ProgressWriteLeds((uint16_t)param1);
+		case DISPLAY_CMD_SET_KEYS_BEEP:
+			SET_KeysBeep = (bool)data->Param1;
 			break;
-		case COMMAND_SET_PANEL_KEYS_BEEP:
-			_keysBeepActive = (uint8_t)param1;
+		case DISPLAY_CMD_FW_VER:
+			PanelSerialTransmit(DISPLAY_CMD_OK, FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION, "");
 			break;
-		case COMMAND_GET_PANEL_FW_VERSION:
-			SendFWVersion();
-			break;
-		case COMMAND_PANEL_CHECK:
+		case DISPLAY_CMD_CHECK:
 			PanelSetAll();
 			ProgressSetAll();
 			DigitsSetAll();
-			osDelay(2000);
+			osDelay((uint16_t)data->Param1);
 			PanelClearAll();
 			ProgressClearAll();
 			DigitsClearAll();
-			Beep(3,100,100);
+			Beep((uint8_t)data->Param2,100,100);
 			break;
 	}
 }
 
 void SendCommandOK() {
-	PanelSerialTransmit(COMMAND_OK, 0, 0, 0, 0);
+	PanelSerialTransmit(DISPLAY_CMD_OK, 0, 0, 0, 0);
 }
 
 void SendPanelReady(){
-	HAL_UART_Receive_DMA (&huart1, UART_rxBuffer, UART_BUFFER_SIZE);
-
-	PanelSerialTransmit(COMMAND_PANEL_READY, FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION, 0);
+//	HAL_UART_Receive_DMA (&huart1, UART_rxBuffer, UART_BUFFER_SIZE);
+	PanelSerialTransmit(DISPLAY_CMD_READY, FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION, 0);
 }
 
-void SendFWVersion() {
-	PanelSerialTransmit(COMMAND_GET_PANEL_FW_VERSION, FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION, 0);
-}
+//void SendFWVersion() {
+//	PanelSerialTransmit(DISPLAY_CMD_OK, FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION, 0);
+//}

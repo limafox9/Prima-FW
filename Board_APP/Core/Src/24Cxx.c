@@ -1,6 +1,6 @@
 /*==============================================================================
 
-Filename: eeprom.c
+Filename: 24Cxx.c
 
 Created on: Jan 10, 2023
 
@@ -33,8 +33,8 @@ PURPOSE:
 USAGE:
 ==============================================================================*/
 
-#include "eeprom.h"
-
+#include "24Cxx.h"
+#include <stdio.h>
 #include <math.h>
 #include <string.h>
 #include "stm32f1xx_hal.h"

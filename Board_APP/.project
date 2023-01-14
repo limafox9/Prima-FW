@@ -3,6 +3,7 @@
 	<name>Board_APP</name>
 	<comment></comment>
 	<projects>
+		<project>DB_Protocol</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

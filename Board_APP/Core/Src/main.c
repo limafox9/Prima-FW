@@ -17,7 +17,7 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
-#include "main.h"
+
 #include "cmsis_os.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -79,12 +79,12 @@ static void MX_DMA_Init(void);
 static void MX_USART3_UART_Init(void);
 static void MX_I2C1_Init(void);
 static void MX_SPI2_Init(void);
-static void MX_USB_OTG_FS_HCD_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_UART4_Init(void);
 static void MX_ADC1_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_USART2_UART_Init(void);
+static void MX_USB_OTG_FS_HCD_Init(void);
 void StartTaskAlive(void const * argument);
 
 /* USER CODE BEGIN PFP */
@@ -128,12 +128,12 @@ int main(void)
   MX_USART3_UART_Init();
   MX_I2C1_Init();
   MX_SPI2_Init();
-  MX_USB_OTG_FS_HCD_Init();
   MX_USART1_UART_Init();
   MX_UART4_Init();
   MX_ADC1_Init();
   MX_SPI1_Init();
   MX_USART2_UART_Init();
+  MX_USB_OTG_FS_HCD_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -607,11 +607,11 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOA, LED_HEART_Pin|FAN_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOE, SOLENOID_V1_Pin|SOLENOID_V2_Pin|VAL_VACUUM_Pin|VAL_WATER_STEAM_Pin
-                          |VAL_DRY_AIR_Pin|VAL_DRAIN_STEAM_Pin|USART3_CTS_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, I2C2_SW_SDA_Pin|I2C2_SW_SCL_Pin|SPI2_CS_Pin|SPI1_RESET_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, SPI2_CS_Pin|SPI1_RESET_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOE, SOLENOID_V1_Pin|SOLENOID_V2_Pin|VAL_VACUUM_Pin|VAL_WATER_STEAM_Pin
+                          |VAL_DRY_AIR_Pin|VAL_DRAIN_STEAM_Pin|USART3_CTS_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOD, HEATER_RING_Pin|HEATER_STEAM_GEN_Pin|PUMP_WATER_LOAD_Pin|PUMP_VACUUM_Pin
@@ -636,6 +636,13 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
+  /*Configure GPIO pins : I2C2_SW_SDA_Pin I2C2_SW_SCL_Pin SPI2_CS_Pin SPI1_RESET_Pin */
+  GPIO_InitStruct.Pin = I2C2_SW_SDA_Pin|I2C2_SW_SCL_Pin|SPI2_CS_Pin|SPI1_RESET_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
   /*Configure GPIO pins : SOLENOID_V1_Pin SOLENOID_V2_Pin VAL_VACUUM_Pin VAL_WATER_STEAM_Pin
                            VAL_DRY_AIR_Pin VAL_DRAIN_STEAM_Pin USART3_CTS_Pin */
   GPIO_InitStruct.Pin = SOLENOID_V1_Pin|SOLENOID_V2_Pin|VAL_VACUUM_Pin|VAL_WATER_STEAM_Pin
@@ -644,13 +651,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : SPI2_CS_Pin SPI1_RESET_Pin */
-  GPIO_InitStruct.Pin = SPI2_CS_Pin|SPI1_RESET_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /*Configure GPIO pins : HEATER_RING_Pin HEATER_STEAM_GEN_Pin PUMP_WATER_LOAD_Pin PUMP_VACUUM_Pin
                            PUMP_STEAM_GEN_Pin BEEP_Pin SPI1_CS_Pin */

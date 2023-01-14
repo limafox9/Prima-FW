@@ -33,6 +33,7 @@ PURPOSE: Modbus CRC16 calculation
 USAGE:
 ================================================================================*/
 
+#include <24Cxx.h>
 #include "system.h"
 
 #include <stdio.h>
@@ -47,10 +48,10 @@ USAGE:
 #include "leds.h"
 #include "sensors.h"
 #include "serial.h"
-#include "eeprom.h"
 #include "TM7705.h"
 #include "BAT2U.h"
 #include "BMP280.h"
+#include "Inc/DB_Protocol.h"
 
 #define UART_MONITOR huart1
 #define UART_DISPLAY huart3
@@ -60,6 +61,7 @@ USAGE:
 
 extern I2C_HandleTypeDef hi2c1;
 extern UART_HandleTypeDef huart1;
+extern UART_HandleTypeDef huart2;
 extern UART_HandleTypeDef huart3;
 extern DMA_HandleTypeDef hdma_usart3_rx;
 extern SPI_HandleTypeDef hspi1;
@@ -91,31 +93,44 @@ void SysInit() {
 	SerialInit(&UART_DISPLAY, 115200);
 
 
-	BMP280_HandleTypedef bmp280;
-	float pressure, temperature, humidity;
-	uint16_t size;
-	uint8_t Data[256];
-
-	bmp280_init_default_params(&bmp280.params);
-	bmp280.addr = BMP280_I2C_ADDRESS_0;
-//	bmp280.i2c = &hi2c2;
-
-	while (!bmp280_init(&bmp280, &bmp280.params)) {
-			size = sprintf((char *)Data, "BMP280 initialization failed\n");
-			SerialSend(&UART_MONITOR, Data, size);
-			HAL_Delay(2000);
-	}
-	bool bme280p = bmp280.id == BME280_CHIP_ID;
-	size = sprintf((char *)Data, "BMP280: found %s\n", bme280p ? "BME280" : "BMP280");
-	SerialSend(&UART_MONITOR, Data, size);
-
-
+//	BMP280_HandleTypedef bmp280;
+//	float pressure, temperature, humidity;
+//	uint16_t size;
+//	uint8_t Data[256];
+//
+//	bmp280_init_default_params(&bmp280.params);
+//	bmp280.addr = BMP280_I2C_ADDRESS_0;
+////	bmp280.i2c = &hi2c2;
+//
+//	while (!bmp280_init(&bmp280, &bmp280.params)) {
+//			size = sprintf((char *)Data, "BMP280 initialization failed\n");
+//			SerialSend(&UART_MONITOR, Data, size);
+//			HAL_Delay(2000);
+//	}
+//	bool bme280p = bmp280.id == BME280_CHIP_ID;
+//	size = sprintf((char *)Data, "BMP280: found %s\n", bme280p ? "BME280" : "BMP280");
+//	SerialSend(&UART_MONITOR, Data, size);
 
 
+
+	BAT2U_Init(&huart2);
 	char s[32];
-	uint16_t refRes = WaterTDSGet();
+	uint16_t refRes = BAT2U_GetTDSValue(1);
 	sprintf(s,"%d\n", refRes);
 	SerialSend(&UART_MONITOR, s, 32);
+
+
+	char* q = "CIAO";
+	s_DisplayProtocolData a = {DISPLAY_CMD_WRITE_DIGITS, 0x1234, 0x5678, 0x00, q, 1};
+//	a.Command = DISPLAY_CMD_WRITE_DIGITS;
+//	a.Param1 = 0x1234;
+//	a.Param2 = 0x5678;
+//	memcpy(a.Digits, q, 4);
+	uint8_t buffer[DISPLAY_PROTOCOL_BUFFER_SIZE];
+	Display_DataToProtocol(&a,buffer);
+	uint8_t pps = sizeof(buffer);
+	a.Param1 = 0x1234;
+
 
 
 //

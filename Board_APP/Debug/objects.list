@@ -1,3 +1,4 @@
+"./Core/Src/24Cxx.o"
 "./Core/Src/BAT2U.o"
 "./Core/Src/BMP280.o"
 "./Core/Src/PCF8563.o"
@@ -5,7 +6,6 @@
 "./Core/Src/actuators.o"
 "./Core/Src/crc16.o"
 "./Core/Src/devices.o"
-"./Core/Src/eeprom.o"
 "./Core/Src/freertos.o"
 "./Core/Src/globals.o"
 "./Core/Src/i2c.o"

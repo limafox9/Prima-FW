@@ -29,7 +29,7 @@ Visit www.favenzi.it
       luca@favenzi.it
 
 ==================================================================================
-PURPOSE: Modbus CRC16 calculation
+PURPOSE:
 USAGE:
 ================================================================================*/
 
@@ -90,13 +90,10 @@ static void KeysReceived(uint8_t keysCode) {
 
 	if (keysCode == KEY_S1) {
 		// Button code here
-		HAL_GPIO_TogglePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin);
 	} else if (keysCode == KEY_S2) {
 		// Button code here
-		Beep(1, 100, 100);
 	} else if (keysCode == KEY_S3) {
 		// Button code here
-
 	} else if (keysCode == KEY_S1 + KEY_LONG_PRESS) {
 		// Button code here
 	} else if (keysCode == KEY_S2 + KEY_LONG_PRESS) {

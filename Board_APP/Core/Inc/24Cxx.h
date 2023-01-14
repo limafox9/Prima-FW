@@ -1,10 +1,10 @@
 /*==============================================================================
 
-Filename: a.c
+Filename: eeprom.h
 
-Created on: Dec 5, 2022
+Created on: Jan 10, 2023
 
-Original work: Copyright (c) 2022 Luca Favenzi
+Original work: Copyright (c) 2023 Luca Favenzi
 Modified work:
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -28,16 +28,25 @@ SOFTWARE.
 Visit www.favenzi.it
       luca@favenzi.it
 
-==================================================================================
-PURPOSE: Modbus CRC16 calculation
+================================================================================
+PURPOSE:
 USAGE:
-================================================================================*/
+==============================================================================*/
 
-#ifndef INC_CRC16_H_
-#define INC_CRC16_H_
 
-#include <stdio.h>
+#ifndef INC_24CXX_H_
+#define INC_24CXX_H_
 
-uint16_t CRC16( const unsigned char* buf, unsigned int len);
+#include "stdint.h"
 
-#endif /* INC_CRC16_H_ */
+void EEPROM_Read(uint16_t address, uint8_t* data, uint16_t size);
+float EEPROM_Read_Float (uint16_t address);
+
+void EEPROM_Write(uint16_t address, uint8_t* data, uint16_t size);
+void EEPROM_Write_Float (uint16_t address, float data);
+
+void EEPROM_PageErase (uint8_t fillChar);
+void EEPROM_EraseAll();
+
+
+#endif /* INC_24CXX_H_ */

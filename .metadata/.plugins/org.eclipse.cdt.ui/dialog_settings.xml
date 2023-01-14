@@ -35,9 +35,14 @@
 		<item key="caseSensitive" value="false"/>
 		<item key="searchFlags" value="227191"/>
 		<list key="previousPatterns">
+			<item value="LOW"/>
+			<item value="HIGH"/>
 			<item value="PanelSerialInit"/>
 			<item value="COM_RS_BIT"/>
 			<item value="FLASHSIZE_BASE"/>
 		</list>
+	</section>
+	<section name="OptionalMessageDialog.hide.">
+		<item key="askReindex.detail" value="0"/>
 	</section>
 </section>

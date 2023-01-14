@@ -79,6 +79,10 @@ void Error_Handler(void);
 #define TEMP_T2_GPIO_Port GPIOA
 #define LED_HEART_Pin GPIO_PIN_6
 #define LED_HEART_GPIO_Port GPIOA
+#define I2C2_SW_SDA_Pin GPIO_PIN_0
+#define I2C2_SW_SDA_GPIO_Port GPIOB
+#define I2C2_SW_SCL_Pin GPIO_PIN_1
+#define I2C2_SW_SCL_GPIO_Port GPIOB
 #define SOLENOID_V1_Pin GPIO_PIN_7
 #define SOLENOID_V1_GPIO_Port GPIOE
 #define SOLENOID_V2_Pin GPIO_PIN_8

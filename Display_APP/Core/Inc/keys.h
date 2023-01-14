@@ -38,6 +38,9 @@ USAGE:
 #ifndef INC_KEYS_H_
 #define INC_KEYS_H_
 
+#include <stdio.h>
+#include "settings.h"
+
 void StartKeysTask();
 
 #endif /* INC_KEYS_H_ */

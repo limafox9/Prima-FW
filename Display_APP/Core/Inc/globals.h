@@ -52,6 +52,8 @@ typedef struct _gpioPin {
 	uint8_t bit;
 } gpioPin;
 
+typedef uint8_t bool;
+
 typedef enum {FALSE, TRUE} LOGIC_STATE;
 typedef enum {OFF, ON} POWER_STATE;
 
