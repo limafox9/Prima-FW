@@ -39,7 +39,6 @@ USAGE:
 #define INC_KEYS_H_
 
 #include <stdio.h>
-#include "settings.h"
 
 void StartKeysTask();
 

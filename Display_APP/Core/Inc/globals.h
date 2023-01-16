@@ -40,17 +40,28 @@ USAGE:
 #include "main.h"
 #include <stdio.h>
 
-#define FW_VERSION_MAJOR 1
-#define FW_VERSION_MINOR 0
-#define FW_VERSION_REVISION 21
+#include "Inc/DB_globals.h"
 
-#define DIGIT_ROW_BUFFER_SIZE 10
+#define FW_VERSION_MAJOR 		7
+#define FW_VERSION_MINOR 		0
+#define FW_VERSION_REVISION 	21
 
-typedef struct _gpioPin {
+#define DIGIT_ROW_BUFFER_SIZE 	8
+#define DIGIT_ROWS 				3
+
+#define DISPLAY_REFRESH_MILLIS 	2
+
+#define UART_DISPLAY huart1
+
+#define DEFAULT_SETTING_KEYS_LONG_PRESS_INTERVAL	3000
+#define DEFAULT_SETTING_LEDS_FLASH_INTERVAL			1000
+#define DEFAULT_SETTING_KEYS_BEEP					TRUE
+
+typedef struct s_GPIO {
 	GPIO_TypeDef* GPIO_Port;
 	uint16_t GPIO_Pin;
 	uint8_t bit;
-} gpioPin;
+} s_GPIO;
 
 typedef uint8_t bool;
 
@@ -59,6 +70,9 @@ typedef enum {OFF, ON} POWER_STATE;
 
 uint32_t GetSafeDeltaTick(uint32_t startTick, uint32_t endTick);
 void SwapBytes(void *pBytes, size_t size);
+
+void SaveSettings();
+void LoadSettings();
 
 // Bitwise operations ----------------------------------------------------------
 #define BIT(n)					(1 << (x)) // Return the number representing the n_th bit

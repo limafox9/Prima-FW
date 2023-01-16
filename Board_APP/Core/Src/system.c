@@ -40,6 +40,7 @@ USAGE:
 #include <stdarg.h>
 
 #include "globals.h"
+#include "serial.h"
 #include "cmsis_os.h"
 #include "settings.h"
 #include "time.h"
@@ -53,9 +54,6 @@ USAGE:
 #include "BMP280.h"
 #include "Inc/DB_Protocol.h"
 
-#define UART_MONITOR huart1
-#define UART_DISPLAY huart3
-
 #define RTD_A 3.9083e-3
 #define RTD_B -5.775e-7
 
@@ -66,10 +64,12 @@ extern UART_HandleTypeDef huart3;
 extern DMA_HandleTypeDef hdma_usart3_rx;
 extern SPI_HandleTypeDef hspi1;
 
+extern void DBInit(UART_HandleTypeDef* huart, GPIO_TypeDef* rs485_CS_GPIOPort, uint16_t rs485_CS_GPIOPin);
+
 uint32_t UID[3] = {0};
 uint16_t machineSerial;
 
-uint8_t UART_rxBuffer[UART_DISPLAY_BUFFER_SIZE] = {0};
+//uint8_t UART_rxBuffer[UART_DISPLAY_BUFFER_SIZE] = {0};
 
 RTCDateTime_s dt;
 
@@ -89,8 +89,10 @@ float calTemp(float Rt) {
 
 void SysInit() {
 
+	DBInit(&UART_DISPLAY, USART3_CTS_GPIO_Port, USART3_CTS_Pin);
+	DBSendDigits(1, "CIAO");
+
 	SerialInit(&UART_MONITOR, 115200);
-	SerialInit(&UART_DISPLAY, 115200);
 
 
 //	BMP280_HandleTypedef bmp280;
@@ -113,23 +115,24 @@ void SysInit() {
 
 
 
-	BAT2U_Init(&huart2);
+	BAT2U_Init(&UART_TDS);
 	char s[32];
-	uint16_t refRes = BAT2U_GetTDSValue(1);
-	sprintf(s,"%d\n", refRes);
-	SerialSend(&UART_MONITOR, s, 32);
+	int16_t refRes = BAT2U_GetTDSValue(1);
+	if (refRes < 0xFFFF) {
+		sprintf(s,"%d\n", refRes);
+		SerialSend(&UART_MONITOR, s, 32);
+	}
 
 
-	char* q = "CIAO";
-	s_DisplayProtocolData a = {DISPLAY_CMD_WRITE_DIGITS, 0x1234, 0x5678, 0x00, q, 1};
+//	char* q = "CIAO";
+//	s_DisplayProtocolData a = {DISPLAY_CMD_WRITE_DIGITS, 0x1234, 0x5678, 0x00, q, 1};
 //	a.Command = DISPLAY_CMD_WRITE_DIGITS;
 //	a.Param1 = 0x1234;
 //	a.Param2 = 0x5678;
 //	memcpy(a.Digits, q, 4);
-	uint8_t buffer[DISPLAY_PROTOCOL_BUFFER_SIZE];
-	Display_DataToProtocol(&a,buffer);
-	uint8_t pps = sizeof(buffer);
-	a.Param1 = 0x1234;
+//	uint8_t buffer[DISPLAY_PROTOCOL_BUFFER_SIZE];
+//	Display_DataToProtocol(&a,buffer);
+//	uint8_t pps = sizeof(buffer);
 
 
 
@@ -256,14 +259,15 @@ void SysInit() {
 
 }
 
-void Beep(uint8_t hits, uint16_t onDelay, uint16_t offDelay) {
-	for (uint8_t i = 0; i < hits; i++) {
-		HAL_GPIO_WritePin(BEEP_GPIO_Port, BEEP_Pin, ON);
-		osDelay(onDelay);
-		HAL_GPIO_WritePin(BEEP_GPIO_Port, BEEP_Pin, OFF);
-		osDelay(onDelay);
-	}
-}
+//
+//void Beep(uint8_t hits, uint16_t onDelay, uint16_t offDelay) {
+//	for (uint8_t i = 0; i < hits; i++) {
+//		HAL_GPIO_WritePin(BEEP_GPIO_Port, BEEP_Pin, ON);
+//		osDelay(onDelay);
+//		HAL_GPIO_WritePin(BEEP_GPIO_Port, BEEP_Pin, OFF);
+//		osDelay(onDelay);
+//	}
+//}
 
 void Log(e_LogLevel logLevel, e_LogTimeStamp logTimeStamp, e_LogOutput logOutput, const char* format, ...) {
 

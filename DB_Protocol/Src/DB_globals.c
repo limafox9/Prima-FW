@@ -1,8 +1,8 @@
 /*==============================================================================
 
-Filename: settings.c
+Filename: DB_globals.c
 
-Created on: Jan 14, 2023
+Created on: Jan 15, 2023
 
 Original work: Copyright (c) 2023 Luca Favenzi
 Modified work:
@@ -33,12 +33,18 @@ PURPOSE:
 USAGE:
 ==============================================================================*/
 
-
 #include <stdio.h>
-#include "globals.h"
-#include "settings.h"
+#include "DB_globals.h"
 
 
-uint16_t	SET_KeysLongPressInterval 	= 3000;
-uint16_t	SET_FlashInterval 			= 1000;
-bool		SET_KeysBeep 				= TRUE;
+uint8_t		DB_DigitsRow[DB_DIGIT_ROWS][DB_DIGIT_ROW_BUFFER_SIZE];
+
+uint16_t 	DB_ProgressBarBits;
+uint16_t 	DB_PprogressBarBitsBlink;
+
+uint16_t 	DB_PanelLedsBits;
+uint16_t 	DB_PanelLedsBitsBlink;
+
+uint32_t 	DB_DigitsBits;
+
+uint8_t 	DB_KeysPressed;

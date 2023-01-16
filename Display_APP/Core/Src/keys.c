@@ -41,7 +41,6 @@ USAGE:
 #include "serial.h"
 #include "buzzer.h"
 #include "Inc/DB_Protocol.h"
-#include "settings.h"
 
 
 #define KEY_PROG 		1
@@ -49,9 +48,8 @@ USAGE:
 #define KEY_START 		4
 #define KEY_LONG_PRESS 	8
 
-
-extern uint16_t SET_KeysLongPressInterval;
-extern uint8_t SET_KeysBeep;
+extern uint16_t SET_KeysLongPressDuration;
+extern bool SET_KeysBeep;
 
 static uint8_t GetPressedKeys();
 static void KeysReceived(uint8_t keysCode);
@@ -69,13 +67,13 @@ void StartKeysTask() {
 		if (pressKeys != 0) {
 			osDelay(100); // Debounce
 			while (pressKeys == GetPressedKeys()) {
-				if ((HAL_GetTick() - keyPressStart) > SET_KeysLongPressInterval) {
+				if ((HAL_GetTick() - keyPressStart) > SET_KeysLongPressDuration) {
 					pressKeys += KEY_LONG_PRESS;
 					break;
 				}
 				osDelay(20);
 			}
-			if (SET_KeysBeep) Beep(1, 100, 100);
+			if (SET_KeysBeep) DisplayBeep(1, 100, 100);
 			KeysReceived(pressKeys);
 		}
 		osDelay(20);
@@ -94,6 +92,8 @@ static uint8_t GetPressedKeys() {
 }
 
 static void KeysReceived(uint8_t keysCode) {
+
+	DBSendCommand(DISPLAY_CMD_KEYS_PRESSED, keysCode, 0, 0, "");
 
 	if (keysCode == KEY_PROG) {
 		// Button code here

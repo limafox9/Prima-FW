@@ -36,8 +36,8 @@ USAGE:
 #ifndef INC_SERIAL_H_
 #define INC_SERIAL_H_
 
-#include "main.h"
-#include "globals.h"
+//#include "main.h"
+//#include "globals.h"
 
 //typedef enum _protocolCommand {
 //	COMMAND_OK = 0x100,
@@ -54,10 +54,10 @@ USAGE:
 //	COMMAND_GET_PANEL_FW_VERSION = 0x12
 //} protocolCommand;
 //
-#define PANEL_SERIAL_TX_TIMEOUT 100
+
 //
 //void PanelSerialInit(UART_HandleTypeDef* pUART, DMA_HandleTypeDef* pDMA);
-//void PanelSerialTransmit(uint16_t command, uint32_t param1, uint32_t param2, uint32_t param3, char* digits);
+//void DisplaySend(uint16_t command, uint32_t param1, uint32_t param2, uint32_t param3, char* digits);
 //void PanelSerialReceive(uint8_t* buffer, uint16_t size);
 //void StartSerialTask();
 

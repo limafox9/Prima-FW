@@ -10,9 +10,12 @@
 
 /* Includes ------------------------------------------------------------------*/
 
-#include <CRC.h>
-#include <DB_Protocol.h>
+#include "CRC.h"
+#include "DB_Protocol.h"
+#include "DB_globals.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 static const char activeProtocolHead[] = {'<', '~'};
 static const char activeProtocolTail[] =  {'~', '>'};
@@ -61,5 +64,4 @@ void Display_ProtocolToData(uint8_t* bufferIn, s_DisplayProtocolData* dataOut) {
 //			}
 		}
 	}
-	return dataOut;
 }

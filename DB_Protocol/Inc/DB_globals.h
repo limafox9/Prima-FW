@@ -1,8 +1,8 @@
 /*==============================================================================
 
-Filename: DB_Protocol.h
+Filename: DB_globals.h
 
-Created on: Jan 13, 2023
+Created on: Jan 15, 2023
 
 Original work: Copyright (c) 2023 Luca Favenzi
 Modified work:
@@ -35,23 +35,17 @@ USAGE:
 
 
 
-#ifndef DB_PROTOCOL_H_
-#define DB_PROTOCOL_H_
+#ifndef DB_GLOBALS_H_
+#define DB_GLOBALS_H_
 
+#define DB_UART_SPEED 				115200
+#define DB_UART_BUFFER_SIZE 		32
+#define DB_UART_TX_TIMEOUT 			500
+#define DB_UART_RX_TIMEOUT 			500
 
-#include <stdio.h>
-
-#define POS_HEAD 		0
-#define POS_COMMAND 	2
-#define POS_PARAM1		4
-#define POS_PARAM2 		8
-#define POS_PARAM3 		12
-#define POS_DIGITS 		16
-#define POS_CHECKSUM 	24
-#define POS_TAIL 		26
-#define POS_EOF			28
-
-#define DISPLAY_PROTOCOL_BUFFER_SIZE (POS_EOF + 1)
+#define DB_DIGIT_ROWS 				3
+#define DB_DIGIT_COLUMNS			4
+#define DB_DIGIT_ROW_BUFFER_SIZE 	8
 
 typedef enum {
 	DISPLAY_CMD_OK 							= 0x0100,	// message received ok. param1..4 depend on command
@@ -87,17 +81,13 @@ typedef enum {
 	DISPLAY_LED_BCLASS					= 8192,		// 0b0010000000000000
 } e_DisplayDashboardLeds;
 
-typedef struct s_DisplayProtocolData {
+typedef struct __s_DisplayProtocolData {
 	e_DisplayProtocolCommand Command;
 	uint32_t Param1;
 	uint32_t Param2;
 	uint32_t Param3;
-	char Digits[8];
+	char* Digits;
 	uint8_t Valid;
 } s_DisplayProtocolData;
 
-void Display_DataToProtocol(s_DisplayProtocolData* data, uint8_t* buffer);
-void Display_ProtocolToData(uint8_t* bufferIn, s_DisplayProtocolData* dataOut);
-
-
-#endif /* DB_PROTOCOL_H_ */
+#endif /* DB_GLOBALS_H_ */

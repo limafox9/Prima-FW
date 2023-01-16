@@ -61,12 +61,16 @@ uint16_t BAT2U_GetTDSValue(uint8_t channel, uint16_t timeout) {
 	do {
 		HAL_UART_Receive_DMA(huart_water, rxBuffer, 6);
 		pos = ByteInBuffer(0xAA, rxBuffer, 6);
-		osDelay(100);
+		osDelay(500);
 	} while ((pos < 0) && (!Timeout(timeout)));
-	if (channel ==1) {
-		value = rxBuffer[1] << 8 | rxBuffer[2];
-	} else if (channel == 2) {
-		value = rxBuffer[3] << 8 | rxBuffer[4];
+	if (pos >= 0) {
+		if (channel ==1) {
+			value = rxBuffer[1] << 8 | rxBuffer[2];
+		} else if (channel == 2) {
+			value = rxBuffer[3] << 8 | rxBuffer[4];
+		}
+	} else {
+		value = 0xFFFF; // No valid value or timeout
 	}
 	return value;
 }
@@ -79,11 +83,11 @@ uint16_t BAT2U_GetTempValue(uint8_t channel, uint16_t timeout) {
 	txBuffer[5] = GetChecksum(txBuffer, 5);
 	HAL_UART_Transmit(huart_water, txBuffer, 6, 1000);
 	Timeout(0);
-	do {
-		HAL_UART_Receive_DMA(huart_water, rxBuffer, 6);
-		pos = ByteInBuffer(0xAB, rxBuffer, 6);
-		osDelay(100);
-	} while ((pos < 0) && (!Timeout(timeout)));
+//	do {
+//		osDelay(100);
+//		HAL_UART_Receive_DMA(huart_water, rxBuffer, 6);
+//		pos = ByteInBuffer(0xAB, rxBuffer, 6);
+//	} while ((pos < 0) && (!Timeout(timeout)));
 	if (channel == 1) {
 		value = rxBuffer[1] << 8 | rxBuffer[2];
 	} else if (channel == 2) {

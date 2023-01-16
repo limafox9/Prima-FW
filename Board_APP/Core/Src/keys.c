@@ -90,6 +90,7 @@ static void KeysReceived(uint8_t keysCode) {
 
 	if (keysCode == KEY_S1) {
 		// Button code here
+		DBSendDigits(1, "CIAO");
 	} else if (keysCode == KEY_S2) {
 		// Button code here
 	} else if (keysCode == KEY_S3) {

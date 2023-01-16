@@ -23,17 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
-#include "buzzer.h"
-#include "keys.h"
 #include "globals.h"
-#include "digits.h"
-#include "serial.h"
-
-extern uint8_t digitsRow1[DIGIT_ROW_BUFFER_SIZE];
-extern uint8_t digitsRow2[DIGIT_ROW_BUFFER_SIZE];
-extern uint8_t digitsRow3[DIGIT_ROW_BUFFER_SIZE];
-
-uint8_t booting;
 
 /* USER CODE END Includes */
 
@@ -57,16 +47,9 @@ TIM_HandleTypeDef htim1;
 UART_HandleTypeDef huart1;
 DMA_HandleTypeDef hdma_usart1_rx;
 
-osThreadId defaultTaskHandle;
+osThreadId taskMainHandle;
 osMessageQId serialRxQueueHandle;
 /* USER CODE BEGIN PV */
-
-osThreadId keysTaskHandle;
-osThreadId digitsTaskHandle;
-
-osMutexDef (digitsMutex1);
-osMutexId digitsMutex1Id;
-
 
 /* USER CODE END PV */
 
@@ -76,7 +59,7 @@ static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
 static void MX_TIM1_Init(void);
 static void MX_USART1_UART_Init(void);
-void StartDefaultTask(void const * argument);
+void TaskMain(void const * argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -136,7 +119,6 @@ int main(void)
   /* USER CODE BEGIN SysInit */
 
 
-	digitsMutex1Id = osMutexCreate(osMutex(digitsMutex1));
 
   /* USER CODE END SysInit */
 
@@ -171,18 +153,12 @@ int main(void)
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
-  /* definition and creation of defaultTask */
-  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 512);
-  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+  /* definition and creation of taskMain */
+  osThreadDef(taskMain, TaskMain, osPriorityNormal, 0, 256);
+  taskMainHandle = osThreadCreate(osThread(taskMain), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
-
-  osThreadDef(keysTask, StartKeysTask, osPriorityNormal, 1, 256);
-  keysTaskHandle = osThreadCreate(osThread(keysTask), NULL);
-
-  osThreadDef(digitsTask, DigitsRefresh, osPriorityNormal, 1, 256);
-  digitsTaskHandle = osThreadCreate(osThread(digitsTask), NULL);
 
   /* USER CODE END RTOS_THREADS */
 
@@ -400,52 +376,22 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE END 4 */
 
-/* USER CODE BEGIN Header_StartDefaultTask */
+/* USER CODE BEGIN Header_TaskMain */
 /**
-  * @brief  Function implementing the defaultTask thread.
+  * @brief  Function implementing the taskMain thread.
   * @param  argument: Not used
   * @retval None
   */
-/* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void const * argument)
+/* USER CODE END Header_TaskMain */
+void TaskMain(void const * argument)
 {
   /* USER CODE BEGIN 5 */
-
-	booting = 1;
-
-	DigitsInit();
-
-	PanelSetAll();
-	ProgressSetAll();
-	DigitsSetAll();
-	osDelay(2000);
-
-	PanelClearAll();
-	ProgressClearAll();
-	DigitsClearAll();
-//
-	char buf[8] = {0};
-//	char buf1[4] = {0};
-//	char buf2[4] = {0};
-	sprintf(buf, "%d.%d.%d", FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION);
-//	memcpy(buf1, buf, 4);
-//	memcpy(buf2, buf + 4, 4);
-	DigitsWriteRow3(buf);
-	osDelay(2000);
-	DigitsClearAll();
-
-	Beep(3,100,100);
-
-	osDelay(500);
-	SendPanelReady();
-
-	booting = 0;
-
+	SysInit();
 
 	/* Infinite loop */
 	for(;;)
 	{
-		osDelay(100);
+		osDelay(500);
 	}
 
   /* USER CODE END 5 */

@@ -6,20 +6,16 @@
  */
 
 #include <stdio.h>
-#include <stdarg.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "globals.h"
 #include "cmsis_os.h"
 #include "main.h"
 #include "digits.h"
 
-#define DISPLAY_REFRESH_MILLIS 2
 
-extern uint8_t digitsRow1[8];
-extern uint8_t digitsRow2[8];
-extern uint8_t digitsRow3[8];
-
-extern osMutexId digitsMutex1Id;
+extern uint8_t DB_DigitsRow[DB_DIGIT_ROWS][DB_DIGIT_ROW_BUFFER_SIZE];
 
 // Character to segments conversion - @ for all segments
 // Segments:	dp g f e d c b a
@@ -43,13 +39,9 @@ const uint8_t displayChar[] = {
 		0x00, 0x67, 0x50, 0x00, 0x78, 0x1C, 0x00, 0x00, 0x00, 0x6E, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00
 };
 
-void DigitsInit()
-{
+void DisplayDigitsInit() {
 
 	uint8_t columnDataBit, columnIndex;
-
-	// All display off
-
 
 	// Release latch
 	HAL_GPIO_WritePin(DISPLAY_STROBE_GPIO_Port, DISPLAY_STROBE_Pin, GPIO_PIN_RESET);
@@ -60,7 +52,7 @@ void DigitsInit()
 	HAL_GPIO_WritePin(DISPLAY_DIGIT_3_GPIO_Port, DISPLAY_DIGIT_3_Pin, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(DISPLAY_DIGIT_4_GPIO_Port, DISPLAY_DIGIT_4_Pin, GPIO_PIN_RESET);
 
-	for (columnIndex =0; columnIndex < 4; columnIndex++) {
+	for (columnIndex = 0; columnIndex < DB_DIGIT_COLUMNS; columnIndex++) {
 
 		// Pushing segment data all 0
 		HAL_GPIO_WritePin(DISPLAY_DATA_GPIO_Port, DISPLAY_DATA_Pin, GPIO_PIN_RESET);
@@ -74,39 +66,18 @@ void DigitsInit()
 
 	// Set latch
 	HAL_GPIO_WritePin(DISPLAY_STROBE_GPIO_Port, DISPLAY_STROBE_Pin, GPIO_PIN_SET);
-
 }
 
-void DigitsWriteRow1(char* digits) {
-	memset(digitsRow1, 0x00, 8);
-	memcpy(digitsRow1, digits, 8);
+void DisplayDigitsWriteRow(uint8_t row, char* digits) {
+
+	memset(DB_DigitsRow[row], 0x00, 8);
+	memcpy(DB_DigitsRow[row], digits, 8);
 }
 
-void DigitsWriteRow2(char* digits) {
-	memset(digitsRow2, 0x00, 8);
-	memcpy(digitsRow2, digits, 8);
-}
 
-void DigitsWriteRow3(char* digits) {
-	memset(digitsRow3, 0x00, 8);
-	memcpy(digitsRow3, digits, 8);
-}
+void DisplayDigitsRefresh() {
 
-//void DigitsWriteRow3(const char* digits, ...) {
-//	va_list args;
-//	memset(digitsRow3, 0x00, 10);
-//	va_start(args, digits);
-//	vsprintf(digitsRow3, digits, args);
-//	va_end(args);
-////	memcpy(digitsRow3, digits, 10);
-//}
-
-void DigitsRefresh() {
-
-	uint8_t columnIndex;
-	uint8_t bufferIndex1, bufferIndex2, bufferIndex3;
 	uint32_t k, columnDataBit, columnData;
-	uint8_t digit1, digit2, digit3;
 	uint8_t timeDots;
 
 	// Release latch
@@ -114,46 +85,31 @@ void DigitsRefresh() {
 
 	for (;;) {
 
-		bufferIndex1 = 0;
-		bufferIndex2 = 0;
-		bufferIndex3 = 0;
 		timeDots = OFF;
+		uint8_t bufferIndex[DB_DIGIT_ROWS] = {[0 ... DB_DIGIT_ROWS - 1] = 0};
 
-		for (columnIndex = 0; columnIndex < 4; columnIndex++) {
+		for (uint8_t columnIndex = 0; columnIndex < 4; columnIndex++) {
 
+			uint8_t digitSegments[DB_DIGIT_ROWS] = {[0 ... DB_DIGIT_ROWS - 1] = 0};
 			columnData = 0;
 
-			osMutexWait(digitsMutex1Id, 0);
-			digit1 = displayChar[digitsRow1[bufferIndex1]];
-			if (digitsRow1[bufferIndex1 + 1] == '.') {
-				digit1 += 0x80;
-				bufferIndex1++;
-			}
-			osMutexRelease(digitsMutex1Id);
+			for (uint8_t rowIndex = 0; rowIndex < 3; rowIndex++) {
+				if ((rowIndex == 2) && (DB_DigitsRow[rowIndex][bufferIndex[rowIndex]] == ':')) {
+					timeDots = ON;
+					bufferIndex[rowIndex]++;
+				}
+				digitSegments[rowIndex] = displayChar[DB_DigitsRow[rowIndex][bufferIndex[rowIndex]]];
 
-			digit2 = displayChar[digitsRow2[bufferIndex2]];
-			if (digitsRow2[bufferIndex2 + 1] == '.') {
-				digit2 += 0x80;
-				bufferIndex2++;
-			}
-
-			if (digitsRow3[bufferIndex3] == ':') {
-				timeDots = ON;
-				bufferIndex3++;
-			}
-			digit3 = displayChar[digitsRow3[bufferIndex3]];
-			if (digitsRow3[bufferIndex3 + 1] == '.') {
-				digit3 += 0x80;
-				bufferIndex3++;
+				if (DB_DigitsRow[rowIndex][bufferIndex[rowIndex] + 1] == '.') {
+					digitSegments[rowIndex] += 0x80;
+					bufferIndex[rowIndex]++;
+				}
+				bufferIndex[rowIndex]++;
 			}
 
-			columnData = digit1 << 8;
-			columnData += digit2 << 16;
-			columnData += digit3;
-
-			bufferIndex1++;
-			bufferIndex2++;
-			bufferIndex3++;
+			columnData = digitSegments[0] << 8;
+			columnData += digitSegments[1] << 16;
+			columnData += digitSegments[2];
 
 			// All columns OFF while pushing serial data
 			HAL_GPIO_WritePin(DISPLAY_DIGIT_1_GPIO_Port, DISPLAY_DIGIT_1_Pin, GPIO_PIN_RESET);
@@ -199,17 +155,16 @@ void DigitsRefresh() {
 			osDelay(DISPLAY_REFRESH_MILLIS);
 		}
 	}
-
 }
 
-void DigitsClearAll() {
-	DigitsWriteRow1("        ");
-	DigitsWriteRow2("        ");
-	DigitsWriteRow3("        ");
+void DisplayDigitsClearAll() {
+	DisplayDigitsWriteRow(0, "        ");
+	DisplayDigitsWriteRow(1, "        ");
+	DisplayDigitsWriteRow(2, "        ");
 }
 
-void DigitsSetAll() {
-	DigitsWriteRow1("8.8.8.8 ");
-	DigitsWriteRow2("8.8.8.8 ");
-	DigitsWriteRow3("8.8.:8.8");
+void DisplayDigitsSetAll() {
+	DisplayDigitsWriteRow(0, "8.8.8.8 ");
+	DisplayDigitsWriteRow(1, "8.8.8.8 ");
+	DisplayDigitsWriteRow(2, "8.8.:8.8");
 }

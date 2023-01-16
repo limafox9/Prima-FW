@@ -1,73 +1,45 @@
-11:50:37 **** Incremental Build of configuration Debug for project DB_Protocol ****
+07:58:55 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j24 all 
-arm-none-eabi-gcc "../Src/CRC.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/CRC.d" -MT"Src/CRC.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/CRC.o"
-arm-none-eabi-gcc "../Src/DB_Protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/DB_Protocol.d" -MT"Src/DB_Protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/DB_Protocol.o"
-arm-none-eabi-gcc "../Src/syscalls.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/syscalls.d" -MT"Src/syscalls.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/syscalls.o"
-arm-none-eabi-gcc "../Src/sysmem.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/sysmem.d" -MT"Src/sysmem.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/sysmem.o"
-arm-none-eabi-gcc "../Drivers/CMSIS/Device/ST/STM32F1xx/Source/Templates/system_stm32f1xx.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Drivers/CMSIS/Device/ST/STM32F1xx/Source/Templates/system_stm32f1xx.d" -MT"Drivers/CMSIS/Device/ST/STM32F1xx/Source/Templates/system_stm32f1xx.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Drivers/CMSIS/Device/ST/STM32F1xx/Source/Templates/system_stm32f1xx.o"
-../Src/DB_Protocol.c: In function 'Display_DataToProtocol':
-../Src/DB_Protocol.c:25:2: warning: implicit declaration of function 'memcpy' [-Wimplicit-function-declaration]
-   25 |  memcpy(bufferOut + POS_HEAD, activeProtocolHead, 2);
-      |  ^~~~~~
-../Src/DB_Protocol.c:25:2: warning: incompatible implicit declaration of built-in function 'memcpy'
-../Src/DB_Protocol.c:15:1: note: include '<string.h>' or provide a declaration of 'memcpy'
-   14 | #include <DB_Protocol.h>
-  +++ |+#include <string.h>
-   15 | #include <stdio.h>
-../Src/DB_Protocol.c: In function 'Display_ProtocolToData':
-../Src/DB_Protocol.c:52:4: warning: incompatible implicit declaration of built-in function 'memcpy'
-   52 |    memcpy(&rxCRC, bufferIn + POS_CHECKSUM, 2);
-      |    ^~~~~~
-../Src/DB_Protocol.c:52:4: note: include '<string.h>' or provide a declaration of 'memcpy'
-../Src/DB_Protocol.c:64:9: warning: 'return' with a value, in function returning void [-Wreturn-type]
-   64 |  return dataOut;
-      |         ^~~~~~~
-../Src/DB_Protocol.c:42:6: note: declared here
-   42 | void Display_ProtocolToData(uint8_t* bufferIn, s_DisplayProtocolData* dataOut) {
-      |      ^~~~~~~~~~~~~~~~~~~~~~
-../Src/DB_Protocol.c:44:18: warning: variable 'calcCRC' set but not used [-Wunused-but-set-variable]
-   44 |  uint16_t rxCRC, calcCRC;
-      |                  ^~~~~~~
+arm-none-eabi-gcc "../Src/DB_serial.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/DB_serial.d" -MT"Src/DB_serial.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/DB_serial.o"
+../Src/DB_serial.c: In function 'DBSendCommand':
+../Src/DB_serial.c:60:67: warning: initialization of 'char' from 'char *' makes integer from pointer without a cast [-Wint-conversion]
+   60 |  s_DisplayProtocolData txData = {command, param1, param2, param3, digits, 1};
+      |                                                                   ^~~~~~
+../Src/DB_serial.c:60:67: note: (near initialization for 'txData.Digits[0]')
+../Src/DB_serial.c:60:33: warning: missing braces around initializer [-Wmissing-braces]
+   60 |  s_DisplayProtocolData txData = {command, param1, param2, param3, digits, 1};
+      |                                 ^
+      |                                                                   {        }
 arm-none-eabi-ar -r  "libDB_Protocol.a" @"objects.list"  
 arm-none-eabi-ar: creating libDB_Protocol.a
 Finished building target: libDB_Protocol.a
  
-11:50:38 **** Incremental Build of configuration Debug for project DB_Protocol ****
+07:58:55 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j24 all 
-arm-none-eabi-gcc "../Src/CRC.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/CRC.d" -MT"Src/CRC.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/CRC.o"
-arm-none-eabi-gcc "../Src/DB_Protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/DB_Protocol.d" -MT"Src/DB_Protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/DB_Protocol.o"
-arm-none-eabi-gcc "../Src/syscalls.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/syscalls.d" -MT"Src/syscalls.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/syscalls.o"
-arm-none-eabi-gcc "../Src/sysmem.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/sysmem.d" -MT"Src/sysmem.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/sysmem.o"
-arm-none-eabi-gcc "../Drivers/CMSIS/Device/ST/STM32F1xx/Source/Templates/system_stm32f1xx.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Drivers/CMSIS/Device/ST/STM32F1xx/Source/Templates/system_stm32f1xx.d" -MT"Drivers/CMSIS/Device/ST/STM32F1xx/Source/Templates/system_stm32f1xx.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Drivers/CMSIS/Device/ST/STM32F1xx/Source/Templates/system_stm32f1xx.o"
-../Src/DB_Protocol.c: In function 'Display_DataToProtocol':
-../Src/DB_Protocol.c:25:2: warning: implicit declaration of function 'memcpy' [-Wimplicit-function-declaration]
-   25 |  memcpy(bufferOut + POS_HEAD, activeProtocolHead, 2);
-      |  ^~~~~~
-../Src/DB_Protocol.c:25:2: warning: incompatible implicit declaration of built-in function 'memcpy'
-../Src/DB_Protocol.c:15:1: note: include '<string.h>' or provide a declaration of 'memcpy'
-   14 | #include <DB_Protocol.h>
-  +++ |+#include <string.h>
-   15 | #include <stdio.h>
-../Src/DB_Protocol.c: In function 'Display_ProtocolToData':
-../Src/DB_Protocol.c:52:4: warning: incompatible implicit declaration of built-in function 'memcpy'
-   52 |    memcpy(&rxCRC, bufferIn + POS_CHECKSUM, 2);
-      |    ^~~~~~
-../Src/DB_Protocol.c:52:4: note: include '<string.h>' or provide a declaration of 'memcpy'
-../Src/DB_Protocol.c:64:9: warning: 'return' with a value, in function returning void [-Wreturn-type]
-   64 |  return dataOut;
-      |         ^~~~~~~
-../Src/DB_Protocol.c:42:6: note: declared here
-   42 | void Display_ProtocolToData(uint8_t* bufferIn, s_DisplayProtocolData* dataOut) {
-      |      ^~~~~~~~~~~~~~~~~~~~~~
-../Src/DB_Protocol.c:44:18: warning: variable 'calcCRC' set but not used [-Wunused-but-set-variable]
-   44 |  uint16_t rxCRC, calcCRC;
-      |                  ^~~~~~~
+arm-none-eabi-gcc "../Src/DB_serial.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/DB_serial.d" -MT"Src/DB_serial.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/DB_serial.o"
+../Src/DB_serial.c: In function 'DBSendCommand':
+../Src/DB_serial.c:60:67: warning: initialization of 'char' from 'char *' makes integer from pointer without a cast [-Wint-conversion]
+   60 |  s_DisplayProtocolData txData = {command, param1, param2, param3, digits, 1};
+      |                                                                   ^~~~~~
+../Src/DB_serial.c:60:67: note: (near initialization for 'txData.Digits[0]')
+../Src/DB_serial.c:60:33: warning: missing braces around initializer [-Wmissing-braces]
+   60 |  s_DisplayProtocolData txData = {command, param1, param2, param3, digits, 1};
+      |                                 ^
+      |                                                                   {        }
 arm-none-eabi-ar -r  "libDB_Protocol.a" @"objects.list"  
 arm-none-eabi-ar: creating libDB_Protocol.a
 Finished building target: libDB_Protocol.a
  
-11:50:38 **** Incremental Build of configuration Debug for project Display_APP ****
+07:58:56 **** Incremental Build of configuration Debug for project Display_APP ****
 make -j24 all 
+arm-none-eabi-gcc "../Core/Src/serial.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I"D:/Galbiati/Prima Firmware/Source/DB_Protocol" -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial.d" -MT"Core/Src/serial.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial.o"
+../Core/Src/serial.c: In function 'ParseCommand':
+../Core/Src/serial.c:103:2: warning: enumeration value 'DISPLAY_CMD_OK' not handled in switch [-Wswitch]
+  103 |  switch (data->Command) {
+      |  ^~~~~~
+../Core/Src/serial.c:103:2: warning: enumeration value 'DISPLAY_CMD_ERROR' not handled in switch [-Wswitch]
+../Core/Src/serial.c:103:2: warning: enumeration value 'DISPLAY_CMD_KEYS_PRESSED' not handled in switch [-Wswitch]
+../Core/Src/serial.c:103:2: warning: enumeration value 'DISPLAY_CMD_READY' not handled in switch [-Wswitch]
 arm-none-eabi-gcc -o "Display_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Display_APP\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Display_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima Firmware\Source\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: Display_APP.elf
  
@@ -76,7 +48,7 @@ arm-none-eabi-objdump -h -S  Display_APP.elf  > "Display_APP.list"
 arm-none-eabi-objcopy  -O ihex  Display_APP.elf  "Display_APP.hex"
 arm-none-eabi-objcopy  -O binary  Display_APP.elf  "Display_APP.bin"
    text	   data	    bss	    dec	    hex	filename
-  46104	    496	  11144	  57744	   e190	Display_APP.elf
+  43864	    496	  11208	  55568	   d910	Display_APP.elf
 Finished building: default.size.stdout
  
 Finished building: Display_APP.hex
@@ -84,4 +56,488 @@ Finished building: Display_APP.bin
  
  
 Finished building: Display_APP.list
+ 
+07:59:01 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j24 all 
+make: Nothing to be done for 'all'.
+07:59:01 **** Incremental Build of configuration Debug for project Display_APP ****
+make -j24 all 
+arm-none-eabi-size   Display_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  43864	    496	  11208	  55568	   d910	Display_APP.elf
+Finished building: default.size.stdout
+ 
+08:04:11 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j24 all 
+arm-none-eabi-gcc "../Src/DB_serial.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/DB_serial.d" -MT"Src/DB_serial.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/DB_serial.o"
+../Src/DB_serial.c: In function 'DBSendCommand':
+../Src/DB_serial.c:60:67: warning: initialization of 'char' from 'char *' makes integer from pointer without a cast [-Wint-conversion]
+   60 |  s_DisplayProtocolData txData = {command, param1, param2, param3, digits, 1};
+      |                                                                   ^~~~~~
+../Src/DB_serial.c:60:67: note: (near initialization for 'txData.Digits[0]')
+../Src/DB_serial.c:60:33: warning: missing braces around initializer [-Wmissing-braces]
+   60 |  s_DisplayProtocolData txData = {command, param1, param2, param3, digits, 1};
+      |                                 ^
+      |                                                                   {        }
+arm-none-eabi-ar -r  "libDB_Protocol.a" @"objects.list"  
+arm-none-eabi-ar: creating libDB_Protocol.a
+Finished building target: libDB_Protocol.a
+ 
+08:04:12 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j24 all 
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima Firmware\Source\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Board_APP.elf
+ 
+arm-none-eabi-size   Board_APP.elf 
+arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
+arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
+arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
+   text	   data	    bss	    dec	    hex	filename
+  67328	    540	  37404	 105272	  19b38	Board_APP.elf
+Finished building: default.size.stdout
+ 
+Finished building: Board_APP.hex
+Finished building: Board_APP.bin
+ 
+ 
+Finished building: Board_APP.list
+ 
+08:07:00 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j24 all 
+arm-none-eabi-gcc "../Src/DB_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/DB_protocol.d" -MT"Src/DB_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/DB_protocol.o"
+../Src/DB_protocol.c: In function 'Display_ProtocolToData':
+../Src/DB_protocol.c:47:18: warning: variable 'calcCRC' set but not used [-Wunused-but-set-variable]
+   47 |  uint16_t rxCRC, calcCRC;
+      |                  ^~~~~~~
+arm-none-eabi-ar -r  "libDB_Protocol.a" @"objects.list"  
+arm-none-eabi-ar: creating libDB_Protocol.a
+Finished building target: libDB_Protocol.a
+ 
+08:07:00 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j24 all 
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima Firmware\Source\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Board_APP.elf
+ 
+arm-none-eabi-size   Board_APP.elf 
+arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
+arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
+arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
+   text	   data	    bss	    dec	    hex	filename
+  67328	    540	  37404	 105272	  19b38	Board_APP.elf
+Finished building: default.size.stdout
+ 
+Finished building: Board_APP.hex
+Finished building: Board_APP.bin
+ 
+ 
+Finished building: Board_APP.list
+ 
+08:08:28 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j24 all 
+arm-none-eabi-gcc "../Src/DB_serial.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/DB_serial.d" -MT"Src/DB_serial.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/DB_serial.o"
+../Src/DB_serial.c: In function 'DBSendCommand':
+../Src/DB_serial.c:60:67: warning: initialization of 'char' from 'char **' makes integer from pointer without a cast [-Wint-conversion]
+   60 |  s_DisplayProtocolData txData = {command, param1, param2, param3, &digits, 1};
+      |                                                                   ^
+../Src/DB_serial.c:60:67: note: (near initialization for 'txData.Digits[0]')
+../Src/DB_serial.c:60:33: warning: missing braces around initializer [-Wmissing-braces]
+   60 |  s_DisplayProtocolData txData = {command, param1, param2, param3, &digits, 1};
+      |                                 ^
+      |                                                                   {         }
+arm-none-eabi-ar -r  "libDB_Protocol.a" @"objects.list"  
+arm-none-eabi-ar: creating libDB_Protocol.a
+Finished building target: libDB_Protocol.a
+ 
+08:08:29 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j24 all 
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima Firmware\Source\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Board_APP.elf
+ 
+arm-none-eabi-size   Board_APP.elf 
+arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
+arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
+arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
+   text	   data	    bss	    dec	    hex	filename
+  67336	    540	  37404	 105280	  19b40	Board_APP.elf
+Finished building: default.size.stdout
+ 
+Finished building: Board_APP.hex
+Finished building: Board_APP.bin
+ 
+ 
+Finished building: Board_APP.list
+ 
+08:13:25 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j24 all 
+arm-none-eabi-gcc "../Src/DB_globals.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/DB_globals.d" -MT"Src/DB_globals.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/DB_globals.o"
+arm-none-eabi-gcc "../Src/DB_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/DB_protocol.d" -MT"Src/DB_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/DB_protocol.o"
+arm-none-eabi-gcc "../Src/DB_serial.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/DB_serial.d" -MT"Src/DB_serial.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/DB_serial.o"
+../Src/DB_protocol.c: In function 'Display_ProtocolToData':
+../Src/DB_protocol.c:47:18: warning: variable 'calcCRC' set but not used [-Wunused-but-set-variable]
+   47 |  uint16_t rxCRC, calcCRC;
+      |                  ^~~~~~~
+../Src/DB_serial.c: In function 'DBSendCommand':
+../Src/DB_serial.c:60:75: warning: initialization of 'char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   60 |  s_DisplayProtocolData txData = {command, param1, param2, param3, digits, 1};
+      |                                                                           ^
+../Src/DB_serial.c:60:75: note: (near initialization for 'txData.Digits[1]')
+../Src/DB_serial.c:60:33: warning: missing braces around initializer [-Wmissing-braces]
+   60 |  s_DisplayProtocolData txData = {command, param1, param2, param3, digits, 1};
+      |                                 ^
+      |                                                                   {        }
+arm-none-eabi-ar -r  "libDB_Protocol.a" @"objects.list"  
+arm-none-eabi-ar: creating libDB_Protocol.a
+Finished building target: libDB_Protocol.a
+ 
+08:13:26 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/serial.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima Firmware/Source/DB_Protocol" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial.d" -MT"Core/Src/serial.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial.o"
+arm-none-eabi-gcc "../Core/Src/system.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima Firmware/Source/DB_Protocol" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/system.d" -MT"Core/Src/system.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/system.o"
+../Core/Src/system.c: In function 'calTemp':
+../Core/Src/system.c:85:10: warning: implicit declaration of function 'sqrt' [-Wimplicit-function-declaration]
+   85 |  temp = (sqrt(temp) + Z1) / Z4;
+      |          ^~~~
+../Core/Src/system.c:85:10: warning: incompatible implicit declaration of built-in function 'sqrt'
+../Core/Src/system.c:56:1: note: include '<math.h>' or provide a declaration of 'sqrt'
+   55 | #include "Inc/DB_Protocol.h"
+  +++ |+#include <math.h>
+   56 | 
+../Core/Src/serial.c: In function 'ParseCommand':
+../Core/Src/serial.c:107:4: warning: implicit declaration of function 'DBSendCommand' [-Wimplicit-function-declaration]
+  107 |    DBSendCommand(DISPLAY_CMD_OK, FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION, "");
+      |    ^~~~~~~~~~~~~
+../Core/Src/serial.c:102:2: warning: enumeration value 'DISPLAY_CMD_OK' not handled in switch [-Wswitch]
+  102 |  switch (data->Command) {
+      |  ^~~~~~
+../Core/Src/serial.c:102:2: warning: enumeration value 'DISPLAY_CMD_ERROR' not handled in switch [-Wswitch]
+../Core/Src/serial.c:102:2: warning: enumeration value 'DISPLAY_CMD_KEYS_PRESSED' not handled in switch [-Wswitch]
+../Core/Src/serial.c:102:2: warning: enumeration value 'DISPLAY_CMD_WRITE_DIGITS' not handled in switch [-Wswitch]
+../Core/Src/serial.c:102:2: warning: enumeration value 'DISPLAY_CMD_WRITE_DASHBOARD_LEDS' not handled in switch [-Wswitch]
+../Core/Src/serial.c:102:2: warning: enumeration value 'DISPLAY_CMD_WRITE_PROGRESS_LEDS' not handled in switch [-Wswitch]
+../Core/Src/serial.c:102:2: warning: enumeration value 'DISPLAY_CMD_SET_KEYS_BEEP' not handled in switch [-Wswitch]
+../Core/Src/serial.c:102:2: warning: enumeration value 'DISPLAY_CMD_SET_LONG_PRESS_INTERVAL' not handled in switch [-Wswitch]
+../Core/Src/serial.c:102:2: warning: enumeration value 'DISPLAY_CMD_SET_FLASH_INTERVAL' not handled in switch [-Wswitch]
+../Core/Src/serial.c:102:2: warning: enumeration value 'DISPLAY_CMD_CHECK' not handled in switch [-Wswitch]
+../Core/Src/system.c: In function 'SysInit':
+../Core/Src/system.c:93:2: warning: implicit declaration of function 'DBSendDigits' [-Wimplicit-function-declaration]
+   93 |  DBSendDigits(1, "CIAO");
+      |  ^~~~~~~~~~~~
+../Core/Src/system.c:95:2: warning: implicit declaration of function 'SerialInit' [-Wimplicit-function-declaration]
+   95 |  SerialInit(&UART_MONITOR, 115200);
+      |  ^~~~~~~~~~
+../Core/Src/system.c:120:19: warning: implicit declaration of function 'BAT2U_GetTDSValue'; did you mean 'BAT2U_GetValue'? [-Wimplicit-function-declaration]
+  120 |  int16_t refRes = BAT2U_GetTDSValue(1);
+      |                   ^~~~~~~~~~~~~~~~~
+      |                   BAT2U_GetValue
+../Core/Src/system.c:123:3: warning: implicit declaration of function 'SerialSend' [-Wimplicit-function-declaration]
+  123 |   SerialSend(&UART_MONITOR, s, 32);
+      |   ^~~~~~~~~~
+../Core/Src/system.c: In function 'Log':
+../Core/Src/system.c:286:4: warning: implicit declaration of function 'strcat' [-Wimplicit-function-declaration]
+  286 |    strcat(s, buffer);
+      |    ^~~~~~
+../Core/Src/system.c:286:4: warning: incompatible implicit declaration of built-in function 'strcat'
+../Core/Src/system.c:56:1: note: include '<string.h>' or provide a declaration of 'strcat'
+   55 | #include "Inc/DB_Protocol.h"
+  +++ |+#include <string.h>
+   56 | 
+../Core/Src/system.c:291:4: warning: incompatible implicit declaration of built-in function 'strcat'
+  291 |    strcat(s, buffer);
+      |    ^~~~~~
+../Core/Src/system.c:291:4: note: include '<string.h>' or provide a declaration of 'strcat'
+../Core/Src/system.c:296:4: warning: incompatible implicit declaration of built-in function 'strcat'
+  296 |    strcat(s, buffer);
+      |    ^~~~~~
+../Core/Src/system.c:296:4: note: include '<string.h>' or provide a declaration of 'strcat'
+../Core/Src/system.c:303:3: warning: incompatible implicit declaration of built-in function 'strcat'
+  303 |   strcat(s, buffer);
+      |   ^~~~~~
+../Core/Src/system.c:303:3: note: include '<string.h>' or provide a declaration of 'strcat'
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima Firmware\Source\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Board_APP.elf
+ 
+arm-none-eabi-size   Board_APP.elf 
+arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
+arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
+arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
+   text	   data	    bss	    dec	    hex	filename
+  67320	    540	  37404	 105264	  19b30	Board_APP.elf
+Finished building: default.size.stdout
+ 
+Finished building: Board_APP.hex
+Finished building: Board_APP.bin
+ 
+ 
+Finished building: Board_APP.list
+ 
+08:14:50 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j24 all 
+arm-none-eabi-gcc "../Src/DB_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/DB_protocol.d" -MT"Src/DB_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/DB_protocol.o"
+../Src/DB_protocol.c: In function 'Display_ProtocolToData':
+../Src/DB_protocol.c:47:18: warning: variable 'calcCRC' set but not used [-Wunused-but-set-variable]
+   47 |  uint16_t rxCRC, calcCRC;
+      |                  ^~~~~~~
+arm-none-eabi-ar -r  "libDB_Protocol.a" @"objects.list"  
+arm-none-eabi-ar: creating libDB_Protocol.a
+Finished building target: libDB_Protocol.a
+ 
+08:14:50 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j24 all 
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima Firmware\Source\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Board_APP.elf
+ 
+arm-none-eabi-size   Board_APP.elf 
+arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
+arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
+arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
+   text	   data	    bss	    dec	    hex	filename
+  67320	    540	  37404	 105264	  19b30	Board_APP.elf
+Finished building: default.size.stdout
+ 
+Finished building: Board_APP.hex
+Finished building: Board_APP.bin
+ 
+ 
+Finished building: Board_APP.list
+ 
+08:16:27 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j24 all 
+make: Nothing to be done for 'all'.
+08:16:27 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j24 all 
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima Firmware\Source\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Board_APP.elf
+ 
+arm-none-eabi-size   Board_APP.elf 
+arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
+arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
+arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
+   text	   data	    bss	    dec	    hex	filename
+  67320	    540	  37404	 105264	  19b30	Board_APP.elf
+Finished building: default.size.stdout
+ 
+Finished building: Board_APP.hex
+Finished building: Board_APP.bin
+ 
+ 
+Finished building: Board_APP.list
+ 
+08:18:34 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j24 all 
+arm-none-eabi-gcc "../Src/DB_globals.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/DB_globals.d" -MT"Src/DB_globals.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/DB_globals.o"
+arm-none-eabi-gcc "../Src/DB_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/DB_protocol.d" -MT"Src/DB_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/DB_protocol.o"
+arm-none-eabi-gcc "../Src/DB_serial.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/DB_serial.d" -MT"Src/DB_serial.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/DB_serial.o"
+../Src/DB_protocol.c: In function 'Display_ProtocolToData':
+../Src/DB_protocol.c:47:18: warning: variable 'calcCRC' set but not used [-Wunused-but-set-variable]
+   47 |  uint16_t rxCRC, calcCRC;
+      |                  ^~~~~~~
+../Src/DB_serial.c: In function 'DBSendCommand':
+../Src/DB_serial.c:60:75: warning: initialization of 'char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   60 |  s_DisplayProtocolData txData = {command, param1, param2, param3, digits, 1};
+      |                                                                           ^
+../Src/DB_serial.c:60:75: note: (near initialization for 'txData.Digits[1]')
+../Src/DB_serial.c:60:33: warning: missing braces around initializer [-Wmissing-braces]
+   60 |  s_DisplayProtocolData txData = {command, param1, param2, param3, digits, 1};
+      |                                 ^
+      |                                                                   {        }
+arm-none-eabi-ar -r  "libDB_Protocol.a" @"objects.list"  
+arm-none-eabi-ar: creating libDB_Protocol.a
+Finished building target: libDB_Protocol.a
+ 
+08:18:52 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j24 all 
+arm-none-eabi-gcc "../Src/DB_globals.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/DB_globals.d" -MT"Src/DB_globals.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/DB_globals.o"
+arm-none-eabi-gcc "../Src/DB_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/DB_protocol.d" -MT"Src/DB_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/DB_protocol.o"
+arm-none-eabi-gcc "../Src/DB_serial.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/DB_serial.d" -MT"Src/DB_serial.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/DB_serial.o"
+../Src/DB_protocol.c: In function 'Display_ProtocolToData':
+../Src/DB_protocol.c:47:18: warning: variable 'calcCRC' set but not used [-Wunused-but-set-variable]
+   47 |  uint16_t rxCRC, calcCRC;
+      |                  ^~~~~~~
+../Src/DB_serial.c: In function 'DBSendCommand':
+../Src/DB_serial.c:60:67: warning: initialization of 'char' from 'char *' makes integer from pointer without a cast [-Wint-conversion]
+   60 |  s_DisplayProtocolData txData = {command, param1, param2, param3, digits, 1};
+      |                                                                   ^~~~~~
+../Src/DB_serial.c:60:67: note: (near initialization for 'txData.Digits[0]')
+../Src/DB_serial.c:60:33: warning: missing braces around initializer [-Wmissing-braces]
+   60 |  s_DisplayProtocolData txData = {command, param1, param2, param3, digits, 1};
+      |                                 ^
+      |                                                                   {        }
+arm-none-eabi-ar -r  "libDB_Protocol.a" @"objects.list"  
+arm-none-eabi-ar: creating libDB_Protocol.a
+Finished building target: libDB_Protocol.a
+ 
+08:18:53 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/serial.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima Firmware/Source/DB_Protocol" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial.d" -MT"Core/Src/serial.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial.o"
+arm-none-eabi-gcc "../Core/Src/system.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima Firmware/Source/DB_Protocol" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/system.d" -MT"Core/Src/system.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/system.o"
+../Core/Src/system.c: In function 'calTemp':
+../Core/Src/system.c:85:10: warning: implicit declaration of function 'sqrt' [-Wimplicit-function-declaration]
+   85 |  temp = (sqrt(temp) + Z1) / Z4;
+      |          ^~~~
+../Core/Src/system.c:85:10: warning: incompatible implicit declaration of built-in function 'sqrt'
+../Core/Src/system.c:56:1: note: include '<math.h>' or provide a declaration of 'sqrt'
+   55 | #include "Inc/DB_Protocol.h"
+  +++ |+#include <math.h>
+   56 | 
+../Core/Src/serial.c: In function 'ParseCommand':
+../Core/Src/serial.c:107:4: warning: implicit declaration of function 'DBSendCommand' [-Wimplicit-function-declaration]
+  107 |    DBSendCommand(DISPLAY_CMD_OK, FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION, "");
+      |    ^~~~~~~~~~~~~
+../Core/Src/serial.c:102:2: warning: enumeration value 'DISPLAY_CMD_OK' not handled in switch [-Wswitch]
+  102 |  switch (data->Command) {
+      |  ^~~~~~
+../Core/Src/serial.c:102:2: warning: enumeration value 'DISPLAY_CMD_ERROR' not handled in switch [-Wswitch]
+../Core/Src/serial.c:102:2: warning: enumeration value 'DISPLAY_CMD_KEYS_PRESSED' not handled in switch [-Wswitch]
+../Core/Src/serial.c:102:2: warning: enumeration value 'DISPLAY_CMD_WRITE_DIGITS' not handled in switch [-Wswitch]
+../Core/Src/serial.c:102:2: warning: enumeration value 'DISPLAY_CMD_WRITE_DASHBOARD_LEDS' not handled in switch [-Wswitch]
+../Core/Src/serial.c:102:2: warning: enumeration value 'DISPLAY_CMD_WRITE_PROGRESS_LEDS' not handled in switch [-Wswitch]
+../Core/Src/serial.c:102:2: warning: enumeration value 'DISPLAY_CMD_SET_KEYS_BEEP' not handled in switch [-Wswitch]
+../Core/Src/serial.c:102:2: warning: enumeration value 'DISPLAY_CMD_SET_LONG_PRESS_INTERVAL' not handled in switch [-Wswitch]
+../Core/Src/serial.c:102:2: warning: enumeration value 'DISPLAY_CMD_SET_FLASH_INTERVAL' not handled in switch [-Wswitch]
+../Core/Src/serial.c:102:2: warning: enumeration value 'DISPLAY_CMD_CHECK' not handled in switch [-Wswitch]
+../Core/Src/system.c: In function 'SysInit':
+../Core/Src/system.c:93:2: warning: implicit declaration of function 'DBSendDigits' [-Wimplicit-function-declaration]
+   93 |  DBSendDigits(1, "CIAO");
+      |  ^~~~~~~~~~~~
+../Core/Src/system.c:95:2: warning: implicit declaration of function 'SerialInit' [-Wimplicit-function-declaration]
+   95 |  SerialInit(&UART_MONITOR, 115200);
+      |  ^~~~~~~~~~
+../Core/Src/system.c:120:19: warning: implicit declaration of function 'BAT2U_GetTDSValue'; did you mean 'BAT2U_GetValue'? [-Wimplicit-function-declaration]
+  120 |  int16_t refRes = BAT2U_GetTDSValue(1);
+      |                   ^~~~~~~~~~~~~~~~~
+      |                   BAT2U_GetValue
+../Core/Src/system.c:123:3: warning: implicit declaration of function 'SerialSend' [-Wimplicit-function-declaration]
+  123 |   SerialSend(&UART_MONITOR, s, 32);
+      |   ^~~~~~~~~~
+../Core/Src/system.c: In function 'Log':
+../Core/Src/system.c:286:4: warning: implicit declaration of function 'strcat' [-Wimplicit-function-declaration]
+  286 |    strcat(s, buffer);
+      |    ^~~~~~
+../Core/Src/system.c:286:4: warning: incompatible implicit declaration of built-in function 'strcat'
+../Core/Src/system.c:56:1: note: include '<string.h>' or provide a declaration of 'strcat'
+   55 | #include "Inc/DB_Protocol.h"
+  +++ |+#include <string.h>
+   56 | 
+../Core/Src/system.c:291:4: warning: incompatible implicit declaration of built-in function 'strcat'
+  291 |    strcat(s, buffer);
+      |    ^~~~~~
+../Core/Src/system.c:291:4: note: include '<string.h>' or provide a declaration of 'strcat'
+../Core/Src/system.c:296:4: warning: incompatible implicit declaration of built-in function 'strcat'
+  296 |    strcat(s, buffer);
+      |    ^~~~~~
+../Core/Src/system.c:296:4: note: include '<string.h>' or provide a declaration of 'strcat'
+../Core/Src/system.c:303:3: warning: incompatible implicit declaration of built-in function 'strcat'
+  303 |   strcat(s, buffer);
+      |   ^~~~~~
+../Core/Src/system.c:303:3: note: include '<string.h>' or provide a declaration of 'strcat'
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima Firmware\Source\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Board_APP.elf
+ 
+arm-none-eabi-size   Board_APP.elf 
+arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
+arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
+arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
+   text	   data	    bss	    dec	    hex	filename
+  67328	    540	  37404	 105272	  19b38	Board_APP.elf
+Finished building: default.size.stdout
+ 
+Finished building: Board_APP.hex
+Finished building: Board_APP.bin
+ 
+ 
+Finished building: Board_APP.list
+ 
+08:21:59 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j24 all 
+arm-none-eabi-gcc "../Src/DB_globals.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/DB_globals.d" -MT"Src/DB_globals.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/DB_globals.o"
+arm-none-eabi-gcc "../Src/DB_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/DB_protocol.d" -MT"Src/DB_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/DB_protocol.o"
+arm-none-eabi-gcc "../Src/DB_serial.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/DB_serial.d" -MT"Src/DB_serial.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/DB_serial.o"
+../Src/DB_protocol.c: In function 'Display_ProtocolToData':
+../Src/DB_protocol.c:47:18: warning: variable 'calcCRC' set but not used [-Wunused-but-set-variable]
+   47 |  uint16_t rxCRC, calcCRC;
+      |                  ^~~~~~~
+arm-none-eabi-ar -r  "libDB_Protocol.a" @"objects.list"  
+arm-none-eabi-ar: creating libDB_Protocol.a
+Finished building target: libDB_Protocol.a
+ 
+08:22:00 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/serial.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima Firmware/Source/DB_Protocol" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial.d" -MT"Core/Src/serial.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial.o"
+arm-none-eabi-gcc "../Core/Src/system.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima Firmware/Source/DB_Protocol" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/system.d" -MT"Core/Src/system.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/system.o"
+../Core/Src/system.c: In function 'calTemp':
+../Core/Src/system.c:85:10: warning: implicit declaration of function 'sqrt' [-Wimplicit-function-declaration]
+   85 |  temp = (sqrt(temp) + Z1) / Z4;
+      |          ^~~~
+../Core/Src/system.c:85:10: warning: incompatible implicit declaration of built-in function 'sqrt'
+../Core/Src/system.c:56:1: note: include '<math.h>' or provide a declaration of 'sqrt'
+   55 | #include "Inc/DB_Protocol.h"
+  +++ |+#include <math.h>
+   56 | 
+../Core/Src/serial.c: In function 'ParseCommand':
+../Core/Src/serial.c:107:4: warning: implicit declaration of function 'DBSendCommand' [-Wimplicit-function-declaration]
+  107 |    DBSendCommand(DISPLAY_CMD_OK, FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION, "");
+      |    ^~~~~~~~~~~~~
+../Core/Src/serial.c:102:2: warning: enumeration value 'DISPLAY_CMD_OK' not handled in switch [-Wswitch]
+  102 |  switch (data->Command) {
+      |  ^~~~~~
+../Core/Src/serial.c:102:2: warning: enumeration value 'DISPLAY_CMD_ERROR' not handled in switch [-Wswitch]
+../Core/Src/serial.c:102:2: warning: enumeration value 'DISPLAY_CMD_KEYS_PRESSED' not handled in switch [-Wswitch]
+../Core/Src/serial.c:102:2: warning: enumeration value 'DISPLAY_CMD_WRITE_DIGITS' not handled in switch [-Wswitch]
+../Core/Src/serial.c:102:2: warning: enumeration value 'DISPLAY_CMD_WRITE_DASHBOARD_LEDS' not handled in switch [-Wswitch]
+../Core/Src/serial.c:102:2: warning: enumeration value 'DISPLAY_CMD_WRITE_PROGRESS_LEDS' not handled in switch [-Wswitch]
+../Core/Src/serial.c:102:2: warning: enumeration value 'DISPLAY_CMD_SET_KEYS_BEEP' not handled in switch [-Wswitch]
+../Core/Src/serial.c:102:2: warning: enumeration value 'DISPLAY_CMD_SET_LONG_PRESS_INTERVAL' not handled in switch [-Wswitch]
+../Core/Src/serial.c:102:2: warning: enumeration value 'DISPLAY_CMD_SET_FLASH_INTERVAL' not handled in switch [-Wswitch]
+../Core/Src/serial.c:102:2: warning: enumeration value 'DISPLAY_CMD_CHECK' not handled in switch [-Wswitch]
+../Core/Src/system.c: In function 'SysInit':
+../Core/Src/system.c:93:2: warning: implicit declaration of function 'DBSendDigits' [-Wimplicit-function-declaration]
+   93 |  DBSendDigits(1, "CIAO");
+      |  ^~~~~~~~~~~~
+../Core/Src/system.c:95:2: warning: implicit declaration of function 'SerialInit' [-Wimplicit-function-declaration]
+   95 |  SerialInit(&UART_MONITOR, 115200);
+      |  ^~~~~~~~~~
+../Core/Src/system.c:120:19: warning: implicit declaration of function 'BAT2U_GetTDSValue'; did you mean 'BAT2U_GetValue'? [-Wimplicit-function-declaration]
+  120 |  int16_t refRes = BAT2U_GetTDSValue(1);
+      |                   ^~~~~~~~~~~~~~~~~
+      |                   BAT2U_GetValue
+../Core/Src/system.c:123:3: warning: implicit declaration of function 'SerialSend' [-Wimplicit-function-declaration]
+  123 |   SerialSend(&UART_MONITOR, s, 32);
+      |   ^~~~~~~~~~
+../Core/Src/system.c: In function 'Log':
+../Core/Src/system.c:286:4: warning: implicit declaration of function 'strcat' [-Wimplicit-function-declaration]
+  286 |    strcat(s, buffer);
+      |    ^~~~~~
+../Core/Src/system.c:286:4: warning: incompatible implicit declaration of built-in function 'strcat'
+../Core/Src/system.c:56:1: note: include '<string.h>' or provide a declaration of 'strcat'
+   55 | #include "Inc/DB_Protocol.h"
+  +++ |+#include <string.h>
+   56 | 
+../Core/Src/system.c:291:4: warning: incompatible implicit declaration of built-in function 'strcat'
+  291 |    strcat(s, buffer);
+      |    ^~~~~~
+../Core/Src/system.c:291:4: note: include '<string.h>' or provide a declaration of 'strcat'
+../Core/Src/system.c:296:4: warning: incompatible implicit declaration of built-in function 'strcat'
+  296 |    strcat(s, buffer);
+      |    ^~~~~~
+../Core/Src/system.c:296:4: note: include '<string.h>' or provide a declaration of 'strcat'
+../Core/Src/system.c:303:3: warning: incompatible implicit declaration of built-in function 'strcat'
+  303 |   strcat(s, buffer);
+      |   ^~~~~~
+../Core/Src/system.c:303:3: note: include '<string.h>' or provide a declaration of 'strcat'
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima Firmware\Source\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Board_APP.elf
+ 
+arm-none-eabi-size   Board_APP.elf 
+arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
+arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
+arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
+   text	   data	    bss	    dec	    hex	filename
+  67304	    540	  37404	 105248	  19b20	Board_APP.elf
+Finished building: default.size.stdout
+ 
+Finished building: Board_APP.hex
+Finished building: Board_APP.bin
+ 
+ 
+Finished building: Board_APP.list
  

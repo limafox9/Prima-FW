@@ -11,6 +11,6 @@
 #include "main.h"
 #include "globals.h"
 
-void Beep(uint8_t hits, uint16_t onDelay, uint16_t offDelay);
+void DisplayBeep(uint8_t hits, uint16_t onDelay, uint16_t offDelay);
 
 #endif /* INC_BUZZER_H_ */

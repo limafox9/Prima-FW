@@ -1,8 +1,8 @@
 /*==============================================================================
 
-Filename: settings.h
+Filename: serial.h
 
-Created on: Jan 14, 2023
+Created on: Jan 10, 2023
 
 Original work: Copyright (c) 2023 Luca Favenzi
 Modified work:
@@ -35,13 +35,14 @@ USAGE:
 
 
 
-#ifndef INC_SETTINGS_H_
-#define INC_SETTINGS_H_
+#ifndef INC_SERIAL_H_
+#define INC_SERIAL_H_
 
+#include <stdio.h>
+#include <stm32f1xx.h>
 
-#define FW_VERSION_MAJOR 7
-#define FW_VERSION_MINOR 0
-#define FW_VERSION_REVISION 21
+void DBInit(UART_HandleTypeDef* huart, GPIO_TypeDef* rs485_CS_GPIOPort, uint16_t rs485_CS_GPIOPin);
+void DBSendCommand(uint16_t command, uint32_t param1, uint32_t param2, uint32_t param3, char* digits);
+void DBSendDigits(uint8_t row, char* digits);
 
-
-#endif /* INC_SETTINGS_H_ */
+#endif /* INC_SERIAL_H_ */

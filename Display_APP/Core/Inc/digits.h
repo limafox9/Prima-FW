@@ -8,14 +8,12 @@
 #ifndef INC_DIGITS_H_
 #define INC_DIGITS_H_
 
+#include <stdio.h>
 
-void DigitsInit();
-void DigitsRefresh();
-void DigitsWriteRow1(char* digits);
-void DigitsWriteRow2(char* digits);
-void DigitsWriteRow3(char* digits);
-//void DigitsWriteRow3(const char* digits, ...);
-void DigitsClearAll();
-void DigitsSetAll();
+void DisplayDigitsInit();
+void DisplayDigitsRefresh();
+void DisplayDigitsWriteRow(uint8_t row, char* digits);
+void DisplayDigitsClearAll();
+void DisplayDigitsSetAll();
 
 #endif /* INC_DIGITS_H_ */

@@ -1,4 +1,4 @@
-/*==============================================================================
+/*
 
 Filename: globals.c
 
@@ -28,41 +28,89 @@ SOFTWARE.
 Visit www.favenzi.it
       luca@favenzi.it
 
-==================================================================================
-PURPOSE: Modbus CRC16 calculation
+================================================================================
+PURPOSE:
 USAGE:
-================================================================================*/
+==============================================================================*/
 
+#include <dashboard_leds.h>
 #include "globals.h"
+#include "cmsis_os.h"
+#include "keys.h"
+#include "digits.h"
+#include "Inc/DB_globals.h"
 
-uint32_t _UID[3];
+// GLOBAL VARS =================================================================
 
-uint8_t digitsRow1[8];
-uint8_t digitsRow2[8];
-uint8_t digitsRow3[8];
+osThreadId 	taskKeysHandle;
+osThreadId 	taskDigitsHandle;
 
-uint16_t progressBarBits;
-uint16_t progressBarBitsBlink;
+uint32_t 	UID[3];
 
-uint16_t panelLedsBits;
-uint16_t panelLedsBitsBlink;
+uint8_t		digitsRow[DIGIT_ROWS][DIGIT_ROW_BUFFER_SIZE];
 
-uint32_t digitsBits;
+uint16_t 	progressBarBits;
+uint16_t 	progressBarBitsBlink;
 
-uint8_t keysPressed;
+uint16_t 	panelLedsBits;
+uint16_t 	panelLedsBitsBlink;
 
+uint32_t 	digitsBits;
+
+uint8_t 	keysPressed;
+
+extern UART_HandleTypeDef huart1;
+
+extern void DBInit(UART_HandleTypeDef* huart, GPIO_TypeDef* rs485_CS_GPIOPort, uint16_t rs485_CS_GPIOPin);
+
+// SETTINGS ====================================================================
+uint16_t 	SET_KeysLongPressDuration = DEFAULT_SETTING_KEYS_LONG_PRESS_INTERVAL;
+bool 		SET_KeysBeep = DEFAULT_SETTING_KEYS_BEEP;
+uint16_t 	SET_LedsFlashInterval = DEFAULT_SETTING_LEDS_FLASH_INTERVAL;
+
+// Entry point
+void SysInit() {
+
+	osThreadDef(keysTask, StartKeysTask, osPriorityNormal, 1, 256);
+	taskKeysHandle = osThreadCreate(osThread(keysTask), NULL);
+
+	osThreadDef(digitsTask, DisplayDigitsRefresh, osPriorityNormal, 1, 256);
+	taskDigitsHandle = osThreadCreate(osThread(digitsTask), NULL);
+
+	DisplayDigitsInit();
+	DBInit(&UART_DISPLAY, USART1_CTS_GPIO_Port, USART1_CTS_Pin);		// Display serial initialize
+
+	DisplayDashboardSetAll();
+	DisplayProgressSetAll();
+	DisplayDigitsSetAll();
+	osDelay(2000);
+
+	DisplayDashboardClearAll();
+	DisplayProgressClearAll();
+	DisplayDigitsClearAll();
+
+	char buf[8] = {[1 ... 7] = 0};
+	sprintf(buf, "%01d.%01d.%02d", FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION);
+	DisplayDigitsWriteRow(2, buf);
+	osDelay(2000);
+
+	DisplayDigitsClearAll();
+
+	DisplayBeep(3,100,100);
+
+	osDelay(500);
+	DisplaySendPanelReady();
+}
 
 uint32_t GetSafeDeltaTick(uint32_t startTick, uint32_t endTick) {
 
 	uint32_t deltaTick;
-
 	// In case of HAL_GetTick() overflow (~49 days). Counter restarts from 0.
 	if (endTick < startTick) {
 		deltaTick = MAX_VALUE(startTick) - startTick + endTick;
 	} else {
 		deltaTick = endTick - startTick;
 	}
-
 	return deltaTick;
 }
 
