@@ -36,29 +36,14 @@ USAGE:
 #ifndef INC_SERIAL_H_
 #define INC_SERIAL_H_
 
-//#include "main.h"
-//#include "globals.h"
+#define DISPLAY_UART_HANDLE				huart1
 
-//typedef enum _protocolCommand {
-//	COMMAND_OK = 0x100,
-//	COMMAND_PLAY_BEEP = 0xDB,			// param1: n. of beeps, param2: onTIme(ms), param3: offTime(ms)
-//	COMMAND_KEYS_PRESSED = 0x6666,
-//	COMMAND_WRITE_DIGITS_ROW_1 = 0xD1,
-//	COMMAND_WRITE_DIGITS_ROW_2 = 0xD2,
-//	COMMAND_WRITE_DIGITS_ROW_3 = 0xD3,
-//	COMMAND_SET_DASHBOARD_LEDS = 0xDE,
-//	COMMAND_SET_PROGRESS_LEDS = 0xDF,
-//	COMMAND_SET_PANEL_KEYS_BEEP = 0x55,	// param1: 1 = panel buzzer beep on keypress, 0 = mute
-//	COMMAND_PANEL_READY = 0x43,
-//	COMMAND_PANEL_CHECK = 0x32,
-//	COMMAND_GET_PANEL_FW_VERSION = 0x12
-//} protocolCommand;
-//
+#define DISPLAY_DIGIT_ROWS 				3
+#define DISPLAY_DIGIT_COLUMNS			4
+#define DISPLAY_DIGIT_ROW_BUFFER_SIZE 	8
 
-//
-//void PanelSerialInit(UART_HandleTypeDef* pUART, DMA_HandleTypeDef* pDMA);
-//void DisplaySend(uint16_t command, uint32_t param1, uint32_t param2, uint32_t param3, char* digits);
-//void PanelSerialReceive(uint8_t* buffer, uint16_t size);
-//void StartSerialTask();
+void DisplayUARTInit();
+void SerialTask();
+void SendCommand(uint16_t command, uint32_t param1, uint32_t param2, uint32_t param3, char* digits);
 
 #endif /* INC_SERIAL_H_ */

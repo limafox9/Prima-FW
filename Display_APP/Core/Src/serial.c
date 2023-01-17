@@ -35,7 +35,8 @@ USAGE:
 
 // 3C7EDB0002000000640000006400000000000000CCCE7E3E10 -> 2 beeps
 
-#include <dashboard_leds.h>
+
+#include <dashboard.h>
 #include <string.h>
 #include <stdio.h>
 
@@ -44,7 +45,7 @@ USAGE:
 #include "cmsis_os.h"
 #include "buzzer.h"
 #include "globals.h"
-#include "Inc/DB_Protocol.h"
+#include "Inc/DB_protocol.h"
 
 extern uint16_t SET_KeysLongPressInterval;
 extern uint16_t SET_FlashInterval;
@@ -52,44 +53,72 @@ extern uint8_t SET_KeysBeep;
 
 extern UART_HandleTypeDef huart1;
 
-uint8_t UART_rxBuffer[DB_UART_BUFFER_SIZE] = {[0 ... DB_UART_BUFFER_SIZE - 1] = 0};
+uint8_t UART_rxBuffer[DISPLAY_UART_BUFFER_SIZE] = {[0 ... DISPLAY_UART_BUFFER_SIZE - 1] = 0};
+//uint8_t rxBuffer[DISPLAY_UART_BUFFER_SIZE] = {[0 ... DISPLAY_UART_BUFFER_SIZE - 1] = 0};
 
 static void ParseCommand(s_DisplayProtocolData* data);
-extern void DBSendCommand(uint16_t command, uint32_t param1, uint32_t param2, uint32_t param3, char* digits);
+//extern void DBSendCommand(uint16_t command, uint32_t param1, uint32_t param2, uint32_t param3, char* digits);
+
+//
+void DisplayUARTInit() {
+
+	DISPLAY_UART_HANDLE.Init.BaudRate = DISPLAY_UART_SPEED;
+	HAL_UART_Receive_DMA(&DISPLAY_UART_HANDLE, UART_rxBuffer, DISPLAY_UART_BUFFER_SIZE);
+//	HAL_UARTEx_ReceiveToIdle_DMA(&DISPLAY_UART_HANDLE, UART_rxBuffer, DISPLAY_UART_BUFFER_SIZE);
+//	__HAL_DMA_DISABLE_IT(&huart1, DMA_IT_HT);
+}
 
 // TRANSMIT
 // ==============================================================
+void SendCommand(uint16_t command, uint32_t param1, uint32_t param2, uint32_t param3, char* digits) {
 
-void DisplaySendOK() {
+	s_DisplayProtocolData txData = {command, param1, param2, param3, digits, 1};
 
-	DBSendCommand(DISPLAY_CMD_OK, 0, 0, 0, 0);
+	uint8_t txBuffer[DISPLAY_UART_BUFFER_SIZE];
+	Display_DataToProtocol(&txData, txBuffer);
+
+	// Chip 485 ENABLE
+	HAL_GPIO_WritePin(USART1_CTS_GPIO_Port, USART1_CTS_Pin, GPIO_PIN_SET);
+	// Send data
+	HAL_UART_Transmit(&DISPLAY_UART_HANDLE, txBuffer, DISPLAY_UART_BUFFER_SIZE, DISPLAY_UART_TX_TIMEOUT);
+	// Chip 485 DISABLE
+	HAL_GPIO_WritePin(USART1_CTS_GPIO_Port, USART1_CTS_Pin, GPIO_PIN_RESET);
 }
 
-void DisplaySendPanelReady(){
-
-	DBSendCommand(DISPLAY_CMD_READY, FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION, 0);
-}
-
-void DisplaySendFWVersion() {
-
-	DBSendCommand(DISPLAY_CMD_OK, FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION, 0);
-}
+//void DisplaySendOK() {
+//
+//	DBSendCommand(DISPLAY_CMD_OK, 0, 0, 0, 0);
+//}
+//
+//void DisplaySendPanelReady(){
+//
+//	DBSendCommand(DISPLAY_CMD_READY, FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION, 0);
+//}
+//
+//void DisplaySendFWVersion() {
+//
+//	DBSendCommand(DISPLAY_CMD_OK, FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION, 0);
+//}
 
 
 // RECEIVE
 // ==============================================================
 
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef* huart) {
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 
 	s_DisplayProtocolData rxData;
 
-	HAL_UART_Receive_DMA(huart, UART_rxBuffer, DB_UART_BUFFER_SIZE);
-	if (huart->Instance == huart1.Instance) {
+	if (huart->Instance == DISPLAY_UART_HANDLE.Instance) {
 		Display_ProtocolToData(UART_rxBuffer, &rxData);
 		if (rxData.Valid) {
 			ParseCommand(&rxData); // valid received command > parse
 		}
 	}
+
+	HAL_UART_Receive_DMA(huart, UART_rxBuffer, DISPLAY_UART_BUFFER_SIZE);
+//	HAL_UARTEx_ReceiveToIdle_DMA(huart, UART_rxBuffer, DISPLAY_UART_BUFFER_SIZE);
+//	__HAL_DMA_DISABLE_IT(&huart1, DMA_IT_HT);
+
 }
 
 
@@ -102,16 +131,19 @@ static void ParseCommand(s_DisplayProtocolData* data) {
 
 	switch (data->Command) {
 		case DISPLAY_CMD_BEEP:
-			DisplayBeep(data->Param1, data->Param2, data->Param3);
+			Beep(data->Param1, data->Param2, data->Param3);
 			break;
 		case DISPLAY_CMD_WRITE_DIGITS:
-			DisplayDigitsWriteRow(data->Param1, data->Digits);
+			DigitsWrite(data->Param1, data->Digits);
 			break;
 		case DISPLAY_CMD_WRITE_DASHBOARD_LEDS:
-//			DisplayWriteLeds((uint16_t)data->Param1);
+//			DisplayProgressWriteLeds((uint16_t)data->Param1);
+//			DisplayProgressRefresh();
 			break;
 		case DISPLAY_CMD_WRITE_PROGRESS_LEDS:
 //			DisplayWriteProgressLeds((uint16_t)data->Param1);
+			ProgressBarWrite((uint16_t)data->Param1);
+			ProgressBarRefresh();
 			break;
 		case DISPLAY_CMD_SET_LONG_PRESS_INTERVAL:
 //			SET_KeysLongPressInterval = (uint16_t)data->Param1;
@@ -123,20 +155,20 @@ static void ParseCommand(s_DisplayProtocolData* data) {
 //			SET_KeysBeep = (bool)data->Param1;
 			break;
 		case DISPLAY_CMD_FW_VER:
-			DBSendCommand(DISPLAY_CMD_OK, FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION, "");
+//			DBSendCommand(DISPLAY_CMD_OK, FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION, "");
 			break;
 		case DISPLAY_CMD_CHECK:
-			duration = ((uint16_t)data->Param1 >= 500) && ((uint16_t)data->Param1 <= 10000) ? (uint16_t)data->Param1 : 3000;
-			beeps = (uint8_t)data->Param2 <= 10 ? (uint8_t)data->Param2 : 10;
-			beepsInterval = ((uint16_t)data->Param3 >= 50) && ((uint16_t)data->Param3 <= 1000) ? (uint16_t)data->Param3 : 100;
-			DisplayDashboardSetAll();
-			DisplayProgressSetAll();
-			DisplayDigitsSetAll();
-			osDelay(duration);
-			DisplayDashboardClearAll();
-			DisplayProgressClearAll();
-			DisplayDigitsClearAll();
-			DisplayBeep(beeps, beepsInterval, beepsInterval);
+//			duration = ((uint16_t)data->Param1 >= 500) && ((uint16_t)data->Param1 <= 10000) ? (uint16_t)data->Param1 : 3000;
+//			beeps = (uint8_t)data->Param2 <= 10 ? (uint8_t)data->Param2 : 10;
+//			beepsInterval = ((uint16_t)data->Param3 >= 50) && ((uint16_t)data->Param3 <= 1000) ? (uint16_t)data->Param3 : 100;
+//			DisplayDashboardSetAll();
+//			DisplayProgressSetAll();
+//			DisplayDigitsSetAll();
+//			osDelay(duration);
+//			DisplayDashboardClearAll();
+//			DisplayProgressClearAll();
+//			DisplayDigitsClearAll();
+//			DisplayBeep(beeps, beepsInterval, beepsInterval);
 			break;
 	}
 }

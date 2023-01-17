@@ -162,10 +162,10 @@ int main(void)
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
-	osThreadDef(keysTask, StartKeysTask, osPriorityAboveNormal, 1, 128);
+	osThreadDef(keysTask, StartKeysTask, osPriorityAboveNormal, 1, 256);
 	keysTaskHandle = osThreadCreate(osThread(keysTask), NULL);
 
-	osThreadDef(ledsTask, StartLedsTask, osPriorityNormal, 1, 128);
+	osThreadDef(ledsTask, StartLedsTask, osPriorityNormal, 1, 256);
 	ledsTaskHandle = osThreadCreate(osThread(ledsTask), NULL);
 
 	osThreadDef(sensorsTask, StartSensorsTask, osPriorityNormal, 1, 1024);

@@ -14,8 +14,7 @@
 #include "main.h"
 #include "digits.h"
 
-
-extern uint8_t DB_DigitsRow[DB_DIGIT_ROWS][DB_DIGIT_ROW_BUFFER_SIZE];
+uint8_t DigitsRow[DIGITS_ROWS][DIGITS_ROW_BUFFER_SIZE];
 
 // Character to segments conversion - @ for all segments
 // Segments:	dp g f e d c b a
@@ -39,7 +38,7 @@ const uint8_t displayChar[] = {
 		0x00, 0x67, 0x50, 0x00, 0x78, 0x1C, 0x00, 0x00, 0x00, 0x6E, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00
 };
 
-void DisplayDigitsInit() {
+void DigitsInit() {
 
 	uint8_t columnDataBit, columnIndex;
 
@@ -52,7 +51,7 @@ void DisplayDigitsInit() {
 	HAL_GPIO_WritePin(DISPLAY_DIGIT_3_GPIO_Port, DISPLAY_DIGIT_3_Pin, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(DISPLAY_DIGIT_4_GPIO_Port, DISPLAY_DIGIT_4_Pin, GPIO_PIN_RESET);
 
-	for (columnIndex = 0; columnIndex < DB_DIGIT_COLUMNS; columnIndex++) {
+	for (columnIndex = 0; columnIndex < DIGITS_COLUMNS; columnIndex++) {
 
 		// Pushing segment data all 0
 		HAL_GPIO_WritePin(DISPLAY_DATA_GPIO_Port, DISPLAY_DATA_Pin, GPIO_PIN_RESET);
@@ -68,14 +67,14 @@ void DisplayDigitsInit() {
 	HAL_GPIO_WritePin(DISPLAY_STROBE_GPIO_Port, DISPLAY_STROBE_Pin, GPIO_PIN_SET);
 }
 
-void DisplayDigitsWriteRow(uint8_t row, char* digits) {
+void DigitsWrite(uint8_t row, char* digits) {
 
-	memset(DB_DigitsRow[row], 0x00, 8);
-	memcpy(DB_DigitsRow[row], digits, 8);
+	memset(DigitsRow[row - 1], 0x00, 8);	// row: 1..3, index: 0..2
+	memcpy(DigitsRow[row - 1], digits, strlen(digits) + 1);
 }
 
 
-void DisplayDigitsRefresh() {
+void DigitsRefreshTask() {
 
 	uint32_t k, columnDataBit, columnData;
 	uint8_t timeDots;
@@ -86,21 +85,21 @@ void DisplayDigitsRefresh() {
 	for (;;) {
 
 		timeDots = OFF;
-		uint8_t bufferIndex[DB_DIGIT_ROWS] = {[0 ... DB_DIGIT_ROWS - 1] = 0};
+		uint8_t bufferIndex[DIGITS_ROWS] = {[0 ... DIGITS_ROWS - 1] = 0};
 
 		for (uint8_t columnIndex = 0; columnIndex < 4; columnIndex++) {
 
-			uint8_t digitSegments[DB_DIGIT_ROWS] = {[0 ... DB_DIGIT_ROWS - 1] = 0};
+			uint8_t digitSegments[DIGITS_ROWS] = {[0 ... DIGITS_ROWS - 1] = 0};
 			columnData = 0;
 
 			for (uint8_t rowIndex = 0; rowIndex < 3; rowIndex++) {
-				if ((rowIndex == 2) && (DB_DigitsRow[rowIndex][bufferIndex[rowIndex]] == ':')) {
+				if ((rowIndex == 2) && (DigitsRow[rowIndex][bufferIndex[rowIndex]] == ':')) {
 					timeDots = ON;
 					bufferIndex[rowIndex]++;
 				}
-				digitSegments[rowIndex] = displayChar[DB_DigitsRow[rowIndex][bufferIndex[rowIndex]]];
+				digitSegments[rowIndex] = displayChar[DigitsRow[rowIndex][bufferIndex[rowIndex]]];
 
-				if (DB_DigitsRow[rowIndex][bufferIndex[rowIndex] + 1] == '.') {
+				if (DigitsRow[rowIndex][bufferIndex[rowIndex] + 1] == '.') {
 					digitSegments[rowIndex] += 0x80;
 					bufferIndex[rowIndex]++;
 				}
@@ -152,19 +151,19 @@ void DisplayDigitsRefresh() {
 					break;
 				}
 
-			osDelay(DISPLAY_REFRESH_MILLIS);
+			osDelay(DIGITS_REFRESH_INTERVAL);
 		}
 	}
 }
 
-void DisplayDigitsClearAll() {
-	DisplayDigitsWriteRow(0, "        ");
-	DisplayDigitsWriteRow(1, "        ");
-	DisplayDigitsWriteRow(2, "        ");
+void DigitsClearAll() {
+	DigitsWrite(1, "        ");
+	DigitsWrite(2, "        ");
+	DigitsWrite(3, "        ");
 }
 
-void DisplayDigitsSetAll() {
-	DisplayDigitsWriteRow(0, "8.8.8.8 ");
-	DisplayDigitsWriteRow(1, "8.8.8.8 ");
-	DisplayDigitsWriteRow(2, "8.8.:8.8");
+void DigitsSetAll() {
+	DigitsWrite(1, "8.8.8.8 ");
+	DigitsWrite(2, "8.8.8.8 ");
+	DigitsWrite(3, "8.8.:8.8");
 }

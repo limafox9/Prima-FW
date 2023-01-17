@@ -40,18 +40,16 @@ USAGE:
 #include "main.h"
 #include <stdio.h>
 
-#include "Inc/DB_globals.h"
 
 #define FW_VERSION_MAJOR 		7
 #define FW_VERSION_MINOR 		0
 #define FW_VERSION_REVISION 	21
 
-#define DIGIT_ROW_BUFFER_SIZE 	8
-#define DIGIT_ROWS 				3
-
-#define DISPLAY_REFRESH_MILLIS 	2
-
-#define UART_DISPLAY huart1
+//#define DIGIT_ROWS 				3
+//
+//#define DISPLAY_REFRESH_MILLIS 	2
+//
+//#define UART_DISPLAY huart1
 
 #define DEFAULT_SETTING_KEYS_LONG_PRESS_INTERVAL	3000
 #define DEFAULT_SETTING_LEDS_FLASH_INTERVAL			1000

@@ -1,10 +1,10 @@
 /*==============================================================================
 
-Filename: DB_globals.c
+Filename: a.c
 
-Created on: Jan 15, 2023
+Created on: Dec 5, 2022
 
-Original work: Copyright (c) 2023 Luca Favenzi
+Original work: Copyright (c) 2022 Luca Favenzi
 Modified work:
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -28,23 +28,18 @@ SOFTWARE.
 Visit www.favenzi.it
       luca@favenzi.it
 
-================================================================================
-PURPOSE:
+==================================================================================
+PURPOSE: Modbus CRC16 calculation
 USAGE:
-==============================================================================*/
+================================================================================*/
+
+#ifndef INC_CRC16_H_
+#define INC_CRC16_H_
 
 #include <stdio.h>
-#include "DB_globals.h"
 
+uint8_t CRC8(uint8_t* data, uint16_t size);
+uint16_t CRC16_Modbus(uint8_t* data, uint16_t size);
+uint32_t CRC32(uint8_t* data, uint16_t size);
 
-uint8_t		DB_DigitsRow[DB_DIGIT_ROWS][DB_DIGIT_ROW_BUFFER_SIZE];
-
-uint16_t 	DB_ProgressBarBits;
-uint16_t 	DB_PprogressBarBitsBlink;
-
-uint16_t 	DB_PanelLedsBits;
-uint16_t 	DB_PanelLedsBitsBlink;
-
-uint32_t 	DB_DigitsBits;
-
-uint8_t 	DB_KeysPressed;
+#endif /* INC_CRC16_H_ */

@@ -33,12 +33,14 @@ PURPOSE:
 USAGE:
 ==============================================================================*/
 
-#include <dashboard_leds.h>
+#include "dashboard.h"
 #include "globals.h"
 #include "cmsis_os.h"
 #include "keys.h"
 #include "digits.h"
-#include "Inc/DB_globals.h"
+#include "serial.h"
+#include "buzzer.h"
+#include "progress_bar.h"
 
 // GLOBAL VARS =================================================================
 
@@ -47,21 +49,20 @@ osThreadId 	taskDigitsHandle;
 
 uint32_t 	UID[3];
 
-uint8_t		digitsRow[DIGIT_ROWS][DIGIT_ROW_BUFFER_SIZE];
+//uint16_t 	progressBarBits;
+//uint16_t 	progressBarBitsBlink;
 
-uint16_t 	progressBarBits;
-uint16_t 	progressBarBitsBlink;
+//uint16_t 	dashboardLedsBits;
+//uint16_t 	panelLedsBitsBlink;
 
-uint16_t 	panelLedsBits;
-uint16_t 	panelLedsBitsBlink;
+//uint32_t 	digitsBits;
 
-uint32_t 	digitsBits;
-
-uint8_t 	keysPressed;
+//uint8_t 	keysPressed;
 
 extern UART_HandleTypeDef huart1;
+//extern uint8_t UART_rxBuffer[DB_UART_BUFFER_SIZE] = {[0 ... DB_UART_BUFFER_SIZE - 1] = 0};
 
-extern void DBInit(UART_HandleTypeDef* huart, GPIO_TypeDef* rs485_CS_GPIOPort, uint16_t rs485_CS_GPIOPin);
+//extern void DBInit(UART_HandleTypeDef* huart, GPIO_TypeDef* rs485_CS_GPIOPort, uint16_t rs485_CS_GPIOPin);
 
 // SETTINGS ====================================================================
 uint16_t 	SET_KeysLongPressDuration = DEFAULT_SETTING_KEYS_LONG_PRESS_INTERVAL;
@@ -71,35 +72,38 @@ uint16_t 	SET_LedsFlashInterval = DEFAULT_SETTING_LEDS_FLASH_INTERVAL;
 // Entry point
 void SysInit() {
 
-	osThreadDef(keysTask, StartKeysTask, osPriorityNormal, 1, 256);
+	osThreadDef(keysTask, KeysTask, osPriorityNormal, 1, 256);
 	taskKeysHandle = osThreadCreate(osThread(keysTask), NULL);
 
-	osThreadDef(digitsTask, DisplayDigitsRefresh, osPriorityNormal, 1, 256);
+	osThreadDef(digitsTask, DigitsRefreshTask, osPriorityNormal, 1, 512);
 	taskDigitsHandle = osThreadCreate(osThread(digitsTask), NULL);
 
-	DisplayDigitsInit();
-	DBInit(&UART_DISPLAY, USART1_CTS_GPIO_Port, USART1_CTS_Pin);		// Display serial initialize
+	DigitsInit();
+	ProgressBarInit();
 
-	DisplayDashboardSetAll();
-	DisplayProgressSetAll();
-	DisplayDigitsSetAll();
-	osDelay(2000);
+//	DBInit(&UART_DISPLAY, USART1_CTS_GPIO_Port, USART1_CTS_Pin);		// Display serial initialize
+	//	HAL_UART_Receive_DMA(&UART_DISPLAY, UART_rxBuffer, DB_UART_BUFFER_SIZE);
 
-	DisplayDashboardClearAll();
-	DisplayProgressClearAll();
-	DisplayDigitsClearAll();
+//	DashboardSetAll();
+//	ProgressBarSetAll();
+//	DigitsSetAll();
+//	osDelay(2000);
+//
+//	DashboardClearAll();
+//	ProgressBarClearAll();
+//	DigitsClearAll();
+//
+//	char buf[8] = {[1 ... 7] = 0};
+//	sprintf(buf, "%01d.%01d.%02d", FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION);
+//	DigitsWrite(1, " UEr");
+//	DigitsWrite(3, buf);
+//	osDelay(2000);
+//
+//	DigitsClearAll();
+//
+//	Beep(3,100,100);
 
-	char buf[8] = {[1 ... 7] = 0};
-	sprintf(buf, "%01d.%01d.%02d", FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION);
-	DisplayDigitsWriteRow(2, buf);
-	osDelay(2000);
-
-	DisplayDigitsClearAll();
-
-	DisplayBeep(3,100,100);
-
-	osDelay(500);
-	DisplaySendPanelReady();
+	DisplayUARTInit();
 }
 
 uint32_t GetSafeDeltaTick(uint32_t startTick, uint32_t endTick) {

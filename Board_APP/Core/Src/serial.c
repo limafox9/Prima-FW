@@ -46,22 +46,48 @@ extern UART_HandleTypeDef huart1;
 extern UART_HandleTypeDef huart2;
 extern UART_HandleTypeDef huart3;
 
-uint8_t UART_rxBuffer[DB_UART_BUFFER_SIZE] = {[0 ... DB_UART_BUFFER_SIZE - 1] = 0};
+uint8_t UART_rxBuffer[DISPLAY_UART_BUFFER_SIZE] = {[0 ... DISPLAY_UART_BUFFER_SIZE - 1] = 0};
 
 static void ParseCommand(s_DisplayProtocolData* data);
+extern void DBInit(UART_HandleTypeDef* huart, GPIO_TypeDef* rs485_CS_GPIOPort, uint16_t rs485_CS_GPIOPin);
 extern void DBSend(uint16_t command, uint32_t param1, uint32_t param2, uint32_t param3, char* digits);
 
 void SerialInit(UART_HandleTypeDef* huart, uint32_t baudRate) {
 	huart->Init.BaudRate = baudRate;
-	HAL_UART_Receive_DMA(huart, UART_rxBuffer, DB_UART_BUFFER_SIZE);
+	HAL_UART_Receive_DMA(huart, UART_rxBuffer, DISPLAY_UART_BUFFER_SIZE);
 }
+
+//void SerialInitDB() {
+//	DBInit(&UART_DISPLAY, USART3_CTS_GPIO_Port, USART3_CTS_Pin);
+//	HAL_UART_Receive_DMA(&UART_DISPLAY, UART_rxBuffer, DB_UART_BUFFER_SIZE);
+//}
 
 // TRANSMIT
 // ==============================================================
 
 void SerialSend(UART_HandleTypeDef* huart, uint8_t* data, uint32_t size) {
-	HAL_UART_Transmit(huart, data, size, DB_UART_BUFFER_SIZE);
+	HAL_UART_Transmit(huart, data, size, DISPLAY_UART_BUFFER_SIZE);
 }
+
+void SendCommand(uint16_t command, uint32_t param1, uint32_t param2, uint32_t param3, char* digits) {
+
+
+	s_DisplayProtocolData txData = {command, param1, param2, param3, digits, 1};
+
+//	char buf[8] = {[0 ... 7] = 0};
+	memcpy(&txData.Digits, digits, strlen(digits) + 1);
+
+	uint8_t txBuffer[DISPLAY_UART_BUFFER_SIZE];
+	Display_DataToProtocol(&txData, txBuffer);
+
+	// Chip 485 ENABLE
+	HAL_GPIO_WritePin(USART3_CTS_GPIO_Port, USART3_CTS_Pin, GPIO_PIN_SET);
+	// Send data
+	HAL_UART_Transmit(&UART_DISPLAY, txBuffer, DISPLAY_UART_BUFFER_SIZE, DISPLAY_UART_TX_TIMEOUT);
+	// Chip 485 DISABLE
+	HAL_GPIO_WritePin(USART3_CTS_GPIO_Port, USART3_CTS_Pin, GPIO_PIN_RESET);
+}
+
 //
 //void DisplaySendOK() {
 //
@@ -79,18 +105,15 @@ void SerialSend(UART_HandleTypeDef* huart, uint8_t* data, uint32_t size) {
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef* huart) {
 
-
-	HAL_UART_Receive_DMA(huart, UART_rxBuffer, DB_UART_BUFFER_SIZE);
-
 	if (huart->Instance == UART_DISPLAY.Instance) {
 		s_DisplayProtocolData rxData;
 		Display_ProtocolToData(UART_rxBuffer, &rxData);
 		if (rxData.Valid) {
 			ParseCommand(&rxData); // valid received command > parse
 		}
-	} else if (huart->Instance == UART_TDS.Instance) {
-		Beep(2, 100, 100);
 	}
+
+	HAL_UART_Receive_DMA(huart, UART_rxBuffer, DISPLAY_UART_BUFFER_SIZE);
 }
 
 
@@ -104,10 +127,10 @@ static void ParseCommand(s_DisplayProtocolData* data) {
 			Beep(data->Param1, data->Param2, data->Param3);
 			break;
 		case DISPLAY_CMD_FW_VER:
-			DBSendCommand(DISPLAY_CMD_OK, FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION, "");
+			SendCommand(DISPLAY_CMD_OK, FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION, "");
 			break;
 		case DISPLAY_CMD_READY:
-			DBSendCommand(DISPLAY_CMD_WRITE_DIGITS, 1,0,0,"CIAO");
+			SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, "CIAO");
 			break;
 	}
 }

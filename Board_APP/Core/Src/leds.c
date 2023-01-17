@@ -38,11 +38,11 @@ USAGE:
 #include "globals.h"
 #include "panel_serial.h"
 
-extern uint16_t panelLedsBits;
+extern uint16_t dashboardLedsBits;
 
 void StartLedsTask() {
 
-	panelLedsBits = 0;
+	dashboardLedsBits = 0;
 	uint16_t lastLeds = 0, currLeds = 0;
 
 	for (;;) {
@@ -53,9 +53,9 @@ void StartLedsTask() {
 		currLeds = HAL_GPIO_ReadPin(SW_LSH_GPIO_Port, SW_LSH_Pin) ? currLeds & ~(1UL << 1): currLeds | (1UL << 1);
 
 		if  (lastLeds != currLeds) {
-			panelLedsBits = currLeds;
-			PanelSerialTransmit(COMMAND_SET_DASHBOARD_LEDS, panelLedsBits, 0, 0, 0);
-			lastLeds = panelLedsBits;
+			dashboardLedsBits = currLeds;
+			PanelSerialTransmit(COMMAND_SET_DASHBOARD_LEDS, dashboardLedsBits, 0, 0, 0);
+			lastLeds = dashboardLedsBits;
 		}
 
 		osDelay(10);

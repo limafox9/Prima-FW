@@ -64,8 +64,6 @@ extern UART_HandleTypeDef huart3;
 extern DMA_HandleTypeDef hdma_usart3_rx;
 extern SPI_HandleTypeDef hspi1;
 
-extern void DBInit(UART_HandleTypeDef* huart, GPIO_TypeDef* rs485_CS_GPIOPort, uint16_t rs485_CS_GPIOPin);
-
 uint32_t UID[3] = {0};
 uint16_t machineSerial;
 
@@ -89,10 +87,9 @@ float calTemp(float Rt) {
 
 void SysInit() {
 
-	DBInit(&UART_DISPLAY, USART3_CTS_GPIO_Port, USART3_CTS_Pin);
-	DBSendDigits(1, "CIAO");
-
+	SerialInit(&UART_DISPLAY, 115200);
 	SerialInit(&UART_MONITOR, 115200);
+
 
 
 //	BMP280_HandleTypedef bmp280;
@@ -115,13 +112,13 @@ void SysInit() {
 
 
 
-	BAT2U_Init(&UART_TDS);
-	char s[32];
-	int16_t refRes = BAT2U_GetTDSValue(1);
-	if (refRes < 0xFFFF) {
-		sprintf(s,"%d\n", refRes);
-		SerialSend(&UART_MONITOR, s, 32);
-	}
+//	BAT2U_Init(&UART_TDS);
+//	char s[32];
+//	int16_t refRes = BAT2U_GetTDSValue(1);
+//	if (refRes < 0xFFFF) {
+//		sprintf(s,"%d\n", refRes);
+//		SerialSend(&UART_MONITOR, s, 32);
+//	}
 
 
 //	char* q = "CIAO";
@@ -136,32 +133,38 @@ void SysInit() {
 
 
 
-//
-//	TM7705_Init(&hspi1);
-//
-//	Beep(2, 100, 100);
-//
-//	uint16_t val0, val1;
-//
-//	char s[32];
-//	double res;
-//	uint16_t refRes = 2000;
-//	float tmp0, tmp1;
-//
-//	while (1) {
-//		val0 = TM7705_GetValue(0);
-////		val1 = TM7705_GetValue(CHANNEL_1);
-//
-//		res = ((double)val0) * refRes / 65535;
-//		tmp0 = calTemp(res);
-//
-////		res = ((double)val1) * refRes / 65535;
-////		tmp1 = calTemp(res);
-//
+
+	TM7705_Init(&hspi1);
+
+	Beep(2, 100, 100);
+
+	uint16_t val0, val1;
+
+	char s[8], p[8];
+	double res;
+	uint16_t refRes = 2000;
+	float tmp0, tmp1, press;
+
+	while (1) {
+		val0 = TM7705_GetValue(0);
+		press = ChamberPressureGet();
+//		val1 = TM7705_GetValue(CHANNEL_1);
+
+		res = ((double)val0) * refRes / 65535;
+		tmp0 = calTemp(res);
+
+//		res = ((double)val1) * refRes / 65535;
+//		tmp1 = calTemp(res);
+
 //		sprintf(s,"%d - %0.2f - %0.2f\n", val0, tmp0, tmp0);
 //		SerialSend(&UART_MONITOR, s, 32);
-//		osDelay(500);
-//	}
+		sprintf(s,"%5.1f", tmp0);
+		sprintf(p,"%4.0f", press);
+		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, s);
+		osDelay(100);
+		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 2, 0, 0, p);
+		osDelay(500);
+	}
 
 	//	SerialSend(&UART_MONITOR, "MAMMA\n", 6);
 

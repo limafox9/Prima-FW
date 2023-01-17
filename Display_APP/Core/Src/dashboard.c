@@ -5,14 +5,13 @@
  *      Author: josh
  */
 
-#include <dashboard_leds.h>
+#include <dashboard.h>
+#include "progress_bar.h"
 #include "globals.h"
 
 extern uint16_t progressBarBits;
-extern uint16_t panelLedsBits;
+uint16_t dashboardLedsBits;
 
-extern uint16_t DB_ProgressBarBits;
-extern uint16_t DB_PanelLedsBits;
 
 const s_GPIO panelBits[] = {
 	{LED_MODE_UNWRAPPED_GPIO_Port, LED_MODE_UNWRAPPED_Pin, 0},
@@ -29,29 +28,29 @@ const s_GPIO panelBits[] = {
 };
 
 void SetLed(const s_GPIO* led, POWER_STATE status);
-void DisplayDashboardRefresh();
+void DashboardRefresh();
 
 //---------------------------------------------------------------------------
 
-void DisplayDashboardWriteLeds(uint16_t leds) {
-	COPYBITS(DB_PanelLedsBits, leds, 14, 0);
+void DashboardWrite(uint16_t leds) {
+	COPYBITS(dashboardLedsBits, leds, 14, 0);
 //	memcpy(&panelLedsBits, leds, 11);
-	DisplayDashboardRefresh();
+	DashboardRefresh();
 }
 
-void DisplayDashboardSetAll() {
+void DashboardSetAll() {
 	//panelLedsBits = 0b00000000000000;
-	DB_PanelLedsBits = 0xFFFF;
-	DisplayDashboardRefresh();
+	dashboardLedsBits = 0xFFFF;
+	DashboardRefresh();
 }
 
-void DisplayDashboardClearAll() {
+void DashboardClearAll() {
 	//panelLedsBits = 0b00000000000000;
-	DB_PanelLedsBits = 0;
-	DisplayDashboardRefresh();
+	dashboardLedsBits = 0;
+	DashboardRefresh();
 }
 
-void DisplayDashboardRefresh() {
+void DashboardRefresh() {
 
 	//int k = 0x8000;
 
@@ -59,14 +58,14 @@ void DisplayDashboardRefresh() {
 
 	for (int i = 0; i < 11; i++) {
 //		SetLed(&a[i], ((panelLedsBits & (1 << a[i].bit)) > 0) ? LED_ON : LED_OFF);
-		SetLed(&panelBits[i], CHECKBIT(DB_PanelLedsBits, panelBits[i].bit) > 0 ? ON : OFF);
+		SetLed(&panelBits[i], CHECKBIT(dashboardLedsBits, panelBits[i].bit) > 0 ? ON : OFF);
 	}
 
 	for (int i = 11; i < 14; i++) {
-		COPYBIT(progressBarBits, DB_PanelLedsBits, i);
+		COPYBIT(progressBarBits, dashboardLedsBits, i);
 	}
 
-	DisplayProgressRefresh();
+	ProgressBarRefresh();
 }
 
 void SetLed(const s_GPIO* led, POWER_STATE status) {

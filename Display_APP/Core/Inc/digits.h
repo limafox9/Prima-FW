@@ -10,10 +10,15 @@
 
 #include <stdio.h>
 
-void DisplayDigitsInit();
-void DisplayDigitsRefresh();
-void DisplayDigitsWriteRow(uint8_t row, char* digits);
-void DisplayDigitsClearAll();
-void DisplayDigitsSetAll();
+#define DIGITS_ROWS 3
+#define DIGITS_COLUMNS 4
+#define DIGITS_ROW_BUFFER_SIZE 	8
+#define DIGITS_REFRESH_INTERVAL 2 // milliseconds
+
+void DigitsInit();
+void DigitsRefreshTask();
+void DigitsWrite(uint8_t row, char* digits);
+void DigitsClearAll();
+void DigitsSetAll();
 
 #endif /* INC_DIGITS_H_ */

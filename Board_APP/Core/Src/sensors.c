@@ -148,7 +148,6 @@ float CurrentGet() {
 
 void StartSensorsTask() {
 
-	mutexSensors = osMutexCreate(osMutex(mutexSensors));
 
 	HAL_ADCEx_Calibration_Start(&hadc1);
 
@@ -166,12 +165,11 @@ void StartSensorsTask() {
 		Sensors.PressureChamber = ChamberPressureGet();
 		Sensors.Current = CurrentGet();
 
-		osMutexRelease(mutexSensors);
 
 		Log(LOG_LEVEL_DEBUG, LOG_TIME_TIME, LOG_OUT_SERIAL, "%0.3f", Sensors.Current);
 		char d[8] = {0};
 		sprintf(d, "%0.1f", Sensors.TemperatureSteamGenerator);
-		PanelSerialTransmit(COMMAND_WRITE_DIGITS_ROW_1, 0, 0, 0, d);
+		SendCommand(COMMAND_WRITE_DIGITS_ROW_1, 0, 0, 0, d);
 
 		osDelay(1000 / SAMPLE_RATE);
 	}

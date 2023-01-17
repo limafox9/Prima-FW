@@ -7,8 +7,7 @@
 
 #include "buzzer.h"
 
-
-void DisplayBeep(uint8_t hits, uint16_t onDelay, uint16_t offDelay) {
+void Beep(uint8_t hits, uint16_t onDelay, uint16_t offDelay) {
 
 	for (uint8_t i = 0; i < hits; i++) {
 		HAL_GPIO_WritePin(BEEP_GPIO_Port, BEEP_Pin, ON);

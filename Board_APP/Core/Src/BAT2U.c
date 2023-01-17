@@ -56,22 +56,23 @@ uint16_t BAT2U_GetTDSValue(uint8_t channel, uint16_t timeout) {
 	uint8_t rxBuffer[6];
 	uint8_t txBuffer[6] = {0xA0, 0x00, 0x00, 0x00, 0x00, 0x00};
 	txBuffer[5] = GetChecksum(txBuffer, 5);
-	HAL_UART_Transmit(huart_water, txBuffer, 6, 1000);
-	Timeout(0);
-	do {
-		HAL_UART_Receive_DMA(huart_water, rxBuffer, 6);
-		pos = ByteInBuffer(0xAA, rxBuffer, 6);
-		osDelay(500);
-	} while ((pos < 0) && (!Timeout(timeout)));
-	if (pos >= 0) {
+	HAL_UART_Transmit(huart_water, txBuffer, 6, 500);
+	HAL_UART_Receive(huart_water, rxBuffer, 6, 500);
+//	Timeout(0);
+//	do {
+//		HAL_UART_Receive_DMA(huart_water, rxBuffer, 6);
+//		pos = ByteInBuffer(0xAA, rxBuffer, 6);
+//		osDelay(500);
+//	} while ((pos < 0) && (!Timeout(timeout)));
+//	if (pos >= 0) {
 		if (channel ==1) {
 			value = rxBuffer[1] << 8 | rxBuffer[2];
 		} else if (channel == 2) {
 			value = rxBuffer[3] << 8 | rxBuffer[4];
 		}
-	} else {
-		value = 0xFFFF; // No valid value or timeout
-	}
+//	} else {
+//		value = 0xFFFF; // No valid value or timeout
+//	}
 	return value;
 }
 

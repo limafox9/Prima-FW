@@ -40,6 +40,6 @@ USAGE:
 
 #include <stdio.h>
 
-void StartKeysTask();
+void KeysTask();
 
 #endif /* INC_KEYS_H_ */

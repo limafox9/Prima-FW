@@ -10,11 +10,9 @@
 
 /* Includes ------------------------------------------------------------------*/
 
-#include "CRC.h"
+#include <crc.h>
 #include "DB_Protocol.h"
-#include "DB_globals.h"
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
 static const char activeProtocolHead[] = {'<', '~'};
@@ -32,7 +30,7 @@ void Display_DataToProtocol(s_DisplayProtocolData* dataIn, uint8_t* bufferOut) {
 	memcpy(bufferOut + POS_PARAM1, &dataIn->Param1, 4);
 	memcpy(bufferOut + POS_PARAM2, &dataIn->Param2, 4);
 	memcpy(bufferOut + POS_PARAM3, &dataIn->Param3, 4);
-	memcpy(bufferOut + POS_DIGITS, dataIn->Digits, 8);
+	memcpy(bufferOut + POS_DIGITS, dataIn->Digits, strlen(dataIn->Digits) + 1);
 	// CRC (Command + Data)
 	uint16_t calcCRC = CRC16_Modbus(bufferOut + POS_COMMAND, POS_CHECKSUM - POS_COMMAND);
 	memcpy(bufferOut + POS_CHECKSUM, &calcCRC, 2);
@@ -44,16 +42,15 @@ void Display_DataToProtocol(s_DisplayProtocolData* dataIn, uint8_t* bufferOut) {
 
 void Display_ProtocolToData(uint8_t* bufferIn, s_DisplayProtocolData* dataOut) {
 
-	uint16_t rxCRC, calcCRC;
-
 	dataOut->Valid = 0;
 	// Header search
 	if ((bufferIn[POS_HEAD] == activeProtocolHead[0]) && (bufferIn[POS_HEAD + 1] == activeProtocolHead[1])) {
 		// Tail search
 		if ((bufferIn[POS_TAIL] == activeProtocolTail[0]) && (bufferIn[POS_TAIL + 1] == activeProtocolTail[1])) {
 			// CRC verify
+			uint16_t rxCRC;
 			memcpy(&rxCRC, bufferIn + POS_CHECKSUM, 2);
-			calcCRC = CRC16_Modbus(bufferIn + POS_COMMAND, POS_CHECKSUM - POS_COMMAND);
+			uint16_t calcCRC = CRC16_Modbus(bufferIn + POS_COMMAND, POS_CHECKSUM - POS_COMMAND);
 //			if (rxCRC == calcCRC) {
 				dataOut->Valid = 1;
 				memcpy(&dataOut->Command, bufferIn + POS_COMMAND, 2);

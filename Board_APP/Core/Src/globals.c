@@ -53,7 +53,7 @@ uint8_t digitsRow3[DIGIT_BUFFER_SIZE];
 uint16_t progressBarBits;
 uint16_t progressBarBitsBlink;
 
-uint16_t panelLedsBits;
+uint16_t dashboardLedsBits;
 uint16_t panelLedsBitsBlink;
 
 uint32_t digitsBits;

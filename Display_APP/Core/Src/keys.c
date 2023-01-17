@@ -40,8 +40,7 @@ USAGE:
 #include "globals.h"
 #include "serial.h"
 #include "buzzer.h"
-#include "Inc/DB_Protocol.h"
-
+#include "Inc/DB_protocol.h"
 
 #define KEY_PROG 		1
 #define KEY_TEST 		2
@@ -56,7 +55,7 @@ static void KeysReceived(uint8_t keysCode);
 
 // ==============================================================
 
-void StartKeysTask() {
+void KeysTask() {
 
 	uint8_t pressKeys;
 	uint32_t keyPressStart;
@@ -73,7 +72,8 @@ void StartKeysTask() {
 				}
 				osDelay(20);
 			}
-			if (SET_KeysBeep) DisplayBeep(1, 100, 100);
+			if (SET_KeysBeep) Beep(1, 100, 100);
+			SendCommand(DISPLAY_CMD_KEYS_PRESSED, pressKeys, 0, 0, "");
 			KeysReceived(pressKeys);
 		}
 		osDelay(20);
@@ -92,8 +92,6 @@ static uint8_t GetPressedKeys() {
 }
 
 static void KeysReceived(uint8_t keysCode) {
-
-	DBSendCommand(DISPLAY_CMD_KEYS_PRESSED, keysCode, 0, 0, "");
 
 	if (keysCode == KEY_PROG) {
 		// Button code here

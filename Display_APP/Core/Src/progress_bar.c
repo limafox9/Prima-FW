@@ -5,30 +5,32 @@
  *      Author: josh
  */
 
-#include <progress_bar_leds.h>
+#include "progress_bar.h"
 #include <stdio.h>
+#include "globals.h"
+#include <string.h>
 
-extern uint16_t progressBarBits;
+uint16_t progressBarBits;
 
 
-void DisplayProgressWriteLeds(uint16_t leds) {
+void ProgressBarWrite(uint16_t leds) {
 	COPYBITS(progressBarBits, leds, 11, 0);
-	DisplayProgressRefresh();
+	ProgressBarRefresh();
 }
 
-void DisplayProgressSetAll() {
+void ProgressBarSetAll() {
 	// Set first 11 bits (progress bar)
 	memset(&progressBarBits, 0xFF, 11);
-	DisplayProgressRefresh();
+	ProgressBarRefresh();
 }
 
-void DisplayProgressClearAll() {
+void ProgressBarClearAll() {
 	// Clear first 11 bits (progress bar)
 	memset(&progressBarBits, 0x00, 11);
-	DisplayProgressRefresh();
+	ProgressBarRefresh();
 }
 
-void DisplayProgressInit() {
+void ProgressBarInit() {
 	uint16_t bitsCount;
 
 	// Release latch
@@ -47,10 +49,10 @@ void DisplayProgressInit() {
 	HAL_GPIO_WritePin(PROGRESS_STROBE_GPIO_Port, PROGRESS_STROBE_Pin, GPIO_PIN_SET);
 }
 
-void DisplayProgressRefresh() {
+void ProgressBarRefresh() {
 
 	uint16_t bitsCount;
-	uint32_t k;
+	uint16_t k;
 
 	// Release latch
 	HAL_GPIO_WritePin(PROGRESS_STROBE_GPIO_Port, PROGRESS_STROBE_Pin, GPIO_PIN_RESET);
