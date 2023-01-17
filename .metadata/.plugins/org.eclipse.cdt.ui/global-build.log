@@ -1,142 +1,21 @@
-08:06:21 **** Incremental Build of configuration Debug for project DB_Protocol ****
-make -j24 all 
-arm-none-eabi-gcc "../Src/DB_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/DB_protocol.d" -MT"Src/DB_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/DB_protocol.o"
-arm-none-eabi-gcc "../Src/crc.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/crc.d" -MT"Src/crc.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/crc.o"
-arm-none-eabi-gcc "../Src/syscalls.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/syscalls.d" -MT"Src/syscalls.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/syscalls.o"
-arm-none-eabi-gcc "../Src/sysmem.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/sysmem.d" -MT"Src/sysmem.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/sysmem.o"
-../Src/DB_protocol.c: In function 'Display_ProtocolToData':
-../Src/DB_protocol.c:53:13: warning: unused variable 'calcCRC' [-Wunused-variable]
-   53 |    uint16_t calcCRC = CRC16_Modbus(bufferIn + POS_COMMAND, POS_CHECKSUM - POS_COMMAND);
-      |             ^~~~~~~
-arm-none-eabi-ar -r  "libDB_Protocol.a" @"objects.list"  
-arm-none-eabi-ar: creating libDB_Protocol.a
-Finished building target: libDB_Protocol.a
- 
-08:06:36 **** Incremental Build of configuration Debug for project DB_Protocol ****
-make -j24 all 
-arm-none-eabi-gcc "../Src/DB_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/DB_protocol.d" -MT"Src/DB_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/DB_protocol.o"
-arm-none-eabi-gcc "../Src/crc.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/crc.d" -MT"Src/crc.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/crc.o"
-arm-none-eabi-gcc "../Src/syscalls.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/syscalls.d" -MT"Src/syscalls.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/syscalls.o"
-arm-none-eabi-gcc "../Src/sysmem.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/sysmem.d" -MT"Src/sysmem.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/sysmem.o"
-../Src/DB_protocol.c: In function 'Display_ProtocolToData':
-../Src/DB_protocol.c:53:13: warning: unused variable 'calcCRC' [-Wunused-variable]
-   53 |    uint16_t calcCRC = CRC16_Modbus(bufferIn + POS_COMMAND, POS_CHECKSUM - POS_COMMAND);
-      |             ^~~~~~~
-arm-none-eabi-ar -r  "libDB_Protocol.a" @"objects.list"  
-arm-none-eabi-ar: creating libDB_Protocol.a
-Finished building target: libDB_Protocol.a
- 
-08:06:36 **** Incremental Build of configuration Debug for project Display_APP ****
-make -j24 all 
-arm-none-eabi-gcc -o "Display_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Display_APP\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Display_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima Firmware\Source\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Display_APP.elf
- 
-arm-none-eabi-size   Display_APP.elf 
-arm-none-eabi-objdump -h -S  Display_APP.elf  > "Display_APP.list"
-arm-none-eabi-objcopy  -O ihex  Display_APP.elf  "Display_APP.hex"
-arm-none-eabi-objcopy  -O binary  Display_APP.elf  "Display_APP.bin"
-   text	   data	    bss	    dec	    hex	filename
-  43160	    496	  11160	  54816	   d620	Display_APP.elf
-Finished building: default.size.stdout
- 
-Finished building: Display_APP.hex
-Finished building: Display_APP.bin
- 
- 
-Finished building: Display_APP.list
- 
-08:07:32 **** Incremental Build of configuration Debug for project DB_Protocol ****
-make -j24 all 
-arm-none-eabi-gcc "../Src/DB_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/DB_protocol.d" -MT"Src/DB_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/DB_protocol.o"
-arm-none-eabi-gcc "../Src/crc.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/crc.d" -MT"Src/crc.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/crc.o"
-arm-none-eabi-gcc "../Src/syscalls.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/syscalls.d" -MT"Src/syscalls.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/syscalls.o"
-arm-none-eabi-gcc "../Src/sysmem.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/sysmem.d" -MT"Src/sysmem.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/sysmem.o"
-../Src/DB_protocol.c: In function 'Display_ProtocolToData':
-../Src/DB_protocol.c:53:13: warning: unused variable 'calcCRC' [-Wunused-variable]
-   53 |    uint16_t calcCRC = CRC16_Modbus(bufferIn + POS_COMMAND, POS_CHECKSUM - POS_COMMAND);
-      |             ^~~~~~~
-arm-none-eabi-ar -r  "libDB_Protocol.a" @"objects.list"  
-arm-none-eabi-ar: creating libDB_Protocol.a
-Finished building target: libDB_Protocol.a
- 
-08:07:32 **** Incremental Build of configuration Debug for project Board_APP ****
-make -j24 all 
-arm-none-eabi-gcc "../Core/Src/serial.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima Firmware/Source/DB_Protocol" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial.d" -MT"Core/Src/serial.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial.o"
-arm-none-eabi-gcc "../Core/Src/system.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima Firmware/Source/DB_Protocol" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/system.d" -MT"Core/Src/system.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/system.o"
-../Core/Src/serial.c: In function 'SendCommand':
-../Core/Src/serial.c:75:67: warning: initialization of 'char' from 'char *' makes integer from pointer without a cast [-Wint-conversion]
-   75 |  s_DisplayProtocolData txData = {command, param1, param2, param3, digits, 1};
-      |                                                                   ^~~~~~
-../Core/Src/serial.c:75:67: note: (near initialization for 'txData.Digits[0]')
-../Core/Src/serial.c:75:33: warning: missing braces around initializer [-Wmissing-braces]
-   75 |  s_DisplayProtocolData txData = {command, param1, param2, param3, digits, 1};
-      |                                 ^
-      |                                                                   {        }
-../Core/Src/serial.c: In function 'ParseCommand':
-../Core/Src/serial.c:125:2: warning: enumeration value 'DISPLAY_CMD_OK' not handled in switch [-Wswitch]
-  125 |  switch (data->Command) {
-      |  ^~~~~~
-../Core/Src/serial.c:125:2: warning: enumeration value 'DISPLAY_CMD_ERROR' not handled in switch [-Wswitch]
-../Core/Src/serial.c:125:2: warning: enumeration value 'DISPLAY_CMD_KEYS_PRESSED' not handled in switch [-Wswitch]
-../Core/Src/serial.c:125:2: warning: enumeration value 'DISPLAY_CMD_WRITE_DIGITS' not handled in switch [-Wswitch]
-../Core/Src/serial.c:125:2: warning: enumeration value 'DISPLAY_CMD_WRITE_DASHBOARD_LEDS' not handled in switch [-Wswitch]
-../Core/Src/serial.c:125:2: warning: enumeration value 'DISPLAY_CMD_WRITE_PROGRESS_LEDS' not handled in switch [-Wswitch]
-../Core/Src/serial.c:125:2: warning: enumeration value 'DISPLAY_CMD_SET_KEYS_BEEP' not handled in switch [-Wswitch]
-../Core/Src/serial.c:125:2: warning: enumeration value 'DISPLAY_CMD_SET_LONG_PRESS_INTERVAL' not handled in switch [-Wswitch]
-../Core/Src/serial.c:125:2: warning: enumeration value 'DISPLAY_CMD_SET_FLASH_INTERVAL' not handled in switch [-Wswitch]
-../Core/Src/serial.c:125:2: warning: enumeration value 'DISPLAY_CMD_CHECK' not handled in switch [-Wswitch]
-../Core/Src/system.c: In function 'calTemp':
-../Core/Src/system.c:83:10: warning: implicit declaration of function 'sqrt' [-Wimplicit-function-declaration]
-   83 |  temp = (sqrt(temp) + Z1) / Z4;
-      |          ^~~~
-../Core/Src/system.c:83:10: warning: incompatible implicit declaration of built-in function 'sqrt'
-../Core/Src/system.c:56:1: note: include '<math.h>' or provide a declaration of 'sqrt'
-   55 | #include "Inc/DB_Protocol.h"
-  +++ |+#include <math.h>
-   56 | 
-../Core/Src/system.c: In function 'SysInit':
-../Core/Src/system.c:139:2: warning: implicit declaration of function 'Beep' [-Wimplicit-function-declaration]
-  139 |  Beep(2, 100, 100);
-      |  ^~~~
-../Core/Src/system.c:163:3: warning: implicit declaration of function 'SendCommand' [-Wimplicit-function-declaration]
-  163 |   SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, s);
-      |   ^~~~~~~~~~~
-../Core/Src/system.c:146:14: warning: unused variable 'tmp1' [-Wunused-variable]
-  146 |  float tmp0, tmp1, press;
-      |              ^~~~
-../Core/Src/system.c:141:17: warning: unused variable 'val1' [-Wunused-variable]
-  141 |  uint16_t val0, val1;
-      |                 ^~~~
-../Core/Src/system.c: In function 'Log':
-../Core/Src/system.c:289:4: warning: implicit declaration of function 'strcat' [-Wimplicit-function-declaration]
-  289 |    strcat(s, buffer);
-      |    ^~~~~~
-../Core/Src/system.c:289:4: warning: incompatible implicit declaration of built-in function 'strcat'
-../Core/Src/system.c:56:1: note: include '<string.h>' or provide a declaration of 'strcat'
-   55 | #include "Inc/DB_Protocol.h"
-  +++ |+#include <string.h>
-   56 | 
-../Core/Src/system.c:294:4: warning: incompatible implicit declaration of built-in function 'strcat'
-  294 |    strcat(s, buffer);
-      |    ^~~~~~
-../Core/Src/system.c:294:4: note: include '<string.h>' or provide a declaration of 'strcat'
-../Core/Src/system.c:299:4: warning: incompatible implicit declaration of built-in function 'strcat'
-  299 |    strcat(s, buffer);
-      |    ^~~~~~
-../Core/Src/system.c:299:4: note: include '<string.h>' or provide a declaration of 'strcat'
-../Core/Src/system.c:306:3: warning: incompatible implicit declaration of built-in function 'strcat'
-  306 |   strcat(s, buffer);
-      |   ^~~~~~
-../Core/Src/system.c:306:3: note: include '<string.h>' or provide a declaration of 'strcat'
-arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima Firmware\Source\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+17:29:25 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j4 all 
+make: Nothing to be done for 'all'.
+17:29:26 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j4 all 
+make: Nothing to be done for 'all'.
+17:29:26 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima-FW\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: Board_APP.elf
  
 arm-none-eabi-size   Board_APP.elf 
 arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
+   text	   data	    bss	    dec	    hex	filename
+  61048	    492	  37372	  98912	  18260	Board_APP.elf
 arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
 arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
-   text	   data	    bss	    dec	    hex	filename
-  66464	    540	  37348	 104352	  197a0	Board_APP.elf
 Finished building: default.size.stdout
  
 Finished building: Board_APP.hex
@@ -145,64 +24,31 @@ Finished building: Board_APP.bin
  
 Finished building: Board_APP.list
  
-08:09:42 **** Incremental Build of configuration Debug for project DB_Protocol ****
-make -j24 all 
+17:29:46 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j4 all 
 make: Nothing to be done for 'all'.
-08:09:42 **** Incremental Build of configuration Debug for project Board_APP ****
-make -j24 all 
-arm-none-eabi-gcc "../Core/Src/system.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima Firmware/Source/DB_Protocol" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/system.d" -MT"Core/Src/system.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/system.o"
-../Core/Src/system.c: In function 'calTemp':
-../Core/Src/system.c:83:10: warning: implicit declaration of function 'sqrt' [-Wimplicit-function-declaration]
-   83 |  temp = (sqrt(temp) + Z1) / Z4;
-      |          ^~~~
-../Core/Src/system.c:83:10: warning: incompatible implicit declaration of built-in function 'sqrt'
-../Core/Src/system.c:56:1: note: include '<math.h>' or provide a declaration of 'sqrt'
-   55 | #include "Inc/DB_Protocol.h"
-  +++ |+#include <math.h>
-   56 | 
-../Core/Src/system.c: In function 'SysInit':
-../Core/Src/system.c:139:2: warning: implicit declaration of function 'Beep' [-Wimplicit-function-declaration]
-  139 |  Beep(2, 100, 100);
-      |  ^~~~
-../Core/Src/system.c:163:3: warning: implicit declaration of function 'SendCommand' [-Wimplicit-function-declaration]
-  163 |   SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, s);
-      |   ^~~~~~~~~~~
-../Core/Src/system.c:146:14: warning: unused variable 'tmp1' [-Wunused-variable]
-  146 |  float tmp0, tmp1, press;
-      |              ^~~~
-../Core/Src/system.c:141:17: warning: unused variable 'val1' [-Wunused-variable]
-  141 |  uint16_t val0, val1;
-      |                 ^~~~
-../Core/Src/system.c: In function 'Log':
-../Core/Src/system.c:289:4: warning: implicit declaration of function 'strcat' [-Wimplicit-function-declaration]
-  289 |    strcat(s, buffer);
-      |    ^~~~~~
-../Core/Src/system.c:289:4: warning: incompatible implicit declaration of built-in function 'strcat'
-../Core/Src/system.c:56:1: note: include '<string.h>' or provide a declaration of 'strcat'
-   55 | #include "Inc/DB_Protocol.h"
-  +++ |+#include <string.h>
-   56 | 
-../Core/Src/system.c:294:4: warning: incompatible implicit declaration of built-in function 'strcat'
-  294 |    strcat(s, buffer);
-      |    ^~~~~~
-../Core/Src/system.c:294:4: note: include '<string.h>' or provide a declaration of 'strcat'
-../Core/Src/system.c:299:4: warning: incompatible implicit declaration of built-in function 'strcat'
-  299 |    strcat(s, buffer);
-      |    ^~~~~~
-../Core/Src/system.c:299:4: note: include '<string.h>' or provide a declaration of 'strcat'
-../Core/Src/system.c:306:3: warning: incompatible implicit declaration of built-in function 'strcat'
-  306 |   strcat(s, buffer);
-      |   ^~~~~~
-../Core/Src/system.c:306:3: note: include '<string.h>' or provide a declaration of 'strcat'
-arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima Firmware\Source\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+17:29:47 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j4 all 
+arm-none-eabi-size   Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+  61048	    492	  37372	  98912	  18260	Board_APP.elf
+Finished building: default.size.stdout
+ 
+17:35:17 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j4 all 
+make: Nothing to be done for 'all'.
+17:35:17 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima-FW\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: Board_APP.elf
  
 arm-none-eabi-size   Board_APP.elf 
 arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
 arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
-arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
    text	   data	    bss	    dec	    hex	filename
-  66464	    540	  37348	 104352	  197a0	Board_APP.elf
+  61064	    492	  37372	  98928	  18270	Board_APP.elf
+arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
 Finished building: default.size.stdout
  
 Finished building: Board_APP.hex

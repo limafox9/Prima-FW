@@ -61,19 +61,19 @@ void PunpSteamGeneratorSet(e_PowerState status) {
 	HAL_GPIO_WritePin(PUMP_STEAM_GEN_GPIO_Port, PUMP_STEAM_GEN_Pin, status);
 }
 
-void ValveVacuumSet(e_PowerState status) {
+void ValveVacuumSet(e_PowerState status) { // tre vie
 	HAL_GPIO_WritePin(VAL_VACUUM_GPIO_Port, VAL_VACUUM_Pin, status);
 }
 
-void ValveDryIntakeSet(e_PowerState status) {
+void ValveDryIntakeSet(e_PowerState status) { // aria
 	HAL_GPIO_WritePin(VAL_DRY_AIR_GPIO_Port, VAL_DRY_AIR_Pin, status);
 }
 
-void ValveDrainSteamSet(e_PowerState status) {
+void ValveDrainSteamSet(e_PowerState status) { // scarico
 	HAL_GPIO_WritePin(VAL_DRAIN_STEAM_GPIO_Port, VAL_DRAIN_STEAM_Pin, status);
 }
 
-void ValveWaterSteamSet(e_PowerState status) {
+void ValveWaterSteamSet(e_PowerState status) { // acqua
 	HAL_GPIO_WritePin(VAL_WATER_STEAM_GPIO_Port, VAL_WATER_STEAM_Pin, status);
 }
 

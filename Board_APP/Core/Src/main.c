@@ -26,6 +26,7 @@
 #include "keys.h"
 #include "leds.h"
 #include "sensors.h"
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -51,6 +52,8 @@ I2C_HandleTypeDef hi2c1;
 SPI_HandleTypeDef hspi1;
 SPI_HandleTypeDef hspi2;
 
+TIM_HandleTypeDef htim2;
+
 UART_HandleTypeDef huart4;
 UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
@@ -67,10 +70,6 @@ HCD_HandleTypeDef hhcd_USB_OTG_FS;
 osThreadId taskAliveHandle;
 /* USER CODE BEGIN PV */
 
-osThreadId keysTaskHandle;
-osThreadId ledsTaskHandle;
-osThreadId sensorsTaskHandle;
-
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -86,6 +85,7 @@ static void MX_ADC1_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_USB_OTG_FS_HCD_Init(void);
+static void MX_TIM2_Init(void);
 void StartTaskAlive(void const * argument);
 
 /* USER CODE BEGIN PFP */
@@ -101,6 +101,7 @@ void StartTaskAlive(void const * argument);
   * @brief  The application entry point.
   * @retval int
   */
+
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -135,6 +136,7 @@ int main(void)
   MX_SPI1_Init();
   MX_USART2_UART_Init();
   MX_USB_OTG_FS_HCD_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -162,14 +164,6 @@ int main(void)
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
-	osThreadDef(keysTask, StartKeysTask, osPriorityAboveNormal, 1, 256);
-	keysTaskHandle = osThreadCreate(osThread(keysTask), NULL);
-
-	osThreadDef(ledsTask, StartLedsTask, osPriorityNormal, 1, 256);
-	ledsTaskHandle = osThreadCreate(osThread(ledsTask), NULL);
-
-	osThreadDef(sensorsTask, StartSensorsTask, osPriorityNormal, 1, 1024);
-	sensorsTaskHandle = osThreadCreate(osThread(sensorsTask), NULL);
 
   /* USER CODE END RTOS_THREADS */
 
@@ -395,6 +389,51 @@ static void MX_SPI2_Init(void)
   /* USER CODE BEGIN SPI2_Init 2 */
 
   /* USER CODE END SPI2_Init 2 */
+
+}
+
+/**
+  * @brief TIM2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM2_Init(void)
+{
+
+  /* USER CODE BEGIN TIM2_Init 0 */
+
+  /* USER CODE END TIM2_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM2_Init 1 */
+
+  /* USER CODE END TIM2_Init 1 */
+  htim2.Instance = TIM2;
+  htim2.Init.Prescaler = 1000;
+  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim2.Init.Period = 7200;
+  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+  if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM2_Init 2 */
+
+  /* USER CODE END TIM2_Init 2 */
 
 }
 
@@ -690,7 +729,7 @@ void StartTaskAlive(void const * argument)
   /* Infinite loop */
 
 	SysInit();
-
+	HAL_TIM_Base_Start_IT(&htim2);
 	for(;;)	{
 		HAL_GPIO_TogglePin(LED_HEART_GPIO_Port, LED_HEART_Pin);
 		osDelay(200);
@@ -706,10 +745,25 @@ void StartTaskAlive(void const * argument)
   * @param  htim : TIM handle
   * @retval None
   */
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
-{
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
   /* USER CODE BEGIN Callback 0 */
+	if (htim->Instance == htim2.Instance) {
+		uint8_t dc = 50;
+		uint16_t period = 1440;
+		uint16_t ut = period * dc / 100;
+		uint16_t dt = period - ut;
 
+		if (HAL_GPIO_ReadPin(HEATER_RING_GPIO_Port, HEATER_RING_Pin)) {
+			htim->Init.Period = dt;
+			HAL_TIM_Base_Init(htim);
+			HAL_GPIO_WritePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin, GPIO_PIN_RESET);
+		} else {
+			htim->Init.Period = ut;
+			HAL_TIM_Base_Init(htim);
+			HAL_GPIO_WritePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin, GPIO_PIN_RESET);
+		}
+//	    HAL_GPIO_TogglePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin);
+	}
   /* USER CODE END Callback 0 */
   if (htim->Instance == TIM6) {
     HAL_IncTick();

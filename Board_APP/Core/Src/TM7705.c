@@ -38,6 +38,9 @@ USAGE:
 #include <stdio.h>
 #include "globals.h"
 
+#define RTD_A 3.9083e-3
+#define RTD_B -5.775e-7
+
 //	Communication register bits
 const uint8_t COM_DRDY_BIT = 7;
 const uint8_t COM_RS_BIT = 4;
@@ -69,6 +72,7 @@ static void writeToCommsRegister(TM7705_RegisterSelection registerID, TM7705_Rea
 static void setClockRegister(TM7705_ClockFrequency clockFrequency, const e_Boolean clockOutDisable);
 static void setSetupRegister(const TM7705_Channel channel, const TM7705_ADCMode adcMode, const TM7705_Gain gain, const TM7705_Polarity polarity, const e_Boolean buffered);
 static void Reset();
+static float calTemp(float Rt);
 
 
 uint8_t GetCommRegister(TM7705_RegisterSelection regSelect, TM7705_ReadWrite rw, TM7705_Channel ch) {
@@ -221,6 +225,24 @@ uint16_t TM7705_GetValue(TM7705_Channel channel) {
     return value;
 }
 
+float TM7705_GetTemp(TM7705_Channel channel) {
+	uint16_t refRes = 2000; // ref resistor for voltage divider
+	return calTemp(((double)TM7705_GetValue(channel)) * (double)refRes / 65535.0);
+}
+
+static float calTemp(float Rt) {
+	float Z1, Z2, Z3, Z4, temp;
+
+	Z1 = -RTD_A;
+	Z2 = RTD_A * RTD_A - (4 * RTD_B);
+	Z3 = (4 * RTD_B) / 1000;
+	Z4 = 2 * RTD_B;
+
+	temp = Z2 + (Z3 * Rt);
+	temp = (sqrt(temp) + Z1) / Z4;
+
+	return temp;
+}
 
 //
 //void setClockRegister(const TM7705_ClockFrequency clockFrequency, const e_Boolean clockOutDisable) {

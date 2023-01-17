@@ -35,6 +35,7 @@ USAGE:
 
 #include <24Cxx.h>
 #include "system.h"
+#include "main.h"
 
 #include <stdio.h>
 #include <stdarg.h>
@@ -53,9 +54,10 @@ USAGE:
 #include "BAT2U.h"
 #include "BMP280.h"
 #include "Inc/DB_Protocol.h"
+#include "program_steps.h"
 
-#define RTD_A 3.9083e-3
-#define RTD_B -5.775e-7
+//#define RTD_A 3.9083e-3
+//#define RTD_B -5.775e-7
 
 extern I2C_HandleTypeDef hi2c1;
 extern UART_HandleTypeDef huart1;
@@ -71,26 +73,41 @@ uint16_t machineSerial;
 
 RTCDateTime_s dt;
 
-float calTemp(float Rt) {
-	float Z1, Z2, Z3, Z4, temp;
 
-	Z1 = -RTD_A;
-	Z2 = RTD_A * RTD_A - (4 * RTD_B);
-	Z3 = (4 * RTD_B) / 1000;
-	Z4 = 2 * RTD_B;
-
-	temp = Z2 + (Z3 * Rt);
-	temp = (sqrt(temp) + Z1) / Z4;
-
-	return temp;
-}
+osThreadId keysTaskHandle;
+osThreadId ledsTaskHandle;
+osThreadId sensorsTaskHandle;
+//
+//float calTemp(float Rt) {
+//	float Z1, Z2, Z3, Z4, temp;
+//
+//	Z1 = -RTD_A;
+//	Z2 = RTD_A * RTD_A - (4 * RTD_B);
+//	Z3 = (4 * RTD_B) / 1000;
+//	Z4 = 2 * RTD_B;
+//
+//	temp = Z2 + (Z3 * Rt);
+//	temp = (sqrt(temp) + Z1) / Z4;
+//
+//	return temp;
+//}
 
 void SysInit() {
+
+	osThreadDef(keysTask, StartKeysTask, osPriorityAboveNormal, 1, 256);
+	keysTaskHandle = osThreadCreate(osThread(keysTask), NULL);
+
+	osThreadDef(ledsTask, StartLedsTask, osPriorityNormal, 1, 256);
+	ledsTaskHandle = osThreadCreate(osThread(ledsTask), NULL);
+
+	osThreadDef(sensorsTask, StartSensorsTask, osPriorityNormal, 1, 1024);
+	sensorsTaskHandle = osThreadCreate(osThread(sensorsTask), NULL);
 
 	SerialInit(&UART_DISPLAY, 115200);
 	SerialInit(&UART_MONITOR, 115200);
 
 
+//Step_Preheat(40, 50, 180);
 
 //	BMP280_HandleTypedef bmp280;
 //	float pressure, temperature, humidity;
@@ -133,38 +150,41 @@ void SysInit() {
 
 
 
-
-	TM7705_Init(&hspi1);
+//	TM7705_Init(&hspi1);
 
 	Beep(2, 100, 100);
 
-	uint16_t val0, val1;
+//	uint16_t val1;
+//
+//	char s[8], p[8];
+//	double res;
+//	uint16_t refRes = 2000;
+//	float tmp0, tmp1, press, val0;
 
-	char s[8], p[8];
-	double res;
-	uint16_t refRes = 2000;
-	float tmp0, tmp1, press;
+//	ValveVacuumSet(ON);
+//	PumpVacuumSet(ON);
 
-	while (1) {
-		val0 = TM7705_GetValue(0);
-		press = ChamberPressureGet();
-//		val1 = TM7705_GetValue(CHANNEL_1);
 
-		res = ((double)val0) * refRes / 65535;
-		tmp0 = calTemp(res);
-
-//		res = ((double)val1) * refRes / 65535;
-//		tmp1 = calTemp(res);
-
-//		sprintf(s,"%d - %0.2f - %0.2f\n", val0, tmp0, tmp0);
-//		SerialSend(&UART_MONITOR, s, 32);
-		sprintf(s,"%5.1f", tmp0);
-		sprintf(p,"%4.0f", press);
-		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, s);
-		osDelay(100);
-		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 2, 0, 0, p);
-		osDelay(500);
-	}
+//	while (1) {
+//		val0 = TM7705_GetTemp(0);
+//		press = ChamberPressureGet();
+////		val1 = TM7705_GetValue(CHANNEL_1);
+//
+////		res = ((double)val0) * refRes / 65535;
+////		tmp0 = calTemp(res);
+//
+////		res = ((double)val1) * refRes / 65535;
+////		tmp1 = calTemp(res);
+//
+////		sprintf(s,"%d - %0.2f - %0.2f\n", val0, tmp0, tmp0);
+////		SerialSend(&UART_MONITOR, s, 32);
+//		sprintf(s,"%5.1f", val0);
+//		sprintf(p,"%5.1f", press);
+//		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, s);
+//		osDelay(100);
+//		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 2, 0, 0, p);
+//		osDelay(500);
+//	}
 
 	//	SerialSend(&UART_MONITOR, "MAMMA\n", 6);
 
@@ -175,7 +195,6 @@ void SysInit() {
 //	EEPROM_Write(page, offset, data, size)3,0,a,4);
 //
 //	EEPROM_EraseAll();
-
 
 
 

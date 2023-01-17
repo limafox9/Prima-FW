@@ -190,6 +190,7 @@ static const uint8_t CLK_DIV_2 = 0x2;
 
 void TM7705_Init(SPI_HandleTypeDef* hspi);
 uint16_t TM7705_GetValue(TM7705_Channel channel);
+float TM7705_GetTemp(TM7705_Channel channel);
 //uint32_t TM7705_ReadOffsetRegister(const TM7705_Channel channel);
 //uint32_t TM7705_ReadFullScaleRegister(const TM7705_Channel channel);
 

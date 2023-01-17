@@ -41,7 +41,8 @@ USAGE:
 #include "cmsis_os.h"
 #include "TM7705.h"
 #include "system.h"
-#include "panel_serial.h"
+#include "serial.h"
+#include "Inc/DB_protocol.h"
 
 
 //==============================================================================
@@ -56,7 +57,7 @@ USAGE:
 #define SENSOR_TEMP_T1_ADC_CHANNEL 				0 // External 16bit ADC
 #define SENSOR_TEMP_T2_ADC_CHANNEL 				1 // External 16bit ADC
 
-#define SAMPLE_RATE					1			// Sample per second (SPS/Hz)
+#define SAMPLE_RATE					2			// Sample per second (SPS/Hz)
 #define AVERAGE_SAMPLES				5			// N. of samples for the average
 #define AVERAGE_SAMPLES_INTERVAL	5			// Interval between samples (milliseconds)
 #define V_REF						3.3			// Power supply
@@ -80,25 +81,12 @@ const float Z2 = RTD_A * RTD_A - (4 * RTD_B);
 const float Z3 = (4 * RTD_B) / 1000;
 const float Z4 = 2 * RTD_B;
 
-struct {
-	e_OpenClosedState Door;
-	e_LockState Solenoid;
-	float TemperatureSteamGenerator;
-	float TemperatureChamberHeater;
-	uint16_t T1;
-	uint16_t T2;
-	float PressureChamber;
-	float Current;
-	uint16_t WaterTDS;
-} Sensors;
-
 static uint16_t ReadADC(uint32_t channel);
 static float ADCToTemp(uint16_t adcValue);
 static float ADCToPress(uint16_t adcValue);
 static float ADCToCurrent(uint16_t adcValue);
 
-osMutexId mutexSensors;
-osMutexDef(mutexSensors);
+s_Sensors Sensors;
 
 //==============================================================================
 // DECLARATIONS
@@ -154,22 +142,28 @@ void StartSensorsTask() {
 	TM7705_Init(&hspi1);
 
 	for (;;) {
-		osMutexWait(mutexSensors, osWaitForever);
 
 		Sensors.Door = DoorSolenoidKeyGet();
 		Sensors.Solenoid = DoorPositionGet();
 		Sensors.TemperatureSteamGenerator = SteamGeneratorTempGet();
 		Sensors.TemperatureChamberHeater = ChamberHeaterTempGet();
-//		Sensors.T1 = TemperatureT1Get();
+		Sensors.T1 = TM7705_GetTemp(0);
 //		Sensors.T2 = TemperatureT2Get();
 		Sensors.PressureChamber = ChamberPressureGet();
 		Sensors.Current = CurrentGet();
 
+//
+//		Log(LOG_LEVEL_DEBUG, LOG_TIME_TIME, LOG_OUT_SERIAL, "%0.3f", Sensors.Current);
+//		char d[8] = {0};
+//		sprintf(d, "%0.1f", Sensors.TemperatureSteamGenerator);
+//		SendCommand(COMMAND_WRITE_DIGITS_ROW_1, 0, 0, 0, d);
 
-		Log(LOG_LEVEL_DEBUG, LOG_TIME_TIME, LOG_OUT_SERIAL, "%0.3f", Sensors.Current);
-		char d[8] = {0};
-		sprintf(d, "%0.1f", Sensors.TemperatureSteamGenerator);
-		SendCommand(COMMAND_WRITE_DIGITS_ROW_1, 0, 0, 0, d);
+		char s[8];
+		sprintf(s,"%5.1f", Sensors.TemperatureChamberHeater);
+		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 2, 0, 0, s);
+		osDelay(50);
+		sprintf(s,"%5.1f", Sensors.TemperatureSteamGenerator);
+		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, s);
 
 		osDelay(1000 / SAMPLE_RATE);
 	}

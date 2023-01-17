@@ -59,6 +59,17 @@ float ChamberPressureGet();
 float CurrentGet();
 uint16_t WaterQualityGet();
 
+typedef struct s_Sensors{
+	e_OpenClosedState Door;
+	e_LockState Solenoid;
+	float TemperatureSteamGenerator;
+	float TemperatureChamberHeater;
+	uint16_t T1;
+	uint16_t T2;
+	float PressureChamber;
+	float Current;
+	uint16_t WaterTDS;
+} s_Sensors;
 
 
 #endif /* INC_SENSORS_H_ */

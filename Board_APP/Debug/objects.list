@@ -15,6 +15,7 @@
 "./Core/Src/main.o"
 "./Core/Src/panel_serial.o"
 "./Core/Src/print.o"
+"./Core/Src/program_steps.o"
 "./Core/Src/sensors.o"
 "./Core/Src/serial.o"
 "./Core/Src/settings.o"
