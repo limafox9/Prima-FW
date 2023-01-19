@@ -41,11 +41,6 @@ USAGE:
 
 #define KEY_LONG_PRESS_MS 3000
 
-static const uint8_t KEY_S1 = 1;
-static const uint8_t KEY_S2 = 2;
-static const uint8_t KEY_S3 = 4;
-static const uint8_t KEY_LONG_PRESS = 8;
-
 uint8_t _keysBeepActive = 0;
 
 static uint8_t GetPressedKeys();

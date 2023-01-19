@@ -57,6 +57,16 @@ USAGE:
 #define DISPLAY_UART_TX_TIMEOUT 		500
 #define DISPLAY_UART_RX_TIMEOUT 		500
 
+#define KEY_PROG 		1
+#define KEY_TEST 		2
+#define KEY_START 		4
+
+#define KEY_S1 			1
+#define KEY_S2 			2
+#define KEY_S3 			4
+
+#define KEY_LONG_PRESS 	8
+
 typedef enum {
 	DISPLAY_CMD_OK 							= 0x0100,	// message received ok. param1..4 depend on command
 	DISPLAY_CMD_ERROR 						= 0x0110,	// message error (fail or incomplete receive). param1..4 depend on command

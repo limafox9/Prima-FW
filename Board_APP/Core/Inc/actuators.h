@@ -40,6 +40,15 @@ USAGE:
 #include "globals.h"
 #include "settings.h"
 
+extern TIM_HandleTypeDef htim2;
+#define PWM_TIMER_HEATER_CHAMBER htim2
+#define PWM_TIMER_HEATER_CHAMBER_PERIOD 7200
+
+extern TIM_HandleTypeDef htim3;
+#define PWM_TIMER_STEAM_GENERATOR htim3
+#define PWM_TIMER_STEAM_GENERATOR_PERIOD 7200
+
+#define DOOR_SOLENOID_IMPULSE 1000 	// Solenoid impulse duration (milliseconds)
 
 void ChamberHeaterSet(e_PowerState status);
 void SteamGeneratorHeaterSet(e_PowerState status);

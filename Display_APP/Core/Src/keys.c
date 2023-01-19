@@ -42,11 +42,6 @@ USAGE:
 #include "buzzer.h"
 #include "Inc/DB_protocol.h"
 
-#define KEY_PROG 		1
-#define KEY_TEST 		2
-#define KEY_START 		4
-#define KEY_LONG_PRESS 	8
-
 extern uint16_t SET_KeysLongPressDuration;
 extern bool SET_KeysBeep;
 

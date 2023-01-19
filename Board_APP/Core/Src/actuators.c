@@ -38,14 +38,96 @@ USAGE:
 #include "cmsis_os.h"
 #include "globals.h"
 #include "settings.h"
+#include "pid.h"
+#include "sensors.h"
 
-#define DOOR_SOLENOID_IMPULSE 1000 	// Solenoid impulse duration (milliseconds)
+/* Controller parameters */
+#define PID_KP  20.0f
+#define PID_KI  5.0f
+#define PID_KD  0.05f
 
-void HeaterChamberSet(e_PowerState status) {
-	HAL_GPIO_WritePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin, status);
+#define PID_TAU 0.02f
+
+#define PID_LIM_MIN  1.0f
+#define PID_LIM_MAX  99.0f
+
+#define PID_LIM_MIN_INT  0.0f
+#define PID_LIM_MAX_INT  50.0f
+
+#define SAMPLE_TIME_S 1.0f
+
+extern s_Sensors Sensors;
+
+
+float heaterChamberTempSet;
+float heaterSteamGeneratorTempSet;
+
+PIDController pidHeaterChamber = {PID_KP, PID_KI, PID_KD, PID_TAU, PID_LIM_MIN, PID_LIM_MAX, PID_LIM_MIN_INT, PID_LIM_MAX_INT, SAMPLE_TIME_S};
+PIDController pidHeaterSteamGenerator = {PID_KP, PID_KI, PID_KD, PID_TAU, PID_LIM_MIN, PID_LIM_MAX, PID_LIM_MIN_INT, PID_LIM_MAX_INT, SAMPLE_TIME_S};
+
+
+void HeaterChamberTempSet(uint8_t tempC) {
+
+	if (tempC > 0) {
+		PIDController_Init(&pidHeaterChamber);
+		heaterChamberTempSet = tempC;
+		PWM_TIMER_HEATER_CHAMBER.Instance->ARR = 7200;
+		HAL_TIM_Base_Start_IT(&PWM_TIMER_HEATER_CHAMBER);
+	} else {
+		HAL_TIM_Base_Stop_IT(&PWM_TIMER_HEATER_CHAMBER);
+		HAL_GPIO_WritePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin, OFF);
+	}
 }
 
-void HeaterSteamGeneratorSet(e_PowerState status) {
+void PWMHeaterChamber() {
+
+	float ret = PIDController_Update(&pidHeaterChamber, (float)heaterChamberTempSet, Sensors.TemperatureChamberHeater);
+	// duty cycle %
+	uint16_t ut = PWM_TIMER_HEATER_CHAMBER_PERIOD * ret / 100;
+	uint16_t dt = PWM_TIMER_HEATER_CHAMBER_PERIOD - ut;
+
+	if (HAL_GPIO_ReadPin(HEATER_RING_GPIO_Port, HEATER_RING_Pin)) {
+		HAL_GPIO_WritePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin, GPIO_PIN_RESET);
+		PWM_TIMER_HEATER_CHAMBER.Instance->ARR = dt; // load new timer period counter for OFF duty cycle
+	} else {
+		HAL_GPIO_WritePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin, GPIO_PIN_SET);
+		PWM_TIMER_HEATER_CHAMBER.Instance->ARR = ut; // load new timer period counter for ON duty cycle
+	}
+	HAL_TIM_Base_Start_IT(&PWM_TIMER_HEATER_CHAMBER); // restart timer
+}
+
+void HeaterSteamGeneratorTempSet(uint8_t tempC) {
+
+	if (tempC > 0) {
+		PIDController_Init(&pidHeaterSteamGenerator);
+		heaterSteamGeneratorTempSet = tempC;
+		PWM_TIMER_STEAM_GENERATOR.Instance->ARR = 7200;
+		HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, GPIO_PIN_RESET);
+		HAL_TIM_Base_Start_IT(&PWM_TIMER_STEAM_GENERATOR);
+	} else {
+		HAL_TIM_Base_Stop_IT(&PWM_TIMER_STEAM_GENERATOR);
+		HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, OFF);
+	}
+}
+
+void PWMHeaterSteamGenerator() {
+
+	float ret = PIDController_Update(&pidHeaterSteamGenerator, (float)heaterSteamGeneratorTempSet, Sensors.TemperatureSteamGenerator);
+	// duty cycle %
+	uint16_t ut = PWM_TIMER_STEAM_GENERATOR_PERIOD * ret / 100;
+	uint16_t dt = PWM_TIMER_STEAM_GENERATOR_PERIOD - ut;
+
+	if (HAL_GPIO_ReadPin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin)) {
+		HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, GPIO_PIN_RESET);
+		PWM_TIMER_STEAM_GENERATOR.Instance->ARR = dt; // load new timer period counter for OFF duty cycle
+	} else {
+		HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, GPIO_PIN_SET);
+		PWM_TIMER_STEAM_GENERATOR.Instance->ARR = ut; // load new timer period counter for ON duty cycle
+	}
+	HAL_TIM_Base_Start_IT(&PWM_TIMER_STEAM_GENERATOR); // restart timer
+}
+
+void HeaterSteamGeneratorPWM(e_PowerState status) {
 	HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, status);
 }
 
@@ -126,4 +208,11 @@ void ActuatorsSafeStatus() {
 
 	DoorSolenoidDisconnect();
 }
+
+
+
+
+
+
+
 
