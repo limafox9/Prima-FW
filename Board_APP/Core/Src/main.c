@@ -19,6 +19,8 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "cmsis_os.h"
+#include "fatfs.h"
+#include "usb_host.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -66,9 +68,8 @@ DMA_HandleTypeDef hdma_usart2_tx;
 DMA_HandleTypeDef hdma_usart3_rx;
 DMA_HandleTypeDef hdma_usart3_tx;
 
-HCD_HandleTypeDef hhcd_USB_OTG_FS;
-
 osThreadId taskAliveHandle;
+osSemaphoreId semaphorePowerHandle;
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -85,7 +86,6 @@ static void MX_UART4_Init(void);
 static void MX_ADC1_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_USART2_UART_Init(void);
-static void MX_USB_OTG_FS_HCD_Init(void);
 static void MX_TIM2_Init(void);
 static void MX_TIM3_Init(void);
 void StartTaskAlive(void const * argument);
@@ -136,9 +136,9 @@ int main(void)
   MX_ADC1_Init();
   MX_SPI1_Init();
   MX_USART2_UART_Init();
-  MX_USB_OTG_FS_HCD_Init();
   MX_TIM2_Init();
   MX_TIM3_Init();
+  MX_FATFS_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -146,6 +146,11 @@ int main(void)
   /* USER CODE BEGIN RTOS_MUTEX */
   /* add mutexes, ... */
   /* USER CODE END RTOS_MUTEX */
+
+  /* Create the semaphores(s) */
+  /* definition and creation of semaphorePower */
+  osSemaphoreDef(semaphorePower);
+  semaphorePowerHandle = osSemaphoreCreate(osSemaphore(semaphorePower), 1);
 
   /* USER CODE BEGIN RTOS_SEMAPHORES */
   /* add semaphores, ... */
@@ -617,36 +622,6 @@ static void MX_USART3_UART_Init(void)
 }
 
 /**
-  * @brief USB_OTG_FS Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_USB_OTG_FS_HCD_Init(void)
-{
-
-  /* USER CODE BEGIN USB_OTG_FS_Init 0 */
-
-  /* USER CODE END USB_OTG_FS_Init 0 */
-
-  /* USER CODE BEGIN USB_OTG_FS_Init 1 */
-
-  /* USER CODE END USB_OTG_FS_Init 1 */
-  hhcd_USB_OTG_FS.Instance = USB_OTG_FS;
-  hhcd_USB_OTG_FS.Init.Host_channels = 8;
-  hhcd_USB_OTG_FS.Init.speed = HCD_SPEED_FULL;
-  hhcd_USB_OTG_FS.Init.phy_itface = HCD_PHY_EMBEDDED;
-  hhcd_USB_OTG_FS.Init.Sof_enable = DISABLE;
-  if (HAL_HCD_Init(&hhcd_USB_OTG_FS) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN USB_OTG_FS_Init 2 */
-
-  /* USER CODE END USB_OTG_FS_Init 2 */
-
-}
-
-/**
   * Enable DMA controller clock
   */
 static void MX_DMA_Init(void)
@@ -713,11 +688,11 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : SW_SOLENOID_Pin KEY_S1_Pin KEY_S2_Pin KEY_S3_Pin */
-  GPIO_InitStruct.Pin = SW_SOLENOID_Pin|KEY_S1_Pin|KEY_S2_Pin|KEY_S3_Pin;
+  /*Configure GPIO pin : SW_SOLENOID_Pin */
+  GPIO_InitStruct.Pin = SW_SOLENOID_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+  HAL_GPIO_Init(SW_SOLENOID_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : LED_HEART_Pin FAN_Pin */
   GPIO_InitStruct.Pin = LED_HEART_Pin|FAN_Pin;
@@ -751,6 +726,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
+  /*Configure GPIO pins : KEY_S1_Pin KEY_S2_Pin KEY_S3_Pin */
+  GPIO_InitStruct.Pin = KEY_S1_Pin|KEY_S2_Pin|KEY_S3_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
   /*Configure GPIO pin : SPI1_DATA_READY_Pin */
   GPIO_InitStruct.Pin = SPI1_DATA_READY_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
@@ -772,6 +753,8 @@ static void MX_GPIO_Init(void)
 /* USER CODE END Header_StartTaskAlive */
 void StartTaskAlive(void const * argument)
 {
+  /* init code for USB_HOST */
+  MX_USB_HOST_Init();
   /* USER CODE BEGIN 5 */
   /* Infinite loop */
 
@@ -794,12 +777,17 @@ void StartTaskAlive(void const * argument)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
   /* USER CODE BEGIN Callback 0 */
-	if (htim->Instance == TIM2) {
-		PWMHeaterChamber();
-	}
-	if (htim->Instance == TIM3) {
-		PWMHeaterSteamGenerator();
-	}
+////	if (htim->Instance == TIM2) {
+//////		osSemaphoreWait(semaphorePowerHandle, osWaitForever);
+////		PWMHeaterChamber();
+//////		osSemaphoreRelease(semaphorePowerHandle);
+//
+//	}
+//	if (htim->Instance == TIM3) {
+////		osSemaphoreWait(semaphorePowerHandle, osWaitForever);
+//		PWMHeaterSteamGenerator();
+////		osSemaphoreRelease(semaphorePowerHandle);
+//	}
   /* USER CODE END Callback 0 */
   if (htim->Instance == TIM6) {
     HAL_IncTick();

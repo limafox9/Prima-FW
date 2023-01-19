@@ -743,50 +743,6 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* huart)
 
 }
 
-/**
-* @brief HCD MSP Initialization
-* This function configures the hardware resources used in this example
-* @param hhcd: HCD handle pointer
-* @retval None
-*/
-void HAL_HCD_MspInit(HCD_HandleTypeDef* hhcd)
-{
-  if(hhcd->Instance==USB_OTG_FS)
-  {
-  /* USER CODE BEGIN USB_OTG_FS_MspInit 0 */
-
-  /* USER CODE END USB_OTG_FS_MspInit 0 */
-    /* Peripheral clock enable */
-    __HAL_RCC_USB_OTG_FS_CLK_ENABLE();
-  /* USER CODE BEGIN USB_OTG_FS_MspInit 1 */
-
-  /* USER CODE END USB_OTG_FS_MspInit 1 */
-  }
-
-}
-
-/**
-* @brief HCD MSP De-Initialization
-* This function freeze the hardware resources used in this example
-* @param hhcd: HCD handle pointer
-* @retval None
-*/
-void HAL_HCD_MspDeInit(HCD_HandleTypeDef* hhcd)
-{
-  if(hhcd->Instance==USB_OTG_FS)
-  {
-  /* USER CODE BEGIN USB_OTG_FS_MspDeInit 0 */
-
-  /* USER CODE END USB_OTG_FS_MspDeInit 0 */
-    /* Peripheral clock disable */
-    __HAL_RCC_USB_OTG_FS_CLK_DISABLE();
-  /* USER CODE BEGIN USB_OTG_FS_MspDeInit 1 */
-
-  /* USER CODE END USB_OTG_FS_MspDeInit 1 */
-  }
-
-}
-
 /* USER CODE BEGIN 1 */
 
 /* USER CODE END 1 */

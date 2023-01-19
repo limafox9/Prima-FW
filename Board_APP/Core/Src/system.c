@@ -106,8 +106,8 @@ void SysInit() {
 	SerialInit(&UART_DISPLAY, 115200);
 	SerialInit(&UART_MONITOR, 115200);
 
-	__HAL_TIM_CLEAR_IT(&PWM_TIMER_HEATER_CHAMBER ,TIM_IT_UPDATE);
-	HAL_TIM_Base_Start_IT(&PWM_TIMER_HEATER_CHAMBER);
+//	__HAL_TIM_CLEAR_IT(&PWM_TIMER_HEATER_CHAMBER ,TIM_IT_UPDATE);
+//	HAL_TIM_Base_Start_IT(&PWM_TIMER_HEATER_CHAMBER);
 
 //Step_Preheat(40, 50, 180);
 
@@ -154,13 +154,14 @@ void SysInit() {
 
 //	TM7705_Init(&hspi1);
 
-	HeaterChamberTempSet(30);
-	HeaterSteamGeneratorTempSet(30);
+	PWMPower_Init();
+	HeaterChamberTempSet(50);
+	HeaterSteamGeneratorTempSet(200);
 
 
-	osDelay(5000);
-	HeaterChamberTempSet(0);
-	HeaterSteamGeneratorTempSet(0);
+//	osDelay(5000);
+//	HeaterChamberTempSet(0);
+//	HeaterSteamGeneratorTempSet(0);
 	//Beep(2, 100, 100);
 
 //	uint16_t val1;

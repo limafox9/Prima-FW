@@ -133,16 +133,16 @@ static void ParseCommand(s_DisplayProtocolData* data) {
 		case DISPLAY_CMD_READY:
 			SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, "CIAO");
 			break;
-		case DISPLAY_CMD_KEYS_PRESSED:
-			if ((data->Param1 & KEY_START) == KEY_START) {
-				HeaterChamberTempSet(30);
-				HeaterSteamGeneratorTempSet(30);
-			}
-			if ((data->Param1 & KEY_TEST) == KEY_TEST) {
-				HeaterChamberTempSet(0);
-				HeaterSteamGeneratorTempSet(0);
-			}
-			break;
+//		case DISPLAY_CMD_KEYS_PRESSED:
+//			if ((data->Param1 & KEY_START) == KEY_START) {
+//				HeaterChamberTempSet(30);
+//				HeaterSteamGeneratorTempSet(30);
+//			}
+//			if ((data->Param1 & KEY_TEST) == KEY_TEST) {
+//				HeaterChamberTempSet(0);
+//				HeaterSteamGeneratorTempSet(0);
+//			}
+//			break;
 	}
 }
 

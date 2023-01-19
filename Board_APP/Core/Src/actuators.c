@@ -40,16 +40,17 @@ USAGE:
 #include "settings.h"
 #include "pid.h"
 #include "sensors.h"
+#include "cmsis_os.h"
 
 /* Controller parameters */
-#define PID_KP  20.0f
-#define PID_KI  5.0f
-#define PID_KD  0.05f
+#define PID_KP  7.0f
+#define PID_KI  11.0f
+#define PID_KD  0.9f
 
 #define PID_TAU 0.02f
 
-#define PID_LIM_MIN  1.0f
-#define PID_LIM_MAX  99.0f
+#define PID_LIM_MIN  0.0f
+#define PID_LIM_MAX  100.0f
 
 #define PID_LIM_MIN_INT  0.0f
 #define PID_LIM_MAX_INT  50.0f
@@ -57,14 +58,17 @@ USAGE:
 #define SAMPLE_TIME_S 1.0f
 
 extern s_Sensors Sensors;
-
+extern osSemaphoreId semaphorePowerHandle;
+osThreadId chamberPowerTaskHandle;
+osThreadId steamPowerTaskHandle;
 
 float heaterChamberTempSet;
 float heaterSteamGeneratorTempSet;
 
 PIDController pidHeaterChamber = {PID_KP, PID_KI, PID_KD, PID_TAU, PID_LIM_MIN, PID_LIM_MAX, PID_LIM_MIN_INT, PID_LIM_MAX_INT, SAMPLE_TIME_S};
 PIDController pidHeaterSteamGenerator = {PID_KP, PID_KI, PID_KD, PID_TAU, PID_LIM_MIN, PID_LIM_MAX, PID_LIM_MIN_INT, PID_LIM_MAX_INT, SAMPLE_TIME_S};
-
+void StartChPowerTask();
+void StartSteamPowerTask();
 
 void HeaterChamberTempSet(uint8_t tempC) {
 
@@ -79,22 +83,68 @@ void HeaterChamberTempSet(uint8_t tempC) {
 	}
 }
 
-void PWMHeaterChamber() {
+void PWMPower_Init() {
 
-	float ret = PIDController_Update(&pidHeaterChamber, (float)heaterChamberTempSet, Sensors.TemperatureChamberHeater);
-	// duty cycle %
-	uint16_t ut = PWM_TIMER_HEATER_CHAMBER_PERIOD * ret / 100;
-	uint16_t dt = PWM_TIMER_HEATER_CHAMBER_PERIOD - ut;
+	osThreadDef(chPowerTask, StartChPowerTask, osPriorityNormal, 1, 128);
+	chamberPowerTaskHandle = osThreadCreate(osThread(chPowerTask), NULL);
 
-	if (HAL_GPIO_ReadPin(HEATER_RING_GPIO_Port, HEATER_RING_Pin)) {
-		HAL_GPIO_WritePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin, GPIO_PIN_RESET);
-		PWM_TIMER_HEATER_CHAMBER.Instance->ARR = dt; // load new timer period counter for OFF duty cycle
-	} else {
-		HAL_GPIO_WritePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin, GPIO_PIN_SET);
-		PWM_TIMER_HEATER_CHAMBER.Instance->ARR = ut; // load new timer period counter for ON duty cycle
-	}
-	HAL_TIM_Base_Start_IT(&PWM_TIMER_HEATER_CHAMBER); // restart timer
+	osThreadDef(stPowerTask, StartSteamPowerTask, osPriorityNormal, 1, 128);
+	steamPowerTaskHandle = osThreadCreate(osThread(stPowerTask), NULL);
+
 }
+
+void StartChPowerTask() {
+
+	for (;;) {
+		float ret = PIDController_Update(&pidHeaterChamber, (float)heaterChamberTempSet, Sensors.TemperatureChamberHeater);
+		// duty cycle %
+		uint16_t ut = 1000 * ret / 100;
+		uint16_t dt = 1000 - ut;
+		osSemaphoreWait(semaphorePowerHandle, osWaitForever);
+		HAL_GPIO_WritePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin, ON);
+			osDelay(ut);
+			osSemaphoreRelease(semaphorePowerHandle);
+			HAL_GPIO_WritePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin, OFF);
+			osDelay(dt);
+
+	}
+}
+
+void StartSteamPowerTask() {
+	for (;;) {
+		float ret = PIDController_Update(&pidHeaterSteamGenerator, (float)heaterSteamGeneratorTempSet, Sensors.TemperatureSteamGenerator);
+		// duty cycle %
+		uint16_t ut = 1000 * ret / 100;
+		uint16_t dt = 1000 - ut;
+		osSemaphoreWait(semaphorePowerHandle, osWaitForever);
+		HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, ON);
+			osDelay(ut);
+			osSemaphoreRelease(semaphorePowerHandle);
+			HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, OFF);
+			osDelay(dt);
+
+	}
+}
+
+//	uint16_t ut = PWM_TIMER_HEATER_CHAMBER_PERIOD * ret / 100;
+//	uint16_t dt = PWM_TIMER_HEATER_CHAMBER_PERIOD - ut;
+
+//	osSemaphoreWait(semaphorePowerHandle, osWaitForever);
+
+//	if (HAL_GPIO_ReadPin(HEATER_RING_GPIO_Port, HEATER_RING_Pin)) {
+//		HAL_GPIO_WritePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin, GPIO_PIN_RESET);
+//		PWM_TIMER_HEATER_CHAMBER.Instance->ARR = dt; // load new timer period counter for OFF duty cycle
+//	} else {
+//		HAL_GPIO_WritePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin, GPIO_PIN_SET);
+//		PWM_TIMER_HEATER_CHAMBER.Instance->ARR = ut; // load new timer period counter for ON duty cycle
+//	}
+
+//	osSemaphoreRelease(semaphorePowerHandle);
+
+
+//		PWM_TIMER_HEATER_CHAMBER.Instance->ARR = 100;
+//	HAL_TIM_Base_Start_IT(&PWM_TIMER_HEATER_CHAMBER); // restart timer
+
 
 void HeaterSteamGeneratorTempSet(uint8_t tempC) {
 
@@ -114,24 +164,36 @@ void PWMHeaterSteamGenerator() {
 
 	float ret = PIDController_Update(&pidHeaterSteamGenerator, (float)heaterSteamGeneratorTempSet, Sensors.TemperatureSteamGenerator);
 	// duty cycle %
-	uint16_t ut = PWM_TIMER_STEAM_GENERATOR_PERIOD * ret / 100;
-	uint16_t dt = PWM_TIMER_STEAM_GENERATOR_PERIOD - ut;
+	uint16_t ut = 1000 * ret / 100;
+	uint16_t dt = 1000 - ut;
+//	uint16_t ut = PWM_TIMER_STEAM_GENERATOR_PERIOD * ret / 100;
+//	uint16_t dt = PWM_TIMER_STEAM_GENERATOR_PERIOD - ut;
 
-	if (HAL_GPIO_ReadPin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin)) {
-		HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, GPIO_PIN_RESET);
-		PWM_TIMER_STEAM_GENERATOR.Instance->ARR = dt; // load new timer period counter for OFF duty cycle
-	} else {
-		HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, GPIO_PIN_SET);
-		PWM_TIMER_STEAM_GENERATOR.Instance->ARR = ut; // load new timer period counter for ON duty cycle
-	}
+
+//	if (HAL_GPIO_ReadPin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin)) {
+//		HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, GPIO_PIN_RESET);
+//		PWM_TIMER_STEAM_GENERATOR.Instance->ARR = dt; // load new timer period counter for OFF duty cycle
+//	} else {
+//		HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, GPIO_PIN_SET);
+//		PWM_TIMER_STEAM_GENERATOR.Instance->ARR = ut; // load new timer period counter for ON duty cycle
+//	}
+//	HAL_TIM_Base_Start_IT(&PWM_TIMER_STEAM_GENERATOR); // restart timer
+	HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, GPIO_PIN_SET);
+	osDelay(ut+1);
+	HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, GPIO_PIN_RESET);
+	osDelay(dt+1);
+
+	PWM_TIMER_STEAM_GENERATOR.Instance->ARR = 100;
 	HAL_TIM_Base_Start_IT(&PWM_TIMER_STEAM_GENERATOR); // restart timer
+
 }
+
 
 void HeaterSteamGeneratorPWM(e_PowerState status) {
 	HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, status);
 }
 
-void PunpWaterLoadSet(e_PowerState status) {
+void PumpWaterLoadSet(e_PowerState status) {
 	HAL_GPIO_WritePin(PUMP_WATER_LOAD_GPIO_Port, PUMP_WATER_LOAD_Pin, status);
 }
 
@@ -139,7 +201,7 @@ void PumpVacuumSet(e_PowerState status) {
 	HAL_GPIO_WritePin(PUMP_VACUUM_GPIO_Port, PUMP_VACUUM_Pin, status);
 }
 
-void PunpSteamGeneratorSet(e_PowerState status) {
+void PumpSteamGeneratorSet(e_PowerState status) {
 	HAL_GPIO_WritePin(PUMP_STEAM_GEN_GPIO_Port, PUMP_STEAM_GEN_Pin, status);
 }
 

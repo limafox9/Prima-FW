@@ -57,7 +57,7 @@ void StartKeysTask() {
 		pressKeys = GetPressedKeys();
 		keyPressStart = HAL_GetTick();
 		if (pressKeys != 0) {
-			osDelay(100); // Debounce
+			osDelay(50); // Debounce
 			while (pressKeys == GetPressedKeys()) {
 				if ((HAL_GetTick() - keyPressStart) > KEY_LONG_PRESS_MS) {
 					pressKeys += KEY_LONG_PRESS;
@@ -65,7 +65,7 @@ void StartKeysTask() {
 				}
 				osDelay(20);
 			}
-			if (_keysBeepActive) Beep(1, 100, 100);
+//			Beep(1, 100, 100);
 			KeysReceived(pressKeys);
 		}
 		osDelay(20);
@@ -88,10 +88,19 @@ static void KeysReceived(uint8_t keysCode) {
 	if (keysCode == KEY_S1) {
 		// Button code here
 //		DBSendDigits(1, "CIAO");
-		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, "CIAO");
+//		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, "CIAO");
+		ValveWaterSteamSet(ON);
+		ValveVacuumSet(ON);
+		PumpVacuumSet(ON);
+		PumpSteamGeneratorSet(ON);
+		osDelay(1000);
+		ValveWaterSteamSet(OFF);
+		ValveVacuumSet(OFF);
+		PumpVacuumSet(OFF);
+		PumpSteamGeneratorSet(OFF);
 	} else if (keysCode == KEY_S2) {
 		// Button code here
-		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, "    ");
+//		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, "    ");
 	} else if (keysCode == KEY_S3) {
 		// Button code here
 	} else if (keysCode == KEY_S1 + KEY_LONG_PRESS) {

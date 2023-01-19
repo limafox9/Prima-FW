@@ -53,9 +53,9 @@ extern TIM_HandleTypeDef htim3;
 void ChamberHeaterSet(e_PowerState status);
 void SteamGeneratorHeaterSet(e_PowerState status);
 
-void PunpWaterLoadSet(e_PowerState status);
+void PumpWaterLoadSet(e_PowerState status);
 void PumpVacuumSet(e_PowerState status);
-void PunpSteamGeneratorSet(e_PowerState status);
+void PumpSteamGeneratorSet(e_PowerState status);
 
 void ValveVacuumSet(e_PowerState status);
 void ValveDryIntakeSet(e_PowerState status);

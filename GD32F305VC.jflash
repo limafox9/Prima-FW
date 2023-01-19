@@ -3,8 +3,8 @@
 [GENERAL]
   aATEModuleSel[24] = 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
   ConnectMode = 0
-  CurrentFile = ""
-  DataFileSAddr = 0x00000000
+  CurrentFile = "D:\Galbiati\Prima-FW\Board_APP\Debug\Board_APP.bin"
+  DataFileSAddr = 0x08000000
   GUIMode = 0
   HostName = ""
   TargetIF = 1
