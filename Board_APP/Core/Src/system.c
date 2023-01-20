@@ -34,11 +34,13 @@ USAGE:
 ================================================================================*/
 
 #include <24Cxx.h>
+#include <phases.h>
 #include "system.h"
 #include "main.h"
 
 #include <stdio.h>
 #include <stdarg.h>
+#include <string.h>
 
 #include "globals.h"
 #include "serial.h"
@@ -54,7 +56,8 @@ USAGE:
 #include "BAT2U.h"
 #include "BMP280.h"
 #include "Inc/DB_Protocol.h"
-#include "program_steps.h"
+#include "sensors.h"
+#include "phases.h"
 
 //#define RTD_A 3.9083e-3
 //#define RTD_B -5.775e-7
@@ -65,6 +68,8 @@ extern UART_HandleTypeDef huart2;
 extern UART_HandleTypeDef huart3;
 extern DMA_HandleTypeDef hdma_usart3_rx;
 extern SPI_HandleTypeDef hspi1;
+
+extern s_Sensors Sensors;
 
 uint32_t UID[3] = {0};
 uint16_t machineSerial;
@@ -97,8 +102,8 @@ void SysInit() {
 	osThreadDef(keysTask, StartKeysTask, osPriorityAboveNormal, 1, 256);
 	keysTaskHandle = osThreadCreate(osThread(keysTask), NULL);
 
-	osThreadDef(ledsTask, StartLedsTask, osPriorityNormal, 1, 256);
-	ledsTaskHandle = osThreadCreate(osThread(ledsTask), NULL);
+//	osThreadDef(ledsTask, StartLedsTask, osPriorityNormal, 1, 256);
+//	ledsTaskHandle = osThreadCreate(osThread(ledsTask), NULL);
 
 	osThreadDef(sensorsTask, StartSensorsTask, osPriorityNormal, 1, 1024);
 	sensorsTaskHandle = osThreadCreate(osThread(sensorsTask), NULL);
@@ -155,9 +160,31 @@ void SysInit() {
 //	TM7705_Init(&hspi1);
 
 	PWMPower_Init();
-	HeaterChamberTempSet(50);
-	HeaterSteamGeneratorTempSet(200);
+//	HeaterChamberTempSet(130);
+//	HeaterSteamGeneratorTempSet(200);
 
+
+//	while (1) {
+//		if ((Sensors.TemperatureChamberHeater >= 130) && (Sensors.TemperatureSteamGenerator >= 200)) break;
+//	}
+
+	uint8_t success = 1;
+
+	if (success) success = PhaseHeatUp(130, 130, 600);
+	PhasePreheat(130, 200);
+	if (success) success = PhaseVacuum(18.0, 600);
+	PhasePreheat(130, 220);
+	if (success) success = PhasePressure(310.0, 200.0, 180.0, 600);
+
+	osThreadSuspend(sensorsTaskHandle);
+
+	if (success) {
+		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "PASS");
+		Beep(3, 100, 100);
+	} else {
+		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "FAIL");
+		Beep(1, 1000, 100);
+	}
 
 //	osDelay(5000);
 //	HeaterChamberTempSet(0);

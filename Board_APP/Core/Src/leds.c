@@ -45,21 +45,21 @@ void StartLedsTask() {
 	dashboardLedsBits = 0;
 	uint16_t lastLeds = 0, currLeds = 0;
 
-	for (;;) {
-		currLeds = 0;
-
-		//currLeds = HAL_GPIO_ReadPin(SW_DOOR_GPIO_Port, SW_DOOR_Pin);
-		currLeds = HAL_GPIO_ReadPin(SW_DOOR_GPIO_Port, SW_DOOR_Pin) ? currLeds & ~1 : currLeds | 1;
-		currLeds = HAL_GPIO_ReadPin(SW_LSH_GPIO_Port, SW_LSH_Pin) ? currLeds & ~(1UL << 1): currLeds | (1UL << 1);
-
-		if  (lastLeds != currLeds) {
-			dashboardLedsBits = currLeds;
-			PanelSerialTransmit(COMMAND_SET_DASHBOARD_LEDS, dashboardLedsBits, 0, 0, 0);
-			lastLeds = dashboardLedsBits;
-		}
-
-		osDelay(10);
-	}
+//	for (;;) {
+//		currLeds = 0;
+//
+//		//currLeds = HAL_GPIO_ReadPin(SW_DOOR_GPIO_Port, SW_DOOR_Pin);
+//		currLeds = HAL_GPIO_ReadPin(SW_DOOR_GPIO_Port, SW_DOOR_Pin) ? currLeds & ~1 : currLeds | 1;
+//		currLeds = HAL_GPIO_ReadPin(SW_LSH_GPIO_Port, SW_LSH_Pin) ? currLeds & ~(1UL << 1): currLeds | (1UL << 1);
+//
+//		if  (lastLeds != currLeds) {
+//			dashboardLedsBits = currLeds;
+//			PanelSerialTransmit(COMMAND_SET_DASHBOARD_LEDS, dashboardLedsBits, 0, 0, 0);
+//			lastLeds = dashboardLedsBits;
+//		}
+//
+//		osDelay(10);
+//	}
 
 }
 

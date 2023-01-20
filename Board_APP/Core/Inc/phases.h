@@ -35,9 +35,14 @@ USAGE:
 
 
 
-#ifndef INC_PROGRAM_STEPS_H_
-#define INC_PROGRAM_STEPS_H_
+#ifndef INC_PHASES_H_
+#define INC_PHASES_H_
 
+#include <stdio.h>
 
+uint8_t PhasePreheat(uint8_t chamberTemp, uint8_t steamGenTemp);
+uint8_t PhaseHeatUp(uint8_t chamberTemp, uint8_t steamGenTemp, uint16_t timeout);
+uint8_t PhaseVacuum(float press, uint16_t timeout);
+uint8_t PhasePressure(float press, float steamTemp, float steamTempMin, uint16_t timeout);
 
-#endif /* INC_PROGRAM_STEPS_H_ */
+#endif /* INC_PHASES_H_ */

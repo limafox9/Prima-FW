@@ -64,7 +64,7 @@ typedef struct s_Sensors{
 	e_LockState Solenoid;
 	float TemperatureSteamGenerator;
 	float TemperatureChamberHeater;
-	uint16_t T1;
+	float T1;
 	uint16_t T2;
 	float PressureChamber;
 	float Current;

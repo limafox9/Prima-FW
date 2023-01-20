@@ -159,9 +159,12 @@ void StartSensorsTask() {
 //		SendCommand(COMMAND_WRITE_DIGITS_ROW_1, 0, 0, 0, d);
 
 		char s[8];
-		sprintf(s,"%5.1f", Sensors.TemperatureChamberHeater);
+		sprintf(s,"%5.1f", Sensors.PressureChamber);
 		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 2, 0, 0, s);
-		osDelay(50);
+		osDelay(20);
+		sprintf(s,"%5.1f", Sensors.T1);
+		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, s);
+		osDelay(20);
 		sprintf(s,"%5.1f", Sensors.TemperatureSteamGenerator);
 		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, s);
 
