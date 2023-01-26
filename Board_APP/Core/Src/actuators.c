@@ -71,7 +71,7 @@ void StartChPowerTask();
 void StartSteamPowerTask();
 
 void SteamPulse(uint16_t pulseDuration) {
-	if (pulseDuration < 50) pulseDuration = 50;
+	if (pulseDuration < 10) pulseDuration = 10;
 	PumpSteamGeneratorSet(ON);
 	ValveWaterSteamSet(ON);
 	osDelay(50);

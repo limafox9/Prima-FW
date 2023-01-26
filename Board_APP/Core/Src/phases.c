@@ -62,7 +62,6 @@ uint8_t PhaseHeatUp(float ringTemp, float steamGenTemp, float chamberTemp, uint1
 	HeaterChamberTempSet(ringTemp);
 	HeaterSteamGeneratorTempSet(steamGenTemp);
 
-	int i = 0;
 
 	while (1) {
 
@@ -72,11 +71,10 @@ uint8_t PhaseHeatUp(float ringTemp, float steamGenTemp, float chamberTemp, uint1
 			retVal = 1;
 			break;
 		}
-		if ((Sensors.TemperatureSteamGenerator >= steamGenTemp) && (Sensors.T1 < chamberTemp) && (i < 3)) {
-			i++;
+		if ((Sensors.TemperatureSteamGenerator >= steamGenTemp) && (Sensors.T1 < chamberTemp)) {
 			ValveVacuumSet(ON);
 			ValveDrainSteamSet(ON);
-			SteamPulse(200);
+			SteamPulse(150);
 			osDelay(5000);
 			ValveDrainSteamSet(OFF);
 			ValveVacuumSet(OFF);
@@ -159,7 +157,7 @@ uint8_t PhaseVacuum(float press, uint16_t timeout) {
 }
 
 uint8_t PhasePressure(float press, float steamTemp, float steamTempMin, uint16_t timeout) {
-	static const float pPID_KP = 1000.0;
+	static const float pPID_KP = 500.0;
 	static const float pPID_KI = 2000.0;
 	static const float pPID_KD = 10.0;
 	static const float pPID_TAU = 1.0;
@@ -206,7 +204,7 @@ uint8_t PhasePressure(float press, float steamTemp, float steamTempMin, uint16_t
 }
 
 uint8_t PhaseSteril(float chamberTemp, float chamberTempMin, float chamberTempMax, uint16_t sterilTime, float pressMin, float pressMax, float steamTemp, float steamTempMin, uint16_t timeout) {
-	static const float pPID_KP = 1000.0;
+	static const float pPID_KP = 500.0;
 	static const float pPID_KI = 2000.0;
 	static const float pPID_KD = 10.0;
 	static const float pPID_TAU = 1.0;
@@ -247,13 +245,14 @@ uint8_t PhaseSteril(float chamberTemp, float chamberTempMin, float chamberTempMa
 			float ret = PIDController_Update(&pidSteam, steamTemp, Sensors.TemperatureSteamGenerator);
 			if (Sensors.T1 < chamberTempMin) {
 				if (Sensors.TemperatureSteamGenerator >= steamTempMin) {
-					SteamPulse(100);
+					SteamPulse(50);
 					osDelay(ret);
 				}
 			}
 			GetTimer(1, &t);
 			if ((Sensors.T1 >= chamberTempMin) && (Sensors.T1 <= chamberTempMax)) {
 				if ((Sensors.PressureChamber >= pressMin) && (Sensors.PressureChamber <= pressMax)) {
+					Beep(1, 100, 100);
 					ResetTimer(2);
 					retVal = 1;
 					break;
@@ -271,7 +270,7 @@ uint8_t PhaseSteril(float chamberTemp, float chamberTempMin, float chamberTempMa
 			float ret = PIDController_Update(&pidSteam, steamTemp, Sensors.TemperatureSteamGenerator);
 			if (Sensors.T1 <= chamberTemp) {
 				if (Sensors.TemperatureSteamGenerator >= steamTempMin) {
-					SteamPulse(50);
+					SteamPulse(20);
 					osDelay(ret);
 				}
 			}
@@ -284,6 +283,7 @@ uint8_t PhaseSteril(float chamberTemp, float chamberTempMin, float chamberTempMa
 				retVal = 0;
 				break;
 			} else if (t2.Seconds >= sterilTime) {
+				Beep(1, 100, 100);
 				retVal = 1;
 				break;
 			}
@@ -320,6 +320,7 @@ uint8_t PhaseDry(float firstVacPress, float otherVacPress, float releasePress, u
 		if (retVal) {
 			while (1) {
 				GetTimer(1, &t);
+				GetTimer(2, &t2);
 				currPress = (cycle <= 1) ? firstVacPress : otherVacPress;
 				if (Sensors.PressureChamber <= currPress) {
 					retVal = 1;
@@ -328,7 +329,7 @@ uint8_t PhaseDry(float firstVacPress, float otherVacPress, float releasePress, u
 					retVal = 0;
 					break;
 				} else if (t2.Seconds > time) {
-					retVal = 0;
+					retVal = 1;
 					break;
 				}
 				osDelay(100);
@@ -347,7 +348,7 @@ uint8_t PhaseDry(float firstVacPress, float otherVacPress, float releasePress, u
 					retVal = 0;
 					break;
 				} else if (t2.Seconds > time) {
-					retVal = 0;
+					retVal = 1;
 					break;
 				}
 				osDelay(100);
@@ -357,7 +358,15 @@ uint8_t PhaseDry(float firstVacPress, float otherVacPress, float releasePress, u
 		osDelay(100);
 		ValveDryIntakeSet(OFF);
 
-		if (!retVal) break;
+		GetTimer(1, &t);
+		GetTimer(2, &t2);
+		if (t.Seconds > timeout) {
+			retVal = 0;
+			break;
+		} else if (t2.Seconds > time) {
+			retVal = 1;
+			break;
+		}
 	}
 
 	ValveDryIntakeSet(OFF);
@@ -366,7 +375,6 @@ uint8_t PhaseDry(float firstVacPress, float otherVacPress, float releasePress, u
 
 	return retVal;
 }
-
 
 uint8_t PhaseFinish() {
 	ValveDrainSteamSet(OFF);

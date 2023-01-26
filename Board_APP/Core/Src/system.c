@@ -174,69 +174,69 @@ void SysInit() {
 	FanSet(ON);
 	SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
 
-//	// Heat up
-//	if (success) {
-//		success = PhaseHeatUp(130.0, 200.0, 50.0, 600);
-//	}
+	// Heat up
+	if (success) {
+		success = PhaseHeatUp(130.0, 200.0, 50.0, 600);
+	}
 
 
-//	// First vacuum
-//	if (success) {
-//		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_1STVACUUM, 0, 0, "");
-//		PhasePreheat(130, 200);
-//		success = PhaseVacuum(18.0, 600);
-//	}
-//	if (success) {
-//		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_1STPRESSURE, 0, 0, "");
-//		PhasePreheat(130, 220);
-//		success = PhasePressure(160.0, 200.0, 180.0, 600);
-//	}
-//	if (success) {
-//		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_NVACUUM, 0, 0, "");
-//		PhasePreheat(130, 200);
-//		success = PhaseRelease(110.0, 600);
-//	}
+	// First vacuum
+	if (success) {
+		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_1STVACUUM, 0, 0, "");
+		PhasePreheat(130, 200);
+		success = PhaseVacuum(18.0, 600);
+	}
+	if (success) {
+		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_1STPRESSURE, 0, 0, "");
+		PhasePreheat(130, 220);
+		success = PhasePressure(170.0, 200.0, 180.0, 600);
+	}
+	if (success) {
+		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_NVACUUM, 0, 0, "");
+		PhasePreheat(130, 200);
+		success = PhaseRelease(110.0, 600);
+	}
 
-//	// Other vacuum
-//	for (int i = 0; i < 1; i++) {
-//		if (success) {
-//			SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_NVACUUM, 0, 0, "");
-//			PhasePreheat(130.0, 200.0);
-//			success = PhaseVacuum(30.0, 600);
-//		}
-//		if (success) {
-//			SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_NPRESSURE, 0, 0, "");
-//			PhasePreheat(130.0, 220.0);
-//			success = PhasePressure(160.0, 200.0, 180.0, 600);
-//		}
-//		if (success) {
-//			SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_NRELEASE, 0, 0, "");
-//			PhasePreheat(130.0, 200.0);
-//			success = PhaseRelease(110.0, 600);
-//		}
-//	}
+	// Other vacuum
+	for (int i = 0; i < 1; i++) {
+		if (success) {
+			SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_NVACUUM, 0, 0, "");
+			PhasePreheat(130.0, 200.0);
+			success = PhaseVacuum(30.0, 600);
+		}
+		if (success) {
+			SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_NPRESSURE, 0, 0, "");
+			PhasePreheat(130.0, 220.0);
+			success = PhasePressure(170.0, 200.0, 180.0, 600);
+		}
+		if (success) {
+			SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_NRELEASE, 0, 0, "");
+			PhasePreheat(130.0, 200.0);
+			success = PhaseRelease(110.0, 600);
+		}
+	}
 
-//	// Sterilization
-//	if (success) {
-//		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_STERILVACUUM, 0, 0, "");
-//		PhasePreheat(130, 200);
-//		success = PhaseVacuum(30.0, 600);
-//	}
-//	if (success) {
-//		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_STERILPRESSURE, 0, 0, "");
-//		PhasePreheat(130, 220);
-//		success = PhasePressure(300.0, 200.0, 180.0, 600);
-//	}
-//	if (success) {
-//		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_STERILMAINTAIN, 0, 0, "");
-//		PhasePreheat(130, 190);
-//		success = PhaseSteril(135.0, 134.0, 136.0, 300, 310.0, 350.0, 190.0, 170.0, 800);
-//	}
-//	if (success) {
-//		PhasePreheat(130, 200);
-//		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_DRYVACUUM, 0, 0, "");
-//		success = PhaseRelease(110.0, 600);
-//	}
+	// Sterilization
+	if (success) {
+		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_STERILVACUUM, 0, 0, "");
+		PhasePreheat(130, 200);
+		success = PhaseVacuum(20.0, 600);
+	}
+	if (success) {
+		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_STERILPRESSURE, 0, 0, "");
+		PhasePreheat(130, 220);
+		success = PhasePressure(290.0, 200.0, 180.0, 600);
+	}
+	if (success) {
+		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_STERILMAINTAIN, 0, 0, "");
+		PhasePreheat(130, 190);
+		success = PhaseSteril(135.2, 134.0, 136.0, 210, 310.0, 350.0, 190.0, 170.0, 800);
+	}
+	if (success) {
+		PhasePreheat(130, 200);
+		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_DRYVACUUM, 0, 0, "");
+		success = PhaseRelease(110.0, 600);
+	}
 
 	// Dry
 	if (success) {
