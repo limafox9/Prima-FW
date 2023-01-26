@@ -70,9 +70,21 @@ PIDController pidHeaterSteamGenerator = {PID_KP, PID_KI, PID_KD, PID_TAU, PID_LI
 void StartChPowerTask();
 void StartSteamPowerTask();
 
-void HeaterChamberTempSet(uint8_t tempC) {
+void SteamPulse(uint16_t pulseDuration) {
+	if (pulseDuration < 50) pulseDuration = 50;
+	PumpSteamGeneratorSet(ON);
+	ValveWaterSteamSet(ON);
+	osDelay(50);
+	PumpSteamGeneratorSet(ON);
+	osDelay(pulseDuration);
+	PumpSteamGeneratorSet(OFF);
+	osDelay(50);
+	ValveWaterSteamSet(OFF);
+}
 
-	if (tempC > 0) {
+void HeaterChamberTempSet(float tempC) {
+
+	if (tempC > 0.0) {
 		PIDController_Init(&pidHeaterChamber);
 		heaterChamberTempSet = tempC;
 		PWM_TIMER_HEATER_CHAMBER.Instance->ARR = 7200;
@@ -91,6 +103,16 @@ void PWMPower_Init() {
 	osThreadDef(stPowerTask, StartSteamPowerTask, osPriorityNormal, 1, 128);
 	steamPowerTaskHandle = osThreadCreate(osThread(stPowerTask), NULL);
 
+}
+
+void PWMPower_Start() {
+	osThreadResume(chamberPowerTaskHandle);
+	osThreadResume(steamPowerTaskHandle);
+}
+
+void PWMPower_Stop() {
+	osThreadSuspend(chamberPowerTaskHandle);
+	osThreadSuspend(steamPowerTaskHandle);
 }
 
 void StartChPowerTask() {
@@ -146,9 +168,9 @@ void StartSteamPowerTask() {
 //	HAL_TIM_Base_Start_IT(&PWM_TIMER_HEATER_CHAMBER); // restart timer
 
 
-void HeaterSteamGeneratorTempSet(uint8_t tempC) {
+void HeaterSteamGeneratorTempSet(float tempC) {
 
-	if (tempC > 0) {
+	if (tempC > 0.0) {
 		PIDController_Init(&pidHeaterSteamGenerator);
 		heaterSteamGeneratorTempSet = tempC;
 		PWM_TIMER_STEAM_GENERATOR.Instance->ARR = 7200;

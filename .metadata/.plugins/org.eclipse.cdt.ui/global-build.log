@@ -1,21 +1,23 @@
-17:54:22 **** Incremental Build of configuration Debug for project DB_Protocol ****
+13:14:43 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j4 all 
 make: Nothing to be done for 'all'.
-17:54:22 **** Incremental Build of configuration Debug for project DB_Protocol ****
+13:14:43 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j4 all 
 make: Nothing to be done for 'all'.
-17:54:23 **** Incremental Build of configuration Debug for project Board_APP ****
+13:14:44 **** Incremental Build of configuration Debug for project Board_APP ****
 make -j4 all 
+arm-none-eabi-gcc "../Core/Src/phases.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/phases.d" -MT"Core/Src/phases.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/phases.o"
 arm-none-eabi-gcc "../Core/Src/system.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/system.d" -MT"Core/Src/system.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/system.o"
+../Core/Src/phases.c: In function 'PhasePreheat':
+../Core/Src/phases.c:55:1: warning: control reaches end of non-void function [-Wreturn-type]
+   55 | }
+      | ^
 ../Core/Src/system.c: In function 'SysInit':
-../Core/Src/system.c:162:2: warning: implicit declaration of function 'PWMPower_Init' [-Wimplicit-function-declaration]
-  162 |  PWMPower_Init();
-      |  ^~~~~~~~~~~~~
-../Core/Src/system.c:182:3: warning: implicit declaration of function 'SendCommand' [-Wimplicit-function-declaration]
-  182 |   SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "PASS");
-      |   ^~~~~~~~~~~
-../Core/Src/system.c:183:3: warning: implicit declaration of function 'Beep' [-Wimplicit-function-declaration]
-  183 |   Beep(3, 100, 100);
+../Core/Src/system.c:175:2: warning: implicit declaration of function 'SendCommand' [-Wimplicit-function-declaration]
+  175 |  SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
+      |  ^~~~~~~~~~~
+../Core/Src/system.c:253:3: warning: implicit declaration of function 'Beep' [-Wimplicit-function-declaration]
+  253 |   Beep(3, 100, 100);
       |   ^~~~
 arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima-FW\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: Board_APP.elf
@@ -24,7 +26,7 @@ arm-none-eabi-size   Board_APP.elf
 arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
 arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
    text	   data	    bss	    dec	    hex	filename
-  67984	    604	  37492	 106080	  19e60	Board_APP.elf
+  67744	    604	  37492	 105840	  19d70	Board_APP.elf
 arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
 Finished building: default.size.stdout
  

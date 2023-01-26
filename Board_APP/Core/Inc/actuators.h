@@ -50,12 +50,18 @@ extern TIM_HandleTypeDef htim3;
 
 #define DOOR_SOLENOID_IMPULSE 1000 	// Solenoid impulse duration (milliseconds)
 
-void ChamberHeaterSet(e_PowerState status);
-void SteamGeneratorHeaterSet(e_PowerState status);
+void PWMPower_Init();
+void PWMPower_Start();
+void PWMPower_Stop();
+void PWMHeaterSteamGenerator();
+
+void HeaterChamberTempSet(float tempC);
+void HeaterSteamGeneratorTempSet(float tempC);
 
 void PumpWaterLoadSet(e_PowerState status);
 void PumpVacuumSet(e_PowerState status);
 void PumpSteamGeneratorSet(e_PowerState status);
+void SteamPulse(uint16_t pulseDuration);
 
 void ValveVacuumSet(e_PowerState status);
 void ValveDryIntakeSet(e_PowerState status);

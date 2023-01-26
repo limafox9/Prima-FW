@@ -241,6 +241,7 @@ static float calTemp(float Rt) {
 	temp = Z2 + (Z3 * Rt);
 	temp = (sqrt(temp) + Z1) / Z4;
 
+	temp += 0.45;
 	return temp;
 }
 

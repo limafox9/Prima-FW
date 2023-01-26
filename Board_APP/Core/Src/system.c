@@ -58,6 +58,7 @@ USAGE:
 #include "Inc/DB_Protocol.h"
 #include "sensors.h"
 #include "phases.h"
+#include "panel_serial.h"
 
 //#define RTD_A 3.9083e-3
 //#define RTD_B -5.775e-7
@@ -170,12 +171,81 @@ void SysInit() {
 
 	uint8_t success = 1;
 
-	if (success) success = PhaseHeatUp(130, 130, 600);
-	PhasePreheat(130, 200);
-	if (success) success = PhaseVacuum(18.0, 600);
-	PhasePreheat(130, 220);
-	if (success) success = PhasePressure(310.0, 200.0, 180.0, 600);
+	FanSet(ON);
+	SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
 
+//	// Heat up
+//	if (success) {
+//		success = PhaseHeatUp(130.0, 200.0, 50.0, 600);
+//	}
+
+
+//	// First vacuum
+//	if (success) {
+//		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_1STVACUUM, 0, 0, "");
+//		PhasePreheat(130, 200);
+//		success = PhaseVacuum(18.0, 600);
+//	}
+//	if (success) {
+//		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_1STPRESSURE, 0, 0, "");
+//		PhasePreheat(130, 220);
+//		success = PhasePressure(160.0, 200.0, 180.0, 600);
+//	}
+//	if (success) {
+//		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_NVACUUM, 0, 0, "");
+//		PhasePreheat(130, 200);
+//		success = PhaseRelease(110.0, 600);
+//	}
+
+//	// Other vacuum
+//	for (int i = 0; i < 1; i++) {
+//		if (success) {
+//			SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_NVACUUM, 0, 0, "");
+//			PhasePreheat(130.0, 200.0);
+//			success = PhaseVacuum(30.0, 600);
+//		}
+//		if (success) {
+//			SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_NPRESSURE, 0, 0, "");
+//			PhasePreheat(130.0, 220.0);
+//			success = PhasePressure(160.0, 200.0, 180.0, 600);
+//		}
+//		if (success) {
+//			SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_NRELEASE, 0, 0, "");
+//			PhasePreheat(130.0, 200.0);
+//			success = PhaseRelease(110.0, 600);
+//		}
+//	}
+
+//	// Sterilization
+//	if (success) {
+//		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_STERILVACUUM, 0, 0, "");
+//		PhasePreheat(130, 200);
+//		success = PhaseVacuum(30.0, 600);
+//	}
+//	if (success) {
+//		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_STERILPRESSURE, 0, 0, "");
+//		PhasePreheat(130, 220);
+//		success = PhasePressure(300.0, 200.0, 180.0, 600);
+//	}
+//	if (success) {
+//		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_STERILMAINTAIN, 0, 0, "");
+//		PhasePreheat(130, 190);
+//		success = PhaseSteril(135.0, 134.0, 136.0, 300, 310.0, 350.0, 190.0, 170.0, 800);
+//	}
+//	if (success) {
+//		PhasePreheat(130, 200);
+//		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_DRYVACUUM, 0, 0, "");
+//		success = PhaseRelease(110.0, 600);
+//	}
+
+	// Dry
+	if (success) {
+		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_DRYRELEASE, 0, 0, "");
+		success = PhaseDry(20.0, 50.0, 90.0, 300, 600);
+	}
+
+
+	// End
 	osThreadSuspend(sensorsTaskHandle);
 
 	if (success) {
@@ -185,6 +255,10 @@ void SysInit() {
 		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "FAIL");
 		Beep(1, 1000, 100);
 	}
+
+	PhaseFinish();
+
+
 
 //	osDelay(5000);
 //	HeaterChamberTempSet(0);

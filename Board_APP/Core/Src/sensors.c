@@ -210,6 +210,7 @@ float ADCToTemp(uint16_t adcValue) {
 
 	tCelsius = Z2 + (Z3 * Rt);
 	tCelsius = (sqrt(tCelsius) + Z1) / Z4;
+	tCelsius+= 0.5;
 
 	return tCelsius;
 }
@@ -229,6 +230,8 @@ float ADCToPress(uint16_t adcValue) {
 	pkPa = pkPa / 4.99;
 	pkPa = pkPa - 0.04;
 	pkPa = pkPa / 0.0012858;
+
+	pkPa += 5;
 
 	return pkPa;
 }
