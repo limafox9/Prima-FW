@@ -45,4 +45,5 @@ void SerialInit(UART_HandleTypeDef* huart, uint32_t baudRate);
 //void SerialReceived(UART_HandleTypeDef* huart, uint8_t* data, uint32_t size);
 void SerialSend(UART_HandleTypeDef* huart, uint8_t* data, uint32_t size);
 
+
 #endif /* INC_SERIAL_H_ */

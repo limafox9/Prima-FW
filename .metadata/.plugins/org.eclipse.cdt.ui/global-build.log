@@ -1,13 +1,112 @@
-18:54:56 **** Incremental Build of configuration Debug for project DB_Protocol ****
+18:33:45 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j4 all 
 make: Nothing to be done for 'all'.
-18:54:56 **** Incremental Build of configuration Debug for project DB_Protocol ****
+18:33:45 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j4 all 
 make: Nothing to be done for 'all'.
-18:54:57 **** Incremental Build of configuration Debug for project Board_APP ****
+18:33:46 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/printer.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/printer.d" -MT"Core/Src/printer.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/printer.o"
+../Core/Src/printer.c: In function 'PrinterInit':
+../Core/Src/printer.c:47:7: warning: unused variable 'd' [-Wunused-variable]
+   47 |  char d[10];
+      |       ^
+../Core/Src/printer.c: In function 'Print':
+../Core/Src/printer.c:64:14: warning: passing argument 1 of 'vsprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+   64 |     vsprintf(buf, format, args);
+      |              ^~~
+      |              |
+      |              char **
+In file included from ../Core/Src/printer.c:37:
+c:\st\stm32cubeide_1.11.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\stdio.h:210:15: note: expected 'char * restrict' but argument is of type 'char **'
+  210 | int vsprintf (char *__restrict, const char *__restrict, __VALIST)
+      |               ^
+../Core/Src/printer.c:68:14: warning: format '%s' expects argument of type 'char *', but argument 2 has type 'char **' [-Wformat=]
+   68 |     printf("%s\n",buf);
+      |             ~^    ~~~
+      |              |    |
+      |              |    char **
+      |              char *
+../Core/Src/printer.c:69:44: warning: passing argument 1 of 'strlen' from incompatible pointer type [-Wincompatible-pointer-types]
+   69 |     HAL_UART_Transmit(&huart4, buf, strlen(buf), 1000);
+      |                                            ^~~
+      |                                            |
+      |                                            char **
+In file included from ../Core/Src/printer.c:36:
+c:\st\stm32cubeide_1.11.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:41:17: note: expected 'const char *' but argument is of type 'char **'
+   41 | size_t  strlen (const char *);
+      |                 ^~~~~~~~~~~~
+../Core/Src/printer.c:69:32: warning: passing argument 2 of 'HAL_UART_Transmit' from incompatible pointer type [-Wincompatible-pointer-types]
+   69 |     HAL_UART_Transmit(&huart4, buf, strlen(buf), 1000);
+      |                                ^~~
+      |                                |
+      |                                char **
+In file included from ../Core/Inc/stm32f1xx_hal_conf.h:338,
+                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:30,
+                 from ../Core/Src/printer.c:42:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h:725:73: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char **'
+  725 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+      |                                                                ~~~~~~~~~^~~~~
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima-FW\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Board_APP.elf
+ 
+arm-none-eabi-size   Board_APP.elf 
+arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
+   text	   data	    bss	    dec	    hex	filename
+  70796	    604	  37468	 108868	  1a944	Board_APP.elf
+arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
+arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
+Finished building: default.size.stdout
+ 
+Finished building: Board_APP.hex
+Finished building: Board_APP.bin
+ 
+ 
+Finished building: Board_APP.list
+ 
+18:33:52 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j4 all 
+make: Nothing to be done for 'all'.
+18:33:53 **** Incremental Build of configuration Debug for project Board_APP ****
 make -j4 all 
 arm-none-eabi-size   Board_APP.elf 
    text	   data	    bss	    dec	    hex	filename
-  70024	    604	  37492	 108120	  1a658	Board_APP.elf
+  70796	    604	  37468	 108868	  1a944	Board_APP.elf
 Finished building: default.size.stdout
+ 
+18:35:06 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j4 all 
+make: Nothing to be done for 'all'.
+18:35:06 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/system.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/system.d" -MT"Core/Src/system.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/system.o"
+../Core/Src/system.c: In function 'SysInit':
+../Core/Src/system.c:192:2: warning: implicit declaration of function 'SendCommand' [-Wimplicit-function-declaration]
+  192 |  SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
+      |  ^~~~~~~~~~~
+../Core/Src/system.c:270:3: warning: implicit declaration of function 'Beep' [-Wimplicit-function-declaration]
+  270 |   Beep(3, 100, 100);
+      |   ^~~~
+../Core/Src/system.c:176:17: warning: unused variable 'timerTime' [-Wunused-variable]
+  176 |  RTCTimerTime_s timerTime;
+      |                 ^~~~~~~~~
+../Core/Src/system.c:174:7: warning: unused variable 'printLine' [-Wunused-variable]
+  174 |  char printLine[32];
+      |       ^~~~~~~~~
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima-FW\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Board_APP.elf
+ 
+arm-none-eabi-size   Board_APP.elf 
+arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
+arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
+   text	   data	    bss	    dec	    hex	filename
+  70780	    604	  37468	 108852	  1a934	Board_APP.elf
+arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
+Finished building: default.size.stdout
+ 
+Finished building: Board_APP.hex
+Finished building: Board_APP.bin
+ 
+ 
+Finished building: Board_APP.list
  

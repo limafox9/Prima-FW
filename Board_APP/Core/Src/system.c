@@ -59,6 +59,7 @@ USAGE:
 #include "sensors.h"
 #include "phases.h"
 #include "panel_serial.h"
+#include "printer.h"
 
 //#define RTD_A 3.9083e-3
 //#define RTD_B -5.775e-7
@@ -168,6 +169,21 @@ void SysInit() {
 //	while (1) {
 //		if ((Sensors.TemperatureChamberHeater >= 130) && (Sensors.TemperatureSteamGenerator >= 200)) break;
 //	}
+
+	PCF8563_Init(&hi2c1);
+	char printLine[32];
+	RTCDateTime_s clockTime;
+	RTCTimerTime_s timerTime;
+	PrinterInit();
+
+	PrintDivisor();
+
+	PCF8563_GetDateTime(&clockTime);
+//	sprintf(printLine, "START AT: %d-%02d-%02d %02d:%02d\n", clockTime.Year, clockTime.Month, clockTime.Day, clockTime.Hour, clockTime.Minute);
+	Print("START AT: %d-%02d-%02d %02d:%02d\n", clockTime.Year, clockTime.Month, clockTime.Day, clockTime.Hour, clockTime.Minute);
+
+
+	while(1) {}
 
 	uint8_t success = 1;
 

@@ -59,6 +59,7 @@ uint8_t PhaseHeatUp(float ringTemp, float steamGenTemp, float chamberTemp, uint1
 	uint8_t retVal = 0;
 	RTCTimerTime_s t;
 	ResetTimer(1);
+	ResetTimer(4);
 	HeaterChamberTempSet(ringTemp);
 	HeaterSteamGeneratorTempSet(steamGenTemp);
 

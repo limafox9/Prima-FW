@@ -53,6 +53,7 @@ static void ParseCommand(s_DisplayProtocolData* data);
 extern void DBInit(UART_HandleTypeDef* huart, GPIO_TypeDef* rs485_CS_GPIOPort, uint16_t rs485_CS_GPIOPin);
 extern void DBSend(uint16_t command, uint32_t param1, uint32_t param2, uint32_t param3, char* digits);
 
+
 void SerialInit(UART_HandleTypeDef* huart, uint32_t baudRate) {
 	huart->Init.BaudRate = baudRate;
 	HAL_UART_Receive_DMA(huart, UART_rxBuffer, DISPLAY_UART_BUFFER_SIZE);
