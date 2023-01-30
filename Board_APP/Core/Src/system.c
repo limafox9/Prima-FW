@@ -60,6 +60,7 @@ USAGE:
 #include "phases.h"
 #include "panel_serial.h"
 #include "printer.h"
+#include "programs.h"
 
 //#define RTD_A 3.9083e-3
 //#define RTD_B -5.775e-7
@@ -82,7 +83,7 @@ RTCDateTime_s dt;
 
 
 osThreadId keysTaskHandle;
-osThreadId ledsTaskHandle;
+osThreadId serialTaskHandle;
 osThreadId sensorsTaskHandle;
 //
 //float calTemp(float Rt) {
@@ -101,7 +102,7 @@ osThreadId sensorsTaskHandle;
 
 void SysInit() {
 
-	osThreadDef(keysTask, StartKeysTask, osPriorityAboveNormal, 1, 256);
+	osThreadDef(keysTask, StartKeysTask, osPriorityAboveNormal, 1, 512);
 	keysTaskHandle = osThreadCreate(osThread(keysTask), NULL);
 
 //	osThreadDef(ledsTask, StartLedsTask, osPriorityNormal, 1, 256);
@@ -110,8 +111,25 @@ void SysInit() {
 	osThreadDef(sensorsTask, StartSensorsTask, osPriorityNormal, 1, 1024);
 	sensorsTaskHandle = osThreadCreate(osThread(sensorsTask), NULL);
 
+//	SerialInit(&UART_MONITOR, 115200);
 	SerialInit(&UART_DISPLAY, 115200);
-	SerialInit(&UART_MONITOR, 115200);
+
+	PCF8563_Init(&hi2c1);
+	PWMPower_Init();
+	PrinterInit();
+
+//	while (1) {
+//		HAL_UART_Transmit(&huart1, "12345678901234567890", 20, 100);
+////		printf("123456789012345678901234567890");
+//		osDelay(500);
+//	}
+//
+//	printf("CIAO\n");
+
+//	char s[8];
+//	sprintf(s,"-b--");
+//	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, s);
+//	osDelay(20);
 
 //	__HAL_TIM_CLEAR_IT(&PWM_TIMER_HEATER_CHAMBER ,TIM_IT_UPDATE);
 //	HAL_TIM_Base_Start_IT(&PWM_TIMER_HEATER_CHAMBER);
@@ -161,7 +179,7 @@ void SysInit() {
 
 //	TM7705_Init(&hspi1);
 
-	PWMPower_Init();
+
 //	HeaterChamberTempSet(130);
 //	HeaterSteamGeneratorTempSet(200);
 
@@ -170,109 +188,35 @@ void SysInit() {
 //		if ((Sensors.TemperatureChamberHeater >= 130) && (Sensors.TemperatureSteamGenerator >= 200)) break;
 //	}
 
-	PCF8563_Init(&hi2c1);
-	char printLine[32];
-	RTCDateTime_s clockTime;
-	RTCTimerTime_s timerTime;
-	PrinterInit();
 
-	PrintDivisor();
-
-	PCF8563_GetDateTime(&clockTime);
-//	sprintf(printLine, "START AT: %d-%02d-%02d %02d:%02d\n", clockTime.Year, clockTime.Month, clockTime.Day, clockTime.Hour, clockTime.Minute);
-	Print("START AT: %d-%02d-%02d %02d:%02d\n", clockTime.Year, clockTime.Month, clockTime.Day, clockTime.Hour, clockTime.Minute);
+//	char printLine[32];
+//	RTCDateTime_s clockTime;
+//	RTCTimerTime_s timerTime;
 
 
-	while(1) {}
-
-	uint8_t success = 1;
-
-	FanSet(ON);
-	SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
-
-	// Heat up
-	if (success) {
-		success = PhaseHeatUp(130.0, 200.0, 50.0, 600);
-	}
 
 
-	// First vacuum
-	if (success) {
-		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_1STVACUUM, 0, 0, "");
-		PhasePreheat(130, 200);
-		success = PhaseVacuum(18.0, 600);
-	}
-	if (success) {
-		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_1STPRESSURE, 0, 0, "");
-		PhasePreheat(130, 220);
-		success = PhasePressure(170.0, 200.0, 180.0, 600);
-	}
-	if (success) {
-		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_NVACUUM, 0, 0, "");
-		PhasePreheat(130, 200);
-		success = PhaseRelease(110.0, 600);
-	}
-
-	// Other vacuum
-	for (int i = 0; i < 1; i++) {
-		if (success) {
-			SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_NVACUUM, 0, 0, "");
-			PhasePreheat(130.0, 200.0);
-			success = PhaseVacuum(30.0, 600);
-		}
-		if (success) {
-			SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_NPRESSURE, 0, 0, "");
-			PhasePreheat(130.0, 220.0);
-			success = PhasePressure(170.0, 200.0, 180.0, 600);
-		}
-		if (success) {
-			SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_NRELEASE, 0, 0, "");
-			PhasePreheat(130.0, 200.0);
-			success = PhaseRelease(110.0, 600);
-		}
-	}
-
-	// Sterilization
-	if (success) {
-		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_STERILVACUUM, 0, 0, "");
-		PhasePreheat(130, 200);
-		success = PhaseVacuum(20.0, 600);
-	}
-	if (success) {
-		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_STERILPRESSURE, 0, 0, "");
-		PhasePreheat(130, 220);
-		success = PhasePressure(290.0, 200.0, 180.0, 600);
-	}
-	if (success) {
-		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_STERILMAINTAIN, 0, 0, "");
-		PhasePreheat(130, 190);
-		success = PhaseSteril(135.2, 134.0, 136.0, 210, 310.0, 350.0, 190.0, 170.0, 800);
-	}
-	if (success) {
-		PhasePreheat(130, 200);
-		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_DRYVACUUM, 0, 0, "");
-		success = PhaseRelease(110.0, 600);
-	}
-
-	// Dry
-	if (success) {
-		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_DRYRELEASE, 0, 0, "");
-		success = PhaseDry(20.0, 50.0, 90.0, 300, 600);
-	}
+//	ProgramWrapped();
 
 
-	// End
-	osThreadSuspend(sensorsTaskHandle);
 
-	if (success) {
-		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "PASS");
-		Beep(3, 100, 100);
-	} else {
-		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "FAIL");
-		Beep(1, 1000, 100);
-	}
+//	PCF8563_GetDateTime(&clockTime);
+//	Print("********************************\n");
+//	PrintSize(2);
+//	Print("HELIX TEST\n");
+//	PrintSize(1);
+//	Print("\n");
+//	Print("START %d-%02d-%02d           %02d:%02d\n", clockTime.Year, clockTime.Month, clockTime.Day, clockTime.Hour, clockTime.Minute);
+//	Print("--------------------------------\n");
+//	Print("STEP    T1     T2   PRESS   TIME\n");
+//	Print("        oC     oC    kPa   mm:ss\n");
+//	Print("--------------------------------\n");
+//	Print("VACU  134.8  134.6  104.2  02:34\n");
 
-	PhaseFinish();
+//	while(1) {
+//		osDelay(100);
+//	}
+
 
 
 

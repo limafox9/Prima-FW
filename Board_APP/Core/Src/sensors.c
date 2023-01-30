@@ -59,7 +59,7 @@ USAGE:
 
 #define SAMPLE_RATE					2			// Sample per second (SPS/Hz)
 #define AVERAGE_SAMPLES				5			// N. of samples for the average
-#define AVERAGE_SAMPLES_INTERVAL	5			// Interval between samples (milliseconds)
+#define AVERAGE_SAMPLES_INTERVAL	10			// Interval between samples (milliseconds)
 #define V_REF						3.3			// Power supply
 #define ADC_BITS					12			// ADC resolution (8bit=256, 10bit=1024, 12bit=4096, 16bit=65536
 //#define PTC_NOMINAL_RESISTANCE	1000	   	// Ω nominal resistance (typical @25°C)
@@ -136,7 +136,6 @@ float CurrentGet() {
 
 void StartSensorsTask() {
 
-
 	HAL_ADCEx_Calibration_Start(&hadc1);
 
 	TM7705_Init(&hspi1);
@@ -165,8 +164,8 @@ void StartSensorsTask() {
 		sprintf(s,"%5.1f", Sensors.T1);
 		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, s);
 		osDelay(20);
-		sprintf(s,"%5.1f", Sensors.TemperatureSteamGenerator);
-		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, s);
+//		sprintf(s,"%5.1f", Sensors.TemperatureSteamGenerator);
+//		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, s);
 
 		osDelay(1000 / SAMPLE_RATE);
 	}

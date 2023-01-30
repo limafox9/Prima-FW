@@ -71,7 +71,6 @@ uint32_t GetSafeDeltaTick(uint32_t startTick, uint32_t endTick) {
 	} else {
 		deltaTick = endTick - startTick;
 	}
-
 	return deltaTick;
 }
 

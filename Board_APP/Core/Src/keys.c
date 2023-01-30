@@ -38,6 +38,7 @@ USAGE:
 #include "cmsis_os.h"
 #include "serial.h"
 #include "Inc/DB_Protocol.h"
+#include "programs.h"
 
 #define KEY_LONG_PRESS_MS 3000
 
@@ -86,23 +87,13 @@ static uint8_t GetPressedKeys() {
 static void KeysReceived(uint8_t keysCode) {
 
 	if (keysCode == KEY_S1) {
-		// Button code here
-//		DBSendDigits(1, "CIAO");
-//		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, "CIAO");
-		ValveWaterSteamSet(ON);
-		ValveVacuumSet(ON);
-		PumpVacuumSet(ON);
-		PumpSteamGeneratorSet(ON);
-		osDelay(1000);
-		ValveWaterSteamSet(OFF);
-		ValveVacuumSet(OFF);
-		PumpVacuumSet(OFF);
-		PumpSteamGeneratorSet(OFF);
+		SetProgram();
 	} else if (keysCode == KEY_S2) {
 		// Button code here
-//		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, "    ");
+		SetTest();
 	} else if (keysCode == KEY_S3) {
 		// Button code here
+		StartProgram();
 	} else if (keysCode == KEY_S1 + KEY_LONG_PRESS) {
 		// Button code here
 	} else if (keysCode == KEY_S2 + KEY_LONG_PRESS) {

@@ -42,5 +42,6 @@ void Print(const char* format, ...);
 void PrintLF(uint8_t lines);
 void PrintDivisor();
 void PrinterInit();
+void PrintSize(uint8_t size);
 
 #endif /* INC_PRINTER_H_ */

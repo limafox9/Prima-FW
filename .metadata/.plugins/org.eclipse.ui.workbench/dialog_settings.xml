@@ -24,4 +24,6 @@
 			<item value="org.eclipse.cdt.ui.newCWizards"/>
 		</list>
 	</section>
+	<section name="org.eclipse.ui.preferences.keysPreferencePage">
+	</section>
 </section>

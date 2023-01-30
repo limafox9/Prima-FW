@@ -79,9 +79,11 @@ void SendCommand(uint16_t command, uint32_t param1, uint32_t param2, uint32_t pa
 
 	// Chip 485 ENABLE
 	HAL_GPIO_WritePin(USART1_CTS_GPIO_Port, USART1_CTS_Pin, GPIO_PIN_SET);
+	osDelay(10);
 	// Send data
 	HAL_UART_Transmit(&DISPLAY_UART_HANDLE, txBuffer, DISPLAY_UART_BUFFER_SIZE, DISPLAY_UART_TX_TIMEOUT);
 	// Chip 485 DISABLE
+	osDelay(10);
 	HAL_GPIO_WritePin(USART1_CTS_GPIO_Port, USART1_CTS_Pin, GPIO_PIN_RESET);
 }
 

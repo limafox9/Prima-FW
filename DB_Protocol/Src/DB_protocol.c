@@ -43,22 +43,45 @@ void Display_DataToProtocol(s_DisplayProtocolData* dataIn, uint8_t* bufferOut) {
 void Display_ProtocolToData(uint8_t* bufferIn, s_DisplayProtocolData* dataOut) {
 
 	dataOut->Valid = 0;
-	// Header search
-	if ((bufferIn[POS_HEAD] == activeProtocolHead[0]) && (bufferIn[POS_HEAD + 1] == activeProtocolHead[1])) {
-		// Tail search
-		if ((bufferIn[POS_TAIL] == activeProtocolTail[0]) && (bufferIn[POS_TAIL + 1] == activeProtocolTail[1])) {
-			// CRC verify
-			uint16_t rxCRC;
-			memcpy(&rxCRC, bufferIn + POS_CHECKSUM, 2);
-			uint16_t calcCRC = CRC16_Modbus(bufferIn + POS_COMMAND, POS_CHECKSUM - POS_COMMAND);
-//			if (rxCRC == calcCRC) {
-				dataOut->Valid = 1;
-				memcpy(&dataOut->Command, bufferIn + POS_COMMAND, 2);
-				memcpy(&dataOut->Param1, bufferIn + POS_PARAM1, 4);
-				memcpy(&dataOut->Param2, bufferIn + POS_PARAM2, 4);
-				memcpy(&dataOut->Param3, bufferIn + POS_PARAM3, 4);
-				memcpy(dataOut->Digits, bufferIn + POS_DIGITS, 8);
-//			}
+
+	for (int i = 0; i < DISPLAY_UART_BUFFER_SIZE; i++) {
+		// Header search
+		if ((bufferIn[i] == activeProtocolHead[0]) && (bufferIn[i + 1] == activeProtocolHead[1])) {
+			// Tail search
+			if ((bufferIn[i + POS_TAIL] == activeProtocolTail[0]) && (bufferIn[i + POS_TAIL + 1] == activeProtocolTail[1])) {
+				// CRC verify
+				uint16_t rxCRC;
+				memcpy(&rxCRC, bufferIn + i + POS_CHECKSUM, 2);
+				uint16_t calcCRC = CRC16_Modbus(bufferIn + i + POS_COMMAND, i + POS_CHECKSUM - POS_COMMAND);
+	//			if (rxCRC == calcCRC) {
+					dataOut->Valid = 1;
+					memcpy(&dataOut->Command, bufferIn + i + POS_COMMAND, 2);
+					memcpy(&dataOut->Param1, bufferIn + i + POS_PARAM1, 4);
+					memcpy(&dataOut->Param2, bufferIn + i + POS_PARAM2, 4);
+					memcpy(&dataOut->Param3, bufferIn + i + POS_PARAM3, 4);
+					memcpy(dataOut->Digits, bufferIn + i + POS_DIGITS, 8);
+	//			}
+			}
+			break;
 		}
 	}
+
+	// Header search
+//	if ((bufferIn[POS_HEAD] == activeProtocolHead[0]) && (bufferIn[POS_HEAD + 1] == activeProtocolHead[1])) {
+//		// Tail search
+//		if ((bufferIn[POS_TAIL] == activeProtocolTail[0]) && (bufferIn[POS_TAIL + 1] == activeProtocolTail[1])) {
+//			// CRC verify
+//			uint16_t rxCRC;
+//			memcpy(&rxCRC, bufferIn + POS_CHECKSUM, 2);
+//			uint16_t calcCRC = CRC16_Modbus(bufferIn + POS_COMMAND, POS_CHECKSUM - POS_COMMAND);
+////			if (rxCRC == calcCRC) {
+//				dataOut->Valid = 1;
+//				memcpy(&dataOut->Command, bufferIn + POS_COMMAND, 2);
+//				memcpy(&dataOut->Param1, bufferIn + POS_PARAM1, 4);
+//				memcpy(&dataOut->Param2, bufferIn + POS_PARAM2, 4);
+//				memcpy(&dataOut->Param3, bufferIn + POS_PARAM3, 4);
+//				memcpy(dataOut->Digits, bufferIn + POS_DIGITS, 8);
+////			}
+//		}
+//	}
 }

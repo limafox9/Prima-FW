@@ -18,6 +18,7 @@
 "./Core/Src/pid.o"
 "./Core/Src/print.o"
 "./Core/Src/printer.o"
+"./Core/Src/programs.o"
 "./Core/Src/sensors.o"
 "./Core/Src/serial.o"
 "./Core/Src/settings.o"

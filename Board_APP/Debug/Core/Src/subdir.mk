@@ -20,6 +20,7 @@ C_SRCS += \
 ../Core/Src/pid.c \
 ../Core/Src/print.c \
 ../Core/Src/printer.c \
+../Core/Src/programs.c \
 ../Core/Src/sensors.c \
 ../Core/Src/serial.c \
 ../Core/Src/settings.c \
@@ -48,6 +49,7 @@ OBJS += \
 ./Core/Src/pid.o \
 ./Core/Src/print.o \
 ./Core/Src/printer.o \
+./Core/Src/programs.o \
 ./Core/Src/sensors.o \
 ./Core/Src/serial.o \
 ./Core/Src/settings.o \
@@ -76,6 +78,7 @@ C_DEPS += \
 ./Core/Src/pid.d \
 ./Core/Src/print.d \
 ./Core/Src/printer.d \
+./Core/Src/programs.d \
 ./Core/Src/sensors.d \
 ./Core/Src/serial.d \
 ./Core/Src/settings.d \
@@ -91,12 +94,12 @@ C_DEPS += \
 
 # Each subdirectory must supply rules for building sources it contributes
 Core/Src/%.o Core/Src/%.su: ../Core/Src/%.c Core/Src/subdir.mk
-	arm-none-eabi-gcc "$<" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" --specs=nano.specs -mfloat-abi=soft -mthumb -o "$@"
+	arm-none-eabi-gcc "$<" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima Firmware/Source/DB_Protocol" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" --specs=nano.specs -mfloat-abi=soft -mthumb -o "$@"
 
 clean: clean-Core-2f-Src
 
 clean-Core-2f-Src:
-	-$(RM) ./Core/Src/actuators.d ./Core/Src/actuators.o ./Core/Src/actuators.su ./Core/Src/buzzer.d ./Core/Src/buzzer.o ./Core/Src/buzzer.su ./Core/Src/crc16.d ./Core/Src/crc16.o ./Core/Src/crc16.su ./Core/Src/devices.d ./Core/Src/devices.o ./Core/Src/devices.su ./Core/Src/freertos.d ./Core/Src/freertos.o ./Core/Src/freertos.su ./Core/Src/globals.d ./Core/Src/globals.o ./Core/Src/globals.su ./Core/Src/i2c.d ./Core/Src/i2c.o ./Core/Src/i2c.su ./Core/Src/keys.d ./Core/Src/keys.o ./Core/Src/keys.su ./Core/Src/leds.d ./Core/Src/leds.o ./Core/Src/leds.su ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/panel_serial.d ./Core/Src/panel_serial.o ./Core/Src/panel_serial.su ./Core/Src/phases.d ./Core/Src/phases.o ./Core/Src/phases.su ./Core/Src/pid.d ./Core/Src/pid.o ./Core/Src/pid.su ./Core/Src/print.d ./Core/Src/print.o ./Core/Src/print.su ./Core/Src/printer.d ./Core/Src/printer.o ./Core/Src/printer.su ./Core/Src/sensors.d ./Core/Src/sensors.o ./Core/Src/sensors.su ./Core/Src/serial.d ./Core/Src/serial.o ./Core/Src/serial.su ./Core/Src/settings.d ./Core/Src/settings.o ./Core/Src/settings.su ./Core/Src/stm32f1xx_hal_msp.d ./Core/Src/stm32f1xx_hal_msp.o ./Core/Src/stm32f1xx_hal_msp.su ./Core/Src/stm32f1xx_hal_timebase_tim.d ./Core/Src/stm32f1xx_hal_timebase_tim.o ./Core/Src/stm32f1xx_hal_timebase_tim.su ./Core/Src/stm32f1xx_it.d ./Core/Src/stm32f1xx_it.o ./Core/Src/stm32f1xx_it.su ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system.d ./Core/Src/system.o ./Core/Src/system.su ./Core/Src/system_stm32f1xx.d ./Core/Src/system_stm32f1xx.o ./Core/Src/system_stm32f1xx.su ./Core/Src/time.d ./Core/Src/time.o ./Core/Src/time.su
+	-$(RM) ./Core/Src/actuators.d ./Core/Src/actuators.o ./Core/Src/actuators.su ./Core/Src/buzzer.d ./Core/Src/buzzer.o ./Core/Src/buzzer.su ./Core/Src/crc16.d ./Core/Src/crc16.o ./Core/Src/crc16.su ./Core/Src/devices.d ./Core/Src/devices.o ./Core/Src/devices.su ./Core/Src/freertos.d ./Core/Src/freertos.o ./Core/Src/freertos.su ./Core/Src/globals.d ./Core/Src/globals.o ./Core/Src/globals.su ./Core/Src/i2c.d ./Core/Src/i2c.o ./Core/Src/i2c.su ./Core/Src/keys.d ./Core/Src/keys.o ./Core/Src/keys.su ./Core/Src/leds.d ./Core/Src/leds.o ./Core/Src/leds.su ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/panel_serial.d ./Core/Src/panel_serial.o ./Core/Src/panel_serial.su ./Core/Src/phases.d ./Core/Src/phases.o ./Core/Src/phases.su ./Core/Src/pid.d ./Core/Src/pid.o ./Core/Src/pid.su ./Core/Src/print.d ./Core/Src/print.o ./Core/Src/print.su ./Core/Src/printer.d ./Core/Src/printer.o ./Core/Src/printer.su ./Core/Src/programs.d ./Core/Src/programs.o ./Core/Src/programs.su ./Core/Src/sensors.d ./Core/Src/sensors.o ./Core/Src/sensors.su ./Core/Src/serial.d ./Core/Src/serial.o ./Core/Src/serial.su ./Core/Src/settings.d ./Core/Src/settings.o ./Core/Src/settings.su ./Core/Src/stm32f1xx_hal_msp.d ./Core/Src/stm32f1xx_hal_msp.o ./Core/Src/stm32f1xx_hal_msp.su ./Core/Src/stm32f1xx_hal_timebase_tim.d ./Core/Src/stm32f1xx_hal_timebase_tim.o ./Core/Src/stm32f1xx_hal_timebase_tim.su ./Core/Src/stm32f1xx_it.d ./Core/Src/stm32f1xx_it.o ./Core/Src/stm32f1xx_it.su ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system.d ./Core/Src/system.o ./Core/Src/system.su ./Core/Src/system_stm32f1xx.d ./Core/Src/system_stm32f1xx.o ./Core/Src/system_stm32f1xx.su ./Core/Src/time.d ./Core/Src/time.o ./Core/Src/time.su
 
 .PHONY: clean-Core-2f-Src
 

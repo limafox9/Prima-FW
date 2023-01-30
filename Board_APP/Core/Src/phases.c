@@ -40,6 +40,7 @@ USAGE:
 #include "pid.h"
 #include "cmsis_os.h"
 #include "panel_serial.h"
+#include "printer.h"
 #include <stdio.h>
 
 uint8_t chamberHeaterTempSet;
@@ -57,15 +58,14 @@ uint8_t PhasePreheat(float ringTemp, float steamGenTemp) {
 uint8_t PhaseHeatUp(float ringTemp, float steamGenTemp, float chamberTemp, uint16_t timeout) {
 
 	uint8_t retVal = 0;
-	RTCTimerTime_s t;
-	ResetTimer(1);
-	ResetTimer(4);
+	RTCTimerTime_s tTimeout;
+
+	ResetTimer(TIMER_TIMEOUT);
+
 	HeaterChamberTempSet(ringTemp);
 	HeaterSteamGeneratorTempSet(steamGenTemp);
 
-
 	while (1) {
-
 		if ((Sensors.TemperatureChamberHeater >= ringTemp) && \
 			(Sensors.TemperatureSteamGenerator >= steamGenTemp) && \
 			(Sensors.T1 >= chamberTemp)) {
@@ -80,8 +80,8 @@ uint8_t PhaseHeatUp(float ringTemp, float steamGenTemp, float chamberTemp, uint1
 			ValveDrainSteamSet(OFF);
 			ValveVacuumSet(OFF);
 		}
-		GetTimer(1, &t);
-		if (t.Seconds > timeout) {
+		GetTimer(TIMER_TIMEOUT, &tTimeout);
+		if (tTimeout.Seconds > timeout) {
 			retVal = 0;
 			break;
 		}
@@ -93,7 +93,7 @@ uint8_t PhaseHeatUp(float ringTemp, float steamGenTemp, float chamberTemp, uint1
 uint8_t PhaseRelease(float press, uint16_t timeout) {
 
 	uint8_t retVal = 1;
-	RTCTimerTime_s t;
+	RTCTimerTime_s tTimeout;
 	ResetTimer(1);
 
 	// Valves
@@ -108,8 +108,8 @@ uint8_t PhaseRelease(float press, uint16_t timeout) {
 			retVal = 1;
 			break;
 		}
-		GetTimer(1, &t);
-		if (t.Seconds > timeout) {
+		GetTimer(1, &tTimeout);
+		if (tTimeout.Seconds > timeout) {
 			retVal = 1;
 			break;
 		}
@@ -122,8 +122,8 @@ uint8_t PhaseRelease(float press, uint16_t timeout) {
 uint8_t PhaseVacuum(float press, uint16_t timeout) {
 
 	uint8_t retVal = 0;
-	RTCTimerTime_s t;
-	ResetTimer(1);
+	RTCTimerTime_s tTimeout;
+	ResetTimer(TIMER_TIMEOUT);
 
 	// Valves
 	ValveDrainSteamSet(OFF);
@@ -142,8 +142,8 @@ uint8_t PhaseVacuum(float press, uint16_t timeout) {
 			retVal = 1;
 			break;
 		}
-		GetTimer(1, &t);
-		if (t.Seconds > timeout) {
+		GetTimer(TIMER_TIMEOUT, &tTimeout);
+		if (tTimeout.Seconds > timeout) {
 			retVal = 0;
 			break;
 		}
@@ -216,8 +216,12 @@ uint8_t PhaseSteril(float chamberTemp, float chamberTempMin, float chamberTempMa
 	static const float pSAMPLE_TIME_S = 0.5;
 
 	uint8_t retVal = 0;
-	RTCTimerTime_s t, t2;
-	ResetTimer(1);
+
+	float T1Min, T1Max, T2Min, T2Max, pMin, pMax;
+
+	RTCTimerTime_s tTimeout, tPhase, tInterval;
+	ResetTimer(TIMER_TIMEOUT);
+	ResetTimer(TIMER_PHASE);
 
 	PIDController pidSteam = {pPID_KP, pPID_KI, pPID_KD, pPID_TAU, pPID_LIM_MIN, pPID_LIM_MAX, pPID_LIM_MIN_INT, pPID_LIM_MAX_INT, pSAMPLE_TIME_S};
 
@@ -241,30 +245,30 @@ uint8_t PhaseSteril(float chamberTemp, float chamberTempMin, float chamberTempMa
 //		osDelay(100);
 //	}
 
+	ResetTimer(TIMER_1);
 
-		while (1) {
-			float ret = PIDController_Update(&pidSteam, steamTemp, Sensors.TemperatureSteamGenerator);
-			if (Sensors.T1 < chamberTempMin) {
-				if (Sensors.TemperatureSteamGenerator >= steamTempMin) {
-					SteamPulse(50);
-					osDelay(ret);
-				}
+	while (1) {
+		float ret = PIDController_Update(&pidSteam, steamTemp, Sensors.TemperatureSteamGenerator);
+		if (Sensors.T1 < chamberTempMin) {
+			if (Sensors.TemperatureSteamGenerator >= steamTempMin) {
+				SteamPulse(50);
+				osDelay(ret);
 			}
-			GetTimer(1, &t);
-			if ((Sensors.T1 >= chamberTempMin) && (Sensors.T1 <= chamberTempMax)) {
-				if ((Sensors.PressureChamber >= pressMin) && (Sensors.PressureChamber <= pressMax)) {
-					Beep(1, 100, 100);
-					ResetTimer(2);
-					retVal = 1;
-					break;
-				}
-			} else if (t.Seconds > timeout) {
-				retVal = 0;
+		}
+		GetTimer(TIMER_TIMEOUT, &tTimeout);
+		if ((Sensors.T1 >= chamberTempMin) && (Sensors.T1 <= chamberTempMax)) {
+			if ((Sensors.PressureChamber >= pressMin) && (Sensors.PressureChamber <= pressMax)) {
+				Beep(1, 100, 100);
+				ResetTimer(2);
+				retVal = 1;
 				break;
 			}
-			osDelay(100);
+		} else if (tTimeout.Seconds > timeout) {
+			retVal = 0;
+			break;
 		}
-
+		osDelay(100);
+	}
 
 	if (retVal) {
 		while (1) {
@@ -275,18 +279,29 @@ uint8_t PhaseSteril(float chamberTemp, float chamberTempMin, float chamberTempMa
 					osDelay(ret);
 				}
 			}
-			GetTimer(1, &t);
-			GetTimer(2, &t2);
+			GetTimer(TIMER_TIMEOUT, &tTimeout);
+			GetTimer(TIMER_PHASE, &tPhase);
 			if ((Sensors.T1 <= chamberTempMin) || (Sensors.T1 >= chamberTempMax)) {
 				retVal = 0;
 				break;
-			} else if (t.Seconds > timeout) {
+			} else if (tTimeout.Seconds > timeout) {
 				retVal = 0;
 				break;
-			} else if (t2.Seconds >= sterilTime) {
+			} else if (tPhase.Seconds >= sterilTime) {
 				Beep(1, 100, 100);
 				retVal = 1;
 				break;
+			}
+			T1Min = (Sensors.T1 < T1Min) ? Sensors.T1 : T1Min;
+			T1Max = (Sensors.T1 > T1Max) ? Sensors.T1 : T1Max;
+			T2Min = (Sensors.T2 < T2Min) ? Sensors.T2 : T2Min;
+			T2Max = (Sensors.T2 > T2Max) ? Sensors.T2 : T2Max;
+			pMin = (Sensors.PressureChamber < pMin) ? Sensors.PressureChamber : pMin;
+			pMax = (Sensors.PressureChamber > pMax) ? Sensors.PressureChamber : pMax;
+			GetTimer(TIMER_1, &tInterval);
+			if (tInterval.Seconds >= 30) {
+				Print("       %03.1f %03.1f %03.1f   %01d:%01d\n", Sensors.T1, Sensors.T2, Sensors.PressureChamber, tPhase.TimeMinute, tPhase.TimeSecond);
+				ResetTimer(TIMER_1);
 			}
 			osDelay(100);
 		}
@@ -295,6 +310,11 @@ uint8_t PhaseSteril(float chamberTemp, float chamberTempMin, float chamberTempMa
 	osDelay(100);
 	ValveDrainSteamSet(OFF);
 	HeaterSteamGeneratorTempSet(steamTemp);
+
+	Print("  TIME                %01d:%01d\n", tPhase.TimeMinute, tPhase.TimeSecond);
+	Print("   MIN %03.1f %03.1f %03.1f\n", T1Min, T2Min, pMin);
+	Print("   MAX %03.1f %03.1f %03.1f\n", T1Max, T2Max, pMax);
+	Print("--------------------------------\n");
 
 	return retVal;
 }

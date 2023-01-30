@@ -43,12 +43,6 @@ USAGE:
 #define FW_VERSION_MINOR 1
 #define FW_VERSION_REVISION 14
 
-
-#define UART_MONITOR 	huart1
-#define UART_TDS		huart2
-#define UART_DISPLAY 	huart3
-#define UART_DISPLAY_BUFFER_SIZE 30		// default 30 (bytes)
-
 typedef enum {
 	UINT8,
 	UINT16,
@@ -86,6 +80,20 @@ typedef enum {
 	LOW = 0,
 	HIGH = 1
 } e_LevelState;
+
+typedef enum {
+	ERROR_TIMEOUT = 18,
+	ERROR_PRESSURE_LOW,
+	ERROR_PRESSURE_HIGH,
+	ERROR_TEMP_LOW,
+	ERROR_TEMP_HIGH,
+	ERROR_WATER_LEVEL_LOW
+} Error_e;
+
+typedef struct Error_s {
+	Error_e ErrorCode;
+	char ErrorDescription[128];
+} Error_s;
 
 uint32_t GetSafeDeltaTick(uint32_t startTick, uint32_t endTick);
 void SwapBytes(void *pBytes, size_t size);

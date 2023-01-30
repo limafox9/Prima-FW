@@ -45,10 +45,18 @@ extern UART_HandleTypeDef huart4;
 
 void PrinterInit() {
 	char d[10];
-//	sprintf(d, "%c%c", 0x1b, '@'); // Printer initialization
-	Print("%c%c", 0x1b, '@');
-	Print("%c%c", 0x1b, '{', 1); // Upside-down print
-//	Print(d);
+
+	Print("%c%c", 0x1b, '@'); // Reset
+	Print("%c%c", 0x1b, '5'); // Charset 2
+	Print("%c%c", 0x1c, '.'); // Disable Chinese Print Mode
+	Print("%c%c", 0x1b, 0x54); // Upside-down print
+	Print("%c%c%c", 0x1b, 0x57, 1); // Font size
+}
+
+void PrintSize(uint8_t size) {
+	Print("%c%c%c", 0x1b, 'V', 1); // Font height
+	Print("%c%c%c", 0x1b, 'U', 1); // Font width
+	Print("%c%c%c", 0x1b, 'W', size); // Font size
 }
 
 //void Print(const char* data) {
@@ -72,7 +80,7 @@ void Print(const char* format, ...) {
 }
 
 void PrintDivisor() {
-	char* s = "********************************";
+	char* s = "********************************\n";
 	Print(s);
 }
 

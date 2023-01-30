@@ -139,11 +139,11 @@ void ClockRegisterSet() {
 	uint8_t commReg = GetCommRegister(CLOCK_REGISTER, WRITE, CHANNEL_0);
 	HAL_SPI_Transmit(TM7705_hspi, &commReg, 1, 500);
 
-	uint8_t clockReg  = GetClockRegister(CLKOUT_ENABLE, CLOCK_2, UPDATE_RATE_50);
+	uint8_t clockReg  = GetClockRegister(CLKOUT_ENABLE, CLOCK_2, UPDATE_RATE_20);
 	HAL_SPI_Transmit(TM7705_hspi, &clockReg, 1, 500);
 
 	HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(100);
+	HAL_Delay(10);
 }
 
 void SetupRegisterSet(TM7705_ADCMode mode) {
@@ -157,26 +157,24 @@ void SetupRegisterSet(TM7705_ADCMode mode) {
 	HAL_SPI_Transmit(TM7705_hspi, &setupReg, 1, 500);
 
 	HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(100);
+	HAL_Delay(10);
 }
 
 static void Reset() {
 
 	HAL_GPIO_WritePin(SPI1_RESET_GPIO_Port, SPI1_RESET_Pin, GPIO_PIN_RESET);
-	HAL_Delay(100);
+	HAL_Delay(10);
 	HAL_GPIO_WritePin(SPI1_RESET_GPIO_Port, SPI1_RESET_Pin, GPIO_PIN_SET);
-	HAL_Delay(100);
+	HAL_Delay(10);
 
 	HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_RESET);
-
-uint8_t f = 0xff;
-HAL_SPI_Transmit(TM7705_hspi, &f, 1, 500);
-HAL_SPI_Transmit(TM7705_hspi, &f, 1, 500);
-HAL_SPI_Transmit(TM7705_hspi, &f, 1, 500);
-HAL_SPI_Transmit(TM7705_hspi, &f, 1, 500);
-
+	uint8_t f = 0xff;
+	HAL_SPI_Transmit(TM7705_hspi, &f, 1, 500);
+	HAL_SPI_Transmit(TM7705_hspi, &f, 1, 500);
+	HAL_SPI_Transmit(TM7705_hspi, &f, 1, 500);
+	HAL_SPI_Transmit(TM7705_hspi, &f, 1, 500);
 	HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(100);
+	HAL_Delay(10);
 }
 
 uint8_t spiTransfer(uint8_t txByte) {
