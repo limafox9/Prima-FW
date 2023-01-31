@@ -117,6 +117,22 @@ void SysInit() {
 	PCF8563_Init(&hi2c1);
 	PWMPower_Init();
 	PrinterInit();
+//
+//	RTCTimerTime_s a;
+//	a.TimeMinute = 5;
+//	a.TimeSecond = 3;
+//
+//	RTCDateTime_s d;
+//	GetDateTime(&d);
+//
+//	PrintHeader("HELIX TEST", 24.2, &d);
+//	PrintStepLine("VAC-----", 134.2, 2.1, 23.7, &a);
+//	PrintStepLine("VACU-", 4.2, 21.1, 23.7, &a);
+//	PrintFooter("PASS", &d, &a);
+//
+//	while (1) {
+//		osDelay(100);
+//	}
 
 //	while (1) {
 //		HAL_UART_Transmit(&huart1, "12345678901234567890", 20, 100);

@@ -50,27 +50,26 @@ extern s_Sensors Sensors;
 
 uint8_t currProgram = 1;
 uint8_t currTest = 1;
-uint8_t currProgType; // 0 = Program, 1 = Test
+uint8_t currProgType = 1; // 1 = Program, 0 = Test
 
 uint8_t progRunning = 0;
 uint8_t progStop = 0;
 
 void SetProgram() {
 	if (!progRunning) {
-		if (currProgType == 0) currProgram++;
-		currProgType = 0;
+		if (currProgType == 1) currProgram++;
+		currProgType = 1;
 		if (currProgram > PROGRAMS_N) currProgram = 1;
 		char s[8];
 		sprintf(s,"Pr. %d", currProgram);
 		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, s);
-		SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, currProgram, 0, 0, s);
 	}
 }
 
 void SetTest() {
 	if (!progRunning) {
-		if (currProgType == 1) currTest++;
-		currProgType = 1;
+		if (currProgType == 0) currTest++;
+		currProgType = 0;
 		if (currTest > TESTS_N) currTest = 1;
 		char s[8];
 		sprintf(s,"tE. %d", currTest);
@@ -80,12 +79,18 @@ void SetTest() {
 
 void StartProgram() {
 	if (progRunning) {
-		progStop = 1;
+//		progStop = 1;
 	} else {
-		if (!currProgType) {
+		if (currProgType) {
 			switch (currProgram) {
-				case 1:
-					ProgramWrapped();
+			case 1:
+				ProgramUnwrapped();
+			case 2:
+				ProgramWrapped();
+			case 3:
+				ProgramPrion();
+			case 4:
+				ProgramGentle();
 			}
 		} else {
 			switch (currTest) {
@@ -94,6 +99,60 @@ void StartProgram() {
 			}
 		}
 	}
+}
+
+uint8_t ProgramUnwrapped() {
+	uint8_t success = 1;
+	RTCDateTime_s clockTime;
+	RTCTimerTime_s tCycle, tPhase;
+
+	progRunning = 1;
+	progStop = 0;
+
+	FanSet(ON);
+	SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
+
+	ResetTimer(TIMER_CYCLE);
+
+	GetDateTime(&clockTime);
+	PrintHeader("UNWRAPPED", Sensors.T1, &clockTime);
+	// Heat up
+	if (success) {
+		success = PhaseHeatUp(130.0, 200.0, 50.0, 600);
+	}
+
+	// Sterilization
+	if (success) {
+		PhasePreheat(130, 200);
+		success = PhaseVacuum(1, 18.0, 600);
+	}
+	if (success) {
+		PhasePreheat(130, 220);
+		success = PhasePressure(3, 290.0, 200.0, 180.0, 600);
+	}
+	if (success) {
+		PhasePreheat(130, 190);
+		success = PhaseSteril(135.2, 134.0, 136.0, 300, 310.0, 350.0, 190.0, 170.0, 800);
+	}
+	if (success) {
+		PhasePreheat(130, 200);
+		success = PhaseRelease(3, 110.0, 600);
+	}
+
+	// Dry
+	if (success) {
+		PhasePreheat(60, 90);
+		success = PhaseDry(20.0, 50.0, 90.0, 540, 600);
+	}
+
+	// End
+	GetTimer(TIMER_CYCLE, &tCycle);
+	GetDateTime(&clockTime);
+	PhaseFinish(success, &clockTime, &tCycle);
+
+	progRunning = 0;
+	progStop = 0;
+
 }
 
 uint8_t ProgramWrapped() {
@@ -109,135 +168,245 @@ uint8_t ProgramWrapped() {
 
 	ResetTimer(TIMER_CYCLE);
 
-	PCF8563_GetDateTime(&clockTime);
-	Print("********************************\n");
-	PrintSize(2);
-	Print("WRAPPED\n");
-	PrintSize(1);
-	Print("\n");
-	Print("%d-%02d-%02d\n", clockTime.Year, clockTime.Month, clockTime.Day);
-	Print("--------------------------------\n");
-	Print("STEP    T1     T2   PRESS   TIME\n");
-	Print("        oC     oC    kPa   mm:ss\n");
-	Print("--------------------------------\n");
-	Print("START %02d:%02d\n", clockTime.Hour, clockTime.Minute);
+	GetDateTime(&clockTime);
+	PrintHeader("WRAPPED", Sensors.T1, &clockTime);
 
 	// Heat up
 	if (success) {
-		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
-		ResetTimer(TIMER_PHASE);
 		success = PhaseHeatUp(130.0, 200.0, 50.0, 600);
-		GetTimer(TIMER_PHASE, &tPhase);
-		Print("HEAT   %03.1f %03.1f %03.1f   %01d:%01d\n", Sensors.T1, Sensors.T2, Sensors.PressureChamber, tPhase.TimeMinute, tPhase.TimeSecond);
 	}
 
 	// First vacuum
 	if (success) {
-		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_1STVACUUM, 0, 0, "");
-		ResetTimer(TIMER_PHASE);
 		PhasePreheat(130, 200);
-		success = PhaseVacuum(18.0, 600);
-		GetTimer(TIMER_PHASE, &tPhase);
-		Print("VAC    %03.1f %03.1f %03.1f   %01d:%01d\n", Sensors.T1, Sensors.T2, Sensors.PressureChamber, tPhase.TimeMinute, tPhase.TimeSecond);
+		success = PhaseVacuum(1, 18.0, 600);
 	}
 	if (success) {
-		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_1STPRESSURE, 0, 0, "");
-		ResetTimer(TIMER_PHASE);
 		PhasePreheat(130, 220);
-		success = PhasePressure(170.0, 200.0, 180.0, 600);
-		GetTimer(TIMER_PHASE, &tPhase);
-		Print("PRES   %03.1f %03.1f %03.1f   %01d:%01d\n", Sensors.T1, Sensors.T2, Sensors.PressureChamber, tPhase.TimeMinute, tPhase.TimeSecond);
+		success = PhasePressure(1, 170.0, 200.0, 180.0, 600);
 	}
 	if (success) {
-		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_NVACUUM, 0, 0, "");
-		ResetTimer(TIMER_PHASE);
 		PhasePreheat(130, 200);
-		success = PhaseRelease(110.0, 600);
+		success = PhaseRelease(1, 110.0, 600);
 	}
 
 	// Other vacuum
-	for (int i = 0; i < 1; i++) {
+	for (int i = 0; i < 2; i++) {
 		if (success) {
-			ResetTimer(TIMER_PHASE);
 			PhasePreheat(130.0, 200.0);
-			success = PhaseVacuum(30.0, 600);
-			GetTimer(TIMER_PHASE, &tPhase);
-			Print("VAC    %03.1f %03.1f %03.1f   %01d:%01d\n", Sensors.T1, Sensors.T2, Sensors.PressureChamber, tPhase.TimeMinute, tPhase.TimeSecond);
+			success = PhaseVacuum(2, 30.0, 600);
 		}
 		if (success) {
-			SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_NPRESSURE, 0, 0, "");
-			ResetTimer(TIMER_PHASE);
 			PhasePreheat(130.0, 220.0);
-			success = PhasePressure(170.0, 200.0, 180.0, 600);
-			GetTimer(TIMER_PHASE, &tPhase);
-			Print("PRES   %03.1f %03.1f %03.1f   %01d:%01d\n", Sensors.T1, Sensors.T2, Sensors.PressureChamber, tPhase.TimeMinute, tPhase.TimeSecond);
+			success = PhasePressure(2, 170.0, 200.0, 180.0, 600);
 		}
 		if (success) {
-			SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_NRELEASE, 0, 0, "");
-			ResetTimer(TIMER_PHASE);
 			PhasePreheat(130.0, 200.0);
-			success = PhaseRelease(110.0, 600);
+			success = PhaseRelease(2, 110.0, 600);
 		}
 	}
 
 	// Sterilization
 	if (success) {
-		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_STERILVACUUM, 0, 0, "");
-		PhasePreheat(130, 200);
-		success = PhaseVacuum(20.0, 600);
-		GetTimer(TIMER_PHASE, &tPhase);
-		Print("VAC    %03.1f %03.1f %03.1f   %01d:%01d\n", Sensors.T1, Sensors.T2, Sensors.PressureChamber, tPhase.TimeMinute, tPhase.TimeSecond);
+		success = PhaseVacuum(3, 30.0, 600);
 	}
 	if (success) {
-		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_STERILPRESSURE, 0, 0, "");
-		ResetTimer(TIMER_PHASE);
 		PhasePreheat(130, 220);
-		success = PhasePressure(290.0, 200.0, 180.0, 600);
-		GetTimer(TIMER_PHASE, &tPhase);
-		Print("PRES   %03.1f %03.1f %03.1f   %01d:%01d\n", Sensors.T1, Sensors.T2, Sensors.PressureChamber, tPhase.TimeMinute, tPhase.TimeSecond);
+		success = PhasePressure(3, 290.0, 200.0, 180.0, 600);
 	}
 	if (success) {
-		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_STERILMAINTAIN, 0, 0, "");
-		ResetTimer(TIMER_PHASE);
-		Print("STERIL -------------------------\n", Sensors.T1, Sensors.T2, Sensors.PressureChamber, tPhase.TimeMinute, tPhase.TimeSecond);
 		PhasePreheat(130, 190);
-		success = PhaseSteril(135.2, 134.0, 136.0, 300, 310.0, 350.0, 190.0, 170.0, 800);
+		success = PhaseSteril(135.2, 134.0, 136.0, 300, 310.0, 340.0, 190.0, 170.0, 800);
 	}
 	if (success) {
-		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_STERILRELEASE, 0, 0, "");
-		ResetTimer(TIMER_PHASE);
 		PhasePreheat(130, 200);
-		success = PhaseRelease(110.0, 600);
+		success = PhaseRelease(3, 110.0, 600);
 	}
 
 	// Dry
 	if (success) {
-		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_DRY, 0, 0, "");
+		PhasePreheat(60, 90);
 		success = PhaseDry(20.0, 50.0, 90.0, 540, 600);
-		GetTimer(TIMER_PHASE, &tPhase);
-		Print("DRY                        %01d:%01d\n", Sensors.T1, Sensors.T2, Sensors.PressureChamber, tPhase.TimeMinute, tPhase.TimeSecond);
 	}
-
-	GetTimer(TIMER_CYCLE, &tCycle);
-	Print("--------------------------------\n");
-	Print("TOTAL TIME                 %01d:%01d\n", Sensors.T1, Sensors.T2, Sensors.PressureChamber, tCycle.TimeMinute, tCycle.TimeSecond);
 
 	// End
-
-	if (success) {
-		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "PASS");
-		Beep(3, 100, 100);
-	} else {
-		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "FAIL");
-		Beep(1, 1000, 100);
-	}
-
-	PhaseFinish();
+	GetTimer(TIMER_CYCLE, &tCycle);
+	GetDateTime(&clockTime);
+	PhaseFinish(success, &clockTime, &tCycle);
 
 	progRunning = 0;
 	progStop = 0;
 
 }
+
+uint8_t ProgramPrion() {
+	uint8_t success = 1;
+	RTCDateTime_s clockTime;
+	RTCTimerTime_s tCycle, tPhase;
+
+	progRunning = 1;
+	progStop = 0;
+
+	FanSet(ON);
+	SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
+
+	ResetTimer(TIMER_CYCLE);
+
+	GetDateTime(&clockTime);
+	PrintHeader("PRION", Sensors.T1, &clockTime);
+
+	// Heat up
+	if (success) {
+		success = PhaseHeatUp(130.0, 200.0, 50.0, 600);
+	}
+
+	// First vacuum
+	if (success) {
+		PhasePreheat(130, 200);
+		success = PhaseVacuum(1, 18.0, 600);
+	}
+	if (success) {
+		PhasePreheat(130, 220);
+		success = PhasePressure(1, 170.0, 200.0, 180.0, 600);
+	}
+	if (success) {
+		PhasePreheat(130, 200);
+		success = PhaseRelease(1, 110.0, 600);
+	}
+
+	// Other vacuum
+	for (int i = 0; i < 2; i++) {
+		if (success) {
+			PhasePreheat(130.0, 200.0);
+			success = PhaseVacuum(2, 30.0, 600);
+		}
+		if (success) {
+			PhasePreheat(130.0, 220.0);
+			success = PhasePressure(2, 170.0, 200.0, 180.0, 600);
+		}
+		if (success) {
+			PhasePreheat(130.0, 200.0);
+			success = PhaseRelease(2, 110.0, 600);
+		}
+	}
+
+	// Sterilization
+	if (success) {
+		success = PhaseVacuum(3, 30.0, 600);
+	}
+	if (success) {
+		PhasePreheat(130, 220);
+		success = PhasePressure(3, 290.0, 200.0, 180.0, 600);
+	}
+	if (success) {
+		PhasePreheat(130, 190);
+		success = PhaseSteril(135.2, 134.0, 136.0, 1080, 310.0, 340.0, 190.0, 170.0, 1500);
+	}
+	if (success) {
+		PhasePreheat(130, 200);
+		success = PhaseRelease(3, 110.0, 600);
+	}
+
+	// Dry
+	if (success) {
+		PhasePreheat(60, 90);
+		success = PhaseDry(20.0, 50.0, 90.0, 540, 600);
+	}
+
+	// End
+	GetTimer(TIMER_CYCLE, &tCycle);
+	GetDateTime(&clockTime);
+	PhaseFinish(success, &clockTime, &tCycle);
+
+	progRunning = 0;
+	progStop = 0;
+
+}
+
+uint8_t ProgramGentle() {
+	uint8_t success = 1;
+	RTCDateTime_s clockTime;
+	RTCTimerTime_s tCycle, tPhase;
+
+	progRunning = 1;
+	progStop = 0;
+
+	FanSet(ON);
+	SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
+
+	ResetTimer(TIMER_CYCLE);
+
+	GetDateTime(&clockTime);
+	PrintHeader("GENTLE", Sensors.T1, &clockTime);
+
+	// Heat up
+	if (success) {
+		success = PhaseHeatUp(130.0, 200.0, 50.0, 600);
+	}
+
+	// First vacuum
+	if (success) {
+		PhasePreheat(130, 200);
+		success = PhaseVacuum(1, 18.0, 600);
+	}
+	if (success) {
+		PhasePreheat(130, 220);
+		success = PhasePressure(1, 170.0, 200.0, 180.0, 600);
+	}
+	if (success) {
+		PhasePreheat(130, 200);
+		success = PhaseRelease(1, 110.0, 600);
+	}
+
+	// Other vacuum
+	for (int i = 0; i < 2; i++) {
+		if (success) {
+			PhasePreheat(130.0, 200.0);
+			success = PhaseVacuum(2, 30.0, 600);
+		}
+		if (success) {
+			PhasePreheat(130.0, 220.0);
+			success = PhasePressure(2, 170.0, 200.0, 180.0, 600);
+		}
+		if (success) {
+			PhasePreheat(130.0, 200.0);
+			success = PhaseRelease(2, 110.0, 600);
+		}
+	}
+
+	// Sterilization
+	if (success) {
+		success = PhaseVacuum(3, 30.0, 600);
+	}
+	if (success) {
+		PhasePreheat(130, 220);
+		success = PhasePressure(3, 190.0, 200.0, 180.0, 600);
+	}
+	if (success) {
+		PhasePreheat(130, 190);
+		success = PhaseSteril(123.0, 121.0, 125.0, 1200, 210.0, 240.0, 190.0, 170.0, 2000);
+	}
+	if (success) {
+		PhasePreheat(130, 200);
+		success = PhaseRelease(3, 110.0, 600);
+	}
+
+	// Dry
+	if (success) {
+		PhasePreheat(60, 90);
+		success = PhaseDry(20.0, 50.0, 90.0, 540, 600);
+	}
+
+	// End
+	GetTimer(TIMER_CYCLE, &tCycle);
+	GetDateTime(&clockTime);
+	PhaseFinish(success, &clockTime, &tCycle);
+
+	progRunning = 0;
+	progStop = 0;
+
+}
+
 uint8_t ProgramHelixTest() {
 	uint8_t success = 1;
 	RTCDateTime_s clockTime;
@@ -251,131 +420,71 @@ uint8_t ProgramHelixTest() {
 
 	ResetTimer(TIMER_CYCLE);
 
-	PCF8563_GetDateTime(&clockTime);
-	Print("********************************\n");
-	PrintSize(2);
-	Print("HELIX TEST\n");
-	PrintSize(1);
-	Print("\n");
-	Print("%d-%02d-%02d\n", clockTime.Year, clockTime.Month, clockTime.Day);
-	Print("--------------------------------\n");
-	Print("STEP    T1     T2   PRESS   TIME\n");
-	Print("        oC     oC    kPa   mm:ss\n");
-	Print("--------------------------------\n");
-	Print("START %02d:%02d\n", clockTime.Hour, clockTime.Minute);
+	GetDateTime(&clockTime);
+	PrintHeader("HELIX TEST", Sensors.T1, &clockTime);
 
 	// Heat up
 	if (success) {
-		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
-		ResetTimer(TIMER_PHASE);
 		success = PhaseHeatUp(130.0, 200.0, 50.0, 600);
-		GetTimer(TIMER_PHASE, &tPhase);
-		Print("HEATUP %03.1f %03.1f %03.1f   %01d:%01d\n", Sensors.T1, Sensors.T2, Sensors.PressureChamber, tPhase.TimeMinute, tPhase.TimeSecond);
 	}
 
 	// First vacuum
 	if (success) {
-		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_1STVACUUM, 0, 0, "");
-		ResetTimer(TIMER_PHASE);
 		PhasePreheat(130, 200);
-		success = PhaseVacuum(18.0, 600);
-		GetTimer(TIMER_PHASE, &tPhase);
-		Print("VACUUM %03.1f %03.1f %03.1f   %01d:%01d\n", Sensors.T1, Sensors.T2, Sensors.PressureChamber, tPhase.TimeMinute, tPhase.TimeSecond);
+		success = PhaseVacuum(1, 18.0, 600);
 	}
 	if (success) {
-		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_1STPRESSURE, 0, 0, "");
-		ResetTimer(TIMER_PHASE);
 		PhasePreheat(130, 220);
-		success = PhasePressure(170.0, 200.0, 180.0, 600);
-		GetTimer(TIMER_PHASE, &tPhase);
-		Print("PRESS  %03.1f %03.1f %03.1f   %01d:%01d\n", Sensors.T1, Sensors.T2, Sensors.PressureChamber, tPhase.TimeMinute, tPhase.TimeSecond);
+		success = PhasePressure(1, 170.0, 200.0, 180.0, 600);
 	}
 	if (success) {
-		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_NVACUUM, 0, 0, "");
-		ResetTimer(TIMER_PHASE);
 		PhasePreheat(130, 200);
-		success = PhaseRelease(110.0, 600);
+		success = PhaseRelease(1, 110.0, 600);
 	}
 
 	// Other vacuum
 	for (int i = 0; i < 1; i++) {
 		if (success) {
-			ResetTimer(TIMER_PHASE);
 			PhasePreheat(130.0, 200.0);
-			success = PhaseVacuum(30.0, 600);
-			GetTimer(TIMER_PHASE, &tPhase);
-			Print("VACUUM %03.1f %03.1f %03.1f   %01d:%01d\n", Sensors.T1, Sensors.T2, Sensors.PressureChamber, tPhase.TimeMinute, tPhase.TimeSecond);
+			success = PhaseVacuum(2, 30.0, 600);
 		}
 		if (success) {
-			SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_NPRESSURE, 0, 0, "");
-			ResetTimer(TIMER_PHASE);
 			PhasePreheat(130.0, 220.0);
-			success = PhasePressure(170.0, 200.0, 180.0, 600);
-			GetTimer(TIMER_PHASE, &tPhase);
-			Print("PRESS  %03.1f %03.1f %03.1f   %01d:%01d\n", Sensors.T1, Sensors.T2, Sensors.PressureChamber, tPhase.TimeMinute, tPhase.TimeSecond);
+			success = PhasePressure(2, 170.0, 200.0, 180.0, 600);
 		}
 		if (success) {
-			SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_NRELEASE, 0, 0, "");
-			ResetTimer(TIMER_PHASE);
 			PhasePreheat(130.0, 200.0);
-			success = PhaseRelease(110.0, 600);
+			success = PhaseRelease(2, 110.0, 600);
 		}
 	}
 
 	// Sterilization
 	if (success) {
-		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_STERILVACUUM, 0, 0, "");
-		PhasePreheat(130, 200);
-		success = PhaseVacuum(20.0, 600);
-		GetTimer(TIMER_PHASE, &tPhase);
-		Print("VACUUM %03.1f %03.1f %03.1f   %01d:%01d\n", Sensors.T1, Sensors.T2, Sensors.PressureChamber, tPhase.TimeMinute, tPhase.TimeSecond);
+		success = PhaseVacuum(3, 20.0, 600);
 	}
 	if (success) {
-		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_STERILPRESSURE, 0, 0, "");
-		ResetTimer(TIMER_PHASE);
 		PhasePreheat(130, 220);
-		success = PhasePressure(290.0, 200.0, 180.0, 600);
-		GetTimer(TIMER_PHASE, &tPhase);
-		Print("PRESS  %03.1f %03.1f %03.1f   %01d:%01d\n", Sensors.T1, Sensors.T2, Sensors.PressureChamber, tPhase.TimeMinute, tPhase.TimeSecond);
+		success = PhasePressure(3, 290.0, 200.0, 180.0, 600);
 	}
 	if (success) {
-		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_STERILMAINTAIN, 0, 0, "");
-		ResetTimer(TIMER_PHASE);
-		Print("STERIL -------------------------\n", Sensors.T1, Sensors.T2, Sensors.PressureChamber, tPhase.TimeMinute, tPhase.TimeSecond);
 		PhasePreheat(130, 190);
 		success = PhaseSteril(135.2, 134.0, 136.0, 210, 310.0, 350.0, 190.0, 170.0, 800);
 	}
 	if (success) {
-		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_STERILRELEASE, 0, 0, "");
-		ResetTimer(TIMER_PHASE);
 		PhasePreheat(130, 200);
-		success = PhaseRelease(110.0, 600);
+		success = PhaseRelease(3, 110.0, 600);
 	}
 
 	// Dry
 	if (success) {
-		SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_DRY, 0, 0, "");
+		PhasePreheat(60, 90);
 		success = PhaseDry(20.0, 50.0, 90.0, 300, 600);
-		GetTimer(TIMER_PHASE, &tPhase);
-		Print("DRY                        %01d:%01d\n", Sensors.T1, Sensors.T2, Sensors.PressureChamber, tPhase.TimeMinute, tPhase.TimeSecond);
 	}
-
-	GetTimer(TIMER_CYCLE, &tCycle);
-	Print("--------------------------------\n");
-	Print("TOTAL TIME                 %01d:%01d\n", Sensors.T1, Sensors.T2, Sensors.PressureChamber, tCycle.TimeMinute, tCycle.TimeSecond);
 
 	// End
-	osThreadSuspend(sensorsTaskHandle);
-
-	if (success) {
-		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "PASS");
-		Beep(3, 100, 100);
-	} else {
-		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "FAIL");
-		Beep(1, 1000, 100);
-	}
-
-	PhaseFinish();
+	GetTimer(TIMER_CYCLE, &tCycle);
+	GetDateTime(&clockTime);
+	PhaseFinish(success, &clockTime, &tCycle);
 
 	progRunning = 0;
 	progStop = 0;

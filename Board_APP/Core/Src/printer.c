@@ -39,6 +39,7 @@ USAGE:
 
 #include "printer.h"
 
+#include "time.h"
 #include "stm32f1xx_hal.h"
 
 extern UART_HandleTypeDef huart4;
@@ -53,10 +54,10 @@ void PrinterInit() {
 	Print("%c%c%c", 0x1b, 0x57, 1); // Font size
 }
 
-void PrintSize(uint8_t size) {
-	Print("%c%c%c", 0x1b, 'V', 1); // Font height
-	Print("%c%c%c", 0x1b, 'U', 1); // Font width
-	Print("%c%c%c", 0x1b, 'W', size); // Font size
+void PrintSize(uint8_t width, uint8_t height) {
+	Print("%c%c%c", 0x1b, 'U', width); // Font width
+//	Print("%c%c%c", 0x1b, 'W', size); // Font size
+	Print("%c%c%c", 0x1b, 'V', height); // Font height
 }
 
 //void Print(const char* data) {
@@ -77,6 +78,41 @@ void Print(const char* format, ...) {
 		  HAL_UART_Transmit(&huart4, buf, strlen(buf), 1000);
 //		  HAL_UART_Transmit(&huart1, "\n", 1, 100);
 
+}
+
+void PrintHeader (const char* title, float t1, RTCDateTime_s* time) {
+	Print("\n");
+	Print("********************************\n");
+	PrintSize(2, 2);
+	Print("%s\n", title);
+	PrintSize(1, 1);
+	Print("\n");
+	Print("%d-%02d-%02d\n", time->Year, time->Month, time->Day);
+	Print("\n");
+	Print("START %5.1f             %02d:%02d:%02d\n", t1, time->Hour, time->Minute, time->Second);
+	Print("--------------------------------\n");
+	Print("STEP    T1     T2   PRESS   TIME\n");
+//	Print("        oC     oC    kPa   mm:ss\n");
+	Print("--------------------------------\n");
+}
+
+void PrintFooter (const char* result, RTCDateTime_s* time, RTCTimerTime_s* timer) {
+	Print("--------------------------------\n");
+	Print("FINISH                  %02d:%02d:%02d\n", time->Hour, time->Minute, time->Second);
+	Print("TOTAL TIME                 %2d:%02d\n", timer->TimeMinute, timer->TimeSecond);
+	Print("\n");
+	PrintSize(3, 2);
+	Print("%s\n", result);
+	PrintSize(1, 1);
+	Print("********************************\n");
+	Print("\n");
+	Print("\n");
+	Print("\n");
+	Print("\n");
+}
+
+void PrintStepLine(const char* step, float t1, float t2, float pressure, RTCTimerTime_s* time) {
+	Print("%.4s  %5.1f  %5.1f  %5.1f %3d:%02d\n", step, t1, t2, pressure, time->TimeMinute, time->TimeSecond);
 }
 
 void PrintDivisor() {

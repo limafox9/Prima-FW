@@ -38,10 +38,15 @@ USAGE:
 #ifndef INC_PRINTER_H_
 #define INC_PRINTER_H_
 
+#include "time.h"
+
 void Print(const char* format, ...);
 void PrintLF(uint8_t lines);
 void PrintDivisor();
 void PrinterInit();
-void PrintSize(uint8_t size);
+void PrintSize(uint8_t width, uint8_t height);
+void PrintStepLine(const char* step, float t1, float t2, float pressure, RTCTimerTime_s* time);
+void PrintHeader (const char* title, float t1, RTCDateTime_s* time);
+void PrintFooter (const char* result, RTCDateTime_s* time, RTCTimerTime_s* timer);
 
 #endif /* INC_PRINTER_H_ */

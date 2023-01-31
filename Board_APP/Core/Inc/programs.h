@@ -57,7 +57,10 @@ typedef enum {
 void SetProgram();
 void SetTest();
 
+uint8_t ProgramUnwrapped();
 uint8_t ProgramWrapped();
+uint8_t ProgramPrion();
+uint8_t ProgramGentle();
 uint8_t ProgramHelixTest();
 
 #endif /* INC_PROGRAMS_H_ */
