@@ -62,5 +62,6 @@ uint8_t ProgramWrapped();
 uint8_t ProgramPrion();
 uint8_t ProgramGentle();
 uint8_t ProgramHelixTest();
+uint8_t ProgramVacuumTest();
 
 #endif /* INC_PROGRAMS_H_ */

@@ -41,13 +41,16 @@ USAGE:
 #include <stdio.h>
 #include "time.h"
 
+uint8_t PhaseBegin(uint8_t timeout);
 uint8_t PhasePreheat(float chamberTemp, float steamGenTemp);
 uint8_t PhaseHeatUp(float ringTemp, float steamGenTemp, float chamberTemp, uint16_t timeout);
 uint8_t PhaseVacuum(uint8_t nVacuum, float press, uint16_t timeout);
+uint8_t PhaseVacuumHold(float vacPress, uint8_t tolerance, uint16_t time, uint16_t timeout);
 uint8_t PhasePressure(uint8_t nPressure, float press, float steamTemp, float steamTempMin, uint16_t timeout);
 uint8_t PhaseRelease(uint8_t nRelease, float press, uint16_t timeout);
 uint8_t PhaseSteril(float chamberTemp, float chamberTempMin, float chamberTempMax, uint16_t sterilTime, float pressMin, float pressMax, float steamTemp, float steamTempMin, uint16_t timeout);
 uint8_t PhaseDry(float firstVacPress, float otherVacPress, float releasePress, uint16_t time, uint16_t timeout);
 uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer);
+uint8_t PhaseWait(uint16_t time);
 
 #endif /* INC_PHASES_H_ */

@@ -114,7 +114,7 @@ void SysInit() {
 //	SerialInit(&UART_MONITOR, 115200);
 	SerialInit(&UART_DISPLAY, 115200);
 
-	PCF8563_Init(&hi2c1);
+	ClockInit(&hi2c1);
 	PWMPower_Init();
 	PrinterInit();
 //

@@ -66,7 +66,6 @@ void PrintSize(uint8_t width, uint8_t height) {
 
 void Print(const char* format, ...) {
 
-
 		  va_list args;
 		  char* buf[80];
 		  va_start(args, format);
@@ -104,6 +103,10 @@ void PrintFooter (const char* result, RTCDateTime_s* time, RTCTimerTime_s* timer
 	PrintSize(3, 2);
 	Print("%s\n", result);
 	PrintSize(1, 1);
+	Print("\n");
+	Print("\n");
+	Print("OPERATOR: ______________________\n");
+	Print("\n");
 	Print("********************************\n");
 	Print("\n");
 	Print("\n");

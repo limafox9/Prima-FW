@@ -43,6 +43,11 @@ USAGE:
 #define FW_VERSION_MINOR 1
 #define FW_VERSION_REVISION 14
 
+#define EPA_SERIALN 0x10	// 16 bytes (12 used)
+#define EPA_T1CAL 	0x20	// 1 byte +/- 128 in 0.1 steps
+#define EPA_T2CAL 	0x21	// 1 byte +/- 128 in 0.1 steps
+#define EPA_PCAL 	0x22	// 1 byte +/- 128 in 1 steps
+
 typedef enum {
 	UINT8,
 	UINT16,

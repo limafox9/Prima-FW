@@ -43,6 +43,7 @@ USAGE:
 #include "cmsis_os.h"
 #include "time.h"
 #include "sensors.h"
+#include "printer.h"
 
 extern osThreadId sensorsTaskHandle;
 
@@ -94,14 +95,17 @@ void StartProgram() {
 			}
 		} else {
 			switch (currTest) {
-				case 1:
-					ProgramHelixTest();
+			case 1:
+				ProgramHelixTest();
+			case 2:
+				ProgramVacuumTest();
 			}
 		}
 	}
 }
 
 uint8_t ProgramUnwrapped() {
+
 	uint8_t success = 1;
 	RTCDateTime_s clockTime;
 	RTCTimerTime_s tCycle, tPhase;
@@ -116,6 +120,7 @@ uint8_t ProgramUnwrapped() {
 
 	GetDateTime(&clockTime);
 	PrintHeader("UNWRAPPED", Sensors.T1, &clockTime);
+
 	// Heat up
 	if (success) {
 		success = PhaseHeatUp(130.0, 200.0, 50.0, 600);
@@ -341,35 +346,35 @@ uint8_t ProgramGentle() {
 
 	// Heat up
 	if (success) {
-		success = PhaseHeatUp(130.0, 200.0, 50.0, 600);
+		success = PhaseHeatUp(118.0, 200.0, 50.0, 600);
 	}
 
 	// First vacuum
 	if (success) {
-		PhasePreheat(130, 200);
+		PhasePreheat(118, 200);
 		success = PhaseVacuum(1, 18.0, 600);
 	}
 	if (success) {
-		PhasePreheat(130, 220);
+		PhasePreheat(118, 220);
 		success = PhasePressure(1, 170.0, 200.0, 180.0, 600);
 	}
 	if (success) {
-		PhasePreheat(130, 200);
+		PhasePreheat(118, 200);
 		success = PhaseRelease(1, 110.0, 600);
 	}
 
 	// Other vacuum
 	for (int i = 0; i < 2; i++) {
 		if (success) {
-			PhasePreheat(130.0, 200.0);
+			PhasePreheat(118.0, 200.0);
 			success = PhaseVacuum(2, 30.0, 600);
 		}
 		if (success) {
-			PhasePreheat(130.0, 220.0);
+			PhasePreheat(118.0, 220.0);
 			success = PhasePressure(2, 170.0, 200.0, 180.0, 600);
 		}
 		if (success) {
-			PhasePreheat(130.0, 200.0);
+			PhasePreheat(118.0, 200.0);
 			success = PhaseRelease(2, 110.0, 600);
 		}
 	}
@@ -479,6 +484,48 @@ uint8_t ProgramHelixTest() {
 	if (success) {
 		PhasePreheat(60, 90);
 		success = PhaseDry(20.0, 50.0, 90.0, 300, 600);
+	}
+
+	// End
+	GetTimer(TIMER_CYCLE, &tCycle);
+	GetDateTime(&clockTime);
+	PhaseFinish(success, &clockTime, &tCycle);
+
+	progRunning = 0;
+	progStop = 0;
+
+}
+
+uint8_t ProgramVacuumTest() {
+
+	uint8_t success = 1;
+	RTCDateTime_s clockTime;
+	RTCTimerTime_s tCycle, tPhase;
+
+	progRunning = 1;
+	progStop = 0;
+
+	FanSet(ON);
+	SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
+
+	ResetTimer(TIMER_CYCLE);
+
+	success = PhaseBegin(600);
+
+	GetDateTime(&clockTime);
+	PrintHeader("VACUUM TEST", Sensors.T1, &clockTime);
+
+	if (success) {
+		success = PhaseVacuum(1, 18.0, 600);
+	}
+	if (success) {
+		success = PhaseWait(240);
+	}
+	if (success) {
+		success = PhaseVacuumHold(18.0, 20.0, 240, 600);
+	}
+	if (success) {
+		success = PhaseRelease(1, 110.0, 600);
 	}
 
 	// End

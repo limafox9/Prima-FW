@@ -88,6 +88,11 @@ static float ADCToCurrent(uint16_t adcValue);
 
 s_Sensors Sensors;
 
+#define PRESS_BUFFER_SIZE 10 // >= 2
+float pressBuf[PRESS_BUFFER_SIZE];
+float pressAvg;
+
+
 //==============================================================================
 // DECLARATIONS
 //==============================================================================
@@ -134,13 +139,41 @@ float CurrentGet() {
 // DEFINITIONS
 //==============================================================================
 
+float BufferAverage(float* buffer, uint8_t size, float newValue) {
+
+	float retAvg = 0;
+
+	// Shift values right
+	for (int i = size - 1; i > 0; i--) {
+		buffer[i] = buffer[i - 1];
+	}
+
+	// Leftmost add new read
+	buffer[0] = newValue;
+
+	// Calc average
+	for (int i = 0; i < size; i++) {
+		retAvg += buffer[i];
+	}
+	retAvg = retAvg / size;
+
+	return retAvg;
+
+}
+
 void StartSensorsTask() {
 
 	HAL_ADCEx_Calibration_Start(&hadc1);
 
 	TM7705_Init(&hspi1);
 
+	// Fill buffer values
+	for (int i = 0 ; i < (sizeof(pressBuf) / sizeof(float)); i++) {
+		pressBuf[i] = ChamberPressureGet();
+	}
+
 	for (;;) {
+
 
 		Sensors.Door = DoorSolenoidKeyGet();
 		Sensors.Solenoid = DoorPositionGet();
@@ -148,7 +181,7 @@ void StartSensorsTask() {
 		Sensors.TemperatureChamberHeater = ChamberHeaterTempGet();
 		Sensors.T1 = TM7705_GetTemp(0);
 //		Sensors.T2 = TemperatureT2Get();
-		Sensors.PressureChamber = ChamberPressureGet();
+		Sensors.PressureChamber = BufferAverage(pressBuf, PRESS_BUFFER_SIZE, ChamberPressureGet());
 		Sensors.Current = CurrentGet();
 
 //
