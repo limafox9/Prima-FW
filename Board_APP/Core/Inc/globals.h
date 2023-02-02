@@ -43,10 +43,21 @@ USAGE:
 #define FW_VERSION_MINOR 1
 #define FW_VERSION_REVISION 14
 
-#define EPA_SERIALN 0x10	// 16 bytes (12 used)
-#define EPA_T1CAL 	0x20	// 1 byte +/- 128 in 0.1 steps
-#define EPA_T2CAL 	0x21	// 1 byte +/- 128 in 0.1 steps
-#define EPA_PCAL 	0x22	// 1 byte +/- 128 in 1 steps
+#define EPA_MACHINE_SERIAL_NUMBER	 	0x10	// 12 bytes
+#define EPA_CYCLE_COUNTER_PERMANENT 	0x1C	// 2 bytes - Cycla counter permanent
+#define EPA_CYCLE_COUNTER 				0x1E	// 2 bytes - Cycle counter resettable
+#define EPA_T1_OFFSET 					0x20	// 1 byte +/- 128 in 0.1 steps
+#define EPA_T2_OFFSET 					0x21	// 1 byte +/- 128 in 0.1 steps
+#define EPA_CHAMBER_PRESSURE_OFFSET 	0x22	// 1 byte +/- 128 in 1 steps
+
+typedef struct Settings_s {
+	char MachineSerial[12];
+	uint16_t Cycles;
+	uint16_t CyclesPermanent;
+	int16_t T1Offset;
+	int16_t T2Offset;
+	int16_t ChamberPressOffset;
+} Settings_s;
 
 typedef enum {
 	UINT8,

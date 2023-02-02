@@ -102,6 +102,8 @@ osThreadId sensorsTaskHandle;
 
 void SysInit() {
 
+	LoadSettings();
+
 	osThreadDef(keysTask, StartKeysTask, osPriorityAboveNormal, 1, 512);
 	keysTaskHandle = osThreadCreate(osThread(keysTask), NULL);
 
@@ -118,18 +120,25 @@ void SysInit() {
 	PWMPower_Init();
 	PrinterInit();
 //
-//	RTCTimerTime_s a;
-//	a.TimeMinute = 5;
-//	a.TimeSecond = 3;
+	RTCTimerTime_s a;
+	a.TimeMinute = 5;
+	a.TimeSecond = 3;
 //
-//	RTCDateTime_s d;
-//	GetDateTime(&d);
+	RTCDateTime_s d;
+	GetDateTime(&d);
 //
 //	PrintHeader("HELIX TEST", 24.2, &d);
 //	PrintStepLine("VAC-----", 134.2, 2.1, 23.7, &a);
 //	PrintStepLine("VACU-", 4.2, 21.1, 23.7, &a);
+
+//	PrintLogo();
+
+//	PrintHeader("PROVA", 13.8, &d);
 //	PrintFooter("PASS", &d, &a);
-//
+
+//	int16_t cy = 334;
+//	EEPROM_Write(EPA_CYCLE_COUNTER, cy, 2);
+
 //	while (1) {
 //		osDelay(100);
 //	}

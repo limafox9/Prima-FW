@@ -55,66 +55,66 @@ typedef struct {
 	u_value value;
 } s_SettingItem;
 
-s_SettingItem settings[] = {
-		{0x00000000, UINT8, "LOG_ACTIVE", {.u8 = 1}},
-		{0x00000000, UINT8, "LOG_ACTIVE_LEVEL", {.u8 = LOG_LEVEL_DEBUG} },
-
-		{0x00000000, UINT16, "DOOR_SOLENOID_IMPULSE", {.u16 = 1000} },
-};
-
-void* GetSetting(const char* settingName) {
-
-	uint8_t size = sizeof(settings) / sizeof(s_SettingItem);
-	void* ret;
-
-	for (int i = 0; i < size; i++) {
-		if (!strcmp(settingName, settings[i].name)) {
-			switch (settings[i].dataType) {
-				case UINT8:
-					ret = (uint8_t*)&settings[i].value.u8;
-					break;
-				case UINT16:
-					ret = (uint16_t*)&settings[i].value.u16;
-					break;
-				case UINT32:
-					ret = (uint32_t*)&settings[i].value.u32;
-					break;
-				case FLOAT:
-					ret = (float*)&settings[i].value.flt;
-					break;
-			}
-		}
-	}
-
-	return ret;
-}
-
-uint8_t SetSetting(const char* settingName, void* value) {
-
-	uint8_t size = sizeof(settings) / sizeof(s_SettingItem);
-	uint8_t ret = 0;
-
-	for (int i = 0; i < size; i++) {
-		if (!strcmp(settingName, settings[i].name)) {
-			ret = 1;
-			switch (settings[i].dataType) {
-				case UINT8:
-					settings[i].value.u8 = *(uint8_t*)value;
-					break;
-				case UINT16:
-					settings[i].value.u16 = *(uint16_t*)value;
-					break;
-				case UINT32:
-					settings[i].value.u32 = *(uint32_t*)value;
-					break;
-				case FLOAT:
-					settings[i].value.flt = *(float*)value;
-					break;
-			}
-		}
-	}
-
-	return ret;
-}
+//s_SettingItem settings[] = {
+//		{0x00000000, UINT8, "LOG_ACTIVE", {.u8 = 1}},
+//		{0x00000000, UINT8, "LOG_ACTIVE_LEVEL", {.u8 = LOG_LEVEL_DEBUG} },
+//
+//		{0x00000000, UINT16, "DOOR_SOLENOID_IMPULSE", {.u16 = 1000} },
+//};
+//
+//void* GetSetting(const char* settingName) {
+//
+//	uint8_t size = sizeof(settings) / sizeof(s_SettingItem);
+//	void* ret;
+//
+//	for (int i = 0; i < size; i++) {
+//		if (!strcmp(settingName, settings[i].name)) {
+//			switch (settings[i].dataType) {
+//				case UINT8:
+//					ret = (uint8_t*)&settings[i].value.u8;
+//					break;
+//				case UINT16:
+//					ret = (uint16_t*)&settings[i].value.u16;
+//					break;
+//				case UINT32:
+//					ret = (uint32_t*)&settings[i].value.u32;
+//					break;
+//				case FLOAT:
+//					ret = (float*)&settings[i].value.flt;
+//					break;
+//			}
+//		}
+//	}
+//
+//	return ret;
+//}
+//
+//uint8_t SetSetting(const char* settingName, void* value) {
+//
+//	uint8_t size = sizeof(settings) / sizeof(s_SettingItem);
+//	uint8_t ret = 0;
+//
+//	for (int i = 0; i < size; i++) {
+//		if (!strcmp(settingName, settings[i].name)) {
+//			ret = 1;
+//			switch (settings[i].dataType) {
+//				case UINT8:
+//					settings[i].value.u8 = *(uint8_t*)value;
+//					break;
+//				case UINT16:
+//					settings[i].value.u16 = *(uint16_t*)value;
+//					break;
+//				case UINT32:
+//					settings[i].value.u32 = *(uint32_t*)value;
+//					break;
+//				case FLOAT:
+//					settings[i].value.flt = *(float*)value;
+//					break;
+//			}
+//		}
+//	}
+//
+//	return ret;
+//}
 
 

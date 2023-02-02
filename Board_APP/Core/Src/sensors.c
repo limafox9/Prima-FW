@@ -75,6 +75,7 @@ USAGE:
 
 extern ADC_HandleTypeDef hadc1;
 extern SPI_HandleTypeDef hspi1;
+extern Settings_s settings;
 
 const float Z1 = -RTD_A;
 const float Z2 = RTD_A * RTD_A - (4 * RTD_B);
@@ -242,7 +243,8 @@ float ADCToTemp(uint16_t adcValue) {
 
 	tCelsius = Z2 + (Z3 * Rt);
 	tCelsius = (sqrt(tCelsius) + Z1) / Z4;
-	tCelsius+= 0.5;
+
+	tCelsius += settings.T1Offset;
 
 	return tCelsius;
 }
@@ -263,7 +265,7 @@ float ADCToPress(uint16_t adcValue) {
 	pkPa = pkPa - 0.04;
 	pkPa = pkPa / 0.0012858;
 
-	pkPa += 5;
+	pkPa += settings.ChamberPressOffset;
 
 	return pkPa;
 }

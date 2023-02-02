@@ -45,6 +45,11 @@ USAGE:
 #include "sensors.h"
 #include "printer.h"
 
+#define OT_HEAT		1200
+#define OT_VACUUM	240
+#define OT_PRESSURE 600
+#define OT_RELEASE	120
+
 extern osThreadId sensorsTaskHandle;
 
 extern s_Sensors Sensors;
@@ -116,24 +121,24 @@ uint8_t ProgramUnwrapped() {
 	FanSet(ON);
 	SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
 
-	ResetTimer(TIMER_CYCLE);
-
 	GetDateTime(&clockTime);
 	PrintHeader("UNWRAPPED", Sensors.T1, &clockTime);
 
 	// Heat up
 	if (success) {
-		success = PhaseHeatUp(130.0, 200.0, 50.0, 600);
+		success = PhaseHeatUp(130.0, 200.0, 50.0, OT_HEAT);
 	}
+
+	ResetTimer(TIMER_CYCLE);
 
 	// Sterilization
 	if (success) {
 		PhasePreheat(130, 200);
-		success = PhaseVacuum(1, 18.0, 600);
+		success = PhaseVacuum(1, 18.0, OT_VACUUM);
 	}
 	if (success) {
 		PhasePreheat(130, 220);
-		success = PhasePressure(3, 290.0, 200.0, 180.0, 600);
+		success = PhasePressure(3, 290.0, 200.0, 180.0, OT_PRESSURE);
 	}
 	if (success) {
 		PhasePreheat(130, 190);
@@ -141,13 +146,13 @@ uint8_t ProgramUnwrapped() {
 	}
 	if (success) {
 		PhasePreheat(130, 200);
-		success = PhaseRelease(3, 110.0, 600);
+		success = PhaseRelease(3, 110.0, OT_RELEASE);
 	}
 
 	// Dry
 	if (success) {
 		PhasePreheat(60, 90);
-		success = PhaseDry(20.0, 50.0, 90.0, 540, 600);
+		success = PhaseDry(20.0, 50.0, 90.0, 540, 800);
 	}
 
 	// End
@@ -171,53 +176,53 @@ uint8_t ProgramWrapped() {
 	FanSet(ON);
 	SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
 
-	ResetTimer(TIMER_CYCLE);
-
 	GetDateTime(&clockTime);
 	PrintHeader("WRAPPED", Sensors.T1, &clockTime);
 
 	// Heat up
 	if (success) {
-		success = PhaseHeatUp(130.0, 200.0, 50.0, 600);
+		success = PhaseHeatUp(130.0, 200.0, 50.0, OT_HEAT);
 	}
+
+	ResetTimer(TIMER_CYCLE);
 
 	// First vacuum
 	if (success) {
 		PhasePreheat(130, 200);
-		success = PhaseVacuum(1, 18.0, 600);
+		success = PhaseVacuum(1, 18.0, OT_VACUUM);
 	}
 	if (success) {
 		PhasePreheat(130, 220);
-		success = PhasePressure(1, 170.0, 200.0, 180.0, 600);
+		success = PhasePressure(1, 170.0, 200.0, 180.0, OT_PRESSURE);
 	}
 	if (success) {
 		PhasePreheat(130, 200);
-		success = PhaseRelease(1, 110.0, 600);
+		success = PhaseRelease(1, 110.0, OT_RELEASE);
 	}
 
 	// Other vacuum
 	for (int i = 0; i < 2; i++) {
 		if (success) {
 			PhasePreheat(130.0, 200.0);
-			success = PhaseVacuum(2, 30.0, 600);
+			success = PhaseVacuum(2, 30.0, OT_VACUUM);
 		}
 		if (success) {
 			PhasePreheat(130.0, 220.0);
-			success = PhasePressure(2, 170.0, 200.0, 180.0, 600);
+			success = PhasePressure(2, 170.0, 200.0, 180.0, OT_PRESSURE);
 		}
 		if (success) {
 			PhasePreheat(130.0, 200.0);
-			success = PhaseRelease(2, 110.0, 600);
+			success = PhaseRelease(2, 110.0, OT_RELEASE);
 		}
 	}
 
 	// Sterilization
 	if (success) {
-		success = PhaseVacuum(3, 30.0, 600);
+		success = PhaseVacuum(3, 30.0, OT_VACUUM);
 	}
 	if (success) {
 		PhasePreheat(130, 220);
-		success = PhasePressure(3, 290.0, 200.0, 180.0, 600);
+		success = PhasePressure(3, 290.0, 200.0, 180.0, OT_PRESSURE);
 	}
 	if (success) {
 		PhasePreheat(130, 190);
@@ -225,13 +230,13 @@ uint8_t ProgramWrapped() {
 	}
 	if (success) {
 		PhasePreheat(130, 200);
-		success = PhaseRelease(3, 110.0, 600);
+		success = PhaseRelease(3, 110.0, OT_RELEASE);
 	}
 
 	// Dry
 	if (success) {
 		PhasePreheat(60, 90);
-		success = PhaseDry(20.0, 50.0, 90.0, 540, 600);
+		success = PhaseDry(20.0, 50.0, 90.0, 540, 800);
 	}
 
 	// End
@@ -255,53 +260,53 @@ uint8_t ProgramPrion() {
 	FanSet(ON);
 	SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
 
-	ResetTimer(TIMER_CYCLE);
-
 	GetDateTime(&clockTime);
 	PrintHeader("PRION", Sensors.T1, &clockTime);
 
 	// Heat up
 	if (success) {
-		success = PhaseHeatUp(130.0, 200.0, 50.0, 600);
+		success = PhaseHeatUp(130.0, 200.0, 50.0, OT_HEAT);
 	}
+
+	ResetTimer(TIMER_CYCLE);
 
 	// First vacuum
 	if (success) {
 		PhasePreheat(130, 200);
-		success = PhaseVacuum(1, 18.0, 600);
+		success = PhaseVacuum(1, 18.0, OT_VACUUM);
 	}
 	if (success) {
 		PhasePreheat(130, 220);
-		success = PhasePressure(1, 170.0, 200.0, 180.0, 600);
+		success = PhasePressure(1, 170.0, 200.0, 180.0, OT_PRESSURE);
 	}
 	if (success) {
 		PhasePreheat(130, 200);
-		success = PhaseRelease(1, 110.0, 600);
+		success = PhaseRelease(1, 110.0, OT_RELEASE);
 	}
 
 	// Other vacuum
 	for (int i = 0; i < 2; i++) {
 		if (success) {
 			PhasePreheat(130.0, 200.0);
-			success = PhaseVacuum(2, 30.0, 600);
+			success = PhaseVacuum(2, 30.0, OT_VACUUM);
 		}
 		if (success) {
 			PhasePreheat(130.0, 220.0);
-			success = PhasePressure(2, 170.0, 200.0, 180.0, 600);
+			success = PhasePressure(2, 170.0, 200.0, 180.0, OT_PRESSURE);
 		}
 		if (success) {
 			PhasePreheat(130.0, 200.0);
-			success = PhaseRelease(2, 110.0, 600);
+			success = PhaseRelease(2, 110.0, OT_RELEASE);
 		}
 	}
 
 	// Sterilization
 	if (success) {
-		success = PhaseVacuum(3, 30.0, 600);
+		success = PhaseVacuum(3, 30.0, OT_VACUUM);
 	}
 	if (success) {
 		PhasePreheat(130, 220);
-		success = PhasePressure(3, 290.0, 200.0, 180.0, 600);
+		success = PhasePressure(3, 290.0, 200.0, 180.0, OT_PRESSURE);
 	}
 	if (success) {
 		PhasePreheat(130, 190);
@@ -309,7 +314,7 @@ uint8_t ProgramPrion() {
 	}
 	if (success) {
 		PhasePreheat(130, 200);
-		success = PhaseRelease(3, 110.0, 600);
+		success = PhaseRelease(3, 110.0, OT_RELEASE);
 	}
 
 	// Dry
@@ -339,61 +344,61 @@ uint8_t ProgramGentle() {
 	FanSet(ON);
 	SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
 
-	ResetTimer(TIMER_CYCLE);
-
 	GetDateTime(&clockTime);
 	PrintHeader("GENTLE", Sensors.T1, &clockTime);
 
 	// Heat up
 	if (success) {
-		success = PhaseHeatUp(118.0, 200.0, 50.0, 600);
+		success = PhaseHeatUp(118.0, 200.0, 50.0, OT_HEAT);
 	}
+
+	ResetTimer(TIMER_CYCLE);
 
 	// First vacuum
 	if (success) {
 		PhasePreheat(118, 200);
-		success = PhaseVacuum(1, 18.0, 600);
+		success = PhaseVacuum(1, 18.0, OT_VACUUM);
 	}
 	if (success) {
 		PhasePreheat(118, 220);
-		success = PhasePressure(1, 170.0, 200.0, 180.0, 600);
+		success = PhasePressure(1, 170.0, 200.0, 180.0, OT_PRESSURE);
 	}
 	if (success) {
 		PhasePreheat(118, 200);
-		success = PhaseRelease(1, 110.0, 600);
+		success = PhaseRelease(1, 110.0, OT_RELEASE);
 	}
 
 	// Other vacuum
 	for (int i = 0; i < 2; i++) {
 		if (success) {
 			PhasePreheat(118.0, 200.0);
-			success = PhaseVacuum(2, 30.0, 600);
+			success = PhaseVacuum(2, 30.0, OT_VACUUM);
 		}
 		if (success) {
 			PhasePreheat(118.0, 220.0);
-			success = PhasePressure(2, 170.0, 200.0, 180.0, 600);
+			success = PhasePressure(2, 170.0, 200.0, 180.0, OT_PRESSURE);
 		}
 		if (success) {
 			PhasePreheat(118.0, 200.0);
-			success = PhaseRelease(2, 110.0, 600);
+			success = PhaseRelease(2, 110.0, OT_RELEASE);
 		}
 	}
 
 	// Sterilization
 	if (success) {
-		success = PhaseVacuum(3, 30.0, 600);
+		success = PhaseVacuum(3, 30.0, OT_VACUUM);
 	}
 	if (success) {
 		PhasePreheat(130, 220);
-		success = PhasePressure(3, 190.0, 200.0, 180.0, 600);
+		success = PhasePressure(3, 190.0, 200.0, 180.0, OT_PRESSURE);
 	}
 	if (success) {
 		PhasePreheat(130, 190);
-		success = PhaseSteril(123.0, 121.0, 125.0, 1200, 210.0, 240.0, 190.0, 170.0, 2000);
+		success = PhaseSteril(123.0, 121.0, 125.0, 1200, 210.0, 240.0, 190.0, 170.0, 1800);
 	}
 	if (success) {
 		PhasePreheat(130, 200);
-		success = PhaseRelease(3, 110.0, 600);
+		success = PhaseRelease(3, 110.0, OT_RELEASE);
 	}
 
 	// Dry
@@ -423,53 +428,53 @@ uint8_t ProgramHelixTest() {
 	FanSet(ON);
 	SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
 
-	ResetTimer(TIMER_CYCLE);
-
 	GetDateTime(&clockTime);
 	PrintHeader("HELIX TEST", Sensors.T1, &clockTime);
 
 	// Heat up
 	if (success) {
-		success = PhaseHeatUp(130.0, 200.0, 50.0, 600);
+		success = PhaseHeatUp(130.0, 200.0, 50.0, OT_HEAT);
 	}
+
+	ResetTimer(TIMER_CYCLE);
 
 	// First vacuum
 	if (success) {
 		PhasePreheat(130, 200);
-		success = PhaseVacuum(1, 18.0, 600);
+		success = PhaseVacuum(1, 18.0, OT_VACUUM);
 	}
 	if (success) {
 		PhasePreheat(130, 220);
-		success = PhasePressure(1, 170.0, 200.0, 180.0, 600);
+		success = PhasePressure(1, 170.0, 200.0, 180.0, OT_PRESSURE);
 	}
 	if (success) {
 		PhasePreheat(130, 200);
-		success = PhaseRelease(1, 110.0, 600);
+		success = PhaseRelease(1, 110.0, OT_RELEASE);
 	}
 
 	// Other vacuum
 	for (int i = 0; i < 1; i++) {
 		if (success) {
 			PhasePreheat(130.0, 200.0);
-			success = PhaseVacuum(2, 30.0, 600);
+			success = PhaseVacuum(2, 30.0, OT_VACUUM);
 		}
 		if (success) {
 			PhasePreheat(130.0, 220.0);
-			success = PhasePressure(2, 170.0, 200.0, 180.0, 600);
+			success = PhasePressure(2, 170.0, 200.0, 180.0, OT_PRESSURE);
 		}
 		if (success) {
 			PhasePreheat(130.0, 200.0);
-			success = PhaseRelease(2, 110.0, 600);
+			success = PhaseRelease(2, 110.0, OT_RELEASE);
 		}
 	}
 
 	// Sterilization
 	if (success) {
-		success = PhaseVacuum(3, 20.0, 600);
+		success = PhaseVacuum(3, 20.0, OT_VACUUM);
 	}
 	if (success) {
 		PhasePreheat(130, 220);
-		success = PhasePressure(3, 290.0, 200.0, 180.0, 600);
+		success = PhasePressure(3, 290.0, 200.0, 180.0, OT_PRESSURE);
 	}
 	if (success) {
 		PhasePreheat(130, 190);
@@ -477,7 +482,7 @@ uint8_t ProgramHelixTest() {
 	}
 	if (success) {
 		PhasePreheat(130, 200);
-		success = PhaseRelease(3, 110.0, 600);
+		success = PhaseRelease(3, 110.0, OT_RELEASE);
 	}
 
 	// Dry
@@ -516,7 +521,7 @@ uint8_t ProgramVacuumTest() {
 	PrintHeader("VACUUM TEST", Sensors.T1, &clockTime);
 
 	if (success) {
-		success = PhaseVacuum(1, 18.0, 600);
+		success = PhaseVacuum(1, 18.0, OT_VACUUM);
 	}
 	if (success) {
 		success = PhaseWait(240);
@@ -525,7 +530,7 @@ uint8_t ProgramVacuumTest() {
 		success = PhaseVacuumHold(18.0, 20.0, 240, 600);
 	}
 	if (success) {
-		success = PhaseRelease(1, 110.0, 600);
+		success = PhaseRelease(1, 110.0, OT_RELEASE);
 	}
 
 	// End
