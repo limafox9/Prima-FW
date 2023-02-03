@@ -276,7 +276,7 @@ uint8_t PhasePressure(uint8_t nPressure, float press, float steamTemp, float ste
 	return retVal;
 }
 
-uint8_t PhaseSteril(float chamberTemp, float chamberTempMin, float chamberTempMax, uint16_t sterilTime, float pressMin, float pressMax, float steamTemp, float steamTempMin, uint16_t timeout) {
+uint8_t PhaseSteril(SterilParam_s* param) {
 	static const float pPID_KP = 500.0;
 	static const float pPID_KI = 2000.0;
 	static const float pPID_KD = 10.0;
@@ -306,18 +306,18 @@ uint8_t PhaseSteril(float chamberTemp, float chamberTempMin, float chamberTempMa
 	ResetTimer(TIMER_1);
 
 	while (1) {
-		float ret = PIDController_Update(&pidSteam, steamTemp, Sensors.TemperatureSteamGenerator);
-		if ((Sensors.T1 < chamberTemp) && (Sensors.TemperatureSteamGenerator >= steamTempMin)) {
+		float ret = PIDController_Update(&pidSteam, param->steamTemp, Sensors.TemperatureSteamGenerator);
+		if ((Sensors.T1 < param->chamberTemp) && (Sensors.TemperatureSteamGenerator >= param->steamTempMin)) {
 			SteamPulse(50);
 			osDelay(ret);
 		}
 		GetTimer(TIMER_TIMEOUT, &tTimeout);
-		if (Sensors.T1 >= chamberTemp) {
-			if ((Sensors.PressureChamber >= pressMin) && (Sensors.PressureChamber <= pressMax)) {
+		if (Sensors.T1 >= param->chamberTemp) {
+			if ((Sensors.PressureChamber >= param->pressMin) && (Sensors.PressureChamber <= param->pressMax)) {
 				retVal = 1;
 				break;
 			}
-		} else if (tTimeout.Seconds > timeout) {
+		} else if (tTimeout.Seconds > param->timeout) {
 			Print("STER ERROR *** TIMEOUT CLIMB\n");
 			GetTimer(TIMER_PHASE, &tPhase);
 			PrintStepLine("----  ", Sensors.T1, Sensors.T2, Sensors.PressureChamber, &tPhase);
@@ -339,34 +339,34 @@ uint8_t PhaseSteril(float chamberTemp, float chamberTempMin, float chamberTempMa
 		pMax = Sensors.PressureChamber;
 
 		while (1) {
-			float ret = PIDController_Update(&pidSteam, steamTemp, Sensors.TemperatureSteamGenerator);
-			if (Sensors.T1 <= chamberTemp) {
-				if (Sensors.TemperatureSteamGenerator >= steamTempMin) {
+			float ret = PIDController_Update(&pidSteam, param->steamTemp, Sensors.TemperatureSteamGenerator);
+			if (Sensors.T1 <= param->chamberTemp) {
+				if (Sensors.TemperatureSteamGenerator >= param->steamTempMin) {
 					SteamPulse(20);
 					osDelay(ret);
 				}
 			}
 			GetTimer(TIMER_TIMEOUT, &tTimeout);
 			GetTimer(TIMER_PHASE, &tPhase);
-			if (Sensors.T1 <= chamberTempMin) {
+			if (Sensors.T1 <= param->chamberTempMin) {
 				Print("STER ERROR *** UNDER TEMPERATURE\n");
 				GetTimer(TIMER_PHASE, &tPhase);
 				PrintStepLine("----  ", Sensors.T1, Sensors.T2, Sensors.PressureChamber, &tPhase);
 				retVal = 0;
 				break;
-			} else if (Sensors.T1 >= chamberTempMax) {
+			} else if (Sensors.T1 >= param->chamberTempMax) {
 				Print("STER ERROR *** OVER TEMPERATURE\n");
 				GetTimer(TIMER_PHASE, &tPhase);
 				PrintStepLine("----  ", Sensors.T1, Sensors.T2, Sensors.PressureChamber, &tPhase);
 				retVal = 0;
 				break;
-			} else if (tTimeout.Seconds > timeout) {
+			} else if (tTimeout.Seconds > param->timeout) {
 				Print("STER ERROR *** TIMEOUT MAINTAIN\n");
 				GetTimer(TIMER_PHASE, &tPhase);
 				PrintStepLine("----  ", Sensors.T1, Sensors.T2, Sensors.PressureChamber, &tPhase);
 				retVal = 0;
 				break;
-			} else if (tPhase.Seconds >= sterilTime) {
+			} else if (tPhase.Seconds >= param->sterilTime) {
 				Beep(1, 100, 100);
 				retVal = 1;
 				break;
@@ -378,7 +378,7 @@ uint8_t PhaseSteril(float chamberTemp, float chamberTempMin, float chamberTempMa
 			pMin = (Sensors.PressureChamber < pMin) ? Sensors.PressureChamber : pMin;
 			pMax = (Sensors.PressureChamber > pMax) ? Sensors.PressureChamber : pMax;
 			GetTimer(TIMER_1, &tInterval);
-			if (tInterval.Seconds >= 30) {
+			if (tInterval.Seconds >= param->printInterval) {
 				PrintStepLine("     ", Sensors.T1, Sensors.T2, Sensors.PressureChamber, &tPhase);
 				ResetTimer(TIMER_1);
 			}
@@ -388,7 +388,7 @@ uint8_t PhaseSteril(float chamberTemp, float chamberTempMin, float chamberTempMa
 
 	osDelay(100);
 	ValveDrainSteamSet(OFF);
-	HeaterSteamGeneratorTempSet(steamTemp);
+	HeaterSteamGeneratorTempSet(param->steamTemp);
 
 	Print("TIME                       %2d:%02d\n", tPhase.TimeMinute, tPhase.TimeSecond);
 	Print("MIN   %5.1f  %5.1f  %5.1f\n", T1Min, T2Min, pMin);
@@ -558,8 +558,8 @@ uint8_t PhaseWait(uint16_t time) {
 }
 
 uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer) {
-	ValveDrainSteamSet(OFF);
-	ValveDryIntakeSet(OFF);
+	ValveDrainSteamSet(ON);
+	ValveDryIntakeSet(ON);
 	ValveVacuumSet(OFF);
 	ValveWaterSteamSet(OFF);
 
@@ -576,6 +576,9 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 		}
 		osDelay(200);
 	}
+
+	ValveDrainSteamSet(OFF);
+	ValveDryIntakeSet(OFF);
 
 	if (success) {
 		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "PASS");

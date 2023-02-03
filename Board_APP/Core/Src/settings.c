@@ -39,6 +39,7 @@ USAGE:
 #include <string.h>
 
 #include "globals.h"
+#include "settings.h"
 #include "system.h"
 
 typedef union {
@@ -54,6 +55,30 @@ typedef struct {
 	const char* name;
 	u_value value;
 } s_SettingItem;
+
+Settings_s settings;
+MachineData_s machine;
+
+void LoadSettings() {
+	// Get MCU unique ID 96 bit
+	machine.MCUID[0] = *(uint32_t*)(MCU_UID_ADDRESS);
+	machine.MCUID[1] = *(uint32_t*)(MCU_UID_ADDRESS + 0x04);
+	machine.MCUID[2] = *(uint32_t*)(MCU_UID_ADDRESS + 0x08);
+	// EEPROM read
+	EEPROM_Read(EPA_MACHINE_SERIAL_NUMBER, &machine.Serial, 12);
+	EEPROM_Read(EPA_CYCLE_COUNTER_PERMANENT, &machine.ReadOnlyCyclesCount, 2);
+	EEPROM_Read(EPA_CYCLE_COUNTER, &settings.Cycles, 2);
+	EEPROM_Read(EPA_T1_OFFSET, &settings.T1Offset, 2);
+	EEPROM_Read(EPA_T2_OFFSET, &settings.T2Offset, 2);
+	EEPROM_Read(EPA_CHAMBER_PRESSURE_OFFSET, &settings.ChamberPressOffset, 2);
+}
+
+void SaveSettings() {
+
+	EEPROM_Write(EPA_T1_OFFSET, &settings.T1Offset, 2);
+	EEPROM_Write(EPA_T2_OFFSET, &settings.T2Offset, 2);
+	EEPROM_Write(EPA_CHAMBER_PRESSURE_OFFSET, &settings.ChamberPressOffset, 2);
+}
 
 //s_SettingItem settings[] = {
 //		{0x00000000, UINT8, "LOG_ACTIVE", {.u8 = 1}},

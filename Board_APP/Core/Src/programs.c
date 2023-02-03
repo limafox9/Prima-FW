@@ -91,19 +91,25 @@ void StartProgram() {
 			switch (currProgram) {
 			case 1:
 				ProgramUnwrapped();
+				break;
 			case 2:
 				ProgramWrapped();
+				break;
 			case 3:
 				ProgramPrion();
+				break;
 			case 4:
 				ProgramGentle();
+				break;
 			}
 		} else {
 			switch (currTest) {
 			case 1:
 				ProgramHelixTest();
+				break;
 			case 2:
 				ProgramVacuumTest();
+				break;
 			}
 		}
 	}
@@ -142,7 +148,19 @@ uint8_t ProgramUnwrapped() {
 	}
 	if (success) {
 		PhasePreheat(130, 190);
-		success = PhaseSteril(135.2, 134.0, 136.0, 300, 310.0, 350.0, 190.0, 170.0, 800);
+		SterilParam_s sterilParam = {
+				.chamberTemp = 135.2,
+				.chamberTempMin = 134.0,
+				.chamberTempMax = 136.0,
+				.sterilTime = 300,
+				.pressMin = 310.0,
+				.pressMax = 340.0,
+				.steamTemp = 190.0,
+				.steamTempMin = 170.0,
+				.printInterval = 30,
+				.timeout = 800
+		};
+		success = PhaseSteril(&sterilParam);
 	}
 	if (success) {
 		PhasePreheat(130, 200);
@@ -226,7 +244,19 @@ uint8_t ProgramWrapped() {
 	}
 	if (success) {
 		PhasePreheat(130, 190);
-		success = PhaseSteril(135.2, 134.0, 136.0, 300, 310.0, 340.0, 190.0, 170.0, 800);
+		SterilParam_s sterilParam = {
+				.chamberTemp = 135.2,
+				.chamberTempMin = 134.0,
+				.chamberTempMax = 136.0,
+				.sterilTime = 300,
+				.pressMin = 310.0,
+				.pressMax = 340.0,
+				.steamTemp = 190.0,
+				.steamTempMin = 170.0,
+				.printInterval = 30,
+				.timeout = 800
+		};
+		success = PhaseSteril(&sterilParam);
 	}
 	if (success) {
 		PhasePreheat(130, 200);
@@ -310,7 +340,19 @@ uint8_t ProgramPrion() {
 	}
 	if (success) {
 		PhasePreheat(130, 190);
-		success = PhaseSteril(135.2, 134.0, 136.0, 1080, 310.0, 340.0, 190.0, 170.0, 1500);
+		SterilParam_s sterilParam = {
+				.chamberTemp = 135.2,
+				.chamberTempMin = 134.0,
+				.chamberTempMax = 136.0,
+				.sterilTime = 1080,
+				.pressMin = 310.0,
+				.pressMax = 350.0,
+				.steamTemp = 190.0,
+				.steamTempMin = 170.0,
+				.printInterval = 120,
+				.timeout = 1500
+		};
+		success = PhaseSteril(&sterilParam);
 	}
 	if (success) {
 		PhasePreheat(130, 200);
@@ -394,7 +436,19 @@ uint8_t ProgramGentle() {
 	}
 	if (success) {
 		PhasePreheat(130, 190);
-		success = PhaseSteril(123.0, 121.0, 125.0, 1200, 210.0, 240.0, 190.0, 170.0, 1800);
+		SterilParam_s sterilParam = {
+				.chamberTemp = 123.2,
+				.chamberTempMin = 121.0,
+				.chamberTempMax = 125.0,
+				.sterilTime = 1200,
+				.pressMin = 210.0,
+				.pressMax = 240.0,
+				.steamTemp = 190.0,
+				.steamTempMin = 170.0,
+				.printInterval = 120,
+				.timeout = 1800
+		};
+		success = PhaseSteril(&sterilParam);
 	}
 	if (success) {
 		PhasePreheat(130, 200);
@@ -478,7 +532,19 @@ uint8_t ProgramHelixTest() {
 	}
 	if (success) {
 		PhasePreheat(130, 190);
-		success = PhaseSteril(135.2, 134.0, 136.0, 210, 310.0, 350.0, 190.0, 170.0, 800);
+		SterilParam_s sterilParam = {
+				.chamberTemp = 135.2,
+				.chamberTempMin = 134.0,
+				.chamberTempMax = 136.0,
+				.sterilTime = 210,
+				.pressMin = 310.0,
+				.pressMax = 350.0,
+				.steamTemp = 190.0,
+				.steamTempMin = 170.0,
+				.printInterval = 30,
+				.timeout = 600
+		};
+		success = PhaseSteril(&sterilParam);
 	}
 	if (success) {
 		PhasePreheat(130, 200);

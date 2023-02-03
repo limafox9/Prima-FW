@@ -36,10 +36,15 @@ USAGE:
 
 #include "globals.h"
 
+#include "system.h"
+
+#include "settings.h"
+
 #include <stdio.h>
 #include <stdarg.h>
 
 extern UART_HandleTypeDef huart1;
+extern MachineData_s machineData;
 
 #define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
 
@@ -59,19 +64,6 @@ uint16_t panelLedsBitsBlink;
 uint32_t digitsBits;
 
 uint8_t keysPressed;
-
-Settings_s settings;
-
-void LoadSettings() {
-
-	EEPROM_Read(EPA_MACHINE_SERIAL_NUMBER, settings.MachineSerial, 12);
-	EEPROM_Read(EPA_CYCLE_COUNTER_PERMANENT, &settings.CyclesPermanent, 2);
-	EEPROM_Read(EPA_CYCLE_COUNTER, &settings.Cycles, 2);
-	EEPROM_Read(EPA_T1_OFFSET, &settings.T1Offset, 2);
-	EEPROM_Read(EPA_T2_OFFSET, &settings.T2Offset, 2);
-	EEPROM_Read(EPA_CHAMBER_PRESSURE_OFFSET, &settings.ChamberPressOffset, 2);
-
-}
 
 uint32_t GetSafeDeltaTick(uint32_t startTick, uint32_t endTick) {
 

@@ -41,13 +41,17 @@ USAGE:
 
 #include "time.h"
 #include "globals.h"
+#include "settings.h"
 #include "stm32f1xx_hal.h"
 
+#define DC2 0x12
 #define ESC	0x1B
 #define FS	0x1C
+#define GS  0x1D
 
 extern UART_HandleTypeDef huart4;
 extern Settings_s settings;
+extern MachineData_s machine;
 
 const unsigned char logo[] = {
 	0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
@@ -69,12 +73,17 @@ void PrinterInit() {
 	char d[10];
 
 	Print("%c%c", ESC, '@'); // Reset
-	Print("%c%c", ESC, '5'); // Charset 2
-	Print("%c%c", FS, '.'); // Disable Chinese Print Mode
-	Print("%c%c", ESC, 0x54); // Upside-down print
-	Print("%c%c%c", ESC, 0x57, 1); // Font size
-
-	Print("%c%c%c%c%c%c%c%c%c", ESC, '&', 64, 0, 96, 144, 144, 96, 0);
+//	Print("%c%c", ESC, '5'); // Charset 2
+//	Print("%c%c", FS, '.'); // Disable Chinese Print Mode
+//	Print("%c%c", ESC, 0x54); // Upside-down print
+//	Print("%c%c%c", ESC, 0x57, 1); // Font size
+	Print("%c%c%c", ESC, '!', 0b00000101);
+//	Print("%c%c%c", ESC, '3', 10); // Line spacing (n*0.125mm, def. 30)
+//	Print("%c%c%c", ESC, 'a', 0); // Justify (0 = left, 1 = center, 2 = right)
+//	Print("%c%c%c",  GS, '!', 0x00);
+//	Print("%c%c%c",  FS, '.', 2);
+//	Print("%c%c%c",  ESC, 't', 2);
+//	Print("%c%c%c%c%c%c%c%c%c", ESC, '&', 64, 0, 96, 144, 144, 96, 0);
 }
 
 void PrintSize(uint8_t width, uint8_t height) {
@@ -86,6 +95,10 @@ void PrintSize(uint8_t width, uint8_t height) {
 //void Print(const char* data) {
 //	HAL_UART_Transmit(&huart4, data, strlen(data), 1000);
 //}
+
+void PrintTestPage() {
+	Print("%c%c", DC2, 'T'); // Reset
+}
 
 void Print(const char* format, ...) {
 
@@ -121,29 +134,32 @@ void PrintLogo() {
 void PrintHeader (const char* title, float t1, RTCDateTime_s* time) {
 
 	Print("\n");
-	Print("********************************\n");
-	Print("PROGRAM:\n");
+	Print("******************************************\n");
+//	Print("123456789012345678901234567890123456789012\n");
 	PrintSize(2, 2);
+//	Print("%c%c%c", ESC, 'a', 1); // Justify (0 = left, 1 = center, 2 = right)
 	Print("%s\n", title);
+//	Print("%c%c%c", ESC, 'a', 0); // Justify (0 = left, 1 = center, 2 = right)
 	PrintSize(1, 1);
 	Print("\n");
-	Print("S/N:     %s\n", settings.MachineSerial);
+	Print("S/N:     %s\n", machine.Serial);
+	Print("SW ver.: %d.%01d.%02d\n", FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION);
 	Print("DATE:    %d-%02d-%02d (YYYY-MM-DD)\n", time->Year, time->Month, time->Day);
 	Print("CYCLE N. %d\n", settings.Cycles);
 	Print("\n");
 	Print("\n");
-	Print("USER: __________________________\n");
+	Print("USER: ____________________________________\n");
 	Print("\n");
-	Print("--------------------------------\n");
+	Print("------------------------------------------\n");
 	Print("STEP    T1     T2   PRESS   TIME\n");
-	Print("        @C     @C    kPa   mm:ss\n");
-	Print("--------------------------------\n");
+	Print("        øC     øC    kPa   mm:ss\n");
+	Print("------------------------------------------\n");
 	Print("START %5.1f             %02d:%02d:%02d\n", t1, time->Hour, time->Minute, time->Second);
 }
 
 void PrintFooter (const char* result, RTCDateTime_s* time, RTCTimerTime_s* timer) {
 	Print("FINISH                  %02d:%02d:%02d\n", time->Hour, time->Minute, time->Second);
-	Print("--------------------------------\n");
+	Print("------------------------------------------\n");
 	Print("TOTAL TIME                 %2d:%02d\n", timer->TimeMinute, timer->TimeSecond);
 	Print("\n");
 	PrintSize(3, 2);
@@ -155,9 +171,9 @@ void PrintFooter (const char* result, RTCDateTime_s* time, RTCTimerTime_s* timer
 	Print("INDICATOR STRIP: PASS [] FAIL []\n");
 	Print("\n");
 	Print("\n");
-	Print("OPERATOR: ______________________\n");
+	Print("OPERATOR: ________________________________\n");
 	Print("\n");
-	Print("********************************\n");
+	Print("******************************************\n");
 	Print("\n");
 	Print("\n");
 	Print("\n");
@@ -169,7 +185,7 @@ void PrintStepLine(const char* step, float t1, float t2, float pressure, RTCTime
 }
 
 void PrintDivisor() {
-	char* s = "********************************\n";
+	char* s = "******************************************\n";
 	Print(s);
 }
 

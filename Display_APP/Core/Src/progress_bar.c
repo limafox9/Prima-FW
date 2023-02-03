@@ -8,6 +8,7 @@
 #include "progress_bar.h"
 #include <stdio.h>
 #include "globals.h"
+#include <stdlib.h>
 #include <string.h>
 
 uint16_t progressBarBits;

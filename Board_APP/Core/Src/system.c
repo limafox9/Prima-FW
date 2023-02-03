@@ -73,9 +73,8 @@ extern DMA_HandleTypeDef hdma_usart3_rx;
 extern SPI_HandleTypeDef hspi1;
 
 extern s_Sensors Sensors;
+extern Settings_s settings;
 
-uint32_t UID[3] = {0};
-uint16_t machineSerial;
 
 //uint8_t UART_rxBuffer[UART_DISPLAY_BUFFER_SIZE] = {0};
 
@@ -131,9 +130,15 @@ void SysInit() {
 //	PrintStepLine("VAC-----", 134.2, 2.1, 23.7, &a);
 //	PrintStepLine("VACU-", 4.2, 21.1, 23.7, &a);
 
+//	settings.T1Offset = 0;
+//	settings.T2Offset = 0;
+//	settings.ChamberPressOffset = 7;
+//	SaveSettings();
+
 //	PrintLogo();
 
 //	PrintHeader("PROVA", 13.8, &d);
+//	PrintTestPage();
 //	PrintFooter("PASS", &d, &a);
 
 //	int16_t cy = 334;

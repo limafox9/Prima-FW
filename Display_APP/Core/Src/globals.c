@@ -41,6 +41,7 @@ USAGE:
 #include "serial.h"
 #include "buzzer.h"
 #include "progress_bar.h"
+#include <stdlib.h>
 
 // GLOBAL VARS =================================================================
 
@@ -80,6 +81,8 @@ void SysInit() {
 
 	DigitsInit();
 	ProgressBarInit();
+
+//	ProgressBarSetAll();
 
 //	DBInit(&UART_DISPLAY, USART1_CTS_GPIO_Port, USART1_CTS_Pin);		// Display serial initialize
 	//	HAL_UART_Receive_DMA(&UART_DISPLAY, UART_rxBuffer, DB_UART_BUFFER_SIZE);

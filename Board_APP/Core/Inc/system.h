@@ -39,6 +39,8 @@ USAGE:
 
 #include "globals.h"
 
+#define MCU_UID_ADDRESS 0x1FFFF7E8
+
 typedef enum {
 	LOG_LEVEL_ALL = 0,
 	LOG_LEVEL_DEBUG = 1,

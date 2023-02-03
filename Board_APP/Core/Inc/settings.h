@@ -44,6 +44,37 @@ USAGE:
 
 #define DEFAULT_DOOR_SOLENOID_IMPULSE 	1000	// milliseconds
 
+#define FW_VERSION_MAJOR 0
+#define FW_VERSION_MINOR 3
+#define FW_VERSION_REVISION 15
+
+#define EPA_MACHINE_PROD_YEAR			0x0E	// 1 byte 0-199 after 2000
+#define EPA_MACHINE_PROD_MONTH			0x0F	// 1 byte 0-52 week of the year
+#define EPA_MACHINE_SERIAL_NUMBER	 	0x10	// 12 bytes
+#define EPA_CYCLE_COUNTER_PERMANENT 	0x1C	// 2 bytes - Cycla counter permanent
+#define EPA_CYCLE_COUNTER 				0x1E	// 2 bytes - Cycle counter resettable
+#define EPA_T1_OFFSET 					0x20	// 1 byte +/- 128 in 0.1 steps
+#define EPA_T2_OFFSET 					0x21	// 1 byte +/- 128 in 0.1 steps
+#define EPA_CHAMBER_PRESSURE_OFFSET 	0x22	// 1 byte +/- 128 in 1 steps
+
+typedef struct Settings_s {
+	uint16_t Cycles;
+	int16_t T1Offset;
+	int16_t T2Offset;
+	int16_t ChamberPressOffset;
+} Settings_s;
+
+typedef struct MachineData_s{
+	uint32_t MCUID[3];
+	uint16_t ReadOnlyCyclesCount;
+	char Serial[12];
+	uint8_t ProductionYear;
+	uint8_t ProductionWeek;
+} MachineData_s;
+
+void SaveSettings();
+void LoadSettings();
+
 void* GetSetting(const char* settingName);
 uint8_t SetSetting(const char* settingName, void* value);
 

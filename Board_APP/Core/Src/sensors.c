@@ -42,6 +42,7 @@ USAGE:
 #include "TM7705.h"
 #include "system.h"
 #include "serial.h"
+#include "settings.h"
 #include "Inc/DB_protocol.h"
 
 
@@ -244,7 +245,7 @@ float ADCToTemp(uint16_t adcValue) {
 	tCelsius = Z2 + (Z3 * Rt);
 	tCelsius = (sqrt(tCelsius) + Z1) / Z4;
 
-	tCelsius += settings.T1Offset;
+	tCelsius += (settings.T1Offset / 10);
 
 	return tCelsius;
 }

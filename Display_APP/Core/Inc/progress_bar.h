@@ -10,6 +10,7 @@
 
 #include "main.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 void ProgressBarWrite(uint16_t leds);
 void ProgressBarRefresh();
