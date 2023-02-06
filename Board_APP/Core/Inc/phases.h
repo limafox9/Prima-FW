@@ -65,5 +65,6 @@ uint8_t PhaseSteril(SterilParam_s* param);
 uint8_t PhaseDry(float firstVacPress, float otherVacPress, float releasePress, uint16_t time, uint16_t timeout);
 uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer);
 uint8_t PhaseWait(uint16_t time);
+void PhaseTestPID(SterilParam_s* param);
 
 #endif /* INC_PHASES_H_ */

@@ -69,8 +69,8 @@ void ClockRegisterSet();
 void SetupRegisterSet(TM7705_ADCMode mode);
 void waitDataReady();
 static void writeToCommsRegister(TM7705_RegisterSelection registerID, TM7705_ReadWrite readWrite, TM7705_Channel channel);
-static void setClockRegister(TM7705_ClockFrequency clockFrequency, const e_Boolean clockOutDisable);
-static void setSetupRegister(const TM7705_Channel channel, const TM7705_ADCMode adcMode, const TM7705_Gain gain, const TM7705_Polarity polarity, const e_Boolean buffered);
+static void setClockRegister(TM7705_ClockFrequency clockFrequency, const clockOutDisable);
+static void setSetupRegister(const TM7705_Channel channel, const TM7705_ADCMode adcMode, const TM7705_Gain gain, const TM7705_Polarity polarity, const buffered);
 static void Reset();
 static float calTemp(float Rt);
 

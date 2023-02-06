@@ -19,6 +19,8 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "cmsis_os.h"
+#include "fatfs.h"
+#include "usb_host.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -63,8 +65,6 @@ DMA_HandleTypeDef hdma_usart1_rx;
 DMA_HandleTypeDef hdma_usart2_rx;
 DMA_HandleTypeDef hdma_usart3_rx;
 
-HCD_HandleTypeDef hhcd_USB_OTG_FS;
-
 osThreadId taskAliveHandle;
 osSemaphoreId semaphorePowerHandle;
 /* USER CODE BEGIN PV */
@@ -85,7 +85,6 @@ static void MX_SPI1_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_TIM2_Init(void);
 static void MX_TIM3_Init(void);
-static void MX_USB_OTG_FS_HCD_Init(void);
 void StartTaskAlive(void const * argument);
 
 /* USER CODE BEGIN PFP */
@@ -136,7 +135,7 @@ int main(void)
   MX_USART2_UART_Init();
   MX_TIM2_Init();
   MX_TIM3_Init();
-  MX_USB_OTG_FS_HCD_Init();
+  MX_FATFS_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -620,36 +619,6 @@ static void MX_USART3_UART_Init(void)
 }
 
 /**
-  * @brief USB_OTG_FS Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_USB_OTG_FS_HCD_Init(void)
-{
-
-  /* USER CODE BEGIN USB_OTG_FS_Init 0 */
-
-  /* USER CODE END USB_OTG_FS_Init 0 */
-
-  /* USER CODE BEGIN USB_OTG_FS_Init 1 */
-
-  /* USER CODE END USB_OTG_FS_Init 1 */
-  hhcd_USB_OTG_FS.Instance = USB_OTG_FS;
-  hhcd_USB_OTG_FS.Init.Host_channels = 8;
-  hhcd_USB_OTG_FS.Init.speed = HCD_SPEED_FULL;
-  hhcd_USB_OTG_FS.Init.phy_itface = HCD_PHY_EMBEDDED;
-  hhcd_USB_OTG_FS.Init.Sof_enable = DISABLE;
-  if (HAL_HCD_Init(&hhcd_USB_OTG_FS) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN USB_OTG_FS_Init 2 */
-
-  /* USER CODE END USB_OTG_FS_Init 2 */
-
-}
-
-/**
   * Enable DMA controller clock
   */
 static void MX_DMA_Init(void)
@@ -699,7 +668,7 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOD, HEATER_RING_Pin|HEATER_STEAM_GEN_Pin|PUMP_WATER_LOAD_Pin|PUMP_VACUUM_Pin
-                          |PUMP_STEAM_GEN_Pin|BEEP_Pin|SPI1_CS_Pin, GPIO_PIN_RESET);
+                          |PUMP_STEAM_GEN_Pin|BEEP_Pin|V_BUS_Pin|SPI1_CS_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : SW_CSH_Pin SW_CSL_Pin SW_LSH_Pin SW_DOOR_Pin */
   GPIO_InitStruct.Pin = SW_CSH_Pin|SW_CSL_Pin|SW_LSH_Pin|SW_DOOR_Pin;
@@ -737,9 +706,9 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
   /*Configure GPIO pins : HEATER_RING_Pin HEATER_STEAM_GEN_Pin PUMP_WATER_LOAD_Pin PUMP_VACUUM_Pin
-                           PUMP_STEAM_GEN_Pin BEEP_Pin SPI1_CS_Pin */
+                           PUMP_STEAM_GEN_Pin BEEP_Pin V_BUS_Pin SPI1_CS_Pin */
   GPIO_InitStruct.Pin = HEATER_RING_Pin|HEATER_STEAM_GEN_Pin|PUMP_WATER_LOAD_Pin|PUMP_VACUUM_Pin
-                          |PUMP_STEAM_GEN_Pin|BEEP_Pin|SPI1_CS_Pin;
+                          |PUMP_STEAM_GEN_Pin|BEEP_Pin|V_BUS_Pin|SPI1_CS_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -772,6 +741,8 @@ static void MX_GPIO_Init(void)
 /* USER CODE END Header_StartTaskAlive */
 void StartTaskAlive(void const * argument)
 {
+  /* init code for USB_HOST */
+  MX_USB_HOST_Init();
   /* USER CODE BEGIN 5 */
   /* Infinite loop */
 

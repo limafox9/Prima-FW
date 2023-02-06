@@ -112,7 +112,7 @@ void SysInit() {
 	osThreadDef(sensorsTask, StartSensorsTask, osPriorityNormal, 1, 1024);
 	sensorsTaskHandle = osThreadCreate(osThread(sensorsTask), NULL);
 
-//	SerialInit(&UART_MONITOR, 115200);
+	SerialInit(&UART_MONITOR, 115200);
 	SerialInit(&UART_DISPLAY, 115200);
 
 	ClockInit(&hi2c1);
@@ -144,9 +144,24 @@ void SysInit() {
 //	int16_t cy = 334;
 //	EEPROM_Write(EPA_CYCLE_COUNTER, cy, 2);
 
-//	while (1) {
-//		osDelay(100);
-//	}
+	SterilParam_s testParam = {
+			.chamberTemp = 50,
+//			.chamberTempMin = 40,
+//			.chamberTempMax = 60,
+//			.sterilTime = 300,
+//			.pressMin = 310.0,
+//			.pressMax = 340.0,
+//			.steamTemp = 190.0,
+//			.steamTempMin = 170.0,
+//			.printInterval = 30,
+//			.timeout = 800
+	};
+
+	PhaseTestPID(&testParam);
+
+	while (1) {
+		osDelay(100);
+	}
 
 //	while (1) {
 //		HAL_UART_Transmit(&huart1, "12345678901234567890", 20, 100);

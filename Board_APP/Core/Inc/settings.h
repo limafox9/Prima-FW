@@ -48,6 +48,19 @@ USAGE:
 #define FW_VERSION_MINOR 3
 #define FW_VERSION_REVISION 15
 
+#define UART_MONITOR		huart1
+#define UART_TDS			huart2
+#define UART_DISPLAY		huart3
+#define UART_PRINTER		huart4
+#define UART_WIFI			//TBD
+
+#define SPI_ADC_T1T2		hspi1
+#define SPI_FLASH			hspi2
+
+#define I2C_EEPROM_CLOCK	hi2c1
+#define I2C_ATM_PRESSURE 	//TBD
+
+
 #define EPA_MACHINE_PROD_YEAR			0x0E	// 1 byte 0-199 after 2000
 #define EPA_MACHINE_PROD_MONTH			0x0F	// 1 byte 0-52 week of the year
 #define EPA_MACHINE_SERIAL_NUMBER	 	0x10	// 12 bytes

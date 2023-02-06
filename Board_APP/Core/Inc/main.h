@@ -119,6 +119,8 @@ void Error_Handler(void);
 #define KEY_S3_GPIO_Port GPIOC
 #define FAN_Pin GPIO_PIN_8
 #define FAN_GPIO_Port GPIOA
+#define V_BUS_Pin GPIO_PIN_3
+#define V_BUS_GPIO_Port GPIOD
 #define SPI1_CS_Pin GPIO_PIN_7
 #define SPI1_CS_GPIO_Port GPIOD
 #define SPI1_DATA_READY_Pin GPIO_PIN_8

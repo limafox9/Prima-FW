@@ -43,6 +43,7 @@ USAGE:
 #include "printer.h"
 #include "Inc/DB_Protocol.h"
 #include <stdio.h>
+#include <math.h>
 
 uint8_t chamberHeaterTempSet;
 uint8_t steamGeneratorTempSet;
@@ -306,7 +307,7 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 	ResetTimer(TIMER_1);
 
 	while (1) {
-		float ret = PIDController_Update(&pidSteam, param->steamTemp, Sensors.TemperatureSteamGenerator);
+		float ret = PIDController_Update(&pidSteam, param->chamberTemp, Sensors.T1);
 		if ((Sensors.T1 < param->chamberTemp) && (Sensors.TemperatureSteamGenerator >= param->steamTempMin)) {
 			SteamPulse(50);
 			osDelay(ret);
@@ -339,7 +340,7 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 		pMax = Sensors.PressureChamber;
 
 		while (1) {
-			float ret = PIDController_Update(&pidSteam, param->steamTemp, Sensors.TemperatureSteamGenerator);
+			float ret = PIDController_Update(&pidSteam, param->chamberTemp, Sensors.T1);
 			if (Sensors.T1 <= param->chamberTemp) {
 				if (Sensors.TemperatureSteamGenerator >= param->steamTempMin) {
 					SteamPulse(20);
@@ -593,4 +594,28 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 	return 1;
 }
 
+void PhaseTestPID(SterilParam_s* param) {
+	static const float pPID_KP = 500.0;
+	static const float pPID_KI = 2000.0;
+	static const float pPID_KD = 10.0;
+	static const float pPID_TAU = 1.0;
+	static const float pPID_LIM_MIN = 2000;
+	static const float pPID_LIM_MAX = 8000;
+	static const float pPID_LIM_MIN_INT = -1000;
+	static const float pPID_LIM_MAX_INT = 1000;
+	static const float pSAMPLE_TIME_S = 0.5;
+
+	PIDController pidSteam = {pPID_KP, pPID_KI, pPID_KD, pPID_TAU, pPID_LIM_MIN, pPID_LIM_MAX, pPID_LIM_MIN_INT, pPID_LIM_MAX_INT, pSAMPLE_TIME_S};
+	PIDController_Init(&pidSteam);
+
+	while (1) {
+		float ret = PIDController_Update(&pidSteam, param->chamberTemp, Sensors.T1);
+//		if ((Sensors.T1 < param->chamberTemp) && (Sensors.TemperatureSteamGenerator >= param->steamTempMin)) {
+//			SteamPulse(50);
+//			osDelay(ret);
+//		}
+		printf("%d\n", (int)ret);
+		osDelay(300);
+	}
+}
 

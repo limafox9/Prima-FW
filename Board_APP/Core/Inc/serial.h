@@ -41,7 +41,7 @@ USAGE:
 #include <stdio.h>
 #include "main.h"
 
-#define UART_MONITOR 	huart1
+//#define UART_MONITOR 	huart1
 #define UART_TDS		huart2
 #define UART_DISPLAY 	huart3
 #define UART_DISPLAY_BUFFER_SIZE 64		// default 30 (bytes)

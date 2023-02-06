@@ -52,10 +52,10 @@ typedef enum {
 	NORMAL = 2
 } e_Level;
 
-typedef enum {
-	FALSE = 0,
-	TRUE = 1
-} e_Boolean;
+//typedef enum {
+//	FALSE = 0,
+//	TRUE = 1
+//} e_Boolean;
 
 typedef enum {
 	OFF = 0,

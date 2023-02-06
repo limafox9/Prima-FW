@@ -49,7 +49,7 @@ USAGE:
 #define FS	0x1C
 #define GS  0x1D
 
-extern UART_HandleTypeDef huart4;
+extern UART_HandleTypeDef UART_PRINTER;
 extern Settings_s settings;
 extern MachineData_s machine;
 
@@ -109,8 +109,7 @@ void Print(const char* format, ...) {
 		  //printf(buf);
 		  va_end(args);
 
-		  printf("%s\n",buf);
-		  HAL_UART_Transmit(&huart4, buf, strlen(buf), 1000);
+		  HAL_UART_Transmit(&UART_PRINTER, buf, strlen(buf), 1000);
 //		  HAL_UART_Transmit(&huart1, "\n", 1, 100);
 
 }
@@ -125,7 +124,7 @@ void PrintLogo() {
 		cmd[i + 4] = logo[i];
 	}
 //	Print("%c%c%c", 0x1b, 'W', 4);
-	HAL_UART_Transmit(&huart4, cmd, sizeof(cmd), 1000);
+	HAL_UART_Transmit(&UART_PRINTER, cmd, sizeof(cmd), 1000);
 //	Print("%c%c%c", 0x1b, 'W', 1);
 //	Print("%s", cmd);
 //	Print("\n");
@@ -143,7 +142,9 @@ void PrintHeader (const char* title, float t1, RTCDateTime_s* time) {
 	PrintSize(1, 1);
 	Print("\n");
 	Print("S/N:     %s\n", machine.Serial);
-	Print("SW ver.: %d.%01d.%02d\n", FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION);
+	Print("UID:     %08X %08X %08X\n", machine.MCUID[0], machine.MCUID[1], machine.MCUID[2]);
+	Print("SW: 		v. %d.%01d.%02d\n", FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION);
+	Print("\n");
 	Print("DATE:    %d-%02d-%02d (YYYY-MM-DD)\n", time->Year, time->Month, time->Day);
 	Print("CYCLE N. %d\n", settings.Cycles);
 	Print("\n");
@@ -152,7 +153,7 @@ void PrintHeader (const char* title, float t1, RTCDateTime_s* time) {
 	Print("\n");
 	Print("------------------------------------------\n");
 	Print("STEP    T1     T2   PRESS   TIME\n");
-	Print("        øC     øC    kPa   mm:ss\n");
+	Print("        'C     'C    kPa   mm:ss\n");
 	Print("------------------------------------------\n");
 	Print("START %5.1f             %02d:%02d:%02d\n", t1, time->Hour, time->Minute, time->Second);
 }
