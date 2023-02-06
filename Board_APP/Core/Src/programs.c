@@ -608,3 +608,71 @@ uint8_t ProgramVacuumTest() {
 	progStop = 0;
 
 }
+
+uint8_t ProgramTestSteril() {
+
+	uint8_t success = 1;
+	RTCDateTime_s clockTime;
+	RTCTimerTime_s tCycle, tPhase;
+
+	progRunning = 1;
+	progStop = 0;
+
+	FanSet(ON);
+	SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
+
+	GetDateTime(&clockTime);
+	PrintHeader("TEST STERIL", Sensors.T1, &clockTime);
+
+	// Heat up
+	if (success) {
+		success = PhaseHeatUp(130.0, 200.0, 50.0, OT_HEAT);
+	}
+
+	ResetTimer(TIMER_CYCLE);
+
+	// Sterilization
+	if (success) {
+		PhasePreheat(130, 200);
+		success = PhaseVacuum(1, 18.0, OT_VACUUM);
+	}
+	if (success) {
+		PhasePreheat(130, 220);
+		success = PhasePressure(3, 290.0, 200.0, 180.0, OT_PRESSURE);
+	}
+	if (success) {
+		PhasePreheat(130, 200);
+		SterilParam_s sterilParam = {
+				.chamberTemp = 135.2,
+				.chamberTempMin = 134.0,
+				.chamberTempMax = 136.0,
+				.sterilTime = 300,
+				.pressMin = 310.0,
+				.pressMax = 340.0,
+				.steamTemp = 200.0,
+				.steamTempMin = 170.0,
+				.printInterval = 30,
+				.timeout = 800
+		};
+		success = PhaseSteril(&sterilParam);
+	}
+	if (success) {
+		PhasePreheat(130, 200);
+		success = PhaseRelease(3, 110.0, OT_RELEASE);
+	}
+
+//	// Dry
+//	if (success) {
+//		PhasePreheat(60, 90);
+//		success = PhaseDry(20.0, 50.0, 90.0, 540, 800);
+//	}
+
+	// End
+//	GetTimer(TIMER_CYCLE, &tCycle);
+//	GetDateTime(&clockTime);
+//	PhaseFinish(success, &clockTime, &tCycle);
+
+	progRunning = 0;
+	progStop = 0;
+
+}

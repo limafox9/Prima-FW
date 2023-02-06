@@ -90,7 +90,7 @@ static float ADCToCurrent(uint16_t adcValue);
 
 s_Sensors Sensors;
 
-#define PRESS_BUFFER_SIZE 10 // >= 2
+#define PRESS_BUFFER_SIZE 5 // >= 2
 float pressBuf[PRESS_BUFFER_SIZE];
 float pressAvg;
 

@@ -221,15 +221,37 @@ uint8_t PhaseVacuum(uint8_t nVacuum, float press, uint16_t timeout) {
 }
 
 uint8_t PhasePressure(uint8_t nPressure, float press, float steamTemp, float steamTempMin, uint16_t timeout) {
-	static const float pPID_KP = 500.0;
-	static const float pPID_KI = 2000.0;
-	static const float pPID_KD = 10.0;
+//	static const float pPID_KP = 500.0;
+//	static const float pPID_KI = 2000.0;
+//	static const float pPID_KD = 10.0;
+//	static const float pPID_TAU = 1.0;
+//	static const float pPID_LIM_MIN = 3000;
+//	static const float pPID_LIM_MAX = 8000;
+//	static const float pPID_LIM_MIN_INT = -1000;
+//	static const float pPID_LIM_MAX_INT = 1000;
+//	static const float pSAMPLE_TIME_S = 0.5;
+
+//	static const float pPID_KP = 0.4;
+//	static const float pPID_KI = 0.3;
+//	static const float pPID_KD = 0.4;
+//	static const float pPID_TAU = 0.1;
+//	static const float pPID_LIM_MIN = 0.87;
+//	static const float pPID_LIM_MAX = 2.0;
+//	static const float pPID_LIM_MIN_INT = -1;
+//	static const float pPID_LIM_MAX_INT = 1;
+//	static const float pSAMPLE_TIME_S = 0.25;
+
+	static const float pPID_KP = 1.0;
+	static const float pPID_KI = 1.8;
+	static const float pPID_KD = 1.0;
 	static const float pPID_TAU = 1.0;
-	static const float pPID_LIM_MIN = 3000;
-	static const float pPID_LIM_MAX = 8000;
-	static const float pPID_LIM_MIN_INT = -1000;
-	static const float pPID_LIM_MAX_INT = 1000;
-	static const float pSAMPLE_TIME_S = 0.5;
+	static const float pPID_LIM_MIN = 0.8;
+	static const float pPID_LIM_MAX = 2.0;
+	static const float pPID_LIM_MIN_INT = -1.5;
+	static const float pPID_LIM_MAX_INT = 1.5;
+	static const float pSAMPLE_TIME_S = 0.1;
+
+
 
 	uint8_t retVal = 0;
 	RTCTimerTime_s tTimeout, tPhase;
@@ -243,13 +265,14 @@ uint8_t PhasePressure(uint8_t nPressure, float press, float steamTemp, float ste
 	PIDController pidSteam = {pPID_KP, pPID_KI, pPID_KD, pPID_TAU, pPID_LIM_MIN, pPID_LIM_MAX, pPID_LIM_MIN_INT, pPID_LIM_MAX_INT, pSAMPLE_TIME_S};
 
 	ValveDrainSteamSet(ON);
-	osDelay(100);
+	osDelay(120);
 	while (1) {
 		float ret = PIDController_Update(&pidSteam, steamTemp, Sensors.TemperatureSteamGenerator);
+		ret = ret*4000;
 //		float ret = PIDController_Update(&pidSteam, steamTemp, 31.0);
 
 		if (Sensors.TemperatureSteamGenerator >= steamTempMin) {
-			SteamPulse(150);
+			SteamPulse(100);
 			osDelay(ret);
 //			Beep(1,100,100);
 		}
@@ -278,15 +301,15 @@ uint8_t PhasePressure(uint8_t nPressure, float press, float steamTemp, float ste
 }
 
 uint8_t PhaseSteril(SterilParam_s* param) {
-	static const float pPID_KP = 500.0;
-	static const float pPID_KI = 2000.0;
-	static const float pPID_KD = 10.0;
+	static const float pPID_KP = 0.5;
+	static const float pPID_KI = 0.8;
+	static const float pPID_KD = 0.2;
 	static const float pPID_TAU = 1.0;
-	static const float pPID_LIM_MIN = 2000;
-	static const float pPID_LIM_MAX = 8000;
-	static const float pPID_LIM_MIN_INT = -1000;
-	static const float pPID_LIM_MAX_INT = 1000;
-	static const float pSAMPLE_TIME_S = 0.5;
+	static const float pPID_LIM_MIN = 0.5;
+	static const float pPID_LIM_MAX = 2.0;
+	static const float pPID_LIM_MIN_INT = -0.5;
+	static const float pPID_LIM_MAX_INT = 1.0;
+	static const float pSAMPLE_TIME_S = 1.0;
 
 	uint8_t retVal = 0;
 
@@ -299,7 +322,7 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 	SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_STERILMAINTAIN, 0, 0, "");
 	Print("STER  --------------------------\n");
 
-	PIDController pidSteam = {pPID_KP, pPID_KI, pPID_KD, pPID_TAU, pPID_LIM_MIN, pPID_LIM_MAX, pPID_LIM_MIN_INT, pPID_LIM_MAX_INT, pSAMPLE_TIME_S};
+	PIDController pidSteril = {pPID_KP, pPID_KI, pPID_KD, pPID_TAU, pPID_LIM_MIN, pPID_LIM_MAX, pPID_LIM_MIN_INT, pPID_LIM_MAX_INT, pSAMPLE_TIME_S};
 
 	ValveDrainSteamSet(ON);
 	osDelay(100);
@@ -307,14 +330,28 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 	ResetTimer(TIMER_1);
 
 	while (1) {
-		float ret = PIDController_Update(&pidSteam, param->chamberTemp, Sensors.T1);
-		if ((Sensors.T1 < param->chamberTemp) && (Sensors.TemperatureSteamGenerator >= param->steamTempMin)) {
+		float ret = PIDController_Update(&pidSteril, param->chamberTemp, Sensors.T1);
+		ret = (1/ret)*4000;
+//		if ((Sensors.T1 < param->chamberTemp) && (Sensors.TemperatureSteamGenerator >= param->steamTempMin)) {
+		if (Sensors.TemperatureSteamGenerator >= param->steamTempMin) {
 			SteamPulse(50);
 			osDelay(ret);
 		}
 		GetTimer(TIMER_TIMEOUT, &tTimeout);
 		if (Sensors.T1 >= param->chamberTemp) {
-			if ((Sensors.PressureChamber >= param->pressMin) && (Sensors.PressureChamber <= param->pressMax)) {
+			if (Sensors.PressureChamber < param->pressMin) {
+				Print("STER ERROR *** T1 UNDER PRESSURE\n");
+				GetTimer(TIMER_PHASE, &tPhase);
+				PrintStepLine("----  ", Sensors.T1, Sensors.T2, Sensors.PressureChamber, &tPhase);
+				retVal = 0;
+				break;
+			} else if (Sensors.PressureChamber > param->pressMax){
+				Print("STER ERROR *** T1 OVER PRESSURE\n");
+				GetTimer(TIMER_PHASE, &tPhase);
+				PrintStepLine("----  ", Sensors.T1, Sensors.T2, Sensors.PressureChamber, &tPhase);
+				retVal = 0;
+				break;
+			} else {
 				retVal = 1;
 				break;
 			}
@@ -340,7 +377,8 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 		pMax = Sensors.PressureChamber;
 
 		while (1) {
-			float ret = PIDController_Update(&pidSteam, param->chamberTemp, Sensors.T1);
+			float ret = PIDController_Update(&pidSteril, param->chamberTemp, Sensors.T1);
+			ret = (1/ret)*4000;
 			if (Sensors.T1 <= param->chamberTemp) {
 				if (Sensors.TemperatureSteamGenerator >= param->steamTempMin) {
 					SteamPulse(20);
@@ -560,7 +598,7 @@ uint8_t PhaseWait(uint16_t time) {
 
 uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer) {
 	ValveDrainSteamSet(ON);
-	ValveDryIntakeSet(ON);
+
 	ValveVacuumSet(OFF);
 	ValveWaterSteamSet(OFF);
 
@@ -570,6 +608,10 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 
 	HeaterChamberTempSet(60);
 	HeaterSteamGeneratorTempSet(90);
+
+	if (success) {
+		ValveDryIntakeSet(ON);
+	}
 
 	while (1) {
 		if ((Sensors.PressureChamber >= 90) && (Sensors.PressureChamber <= 110)) {
@@ -595,15 +637,15 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 }
 
 void PhaseTestPID(SterilParam_s* param) {
-	static const float pPID_KP = 500.0;
-	static const float pPID_KI = 2000.0;
-	static const float pPID_KD = 10.0;
+	static const float pPID_KP = 0.5;
+	static const float pPID_KI = 0.8;
+	static const float pPID_KD = 0.2;
 	static const float pPID_TAU = 1.0;
-	static const float pPID_LIM_MIN = 2000;
-	static const float pPID_LIM_MAX = 8000;
-	static const float pPID_LIM_MIN_INT = -1000;
-	static const float pPID_LIM_MAX_INT = 1000;
-	static const float pSAMPLE_TIME_S = 0.5;
+	static const float pPID_LIM_MIN = 0.5;
+	static const float pPID_LIM_MAX = 2.0;
+	static const float pPID_LIM_MIN_INT = -0.5;
+	static const float pPID_LIM_MAX_INT = 1.0;
+	static const float pSAMPLE_TIME_S = 1.0;
 
 	PIDController pidSteam = {pPID_KP, pPID_KI, pPID_KD, pPID_TAU, pPID_LIM_MIN, pPID_LIM_MAX, pPID_LIM_MIN_INT, pPID_LIM_MAX_INT, pSAMPLE_TIME_S};
 	PIDController_Init(&pidSteam);
@@ -614,7 +656,7 @@ void PhaseTestPID(SterilParam_s* param) {
 //			SteamPulse(50);
 //			osDelay(ret);
 //		}
-		printf("%d\n", (int)ret);
+		printf("%f\n", (1/ret)*4000);
 		osDelay(300);
 	}
 }

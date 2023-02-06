@@ -144,24 +144,17 @@ void SysInit() {
 //	int16_t cy = 334;
 //	EEPROM_Write(EPA_CYCLE_COUNTER, cy, 2);
 
-	SterilParam_s testParam = {
-			.chamberTemp = 50,
-//			.chamberTempMin = 40,
-//			.chamberTempMax = 60,
-//			.sterilTime = 300,
-//			.pressMin = 310.0,
-//			.pressMax = 340.0,
-//			.steamTemp = 190.0,
-//			.steamTempMin = 170.0,
-//			.printInterval = 30,
-//			.timeout = 800
-	};
+//	SterilParam_s testParam = {
+//			.chamberTemp = 50
+//	};
+//
+//	PhaseTestPID(&testParam);
+//
+//	while (1) {
+//		osDelay(100);
+//	}
 
-	PhaseTestPID(&testParam);
-
-	while (1) {
-		osDelay(100);
-	}
+//	ProgramTestSteril();
 
 //	while (1) {
 //		HAL_UART_Transmit(&huart1, "12345678901234567890", 20, 100);
