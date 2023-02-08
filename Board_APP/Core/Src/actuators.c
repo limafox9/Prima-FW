@@ -25,11 +25,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-Visit www.favenzi.it
-      luca@favenzi.it
+Visit www.favenzi.it - luca@favenzi.it
 
 ================================================================================
-PURPOSE: Modbus CRC16 calculation
+PURPOSE:
 USAGE:
 ==============================================================================*/
 
@@ -102,7 +101,6 @@ void PWMPower_Init() {
 
 	osThreadDef(stPowerTask, StartSteamPowerTask, osPriorityNormal, 1, 128);
 	steamPowerTaskHandle = osThreadCreate(osThread(stPowerTask), NULL);
-
 }
 
 void PWMPower_Start() {

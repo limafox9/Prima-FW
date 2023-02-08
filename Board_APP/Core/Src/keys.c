@@ -66,7 +66,6 @@ void StartKeysTask() {
 				}
 				osDelay(20);
 			}
-//			Beep(1, 100, 100);
 			KeysReceived(pressKeys);
 		}
 		osDelay(20);
@@ -87,13 +86,11 @@ static uint8_t GetPressedKeys() {
 static void KeysReceived(uint8_t keysCode) {
 
 	if (keysCode == KEY_S1) {
-		SetProgram();
+		// Button code here
 	} else if (keysCode == KEY_S2) {
 		// Button code here
-		SetTest();
 	} else if (keysCode == KEY_S3) {
 		// Button code here
-		StartProgram();
 	} else if (keysCode == KEY_S1 + KEY_LONG_PRESS) {
 		// Button code here
 	} else if (keysCode == KEY_S2 + KEY_LONG_PRESS) {

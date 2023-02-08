@@ -100,7 +100,8 @@ void StartProgram() {
 				ProgramGentle();
 				break;
 			case 5:
-				__NOP();
+				ProgramTestSteril();
+//				__NOP();
 				break;
 			}
 		} else {
@@ -623,7 +624,7 @@ uint8_t ProgramTestSteril() {
 	SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
 
 	GetDateTime(&clockTime);
-	PrintHeader("TEST STERIL", Sensors.T1, &clockTime);
+	PrintHeader("QUICK CYCLE", Sensors.T1, &clockTime);
 
 	// Heat up
 	if (success) {
@@ -644,10 +645,10 @@ uint8_t ProgramTestSteril() {
 	if (success) {
 		PhasePreheat(130, 190);
 		SterilParam_s sterilParam = {
-				.chamberTemp = 135.0,
+				.chamberTemp = 135.2,
 				.chamberTempMin = 134.0,
 				.chamberTempMax = 136.0,
-				.sterilTime = 120,
+				.sterilTime = 210,
 				.pressMin = 310.0,
 				.pressMax = 340.0,
 				.steamTemp = 190.0,
@@ -665,7 +666,7 @@ uint8_t ProgramTestSteril() {
 	// Dry
 	if (success) {
 		PhasePreheat(60, 90);
-		success = PhaseDry(20.0, 50.0, 90.0, 540, 800);
+		success = PhaseDry(20.0, 50.0, 90.0, 30, 800);
 	}
 
 	// End

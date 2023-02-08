@@ -6,7 +6,6 @@
 "./Core/Src/actuators.o"
 "./Core/Src/buzzer.o"
 "./Core/Src/crc16.o"
-"./Core/Src/devices.o"
 "./Core/Src/freertos.o"
 "./Core/Src/globals.o"
 "./Core/Src/i2c.o"

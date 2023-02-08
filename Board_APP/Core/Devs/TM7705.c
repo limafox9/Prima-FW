@@ -72,7 +72,7 @@ static void writeToCommsRegister(TM7705_RegisterSelection registerID, TM7705_Rea
 static void setClockRegister(TM7705_ClockFrequency clockFrequency, const clockOutDisable);
 static void setSetupRegister(const TM7705_Channel channel, const TM7705_ADCMode adcMode, const TM7705_Gain gain, const TM7705_Polarity polarity, const buffered);
 static void Reset();
-static float calTemp(float Rt);
+static float calTemp(float Rt, float offset);
 
 
 uint8_t GetCommRegister(TM7705_RegisterSelection regSelect, TM7705_ReadWrite rw, TM7705_Channel ch) {
@@ -225,10 +225,10 @@ uint16_t TM7705_GetValue(TM7705_Channel channel) {
 
 float TM7705_GetTemp(TM7705_Channel channel, float offset) {
 	uint16_t refRes = 2000; // ref resistor for voltage divider
-	return calTemp(((double)TM7705_GetValue(channel)) * (double)refRes / 65535.0) + offset;
+	return calTemp((float)TM7705_GetValue(channel) * (float)refRes / 65535.0, offset);
 }
 
-static float calTemp(float Rt) {
+static float calTemp(float Rt, float offset) {
 	float Z1, Z2, Z3, Z4, temp;
 
 	Z1 = -RTD_A;
@@ -238,6 +238,8 @@ static float calTemp(float Rt) {
 
 	temp = Z2 + (Z3 * Rt);
 	temp = (sqrt(temp) + Z1) / Z4;
+
+	temp += offset;
 
 	return temp;
 }

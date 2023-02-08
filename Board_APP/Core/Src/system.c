@@ -75,7 +75,6 @@ extern SPI_HandleTypeDef hspi1;
 extern s_Sensors Sensors;
 extern Settings_s settings;
 
-
 //uint8_t UART_rxBuffer[UART_DISPLAY_BUFFER_SIZE] = {0};
 
 RTCDateTime_s dt;
