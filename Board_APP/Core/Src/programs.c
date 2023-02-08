@@ -66,9 +66,6 @@ void SetProgram() {
 		if (currProgType == 1) currProgram++;
 		currProgType = 1;
 		if (currProgram > PROGRAMS_N) currProgram = 1;
-		char s[8];
-		sprintf(s,"Pr. %d", currProgram);
-		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, s);
 	}
 }
 

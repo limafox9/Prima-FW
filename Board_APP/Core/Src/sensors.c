@@ -78,6 +78,8 @@ extern ADC_HandleTypeDef hadc1;
 extern SPI_HandleTypeDef hspi1;
 extern Settings_s settings;
 
+extern uint8_t currProgram;
+
 const float Z1 = -RTD_A;
 const float Z2 = RTD_A * RTD_A - (4 * RTD_B);
 const float Z3 = (4 * RTD_B) / 1000;
@@ -193,12 +195,15 @@ void StartSensorsTask() {
 //		SendCommand(COMMAND_WRITE_DIGITS_ROW_1, 0, 0, 0, d);
 
 		char s[8];
-		sprintf(s,"%5.1f", Sensors.PressureChamber);
-		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 2, 0, 0, s);
-		osDelay(20);
 		sprintf(s,"%5.1f", Sensors.T1);
 		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, s);
 		osDelay(20);
+		sprintf(s,"%5.1f", Sensors.PressureChamber);
+		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 2, 0, 0, s);
+		osDelay(20);
+		sprintf(s,"Pr. %d", currProgram);
+		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, s);
+
 //		sprintf(s,"%5.1f", Sensors.TemperatureSteamGenerator);
 //		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, s);
 

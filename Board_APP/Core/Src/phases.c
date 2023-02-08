@@ -612,8 +612,8 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 		ValveDryIntakeSet(ON);
 		ValveDrainSteamSet(ON);
 	} else {
-		ValveDryIntakeSet(ON);
-		ValveDrainSteamSet(ON);
+		ValveDryIntakeSet(OFF);
+		ValveDrainSteamSet(OFF);
 	}
 
 	while (1) {

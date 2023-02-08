@@ -42,6 +42,8 @@ USAGE:
 #define DISPLAY_DIGIT_COLUMNS			4
 #define DISPLAY_DIGIT_ROW_BUFFER_SIZE 	8
 
+#define UART_DISPLAY_BUFFER_SIZE 29
+
 void DisplayUARTInit();
 void SerialTask();
 void SendCommand(uint16_t command, uint32_t param1, uint32_t param2, uint32_t param3, char* digits);

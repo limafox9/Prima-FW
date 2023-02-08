@@ -52,12 +52,12 @@ extern DMA_HandleTypeDef hdma_usart3_rx;
 extern uint8_t currProgram;
 extern uint8_t currTest;
 
-volatile uint8_t UART_rxBuffer[DISPLAY_UART_BUFFER_SIZE] = {[0 ... DISPLAY_UART_BUFFER_SIZE - 1] = 0};
+uint8_t UART_rxBuffer1[UART_DISPLAY_RX_BUFFER_SIZE];
 
 
 #define MainBuf_SIZE 128
-uint8_t rxBuf[32];
-uint8_t rxMain[MainBuf_SIZE];
+uint8_t rxBuf[UART_DISPLAY_RX_BUFFER_SIZE];
+uint8_t rxMain[UART_DISPLAY_RX_BUFFER_SIZE];
 
 static void ParseCommand(s_DisplayProtocolData* data);
 extern void DBInit(UART_HandleTypeDef* huart, GPIO_TypeDef* rs485_CS_GPIOPort, uint16_t rs485_CS_GPIOPin);
@@ -66,7 +66,7 @@ extern void DBSend(uint16_t command, uint32_t param1, uint32_t param2, uint32_t 
 
 void SerialInit(UART_HandleTypeDef* huart, uint32_t baudRate) {
 
-	HAL_UART_Receive_DMA(huart, UART_rxBuffer, DISPLAY_UART_BUFFER_SIZE);
+	HAL_UART_Receive_DMA(huart, UART_rxBuffer1, UART_DISPLAY_RX_BUFFER_SIZE);
 //	HAL_UARTEx_ReceiveToIdle_DMA(huart, UART_rxBuffer, DISPLAY_UART_BUFFER_SIZE);
 //	__HAL_DMA_DISABLE_IT(&hdma_usart3_rx, DMA_IT_HT);
 }
@@ -79,9 +79,10 @@ void SerialInit(UART_HandleTypeDef* huart, uint32_t baudRate) {
 // TRANSMIT
 // ==============================================================
 
-void SerialSend(UART_HandleTypeDef* huart, uint8_t* data, uint32_t size) {
-	HAL_UART_Transmit(huart, data, size, DISPLAY_UART_BUFFER_SIZE);
-}
+//void SerialSend(UART_HandleTypeDef* huart, uint8_t* data, uint32_t size) {
+//	HAL_UART_Transmit(huart, data, size, DISPLAY_UART_BUFFER_SIZE);
+////	HAL_UART_Transmit_DMA(huart, data, size);
+//}
 
 void SendCommand(uint16_t command, uint32_t param1, uint32_t param2, uint32_t param3, char* digits) {
 
@@ -90,15 +91,16 @@ void SendCommand(uint16_t command, uint32_t param1, uint32_t param2, uint32_t pa
 //	char buf[8] = {[0 ... 7] = 0};
 	memcpy(&txData.Digits, digits, strlen(digits) + 1);
 
-	uint8_t txBuffer[DISPLAY_UART_BUFFER_SIZE];
+	uint8_t txBuffer[UART_DISPLAY_TX_BUFFER_SIZE];
 	Display_DataToProtocol(&txData, txBuffer);
 
 	// Chip 485 ENABLE
 	HAL_GPIO_WritePin(USART3_CTS_GPIO_Port, USART3_CTS_Pin, GPIO_PIN_SET);
-	osDelay(20);
+	HAL_Delay(1);
 	// Send data
-	HAL_UART_Transmit(&UART_DISPLAY, txBuffer, DISPLAY_UART_BUFFER_SIZE, DISPLAY_UART_TX_TIMEOUT);
-	osDelay(20);
+	HAL_UART_Transmit(&UART_DISPLAY, txBuffer, UART_DISPLAY_TX_BUFFER_SIZE, DISPLAY_UART_TX_TIMEOUT);
+//	HAL_UART_Transmit_DMA(&UART_DISPLAY, txBuffer, DISPLAY_UART_BUFFER_SIZE);
+	HAL_Delay(1);
 	// Chip 485 DISABLE
 	HAL_GPIO_WritePin(USART3_CTS_GPIO_Port, USART3_CTS_Pin, GPIO_PIN_RESET);
 }
@@ -119,36 +121,72 @@ void SendCommand(uint16_t command, uint32_t param1, uint32_t param2, uint32_t pa
 // ==============================================================
 
 void HAL_UART_RxHalfCpltCallback(UART_HandleTypeDef* huart) {
-//	if (huart->Instance == UART_DISPLAY.Instance) {
-//		memcpy (rxMain, UART_rxBuffer, DISPLAY_UART_BUFFER_SIZE);
-//	}
-}
-
-void SetBuffer() {
-	for (int i = 0; i < DISPLAY_UART_BUFFER_SIZE; i++) {
-		if ((UART_rxBuffer[i] == '<') && (UART_rxBuffer[i + 1] == '~')) {
-			memcpy (rxMain, &UART_rxBuffer[i], DISPLAY_UART_BUFFER_SIZE - i);
-			memcpy (rxMain, &UART_rxBuffer[0], i);
-			break;
-		}
+	if (huart->Instance == UART_DISPLAY.Instance) {
+//		memcpy (rxMain, UART_rxBuffer, UART_DISPLAY_RX_BUFFER_SIZE);
 	}
 }
 
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef* huart) {
-
-//	s_DisplayProtocolData rxData;
-//	if (huart->Instance == UART_DISPLAY.Instance) {
-////		memcpy ((uint8_t *)rxMain, UART_rxBuffer, Size);
-////		SetBuffer();
-//		Display_ProtocolToData(UART_rxBuffer, &rxData);
-//		if (rxData.Valid) {
-//			ParseCommand(&rxData); // valid received command > parse
+//void SetBuffer() {
+//	for (int i = 0; i < DISPLAY_UART_BUFFER_SIZE; i++) {
+//		if ((UART_rxBuffer[i] == '<') && (UART_rxBuffer[i + 1] == '~')) {
+//			memcpy (rxMain, &UART_rxBuffer[i], DISPLAY_UART_BUFFER_SIZE - i);
+//			memcpy (rxMain, &UART_rxBuffer[0], i);
+//			break;
 //		}
 //	}
-//	HAL_UART_Receive_DMA(huart, UART_rxBuffer, DISPLAY_UART_BUFFER_SIZE);
+//}
+
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef* huart) {
+//	void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef* huart, uint16_t Size) {
+	s_DisplayProtocolData rxData;
+	if (huart->Instance == UART_DISPLAY.Instance) {
+		OrderBuffer();
+//		SetBuffer();
+		Display_ProtocolToData(rxBuf, &rxData);
+		if (rxData.Valid) {
+			ParseCommand(&rxData); // valid received command > parse
+		}
+		HAL_UART_Receive_DMA(huart, UART_rxBuffer1, UART_DISPLAY_RX_BUFFER_SIZE);
+//		HAL_UARTEx_ReceiveToIdle_DMA(huart, UART_rxBuffer, DISPLAY_UART_BUFFER_SIZE);
+//		__HAL_DMA_DISABLE_IT(&hdma_usart3_rx, DMA_IT_HT);
+	}
+
 }
 
-void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef* huart, uint16_t Size) {
+void OrderBuffer() {
+
+	uint8_t pos;
+	uint8_t temp[UART_DISPLAY_RX_BUFFER_SIZE];
+
+//	memcpy(temp, buffer, UART_DISPLAY_RX_BUFFER_SIZE);
+
+	for (int i = 0; i < UART_DISPLAY_RX_BUFFER_SIZE; i++) {
+		if ((UART_rxBuffer1[i] == '<') && (UART_rxBuffer1[i+1] == '~')) {
+			memcpy(&rxBuf[0], &UART_rxBuffer1[0] + i, UART_DISPLAY_RX_BUFFER_SIZE - i);
+			memcpy(&rxBuf[UART_DISPLAY_RX_BUFFER_SIZE - i], &UART_rxBuffer1[0], i);
+			break;
+		}
+	}
+
+}
+
+void StartSerialTask() {
+
+//	for (;;) {
+//			HAL_UART_Receive(&UART_DISPLAY, UART_rxBuffer, 29, 50);
+//				s_DisplayProtocolData rxData;
+//				Display_ProtocolToData(UART_rxBuffer, &rxData);
+//						if (rxData.Valid) {
+//							ParseCommand(&rxData); // valid received command > parse
+//						}
+//						memset(UART_rxBuffer,0,29);
+//						osDelay(50);
+//	}
+
+
+}
+//void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef* huart, uint16_t Size) {
 //	s_DisplayProtocolData rxData;
 //	static uint16_t oldPos, newPos;
 //
@@ -199,7 +237,7 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef* huart, uint16_t Size) {
 ////	HAL_UART_Receive_DMA(huart, UART_rxBuffer, DISPLAY_UART_BUFFER_SIZE);
 //	HAL_UARTEx_ReceiveToIdle_DMA(huart, UART_rxBuffer, DISPLAY_UART_BUFFER_SIZE);
 //	__HAL_DMA_DISABLE_IT(&hdma_usart3_rx, DMA_IT_HT);
-}
+//}
 
 // COMMANDS
 // ==============================================================
@@ -211,14 +249,13 @@ static void ParseCommand(s_DisplayProtocolData* data) {
 			Beep(data->Param1, data->Param2, data->Param3);
 			break;
 		case DISPLAY_CMD_FW_VER:
-			SendCommand(DISPLAY_CMD_OK, FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION, "");
+//			SendCommand(DISPLAY_CMD_OK, FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION, "");
 			break;
 		case DISPLAY_CMD_READY:
-			SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, "CIAO");
 			break;
 		case DISPLAY_CMD_KEYS_PRESSED:
 			if ((data->Param1 & KEY_START) == KEY_START) {
-				Beep(1, 1000, 100);
+				Beep(1, 500, 100);
 			}
 			if ((data->Param1 & KEY_TEST) == KEY_TEST) {
 				SetTest();

@@ -53,7 +53,7 @@ extern uint8_t SET_KeysBeep;
 
 extern UART_HandleTypeDef huart1;
 
-uint8_t UART_rxBuffer[DISPLAY_UART_BUFFER_SIZE] = {[0 ... DISPLAY_UART_BUFFER_SIZE - 1] = 0};
+uint8_t UART_rxBuffer[UART_DISPLAY_BUFFER_SIZE];
 //uint8_t rxBuffer[DISPLAY_UART_BUFFER_SIZE] = {[0 ... DISPLAY_UART_BUFFER_SIZE - 1] = 0};
 
 static void ParseCommand(s_DisplayProtocolData* data);
@@ -62,8 +62,8 @@ static void ParseCommand(s_DisplayProtocolData* data);
 //
 void DisplayUARTInit() {
 
-	DISPLAY_UART_HANDLE.Init.BaudRate = DISPLAY_UART_SPEED;
-	HAL_UART_Receive_DMA(&DISPLAY_UART_HANDLE, UART_rxBuffer, DISPLAY_UART_BUFFER_SIZE);
+//	DISPLAY_UART_HANDLE.Init.BaudRate = DISPLAY_UART_SPEED;
+	HAL_UART_Receive_DMA(&DISPLAY_UART_HANDLE, UART_rxBuffer, UART_DISPLAY_BUFFER_SIZE);
 //	HAL_UARTEx_ReceiveToIdle_DMA(&DISPLAY_UART_HANDLE, UART_rxBuffer, DISPLAY_UART_BUFFER_SIZE);
 //	__HAL_DMA_DISABLE_IT(&huart1, DMA_IT_HT);
 }
@@ -74,14 +74,14 @@ void SendCommand(uint16_t command, uint32_t param1, uint32_t param2, uint32_t pa
 
 	s_DisplayProtocolData txData = {command, param1, param2, param3, digits, 1};
 
-	uint8_t txBuffer[DISPLAY_UART_BUFFER_SIZE];
+	uint8_t txBuffer[UART_DISPLAY_BUFFER_SIZE];
 	Display_DataToProtocol(&txData, txBuffer);
 
 	// Chip 485 ENABLE
 	HAL_GPIO_WritePin(USART1_CTS_GPIO_Port, USART1_CTS_Pin, GPIO_PIN_SET);
 	osDelay(10);
 	// Send data
-	HAL_UART_Transmit(&DISPLAY_UART_HANDLE, txBuffer, DISPLAY_UART_BUFFER_SIZE, DISPLAY_UART_TX_TIMEOUT);
+	HAL_UART_Transmit(&DISPLAY_UART_HANDLE, txBuffer, UART_DISPLAY_BUFFER_SIZE, DISPLAY_UART_TX_TIMEOUT);
 	// Chip 485 DISABLE
 	osDelay(10);
 	HAL_GPIO_WritePin(USART1_CTS_GPIO_Port, USART1_CTS_Pin, GPIO_PIN_RESET);
@@ -117,7 +117,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 		}
 	}
 
-	HAL_UART_Receive_DMA(huart, UART_rxBuffer, DISPLAY_UART_BUFFER_SIZE);
+	HAL_UART_Receive_DMA(huart, UART_rxBuffer, UART_DISPLAY_BUFFER_SIZE);
 //	HAL_UARTEx_ReceiveToIdle_DMA(huart, UART_rxBuffer, DISPLAY_UART_BUFFER_SIZE);
 //	__HAL_DMA_DISABLE_IT(&huart1, DMA_IT_HT);
 

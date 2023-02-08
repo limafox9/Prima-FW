@@ -82,7 +82,7 @@ RTCDateTime_s dt;
 
 
 osThreadId keysTaskHandle;
-osThreadId serialTaskHandle;
+//osThreadId serialTaskHandle;
 osThreadId sensorsTaskHandle;
 //
 //float calTemp(float Rt) {
@@ -103,16 +103,20 @@ void SysInit() {
 
 	LoadSettings();
 
+	settings.T1Offset = -100;
+	settings.ChamberPressOffset = 0;
+	SaveSettings();
+
 	osThreadDef(keysTask, StartKeysTask, osPriorityAboveNormal, 1, 512);
 	keysTaskHandle = osThreadCreate(osThread(keysTask), NULL);
 
-//	osThreadDef(ledsTask, StartLedsTask, osPriorityNormal, 1, 256);
-//	ledsTaskHandle = osThreadCreate(osThread(ledsTask), NULL);
+//	osThreadDef(serialTask, StartSerialTask, osPriorityNormal, 1, 256);
+//	serialTaskHandle = osThreadCreate(osThread(serialTask), NULL);
 
 	osThreadDef(sensorsTask, StartSensorsTask, osPriorityNormal, 1, 1024);
 	sensorsTaskHandle = osThreadCreate(osThread(sensorsTask), NULL);
 
-	SerialInit(&UART_MONITOR, 115200);
+//	SerialInit(&UART_MONITOR, 115200);
 	SerialInit(&UART_DISPLAY, 115200);
 
 	ClockInit(&hi2c1);
