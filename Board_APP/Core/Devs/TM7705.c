@@ -223,9 +223,9 @@ uint16_t TM7705_GetValue(TM7705_Channel channel) {
     return value;
 }
 
-float TM7705_GetTemp(TM7705_Channel channel) {
+float TM7705_GetTemp(TM7705_Channel channel, float offset) {
 	uint16_t refRes = 2000; // ref resistor for voltage divider
-	return calTemp(((double)TM7705_GetValue(channel)) * (double)refRes / 65535.0);
+	return calTemp(((double)TM7705_GetValue(channel)) * (double)refRes / 65535.0) + offset;
 }
 
 static float calTemp(float Rt) {
@@ -239,7 +239,6 @@ static float calTemp(float Rt) {
 	temp = Z2 + (Z3 * Rt);
 	temp = (sqrt(temp) + Z1) / Z4;
 
-	temp += 0.45;
 	return temp;
 }
 

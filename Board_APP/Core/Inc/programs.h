@@ -56,6 +56,7 @@ typedef enum {
 
 void SetProgram();
 void SetTest();
+void StartProgram();
 
 uint8_t ProgramUnwrapped();
 uint8_t ProgramWrapped();
@@ -64,5 +65,6 @@ uint8_t ProgramGentle();
 uint8_t ProgramHelixTest();
 uint8_t ProgramVacuumTest();
 uint8_t ProgramTestSteril();
+uint8_t ProgramCalibration();
 
 #endif /* INC_PROGRAMS_H_ */

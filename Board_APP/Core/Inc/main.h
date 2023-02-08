@@ -65,6 +65,7 @@ void Error_Handler(void);
 #define SW_LSH_GPIO_Port GPIOE
 #define SW_DOOR_Pin GPIO_PIN_5
 #define SW_DOOR_GPIO_Port GPIOE
+#define SW_DOOR_EXTI_IRQn EXTI9_5_IRQn
 #define SW_SOLENOID_Pin GPIO_PIN_1
 #define SW_SOLENOID_GPIO_Port GPIOC
 #define TEMP_STEAM_GEN_Pin GPIO_PIN_0

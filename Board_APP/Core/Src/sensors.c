@@ -101,6 +101,15 @@ float pressAvg;
 // DECLARATIONS
 //==============================================================================
 
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+  if(GPIO_Pin == SW_DOOR_Pin) {
+    Beep(1, 100, 100);
+  } else {
+      __NOP();
+  }
+}
+
 e_LockState DoorSolenoidKeyGet() {
 	return (HAL_GPIO_ReadPin(SW_SOLENOID_GPIO_Port, SW_SOLENOID_Pin) == GPIO_PIN_SET) ? LOCK : UNLOCK;
 }
@@ -183,7 +192,7 @@ void StartSensorsTask() {
 		Sensors.Solenoid = DoorPositionGet();
 		Sensors.TemperatureSteamGenerator = SteamGeneratorTempGet();
 		Sensors.TemperatureChamberHeater = ChamberHeaterTempGet();
-		Sensors.T1 = TM7705_GetTemp(0);
+		Sensors.T1 = TM7705_GetTemp(0, (float)(settings.T1Offset / 10.0));
 //		Sensors.T2 = TemperatureT2Get();
 		Sensors.PressureChamber = BufferAverage(pressBuf, PRESS_BUFFER_SIZE, ChamberPressureGet());
 		Sensors.Current = CurrentGet();
@@ -250,7 +259,7 @@ float ADCToTemp(uint16_t adcValue) {
 	tCelsius = Z2 + (Z3 * Rt);
 	tCelsius = (sqrt(tCelsius) + Z1) / Z4;
 
-	tCelsius += (settings.T1Offset / 10);
+	tCelsius += (settings.T1Offset / 10.0);
 
 	return tCelsius;
 }

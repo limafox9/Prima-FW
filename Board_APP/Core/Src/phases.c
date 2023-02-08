@@ -44,6 +44,7 @@ USAGE:
 #include "Inc/DB_Protocol.h"
 #include <stdio.h>
 #include <math.h>
+#include "settings.h"
 
 uint8_t chamberHeaterTempSet;
 uint8_t steamGeneratorTempSet;
@@ -340,11 +341,12 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 		GetTimer(TIMER_TIMEOUT, &tTimeout);
 		if (Sensors.T1 >= param->chamberTemp) {
 			if (Sensors.PressureChamber < param->pressMin) {
-				Print("STER ERROR *** T1 UNDER PRESSURE\n");
-				GetTimer(TIMER_PHASE, &tPhase);
-				PrintStepLine("----  ", Sensors.T1, Sensors.T2, Sensors.PressureChamber, &tPhase);
-				retVal = 0;
-				break;
+//				Print("STER ERROR *** T1 UNDER PRESSURE\n");
+//				GetTimer(TIMER_PHASE, &tPhase);
+//				PrintStepLine("----  ", Sensors.T1, Sensors.T2, Sensors.PressureChamber, &tPhase);
+//				retVal = 0;
+//				break;
+				__NOP();
 			} else if (Sensors.PressureChamber > param->pressMax){
 				Print("STER ERROR *** T1 OVER PRESSURE\n");
 				GetTimer(TIMER_PHASE, &tPhase);
@@ -376,13 +378,18 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 		pMin = Sensors.PressureChamber;
 		pMax = Sensors.PressureChamber;
 
+
+		uint32_t currTick = HAL_GetTick();
+
+
 		while (1) {
 			float ret = PIDController_Update(&pidSteril, param->chamberTemp, Sensors.T1);
 			ret = (1/ret)*4000;
-			if (Sensors.T1 <= param->chamberTemp) {
+			if ((Sensors.T1 <= param->chamberTemp) && (HAL_GetTick() > (currTick + ret))) {
 				if (Sensors.TemperatureSteamGenerator >= param->steamTempMin) {
 					SteamPulse(20);
-					osDelay(ret);
+					currTick = HAL_GetTick();
+//					osDelay(ret);
 				}
 			}
 			GetTimer(TIMER_TIMEOUT, &tTimeout);
@@ -639,6 +646,8 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 	return 1;
 }
 
+extern UART_HandleTypeDef huart1;
+
 void PhaseTestPID(SterilParam_s* param) {
 	static const float pPID_KP = 0.5;
 	static const float pPID_KI = 0.8;
@@ -647,7 +656,7 @@ void PhaseTestPID(SterilParam_s* param) {
 	static const float pPID_LIM_MIN = 0.5;
 	static const float pPID_LIM_MAX = 2.0;
 	static const float pPID_LIM_MIN_INT = -0.5;
-	static const float pPID_LIM_MAX_INT = 1.0;
+	static const float pPID_LIM_MAX_INT = 1.5;
 	static const float pSAMPLE_TIME_S = 1.0;
 
 	PIDController pidSteam = {pPID_KP, pPID_KI, pPID_KD, pPID_TAU, pPID_LIM_MIN, pPID_LIM_MAX, pPID_LIM_MIN_INT, pPID_LIM_MAX_INT, pSAMPLE_TIME_S};
@@ -659,7 +668,10 @@ void PhaseTestPID(SterilParam_s* param) {
 //			SteamPulse(50);
 //			osDelay(ret);
 //		}
-		printf("%f\n", (1/ret)*4000);
+		char* s[20];
+		sprintf(s,"%f\n", (1/ret)*4000);
+		HAL_UART_Transmit(&huart1, s, strlen(s), 500);
+
 		osDelay(300);
 	}
 }

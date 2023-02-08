@@ -82,7 +82,7 @@ RTCDateTime_s dt;
 
 
 osThreadId keysTaskHandle;
-//osThreadId serialTaskHandle;
+osThreadId serialTaskHandle;
 osThreadId sensorsTaskHandle;
 //
 //float calTemp(float Rt) {
@@ -103,20 +103,20 @@ void SysInit() {
 
 	LoadSettings();
 
-	settings.T1Offset = -100;
-	settings.ChamberPressOffset = 0;
-	SaveSettings();
+	settings.T1Offset = 19;
+	settings.ChamberPressOffset = 4;
+//	SaveSettings();
 
-	osThreadDef(keysTask, StartKeysTask, osPriorityAboveNormal, 1, 512);
+	osThreadDef(keysTask, StartKeysTask, osPriorityAboveNormal, 1, 1024);
 	keysTaskHandle = osThreadCreate(osThread(keysTask), NULL);
 
-//	osThreadDef(serialTask, StartSerialTask, osPriorityNormal, 1, 256);
-//	serialTaskHandle = osThreadCreate(osThread(serialTask), NULL);
+	osThreadDef(serialTask, StartSerialTask, osPriorityNormal, 1, 1024);
+	serialTaskHandle = osThreadCreate(osThread(serialTask), NULL);
 
-	osThreadDef(sensorsTask, StartSensorsTask, osPriorityNormal, 1, 1024);
+	osThreadDef(sensorsTask, StartSensorsTask, osPriorityNormal, 1, 2048);
 	sensorsTaskHandle = osThreadCreate(osThread(sensorsTask), NULL);
 
-//	SerialInit(&UART_MONITOR, 115200);
+	SerialInit(&huart1, 115200);
 	SerialInit(&UART_DISPLAY, 115200);
 
 	ClockInit(&hi2c1);
@@ -148,6 +148,8 @@ void SysInit() {
 //	int16_t cy = 334;
 //	EEPROM_Write(EPA_CYCLE_COUNTER, cy, 2);
 
+//	printf("CIAO");
+//
 //	SterilParam_s testParam = {
 //			.chamberTemp = 50
 //	};
@@ -159,6 +161,10 @@ void SysInit() {
 //	}
 
 //	ProgramTestSteril();
+//
+//		while (1) {
+//			osDelay(100);
+//		}
 
 //	while (1) {
 //		HAL_UART_Transmit(&huart1, "12345678901234567890", 20, 100);

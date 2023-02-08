@@ -59,6 +59,7 @@ uint8_t currTest = 1;
 uint8_t currProgType = 1; // 1 = Program, 0 = Test
 
 uint8_t progRunning = 0;
+uint8_t progStart = 0;
 uint8_t progStop = 0;
 
 void SetProgram() {
@@ -97,6 +98,9 @@ void StartProgram() {
 				break;
 			case 4:
 				ProgramGentle();
+				break;
+			case 5:
+				__NOP();
 				break;
 			}
 		} else {
@@ -638,15 +642,15 @@ uint8_t ProgramTestSteril() {
 		success = PhasePressure(3, 290.0, 200.0, 180.0, OT_PRESSURE);
 	}
 	if (success) {
-		PhasePreheat(130, 200);
+		PhasePreheat(130, 190);
 		SterilParam_s sterilParam = {
-				.chamberTemp = 135.2,
+				.chamberTemp = 135.0,
 				.chamberTempMin = 134.0,
 				.chamberTempMax = 136.0,
-				.sterilTime = 300,
+				.sterilTime = 120,
 				.pressMin = 310.0,
 				.pressMax = 340.0,
-				.steamTemp = 200.0,
+				.steamTemp = 190.0,
 				.steamTempMin = 170.0,
 				.printInterval = 30,
 				.timeout = 800
@@ -658,16 +662,16 @@ uint8_t ProgramTestSteril() {
 		success = PhaseRelease(3, 110.0, OT_RELEASE);
 	}
 
-//	// Dry
-//	if (success) {
-//		PhasePreheat(60, 90);
-//		success = PhaseDry(20.0, 50.0, 90.0, 540, 800);
-//	}
+	// Dry
+	if (success) {
+		PhasePreheat(60, 90);
+		success = PhaseDry(20.0, 50.0, 90.0, 540, 800);
+	}
 
 	// End
-//	GetTimer(TIMER_CYCLE, &tCycle);
-//	GetDateTime(&clockTime);
-//	PhaseFinish(success, &clockTime, &tCycle);
+	GetTimer(TIMER_CYCLE, &tCycle);
+	GetDateTime(&clockTime);
+	PhaseFinish(success, &clockTime, &tCycle);
 
 	progRunning = 0;
 	progStop = 0;

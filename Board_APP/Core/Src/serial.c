@@ -58,6 +58,8 @@ uint8_t UART_rxBuffer1[UART_DISPLAY_RX_BUFFER_SIZE];
 #define MainBuf_SIZE 128
 uint8_t rxBuf[UART_DISPLAY_RX_BUFFER_SIZE];
 uint8_t rxMain[UART_DISPLAY_RX_BUFFER_SIZE];
+uint8_t dataReady = 0;
+s_DisplayProtocolData rxData;
 
 static void ParseCommand(s_DisplayProtocolData* data);
 extern void DBInit(UART_HandleTypeDef* huart, GPIO_TypeDef* rs485_CS_GPIOPort, uint16_t rs485_CS_GPIOPin);
@@ -139,13 +141,14 @@ void HAL_UART_RxHalfCpltCallback(UART_HandleTypeDef* huart) {
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef* huart) {
 //	void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef* huart, uint16_t Size) {
-	s_DisplayProtocolData rxData;
+
 	if (huart->Instance == UART_DISPLAY.Instance) {
 		OrderBuffer();
 //		SetBuffer();
 		Display_ProtocolToData(rxBuf, &rxData);
 		if (rxData.Valid) {
-			ParseCommand(&rxData); // valid received command > parse
+			dataReady = 1;
+
 		}
 		HAL_UART_Receive_DMA(huart, UART_rxBuffer1, UART_DISPLAY_RX_BUFFER_SIZE);
 //		HAL_UARTEx_ReceiveToIdle_DMA(huart, UART_rxBuffer, DISPLAY_UART_BUFFER_SIZE);
@@ -173,16 +176,17 @@ void OrderBuffer() {
 
 void StartSerialTask() {
 
-//	for (;;) {
-//			HAL_UART_Receive(&UART_DISPLAY, UART_rxBuffer, 29, 50);
-//				s_DisplayProtocolData rxData;
-//				Display_ProtocolToData(UART_rxBuffer, &rxData);
-//						if (rxData.Valid) {
-//							ParseCommand(&rxData); // valid received command > parse
-//						}
-//						memset(UART_rxBuffer,0,29);
-//						osDelay(50);
-//	}
+	for (;;) {
+//		HAL_UART_Receive(&UART_DISPLAY, UART_rxBuffer, 29, 50);
+//		s_DisplayProtocolData rxData;
+//		Display_ProtocolToData(UART_rxBuffer, &rxData);
+		if (dataReady) {
+			dataReady = 0;
+			ParseCommand(&rxData); // valid received command > parse
+		}
+//		memset(UART_rxBuffer,0,29);
+		osDelay(50);
+	}
 
 
 }
@@ -255,7 +259,7 @@ static void ParseCommand(s_DisplayProtocolData* data) {
 			break;
 		case DISPLAY_CMD_KEYS_PRESSED:
 			if ((data->Param1 & KEY_START) == KEY_START) {
-				Beep(1, 500, 100);
+				StartProgram();
 			}
 			if ((data->Param1 & KEY_TEST) == KEY_TEST) {
 				SetTest();

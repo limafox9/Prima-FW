@@ -670,11 +670,17 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOD, HEATER_RING_Pin|HEATER_STEAM_GEN_Pin|PUMP_WATER_LOAD_Pin|PUMP_VACUUM_Pin
                           |PUMP_STEAM_GEN_Pin|BEEP_Pin|V_BUS_Pin|SPI1_CS_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : SW_CSH_Pin SW_CSL_Pin SW_LSH_Pin SW_DOOR_Pin */
-  GPIO_InitStruct.Pin = SW_CSH_Pin|SW_CSL_Pin|SW_LSH_Pin|SW_DOOR_Pin;
+  /*Configure GPIO pins : SW_CSH_Pin SW_CSL_Pin SW_LSH_Pin */
+  GPIO_InitStruct.Pin = SW_CSH_Pin|SW_CSL_Pin|SW_LSH_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : SW_DOOR_Pin */
+  GPIO_InitStruct.Pin = SW_DOOR_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(SW_DOOR_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : SW_SOLENOID_Pin */
   GPIO_InitStruct.Pin = SW_SOLENOID_Pin;
@@ -725,6 +731,10 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(SPI1_DATA_READY_GPIO_Port, &GPIO_InitStruct);
+
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
 
 }
 
