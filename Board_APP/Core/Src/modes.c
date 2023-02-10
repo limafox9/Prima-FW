@@ -1,0 +1,136 @@
+/*==============================================================================
+
+Filename: modes.c
+
+Created on: 9 feb 2023
+
+Original work: Copyright (c) 2023 Luca Favenzi
+Modified work:
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+Visit www.favenzi.it
+      luca@favenzi.it
+
+================================================================================
+PURPOSE:
+USAGE:
+==============================================================================*/
+
+#include "modes.h"
+
+#include "serial.h"
+#include "globals.h"
+#include "sensors.h"
+#include "settings.h"
+#include "Inc/DB_Protocol.h"
+
+e_MachineStatus machineStatus;
+
+uint8_t currProgram = 0;
+uint8_t currTest = 0;
+e_ProgramType currProgType = PROGTYPE_PROGRAM;
+uint8_t currParameter = 0;
+
+uint8_t progRunning = 0;
+uint8_t progStart = 0;
+uint8_t progStop = 0;
+
+s_Program programs[5] = {
+	{1, PROGTYPE_PROGRAM, "Wrapped", "Pr. 1", 1, CLASS_B, STERILTEMP_134},
+	{2, PROGTYPE_PROGRAM, "Unwrapped", "Pr. 2", 2, CLASS_B, STERILTEMP_134},
+	{3, PROGTYPE_PROGRAM, "Prion", "Pr. 3", 4, CLASS_B, STERILTEMP_134},
+	{4, PROGTYPE_PROGRAM, "Gentle", "Pr. 4", 8, CLASS_S, STERILTEMP_121},
+	{5, PROGTYPE_PROGRAM, "User", "Pr. 5", 15, CLASS_S, STERILTEMP_USER},
+};
+
+s_Program tests[2] = {
+	{1, PROGTYPE_TEST, "Helix Test", "t. HE", 16, CLASS_USER, STERILTEMP_USER},
+	{2, PROGTYPE_TEST, "Vacuum Test", "t. UA", 32, CLASS_USER, STERILTEMP_USER},
+};
+
+Parameter_s parameters[2] = {
+	{1, "T1 Offset", " t1 ", EPA_T1_OFFSET, &settings.T1Offset, 1, -20, 20, 10},
+	{2, "T2 Offset", " t2 ", EPA_T2_OFFSET, &settings.T2Offset, 1, -20, 20, 10},
+	{3, "P1 Offset", " P1 ", EPA_CHAMBER_PRESSURE_OFFSET, &settings.ChamberPressOffset, 1, -15, 15, 1},
+};
+
+void SelectProgram() {
+	if (currProgType == PROGTYPE_PROGRAM) currProgram++;
+	currProgType = PROGTYPE_PROGRAM;
+	if (currProgram > ((sizeof(programs) / sizeof(s_Program)) - 1)) currProgram = 0;
+	ShowProgram();
+}
+
+void SelectTest() {
+	if (currProgType == PROGTYPE_TEST) currTest++;
+	currProgType = PROGTYPE_TEST;
+	if (currTest > ((sizeof(tests) / sizeof(s_Program)) - 1)) currTest = 0;
+	ShowProgram();
+}
+
+void ShowProgram() {
+	if (currProgType == PROGTYPE_PROGRAM) {
+		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, &programs[currProgram].DigitsName);
+		SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, programs[currProgram].DashLeds, 0, 0, "");
+	}
+	if (currProgType == PROGTYPE_TEST) {
+		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, &tests[currTest].DigitsName);
+		SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, tests[currTest].DashLeds, 0, 0, "");
+	}
+
+	char s[8];
+	sprintf(s,"%5.1f", sensors.T1);
+	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, s);
+	osDelay(20);
+	sprintf(s,"%5.1f", sensors.PressureChamber);
+	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 2, 0, 0, s);
+	osDelay(20);
+
+}
+
+void SelectParameter() {
+	currParameter++;
+	if (currParameter > ((sizeof(parameters) / sizeof(Parameter_s)) - 1)) currParameter = 0;
+	ShowParameter();
+}
+
+void ChangeParameter(uint8_t increment) {
+	*parameters[currParameter].Data += increment;
+	if (*parameters[currParameter].Data < parameters[currParameter].Min) *parameters[currParameter].Data = parameters[currParameter].Min;
+	if (*parameters[currParameter].Data > parameters[currParameter].Max) *parameters[currParameter].Data = parameters[currParameter].Max;
+	EEPROM_Write(parameters[currParameter].EepromAddress, parameters[currParameter].Data, 1);
+	ShowParameter();
+}
+
+void ShowParameter() {
+	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, &parameters[currParameter].DigitsName);
+	char s[8];
+	if (parameters[currParameter].Divider > 1) {
+		sprintf(s,"%5.1f", (float)((float)*parameters[currParameter].Data / 10.0));
+	} else {
+		sprintf(s,"%4d", *parameters[currParameter].Data);
+	}
+	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 2, 0, 0, s);
+	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "PArA");
+}
+
+
+
+

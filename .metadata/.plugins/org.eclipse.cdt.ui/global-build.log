@@ -1,68 +1,368 @@
-21:15:54 **** Incremental Build of configuration Debug for project DB_Protocol ****
-make -j4 all 
-arm-none-eabi-gcc "../Src/DB_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/DB_protocol.d" -MT"Src/DB_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/DB_protocol.o"
-../Src/DB_protocol.c: In function 'Display_ProtocolToData':
-../Src/DB_protocol.c:55:14: warning: unused variable 'calcCRC' [-Wunused-variable]
-   55 |     uint16_t calcCRC = CRC16_Modbus(bufferIn + i + POS_COMMAND, i + POS_CHECKSUM - POS_COMMAND);
-      |              ^~~~~~~
-arm-none-eabi-ar -r  "libDB_Protocol.a" @"objects.list"  
-arm-none-eabi-ar: creating libDB_Protocol.a
-Finished building target: libDB_Protocol.a
- 
-21:15:55 **** Incremental Build of configuration Debug for project DB_Protocol ****
-make -j4 all 
-arm-none-eabi-gcc "../Src/DB_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/DB_protocol.d" -MT"Src/DB_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/DB_protocol.o"
-../Src/DB_protocol.c: In function 'Display_ProtocolToData':
-../Src/DB_protocol.c:55:14: warning: unused variable 'calcCRC' [-Wunused-variable]
-   55 |     uint16_t calcCRC = CRC16_Modbus(bufferIn + i + POS_COMMAND, i + POS_CHECKSUM - POS_COMMAND);
-      |              ^~~~~~~
-arm-none-eabi-ar -r  "libDB_Protocol.a" @"objects.list"  
-arm-none-eabi-ar: creating libDB_Protocol.a
-Finished building target: libDB_Protocol.a
- 
-21:15:56 **** Incremental Build of configuration Debug for project Board_APP ****
-make -j4 all 
-arm-none-eabi-gcc "../Core/Src/system.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/system.d" -MT"Core/Src/system.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/system.o"
-../Core/Src/system.c: In function 'SysInit':
-../Core/Src/system.c:126:17: warning: variable 'a' set but not used [-Wunused-but-set-variable]
-  126 |  RTCTimerTime_s a;
-      |                 ^
-arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima-FW\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Board_APP.elf
- 
-arm-none-eabi-size   Board_APP.elf 
-arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
-arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
-   text	   data	    bss	    dec	    hex	filename
- 108008	    640	  38432	 147080	  23e88	Board_APP.elf
-arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
-Finished building: default.size.stdout
- 
-Finished building: Board_APP.hex
-Finished building: Board_APP.bin
- 
- 
-Finished building: Board_APP.list
- 
-21:29:06 **** Incremental Build of configuration Debug for project DB_Protocol ****
-make -j4 all 
+13:53:59 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j24 all 
 make: Nothing to be done for 'all'.
-21:29:07 **** Incremental Build of configuration Debug for project Board_APP ****
-make -j4 all 
-arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima-FW\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+13:54:00 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j24 all 
+make: Nothing to be done for 'all'.
+13:54:00 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/actuators.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima Firmware/Source/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/actuators.d" -MT"Core/Src/actuators.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/actuators.o"
+arm-none-eabi-gcc "../Core/Src/globals.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima Firmware/Source/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/globals.d" -MT"Core/Src/globals.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/globals.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima Firmware/Source/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/modes.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima Firmware/Source/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/modes.d" -MT"Core/Src/modes.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/modes.o"
+arm-none-eabi-gcc "../Core/Src/phases.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima Firmware/Source/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/phases.d" -MT"Core/Src/phases.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/phases.o"
+arm-none-eabi-gcc "../Core/Src/printer.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima Firmware/Source/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/printer.d" -MT"Core/Src/printer.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/printer.o"
+arm-none-eabi-gcc "../Core/Src/programs.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima Firmware/Source/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/programs.d" -MT"Core/Src/programs.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/programs.o"
+arm-none-eabi-gcc "../Core/Src/sensors.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima Firmware/Source/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/sensors.d" -MT"Core/Src/sensors.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/sensors.o"
+arm-none-eabi-gcc "../Core/Src/serial.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima Firmware/Source/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/serial.d" -MT"Core/Src/serial.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/serial.o"
+arm-none-eabi-gcc "../Core/Src/settings.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima Firmware/Source/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/settings.d" -MT"Core/Src/settings.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/settings.o"
+In file included from ../Core/Inc/actuators.h:40,
+                 from ../Core/Src/actuators.c:35:
+../Core/Inc/globals.h:104:1: warning: useless storage class specifier in empty declaration
+  104 | };
+      | ^
+In file included from ../Core/Src/globals.c:37:
+../Core/Inc/globals.h:104:1: warning: useless storage class specifier in empty declaration
+  104 | };
+      | ^
+arm-none-eabi-gcc "../Core/Src/system.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima Firmware/Source/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/system.d" -MT"Core/Src/system.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/system.o"
+../Core/Src/actuators.c: In function 'ActuatorsSafeStatus':
+../Core/Src/actuators.c:277:2: warning: implicit declaration of function 'HeaterChamberSet'; did you mean 'HeaterChamberTempSet'? [-Wimplicit-function-declaration]
+  277 |  HeaterChamberSet(OFF);
+      |  ^~~~~~~~~~~~~~~~
+      |  HeaterChamberTempSet
+../Core/Src/actuators.c:278:2: warning: implicit declaration of function 'HeaterSteamGeneratorSet'; did you mean 'HeaterSteamGeneratorPWM'? [-Wimplicit-function-declaration]
+  278 |  HeaterSteamGeneratorSet(OFF);
+      |  ^~~~~~~~~~~~~~~~~~~~~~~
+      |  HeaterSteamGeneratorPWM
+../Core/Src/actuators.c:280:2: warning: implicit declaration of function 'PunpWaterLoadSet'; did you mean 'PumpWaterLoadSet'? [-Wimplicit-function-declaration]
+  280 |  PunpWaterLoadSet(OFF);
+      |  ^~~~~~~~~~~~~~~~
+      |  PumpWaterLoadSet
+../Core/Src/actuators.c:282:2: warning: implicit declaration of function 'PunpSteamGeneratorSet'; did you mean 'PumpSteamGeneratorSet'? [-Wimplicit-function-declaration]
+  282 |  PunpSteamGeneratorSet(OFF);
+      |  ^~~~~~~~~~~~~~~~~~~~~
+      |  PumpSteamGeneratorSet
+In file included from ../Core/Inc/sensors.h:39,
+                 from ../Core/Src/phases.c:38:
+../Core/Inc/globals.h:104:1: warning: useless storage class specifier in empty declaration
+  104 | };
+      | ^
+In file included from ../Core/Inc/system.h:40,
+                 from ../Core/Src/main.c:27:
+../Core/Inc/globals.h:104:1: warning: useless storage class specifier in empty declaration
+  104 | };
+      | ^
+In file included from ../Core/Src/modes.c:39:
+../Core/Inc/globals.h:104:1: warning: useless storage class specifier in empty declaration
+  104 | };
+      | ^
+../Core/Src/modes.c:71:2: warning: excess elements in array initializer
+   71 |  {3, "P1 Offset", " P1 ", EPA_CHAMBER_PRESSURE_OFFSET, &settings.ChamberPressOffset, 1, -15, 15, 1},
+      |  ^
+../Core/Src/modes.c:71:2: note: (near initialization for 'parameters')
+../Core/Src/modes.c: In function 'ShowProgram':
+../Core/Src/modes.c:90:3: warning: implicit declaration of function 'SendCommand' [-Wimplicit-function-declaration]
+   90 |   SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, &programs[currProgram].DigitsName);
+      |   ^~~~~~~~~~~
+../Core/Src/modes.c:101:2: warning: implicit declaration of function 'osDelay' [-Wimplicit-function-declaration]
+  101 |  osDelay(20);
+      |  ^~~~~~~
+In file included from ../Core/Src/printer.c:43:
+../Core/Inc/globals.h:104:1: warning: useless storage class specifier in empty declaration
+  104 | };
+      | ^
+../Core/Src/printer.c: In function 'PrinterInit':
+../Core/Src/printer.c:73:7: warning: unused variable 'd' [-Wunused-variable]
+   73 |  char d[10];
+      |       ^
+../Core/Src/printer.c: In function 'Print':
+../Core/Src/printer.c:108:14: warning: passing argument 1 of 'vsprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+  108 |     vsprintf(buf, format, args);
+      |              ^~~
+      |              |
+      |              char **
+In file included from ../Core/Src/printer.c:37:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\stdio.h:210:15: note: expected 'char * restrict' but argument is of type 'char **'
+  210 | int vsprintf (char *__restrict, const char *__restrict, __VALIST)
+      |               ^
+../Core/Src/printer.c:112:50: warning: passing argument 1 of 'strlen' from incompatible pointer type [-Wincompatible-pointer-types]
+  112 |     HAL_UART_Transmit(&UART_PRINTER, buf, strlen(buf), 1000);
+      |                                                  ^~~
+      |                                                  |
+      |                                                  char **
+In file included from ../Core/Src/printer.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:41:17: note: expected 'const char *' but argument is of type 'char **'
+   41 | size_t  strlen (const char *);
+      |                 ^~~~~~~~~~~~
+In file included from ../Core/Inc/sensors.h:39,
+                 from ../Core/Src/sensors.c:36:
+../Core/Inc/globals.h:104:1: warning: useless storage class specifier in empty declaration
+  104 | };
+      | ^
+../Core/Src/printer.c:112:38: warning: passing argument 2 of 'HAL_UART_Transmit' from incompatible pointer type [-Wincompatible-pointer-types]
+  112 |     HAL_UART_Transmit(&UART_PRINTER, buf, strlen(buf), 1000);
+      |                                      ^~~
+      |                                      |
+      |                                      char **
+../Core/Src/phases.c: In function 'PhaseBegin':
+../Core/Src/phases.c:75:2: warning: implicit declaration of function 'EEPROM_Write' [-Wimplicit-function-declaration]
+   75 |  EEPROM_Write(EPA_CYCLE_COUNTER, &settings.CyclesCount, 2);
+      |  ^~~~~~~~~~~~
+In file included from ../Core/Inc/stm32f1xx_hal_conf.h:338,
+                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:30,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Devs/PCF8563.h:41,
+                 from ../Core/Inc/time.h:40,
+                 from ../Core/Inc/printer.h:41,
+                 from ../Core/Src/printer.c:40:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h:725:73: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char **'
+  725 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+      |                                                                ~~~~~~~~~^~~~~
+../Core/Src/phases.c:59:27: warning: unused variable 'tPhase' [-Wunused-variable]
+   59 |  RTCTimerTime_s tTimeout, tPhase;
+      |                           ^~~~~~
+In file included from ../Core/Src/programs.c:39:
+../Core/Inc/globals.h:104:1: warning: useless storage class specifier in empty declaration
+  104 | };
+      | ^
+../Core/Src/modes.c: In function 'ChangeParameter':
+../Core/Src/modes.c:118:2: warning: implicit declaration of function 'EEPROM_Write' [-Wimplicit-function-declaration]
+  118 |  EEPROM_Write(parameters[currParameter].EepromAddress, parameters[currParameter].Data, 1);
+      |  ^~~~~~~~~~~~
+../Core/Src/programs.c: In function 'ProgramUnwrapped':
+../Core/Src/phases.c: In function 'PhaseHeatUp':
+../Core/Src/phases.c:112:2: warning: implicit declaration of function 'SendCommand' [-Wimplicit-function-declaration]
+  112 |  SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
+      |  ^~~~~~~~~~~
+../Core/Src/programs.c:102:23: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  102 |  success = PhaseBegin(600);
+      |                       ^~~
+../Core/Src/programs.c:97:25: warning: unused variable 'tPhase' [-Wunused-variable]
+   97 |  RTCTimerTime_s tCycle, tPhase;
+      |                         ^~~~~~
+../Core/Src/programs.c: In function 'ProgramWrapped':
+../Core/Src/programs.c:168:23: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  168 |  success = PhaseBegin(600);
+      |                       ^~~
+../Core/Src/programs.c:163:25: warning: unused variable 'tPhase' [-Wunused-variable]
+  163 |  RTCTimerTime_s tCycle, tPhase;
+      |                         ^~~~~~
+../Core/Src/programs.c: In function 'ProgramPrion':
+../Core/Src/programs.c:263:2: warning: implicit declaration of function 'FanSet' [-Wimplicit-function-declaration]
+  263 |  FanSet(ON);
+      |  ^~~~~~
+../Core/Src/phases.c: In function 'PhaseSteril':
+../Core/Src/phases.c:383:3: warning: implicit declaration of function 'Beep' [-Wimplicit-function-declaration]
+  383 |   Beep(1, 100, 100);
+      |   ^~~~
+../Core/Src/phases.c: In function 'PhaseVacuumHold':
+../Core/Src/phases.c:543:8: warning: unused variable 'currPress' [-Wunused-variable]
+  543 |  float currPress;
+      |        ^~~~~~~~~
+../Core/Src/phases.c:542:10: warning: unused variable 'cycle' [-Wunused-variable]
+  542 |  uint8_t cycle = 0;
+      |          ^~~~~
+../Core/Src/phases.c: In function 'PhaseWait':
+../Core/Src/phases.c:589:8: warning: unused variable 'currPress' [-Wunused-variable]
+  589 |  float currPress;
+      |        ^~~~~~~~~
+../Core/Src/phases.c:588:10: warning: unused variable 'cycle' [-Wunused-variable]
+  588 |  uint8_t cycle = 0;
+      |          ^~~~~
+../Core/Src/phases.c: In function 'PhaseTestPID':
+../Core/Src/phases.c:685:11: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+  685 |   sprintf(s,"%f\n", (1/ret)*4000);
+      |           ^
+      |           |
+      |           char **
+In file included from ../Core/Inc/phases.h:41,
+                 from ../Core/Src/phases.c:36:
+c:\st\stm32cubeide_1.9.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\stdio.h:244:14: note: expected 'char * restrict' but argument is of type 'char **'
+  244 | int sprintf (char *__restrict, const char *__restrict, ...)
+      |              ^
+../Core/Src/phases.c:686:33: warning: implicit declaration of function 'strlen' [-Wimplicit-function-declaration]
+  686 |   HAL_UART_Transmit(&huart1, s, strlen(s), 500);
+      |                                 ^~~~~~
+../Core/Src/phases.c:686:33: warning: incompatible implicit declaration of built-in function 'strlen'
+../Core/Src/phases.c:49:1: note: include '<string.h>' or provide a declaration of 'strlen'
+   48 | #include "modes.h"
+  +++ |+#include <string.h>
+   49 | 
+../Core/Src/phases.c:686:40: warning: passing argument 1 of 'strlen' from incompatible pointer type [-Wincompatible-pointer-types]
+  686 |   HAL_UART_Transmit(&huart1, s, strlen(s), 500);
+      |                                        ^
+      |                                        |
+      |                                        char **
+../Core/Src/phases.c:686:40: note: expected 'const char *' but argument is of type 'char **'
+../Core/Src/phases.c:686:30: warning: passing argument 2 of 'HAL_UART_Transmit' from incompatible pointer type [-Wincompatible-pointer-types]
+  686 |   HAL_UART_Transmit(&huart1, s, strlen(s), 500);
+      |                              ^
+      |                              |
+      |                              char **
+In file included from ../Core/Inc/stm32f1xx_hal_conf.h:338,
+                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:30,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Devs/PCF8563.h:41,
+                 from ../Core/Inc/time.h:40,
+                 from ../Core/Inc/phases.h:42,
+                 from ../Core/Src/phases.c:36:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h:725:73: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char **'
+  725 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+      |                                                                ~~~~~~~~~^~~~~
+../Core/Src/phases.c: In function 'PhasePreheat':
+../Core/Src/phases.c:102:1: warning: control reaches end of non-void function [-Wreturn-type]
+  102 | }
+      | ^
+../Core/Src/programs.c:264:2: warning: implicit declaration of function 'SendCommand' [-Wimplicit-function-declaration]
+  264 |  SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
+      |  ^~~~~~~~~~~
+../Core/Src/programs.c:266:23: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  266 |  success = PhaseBegin(600);
+      |                       ^~~
+../Core/Src/programs.c:258:25: warning: unused variable 'tPhase' [-Wunused-variable]
+  258 |  RTCTimerTime_s tCycle, tPhase;
+      |                         ^~~~~~
+../Core/Src/programs.c: In function 'ProgramGentle':
+../Core/Src/programs.c:358:23: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  358 |  success = PhaseBegin(600);
+      |                       ^~~
+../Core/Src/programs.c:353:25: warning: unused variable 'tPhase' [-Wunused-variable]
+  353 |  RTCTimerTime_s tCycle, tPhase;
+      |                         ^~~~~~
+../Core/Src/programs.c: In function 'ProgramHelixTest':
+../Core/Src/programs.c:453:23: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  453 |  success = PhaseBegin(600);
+      |                       ^~~
+../Core/Src/programs.c:448:25: warning: unused variable 'tPhase' [-Wunused-variable]
+  448 |  RTCTimerTime_s tCycle, tPhase;
+      |                         ^~~~~~
+../Core/Src/programs.c: In function 'ProgramVacuumTest':
+../Core/Src/programs.c:549:23: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  549 |  success = PhaseBegin(600);
+      |                       ^~~
+../Core/Src/programs.c:553:23: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  553 |  success = PhaseBegin(600);
+      |                       ^~~
+../Core/Src/programs.c:544:25: warning: unused variable 'tPhase' [-Wunused-variable]
+  544 |  RTCTimerTime_s tCycle, tPhase;
+      |                         ^~~~~~
+../Core/Src/programs.c: In function 'ProgramTestSteril':
+../Core/Src/programs.c:590:23: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  590 |  success = PhaseBegin(600);
+      |                       ^~~
+../Core/Src/programs.c:585:25: warning: unused variable 'tPhase' [-Wunused-variable]
+  585 |  RTCTimerTime_s tCycle, tPhase;
+      |                         ^~~~~~
+../Core/Src/programs.c: In function 'ProgramUnwrapped':
+../Core/Src/programs.c:158:1: warning: control reaches end of non-void function [-Wreturn-type]
+  158 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramWrapped':
+../Core/Src/programs.c:253:1: warning: control reaches end of non-void function [-Wreturn-type]
+  253 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramPrion':
+../Core/Src/programs.c:348:1: warning: control reaches end of non-void function [-Wreturn-type]
+  348 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramGentle':
+../Core/Src/programs.c:443:1: warning: control reaches end of non-void function [-Wreturn-type]
+  443 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramHelixTest':
+../Core/Src/programs.c:538:1: warning: control reaches end of non-void function [-Wreturn-type]
+  538 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramVacuumTest':
+../Core/Src/programs.c:579:1: warning: control reaches end of non-void function [-Wreturn-type]
+  579 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramTestSteril':
+../Core/Src/programs.c:646:1: warning: control reaches end of non-void function [-Wreturn-type]
+  646 | }
+      | ^
+../Core/Src/sensors.c: In function 'HAL_GPIO_EXTI_Callback':
+../Core/Src/sensors.c:114:5: warning: implicit declaration of function 'Beep' [-Wimplicit-function-declaration]
+  114 |     Beep(1, 100, 100);
+      |     ^~~~
+../Core/Src/sensors.c: In function 'ADCToCurrent':
+../Core/Src/sensors.c:355:8: warning: unused variable 'current' [-Wunused-variable]
+  355 |  float current = voltage / FACTOR;
+      |        ^~~~~~~
+../Core/Src/sensors.c:344:8: warning: unused variable 'cutOff' [-Wunused-variable]
+  344 |  float cutOff = FACTOR/cutOffLimit;// convert current cut off to mV
+      |        ^~~~~~
+../Core/Src/sensors.c:290:24: warning: unused variable 'pkPa' [-Wunused-variable]
+  290 |  float readVolt, vRef, pkPa;
+      |                        ^~~~
+In file included from ../Core/Inc/buzzer.h:12,
+                 from ../Core/Src/serial.c:41:
+../Core/Inc/globals.h:104:1: warning: useless storage class specifier in empty declaration
+  104 | };
+      | ^
+../Core/Src/serial.c: In function 'SendCommand':
+../Core/Src/serial.c:88:67: warning: initialization of 'char' from 'char *' makes integer from pointer without a cast [-Wint-conversion]
+   88 |  s_DisplayProtocolData txData = {command, param1, param2, param3, digits, 1};
+      |                                                                   ^~~~~~
+../Core/Src/serial.c:88:67: note: (near initialization for 'txData.Digits[0]')
+../Core/Src/serial.c:88:33: warning: missing braces around initializer [-Wmissing-braces]
+   88 |  s_DisplayProtocolData txData = {command, param1, param2, param3, digits, 1};
+      |                                 ^
+      |                                                                   {        }
+../Core/Src/serial.c: In function 'HAL_UART_RxCpltCallback':
+../Core/Src/serial.c:143:3: warning: implicit declaration of function 'OrderBuffer' [-Wimplicit-function-declaration]
+  143 |   OrderBuffer();
+      |   ^~~~~~~~~~~
+../Core/Src/serial.c: At top level:
+../Core/Src/serial.c:157:6: warning: conflicting types for 'OrderBuffer'
+  157 | void OrderBuffer() {
+      |      ^~~~~~~~~~~
+../Core/Src/serial.c:143:3: note: previous implicit declaration of 'OrderBuffer' was here
+  143 |   OrderBuffer();
+      |   ^~~~~~~~~~~
+../Core/Src/serial.c: In function 'OrderBuffer':
+../Core/Src/serial.c:160:10: warning: unused variable 'temp' [-Wunused-variable]
+  160 |  uint8_t temp[UART_DISPLAY_RX_BUFFER_SIZE];
+      |          ^~~~
+../Core/Src/serial.c:159:10: warning: unused variable 'pos' [-Wunused-variable]
+  159 |  uint8_t pos;
+      |          ^~~
+In file included from ../Core/Src/settings.c:41:
+../Core/Inc/globals.h:104:1: warning: useless storage class specifier in empty declaration
+  104 | };
+      | ^
+../Core/Src/settings.c: In function 'LoadSettings':
+../Core/Src/settings.c:69:2: warning: implicit declaration of function 'EEPROM_Read' [-Wimplicit-function-declaration]
+   69 |  EEPROM_Read(EPA_MACHINE_SERIAL_NUMBER, &machine.Serial, 12);
+      |  ^~~~~~~~~~~
+../Core/Src/settings.c: In function 'SaveSettings':
+../Core/Src/settings.c:85:2: warning: implicit declaration of function 'EEPROM_Write' [-Wimplicit-function-declaration]
+   85 |  EEPROM_Write(EPA_T1_OFFSET, &settings.T1Offset, 2);
+      |  ^~~~~~~~~~~~
+In file included from ../Core/Inc/system.h:40,
+                 from ../Core/Src/system.c:38:
+../Core/Inc/globals.h:104:1: warning: useless storage class specifier in empty declaration
+  104 | };
+      | ^
+../Core/Src/system.c: In function 'SysInit':
+../Core/Src/system.c:124:17: warning: variable 'a' set but not used [-Wunused-but-set-variable]
+  124 |  RTCTimerTime_s a;
+      |                 ^
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima Firmware\Source\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: Board_APP.elf
  
 arm-none-eabi-size   Board_APP.elf 
 arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
-   text	   data	    bss	    dec	    hex	filename
- 108008	    640	  38432	 147080	  23e88	Board_APP.elf
 arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
 arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
+   text	   data	    bss	    dec	    hex	filename
+ 109536	    924	  38452	 148912	  245b0	Board_APP.elf
 Finished building: default.size.stdout
  
 Finished building: Board_APP.hex
- 
 Finished building: Board_APP.bin
+ 
  
 Finished building: Board_APP.list
  

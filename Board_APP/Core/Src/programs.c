@@ -44,6 +44,7 @@ USAGE:
 #include "time.h"
 #include "sensors.h"
 #include "printer.h"
+#include "modes.h"
 
 #define OT_HEAT		1200
 #define OT_VACUUM	240
@@ -52,69 +53,41 @@ USAGE:
 
 extern osThreadId sensorsTaskHandle;
 
-extern s_Sensors Sensors;
-
-uint8_t currProgram = 1;
-uint8_t currTest = 1;
-uint8_t currProgType = 1; // 1 = Program, 0 = Test
-
-uint8_t progRunning = 0;
-uint8_t progStart = 0;
-uint8_t progStop = 0;
-
-void SetProgram() {
-	if (!progRunning) {
-		if (currProgType == 1) currProgram++;
-		currProgType = 1;
-		if (currProgram > PROGRAMS_N) currProgram = 1;
-	}
-}
-
-void SetTest() {
-	if (!progRunning) {
-		if (currProgType == 0) currTest++;
-		currProgType = 0;
-		if (currTest > TESTS_N) currTest = 1;
-		char s[8];
-		sprintf(s,"tE. %d", currTest);
-		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, s);
-	}
-}
+extern Sensors_s sensors;
 
 void StartProgram() {
-	if (progRunning) {
-//		progStop = 1;
+	if (currProgType == PROGTYPE_PROGRAM) {
+		switch (currProgram) {
+		case 0:
+			ProgramUnwrapped();
+			break;
+		case 1:
+			ProgramWrapped();
+			break;
+		case 2:
+			ProgramPrion();
+			break;
+		case 3:
+			ProgramGentle();
+			break;
+		case 4:
+			//ProgramUser();
+			break;
+		case 5:
+			ProgramTestSteril();
+			break;
+		}
 	} else {
-		if (currProgType) {
-			switch (currProgram) {
-			case 1:
-				ProgramUnwrapped();
-				break;
-			case 2:
-				ProgramWrapped();
-				break;
-			case 3:
-				ProgramPrion();
-				break;
-			case 4:
-				ProgramGentle();
-				break;
-			case 5:
-				ProgramTestSteril();
-//				__NOP();
-				break;
-			}
-		} else {
-			switch (currTest) {
-			case 1:
-				ProgramHelixTest();
-				break;
-			case 2:
-				ProgramVacuumTest();
-				break;
-			}
+		switch (currTest) {
+		case 0:
+			ProgramHelixTest();
+			break;
+		case 1:
+			ProgramVacuumTest();
+			break;
 		}
 	}
+
 }
 
 uint8_t ProgramUnwrapped() {
@@ -126,11 +99,10 @@ uint8_t ProgramUnwrapped() {
 	progRunning = 1;
 	progStop = 0;
 
-	FanSet(ON);
-	SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
+	success = PhaseBegin(600);
 
 	GetDateTime(&clockTime);
-	PrintHeader("UNWRAPPED", Sensors.T1, &clockTime);
+	PrintHeader("UNWRAPPED", sensors.T1, &clockTime);
 
 	// Heat up
 	if (success) {
@@ -142,7 +114,7 @@ uint8_t ProgramUnwrapped() {
 	// Sterilization
 	if (success) {
 		PhasePreheat(130, 200);
-		success = PhaseVacuum(1, 18.0, OT_VACUUM);
+		success = PhaseVacuum(1, 20.0, OT_VACUUM);
 	}
 	if (success) {
 		PhasePreheat(130, 220);
@@ -151,7 +123,7 @@ uint8_t ProgramUnwrapped() {
 	if (success) {
 		PhasePreheat(130, 190);
 		SterilParam_s sterilParam = {
-				.chamberTemp = 135.2,
+				.chamberTemp = 135.4,
 				.chamberTempMin = 134.0,
 				.chamberTempMax = 136.0,
 				.sterilTime = 300,
@@ -166,13 +138,13 @@ uint8_t ProgramUnwrapped() {
 	}
 	if (success) {
 		PhasePreheat(130, 200);
-		success = PhaseRelease(3, 110.0, OT_RELEASE);
+		success = PhaseRelease(3, pressAmbientMax, OT_RELEASE);
 	}
 
 	// Dry
 	if (success) {
 		PhasePreheat(60, 90);
-		success = PhaseDry(20.0, 50.0, 90.0, 540, 800);
+		success = PhaseDry(20.0, 50.0, pressAmbientMin, 540, 800);
 	}
 
 	// End
@@ -193,11 +165,10 @@ uint8_t ProgramWrapped() {
 	progRunning = 1;
 	progStop = 0;
 
-	FanSet(ON);
-	SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
+	success = PhaseBegin(600);
 
 	GetDateTime(&clockTime);
-	PrintHeader("WRAPPED", Sensors.T1, &clockTime);
+	PrintHeader("WRAPPED", sensors.T1, &clockTime);
 
 	// Heat up
 	if (success) {
@@ -209,7 +180,7 @@ uint8_t ProgramWrapped() {
 	// First vacuum
 	if (success) {
 		PhasePreheat(130, 200);
-		success = PhaseVacuum(1, 18.0, OT_VACUUM);
+		success = PhaseVacuum(1, 20.0, OT_VACUUM);
 	}
 	if (success) {
 		PhasePreheat(130, 220);
@@ -217,7 +188,7 @@ uint8_t ProgramWrapped() {
 	}
 	if (success) {
 		PhasePreheat(130, 200);
-		success = PhaseRelease(1, 110.0, OT_RELEASE);
+		success = PhaseRelease(1, pressAmbientMax, OT_RELEASE);
 	}
 
 	// Other vacuum
@@ -232,7 +203,7 @@ uint8_t ProgramWrapped() {
 		}
 		if (success) {
 			PhasePreheat(130.0, 200.0);
-			success = PhaseRelease(2, 110.0, OT_RELEASE);
+			success = PhaseRelease(2, pressAmbientMax, OT_RELEASE);
 		}
 	}
 
@@ -247,7 +218,7 @@ uint8_t ProgramWrapped() {
 	if (success) {
 		PhasePreheat(130, 190);
 		SterilParam_s sterilParam = {
-				.chamberTemp = 135.2,
+				.chamberTemp = 135.4,
 				.chamberTempMin = 134.0,
 				.chamberTempMax = 136.0,
 				.sterilTime = 300,
@@ -262,13 +233,13 @@ uint8_t ProgramWrapped() {
 	}
 	if (success) {
 		PhasePreheat(130, 200);
-		success = PhaseRelease(3, 110.0, OT_RELEASE);
+		success = PhaseRelease(3, pressAmbientMax, OT_RELEASE);
 	}
 
 	// Dry
 	if (success) {
 		PhasePreheat(60, 90);
-		success = PhaseDry(20.0, 50.0, 90.0, 540, 800);
+		success = PhaseDry(20.0, 50.0, pressAmbientMin, 540, 800);
 	}
 
 	// End
@@ -292,8 +263,7 @@ uint8_t ProgramPrion() {
 	FanSet(ON);
 	SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
 
-	GetDateTime(&clockTime);
-	PrintHeader("PRION", Sensors.T1, &clockTime);
+	success = PhaseBegin(600);
 
 	// Heat up
 	if (success) {
@@ -305,7 +275,7 @@ uint8_t ProgramPrion() {
 	// First vacuum
 	if (success) {
 		PhasePreheat(130, 200);
-		success = PhaseVacuum(1, 18.0, OT_VACUUM);
+		success = PhaseVacuum(1, 20.0, OT_VACUUM);
 	}
 	if (success) {
 		PhasePreheat(130, 220);
@@ -313,7 +283,7 @@ uint8_t ProgramPrion() {
 	}
 	if (success) {
 		PhasePreheat(130, 200);
-		success = PhaseRelease(1, 110.0, OT_RELEASE);
+		success = PhaseRelease(1, pressAmbientMax, OT_RELEASE);
 	}
 
 	// Other vacuum
@@ -328,7 +298,7 @@ uint8_t ProgramPrion() {
 		}
 		if (success) {
 			PhasePreheat(130.0, 200.0);
-			success = PhaseRelease(2, 110.0, OT_RELEASE);
+			success = PhaseRelease(2, pressAmbientMax, OT_RELEASE);
 		}
 	}
 
@@ -343,7 +313,7 @@ uint8_t ProgramPrion() {
 	if (success) {
 		PhasePreheat(130, 190);
 		SterilParam_s sterilParam = {
-				.chamberTemp = 135.2,
+				.chamberTemp = 135.4,
 				.chamberTempMin = 134.0,
 				.chamberTempMax = 136.0,
 				.sterilTime = 1080,
@@ -358,13 +328,13 @@ uint8_t ProgramPrion() {
 	}
 	if (success) {
 		PhasePreheat(130, 200);
-		success = PhaseRelease(3, 110.0, OT_RELEASE);
+		success = PhaseRelease(3, pressAmbientMax, OT_RELEASE);
 	}
 
 	// Dry
 	if (success) {
 		PhasePreheat(60, 90);
-		success = PhaseDry(20.0, 50.0, 90.0, 540, 600);
+		success = PhaseDry(20.0, 50.0, pressAmbientMin, 540, 600);
 	}
 
 	// End
@@ -385,11 +355,10 @@ uint8_t ProgramGentle() {
 	progRunning = 1;
 	progStop = 0;
 
-	FanSet(ON);
-	SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
+	success = PhaseBegin(600);
 
 	GetDateTime(&clockTime);
-	PrintHeader("GENTLE", Sensors.T1, &clockTime);
+	PrintHeader("GENTLE", sensors.T1, &clockTime);
 
 	// Heat up
 	if (success) {
@@ -401,7 +370,7 @@ uint8_t ProgramGentle() {
 	// First vacuum
 	if (success) {
 		PhasePreheat(118, 200);
-		success = PhaseVacuum(1, 18.0, OT_VACUUM);
+		success = PhaseVacuum(1, 20.0, OT_VACUUM);
 	}
 	if (success) {
 		PhasePreheat(118, 220);
@@ -409,7 +378,7 @@ uint8_t ProgramGentle() {
 	}
 	if (success) {
 		PhasePreheat(118, 200);
-		success = PhaseRelease(1, 110.0, OT_RELEASE);
+		success = PhaseRelease(1, pressAmbientMax, OT_RELEASE);
 	}
 
 	// Other vacuum
@@ -424,7 +393,7 @@ uint8_t ProgramGentle() {
 		}
 		if (success) {
 			PhasePreheat(118.0, 200.0);
-			success = PhaseRelease(2, 110.0, OT_RELEASE);
+			success = PhaseRelease(2, pressAmbientMax, OT_RELEASE);
 		}
 	}
 
@@ -454,13 +423,13 @@ uint8_t ProgramGentle() {
 	}
 	if (success) {
 		PhasePreheat(130, 200);
-		success = PhaseRelease(3, 110.0, OT_RELEASE);
+		success = PhaseRelease(3, pressAmbientMax, OT_RELEASE);
 	}
 
 	// Dry
 	if (success) {
 		PhasePreheat(60, 90);
-		success = PhaseDry(20.0, 50.0, 90.0, 540, 600);
+		success = PhaseDry(20.0, 50.0, pressAmbientMin, 540, 600);
 	}
 
 	// End
@@ -481,11 +450,10 @@ uint8_t ProgramHelixTest() {
 	progRunning = 1;
 	progStop = 0;
 
-	FanSet(ON);
-	SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
+	success = PhaseBegin(600);
 
 	GetDateTime(&clockTime);
-	PrintHeader("HELIX TEST", Sensors.T1, &clockTime);
+	PrintHeader("HELIX TEST", sensors.T1, &clockTime);
 
 	// Heat up
 	if (success) {
@@ -497,7 +465,7 @@ uint8_t ProgramHelixTest() {
 	// First vacuum
 	if (success) {
 		PhasePreheat(130, 200);
-		success = PhaseVacuum(1, 18.0, OT_VACUUM);
+		success = PhaseVacuum(1, 20.0, OT_VACUUM);
 	}
 	if (success) {
 		PhasePreheat(130, 220);
@@ -505,7 +473,7 @@ uint8_t ProgramHelixTest() {
 	}
 	if (success) {
 		PhasePreheat(130, 200);
-		success = PhaseRelease(1, 110.0, OT_RELEASE);
+		success = PhaseRelease(1, pressAmbientMax, OT_RELEASE);
 	}
 
 	// Other vacuum
@@ -520,7 +488,7 @@ uint8_t ProgramHelixTest() {
 		}
 		if (success) {
 			PhasePreheat(130.0, 200.0);
-			success = PhaseRelease(2, 110.0, OT_RELEASE);
+			success = PhaseRelease(2, pressAmbientMax, OT_RELEASE);
 		}
 	}
 
@@ -535,7 +503,7 @@ uint8_t ProgramHelixTest() {
 	if (success) {
 		PhasePreheat(130, 190);
 		SterilParam_s sterilParam = {
-				.chamberTemp = 135.2,
+				.chamberTemp = 135.4,
 				.chamberTempMin = 134.0,
 				.chamberTempMax = 136.0,
 				.sterilTime = 210,
@@ -550,13 +518,13 @@ uint8_t ProgramHelixTest() {
 	}
 	if (success) {
 		PhasePreheat(130, 200);
-		success = PhaseRelease(3, 110.0, OT_RELEASE);
+		success = PhaseRelease(3, pressAmbientMax, OT_RELEASE);
 	}
 
 	// Dry
 	if (success) {
 		PhasePreheat(60, 90);
-		success = PhaseDry(20.0, 50.0, 90.0, 300, 600);
+		success = PhaseDry(20.0, 50.0, pressAmbientMin, 300, 600);
 	}
 
 	// End
@@ -578,18 +546,17 @@ uint8_t ProgramVacuumTest() {
 	progRunning = 1;
 	progStop = 0;
 
-	FanSet(ON);
-	SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
+	success = PhaseBegin(600);
 
 	ResetTimer(TIMER_CYCLE);
 
 	success = PhaseBegin(600);
 
 	GetDateTime(&clockTime);
-	PrintHeader("VACUUM TEST", Sensors.T1, &clockTime);
+	PrintHeader("VACUUM TEST", sensors.T1, &clockTime);
 
 	if (success) {
-		success = PhaseVacuum(1, 18.0, OT_VACUUM);
+		success = PhaseVacuum(1, 20.0, OT_VACUUM);
 	}
 	if (success) {
 		success = PhaseWait(240);
@@ -598,7 +565,7 @@ uint8_t ProgramVacuumTest() {
 		success = PhaseVacuumHold(18.0, 20.0, 240, 600);
 	}
 	if (success) {
-		success = PhaseRelease(1, 110.0, OT_RELEASE);
+		success = PhaseRelease(1, pressAmbientMax, OT_RELEASE);
 	}
 
 	// End
@@ -620,11 +587,10 @@ uint8_t ProgramTestSteril() {
 	progRunning = 1;
 	progStop = 0;
 
-	FanSet(ON);
-	SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
+	success = PhaseBegin(600);
 
 	GetDateTime(&clockTime);
-	PrintHeader("QUICK CYCLE", Sensors.T1, &clockTime);
+	PrintHeader("QUICK CYCLE", sensors.T1, &clockTime);
 
 	// Heat up
 	if (success) {
@@ -636,7 +602,7 @@ uint8_t ProgramTestSteril() {
 	// Sterilization
 	if (success) {
 		PhasePreheat(130, 200);
-		success = PhaseVacuum(1, 18.0, OT_VACUUM);
+		success = PhaseVacuum(1, 20.0, OT_VACUUM);
 	}
 	if (success) {
 		PhasePreheat(130, 220);
@@ -645,7 +611,7 @@ uint8_t ProgramTestSteril() {
 	if (success) {
 		PhasePreheat(130, 190);
 		SterilParam_s sterilParam = {
-				.chamberTemp = 135.2,
+				.chamberTemp = 135.4,
 				.chamberTempMin = 134.0,
 				.chamberTempMax = 136.0,
 				.sterilTime = 210,
@@ -660,13 +626,13 @@ uint8_t ProgramTestSteril() {
 	}
 	if (success) {
 		PhasePreheat(130, 200);
-		success = PhaseRelease(3, 110.0, OT_RELEASE);
+		success = PhaseRelease(3, pressAmbientMax, OT_RELEASE);
 	}
 
 	// Dry
 	if (success) {
 		PhasePreheat(60, 90);
-		success = PhaseDry(20.0, 50.0, 90.0, 30, 800);
+		success = PhaseDry(20.0, 50.0, pressAmbientMin, 30, 800);
 	}
 
 	// End

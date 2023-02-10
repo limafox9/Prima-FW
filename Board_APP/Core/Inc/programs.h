@@ -47,15 +47,16 @@ typedef enum {
 	PROGRAM_UNWRAPPED,
 	PROGRAM_WRAPPED,
 	PROGRAM_PRION,
-	PROGRAM_121,
+	PROGRAM_GENTLE,
+	PROGRAM_USER,
 	PROGRAM_TEST_HELIX,
 	PROGRAM_TEST_VACUUM,
 	PROGRAM_WASH,
 	PROGRAM_WATER_LOAD
-} Program_e;
+} e_Program;
 
-void SetProgram();
-void SetTest();
+void SelectProgram();
+void SelectTest();
 void StartProgram();
 
 uint8_t ProgramUnwrapped();

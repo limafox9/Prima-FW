@@ -72,13 +72,12 @@ extern UART_HandleTypeDef huart3;
 extern DMA_HandleTypeDef hdma_usart3_rx;
 extern SPI_HandleTypeDef hspi1;
 
-extern s_Sensors Sensors;
+extern Sensors_s sensors;
 extern Settings_s settings;
 
 //uint8_t UART_rxBuffer[UART_DISPLAY_BUFFER_SIZE] = {0};
 
 RTCDateTime_s dt;
-
 
 osThreadId keysTaskHandle;
 osThreadId serialTaskHandle;
@@ -100,11 +99,11 @@ osThreadId sensorsTaskHandle;
 
 void SysInit() {
 
-	LoadSettings();
-
-	settings.T1Offset = 19;
-	settings.ChamberPressOffset = 4;
+//	settings.T1Offset = 200;
+//	settings.ChamberPressOffset = 200;
 //	SaveSettings();
+
+//	LoadSettings();
 
 	osThreadDef(keysTask, StartKeysTask, osPriorityAboveNormal, 1, 1024);
 	keysTaskHandle = osThreadCreate(osThread(keysTask), NULL);
@@ -128,6 +127,13 @@ void SysInit() {
 //
 	RTCDateTime_s d;
 	GetDateTime(&d);
+//
+//		settings.T1Offset = 0;
+//		settings.ChamberPressOffset = 0;
+//		SaveSettings();
+
+		LoadSettings();
+
 //
 //	PrintHeader("HELIX TEST", 24.2, &d);
 //	PrintStepLine("VAC-----", 134.2, 2.1, 23.7, &a);

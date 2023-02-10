@@ -146,7 +146,7 @@ void PrintHeader (const char* title, float t1, RTCDateTime_s* time) {
 	Print("SW: 		v. %d.%01d.%02d\n", FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION);
 	Print("\n");
 	Print("DATE:    %d-%02d-%02d (YYYY-MM-DD)\n", time->Year, time->Month, time->Day);
-	Print("CYCLE N. %d\n", settings.Cycles);
+	Print("CYCLE N. %d\n", settings.CyclesCount);
 	Print("\n");
 	Print("\n");
 	Print("USER: ____________________________________\n");

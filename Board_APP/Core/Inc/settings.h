@@ -45,8 +45,8 @@ USAGE:
 #define DEFAULT_DOOR_SOLENOID_IMPULSE 	1000	// milliseconds
 
 #define FW_VERSION_MAJOR 0
-#define FW_VERSION_MINOR 3
-#define FW_VERSION_REVISION 16
+#define FW_VERSION_MINOR 4
+#define FW_VERSION_REVISION 1
 
 //#define UART_MONITOR		huart1
 #define UART_TDS			huart2
@@ -66,16 +66,22 @@ USAGE:
 #define EPA_MACHINE_SERIAL_NUMBER	 	0x10	// 12 bytes
 #define EPA_CYCLE_COUNTER_PERMANENT 	0x1C	// 2 bytes - Cycla counter permanent
 #define EPA_CYCLE_COUNTER 				0x1E	// 2 bytes - Cycle counter resettable
-#define EPA_T1_OFFSET 					0x20	// 1 byte +/- 128 in 0.1 steps
-#define EPA_T2_OFFSET 					0x21	// 1 byte +/- 128 in 0.1 steps
-#define EPA_CHAMBER_PRESSURE_OFFSET 	0x22	// 1 byte +/- 128 in 1 steps
+#define EPA_T1_OFFSET 					0x20	// 1 byte +/- 127 in 0.1 steps
+#define EPA_T2_OFFSET 					0x21	// 1 byte +/- 127 in 0.1 steps
+#define EPA_CHAMBER_PRESSURE_OFFSET 	0x22	// 1 byte +/- 127 in 1 steps
+#define EPA_LAST_ERROR					0x0A	// 1 byte
 
 typedef struct Settings_s {
-	uint16_t Cycles;
-	int16_t T1Offset;
-	int16_t T2Offset;
-	int16_t ChamberPressOffset;
+	uint16_t CyclesCount;
+	int8_t T1Offset;
+	int8_t T2Offset;
+	int8_t ChamberPressOffset;
 } Settings_s;
+
+typedef enum {
+	MACHINE_MODEL_18L,
+	MACHINE_MODEL_23L,
+} MachineModel_e;
 
 typedef struct MachineData_s{
 	uint32_t MCUID[3];
@@ -83,7 +89,12 @@ typedef struct MachineData_s{
 	char Serial[12];
 	uint8_t ProductionYear;
 	uint8_t ProductionWeek;
+	MachineModel_e Model;
 } MachineData_s;
+
+extern Settings_s settings;
+extern MachineData_s machine;
+extern int8_t ambientPressure;
 
 void SaveSettings();
 void LoadSettings();

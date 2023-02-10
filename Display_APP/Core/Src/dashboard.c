@@ -5,7 +5,9 @@
  *      Author: josh
  */
 
-#include <dashboard.h>
+#include <stdio.h>
+
+#include "dashboard.h"
 #include "progress_bar.h"
 #include "globals.h"
 

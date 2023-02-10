@@ -12,6 +12,7 @@
 "./Core/Src/keys.o"
 "./Core/Src/leds.o"
 "./Core/Src/main.o"
+"./Core/Src/modes.o"
 "./Core/Src/panel_serial.o"
 "./Core/Src/phases.o"
 "./Core/Src/pid.o"

@@ -139,8 +139,7 @@ static void ParseCommand(s_DisplayProtocolData* data) {
 			DigitsWrite(data->Param1, data->Digits);
 			break;
 		case DISPLAY_CMD_WRITE_DASHBOARD_LEDS:
-//			DisplayProgressWriteLeds((uint16_t)data->Param1);
-//			DisplayProgressRefresh();
+			DashboardWrite((uint16_t)data->Param1);
 			break;
 		case DISPLAY_CMD_WRITE_PROGRESS_LEDS:
 //			DisplayWriteProgressLeds((uint16_t)data->Param1);

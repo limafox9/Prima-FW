@@ -43,17 +43,14 @@ USAGE:
 #include "Inc/DB_Protocol.h"
 #include "actuators.h"
 #include "programs.h"
+#include "modes.h"
 
 extern UART_HandleTypeDef huart1;
 extern UART_HandleTypeDef huart2;
 extern UART_HandleTypeDef huart3;
 extern DMA_HandleTypeDef hdma_usart3_rx;
 
-extern uint8_t currProgram;
-extern uint8_t currTest;
-
 uint8_t UART_rxBuffer1[UART_DISPLAY_RX_BUFFER_SIZE];
-
 
 #define MainBuf_SIZE 128
 uint8_t rxBuf[UART_DISPLAY_RX_BUFFER_SIZE];
@@ -248,26 +245,67 @@ void StartSerialTask() {
 
 static void ParseCommand(s_DisplayProtocolData* data) {
 
-	switch (data->Command) {
-		case DISPLAY_CMD_BEEP:
-			Beep(data->Param1, data->Param2, data->Param3);
+
+
+	if (data->Param1 == KEY_START) {
+		if (machineStatus == OP_IDLE) {
+			__NOP();
+		} else if (machineStatus == OP_READY) {
+			StartProgram();
+		} else {
+			__NOP();
+		}
+
+	} else if (data->Param1 == KEY_TEST) {
+		if (machineStatus == OP_IDLE) {
+			SelectTest();
+		} else if (machineStatus == OP_READY) {
+			SelectTest();
+		} else {
+			__NOP();
+		}
+
+	} else if (data->Param1 == KEY_PROG) {
+		if (machineStatus == OP_IDLE) {
+			SelectProgram();
+		} else if (machineStatus == OP_READY) {
+			SelectProgram();
+		} else {
+			__NOP();
+		}
+
+	} else if (data->Param1 == KEY_START + KEY_LONG_PRESS) {
+		// Button code here
+	} else if (data->Param1 == KEY_TEST + KEY_LONG_PRESS) {
+		// Button code here
+	} else if (data->Param1 == KEY_PROG + KEY_LONG_PRESS) {
+		// Button code here
+	} else if (data->Param1 == KEY_START + KEY_TEST) {
+		// Button code here
+	} else if (data->Param1 == KEY_START + KEY_PROG) {
+		// Button code here
+	} else if (data->Param1 == KEY_TEST + KEY_PROG) {
+		// Button code here
+	} else if (data->Param1 == KEY_START + KEY_TEST + KEY_PROG) {
+		// Button code here
+	} else if (data->Param1 == KEY_START + KEY_TEST + KEY_LONG_PRESS) {
+		switch (machineStatus) {
+		case OP_IDLE:
+			SelectProgram();
 			break;
-		case DISPLAY_CMD_FW_VER:
-//			SendCommand(DISPLAY_CMD_OK, FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION, "");
+		default:
+			__NOP();
 			break;
-		case DISPLAY_CMD_READY:
-			break;
-		case DISPLAY_CMD_KEYS_PRESSED:
-			if ((data->Param1 & KEY_START) == KEY_START) {
-				StartProgram();
-			}
-			if ((data->Param1 & KEY_TEST) == KEY_TEST) {
-				SetTest();
-			}
-			if ((data->Param1 & KEY_PROG) == KEY_PROG) {
-				SetProgram();
-			}
-			break;
+		}
+
+	} else if (data->Param1 == KEY_START + KEY_PROG + KEY_LONG_PRESS) {
+		// Button code here
+	} else if (data->Param1 == KEY_TEST + KEY_PROG + KEY_LONG_PRESS) {
+		// Button code here
+	} else if (data->Param1 == KEY_START + KEY_TEST + KEY_PROG + KEY_LONG_PRESS) {
+		// Button code here
+	} else {
+		__NOP();
 	}
 }
 

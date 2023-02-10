@@ -56,7 +56,7 @@ USAGE:
 
 #define SAMPLE_TIME_S 1.0f
 
-extern s_Sensors Sensors;
+extern Sensors_s sensors;
 extern osSemaphoreId semaphorePowerHandle;
 osThreadId chamberPowerTaskHandle;
 osThreadId steamPowerTaskHandle;
@@ -116,7 +116,7 @@ void PWMPower_Stop() {
 void StartChPowerTask() {
 
 	for (;;) {
-		float ret = PIDController_Update(&pidHeaterChamber, (float)heaterChamberTempSet, Sensors.TemperatureChamberHeater);
+		float ret = PIDController_Update(&pidHeaterChamber, (float)heaterChamberTempSet, sensors.TemperatureChamberHeater);
 		// duty cycle %
 		uint16_t ut = 1000 * ret / 100;
 		uint16_t dt = 1000 - ut;
@@ -132,7 +132,7 @@ void StartChPowerTask() {
 
 void StartSteamPowerTask() {
 	for (;;) {
-		float ret = PIDController_Update(&pidHeaterSteamGenerator, (float)heaterSteamGeneratorTempSet, Sensors.TemperatureSteamGenerator);
+		float ret = PIDController_Update(&pidHeaterSteamGenerator, (float)heaterSteamGeneratorTempSet, sensors.TemperatureSteamGenerator);
 		// duty cycle %
 		uint16_t ut = 1000 * ret / 100;
 		uint16_t dt = 1000 - ut;
@@ -182,7 +182,7 @@ void HeaterSteamGeneratorTempSet(float tempC) {
 
 void PWMHeaterSteamGenerator() {
 
-	float ret = PIDController_Update(&pidHeaterSteamGenerator, (float)heaterSteamGeneratorTempSet, Sensors.TemperatureSteamGenerator);
+	float ret = PIDController_Update(&pidHeaterSteamGenerator, (float)heaterSteamGeneratorTempSet, sensors.TemperatureSteamGenerator);
 	// duty cycle %
 	uint16_t ut = 1000 * ret / 100;
 	uint16_t dt = 1000 - ut;

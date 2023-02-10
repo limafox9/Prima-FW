@@ -39,6 +39,7 @@ USAGE:
 #include "serial.h"
 #include "Inc/DB_Protocol.h"
 #include "programs.h"
+#include "modes.h"
 
 #define KEY_LONG_PRESS_MS 3000
 
@@ -86,15 +87,53 @@ static uint8_t GetPressedKeys() {
 static void KeysReceived(uint8_t keysCode) {
 
 	if (keysCode == KEY_S1) {
-		// Button code here
+		if (machineStatus == OP_IDLE) {
+			SelectProgram();
+		} else if (machineStatus == OP_READY) {
+			SelectProgram();
+		} else if (machineStatus == OP_PARAMETERS) {
+			SelectParameter();
+		} else {
+			__NOP();
+		}
+
 	} else if (keysCode == KEY_S2) {
-		// Button code here
+		if (machineStatus == OP_IDLE) {
+			SelectTest();
+		} else if (machineStatus == OP_READY) {
+			SelectTest();
+		} else if (machineStatus == OP_PARAMETERS) {
+			ChangeParameter(1);
+		} else {
+			__NOP();
+		}
+
 	} else if (keysCode == KEY_S3) {
-		// Button code here
+		if (machineStatus == OP_IDLE) {
+			StartProgram();
+		} else if (machineStatus == OP_READY) {
+			StartProgram();
+		} else if (machineStatus == OP_PARAMETERS) {
+			ChangeParameter(-1);
+		} else {
+			__NOP();
+		}
+
 	} else if (keysCode == KEY_S1 + KEY_LONG_PRESS) {
 		// Button code here
+
 	} else if (keysCode == KEY_S2 + KEY_LONG_PRESS) {
-		// Button code here
+		if (machineStatus == OP_IDLE) {
+			__NOP();
+		} else if (machineStatus == OP_READY) {
+			__NOP();
+		} else if (machineStatus == OP_PARAMETERS) {
+			machineStatus = OP_IDLE;
+			ShowProgram();
+		} else {
+			__NOP();
+		}
+
 	} else if (keysCode == KEY_S3 + KEY_LONG_PRESS) {
 		// Button code here
 	} else if (keysCode == KEY_S1 + KEY_S2) {
@@ -110,7 +149,14 @@ static void KeysReceived(uint8_t keysCode) {
 	} else if (keysCode == KEY_S1 + KEY_S3 + KEY_LONG_PRESS) {
 		// Button code here
 	} else if (keysCode == KEY_S2 + KEY_S3 + KEY_LONG_PRESS) {
-		// Button code here
+		if (machineStatus == OP_IDLE) {
+			machineStatus = OP_PARAMETERS;
+			ShowParameter();
+		} else if (machineStatus == OP_READY) {
+			__NOP();
+		} else {
+			__NOP();
+		}
 	} else if (keysCode == KEY_S1 + KEY_S2 + KEY_S3 + KEY_LONG_PRESS) {
 		// Button code here
 	} else {

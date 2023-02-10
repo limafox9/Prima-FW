@@ -58,6 +58,7 @@ typedef struct {
 
 Settings_s settings;
 MachineData_s machine;
+int8_t ambientPressure;
 
 void LoadSettings() {
 	// Get MCU unique ID 96 bit
@@ -67,10 +68,16 @@ void LoadSettings() {
 	// EEPROM read
 	EEPROM_Read(EPA_MACHINE_SERIAL_NUMBER, &machine.Serial, 12);
 	EEPROM_Read(EPA_CYCLE_COUNTER_PERMANENT, &machine.ReadOnlyCyclesCount, 2);
-	EEPROM_Read(EPA_CYCLE_COUNTER, &settings.Cycles, 2);
+
+	EEPROM_Read(EPA_CYCLE_COUNTER, &settings.CyclesCount, 2);
 	EEPROM_Read(EPA_T1_OFFSET, &settings.T1Offset, 2);
 	EEPROM_Read(EPA_T2_OFFSET, &settings.T2Offset, 2);
 	EEPROM_Read(EPA_CHAMBER_PRESSURE_OFFSET, &settings.ChamberPressOffset, 2);
+}
+
+void ReadSetting(uint8_t address, uint8_t* data, uint8_t size) {
+	// EEPROM read
+	EEPROM_Read(address, data, size);
 }
 
 void SaveSettings() {
@@ -78,6 +85,11 @@ void SaveSettings() {
 	EEPROM_Write(EPA_T1_OFFSET, &settings.T1Offset, 2);
 	EEPROM_Write(EPA_T2_OFFSET, &settings.T2Offset, 2);
 	EEPROM_Write(EPA_CHAMBER_PRESSURE_OFFSET, &settings.ChamberPressOffset, 2);
+}
+
+void WriteSetting(uint8_t address, uint8_t* data, uint8_t size) {
+	// EEPROM read
+	EEPROM_Write(address, data, size);
 }
 
 //s_SettingItem settings[] = {

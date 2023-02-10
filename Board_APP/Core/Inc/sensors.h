@@ -67,9 +67,13 @@ typedef struct s_Sensors{
 	float T1;
 	float T2;
 	float PressureChamber;
+	float PressureAmbient;
 	float Current;
 	uint16_t WaterTDS;
-} s_Sensors;
+} Sensors_s;
 
+extern Sensors_s sensors;
+extern float pressAmbientMin;
+extern float pressAmbientMax;
 
 #endif /* INC_SENSORS_H_ */

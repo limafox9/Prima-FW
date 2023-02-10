@@ -86,10 +86,29 @@ typedef enum {
 	ERROR_WATER_LEVEL_LOW
 } Error_e;
 
+typedef enum {
+	LED_MODE_UNWRAPPED = 1,
+	LED_MODE_WRAPPED = 2,
+	LED_MODE_PRION = 4,
+	LED_MODE_GENTLE = 8,
+	LED_TEST_HELIX = 16,
+	LED_TEST_VACUUM = 32,
+	LED_WARNING_CTL = 64,
+	LED_WARNING_LSH = 128,
+	LED_WARNING_TDS = 256,
+	LED_TEMP_134 = 1024,
+	LED_B_CLASS = 2048,
+	LED_WATER_LOAD = 4096,
+	LED_WASH = 8192,
+	LED_5 = 16384,
+};
+
 typedef struct Error_s {
 	Error_e ErrorCode;
 	char ErrorDescription[128];
 } Error_s;
+
+
 
 uint32_t GetSafeDeltaTick(uint32_t startTick, uint32_t endTick);
 void SwapBytes(void *pBytes, size_t size);

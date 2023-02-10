@@ -44,6 +44,7 @@ USAGE:
 #include "serial.h"
 #include "settings.h"
 #include "Inc/DB_protocol.h"
+#include "modes.h"
 
 
 //==============================================================================
@@ -58,11 +59,14 @@ USAGE:
 #define SENSOR_TEMP_T1_ADC_CHANNEL 				0 // External 16bit ADC
 #define SENSOR_TEMP_T2_ADC_CHANNEL 				1 // External 16bit ADC
 
+#define AMBIENT_PRESSURE_TOLERANCE				10	// +/- kPa to consider chamber pressure = ambient pressure
+
 #define SAMPLE_RATE					2			// Sample per second (SPS/Hz)
 #define AVERAGE_SAMPLES				5			// N. of samples for the average
 #define AVERAGE_SAMPLES_INTERVAL	10			// Interval between samples (milliseconds)
 #define V_REF						3.3			// Power supply
 #define ADC_BITS					12			// ADC resolution (8bit=256, 10bit=1024, 12bit=4096, 16bit=65536
+#define T_FACTORY_OFFSET			2			// Fixed factory offset for T1 and T2
 //#define PTC_NOMINAL_RESISTANCE	1000	   	// Ω nominal resistance (typical @25°C)
 //#define PTC_NOMINAL_TEMPERATURE	0.0			// temperature of nominal resistance (typical 25°C)
 //#define PTC_BETA				3977		// The beta coefficient or the B value of the thermistor (usually 3000-4000) check the datasheet for the accurate value
@@ -90,7 +94,10 @@ static float ADCToTemp(uint16_t adcValue);
 static float ADCToPress(uint16_t adcValue);
 static float ADCToCurrent(uint16_t adcValue);
 
-s_Sensors Sensors;
+Sensors_s sensors;
+
+float pressAmbientMin;
+float pressAmbientMax;
 
 #define PRESS_BUFFER_SIZE 5 // >= 2
 float pressBuf[PRESS_BUFFER_SIZE];
@@ -187,15 +194,14 @@ void StartSensorsTask() {
 
 	for (;;) {
 
-
-		Sensors.Door = DoorSolenoidKeyGet();
-		Sensors.Solenoid = DoorPositionGet();
-		Sensors.TemperatureSteamGenerator = SteamGeneratorTempGet();
-		Sensors.TemperatureChamberHeater = ChamberHeaterTempGet();
-		Sensors.T1 = TM7705_GetTemp(0, (float)(settings.T1Offset / 10.0));
+		sensors.Door = DoorPositionGet();
+		sensors.Solenoid = DoorSolenoidKeyGet();
+		sensors.TemperatureSteamGenerator = SteamGeneratorTempGet();
+		sensors.TemperatureChamberHeater = ChamberHeaterTempGet();
+		sensors.T1 = TM7705_GetTemp(0, (float)(settings.T1Offset / 10.0) + (float)T_FACTORY_OFFSET);
 //		Sensors.T2 = TemperatureT2Get();
-		Sensors.PressureChamber = BufferAverage(pressBuf, PRESS_BUFFER_SIZE, ChamberPressureGet());
-		Sensors.Current = CurrentGet();
+		sensors.PressureChamber = BufferAverage(pressBuf, PRESS_BUFFER_SIZE, ChamberPressureGet());
+		sensors.Current = CurrentGet();
 
 //
 //		Log(LOG_LEVEL_DEBUG, LOG_TIME_TIME, LOG_OUT_SERIAL, "%0.3f", Sensors.Current);
@@ -203,18 +209,12 @@ void StartSensorsTask() {
 //		sprintf(d, "%0.1f", Sensors.TemperatureSteamGenerator);
 //		SendCommand(COMMAND_WRITE_DIGITS_ROW_1, 0, 0, 0, d);
 
-		char s[8];
-		sprintf(s,"%5.1f", Sensors.T1);
-		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, s);
-		osDelay(20);
-		sprintf(s,"%5.1f", Sensors.PressureChamber);
-		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 2, 0, 0, s);
-		osDelay(20);
-		sprintf(s,"Pr. %d", currProgram);
-		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, s);
-
-//		sprintf(s,"%5.1f", Sensors.TemperatureSteamGenerator);
-//		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, s);
+		if (sensors.Door == OPEN) {
+			sensors.PressureAmbient = sensors.PressureChamber;
+			pressAmbientMin = sensors.PressureAmbient - (float)AMBIENT_PRESSURE_TOLERANCE;
+			pressAmbientMax = sensors.PressureAmbient + (float)AMBIENT_PRESSURE_TOLERANCE;
+		}
+		if ((machineStatus == OP_IDLE) | (machineStatus == OP_READY)) ShowProgram();
 
 		osDelay(1000 / SAMPLE_RATE);
 	}
