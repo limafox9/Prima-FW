@@ -44,6 +44,7 @@ typedef enum {
 	OP_RUNNING,
 	OP_FAIL,
 	OP_PARAMETERS,
+	OP_READINGS,
 } e_MachineStatus;
 
 typedef enum {
@@ -105,8 +106,16 @@ typedef struct Parameter_s {
 	uint8_t Divider;
 } Parameter_s;
 
+typedef struct Reading_s {
+	uint8_t ParamNumber;
+	char Name[16];
+	char DigitsName[8];
+	float* Value;
+} Reading_s;
+
 
 extern e_MachineStatus machineStatus;
+extern e_MachineStatus machineStatusEx;
 
 extern uint8_t currProgram;
 extern uint8_t currTest;

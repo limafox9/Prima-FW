@@ -52,6 +52,7 @@ extern uint16_t SET_FlashInterval;
 extern uint8_t SET_KeysBeep;
 
 extern UART_HandleTypeDef huart1;
+extern DMA_HandleTypeDef hdma_usart1_rx;
 
 uint8_t UART_rxBuffer[UART_DISPLAY_BUFFER_SIZE];
 //uint8_t rxBuffer[DISPLAY_UART_BUFFER_SIZE] = {[0 ... DISPLAY_UART_BUFFER_SIZE - 1] = 0};
@@ -62,10 +63,10 @@ static void ParseCommand(s_DisplayProtocolData* data);
 //
 void DisplayUARTInit() {
 
-//	DISPLAY_UART_HANDLE.Init.BaudRate = DISPLAY_UART_SPEED;
-	HAL_UART_Receive_DMA(&DISPLAY_UART_HANDLE, UART_rxBuffer, UART_DISPLAY_BUFFER_SIZE);
-//	HAL_UARTEx_ReceiveToIdle_DMA(&DISPLAY_UART_HANDLE, UART_rxBuffer, DISPLAY_UART_BUFFER_SIZE);
-//	__HAL_DMA_DISABLE_IT(&huart1, DMA_IT_HT);
+	//	DISPLAY_UART_HANDLE.Init.BaudRate = DISPLAY_UART_SPEED;
+		HAL_UART_Receive_DMA(&DISPLAY_UART_HANDLE, UART_rxBuffer, UART_DISPLAY_BUFFER_SIZE);
+	//	HAL_UARTEx_ReceiveToIdle_DMA(&DISPLAY_UART_HANDLE, UART_rxBuffer, DISPLAY_UART_BUFFER_SIZE);
+		__HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT);
 }
 
 // TRANSMIT
@@ -108,18 +109,48 @@ void SendCommand(uint16_t command, uint32_t param1, uint32_t param2, uint32_t pa
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 
-	s_DisplayProtocolData rxData;
 
-	if (huart->Instance == DISPLAY_UART_HANDLE.Instance) {
-		Display_ProtocolToData(UART_rxBuffer, &rxData);
-		if (rxData.Valid) {
-			ParseCommand(&rxData); // valid received command > parse
+
+		s_DisplayProtocolData rxData;
+
+		if (huart->Instance == DISPLAY_UART_HANDLE.Instance) {
+			Display_ProtocolToData(UART_rxBuffer, &rxData);
+			if (rxData.Valid) {
+				ParseCommand(&rxData); // valid received command > parse
+			}
 		}
-	}
 
-	HAL_UART_Receive_DMA(huart, UART_rxBuffer, UART_DISPLAY_BUFFER_SIZE);
-//	HAL_UARTEx_ReceiveToIdle_DMA(huart, UART_rxBuffer, DISPLAY_UART_BUFFER_SIZE);
-//	__HAL_DMA_DISABLE_IT(&huart1, DMA_IT_HT);
+//	if (huart->Instance == DISPLAY_UART_HANDLE.Instance) {
+//
+//		uint8_t headFound, tailFound;
+//		uint8_t tempBuf[UART_DISPLAY_BUFFER_SIZE];
+//
+//		for (int i = 0; i < UART_DISPLAY_BUFFER_SIZE; i++) {
+//			if ((UART_rxBuffer[i] == '<') && (UART_rxBuffer[i+1] == '~')) {
+//
+//				uint8_t p1[UART_DISPLAY_BUFFER_SIZE - i];
+//				memcpy(p1, UART_rxBuffer + i, UART_DISPLAY_BUFFER_SIZE - i);
+//
+//				uint8_t p2[i];
+//				HAL_UART_Receive(huart, p2, i, 10);
+//
+//				memcpy(tempBuf, p1, UART_DISPLAY_BUFFER_SIZE - i);
+//				memcpy(tempBuf + UART_DISPLAY_BUFFER_SIZE - i, p2, i);
+//
+//				Display_ProtocolToData(tempBuf, &rxData);
+//				if (rxData.Valid) {
+//					ParseCommand(&rxData); // valid received command > parse
+//				}
+//			}
+//		}
+//	}
+
+	//	DISPLAY_UART_HANDLE.Init.BaudRate = DISPLAY_UART_SPEED;
+		HAL_UART_Receive_DMA(&DISPLAY_UART_HANDLE, UART_rxBuffer, UART_DISPLAY_BUFFER_SIZE);
+	//	HAL_UARTEx_ReceiveToIdle_DMA(&DISPLAY_UART_HANDLE, UART_rxBuffer, DISPLAY_UART_BUFFER_SIZE);
+		__HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT);
+
+
 
 }
 

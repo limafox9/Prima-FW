@@ -42,22 +42,24 @@ USAGE:
 #include "Inc/DB_Protocol.h"
 
 e_MachineStatus machineStatus;
+e_MachineStatus machineStatusEx;
 
 uint8_t currProgram = 0;
 uint8_t currTest = 0;
 e_ProgramType currProgType = PROGTYPE_PROGRAM;
 uint8_t currParameter = 0;
+uint8_t currReading = 0;
 
 uint8_t progRunning = 0;
 uint8_t progStart = 0;
 uint8_t progStop = 0;
 
 s_Program programs[5] = {
-	{1, PROGTYPE_PROGRAM, "Wrapped", "Pr. 1", 1, CLASS_B, STERILTEMP_134},
-	{2, PROGTYPE_PROGRAM, "Unwrapped", "Pr. 2", 2, CLASS_B, STERILTEMP_134},
-	{3, PROGTYPE_PROGRAM, "Prion", "Pr. 3", 4, CLASS_B, STERILTEMP_134},
-	{4, PROGTYPE_PROGRAM, "Gentle", "Pr. 4", 8, CLASS_S, STERILTEMP_121},
-	{5, PROGTYPE_PROGRAM, "User", "Pr. 5", 15, CLASS_S, STERILTEMP_USER},
+	{1, PROGTYPE_PROGRAM, "Wrapped", "P. Un", 1, CLASS_B, STERILTEMP_134},
+	{2, PROGTYPE_PROGRAM, "Unwrapped", "P. Ur", 2, CLASS_B, STERILTEMP_134},
+	{3, PROGTYPE_PROGRAM, "Prion", "P. Pr", 4, CLASS_B, STERILTEMP_134},
+	{4, PROGTYPE_PROGRAM, "Gentle", "P. GE", 8, CLASS_S, STERILTEMP_121},
+	{5, PROGTYPE_PROGRAM, "User", "P. US", 15, CLASS_S, STERILTEMP_USER},
 };
 
 s_Program tests[2] = {
@@ -65,10 +67,20 @@ s_Program tests[2] = {
 	{2, PROGTYPE_TEST, "Vacuum Test", "t. UA", 32, CLASS_USER, STERILTEMP_USER},
 };
 
-Parameter_s parameters[2] = {
+Parameter_s parameters[3] = {
 	{1, "T1 Offset", " t1 ", EPA_T1_OFFSET, &settings.T1Offset, 1, -20, 20, 10},
 	{2, "T2 Offset", " t2 ", EPA_T2_OFFSET, &settings.T2Offset, 1, -20, 20, 10},
 	{3, "P1 Offset", " P1 ", EPA_CHAMBER_PRESSURE_OFFSET, &settings.ChamberPressOffset, 1, -15, 15, 1},
+};
+
+Reading_s readings[7] = {
+		{1, "T1", " t1 ", &sensors.T1},
+		{2, "T2", " t2 ", &sensors.T2},
+		{3, "T3", " t3 ", &sensors.TemperatureChamberHeater},
+		{4, "T4", " t4 ", &sensors.TemperatureSteamGenerator},
+		{5, "P chamber", " P1 ", &sensors.PressureChamber},
+		{6, "P ambient", " PA ", &sensors.PressureAmbient},
+		{7, "TDS", " CO ", (uint16_t*)&sensors.WaterTDS},
 };
 
 void SelectProgram() {
@@ -105,6 +117,18 @@ void ShowProgram() {
 
 }
 
+void ShowParameter() {
+	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, &parameters[currParameter].DigitsName);
+	char s[8];
+	if (parameters[currParameter].Divider > 1) {
+		sprintf(s,"%5.1f", (float)((float)*parameters[currParameter].Data / 10.0));
+	} else {
+		sprintf(s,"%4d", *parameters[currParameter].Data);
+	}
+	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 2, 0, 0, s);
+	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "PArA");
+}
+
 void SelectParameter() {
 	currParameter++;
 	if (currParameter > ((sizeof(parameters) / sizeof(Parameter_s)) - 1)) currParameter = 0;
@@ -119,18 +143,20 @@ void ChangeParameter(uint8_t increment) {
 	ShowParameter();
 }
 
-void ShowParameter() {
-	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, &parameters[currParameter].DigitsName);
+
+void ShowReading() {
+	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, &readings[currReading].DigitsName);
 	char s[8];
-	if (parameters[currParameter].Divider > 1) {
-		sprintf(s,"%5.1f", (float)((float)*parameters[currParameter].Data / 10.0));
-	} else {
-		sprintf(s,"%4d", *parameters[currParameter].Data);
-	}
+	sprintf(s,"%5.1f", (float)*readings[currReading].Value);
 	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 2, 0, 0, s);
-	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "PArA");
+	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "rEAd");
 }
 
+void SelectReading() {
+	currReading++;
+	if (currReading > ((sizeof(readings) / sizeof(Reading_s)) - 1)) currReading = 0;
+	ShowReading();
+}
 
 
 

@@ -65,13 +65,14 @@ const uint8_t CLOCK_FS = 0;
 SPI_HandleTypeDef* TM7705_hspi;
 
 uint8_t spiTransfer(uint8_t txByte);
-void ClockRegisterSet();
-void SetupRegisterSet(TM7705_ADCMode mode);
+void ClockRegisterSet(TM7705_Channel channel);
+void SetupRegisterSet(TM7705_ADCMode mode, TM7705_Channel channel);
 void waitDataReady();
 static void writeToCommsRegister(TM7705_RegisterSelection registerID, TM7705_ReadWrite readWrite, TM7705_Channel channel);
 static void setClockRegister(TM7705_ClockFrequency clockFrequency, const clockOutDisable);
 static void setSetupRegister(const TM7705_Channel channel, const TM7705_ADCMode adcMode, const TM7705_Gain gain, const TM7705_Polarity polarity, const buffered);
-static void Reset();
+static void HWReset();
+static void SWReset();
 static float calTemp(float Rt, float offset);
 
 
@@ -111,13 +112,24 @@ void TM7705_Init(SPI_HandleTypeDef* hspi) {
 //		Error_Handler();
 //	}
 //
-	Reset();
-	ClockRegisterSet();
+	HWReset();
+	SWReset();
+	ClockRegisterSet(CHANNEL_0);
 
-	SetupRegisterSet(MODE_FULL_SCALE_CAL);
-	SetupRegisterSet(MODE_SELF_CAL);
+	SetupRegisterSet(MODE_FULL_SCALE_CAL, CHANNEL_0);
+	SetupRegisterSet(MODE_SELF_CAL, CHANNEL_0);
 	HAL_Delay(100);
-	SetupRegisterSet(MODE_NORMAL);
+	SetupRegisterSet(MODE_NORMAL, CHANNEL_0);
+	waitDataReady();
+//	SWReset();
+	SetupRegisterSet(MODE_FULL_SCALE_CAL, CHANNEL_1);
+	SetupRegisterSet(MODE_SELF_CAL, CHANNEL_1);
+	HAL_Delay(100);
+	SetupRegisterSet(MODE_NORMAL, CHANNEL_1);
+
+	//		ClockRegisterSet(CHANNEL_1);
+//		SetupRegisterSet(MODE_NORMAL, CHANNEL_1);
+
 
 //	SetupRegisterSet(MODE_FULL_SCALE_CAL, CHANNEL_1);
 //	SetupRegisterSet(MODE_SELF_CAL, POLARITY_BIPOLAR, 2);
@@ -130,13 +142,15 @@ void TM7705_Init(SPI_HandleTypeDef* hspi) {
 //	SetupRegisterSet(MODE_NORMAL, POLARITY_UNIPOLAR, CHANNEL_0);
 
 	waitDataReady();
+//	__NOP();
+//	Beep(2,100,100);
 }
 
-void ClockRegisterSet() {
+void ClockRegisterSet(TM7705_Channel channel) {
 
 	HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_RESET);
 
-	uint8_t commReg = GetCommRegister(CLOCK_REGISTER, WRITE, CHANNEL_0);
+	uint8_t commReg = GetCommRegister(CLOCK_REGISTER, WRITE, channel);
 	HAL_SPI_Transmit(TM7705_hspi, &commReg, 1, 500);
 
 	uint8_t clockReg  = GetClockRegister(CLKOUT_ENABLE, CLOCK_2, UPDATE_RATE_20);
@@ -146,11 +160,11 @@ void ClockRegisterSet() {
 	HAL_Delay(10);
 }
 
-void SetupRegisterSet(TM7705_ADCMode mode) {
+void SetupRegisterSet(TM7705_ADCMode mode, TM7705_Channel channel) {
 
 	HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_RESET);
 
-	uint8_t commReg = GetCommRegister(SETUP_REGISTER, WRITE, CHANNEL_0);
+	uint8_t commReg = GetCommRegister(SETUP_REGISTER, WRITE, channel);
 	HAL_SPI_Transmit(TM7705_hspi, &commReg, 1, 500);
 
 	uint8_t setupReg  = GetSetupRegister(mode, GAIN_1, POLARITY_UNIPOLAR, BUFFER_OFF);
@@ -160,21 +174,25 @@ void SetupRegisterSet(TM7705_ADCMode mode) {
 	HAL_Delay(10);
 }
 
-static void Reset() {
+static void HWReset() {
 
 	HAL_GPIO_WritePin(SPI1_RESET_GPIO_Port, SPI1_RESET_Pin, GPIO_PIN_RESET);
 	HAL_Delay(10);
 	HAL_GPIO_WritePin(SPI1_RESET_GPIO_Port, SPI1_RESET_Pin, GPIO_PIN_SET);
 	HAL_Delay(10);
+}
+
+static void SWReset() {
 
 	HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_RESET);
+	HAL_Delay(10);
 	uint8_t f = 0xff;
 	HAL_SPI_Transmit(TM7705_hspi, &f, 1, 500);
 	HAL_SPI_Transmit(TM7705_hspi, &f, 1, 500);
 	HAL_SPI_Transmit(TM7705_hspi, &f, 1, 500);
 	HAL_SPI_Transmit(TM7705_hspi, &f, 1, 500);
-	HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_SET);
 	HAL_Delay(10);
+	HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_SET);
 }
 
 uint8_t spiTransfer(uint8_t txByte) {
@@ -198,7 +216,9 @@ void waitDataReady() {
 
 uint16_t TM7705_GetValue(TM7705_Channel channel) {
 
-	waitDataReady();
+//	SWReset();
+
+//	waitDataReady();
 
 	HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_RESET);
 	HAL_Delay(10);
@@ -209,6 +229,8 @@ uint16_t TM7705_GetValue(TM7705_Channel channel) {
 
 //    uint16_t value = spiTransfer(0) << 8;
 //    value |= spiTransfer(0);
+
+	waitDataReady();
 
 	uint8_t b1, b2;
 

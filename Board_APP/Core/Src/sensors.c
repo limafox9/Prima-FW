@@ -199,6 +199,7 @@ void StartSensorsTask() {
 		sensors.TemperatureSteamGenerator = SteamGeneratorTempGet();
 		sensors.TemperatureChamberHeater = ChamberHeaterTempGet();
 		sensors.T1 = TM7705_GetTemp(0, (float)(settings.T1Offset / 10.0) + (float)T_FACTORY_OFFSET);
+//		sensors.T2 = TM7705_GetTemp(1, (float)(settings.T2Offset / 10.0) + (float)T_FACTORY_OFFSET);
 //		Sensors.T2 = TemperatureT2Get();
 		sensors.PressureChamber = BufferAverage(pressBuf, PRESS_BUFFER_SIZE, ChamberPressureGet());
 		sensors.Current = CurrentGet();
@@ -215,6 +216,7 @@ void StartSensorsTask() {
 			pressAmbientMax = sensors.PressureAmbient + (float)AMBIENT_PRESSURE_TOLERANCE;
 		}
 		if ((machineStatus == OP_IDLE) | (machineStatus == OP_READY)) ShowProgram();
+		if ((machineStatus == OP_READINGS)) ShowReading();
 
 		osDelay(1000 / SAMPLE_RATE);
 	}
