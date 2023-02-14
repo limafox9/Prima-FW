@@ -34,8 +34,15 @@ void DashboardRefresh();
 
 //---------------------------------------------------------------------------
 
-void DashboardWrite(uint16_t leds) {
-	COPYBITS(dashboardLedsBits, leds, 14, 0);
+void DashboardWrite(uint16_t leds, uint8_t onoff) {
+
+	if (onoff) {
+		dashboardLedsBits = leds | dashboardLedsBits;
+	} else {
+		dashboardLedsBits = ~leds & dashboardLedsBits;
+	}
+
+//	COPYBITS(dashboardLedsBits, leds, 14, 0);
 //	memcpy(&panelLedsBits, leds, 11);
 	DashboardRefresh();
 }

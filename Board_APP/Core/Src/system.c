@@ -82,6 +82,7 @@ RTCDateTime_s dt;
 osThreadId keysTaskHandle;
 osThreadId serialTaskHandle;
 osThreadId sensorsTaskHandle;
+osThreadId programTaskHandle;
 //
 //float calTemp(float Rt) {
 //	float Z1, Z2, Z3, Z4, temp;
@@ -114,6 +115,11 @@ void SysInit() {
 	osThreadDef(sensorsTask, StartSensorsTask, osPriorityNormal, 1, 2048);
 	sensorsTaskHandle = osThreadCreate(osThread(sensorsTask), NULL);
 
+	osThreadDef(programTask, StartProgramTask, osPriorityNormal, 1, 1024);
+	programTaskHandle = osThreadCreate(osThread(programTask), NULL);
+
+	osThreadSuspend(programTaskHandle);
+
 	SerialInit(&huart1, 115200);
 	SerialInit(&UART_DISPLAY, 115200);
 
@@ -134,6 +140,10 @@ void SysInit() {
 
 		LoadSettings();
 
+		lastError = 0;
+//		EEPROM_Read(EPA_LAST_ERROR, &lastError, 1);
+
+//		printf("CIAO");
 //
 //	PrintHeader("HELIX TEST", 24.2, &d);
 //	PrintStepLine("VAC-----", 134.2, 2.1, 23.7, &a);

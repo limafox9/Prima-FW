@@ -46,6 +46,7 @@ USAGE:
 #include <math.h>
 #include "settings.h"
 #include "modes.h"
+#include "globals.h"
 
 uint8_t chamberHeaterTempSet;
 uint8_t steamGeneratorTempSet;
@@ -71,6 +72,8 @@ uint8_t PhaseBegin(uint8_t timeout) {
 
 	FanSet(ON);
 
+	machineStatus = OP_RUNNING;
+
 	settings.CyclesCount++;
 	EEPROM_Write(EPA_CYCLE_COUNTER, &settings.CyclesCount, 2);
 	machine.ReadOnlyCyclesCount++;
@@ -86,8 +89,13 @@ uint8_t PhaseBegin(uint8_t timeout) {
 			break;
 		}
 		if (tTimeout.Seconds > timeout) {
-				retVal = 0;
-				break;
+			retVal = 0;
+			break;
+		}
+		if (abortProgram) {
+			lastError = ERROR_ABNORMAL_EXIT;
+			retVal = 0;
+			break;
 		}
 		osDelay(200);
 	}
@@ -134,9 +142,15 @@ uint8_t PhaseHeatUp(float ringTemp, float steamGenTemp, float chamberTemp, uint1
 		}
 		GetTimer(TIMER_TIMEOUT, &tTimeout);
 		if (tTimeout.Seconds > timeout) {
+			lastError = ERROR_PHASE_TIMEOUT;
 			Print("HEAT ERROR *** TIMEOUT\n");
 			GetTimer(TIMER_PHASE, &tPhase);
 			PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
+			retVal = 0;
+			break;
+		}
+		if (abortProgram) {
+			lastError = ERROR_ABNORMAL_EXIT;
 			retVal = 0;
 			break;
 		}
@@ -145,7 +159,7 @@ uint8_t PhaseHeatUp(float ringTemp, float steamGenTemp, float chamberTemp, uint1
 	return retVal;
 }
 
-uint8_t PhaseRelease(uint8_t nRelease, float press, uint16_t timeout) {
+uint8_t PhaseRelease(uint8_t nRelease, uint16_t timeout) {
 
 	uint8_t retVal = 1;
 	RTCTimerTime_s tTimeout, tPhase;
@@ -164,7 +178,7 @@ uint8_t PhaseRelease(uint8_t nRelease, float press, uint16_t timeout) {
 	HAL_Delay(100);
 
 	while (1) {
-		if (sensors.PressureChamber <= press) {
+		if ((sensors.PressureChamber >= pressAmbientMin) && (sensors.PressureChamber <= pressAmbientMax)) {
 			GetTimer(TIMER_PHASE, &tPhase);
 			PrintStepLine("EXHA ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
 			retVal = 1;
@@ -172,9 +186,15 @@ uint8_t PhaseRelease(uint8_t nRelease, float press, uint16_t timeout) {
 		}
 		GetTimer(TIMER_TIMEOUT, &tTimeout);
 		if (tTimeout.Seconds > timeout) {
+			lastError = ERROR_PHASE_TIMEOUT;
 			Print("EXHA ERROR *** TIMEOUT\n");
 			GetTimer(TIMER_PHASE, &tPhase);
 			PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
+			retVal = 0;
+			break;
+		}
+		if (abortProgram) {
+			lastError = ERROR_ABNORMAL_EXIT;
 			retVal = 0;
 			break;
 		}
@@ -216,9 +236,15 @@ uint8_t PhaseVacuum(uint8_t nVacuum, float press, uint16_t timeout) {
 		}
 		GetTimer(TIMER_TIMEOUT, &tTimeout);
 		if (tTimeout.Seconds > timeout) {
+			lastError = ERROR_PHASE_TIMEOUT;
 			Print("VACU ERROR *** TIMEOUT\n");
 			GetTimer(TIMER_PHASE, &tPhase);
 			PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
+			retVal = 0;
+			break;
+		}
+		if (abortProgram) {
+			lastError = ERROR_ABNORMAL_EXIT;
 			retVal = 0;
 			break;
 		}
@@ -297,9 +323,15 @@ uint8_t PhasePressure(uint8_t nPressure, float press, float steamTemp, float ste
 			retVal = 1;
 			break;
 		} else if (tTimeout.Seconds > timeout) {
+			lastError = ERROR_PHASE_TIMEOUT;
 			Print("PRES ERROR *** TIMEOUT\n");
 			GetTimer(TIMER_PHASE, &tPhase);
 			PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
+			retVal = 0;
+			break;
+		}
+		if (abortProgram) {
+			lastError = ERROR_ABNORMAL_EXIT;
 			retVal = 0;
 			break;
 		}
@@ -359,6 +391,7 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 //				break;
 				__NOP();
 			} else if (sensors.PressureChamber > param->pressMax){
+				lastError = ERROR_MAINTAIN_PRESSTEMP;
 				Print("STER ERROR *** T1 OVER PRESSURE\n");
 				GetTimer(TIMER_PHASE, &tPhase);
 				PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
@@ -369,9 +402,15 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 				break;
 			}
 		} else if (tTimeout.Seconds > param->timeout) {
+			lastError = ERROR_PHASE_TIMEOUT;
 			Print("STER ERROR *** TIMEOUT CLIMB\n");
 			GetTimer(TIMER_PHASE, &tPhase);
 			PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
+			retVal = 0;
+			break;
+		}
+		if (abortProgram) {
+			lastError = ERROR_ABNORMAL_EXIT;
 			retVal = 0;
 			break;
 		}
@@ -406,18 +445,35 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 			GetTimer(TIMER_TIMEOUT, &tTimeout);
 			GetTimer(TIMER_PHASE, &tPhase);
 			if (sensors.T1 <= param->chamberTempMin) {
-				Print("STER ERROR *** UNDER TEMPERATURE\n");
+				lastError = ERROR_MAINTAIN_PRESSTEMP;
+				Print("STER ERROR *** UNDERTEMPERATURE\n");
 				GetTimer(TIMER_PHASE, &tPhase);
 				PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
 				retVal = 0;
 				break;
 			} else if (sensors.T1 >= param->chamberTempMax) {
-				Print("STER ERROR *** OVER TEMPERATURE\n");
+				lastError = ERROR_MAINTAIN_PRESSTEMP;
+				Print("STER ERROR *** OVERTEMPERATURE\n");
+				GetTimer(TIMER_PHASE, &tPhase);
+				PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
+				retVal = 0;
+				break;
+			} else if (sensors.PressureChamber >= param->pressMax) {
+				lastError = ERROR_MAINTAIN_PRESSTEMP;
+				Print("STER ERROR *** OVERPRESSURE\n");
+				GetTimer(TIMER_PHASE, &tPhase);
+				PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
+				retVal = 0;
+				break;
+			} else if (sensors.PressureChamber <= param->pressMin) {
+				lastError = ERROR_MAINTAIN_PRESSTEMP;
+				Print("STER ERROR *** UNDERPRESSURE\n");
 				GetTimer(TIMER_PHASE, &tPhase);
 				PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
 				retVal = 0;
 				break;
 			} else if (tTimeout.Seconds > param->timeout) {
+				lastError = ERROR_PHASE_TIMEOUT;
 				Print("STER ERROR *** TIMEOUT MAINTAIN\n");
 				GetTimer(TIMER_PHASE, &tPhase);
 				PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
@@ -439,6 +495,11 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 				PrintStepLine("     ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
 				ResetTimer(TIMER_1);
 			}
+			if (abortProgram) {
+				lastError = ERROR_ABNORMAL_EXIT;
+				retVal = 0;
+				break;
+			}
 			osDelay(200);
 		}
 	}
@@ -454,7 +515,7 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 	return retVal;
 }
 
-uint8_t PhaseDry(float firstVacPress, float otherVacPress, float releasePress, uint16_t time, uint16_t timeout) {
+uint8_t PhaseDry(float firstVacPress, float otherVacPress, uint16_t time, uint16_t timeout) {
 
 	uint8_t retVal = 1;
 	uint8_t cycle = 0;
@@ -486,6 +547,7 @@ uint8_t PhaseDry(float firstVacPress, float otherVacPress, float releasePress, u
 					retVal = 1;
 					break;
 				} else if (tTimeout.Seconds > timeout) {
+					lastError = ERROR_PHASE_TIMEOUT;
 					Print("DRY  ERROR *** TIMEOUT VACUUM\n");
 					GetTimer(TIMER_PHASE, &tPhase);
 					PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
@@ -493,6 +555,11 @@ uint8_t PhaseDry(float firstVacPress, float otherVacPress, float releasePress, u
 					break;
 				} else if (tPhase.Seconds > time) {
 					retVal = 1;
+					break;
+				}
+				if (abortProgram) {
+					lastError = ERROR_ABNORMAL_EXIT;
+					retVal = 0;
 					break;
 				}
 				osDelay(200);
@@ -504,12 +571,13 @@ uint8_t PhaseDry(float firstVacPress, float otherVacPress, float releasePress, u
 			while (1) {
 				GetTimer(TIMER_TIMEOUT, &tTimeout);
 				GetTimer(TIMER_PHASE, &tPhase);
-				if (sensors.PressureChamber >= releasePress) {
+				if ((sensors.PressureChamber >= pressAmbientMin) && (sensors.PressureChamber <= pressAmbientMax)) {
 					osDelay(5000);
 					PrintStepLine("INTK  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
 					retVal = 1;
 					break;
 				} else if (tTimeout.Seconds > timeout) {
+					lastError = ERROR_PHASE_TIMEOUT;
 					Print("DRY  ERROR *** TIMEOUT INTAKE\n");
 					GetTimer(TIMER_PHASE, &tPhase);
 					PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
@@ -517,6 +585,11 @@ uint8_t PhaseDry(float firstVacPress, float otherVacPress, float releasePress, u
 					break;
 				} else if (tPhase.Seconds > time) {
 					retVal = 1;
+					break;
+				}
+				if (abortProgram) {
+					lastError = ERROR_ABNORMAL_EXIT;
+					retVal = 0;
 					break;
 				}
 				osDelay(200);
@@ -558,12 +631,14 @@ uint8_t PhaseVacuumHold(float vacPress, uint8_t tolerance, uint16_t time, uint16
 		GetTimer(TIMER_TIMEOUT, &tTimeout);
 		GetTimer(TIMER_PHASE, &tPhase);
 		if (sensors.PressureChamber > (vacPress + tolerance)) {
+			lastError = ERROR_MAINTAIN_PRESSTEMP;
 			Print("VAC  ERROR *** OVER PRESSURE\n");
 			GetTimer(TIMER_PHASE, &tPhase);
 			PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
 			retVal = 0;
 			break;
 		} else if (tTimeout.Seconds > timeout) {
+			lastError = ERROR_PHASE_TIMEOUT;
 			Print("VAC  ERROR *** TIMEOUT\n");
 			GetTimer(TIMER_PHASE, &tPhase);
 			PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
@@ -571,6 +646,11 @@ uint8_t PhaseVacuumHold(float vacPress, uint8_t tolerance, uint16_t time, uint16
 			break;
 		} else if (tPhase.Seconds > time) {
 			retVal = 1;
+			break;
+		}
+		if (abortProgram) {
+			lastError = ERROR_ABNORMAL_EXIT;
+			retVal = 0;
 			break;
 		}
 		osDelay(200);
@@ -605,6 +685,11 @@ uint8_t PhaseWait(uint16_t time) {
 			retVal = 1;
 			break;
 		}
+		if (abortProgram) {
+			lastError = ERROR_ABNORMAL_EXIT;
+			retVal = 0;
+			break;
+		}
 		osDelay(200);
 	}
 
@@ -615,6 +700,8 @@ uint8_t PhaseWait(uint16_t time) {
 }
 
 uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer) {
+
+	uint8_t retVal = 1;
 
 	ValveVacuumSet(OFF);
 	ValveWaterSteamSet(OFF);
@@ -634,29 +721,40 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 		ValveDrainSteamSet(OFF);
 	}
 
-	while (1) {
-		if ((sensors.PressureChamber >= pressAmbientMin) && (sensors.PressureChamber <= pressAmbientMax)) {
-			break;
-		}
-		osDelay(200);
-	}
-
 	ValveDrainSteamSet(OFF);
 	ValveDryIntakeSet(OFF);
 
 	if (success) {
 		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "PASS");
+
+		uint8_t err = ERROR_NONE;
+		lastError = ERROR_NONE;
+		EEPROM_Write(EPA_LAST_ERROR, &err, 1);
+
 		PrintFooter("PASS", time, timer);
 		Beep(3, 100, 100);
 	} else {
 		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "FAIL");
+
+		EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
+
 		PrintFooter("FAIL", time, timer);
 		Beep(1, 1000, 100);
 	}
 
-	EEPROM_Write(EPA_LAST_ERROR, ERROR_NONE, 1);
+	while (1) {
+		if ((sensors.PressureChamber >= pressAmbientMin) && (sensors.PressureChamber <= pressAmbientMax)) {
+			break;
+		}
+		if (abortProgram) {
+			lastError = ERROR_ABNORMAL_EXIT;
+			retVal = 0;
+			break;
+		}
+		osDelay(200);
+	}
 
-	return 1;
+	return retVal;
 }
 
 extern UART_HandleTypeDef huart1;

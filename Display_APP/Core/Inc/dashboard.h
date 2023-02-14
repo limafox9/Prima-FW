@@ -10,7 +10,7 @@
 
 #include <stdio.h>
 
-void DashboardWrite(uint16_t leds);
+void DashboardWrite(uint16_t leds, uint8_t onoff);
 void DashboardSetAll();
 void DashboardClearAll();
 void DashboardRefresh();

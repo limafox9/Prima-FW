@@ -88,7 +88,6 @@ uint8_t GetClockRegister(TM7705_ClockOut clkdis, TM7705_ClockFrequency freq, TM7
 	return (clkdis << CLOCK_CLKDIS_BIT) | (freq << CLOCK_CLK_BIT) | rate;
 }
 
-
 void TM7705_Init(SPI_HandleTypeDef* hspi) {
 
 	TM7705_hspi = hspi;

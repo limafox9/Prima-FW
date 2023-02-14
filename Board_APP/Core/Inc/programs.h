@@ -55,9 +55,12 @@ typedef enum {
 	PROGRAM_WATER_LOAD
 } e_Program;
 
+extern uint8_t programStart;
+extern uint8_t lastError;
+
 void SelectProgram();
 void SelectTest();
-void StartProgram();
+void StartProgramTask();
 
 uint8_t ProgramUnwrapped();
 uint8_t ProgramWrapped();
@@ -67,5 +70,6 @@ uint8_t ProgramHelixTest();
 uint8_t ProgramVacuumTest();
 uint8_t ProgramTestSteril();
 uint8_t ProgramCalibration();
+uint8_t ProgramResumeDry();
 
 #endif /* INC_PROGRAMS_H_ */

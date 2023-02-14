@@ -110,11 +110,18 @@ float pressAvg;
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-  if(GPIO_Pin == SW_DOOR_Pin) {
-    Beep(1, 100, 100);
-  } else {
-      __NOP();
-  }
+	if(GPIO_Pin == SW_DOOR_Pin) {
+		Beep(1, 100, 100);
+	}
+	if (GPIO_Pin == SW_LSH_Pin) {
+		__NOP();
+	}
+	if (GPIO_Pin == SW_CSH_Pin) {
+		__NOP();
+	}
+	if (GPIO_Pin == SW_CSL_Pin) {
+
+	}
 }
 
 e_LockState DoorSolenoidKeyGet() {
@@ -192,6 +199,8 @@ void StartSensorsTask() {
 		pressBuf[i] = ChamberPressureGet();
 	}
 
+	sensors.PressureAmbient = 100;
+
 	for (;;) {
 
 		sensors.Door = DoorPositionGet();
@@ -203,6 +212,9 @@ void StartSensorsTask() {
 //		Sensors.T2 = TemperatureT2Get();
 		sensors.PressureChamber = BufferAverage(pressBuf, PRESS_BUFFER_SIZE, ChamberPressureGet());
 		sensors.Current = CurrentGet();
+		sensors.WaterTDS = BAT2U_GetTDSValue(1, 100);
+		sensors.WaterDumpLevel = WaterDumpLevelGet();
+		sensors.WaterReservoirLevel = WaterReservoirLevelGet();
 
 //
 //		Log(LOG_LEVEL_DEBUG, LOG_TIME_TIME, LOG_OUT_SERIAL, "%0.3f", Sensors.Current);
@@ -217,6 +229,12 @@ void StartSensorsTask() {
 		}
 		if ((machineStatus == OP_IDLE) | (machineStatus == OP_READY)) ShowProgram();
 		if ((machineStatus == OP_READINGS)) ShowReading();
+
+		if (sensors.WaterReservoirLevel == EMPTY) {
+			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, DISPLAY_LED_WARNING_CTL, ON, 0, "");
+		} else {
+			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, DISPLAY_LED_WARNING_CTL, OFF, 0, "");
+		}
 
 		osDelay(1000 / SAMPLE_RATE);
 	}

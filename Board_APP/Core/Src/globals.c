@@ -65,6 +65,11 @@ uint32_t digitsBits;
 
 uint8_t keysPressed;
 
+
+uint8_t lastError;
+uint8_t abortProgram;
+
+
 uint32_t GetSafeDeltaTick(uint32_t startTick, uint32_t endTick) {
 
 	uint32_t deltaTick;

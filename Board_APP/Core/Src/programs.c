@@ -45,6 +45,7 @@ USAGE:
 #include "sensors.h"
 #include "printer.h"
 #include "modes.h"
+#include "settings.h"
 
 #define OT_HEAT		1200
 #define OT_VACUUM	240
@@ -55,38 +56,74 @@ extern osThreadId sensorsTaskHandle;
 
 extern Sensors_s sensors;
 
-void StartProgram() {
-	if (currProgType == PROGTYPE_PROGRAM) {
-		switch (currProgram) {
-		case 0:
-			ProgramUnwrapped();
-			break;
-		case 1:
-			ProgramWrapped();
-			break;
-		case 2:
-			ProgramPrion();
-			break;
-		case 3:
-			ProgramGentle();
-			break;
-		case 4:
-			//ProgramUser();
-			break;
-		case 5:
-			ProgramTestSteril();
-			break;
+
+uint8_t programStart = 0;
+
+void StartProgramTask() {
+
+	for (;;) {
+		if (programStart){
+			programStart = 0;
+			if (currProgType == PROGTYPE_PROGRAM) {
+				switch (currProgram) {
+				case 0:
+					ProgramUnwrapped();
+					break;
+				case 1:
+					ProgramWrapped();
+					break;
+				case 2:
+					ProgramPrion();
+					break;
+				case 3:
+					ProgramGentle();
+					break;
+				case 4:
+					//ProgramUser();
+					break;
+				case 5:
+					ProgramTestSteril();
+					break;
+				case 99:
+					ProgramResumeDry();
+					break;
+				}
+			} else {
+				switch (currTest) {
+				case 0:
+					ProgramHelixTest();
+					break;
+				case 1:
+					ProgramVacuumTest();
+					break;
+				}
+			}
 		}
-	} else {
-		switch (currTest) {
-		case 0:
-			ProgramHelixTest();
-			break;
-		case 1:
-			ProgramVacuumTest();
-			break;
-		}
+		osDelay(300);
 	}
+}
+
+uint8_t ProgramResumeDry() {
+
+	uint8_t success = 1;
+	RTCDateTime_s clockTime;
+	RTCTimerTime_s tCycle, tPhase;
+
+	progRunning = 1;
+	progStop = 0;
+
+	lastError = ERROR_NONE;
+
+	success = PhaseBegin(600);
+
+	// Dry
+	if (success) {
+		PhasePreheat(60, 90);
+		success = PhaseDry(20.0, 50.0, 540, 800);
+	}
+
+	progRunning = 0;
+	progStop = 0;
 
 }
 
@@ -138,13 +175,13 @@ uint8_t ProgramUnwrapped() {
 	}
 	if (success) {
 		PhasePreheat(130, 200);
-		success = PhaseRelease(3, pressAmbientMax, OT_RELEASE);
+		success = PhaseRelease(3, OT_RELEASE);
 	}
 
 	// Dry
 	if (success) {
 		PhasePreheat(60, 90);
-		success = PhaseDry(20.0, 50.0, pressAmbientMin, 540, 800);
+		success = PhaseDry(20.0, 50.0, 540, 800);
 	}
 
 	// End
@@ -188,7 +225,7 @@ uint8_t ProgramWrapped() {
 	}
 	if (success) {
 		PhasePreheat(130, 200);
-		success = PhaseRelease(1, pressAmbientMax, OT_RELEASE);
+		success = PhaseRelease(1, OT_RELEASE);
 	}
 
 	// Other vacuum
@@ -203,7 +240,7 @@ uint8_t ProgramWrapped() {
 		}
 		if (success) {
 			PhasePreheat(130.0, 200.0);
-			success = PhaseRelease(2, pressAmbientMax, OT_RELEASE);
+			success = PhaseRelease(2, OT_RELEASE);
 		}
 	}
 
@@ -233,13 +270,13 @@ uint8_t ProgramWrapped() {
 	}
 	if (success) {
 		PhasePreheat(130, 200);
-		success = PhaseRelease(3, pressAmbientMax, OT_RELEASE);
+		success = PhaseRelease(3, OT_RELEASE);
 	}
 
 	// Dry
 	if (success) {
 		PhasePreheat(60, 90);
-		success = PhaseDry(20.0, 50.0, pressAmbientMin, 540, 800);
+		success = PhaseDry(20.0, 50.0, 540, 800);
 	}
 
 	// End
@@ -283,7 +320,7 @@ uint8_t ProgramPrion() {
 	}
 	if (success) {
 		PhasePreheat(130, 200);
-		success = PhaseRelease(1, pressAmbientMax, OT_RELEASE);
+		success = PhaseRelease(1, OT_RELEASE);
 	}
 
 	// Other vacuum
@@ -298,7 +335,7 @@ uint8_t ProgramPrion() {
 		}
 		if (success) {
 			PhasePreheat(130.0, 200.0);
-			success = PhaseRelease(2, pressAmbientMax, OT_RELEASE);
+			success = PhaseRelease(2, OT_RELEASE);
 		}
 	}
 
@@ -328,13 +365,13 @@ uint8_t ProgramPrion() {
 	}
 	if (success) {
 		PhasePreheat(130, 200);
-		success = PhaseRelease(3, pressAmbientMax, OT_RELEASE);
+		success = PhaseRelease(3, OT_RELEASE);
 	}
 
 	// Dry
 	if (success) {
 		PhasePreheat(60, 90);
-		success = PhaseDry(20.0, 50.0, pressAmbientMin, 540, 600);
+		success = PhaseDry(20.0, 50.0, 540, 600);
 	}
 
 	// End
@@ -378,7 +415,7 @@ uint8_t ProgramGentle() {
 	}
 	if (success) {
 		PhasePreheat(118, 200);
-		success = PhaseRelease(1, pressAmbientMax, OT_RELEASE);
+		success = PhaseRelease(1, OT_RELEASE);
 	}
 
 	// Other vacuum
@@ -393,7 +430,7 @@ uint8_t ProgramGentle() {
 		}
 		if (success) {
 			PhasePreheat(118.0, 200.0);
-			success = PhaseRelease(2, pressAmbientMax, OT_RELEASE);
+			success = PhaseRelease(2, OT_RELEASE);
 		}
 	}
 
@@ -423,13 +460,13 @@ uint8_t ProgramGentle() {
 	}
 	if (success) {
 		PhasePreheat(130, 200);
-		success = PhaseRelease(3, pressAmbientMax, OT_RELEASE);
+		success = PhaseRelease(3,  OT_RELEASE);
 	}
 
 	// Dry
 	if (success) {
 		PhasePreheat(60, 90);
-		success = PhaseDry(20.0, 50.0, pressAmbientMin, 540, 600);
+		success = PhaseDry(20.0, 50.0, 540, 600);
 	}
 
 	// End
@@ -473,7 +510,7 @@ uint8_t ProgramHelixTest() {
 	}
 	if (success) {
 		PhasePreheat(130, 200);
-		success = PhaseRelease(1, pressAmbientMax, OT_RELEASE);
+		success = PhaseRelease(1, OT_RELEASE);
 	}
 
 	// Other vacuum
@@ -488,7 +525,7 @@ uint8_t ProgramHelixTest() {
 		}
 		if (success) {
 			PhasePreheat(130.0, 200.0);
-			success = PhaseRelease(2, pressAmbientMax, OT_RELEASE);
+			success = PhaseRelease(2, OT_RELEASE);
 		}
 	}
 
@@ -518,13 +555,13 @@ uint8_t ProgramHelixTest() {
 	}
 	if (success) {
 		PhasePreheat(130, 200);
-		success = PhaseRelease(3, pressAmbientMax, OT_RELEASE);
+		success = PhaseRelease(3, OT_RELEASE);
 	}
 
 	// Dry
 	if (success) {
 		PhasePreheat(60, 90);
-		success = PhaseDry(20.0, 50.0, pressAmbientMin, 300, 600);
+		success = PhaseDry(20.0, 50.0, 300, 600);
 	}
 
 	// End
@@ -565,7 +602,7 @@ uint8_t ProgramVacuumTest() {
 		success = PhaseVacuumHold(18.0, 20.0, 240, 600);
 	}
 	if (success) {
-		success = PhaseRelease(1, pressAmbientMax, OT_RELEASE);
+		success = PhaseRelease(1, OT_RELEASE);
 	}
 
 	// End
@@ -626,13 +663,13 @@ uint8_t ProgramTestSteril() {
 	}
 	if (success) {
 		PhasePreheat(130, 200);
-		success = PhaseRelease(3, pressAmbientMax, OT_RELEASE);
+		success = PhaseRelease(3, OT_RELEASE);
 	}
 
 	// Dry
 	if (success) {
 		PhasePreheat(60, 90);
-		success = PhaseDry(20.0, 50.0, pressAmbientMin, 30, 800);
+		success = PhaseDry(20.0, 50.0, 30, 800);
 	}
 
 	// End

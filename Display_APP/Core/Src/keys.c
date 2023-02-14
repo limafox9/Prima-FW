@@ -60,8 +60,10 @@ void KeysTask() {
 		keyPressStart = HAL_GetTick();
 		if (pressKeys != 0) {
 			osDelay(50); // Debounce
-			while (pressKeys == GetPressedKeys()) {
+			pressKeys = GetPressedKeys();
+			while (GetPressedKeys() != 0) {
 				if ((HAL_GetTick() - keyPressStart) > SET_KeysLongPressDuration) {
+					pressKeys = GetPressedKeys();
 					pressKeys += KEY_LONG_PRESS;
 					break;
 				}

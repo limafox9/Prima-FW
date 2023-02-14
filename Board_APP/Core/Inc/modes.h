@@ -51,6 +51,7 @@ typedef enum {
 	PROGTYPE_USER,
 	PROGTYPE_PROGRAM,
 	PROGTYPE_TEST,
+	PROGTYPE_RESUME,
 } e_ProgramType;
 
 typedef enum {

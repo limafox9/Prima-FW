@@ -108,7 +108,8 @@ typedef struct Error_s {
 	char ErrorDescription[128];
 } Error_s;
 
-
+extern uint8_t lastError;
+extern uint8_t abortProgram;
 
 uint32_t GetSafeDeltaTick(uint32_t startTick, uint32_t endTick);
 void SwapBytes(void *pBytes, size_t size);

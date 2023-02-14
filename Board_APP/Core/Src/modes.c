@@ -54,7 +54,7 @@ uint8_t progRunning = 0;
 uint8_t progStart = 0;
 uint8_t progStop = 0;
 
-s_Program programs[5] = {
+s_Program programs[] = {
 	{1, PROGTYPE_PROGRAM, "Wrapped", "P. Un", 1, CLASS_B, STERILTEMP_134},
 	{2, PROGTYPE_PROGRAM, "Unwrapped", "P. Ur", 2, CLASS_B, STERILTEMP_134},
 	{3, PROGTYPE_PROGRAM, "Prion", "P. Pr", 4, CLASS_B, STERILTEMP_134},
@@ -62,18 +62,20 @@ s_Program programs[5] = {
 	{5, PROGTYPE_PROGRAM, "User", "P. US", 15, CLASS_S, STERILTEMP_USER},
 };
 
-s_Program tests[2] = {
+s_Program tests[] = {
 	{1, PROGTYPE_TEST, "Helix Test", "t. HE", 16, CLASS_USER, STERILTEMP_USER},
 	{2, PROGTYPE_TEST, "Vacuum Test", "t. UA", 32, CLASS_USER, STERILTEMP_USER},
+	{3, PROGTYPE_TEST, "Wash cycle", "UASH", DISPLAY_LED_WASH_CYCLE, CLASS_USER, STERILTEMP_USER},
+	{4, PROGTYPE_TEST, "Water fill", "UAtr", DISPLAY_LED_WATER_FILL, CLASS_USER, STERILTEMP_USER},
 };
 
-Parameter_s parameters[3] = {
+Parameter_s parameters[] = {
 	{1, "T1 Offset", " t1 ", EPA_T1_OFFSET, &settings.T1Offset, 1, -20, 20, 10},
 	{2, "T2 Offset", " t2 ", EPA_T2_OFFSET, &settings.T2Offset, 1, -20, 20, 10},
 	{3, "P1 Offset", " P1 ", EPA_CHAMBER_PRESSURE_OFFSET, &settings.ChamberPressOffset, 1, -15, 15, 1},
 };
 
-Reading_s readings[7] = {
+Reading_s readings[] = {
 		{1, "T1", " t1 ", &sensors.T1},
 		{2, "T2", " t2 ", &sensors.T2},
 		{3, "T3", " t3 ", &sensors.TemperatureChamberHeater},
@@ -87,6 +89,7 @@ void SelectProgram() {
 	if (currProgType == PROGTYPE_PROGRAM) currProgram++;
 	currProgType = PROGTYPE_PROGRAM;
 	if (currProgram > ((sizeof(programs) / sizeof(s_Program)) - 1)) currProgram = 0;
+	SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, 63 + DISPLAY_LED_WASH_CYCLE + DISPLAY_LED_WATER_FILL, OFF, 0, "");
 	ShowProgram();
 }
 
@@ -94,17 +97,26 @@ void SelectTest() {
 	if (currProgType == PROGTYPE_TEST) currTest++;
 	currProgType = PROGTYPE_TEST;
 	if (currTest > ((sizeof(tests) / sizeof(s_Program)) - 1)) currTest = 0;
+	SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, 63 + DISPLAY_LED_WASH_CYCLE + DISPLAY_LED_WATER_FILL, OFF, 0, "");
 	ShowProgram();
 }
 
 void ShowProgram() {
-	if (currProgType == PROGTYPE_PROGRAM) {
-		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, &programs[currProgram].DigitsName);
-		SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, programs[currProgram].DashLeds, 0, 0, "");
-	}
-	if (currProgType == PROGTYPE_TEST) {
-		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, &tests[currTest].DigitsName);
-		SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, tests[currTest].DashLeds, 0, 0, "");
+	if (lastError == ERROR_NONE) {
+		if (currProgType == PROGTYPE_PROGRAM) {
+			SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, &programs[currProgram].DigitsName);
+//			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, 255, OFF, 0, "");
+			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, programs[currProgram].DashLeds, ON, 0, "");
+		}
+		if (currProgType == PROGTYPE_TEST) {
+			SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, &tests[currTest].DigitsName);
+//			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, 255, OFF, 0, "");
+			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, tests[currTest].DashLeds, ON, 0, "");
+		}
+	} else {
+		char s[8];
+		sprintf(s,"Er.%2d", lastError);
+		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3,0,0,s);
 	}
 
 	char s[8];

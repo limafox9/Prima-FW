@@ -50,8 +50,10 @@ extern UART_HandleTypeDef huart2;
 extern UART_HandleTypeDef huart3;
 extern DMA_HandleTypeDef hdma_usart3_rx;
 
+extern osThreadId programTaskHandle;
+
 uint8_t UART_rxBuffer1[UART_DISPLAY_RX_BUFFER_SIZE];
-uint8_t UART_rxBuffer[UART_DISPLAY_RX_BUFFER_SIZE];
+volatile uint8_t UART_rxBuffer[UART_DISPLAY_RX_BUFFER_SIZE];
 
 #define MainBuf_SIZE 128
 uint8_t rxBuf[UART_DISPLAY_RX_BUFFER_SIZE];
@@ -66,11 +68,10 @@ extern void DBSend(uint16_t command, uint32_t param1, uint32_t param2, uint32_t 
 
 void SerialInit(UART_HandleTypeDef* huart, uint32_t baudRate) {
 
-	HAL_UART_Receive_DMA(huart, UART_rxBuffer, UART_DISPLAY_RX_BUFFER_SIZE);
+//	HAL_UART_Receive_DMA(huart, UART_rxBuffer, UART_DISPLAY_RX_BUFFER_SIZE);
 
-	if (huart->Instance == UART_DISPLAY.Instance) {
-		__HAL_DMA_DISABLE_IT(&hdma_usart3_rx, DMA_IT_HT);
-	}
+	HAL_UARTEx_ReceiveToIdle_DMA(huart, UART_rxBuffer, UART_DISPLAY_RX_BUFFER_SIZE);
+	__HAL_DMA_DISABLE_IT(&hdma_usart3_rx, DMA_IT_HT);
 }
 
 void SendCommand(uint16_t command, uint32_t param1, uint32_t param2, uint32_t param3, char* digits) {
@@ -79,7 +80,8 @@ void SendCommand(uint16_t command, uint32_t param1, uint32_t param2, uint32_t pa
 
 	memcpy(&txData.Digits, digits, strlen(digits) + 1);
 
-	uint8_t txBuffer[UART_DISPLAY_TX_BUFFER_SIZE];
+	uint8_t txBuffer[UART_DISPLAY_TX_BUFFER_SIZE + 10];
+	memset(txBuffer, 255, sizeof(txBuffer));
 	Display_DataToProtocol(&txData, txBuffer);
 
 	// Chip 485 ENABLE
@@ -95,36 +97,92 @@ void SendCommand(uint16_t command, uint32_t param1, uint32_t param2, uint32_t pa
 // RECEIVE
 // ==============================================================
 
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef* huart) {
+void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
 
-	if (huart->Instance == UART_DISPLAY.Instance) {
+	uint8_t headFound, tailFound;
+	uint8_t tempBuf[UART_DISPLAY_RX_BUFFER_SIZE];
 
-		uint8_t headFound, tailFound;
-		uint8_t tempBuf[UART_DISPLAY_RX_BUFFER_SIZE];
+	for (int i = UART_DISPLAY_RX_BUFFER_SIZE; i >= 0; i--) {
+		if ((UART_rxBuffer[i] == '<') && (UART_rxBuffer[i+1] == '~')) {
 
-		for (int i = 0; i < UART_DISPLAY_RX_BUFFER_SIZE; i++) {
-			if ((UART_rxBuffer[i] == '<') && (UART_rxBuffer[i+1] == '~')) {
+			HAL_Delay(5);
 
-				uint8_t p2[i];
-				HAL_UART_Receive(huart, p2, i, 20);
+			uint8_t p2[i];
+			memcpy(p2, UART_rxBuffer, i);
 
-				uint8_t p1[UART_DISPLAY_RX_BUFFER_SIZE - i];
-				memcpy(p1, UART_rxBuffer + i, UART_DISPLAY_RX_BUFFER_SIZE - i);
+			uint8_t p1[UART_DISPLAY_RX_BUFFER_SIZE - i];
+			memcpy(p1, UART_rxBuffer + i, UART_DISPLAY_RX_BUFFER_SIZE - i);
 
-				memcpy(tempBuf, p1, UART_DISPLAY_RX_BUFFER_SIZE - i);
-				memcpy(tempBuf + UART_DISPLAY_RX_BUFFER_SIZE - i, p2, i);
+			memcpy(tempBuf, p1, UART_DISPLAY_RX_BUFFER_SIZE - i);
+			memcpy(tempBuf + UART_DISPLAY_RX_BUFFER_SIZE - i, p2, i);
 
-				Display_ProtocolToData(tempBuf, &rxData);
-				if (rxData.Valid) {
-					dataReady = 1;
-				}
+			Display_ProtocolToData(tempBuf, &rxData);
+			if (rxData.Valid) {
+				dataReady = 1;
 			}
 		}
-
-		HAL_UART_Receive_DMA(huart, UART_rxBuffer, UART_DISPLAY_RX_BUFFER_SIZE);
-		__HAL_DMA_DISABLE_IT(&hdma_usart3_rx, DMA_IT_HT);
 	}
+
+	HAL_UARTEx_ReceiveToIdle_DMA(huart, UART_rxBuffer, UART_DISPLAY_RX_BUFFER_SIZE);
+	__HAL_DMA_DISABLE_IT(&hdma_usart3_rx, DMA_IT_HT);
+
+
 }
+
+
+//void HAL_UART_RxCpltCallback(UART_HandleTypeDef* huart) {
+//
+//	if (huart->Instance == UART_DISPLAY.Instance) {
+//
+////		osDelay(10);
+//
+//		uint8_t headFound, tailFound;
+//		uint8_t tempBuf[UART_DISPLAY_RX_BUFFER_SIZE];
+//
+//		for (int i = UART_DISPLAY_RX_BUFFER_SIZE; i >= 0; i--) {
+//			if ((UART_rxBuffer[i] == '<') && (UART_rxBuffer[i+1] == '~')) {
+//
+//				HAL_Delay(5);
+//
+//				uint8_t p2[i];
+//				memcpy(p2, UART_rxBuffer, i);
+//
+//				uint8_t p1[UART_DISPLAY_RX_BUFFER_SIZE - i];
+//				memcpy(p1, UART_rxBuffer + i, UART_DISPLAY_RX_BUFFER_SIZE - i);
+//
+//				memcpy(tempBuf, p1, UART_DISPLAY_RX_BUFFER_SIZE - i);
+//				memcpy(tempBuf + UART_DISPLAY_RX_BUFFER_SIZE - i, p2, i);
+//
+//				Display_ProtocolToData(tempBuf, &rxData);
+//				if (rxData.Valid) {
+//					dataReady = 1;
+//				}
+//			}
+//		}
+//
+////		for (int i = 0; i < UART_DISPLAY_RX_BUFFER_SIZE; i++) {
+////			if ((UART_rxBuffer[i] == '<') && (UART_rxBuffer[i+1] == '~')) {
+////
+////				uint8_t p2[i];
+////				HAL_UART_Receive(huart, p2, i, 50);
+////
+////				uint8_t p1[UART_DISPLAY_RX_BUFFER_SIZE - i];
+////				memcpy(p1, UART_rxBuffer + i, UART_DISPLAY_RX_BUFFER_SIZE - i);
+////
+////				memcpy(tempBuf, p1, UART_DISPLAY_RX_BUFFER_SIZE - i);
+////				memcpy(tempBuf + UART_DISPLAY_RX_BUFFER_SIZE - i, p2, i);
+////
+////				Display_ProtocolToData(tempBuf, &rxData);
+////				if (rxData.Valid) {
+////					dataReady = 1;
+////				}
+////			}
+////		}
+//
+//		HAL_UART_Receive_DMA(huart, UART_rxBuffer, UART_DISPLAY_RX_BUFFER_SIZE);
+////		__HAL_DMA_DISABLE_IT(&hdma_usart3_rx, DMA_IT_HT);
+//	}
+//}
 
 void StartSerialTask() {
 
@@ -134,7 +192,7 @@ void StartSerialTask() {
 			ParseCommand(&rxData); // valid received command > parse
 			memset(rxBuf, 0, sizeof(rxBuf));
 		}
-		osDelay(50);
+		osDelay(20);
 	}
 }
 
@@ -151,7 +209,8 @@ static void ParseCommand(s_DisplayProtocolData* data) {
 		} else if (machineStatus == OP_PARAMETERS) {
 			SelectParameter();
 		} else if (machineStatus == OP_RUNNING) {
-			SelectParameter();
+			SelectReading();
+			ShowReading();
 		} else if (machineStatus == OP_READINGS) {
 			SelectReading();
 		} else {
@@ -171,9 +230,13 @@ static void ParseCommand(s_DisplayProtocolData* data) {
 
 	} else if (data->Param1 == KEY_START) {
 		if (machineStatus == OP_IDLE) {
-			StartProgram();
+			programStart = 1;
+			machineStatus == OP_RUNNING;
+			osThreadResume(programTaskHandle);
 		} else if (machineStatus == OP_READY) {
-			StartProgram();
+			programStart = 1;
+			machineStatus == OP_RUNNING;
+			osThreadResume(programTaskHandle);
 		} else if (machineStatus == OP_PARAMETERS) {
 			ChangeParameter(-1);
 		} else {
@@ -187,12 +250,20 @@ static void ParseCommand(s_DisplayProtocolData* data) {
 		// Button code here
 
 	} else if (data->Param1 == KEY_START + KEY_LONG_PRESS) {
-		if (machineStatus == OP_IDLE) {
-			__NOP();
+		if (lastError != 0) {
+			currProgType =
+			currProgram = 99;
+			machineStatus = machineStatusEx;
+			ShowProgram();
+		} else if (machineStatus == OP_IDLE) {
+		__NOP();
 		} else if (machineStatus == OP_READY) {
 			__NOP();
 		} else if (machineStatus == OP_PARAMETERS) {
 			machineStatus = machineStatusEx;
+			ShowProgram();
+		} else if (machineStatus == OP_RUNNING) {
+			abortProgram = 1;
 			ShowProgram();
 		} else if (machineStatus == OP_READINGS) {
 			machineStatus = machineStatusEx;
