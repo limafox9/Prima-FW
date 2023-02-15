@@ -37,7 +37,6 @@ USAGE:
 
 #include "phases.h"
 #include "globals.h"
-#include "panel_serial.h"
 #include "Inc/DB_Protocol.h"
 #include "stm32f1xx_hal.h"
 #include "cmsis_os.h"
@@ -52,6 +51,9 @@ USAGE:
 #define OT_PRESSURE 600
 #define OT_RELEASE	120
 
+#define VAC_DVALUE	10
+#define VAC_DTIME	20
+
 extern osThreadId sensorsTaskHandle;
 
 extern Sensors_s sensors;
@@ -62,7 +64,7 @@ uint8_t programStart = 0;
 void StartProgramTask() {
 
 	for (;;) {
-		if (programStart){
+		if (programStart && (machineStatus.Status == STATUS_READY)){
 			programStart = 0;
 			if (currProgType == PROGTYPE_PROGRAM) {
 				switch (currProgram) {
@@ -298,7 +300,7 @@ uint8_t ProgramPrion() {
 	progStop = 0;
 
 	FanSet(ON);
-	SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
+	SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
 
 	success = PhaseBegin(600);
 

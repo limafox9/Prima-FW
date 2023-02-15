@@ -58,7 +58,6 @@ USAGE:
 #include "Inc/DB_Protocol.h"
 #include "sensors.h"
 #include "phases.h"
-#include "panel_serial.h"
 #include "printer.h"
 #include "programs.h"
 
@@ -141,8 +140,12 @@ void SysInit() {
 		LoadSettings();
 
 		lastError = 0;
+//		PrintError("ERROR ERROR\n");
+
 //		EEPROM_Read(EPA_LAST_ERROR, &lastError, 1);
 
+		osDelay(1000);
+		Beep(2, 100, 100);
 //		printf("CIAO");
 //
 //	PrintHeader("HELIX TEST", 24.2, &d);

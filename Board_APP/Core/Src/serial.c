@@ -198,124 +198,124 @@ void StartSerialTask() {
 
 // COMMANDS
 // ==============================================================
-
-static void ParseCommand(s_DisplayProtocolData* data) {
-
-	if (data->Param1 == KEY_PROG) {
-		if (machineStatus == OP_IDLE) {
-			SelectProgram();
-		} else if (machineStatus == OP_READY) {
-			SelectProgram();
-		} else if (machineStatus == OP_PARAMETERS) {
-			SelectParameter();
-		} else if (machineStatus == OP_RUNNING) {
-			SelectReading();
-			ShowReading();
-		} else if (machineStatus == OP_READINGS) {
-			SelectReading();
-		} else {
-			__NOP();
-		}
-
-	} else if (data->Param1 == KEY_TEST) {
-		if (machineStatus == OP_IDLE) {
-			SelectTest();
-		} else if (machineStatus == OP_READY) {
-			SelectTest();
-		} else if (machineStatus == OP_PARAMETERS) {
-			ChangeParameter(1);
-		} else {
-			__NOP();
-		}
-
-	} else if (data->Param1 == KEY_START) {
-		if (machineStatus == OP_IDLE) {
-			programStart = 1;
-			machineStatus == OP_RUNNING;
-			osThreadResume(programTaskHandle);
-		} else if (machineStatus == OP_READY) {
-			programStart = 1;
-			machineStatus == OP_RUNNING;
-			osThreadResume(programTaskHandle);
-		} else if (machineStatus == OP_PARAMETERS) {
-			ChangeParameter(-1);
-		} else {
-			__NOP();
-		}
-
-	} else if (data->Param1 == KEY_PROG + KEY_LONG_PRESS) {
-		// Button code here
-
-	} else if (data->Param1 == KEY_TEST + KEY_LONG_PRESS) {
-		// Button code here
-
-	} else if (data->Param1 == KEY_START + KEY_LONG_PRESS) {
-		if (lastError != 0) {
-			currProgType =
-			currProgram = 99;
-			machineStatus = machineStatusEx;
-			ShowProgram();
-		} else if (machineStatus == OP_IDLE) {
-		__NOP();
-		} else if (machineStatus == OP_READY) {
-			__NOP();
-		} else if (machineStatus == OP_PARAMETERS) {
-			machineStatus = machineStatusEx;
-			ShowProgram();
-		} else if (machineStatus == OP_RUNNING) {
-			abortProgram = 1;
-			ShowProgram();
-		} else if (machineStatus == OP_READINGS) {
-			machineStatus = machineStatusEx;
-			ShowProgram();
-		} else {
-			__NOP();
-		}
-
-	} else if (data->Param1 == KEY_TEST + KEY_PROG) {
-		// Button code here
-	} else if (data->Param1 == KEY_START + KEY_PROG) {
-		// Button code here
-	} else if (data->Param1 == KEY_START + KEY_TEST) {
-		// Button code here
-	} else if (data->Param1 == KEY_START + KEY_TEST + KEY_PROG) {
-		// Button code here
-
-	} else if (data->Param1 == KEY_TEST + KEY_PROG + KEY_LONG_PRESS) {
-		// Button code here
-
-	} else if (data->Param1 == KEY_START + KEY_TEST + KEY_LONG_PRESS) {
-		if (machineStatus == OP_IDLE) {
-			machineStatusEx = machineStatus;
-			machineStatus = OP_PARAMETERS;
-			ShowParameter();
-		} else if (machineStatus == OP_READY) {
-			__NOP();
-		} else if (machineStatus == OP_PARAMETERS) {
-			__NOP();
-		} else {
-			__NOP();
-		}
-
-	} else if (data->Param1 == KEY_START + KEY_PROG + KEY_LONG_PRESS) {
-		if (machineStatus == OP_IDLE) {
-			machineStatusEx = machineStatus;
-			machineStatus = OP_READINGS;
-			ShowReading();
-		} else if (machineStatus == OP_READY) {
-			__NOP();
-		} else if (machineStatus == OP_PARAMETERS) {
-			__NOP();
-		} else {
-			__NOP();
-		}
-
-	} else if (data->Param1 == KEY_START + KEY_TEST + KEY_PROG + KEY_LONG_PRESS) {
-		// Button code here
-	} else {
-		__NOP();
-	}
-}
+//
+//static void ParseCommand(s_DisplayProtocolData* data) {
+//
+//	if (data->Param1 == KEY_PROG) {
+//		if (machineStatus == OP_IDLE) {
+//			SelectProgram();
+//		} else if (machineStatus == OP_READY) {
+//			SelectProgram();
+//		} else if (machineStatus == OP_PARAMETERS) {
+//			SelectParameter();
+//		} else if (machineStatus == OP_RUNNING) {
+//			SelectReading();
+//			ShowReading();
+//		} else if (machineStatus == OP_READINGS) {
+//			SelectReading();
+//		} else {
+//			__NOP();
+//		}
+//
+//	} else if (data->Param1 == KEY_TEST) {
+//		if (machineStatus == OP_IDLE) {
+//			SelectTest();
+//		} else if (machineStatus == OP_READY) {
+//			SelectTest();
+//		} else if (machineStatus == OP_PARAMETERS) {
+//			ChangeParameter(1);
+//		} else {
+//			__NOP();
+//		}
+//
+//	} else if (data->Param1 == KEY_START) {
+//		if (machineStatus == OP_IDLE) {
+//			programStart = 1;
+//			machineStatus == OP_RUNNING;
+//			osThreadResume(programTaskHandle);
+//		} else if (machineStatus == OP_READY) {
+//			programStart = 1;
+//			machineStatus == OP_RUNNING;
+//			osThreadResume(programTaskHandle);
+//		} else if (machineStatus == OP_PARAMETERS) {
+//			ChangeParameter(-1);
+//		} else {
+//			__NOP();
+//		}
+//
+//	} else if (data->Param1 == KEY_PROG + KEY_LONG_PRESS) {
+//		// Button code here
+//
+//	} else if (data->Param1 == KEY_TEST + KEY_LONG_PRESS) {
+//		// Button code here
+//
+//	} else if (data->Param1 == KEY_START + KEY_LONG_PRESS) {
+//		if (lastError != 0) {
+//			currProgType =
+//			currProgram = 99;
+//			machineStatus = machineStatusEx;
+//			ShowProgram();
+//		} else if (machineStatus == OP_IDLE) {
+//		__NOP();
+//		} else if (machineStatus == OP_READY) {
+//			__NOP();
+//		} else if (machineStatus == OP_PARAMETERS) {
+//			machineStatus = machineStatusEx;
+//			ShowProgram();
+//		} else if (machineStatus == OP_RUNNING) {
+//			abortProgram = 1;
+//			ShowProgram();
+//		} else if (machineStatus == OP_READINGS) {
+//			machineStatus = machineStatusEx;
+//			ShowProgram();
+//		} else {
+//			__NOP();
+//		}
+//
+//	} else if (data->Param1 == KEY_TEST + KEY_PROG) {
+//		// Button code here
+//	} else if (data->Param1 == KEY_START + KEY_PROG) {
+//		// Button code here
+//	} else if (data->Param1 == KEY_START + KEY_TEST) {
+//		// Button code here
+//	} else if (data->Param1 == KEY_START + KEY_TEST + KEY_PROG) {
+//		// Button code here
+//
+//	} else if (data->Param1 == KEY_TEST + KEY_PROG + KEY_LONG_PRESS) {
+//		// Button code here
+//
+//	} else if (data->Param1 == KEY_START + KEY_TEST + KEY_LONG_PRESS) {
+//		if (machineStatus == OP_IDLE) {
+//			machineStatusEx = machineStatus;
+//			machineStatus = OP_PARAMETERS;
+//			ShowParameter();
+//		} else if (machineStatus == OP_READY) {
+//			__NOP();
+//		} else if (machineStatus == OP_PARAMETERS) {
+//			__NOP();
+//		} else {
+//			__NOP();
+//		}
+//
+//	} else if (data->Param1 == KEY_START + KEY_PROG + KEY_LONG_PRESS) {
+//		if (machineStatus == OP_IDLE) {
+//			machineStatusEx = machineStatus;
+//			machineStatus = OP_READINGS;
+//			ShowReading();
+//		} else if (machineStatus == OP_READY) {
+//			__NOP();
+//		} else if (machineStatus == OP_PARAMETERS) {
+//			__NOP();
+//		} else {
+//			__NOP();
+//		}
+//
+//	} else if (data->Param1 == KEY_START + KEY_TEST + KEY_PROG + KEY_LONG_PRESS) {
+//		// Button code here
+//	} else {
+//		__NOP();
+//	}
+//}
 
 
 

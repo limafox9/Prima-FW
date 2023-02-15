@@ -38,7 +38,9 @@ USAGE:
 #define SRC_KEYS_H_
 
 #include "globals.h"
+#include "Inc/DB_Protocol.h"
 
 void StartKeysTask();
+void ParseCommand(s_DisplayProtocolData* data);
 
 #endif /* SRC_KEYS_H_ */

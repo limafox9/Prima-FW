@@ -36,7 +36,6 @@ USAGE:
 #include "leds.h"
 #include "main.h"
 #include "globals.h"
-#include "panel_serial.h"
 
 extern uint16_t dashboardLedsBits;
 

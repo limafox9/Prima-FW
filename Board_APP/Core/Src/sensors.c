@@ -80,6 +80,7 @@ USAGE:
 
 extern ADC_HandleTypeDef hadc1;
 extern SPI_HandleTypeDef hspi1;
+extern UART_HandleTypeDef huart2;
 extern Settings_s settings;
 
 extern uint8_t currProgram;
@@ -103,6 +104,7 @@ float pressAmbientMax;
 float pressBuf[PRESS_BUFFER_SIZE];
 float pressAvg;
 
+float BufferAverage(float* buffer, uint8_t size, float newValue);
 
 //==============================================================================
 // DECLARATIONS
@@ -124,22 +126,84 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	}
 }
 
+void StartSensorsTask() {
+
+	HAL_ADCEx_Calibration_Start(&hadc1);
+
+	TM7705_Init(&hspi1);
+	BAT2U_Init(&huart2);
+	// Fill buffer values
+	for (int i = 0 ; i < (sizeof(pressBuf) / sizeof(float)); i++) {
+		pressBuf[i] = ChamberPressureGet();
+	}
+
+	sensors.PressureAmbient = (float)100.0;
+
+	for (;;) {
+
+		sensors.Door = DoorPositionGet();
+		sensors.Solenoid = DoorSolenoidKeyGet();
+		sensors.TemperatureSteamGenerator = SteamGeneratorTempGet();
+		sensors.TemperatureChamberHeater = ChamberHeaterTempGet();
+		sensors.T1 = TM7705_GetTemp(0, (float)(settings.T1Offset / 10.0) + (float)T_FACTORY_OFFSET);
+		sensors.T2 = sensors.T1;
+//		sensors.T2 = TM7705_GetTemp(1, (float)(settings.T2Offset / 10.0) + (float)T_FACTORY_OFFSET);
+		sensors.PressureChamber = BufferAverage(pressBuf, PRESS_BUFFER_SIZE, ChamberPressureGet());
+		sensors.Current = CurrentGet();
+		sensors.WaterTDS = BAT2U_GetTDSValue(1, 100);
+		sensors.WaterDumpLevel = WaterDumpLevelGet();
+		sensors.WaterReservoirLevel = WaterReservoirLevelGet();
+
+//		Log(LOG_LEVEL_DEBUG, LOG_TIME_TIME, LOG_OUT_SERIAL, "%0.3f", Sensors.Current);
+//		char d[8] = {0};
+//		sprintf(d, "%0.1f", Sensors.TemperatureSteamGenerator);
+//		SendCommand(COMMAND_WRITE_DIGITS_ROW_1, 0, 0, 0, d);
+
+		if ((machineStatus.Status == STATUS_READY) || (machineStatus.Status == STATUS_IDLE)) machineStatus.Status = (sensors.Door == CLOSED) ? STATUS_READY : STATUS_IDLE;
+
+		if (sensors.Door == OPEN) {
+			sensors.PressureAmbient = sensors.PressureChamber;
+		}
+
+		pressAmbientMin = sensors.PressureAmbient - (float)AMBIENT_PRESSURE_TOLERANCE;
+		pressAmbientMax = sensors.PressureAmbient + (float)AMBIENT_PRESSURE_TOLERANCE;
+
+		if (machineStatus.Show == SHOW_PROGRAM) ShowProgram();
+		else if (machineStatus.Show == SHOW_READINGS) ShowReading();
+		else if (machineStatus.Show == SHOW_PARAMETERS) ShowParameter();
+
+		if (sensors.WaterReservoirLevel == EMPTY) {
+			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, DISPLAY_LED_WARNING_CTL, ON, 0, "");
+		} else {
+			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, DISPLAY_LED_WARNING_CTL, OFF, 0, "");
+		}
+
+		if (sensors.WaterDumpLevel == FULL) {
+			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, DISPLAY_LED_WARNING_LSH, ON, 0, "");
+		} else {
+			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, DISPLAY_LED_WARNING_LSH, OFF, 0, "");
+		}
+
+		osDelay(1000 / SAMPLE_RATE);
+	}
+}
+
 e_LockState DoorSolenoidKeyGet() {
-	return (HAL_GPIO_ReadPin(SW_SOLENOID_GPIO_Port, SW_SOLENOID_Pin) == GPIO_PIN_SET) ? LOCK : UNLOCK;
+	return (HAL_GPIO_ReadPin(SW_SOLENOID_GPIO_Port, SW_SOLENOID_Pin) == GPIO_PIN_SET) ? UNLOCK : LOCK;
 }
 
 e_OpenClosedState DoorPositionGet() {
-	return (HAL_GPIO_ReadPin(SW_DOOR_GPIO_Port, SW_DOOR_Pin) == GPIO_PIN_SET) ? CLOSED : OPEN;
+	return (HAL_GPIO_ReadPin(SW_DOOR_GPIO_Port, SW_DOOR_Pin) == GPIO_PIN_SET) ? OPEN : CLOSED;
 }
 
 e_Level WaterDumpLevelGet() {
-	return (HAL_GPIO_ReadPin(SW_LSH_GPIO_Port, SW_LSH_Pin) == GPIO_PIN_SET) ? NORMAL : FULL;
+	return (HAL_GPIO_ReadPin(SW_LSH_GPIO_Port, SW_LSH_Pin) == GPIO_PIN_SET) ? FULL : NORMAL;
 }
 
 e_Level WaterReservoirLevelGet() {
 	uint8_t level = NORMAL;
-	if (HAL_GPIO_ReadPin(SW_CSH_GPIO_Port, SW_CSH_Pin) == GPIO_PIN_SET) level = FULL;
-	if (HAL_GPIO_ReadPin(SW_CSL_GPIO_Port, SW_CSL_Pin) == GPIO_PIN_SET) level = EMPTY;
+	if (HAL_GPIO_ReadPin(SW_CSH_GPIO_Port, SW_CSH_Pin) == GPIO_PIN_RESET) level = FULL;
+	if (HAL_GPIO_ReadPin(SW_CSL_GPIO_Port, SW_CSL_Pin) == GPIO_PIN_RESET) level = EMPTY;
 	return level;
 }
 
@@ -186,58 +250,6 @@ float BufferAverage(float* buffer, uint8_t size, float newValue) {
 
 	return retAvg;
 
-}
-
-void StartSensorsTask() {
-
-	HAL_ADCEx_Calibration_Start(&hadc1);
-
-	TM7705_Init(&hspi1);
-
-	// Fill buffer values
-	for (int i = 0 ; i < (sizeof(pressBuf) / sizeof(float)); i++) {
-		pressBuf[i] = ChamberPressureGet();
-	}
-
-	sensors.PressureAmbient = 100;
-
-	for (;;) {
-
-		sensors.Door = DoorPositionGet();
-		sensors.Solenoid = DoorSolenoidKeyGet();
-		sensors.TemperatureSteamGenerator = SteamGeneratorTempGet();
-		sensors.TemperatureChamberHeater = ChamberHeaterTempGet();
-		sensors.T1 = TM7705_GetTemp(0, (float)(settings.T1Offset / 10.0) + (float)T_FACTORY_OFFSET);
-//		sensors.T2 = TM7705_GetTemp(1, (float)(settings.T2Offset / 10.0) + (float)T_FACTORY_OFFSET);
-//		Sensors.T2 = TemperatureT2Get();
-		sensors.PressureChamber = BufferAverage(pressBuf, PRESS_BUFFER_SIZE, ChamberPressureGet());
-		sensors.Current = CurrentGet();
-		sensors.WaterTDS = BAT2U_GetTDSValue(1, 100);
-		sensors.WaterDumpLevel = WaterDumpLevelGet();
-		sensors.WaterReservoirLevel = WaterReservoirLevelGet();
-
-//
-//		Log(LOG_LEVEL_DEBUG, LOG_TIME_TIME, LOG_OUT_SERIAL, "%0.3f", Sensors.Current);
-//		char d[8] = {0};
-//		sprintf(d, "%0.1f", Sensors.TemperatureSteamGenerator);
-//		SendCommand(COMMAND_WRITE_DIGITS_ROW_1, 0, 0, 0, d);
-
-		if (sensors.Door == OPEN) {
-			sensors.PressureAmbient = sensors.PressureChamber;
-			pressAmbientMin = sensors.PressureAmbient - (float)AMBIENT_PRESSURE_TOLERANCE;
-			pressAmbientMax = sensors.PressureAmbient + (float)AMBIENT_PRESSURE_TOLERANCE;
-		}
-		if ((machineStatus == OP_IDLE) | (machineStatus == OP_READY)) ShowProgram();
-		if ((machineStatus == OP_READINGS)) ShowReading();
-
-		if (sensors.WaterReservoirLevel == EMPTY) {
-			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, DISPLAY_LED_WARNING_CTL, ON, 0, "");
-		} else {
-			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, DISPLAY_LED_WARNING_CTL, OFF, 0, "");
-		}
-
-		osDelay(1000 / SAMPLE_RATE);
-	}
 }
 
 uint16_t ReadADC(uint32_t channel) {

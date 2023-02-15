@@ -264,7 +264,7 @@ e_LockState DoorSolenoidSet(e_LockState status) {
 	HAL_GPIO_WritePin(SOLENOID_V2_GPIO_Port, SOLENOID_V2_Pin, OFF);
 
 	// Return solenoid switch status for position confirmation
-	return HAL_GPIO_ReadPin(SW_SOLENOID_GPIO_Port, SW_SOLENOID_Pin);
+	return !HAL_GPIO_ReadPin(SW_SOLENOID_GPIO_Port, SW_SOLENOID_Pin);
 }
 
 void DoorSolenoidDisconnect() {

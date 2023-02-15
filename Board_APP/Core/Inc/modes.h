@@ -39,13 +39,18 @@ USAGE:
 #define INC_MODES_H_
 
 typedef enum {
-	OP_IDLE,
-	OP_READY,
-	OP_RUNNING,
-	OP_FAIL,
-	OP_PARAMETERS,
-	OP_READINGS,
+	STATUS_IDLE,
+	STATUS_READY,
+	STATUS_RUNNING,
+	STATUS_FAIL,
 } e_MachineStatus;
+
+typedef enum {
+	SHOW_PROGRAM,
+	SHOW_PARAMETERS,
+	SHOW_READINGS,
+	SHOW_ERROR,
+} e_ShowStatus;
 
 typedef enum {
 	PROGTYPE_USER,
@@ -95,6 +100,11 @@ typedef struct s_Program {
 	e_ProgramTemp SterilTemp;
 } s_Program;
 
+typedef struct s_MachineStatus {
+	e_MachineStatus Status;
+	e_ShowStatus Show;
+} s_MachineStatus;
+
 typedef struct Parameter_s {
 	uint8_t ParamNumber;
 	char Name[16];
@@ -115,8 +125,7 @@ typedef struct Reading_s {
 } Reading_s;
 
 
-extern e_MachineStatus machineStatus;
-extern e_MachineStatus machineStatusEx;
+extern s_MachineStatus machineStatus;
 
 extern uint8_t currProgram;
 extern uint8_t currTest;

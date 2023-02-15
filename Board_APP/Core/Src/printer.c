@@ -43,6 +43,7 @@ USAGE:
 #include "globals.h"
 #include "settings.h"
 #include "stm32f1xx_hal.h"
+#include "sensors.h"
 
 #define DC2 0x12
 #define ESC	0x1B
@@ -100,6 +101,14 @@ void PrintTestPage() {
 	Print("%c%c", DC2, 'T'); // Reset
 }
 
+void PrintError(const char* errorString, RTCTimerTime_s* tTime) {
+	Print(errorString);
+	Print("----    T1     T2   PRESS   TIME\n");
+	Print("      %5.1f  %5.1f  %5.1f %3d:%02d\n", sensors.T1, sensors.T2, sensors.PressureChamber, tTime->TimeMinute, tTime->TimeSecond);
+	Print("        T3     T4    TDS\n");
+	Print("      %5.1f  %5.1f  %5d\n", sensors.TemperatureChamberHeater, sensors.TemperatureSteamGenerator, sensors.WaterTDS, tTime->TimeMinute, tTime->TimeSecond);
+}
+
 void Print(const char* format, ...) {
 
 		  va_list args;
@@ -143,7 +152,7 @@ void PrintHeader (const char* title, float t1, RTCDateTime_s* time) {
 	Print("\n");
 	Print("S/N:     %s\n", machine.Serial);
 	Print("UID:     %08X %08X %08X\n", machine.MCUID[0], machine.MCUID[1], machine.MCUID[2]);
-	Print("SW: 		v. %d.%01d.%02d\n", FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION);
+	Print("SW:      v. %d.%01d.%02d\n", FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION);
 	Print("\n");
 	Print("DATE:    %d-%02d-%02d (YYYY-MM-DD)\n", time->Year, time->Month, time->Day);
 	Print("CYCLE N. %d\n", settings.CyclesCount);
@@ -164,10 +173,8 @@ void PrintFooter (const char* result, RTCDateTime_s* time, RTCTimerTime_s* timer
 	Print("TOTAL TIME                 %2d:%02d\n", timer->TimeMinute, timer->TimeSecond);
 	Print("\n");
 	PrintSize(3, 2);
-	Print("%s\n", result);
+	Print("%s Err.%0d\n", result, lastError);
 	PrintSize(1, 1);
-	Print("\n");
-	Print("INDICATOR TAPE:  PASS [] FAIL []\n");
 	Print("\n");
 	Print("INDICATOR STRIP: PASS [] FAIL []\n");
 	Print("\n");

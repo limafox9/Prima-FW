@@ -41,8 +41,7 @@ USAGE:
 #include "settings.h"
 #include "Inc/DB_Protocol.h"
 
-e_MachineStatus machineStatus;
-e_MachineStatus machineStatusEx;
+s_MachineStatus machineStatus = {STATUS_IDLE, SHOW_PROGRAM};
 
 uint8_t currProgram = 0;
 uint8_t currTest = 0;
@@ -89,7 +88,10 @@ void SelectProgram() {
 	if (currProgType == PROGTYPE_PROGRAM) currProgram++;
 	currProgType = PROGTYPE_PROGRAM;
 	if (currProgram > ((sizeof(programs) / sizeof(s_Program)) - 1)) currProgram = 0;
+	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, &programs[currProgram].DigitsName);
+//			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, 255, OFF, 0, "");
 	SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, 63 + DISPLAY_LED_WASH_CYCLE + DISPLAY_LED_WATER_FILL, OFF, 0, "");
+	SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, programs[currProgram].DashLeds, ON, 0, "");
 	ShowProgram();
 }
 
@@ -97,27 +99,25 @@ void SelectTest() {
 	if (currProgType == PROGTYPE_TEST) currTest++;
 	currProgType = PROGTYPE_TEST;
 	if (currTest > ((sizeof(tests) / sizeof(s_Program)) - 1)) currTest = 0;
+	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, &tests[currTest].DigitsName);
+//			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, 255, OFF, 0, "");
 	SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, 63 + DISPLAY_LED_WASH_CYCLE + DISPLAY_LED_WATER_FILL, OFF, 0, "");
+	SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, tests[currTest].DashLeds, ON, 0, "");
 	ShowProgram();
 }
 
 void ShowProgram() {
-	if (lastError == ERROR_NONE) {
-		if (currProgType == PROGTYPE_PROGRAM) {
-			SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, &programs[currProgram].DigitsName);
-//			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, 255, OFF, 0, "");
-			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, programs[currProgram].DashLeds, ON, 0, "");
-		}
-		if (currProgType == PROGTYPE_TEST) {
-			SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, &tests[currTest].DigitsName);
-//			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, 255, OFF, 0, "");
-			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, tests[currTest].DashLeds, ON, 0, "");
-		}
-	} else {
-		char s[8];
-		sprintf(s,"Er.%2d", lastError);
-		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3,0,0,s);
-	}
+//
+//	if (currProgType == PROGTYPE_PROGRAM) {
+//			SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, &programs[currProgram].DigitsName);
+////			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, 255, OFF, 0, "");
+//			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, programs[currProgram].DashLeds, ON, 0, "");
+//		}
+//		if (currProgType == PROGTYPE_TEST) {
+//			SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, &tests[currTest].DigitsName);
+////			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, 255, OFF, 0, "");
+//			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, tests[currTest].DashLeds, ON, 0, "");
+//		}
 
 	char s[8];
 	sprintf(s,"%5.1f", sensors.T1);
@@ -151,7 +151,7 @@ void ChangeParameter(uint8_t increment) {
 	*parameters[currParameter].Data += increment;
 	if (*parameters[currParameter].Data < parameters[currParameter].Min) *parameters[currParameter].Data = parameters[currParameter].Min;
 	if (*parameters[currParameter].Data > parameters[currParameter].Max) *parameters[currParameter].Data = parameters[currParameter].Max;
-	EEPROM_Write(parameters[currParameter].EepromAddress, parameters[currParameter].Data, 1);
+//	EEPROM_Write(parameters[currParameter].EepromAddress, parameters[currParameter].Data, 1);
 	ShowParameter();
 }
 

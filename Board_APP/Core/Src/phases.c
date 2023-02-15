@@ -39,7 +39,6 @@ USAGE:
 #include "actuators.h"
 #include "pid.h"
 #include "cmsis_os.h"
-#include "panel_serial.h"
 #include "printer.h"
 #include "Inc/DB_Protocol.h"
 #include <stdio.h>
@@ -54,12 +53,26 @@ uint8_t steamGeneratorTempSet;
 //extern s_Sensors Sensors;
 
 
+
+
 uint8_t PhaseBegin(uint8_t timeout) {
 
 	uint8_t retVal = 1;
 	RTCTimerTime_s tTimeout, tPhase;
 
+	ResetTimer(TIMER_PHASE);
+
+	osDelay(1000);
+	if (DoorSolenoidSet(LOCK) != LOCK) {
+		lastError = ERROR_PROTECTION_LOCK;
+		GetTimer(TIMER_PHASE, &tPhase);
+		PrintError("LOCK ERROR *** NO CONFIRMATION\n", tPhase);
+		return 0;
+	}
+
 	ResetTimer(TIMER_TIMEOUT);
+
+	machineStatus.Status = STATUS_RUNNING;
 
 	ValveDrainSteamSet(OFF);
 	ValveDryIntakeSet(OFF);
@@ -72,8 +85,6 @@ uint8_t PhaseBegin(uint8_t timeout) {
 
 	FanSet(ON);
 
-	machineStatus = OP_RUNNING;
-
 	settings.CyclesCount++;
 	EEPROM_Write(EPA_CYCLE_COUNTER, &settings.CyclesCount, 2);
 	machine.ReadOnlyCyclesCount++;
@@ -83,6 +94,7 @@ uint8_t PhaseBegin(uint8_t timeout) {
 	EEPROM_Write(EPA_LAST_ERROR, &err, 1);
 
 	while (1) {
+		lastError = ERROR_PHASE_TIMEOUT;
 		GetTimer(TIMER_TIMEOUT, &tTimeout);
 		if ((sensors.PressureChamber >= pressAmbientMin) && (sensors.PressureChamber <= pressAmbientMax)) {
 			retVal = 1;
@@ -93,6 +105,7 @@ uint8_t PhaseBegin(uint8_t timeout) {
 			break;
 		}
 		if (abortProgram) {
+			abortProgram = 0;
 			lastError = ERROR_ABNORMAL_EXIT;
 			retVal = 0;
 			break;
@@ -117,7 +130,7 @@ uint8_t PhaseHeatUp(float ringTemp, float steamGenTemp, float chamberTemp, uint1
 	ResetTimer(TIMER_TIMEOUT);
 	ResetTimer(TIMER_PHASE);
 
-	SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
+	SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
 
 	HeaterChamberTempSet(ringTemp);
 	HeaterSteamGeneratorTempSet(steamGenTemp);
@@ -149,14 +162,37 @@ uint8_t PhaseHeatUp(float ringTemp, float steamGenTemp, float chamberTemp, uint1
 			retVal = 0;
 			break;
 		}
-		if (abortProgram) {
+		lastError = CheckError();
+		if (abortProgram == 1) {
+			abortProgram = 0;
 			lastError = ERROR_ABNORMAL_EXIT;
 			retVal = 0;
 			break;
 		}
 		osDelay(200);
 	}
+
 	return retVal;
+}
+
+uint8_t CheckError() {
+
+	uint8_t retError = ERROR_NONE;
+
+	if (abortProgram == 1) {
+		abortProgram = 0;
+		retError = ERROR_ABNORMAL_EXIT;
+	} else if ((machineStatus.Status == STATUS_RUNNING) && (sensors.Door == OPEN)) {
+		retError = ERROR_OPEN_DOOR;
+	} else if (sensors.TemperatureSteamGenerator > 230.0) {
+		retError = ERROR_STEAM_OVERTEMP;
+	} else if (sensors.TemperatureChamberHeater > 150.0) {
+		retError = ERROR_RING_OVERTEMP;
+	} else if ((sensors.T1 > 138.0) || (sensors.T2 > 138.0)) {
+		retError = ERROR_CHAMBER_OVERTEMP;
+	} else if (sensors.PressureChamber > 345.0) {
+		retError = ERROR_CHAMBER_OVERTEMP;
+	}
 }
 
 uint8_t PhaseRelease(uint8_t nRelease, uint16_t timeout) {
@@ -166,9 +202,9 @@ uint8_t PhaseRelease(uint8_t nRelease, uint16_t timeout) {
 	ResetTimer(TIMER_TIMEOUT);
 	ResetTimer(TIMER_PHASE);
 
-	if (nRelease == 1) SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_NVACUUM, 0, 0, "");
-	else if (nRelease == 2) SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_NRELEASE, 0, 0, "");
-	else if (nRelease == 3) SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_STERILRELEASE, 0, 0, "");
+	if (nRelease == 1) SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_NVACUUM, 0, 0, "");
+	else if (nRelease == 2) SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_NRELEASE, 0, 0, "");
+	else if (nRelease == 3) SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_STERILRELEASE, 0, 0, "");
 
 	// Valves
 	ValveDrainSteamSet(OFF);
@@ -186,7 +222,7 @@ uint8_t PhaseRelease(uint8_t nRelease, uint16_t timeout) {
 		}
 		GetTimer(TIMER_TIMEOUT, &tTimeout);
 		if (tTimeout.Seconds > timeout) {
-			lastError = ERROR_PHASE_TIMEOUT;
+			lastError = ERROR_NO_PRESSURE_RELEASE;
 			Print("EXHA ERROR *** TIMEOUT\n");
 			GetTimer(TIMER_PHASE, &tPhase);
 			PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
@@ -194,6 +230,7 @@ uint8_t PhaseRelease(uint8_t nRelease, uint16_t timeout) {
 			break;
 		}
 		if (abortProgram) {
+			abortProgram = 0;
 			lastError = ERROR_ABNORMAL_EXIT;
 			retVal = 0;
 			break;
@@ -207,13 +244,19 @@ uint8_t PhaseRelease(uint8_t nRelease, uint16_t timeout) {
 uint8_t PhaseVacuum(uint8_t nVacuum, float press, uint16_t timeout) {
 
 	uint8_t retVal = 0;
-	RTCTimerTime_s tTimeout, tPhase;
+	RTCTimerTime_s tTimeout, tPhase, tExt;
+	float pressInit = sensors.PressureChamber;
+
+	const float pressDeltaValue = 10;
+	const uint16_t deltaTime = 20;
+
 	ResetTimer(TIMER_TIMEOUT);
 	ResetTimer(TIMER_PHASE);
+	ResetTimer(TIMER_3);
 
-	if (nVacuum == 1) SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_1STVACUUM, 0, 0, "");
-	else if (nVacuum == 2) SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_NVACUUM, 0, 0, "");
-	else if (nVacuum == 3) SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_STERILVACUUM, 0, 0, "");
+	if (nVacuum == 1) SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_1STVACUUM, 0, 0, "");
+	else if (nVacuum == 2) SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_NVACUUM, 0, 0, "");
+	else if (nVacuum == 3) SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_STERILVACUUM, 0, 0, "");
 
 	// Valves
 	ValveDrainSteamSet(OFF);
@@ -234,6 +277,15 @@ uint8_t PhaseVacuum(uint8_t nVacuum, float press, uint16_t timeout) {
 			retVal = 1;
 			break;
 		}
+		GetTimer(TIMER_3, &tExt);
+//		if ((abs(pressInit - sensors.PressureChamber) < pressDeltaValue) && (tExt.Seconds > deltaTime)) {
+//			lastError = ERROR_TEMP_PRESS_MISMATCH;
+//			Print("VACU ERROR *** DELTA TIMEOUT\n");
+//			GetTimer(TIMER_PHASE, &tPhase);
+//			PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
+//			retVal = 0;
+//			break;
+//		}
 		GetTimer(TIMER_TIMEOUT, &tTimeout);
 		if (tTimeout.Seconds > timeout) {
 			lastError = ERROR_PHASE_TIMEOUT;
@@ -244,6 +296,7 @@ uint8_t PhaseVacuum(uint8_t nVacuum, float press, uint16_t timeout) {
 			break;
 		}
 		if (abortProgram) {
+			abortProgram = 0;
 			lastError = ERROR_ABNORMAL_EXIT;
 			retVal = 0;
 			break;
@@ -289,16 +342,14 @@ uint8_t PhasePressure(uint8_t nPressure, float press, float steamTemp, float ste
 	static const float pPID_LIM_MAX_INT = 1.5;
 	static const float pSAMPLE_TIME_S = 0.1;
 
-
-
 	uint8_t retVal = 0;
 	RTCTimerTime_s tTimeout, tPhase;
 	ResetTimer(TIMER_TIMEOUT);
 	ResetTimer(TIMER_PHASE);
 
-	if (nPressure == 1) SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_1STPRESSURE, 0, 0, "");
-	else if (nPressure == 2) SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_NPRESSURE, 0, 0, "");
-	else if (nPressure == 3) SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_STERILPRESSURE, 0, 0, "");
+	if (nPressure == 1) SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_1STPRESSURE, 0, 0, "");
+	else if (nPressure == 2) SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_NPRESSURE, 0, 0, "");
+	else if (nPressure == 3) SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_STERILPRESSURE, 0, 0, "");
 
 	PIDController pidSteam = {pPID_KP, pPID_KI, pPID_KD, pPID_TAU, pPID_LIM_MIN, pPID_LIM_MAX, pPID_LIM_MIN_INT, pPID_LIM_MAX_INT, pSAMPLE_TIME_S};
 
@@ -324,13 +375,13 @@ uint8_t PhasePressure(uint8_t nPressure, float press, float steamTemp, float ste
 			break;
 		} else if (tTimeout.Seconds > timeout) {
 			lastError = ERROR_PHASE_TIMEOUT;
-			Print("PRES ERROR *** TIMEOUT\n");
 			GetTimer(TIMER_PHASE, &tPhase);
-			PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
+			PrintError("PRES ERROR *** TIMEOUT\n", &tPhase);
 			retVal = 0;
 			break;
 		}
 		if (abortProgram) {
+			abortProgram = 0;
 			lastError = ERROR_ABNORMAL_EXIT;
 			retVal = 0;
 			break;
@@ -363,7 +414,7 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 	ResetTimer(TIMER_TIMEOUT);
 	ResetTimer(TIMER_PHASE);
 
-	SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_STERILMAINTAIN, 0, 0, "");
+	SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_STERILMAINTAIN, 0, 0, "");
 	Print("STER  --------------------------\n");
 
 	PIDController pidSteril = {pPID_KP, pPID_KI, pPID_KD, pPID_TAU, pPID_LIM_MIN, pPID_LIM_MAX, pPID_LIM_MIN_INT, pPID_LIM_MAX_INT, pSAMPLE_TIME_S};
@@ -391,7 +442,7 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 //				break;
 				__NOP();
 			} else if (sensors.PressureChamber > param->pressMax){
-				lastError = ERROR_MAINTAIN_PRESSTEMP;
+				lastError = ERROR_OVERPRESSURE;
 				Print("STER ERROR *** T1 OVER PRESSURE\n");
 				GetTimer(TIMER_PHASE, &tPhase);
 				PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
@@ -410,6 +461,7 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 			break;
 		}
 		if (abortProgram) {
+			abortProgram = 0;
 			lastError = ERROR_ABNORMAL_EXIT;
 			retVal = 0;
 			break;
@@ -451,13 +503,13 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 				PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
 				retVal = 0;
 				break;
-			} else if (sensors.T1 >= param->chamberTempMax) {
-				lastError = ERROR_MAINTAIN_PRESSTEMP;
-				Print("STER ERROR *** OVERTEMPERATURE\n");
-				GetTimer(TIMER_PHASE, &tPhase);
-				PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
-				retVal = 0;
-				break;
+//			} else if (sensors.T1 >= param->chamberTempMax) {
+//				lastError = ERROR_MAINTAIN_PRESSTEMP;
+//				Print("STER ERROR *** OVERTEMPERATURE\n");
+//				GetTimer(TIMER_PHASE, &tPhase);
+//				PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
+//				retVal = 0;
+//				break;
 			} else if (sensors.PressureChamber >= param->pressMax) {
 				lastError = ERROR_MAINTAIN_PRESSTEMP;
 				Print("STER ERROR *** OVERPRESSURE\n");
@@ -496,6 +548,7 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 				ResetTimer(TIMER_1);
 			}
 			if (abortProgram) {
+				abortProgram = 0;
 				lastError = ERROR_ABNORMAL_EXIT;
 				retVal = 0;
 				break;
@@ -524,7 +577,7 @@ uint8_t PhaseDry(float firstVacPress, float otherVacPress, uint16_t time, uint16
 	ResetTimer(TIMER_TIMEOUT);
 	ResetTimer(TIMER_PHASE);
 
-	SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_DRY, 0, 0, "");
+	SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_DRY, 0, 0, "");
 	Print("DRY   --------------------------\n");
 
 	ValveDrainSteamSet(OFF);
@@ -558,6 +611,7 @@ uint8_t PhaseDry(float firstVacPress, float otherVacPress, uint16_t time, uint16
 					break;
 				}
 				if (abortProgram) {
+					abortProgram = 0;
 					lastError = ERROR_ABNORMAL_EXIT;
 					retVal = 0;
 					break;
@@ -588,6 +642,7 @@ uint8_t PhaseDry(float firstVacPress, float otherVacPress, uint16_t time, uint16
 					break;
 				}
 				if (abortProgram) {
+					abortProgram = 0;
 					lastError = ERROR_ABNORMAL_EXIT;
 					retVal = 0;
 					break;
@@ -618,7 +673,7 @@ uint8_t PhaseVacuumHold(float vacPress, uint8_t tolerance, uint16_t time, uint16
 	ResetTimer(TIMER_TIMEOUT);
 	ResetTimer(TIMER_PHASE);
 
-	SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_1STVACUUM, 0, 0, "");
+	SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_1STVACUUM, 0, 0, "");
 //	Print("VAC   --------------------------\n");
 
 	ValveDrainSteamSet(ON);
@@ -631,7 +686,7 @@ uint8_t PhaseVacuumHold(float vacPress, uint8_t tolerance, uint16_t time, uint16
 		GetTimer(TIMER_TIMEOUT, &tTimeout);
 		GetTimer(TIMER_PHASE, &tPhase);
 		if (sensors.PressureChamber > (vacPress + tolerance)) {
-			lastError = ERROR_MAINTAIN_PRESSTEMP;
+			lastError = ERROR_VACUUM_TEST_FAILED;
 			Print("VAC  ERROR *** OVER PRESSURE\n");
 			GetTimer(TIMER_PHASE, &tPhase);
 			PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
@@ -649,6 +704,7 @@ uint8_t PhaseVacuumHold(float vacPress, uint8_t tolerance, uint16_t time, uint16
 			break;
 		}
 		if (abortProgram) {
+			abortProgram = 0;
 			lastError = ERROR_ABNORMAL_EXIT;
 			retVal = 0;
 			break;
@@ -670,7 +726,7 @@ uint8_t PhaseWait(uint16_t time) {
 	RTCTimerTime_s tPhase;
 	ResetTimer(TIMER_PHASE);
 
-	SendCommand(COMMAND_SET_PROGRESS_LEDS, LED_PROGRESS_1STVACUUM, 0, 0, "");
+	SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_1STVACUUM, 0, 0, "");
 //	Print("VAC   --------------------------\n");
 
 	ValveDrainSteamSet(ON);
@@ -686,6 +742,7 @@ uint8_t PhaseWait(uint16_t time) {
 			break;
 		}
 		if (abortProgram) {
+			abortProgram = 0;
 			lastError = ERROR_ABNORMAL_EXIT;
 			retVal = 0;
 			break;
@@ -734,7 +791,9 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 		PrintFooter("PASS", time, timer);
 		Beep(3, 100, 100);
 	} else {
-		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "FAIL");
+		char s[8];
+		sprintf(s,"Er.%02d", lastError);
+		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, s);
 
 		EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
 
@@ -747,11 +806,22 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 			break;
 		}
 		if (abortProgram) {
+			abortProgram = 0;
 			lastError = ERROR_ABNORMAL_EXIT;
 			retVal = 0;
 			break;
 		}
 		osDelay(200);
+	}
+
+	machineStatus.Status = STATUS_READY;
+
+	FanSet(OFF);
+
+	osDelay(1000);
+	if (DoorSolenoidSet(UNLOCK) != UNLOCK) {
+		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "Er.11");
+		return 0;
 	}
 
 	return retVal;
