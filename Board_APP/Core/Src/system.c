@@ -49,7 +49,6 @@ USAGE:
 #include "time.h"
 #include "actuators.h"
 #include "keys.h"
-#include "leds.h"
 #include "sensors.h"
 #include "serial.h"
 #include "TM7705.h"
@@ -70,6 +69,7 @@ extern UART_HandleTypeDef huart2;
 extern UART_HandleTypeDef huart3;
 extern DMA_HandleTypeDef hdma_usart3_rx;
 extern SPI_HandleTypeDef hspi1;
+extern ADC_HandleTypeDef hadc1;
 
 extern Sensors_s sensors;
 extern Settings_s settings;
@@ -105,19 +105,13 @@ void SysInit() {
 
 //	LoadSettings();
 
-	osThreadDef(keysTask, StartKeysTask, osPriorityAboveNormal, 1, 1024);
-	keysTaskHandle = osThreadCreate(osThread(keysTask), NULL);
-
-	osThreadDef(serialTask, StartSerialTask, osPriorityNormal, 1, 1024);
-	serialTaskHandle = osThreadCreate(osThread(serialTask), NULL);
-
-	osThreadDef(sensorsTask, StartSensorsTask, osPriorityNormal, 1, 2048);
-	sensorsTaskHandle = osThreadCreate(osThread(sensorsTask), NULL);
-
-	osThreadDef(programTask, StartProgramTask, osPriorityNormal, 1, 1024);
-	programTaskHandle = osThreadCreate(osThread(programTask), NULL);
-
-	osThreadSuspend(programTaskHandle);
+//	osDelay(1000);
+//
+//	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, "8.8.:8.8");
+////	osDelay(10);
+//	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 2, 0, 0, "8.8.:8.8");
+////	osDelay(10);
+//	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "8.8.:8.8");
 
 	SerialInit(&huart1, 115200);
 	SerialInit(&UART_DISPLAY, 115200);
@@ -126,23 +120,45 @@ void SysInit() {
 	PWMPower_Init();
 	PrinterInit();
 //
-	RTCTimerTime_s a;
-	a.TimeMinute = 5;
-	a.TimeSecond = 3;
+	HAL_ADCEx_Calibration_Start(&hadc1);
+
+	TM7705_Init(&hspi1);
+	BAT2U_Init(&huart2);
 //
-	RTCDateTime_s d;
-	GetDateTime(&d);
+	RTCDateTime_s RTCDateTime;
+	GetDateTime(&RTCDateTime);
 //
 //		settings.T1Offset = 0;
 //		settings.ChamberPressOffset = 0;
 //		SaveSettings();
 
-		LoadSettings();
+	LoadSettings();
 
-		lastError = 0;
+	lastError = 0;
+
+	osThreadDef(keysTask, StartKeysTask, osPriorityAboveNormal, 1, 1024);
+	keysTaskHandle = osThreadCreate(osThread(keysTask), NULL);
+
+	osThreadDef(serialTask, StartSerialTask, osPriorityNormal, 1, 1024);
+	serialTaskHandle = osThreadCreate(osThread(serialTask), NULL);
+
+	osThreadDef(sensorsTask, StartSensorsTask, osPriorityHigh, 1, 1024);
+	sensorsTaskHandle = osThreadCreate(osThread(sensorsTask), NULL);
+
+	osThreadDef(programTask, StartProgramTask, osPriorityNormal, 1, 1024);
+	programTaskHandle = osThreadCreate(osThread(programTask), NULL);
+
 //		PrintError("ERROR ERROR\n");
 
 //		EEPROM_Read(EPA_LAST_ERROR, &lastError, 1);
+//
+//		osDelay(1000);
+//
+//		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, "8.8.:8.8");
+//	//	osDelay(10);
+//		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 2, 0, 0, "8.8.:8.8");
+//	//	osDelay(10);
+//		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "8.8.:8.8");
 
 		osDelay(1000);
 		Beep(2, 100, 100);

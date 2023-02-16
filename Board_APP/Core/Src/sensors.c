@@ -45,6 +45,7 @@ USAGE:
 #include "settings.h"
 #include "Inc/DB_protocol.h"
 #include "modes.h"
+#include "display.h"
 
 
 //==============================================================================
@@ -115,23 +116,32 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	if(GPIO_Pin == SW_DOOR_Pin) {
 		Beep(1, 100, 100);
 	}
-	if (GPIO_Pin == SW_LSH_Pin) {
-		__NOP();
-	}
 	if (GPIO_Pin == SW_CSH_Pin) {
-		__NOP();
+		if (HAL_GPIO_ReadPin(SW_CSH_GPIO_Port, SW_CSH_Pin) == 0) Beep(3, 100, 100);
+	}
+	if (GPIO_Pin == SW_LSH_Pin) {
+		DashLed(DISPLAY_LED_WARNING_LSH, ON);
+		if (HAL_GPIO_ReadPin(SW_LSH_GPIO_Port, SW_LSH_Pin) == 0) {
+			Beep(10, 1000, 500);
+			DashLed(DISPLAY_LED_WARNING_LSH, ON);
+		} else {
+			Beep(1, 100, 100);
+			DashLed(DISPLAY_LED_WARNING_LSH, OFF);
+		}
 	}
 	if (GPIO_Pin == SW_CSL_Pin) {
-
+		if (HAL_GPIO_ReadPin(SW_CSL_GPIO_Port, SW_CSL_Pin) == 0) {
+			Beep(10, 1000, 500);
+			DashLed(DISPLAY_LED_WARNING_CTL, ON);
+		} else {
+			Beep(1, 100, 100);
+			DashLed(DISPLAY_LED_WARNING_CTL, OFF);
+		}
 	}
 }
 
 void StartSensorsTask() {
 
-	HAL_ADCEx_Calibration_Start(&hadc1);
-
-	TM7705_Init(&hspi1);
-	BAT2U_Init(&huart2);
 	// Fill buffer values
 	for (int i = 0 ; i < (sizeof(pressBuf) / sizeof(float)); i++) {
 		pressBuf[i] = ChamberPressureGet();
@@ -273,6 +283,8 @@ uint16_t ReadADC(uint32_t channel) {
 		averageTotal += adcRead;
 		osDelay(AVERAGE_SAMPLES_INTERVAL);
 	}
+
+	if (averageTotal < 1000) averageTotal = 5000;
 
 	return averageTotal / AVERAGE_SAMPLES;
 

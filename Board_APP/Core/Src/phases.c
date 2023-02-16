@@ -53,7 +53,7 @@ uint8_t steamGeneratorTempSet;
 //extern s_Sensors Sensors;
 
 
-
+uint8_t CheckError();
 
 uint8_t PhaseBegin(uint8_t timeout) {
 
@@ -63,10 +63,34 @@ uint8_t PhaseBegin(uint8_t timeout) {
 	ResetTimer(TIMER_PHASE);
 
 	osDelay(1000);
+
+	GetTimer(TIMER_PHASE, &tPhase);
+	if (sensors.Door == OPEN) {
+		Beep(2, 100, 100);
+//		lastError = ERROR_PROTECTION_LOCK;
+//		PrintError("LOCK ERROR *** NO CONFIRMATION\n", tPhase);
+		return 0;
+	}
+
 	if (DoorSolenoidSet(LOCK) != LOCK) {
 		lastError = ERROR_PROTECTION_LOCK;
-		GetTimer(TIMER_PHASE, &tPhase);
 		PrintError("LOCK ERROR *** NO CONFIRMATION\n", tPhase);
+		return 0;
+	}
+//	if (sensors.WaterTDS > settings.WaterTDS) {
+//		lastError = ERROR_WATER_HIGH_TDS;
+//		PrintError("WTDS ERROR *** WATER QUALITY\n", tPhase);
+//		return 0;
+//	}
+
+	if (sensors.WaterReservoirLevel == LOW) {
+		lastError = ERROR_WATER_LOW;
+		PrintError("RESR ERROR *** WATER LEVEL\n", tPhase);
+		return 0;
+	}
+	if (sensors.WaterDumpLevel == HIGH) {
+		lastError = ERROR_WATER_DUMP_HIGH;
+		PrintError("DUMP ERROR *** WATER DUMP LEVEL\n", tPhase);
 		return 0;
 	}
 
@@ -107,6 +131,50 @@ uint8_t PhaseBegin(uint8_t timeout) {
 		if (abortProgram) {
 			abortProgram = 0;
 			lastError = ERROR_ABNORMAL_EXIT;
+			retVal = 0;
+			break;
+		}
+		osDelay(200);
+	}
+
+	return retVal;
+}
+
+uint8_t PhaseResume(uint8_t timeout) {
+
+	uint8_t retVal = 1;
+	RTCTimerTime_s tTimeout, tPhase;
+
+	ResetTimer(TIMER_PHASE);
+	ResetTimer(TIMER_TIMEOUT);
+
+	osDelay(1000);
+
+	GetTimer(TIMER_PHASE, &tPhase);
+	if ((sensors.Door == OPEN) || (sensors.Solenoid == UNLOCK)) {
+		return 0;
+	}
+
+	ValveDrainSteamSet(OFF);
+	ValveDryIntakeSet(OFF);
+	ValveVacuumSet(OFF);
+	ValveWaterSteamSet(OFF);
+
+	PumpSteamGeneratorSet(OFF);
+	PumpVacuumSet(OFF);
+	PumpWaterLoadSet(OFF);
+
+	FanSet(ON);
+
+	while (1) {
+		if ((sensors.PressureChamber >= pressAmbientMin) && (sensors.PressureChamber <= pressAmbientMax)) {
+			retVal = 1;
+			break;
+		}
+		GetTimer(TIMER_TIMEOUT, &tTimeout);
+		if (tTimeout.Seconds > timeout) {
+			lastError = ERROR_PHASE_TIMEOUT;
+			Print("HEAT ERROR *** TIMEOUT\n");
 			retVal = 0;
 			break;
 		}
@@ -163,9 +231,7 @@ uint8_t PhaseHeatUp(float ringTemp, float steamGenTemp, float chamberTemp, uint1
 			break;
 		}
 		lastError = CheckError();
-		if (abortProgram == 1) {
-			abortProgram = 0;
-			lastError = ERROR_ABNORMAL_EXIT;
+		if (lastError > 0) {
 			retVal = 0;
 			break;
 		}
@@ -191,8 +257,10 @@ uint8_t CheckError() {
 	} else if ((sensors.T1 > 138.0) || (sensors.T2 > 138.0)) {
 		retError = ERROR_CHAMBER_OVERTEMP;
 	} else if (sensors.PressureChamber > 345.0) {
-		retError = ERROR_CHAMBER_OVERTEMP;
+		retError = ERROR_OVERPRESSURE;
 	}
+
+	return retError;
 }
 
 uint8_t PhaseRelease(uint8_t nRelease, uint16_t timeout) {
@@ -229,9 +297,8 @@ uint8_t PhaseRelease(uint8_t nRelease, uint16_t timeout) {
 			retVal = 0;
 			break;
 		}
-		if (abortProgram) {
-			abortProgram = 0;
-			lastError = ERROR_ABNORMAL_EXIT;
+		lastError = CheckError();
+		if (lastError > 0) {
 			retVal = 0;
 			break;
 		}
@@ -295,9 +362,8 @@ uint8_t PhaseVacuum(uint8_t nVacuum, float press, uint16_t timeout) {
 			retVal = 0;
 			break;
 		}
-		if (abortProgram) {
-			abortProgram = 0;
-			lastError = ERROR_ABNORMAL_EXIT;
+		lastError = CheckError();
+		if (lastError > 0) {
 			retVal = 0;
 			break;
 		}
@@ -332,15 +398,15 @@ uint8_t PhasePressure(uint8_t nPressure, float press, float steamTemp, float ste
 //	static const float pPID_LIM_MAX_INT = 1;
 //	static const float pSAMPLE_TIME_S = 0.25;
 
-	static const float pPID_KP = 1.0;
-	static const float pPID_KI = 1.8;
-	static const float pPID_KD = 1.0;
+	static const float pPID_KP = 0.5; // 1.0
+	static const float pPID_KI = 1.8; // 1.8
+	static const float pPID_KD = 0.2; // 1.0
 	static const float pPID_TAU = 1.0;
-	static const float pPID_LIM_MIN = 0.8;
-	static const float pPID_LIM_MAX = 2.0;
-	static const float pPID_LIM_MIN_INT = -1.5;
-	static const float pPID_LIM_MAX_INT = 1.5;
-	static const float pSAMPLE_TIME_S = 0.1;
+	static const float pPID_LIM_MIN = 0.5; // 0.8
+	static const float pPID_LIM_MAX = 1.5; // 2.0
+	static const float pPID_LIM_MIN_INT = -1.5; // -1.5
+	static const float pPID_LIM_MAX_INT = 1.5; // 1.5
+	static const float pSAMPLE_TIME_S = 0.5; // 0.1
 
 	uint8_t retVal = 0;
 	RTCTimerTime_s tTimeout, tPhase;
@@ -361,7 +427,7 @@ uint8_t PhasePressure(uint8_t nPressure, float press, float steamTemp, float ste
 //		float ret = PIDController_Update(&pidSteam, steamTemp, 31.0);
 
 		if (sensors.TemperatureSteamGenerator >= steamTempMin) {
-			SteamPulse(100);
+			SteamPulse(50);
 			osDelay(ret);
 //			Beep(1,100,100);
 		}
@@ -380,9 +446,8 @@ uint8_t PhasePressure(uint8_t nPressure, float press, float steamTemp, float ste
 			retVal = 0;
 			break;
 		}
-		if (abortProgram) {
-			abortProgram = 0;
-			lastError = ERROR_ABNORMAL_EXIT;
+		lastError = CheckError();
+		if (lastError > 0) {
 			retVal = 0;
 			break;
 		}
@@ -397,20 +462,20 @@ uint8_t PhasePressure(uint8_t nPressure, float press, float steamTemp, float ste
 
 uint8_t PhaseSteril(SterilParam_s* param) {
 	static const float pPID_KP = 0.5;
-	static const float pPID_KI = 0.8;
+	static const float pPID_KI = 1.0;	// 0.8
 	static const float pPID_KD = 0.2;
 	static const float pPID_TAU = 1.0;
 	static const float pPID_LIM_MIN = 0.5;
 	static const float pPID_LIM_MAX = 2.0;
-	static const float pPID_LIM_MIN_INT = -1.0;
-	static const float pPID_LIM_MAX_INT = 1.0;
+	static const float pPID_LIM_MIN_INT = -1.3; // -1.0
+	static const float pPID_LIM_MAX_INT = 1.3; // 1.0
 	static const float pSAMPLE_TIME_S = 1.0;
 
 	uint8_t retVal = 0;
 
 	float T1Min, T1Max, T2Min, T2Max, pMin, pMax;
 
-	RTCTimerTime_s tTimeout, tPhase, tInterval;
+	RTCTimerTime_s tTimeout, tPhase, tInterval, tDelay;
 	ResetTimer(TIMER_TIMEOUT);
 	ResetTimer(TIMER_PHASE);
 
@@ -452,7 +517,8 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 				retVal = 1;
 				break;
 			}
-		} else if (tTimeout.Seconds > param->timeout) {
+		}
+		if (tTimeout.Seconds > param->timeout) {
 			lastError = ERROR_PHASE_TIMEOUT;
 			Print("STER ERROR *** TIMEOUT CLIMB\n");
 			GetTimer(TIMER_PHASE, &tPhase);
@@ -460,9 +526,8 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 			retVal = 0;
 			break;
 		}
-		if (abortProgram) {
-			abortProgram = 0;
-			lastError = ERROR_ABNORMAL_EXIT;
+		lastError = CheckError();
+		if (lastError > 0) {
 			retVal = 0;
 			break;
 		}
@@ -472,7 +537,9 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 	if (retVal) {
 
 		Beep(1, 100, 100);
-		ResetTimer(TIMER_PHASE);
+
+		ResetTimer(TIMER_3);
+
 		T1Min = sensors.T1;
 		T1Max = sensors.T1;
 		T2Min = sensors.T2;
@@ -495,7 +562,13 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 				}
 			}
 			GetTimer(TIMER_TIMEOUT, &tTimeout);
-			GetTimer(TIMER_PHASE, &tPhase);
+
+			// Delay before counting phase (steril) time. Wait to settle temp.
+			GetTimer(TIMER_3, &tDelay);
+			if (tDelay.Seconds < 20) {
+				ResetTimer(TIMER_PHASE);
+			}
+
 			if (sensors.T1 <= param->chamberTempMin) {
 				lastError = ERROR_MAINTAIN_PRESSTEMP;
 				Print("STER ERROR *** UNDERTEMPERATURE\n");
@@ -510,46 +583,52 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 //				PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
 //				retVal = 0;
 //				break;
-			} else if (sensors.PressureChamber >= param->pressMax) {
+			}
+			if (sensors.PressureChamber >= param->pressMax) {
 				lastError = ERROR_MAINTAIN_PRESSTEMP;
 				Print("STER ERROR *** OVERPRESSURE\n");
 				GetTimer(TIMER_PHASE, &tPhase);
 				PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
 				retVal = 0;
 				break;
-			} else if (sensors.PressureChamber <= param->pressMin) {
+			}
+			if (sensors.PressureChamber <= param->pressMin) {
 				lastError = ERROR_MAINTAIN_PRESSTEMP;
 				Print("STER ERROR *** UNDERPRESSURE\n");
 				GetTimer(TIMER_PHASE, &tPhase);
 				PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
 				retVal = 0;
 				break;
-			} else if (tTimeout.Seconds > param->timeout) {
+			}
+			if (tTimeout.Seconds > param->timeout) {
 				lastError = ERROR_PHASE_TIMEOUT;
 				Print("STER ERROR *** TIMEOUT MAINTAIN\n");
 				GetTimer(TIMER_PHASE, &tPhase);
 				PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
 				retVal = 0;
 				break;
-			} else if (tPhase.Seconds >= param->sterilTime) {
+			}
+			if (tPhase.Seconds >= param->sterilTime) {
 				Beep(1, 100, 100);
 				retVal = 1;
 				break;
 			}
+
 			T1Min = (sensors.T1 < T1Min) ? sensors.T1 : T1Min;
 			T1Max = (sensors.T1 > T1Max) ? sensors.T1 : T1Max;
 			T2Min = (sensors.T2 < T2Min) ? sensors.T2 : T2Min;
 			T2Max = (sensors.T2 > T2Max) ? sensors.T2 : T2Max;
 			pMin = (sensors.PressureChamber < pMin) ? sensors.PressureChamber : pMin;
 			pMax = (sensors.PressureChamber > pMax) ? sensors.PressureChamber : pMax;
+
 			GetTimer(TIMER_1, &tInterval);
 			if (tInterval.Seconds >= param->printInterval) {
 				PrintStepLine("     ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
 				ResetTimer(TIMER_1);
 			}
-			if (abortProgram) {
-				abortProgram = 0;
-				lastError = ERROR_ABNORMAL_EXIT;
+
+			lastError = CheckError();
+			if (lastError > 0) {
 				retVal = 0;
 				break;
 			}
@@ -599,20 +678,21 @@ uint8_t PhaseDry(float firstVacPress, float otherVacPress, uint16_t time, uint16
 					PrintStepLine("VACU  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
 					retVal = 1;
 					break;
-				} else if (tTimeout.Seconds > timeout) {
+				}
+				if (tTimeout.Seconds > timeout) {
 					lastError = ERROR_PHASE_TIMEOUT;
 					Print("DRY  ERROR *** TIMEOUT VACUUM\n");
 					GetTimer(TIMER_PHASE, &tPhase);
 					PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
 					retVal = 0;
 					break;
-				} else if (tPhase.Seconds > time) {
+				}
+				if (tPhase.Seconds > time) {
 					retVal = 1;
 					break;
 				}
-				if (abortProgram) {
-					abortProgram = 0;
-					lastError = ERROR_ABNORMAL_EXIT;
+				lastError = CheckError();
+				if (lastError > 0) {
 					retVal = 0;
 					break;
 				}
@@ -630,20 +710,21 @@ uint8_t PhaseDry(float firstVacPress, float otherVacPress, uint16_t time, uint16
 					PrintStepLine("INTK  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
 					retVal = 1;
 					break;
-				} else if (tTimeout.Seconds > timeout) {
+				}
+				if (tTimeout.Seconds > timeout) {
 					lastError = ERROR_PHASE_TIMEOUT;
 					Print("DRY  ERROR *** TIMEOUT INTAKE\n");
 					GetTimer(TIMER_PHASE, &tPhase);
 					PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
 					retVal = 0;
 					break;
-				} else if (tPhase.Seconds > time) {
+				}
+				if (tPhase.Seconds > time) {
 					retVal = 1;
 					break;
 				}
-				if (abortProgram) {
-					abortProgram = 0;
-					lastError = ERROR_ABNORMAL_EXIT;
+				lastError = CheckError();
+				if (lastError > 0) {
 					retVal = 0;
 					break;
 				}
@@ -651,7 +732,7 @@ uint8_t PhaseDry(float firstVacPress, float otherVacPress, uint16_t time, uint16
 			}
 		}
 
-		if ((tTimeout.Seconds > timeout) || (tPhase.Seconds > time)) break;
+		if ((tTimeout.Seconds > timeout) || (tPhase.Seconds > time) || (retVal == 0)) break;
 	}
 
 	ValveDryIntakeSet(OFF);
@@ -703,9 +784,8 @@ uint8_t PhaseVacuumHold(float vacPress, uint8_t tolerance, uint16_t time, uint16
 			retVal = 1;
 			break;
 		}
-		if (abortProgram) {
-			abortProgram = 0;
-			lastError = ERROR_ABNORMAL_EXIT;
+		lastError = CheckError();
+		if (lastError > 0) {
 			retVal = 0;
 			break;
 		}
@@ -741,9 +821,8 @@ uint8_t PhaseWait(uint16_t time) {
 			retVal = 1;
 			break;
 		}
-		if (abortProgram) {
-			abortProgram = 0;
-			lastError = ERROR_ABNORMAL_EXIT;
+		lastError = CheckError();
+		if (lastError > 0) {
 			retVal = 0;
 			break;
 		}
@@ -805,9 +884,8 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 		if ((sensors.PressureChamber >= pressAmbientMin) && (sensors.PressureChamber <= pressAmbientMax)) {
 			break;
 		}
-		if (abortProgram) {
-			abortProgram = 0;
-			lastError = ERROR_ABNORMAL_EXIT;
+		lastError = CheckError();
+		if (lastError > 0) {
 			retVal = 0;
 			break;
 		}

@@ -61,7 +61,6 @@ void ParseCommand(s_DisplayProtocolData* data) {
 			SelectProgram();
 		} else if (machineStatus.Status == STATUS_RUNNING) {
 			machineStatus.Show = SHOW_READINGS;
-			SelectReading();
 		}
 
 		if (machineStatus.Show == SHOW_PARAMETERS) {
@@ -89,16 +88,28 @@ void ParseCommand(s_DisplayProtocolData* data) {
 		}
 
 	} else if (data->Param1 == KEY_START) {
-		if (machineStatus.Status == STATUS_READY) {
-			programStart = 1;
-			osThreadResume(programTaskHandle);
-		}
 
-		if (machineStatus.Show == SHOW_PARAMETERS) {
-			ChangeParameter(-1);
-		} else {
-			__NOP();
-		}
+//		if (lastError > 0) {
+//			currProgram = 99;
+//			programStart = 1;
+////			osThreadResume(programTaskHandle);
+//		} else if (currProgram == 99 ){
+//			abortProgram = 1;
+//			currProgType == PROGTYPE_PROGRAM;
+//			currProgram = 1;
+//			ShowProgram();
+//		} else {
+			if ((machineStatus.Status == STATUS_READY) || (machineStatus.Status == STATUS_IDLE)) {
+				programStart = 1;
+//				osThreadResume(programTaskHandle);
+			}
+
+			if (machineStatus.Show == SHOW_PARAMETERS) {
+				ChangeParameter(-1);
+			} else {
+				__NOP();
+			}
+//		}
 
 	} else if (data->Param1 == KEY_PROG + KEY_LONG_PRESS) {
 		if (machineStatus.Status == STATUS_IDLE) {
@@ -119,8 +130,7 @@ void ParseCommand(s_DisplayProtocolData* data) {
 		}
 
 	} else if (data->Param1 == KEY_TEST + KEY_LONG_PRESS) {
-		// Button code here
-
+		__NOP();
 	} else if (data->Param1 == KEY_START + KEY_LONG_PRESS) {
 		if (machineStatus.Status == STATUS_IDLE) {
 			__NOP();
@@ -135,17 +145,15 @@ void ParseCommand(s_DisplayProtocolData* data) {
 		}
 
 	} else if (data->Param1 == KEY_TEST + KEY_PROG) {
-		// Button code here
+		__NOP();
 	} else if (data->Param1 == KEY_START + KEY_PROG) {
-		// Button code here
+		__NOP();
 	} else if (data->Param1 == KEY_START + KEY_TEST) {
-		// Button code here
+		__NOP();
 	} else if (data->Param1 == KEY_START + KEY_TEST + KEY_PROG) {
-		// Button code here
-
+		__NOP();
 	} else if (data->Param1 == KEY_TEST + KEY_PROG + KEY_LONG_PRESS) {
-		// Button code here
-
+		__NOP();
 	} else if (data->Param1 == KEY_START + KEY_TEST + KEY_LONG_PRESS) {
 		if (machineStatus.Status == STATUS_IDLE) {
 			machineStatus.Show = SHOW_PARAMETERS;
@@ -169,7 +177,7 @@ void ParseCommand(s_DisplayProtocolData* data) {
 		}
 
 	} else if (data->Param1 == KEY_START + KEY_TEST + KEY_PROG + KEY_LONG_PRESS) {
-		// Button code here
+		__NOP();
 	} else {
 		__NOP();
 	}
@@ -201,6 +209,7 @@ void StartKeysTask() {
 static uint8_t GetPressedKeys() {
 
 	uint8_t pressKeys = 0;
+
 	// Keys active low
 	pressKeys = !(HAL_GPIO_ReadPin(KEY_S1_GPIO_Port, KEY_S1_Pin)); // bit 1
 	pressKeys += !(HAL_GPIO_ReadPin(KEY_S2_GPIO_Port, KEY_S2_Pin)) << 1; // bit 2
@@ -212,35 +221,33 @@ static uint8_t GetPressedKeys() {
 static void KeysReceived(uint8_t keysCode) {
 
 	if (keysCode == KEY_S1) {
-
+		__NOP();
 	} else if (keysCode == KEY_S2) {
-
+		__NOP();
 	} else if (keysCode == KEY_S3) {
-
+		__NOP();
 	} else if (keysCode == KEY_S1 + KEY_LONG_PRESS) {
-		// Button code here
-
+		__NOP();
 	} else if (keysCode == KEY_S2 + KEY_LONG_PRESS) {
-		// Button code here
-
+		__NOP();
 	} else if (keysCode == KEY_S3 + KEY_LONG_PRESS) {
+		__NOP();
 	} else if (keysCode == KEY_S2 + KEY_S1) {
-		// Button code here
+		__NOP();
 	} else if (keysCode == KEY_S3 + KEY_S1) {
-		// Button code here
+		__NOP();
 	} else if (keysCode == KEY_S3 + KEY_S2) {
-		// Button code here
+		__NOP();
 	} else if (keysCode == KEY_S3 + KEY_S2 + KEY_S1) {
-		// Button code here
-
+		__NOP();
 	} else if (keysCode == KEY_S2 + KEY_S1 + KEY_LONG_PRESS) {
-		// Button code here
-
+		__NOP();
 	} else if (keysCode == KEY_S3 + KEY_S2 + KEY_LONG_PRESS) {
+		__NOP();
 	} else if (keysCode == KEY_S3 + KEY_S1 + KEY_LONG_PRESS) {
-
+		__NOP();
 	} else if (keysCode == KEY_S3 + KEY_S2 + KEY_S1 + KEY_LONG_PRESS) {
-		// Button code here
+		__NOP();
 	} else {
 		__NOP();
 	}

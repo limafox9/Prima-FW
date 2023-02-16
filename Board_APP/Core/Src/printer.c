@@ -173,7 +173,8 @@ void PrintFooter (const char* result, RTCDateTime_s* time, RTCTimerTime_s* timer
 	Print("TOTAL TIME                 %2d:%02d\n", timer->TimeMinute, timer->TimeSecond);
 	Print("\n");
 	PrintSize(3, 2);
-	Print("%s Err.%0d\n", result, lastError);
+	if (lastError == 0)	Print("%s\n", result);
+	else Print("%s Err.%0d\n", result, lastError);
 	PrintSize(1, 1);
 	Print("\n");
 	Print("INDICATOR STRIP: PASS [] FAIL []\n");

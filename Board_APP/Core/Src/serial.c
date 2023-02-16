@@ -56,7 +56,7 @@ uint8_t UART_rxBuffer1[UART_DISPLAY_RX_BUFFER_SIZE];
 volatile uint8_t UART_rxBuffer[UART_DISPLAY_RX_BUFFER_SIZE];
 
 #define MainBuf_SIZE 128
-uint8_t rxBuf[UART_DISPLAY_RX_BUFFER_SIZE];
+//uint8_t rxBuf[UART_DISPLAY_RX_BUFFER_SIZE];
 uint8_t rxMain[UART_DISPLAY_RX_BUFFER_SIZE];
 uint8_t dataReady = 0;
 s_DisplayProtocolData rxData;
@@ -190,7 +190,7 @@ void StartSerialTask() {
 		if (dataReady) {
 			dataReady = 0;
 			ParseCommand(&rxData); // valid received command > parse
-			memset(rxBuf, 0, sizeof(rxBuf));
+//			memset(rxBuf, 0, sizeof(rxBuf));
 		}
 		osDelay(20);
 	}

@@ -1,10 +1,10 @@
 /*==============================================================================
 
-Filename: leds.c
+Filename: display.c
 
-Created on: Dec 16, 2022
+Created on: 16 feb 2023
 
-Original work: Copyright (c) 2022 Luca Favenzi
+Original work: Copyright (c) 2023 Luca Favenzi
 Modified work:
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -28,38 +28,15 @@ SOFTWARE.
 Visit www.favenzi.it
       luca@favenzi.it
 
-==================================================================================
-PURPOSE: Modbus CRC16 calculation
+================================================================================
+PURPOSE:
 USAGE:
-================================================================================*/
+==============================================================================*/
 
-#include "leds.h"
-#include "main.h"
-#include "globals.h"
+#include "display.h"
 
-extern uint16_t dashboardLedsBits;
+#include "serial.h"
 
-void StartLedsTask() {
-
-	dashboardLedsBits = 0;
-	uint16_t lastLeds = 0, currLeds = 0;
-
-//	for (;;) {
-//		currLeds = 0;
-//
-//		//currLeds = HAL_GPIO_ReadPin(SW_DOOR_GPIO_Port, SW_DOOR_Pin);
-//		currLeds = HAL_GPIO_ReadPin(SW_DOOR_GPIO_Port, SW_DOOR_Pin) ? currLeds & ~1 : currLeds | 1;
-//		currLeds = HAL_GPIO_ReadPin(SW_LSH_GPIO_Port, SW_LSH_Pin) ? currLeds & ~(1UL << 1): currLeds | (1UL << 1);
-//
-//		if  (lastLeds != currLeds) {
-//			dashboardLedsBits = currLeds;
-//			PanelSerialTransmit(COMMAND_SET_DASHBOARD_LEDS, dashboardLedsBits, 0, 0, 0);
-//			lastLeds = dashboardLedsBits;
-//		}
-//
-//		osDelay(10);
-//	}
-
+void DashLed(e_DisplayDashboardLeds led, e_PowerState status) {
+	SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, led, status, 0, "");
 }
-
-

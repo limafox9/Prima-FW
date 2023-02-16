@@ -71,11 +71,22 @@ USAGE:
 #define EPA_CHAMBER_PRESSURE_OFFSET 	0x22	// 1 byte +/- 127 in 1 steps
 #define EPA_LAST_ERROR					0x0A	// 1 byte
 
+#define EPA_FIRST_VACUUM				0x23	// 1 byte
+#define EPA_OTHER_VACUUM				0x24	// 1 byte
+#define EPA_VACUUM_THRESHOLD				0x25	// 1 byte
+#define EPA_OTHER_PRESSURE				0x26	// 1 byte
+#define EPA_TDS_MIN						0x27	// 1 byte
+
 typedef struct Settings_s {
 	uint16_t CyclesCount;
-	int8_t T1Offset;
-	int8_t T2Offset;
-	int8_t ChamberPressOffset;
+	int8_t T1Offset;			// -2..2 step 1 (0.1)
+	int8_t T2Offset;			// -2..2 step 1 (0.1)
+	int8_t ChamberPressOffset;	// -15..15 step 1
+	int8_t WaterTDSMin;
+	int8_t FirstVacuum;			// 10..50 step 1
+	int8_t VacuumThreshold;		// 30..60 step 1
+	int8_t OtherVacuum;			// 10..60 step 1
+	int8_t OtherPressure;		// 120..200 step 1
 } Settings_s;
 
 typedef enum {
@@ -83,7 +94,7 @@ typedef enum {
 	MACHINE_MODEL_23L,
 } MachineModel_e;
 
-typedef struct MachineData_s{
+typedef struct MachineData_s {
 	uint32_t MCUID[3];
 	uint16_t ReadOnlyCyclesCount;
 	char Serial[12];
@@ -98,8 +109,10 @@ extern int8_t ambientPressure;
 
 void SaveSettings();
 void LoadSettings();
+void ReadSetting(uint8_t address, uint8_t* data, uint8_t size);
+void WriteSetting(uint8_t address, uint8_t* data, uint8_t size);
 
-void* GetSetting(const char* settingName);
-uint8_t SetSetting(const char* settingName, void* value);
+//void* GetSetting(const char* settingName);
+//uint8_t SetSetting(const char* settingName, void* value);
 
 #endif /* INC_SETTINGS_H_ */

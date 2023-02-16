@@ -60,6 +60,11 @@ Settings_s settings;
 MachineData_s machine;
 int8_t ambientPressure;
 
+void ReadSetting(uint8_t address, uint8_t* data, uint8_t size) {
+	// EEPROM read
+	EEPROM_Read(address, data, size);
+}
+
 void LoadSettings() {
 	// Get MCU unique ID 96 bit
 	machine.MCUID[0] = *(uint32_t*)(MCU_UID_ADDRESS);
@@ -68,16 +73,22 @@ void LoadSettings() {
 	// EEPROM read
 	EEPROM_Read(EPA_MACHINE_SERIAL_NUMBER, &machine.Serial, 12);
 	EEPROM_Read(EPA_CYCLE_COUNTER_PERMANENT, &machine.ReadOnlyCyclesCount, 2);
-
 	EEPROM_Read(EPA_CYCLE_COUNTER, &settings.CyclesCount, 2);
+
 	EEPROM_Read(EPA_T1_OFFSET, &settings.T1Offset, 2);
 	EEPROM_Read(EPA_T2_OFFSET, &settings.T2Offset, 2);
 	EEPROM_Read(EPA_CHAMBER_PRESSURE_OFFSET, &settings.ChamberPressOffset, 2);
+	EEPROM_Read(EPA_FIRST_VACUUM, &settings.FirstVacuum, 1);
+	EEPROM_Read(EPA_OTHER_VACUUM, &settings.OtherVacuum, 1);
+	EEPROM_Read(EPA_VACUUM_THRESHOLD, &settings.VacuumThreshold, 1);
+	EEPROM_Read(EPA_OTHER_PRESSURE, &settings.OtherPressure, 1);
+	EEPROM_Read(EPA_TDS_MIN, &settings.WaterTDSMin, 1);
+
 }
 
-void ReadSetting(uint8_t address, uint8_t* data, uint8_t size) {
+void WriteSetting(uint8_t address, uint8_t* data, uint8_t size) {
 	// EEPROM read
-	EEPROM_Read(address, data, size);
+	EEPROM_Write(address, data, size);
 }
 
 void SaveSettings() {
@@ -85,11 +96,12 @@ void SaveSettings() {
 	EEPROM_Write(EPA_T1_OFFSET, &settings.T1Offset, 2);
 	EEPROM_Write(EPA_T2_OFFSET, &settings.T2Offset, 2);
 	EEPROM_Write(EPA_CHAMBER_PRESSURE_OFFSET, &settings.ChamberPressOffset, 2);
-}
+	EEPROM_Write(EPA_FIRST_VACUUM, &settings.FirstVacuum, 1);
+	EEPROM_Write(EPA_OTHER_VACUUM, &settings.OtherVacuum, 1);
+	EEPROM_Write(EPA_VACUUM_THRESHOLD, &settings.VacuumThreshold, 1);
+	EEPROM_Write(EPA_OTHER_PRESSURE, &settings.OtherPressure, 1);
+	EEPROM_Write(EPA_TDS_MIN, &settings.WaterTDSMin, 1);
 
-void WriteSetting(uint8_t address, uint8_t* data, uint8_t size) {
-	// EEPROM read
-	EEPROM_Write(address, data, size);
 }
 
 //s_SettingItem settings[] = {

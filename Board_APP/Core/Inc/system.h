@@ -38,6 +38,7 @@ USAGE:
 #define INC_SYSTEM_H_
 
 #include "globals.h"
+#include "PCF8563.h"
 
 #define MCU_UID_ADDRESS 0x1FFFF7E8
 
@@ -62,6 +63,8 @@ typedef enum {
 	LOG_OUT_FILE = 2,
 	LOG_OUT_PRINTER = 4
 } e_LogOutput;
+
+extern RTCDateTime_s RTCDateTime;
 
 void SysInit();
 //void Beep(uint8_t hits, uint16_t onDelay, uint16_t offDelay);

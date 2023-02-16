@@ -26,7 +26,6 @@
 /* USER CODE BEGIN Includes */
 #include "system.h"
 #include "keys.h"
-#include "leds.h"
 #include "sensors.h"
 #include <stdio.h>
 /* USER CODE END Includes */

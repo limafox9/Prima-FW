@@ -64,7 +64,7 @@ uint8_t programStart = 0;
 void StartProgramTask() {
 
 	for (;;) {
-		if (programStart && (machineStatus.Status == STATUS_READY)){
+		if (programStart){
 			programStart = 0;
 			if (currProgType == PROGTYPE_PROGRAM) {
 				switch (currProgram) {
@@ -116,13 +116,40 @@ uint8_t ProgramResumeDry() {
 
 	lastError = ERROR_NONE;
 
-	success = PhaseBegin(600);
+	success = PhaseResume(600);
 
 	// Dry
 	if (success) {
 		PhasePreheat(60, 90);
-		success = PhaseDry(20.0, 50.0, 540, 800);
+		success = PhaseDry(20.0, 50.0, 180, 800);
 	}
+
+	if (success) {
+		uint8_t err = ERROR_NONE;
+		lastError = ERROR_NONE;
+		EEPROM_Write(EPA_LAST_ERROR, &err, 1);
+
+		machineStatus.Status = STATUS_READY;
+
+		osDelay(1000);
+		if (DoorSolenoidSet(UNLOCK) != UNLOCK) {
+			SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "Er.11");
+			return 0;
+		}
+	}
+
+	ValveVacuumSet(OFF);
+	ValveWaterSteamSet(OFF);
+	ValveDrainSteamSet(OFF);
+	ValveDryIntakeSet(OFF);
+
+	PumpSteamGeneratorSet(OFF);
+	PumpVacuumSet(OFF);
+	PumpWaterLoadSet(OFF);
+
+	HeaterChamberTempSet(60);
+	HeaterSteamGeneratorTempSet(90);
+	FanSet(OFF);
 
 	progRunning = 0;
 	progStop = 0;
@@ -213,49 +240,54 @@ uint8_t ProgramWrapped() {
 	if (success) {
 		success = PhaseHeatUp(130.0, 200.0, 50.0, OT_HEAT);
 	}
+	if (success) {
+		PhasePreheat(130.0, 210.0);
+		success = PhaseRelease(1, OT_RELEASE);
+	}
 
 	ResetTimer(TIMER_CYCLE);
 
 	// First vacuum
 	if (success) {
-		PhasePreheat(130, 200);
+		PhasePreheat(130.0, 210.0);
 		success = PhaseVacuum(1, 20.0, OT_VACUUM);
 	}
 	if (success) {
-		PhasePreheat(130, 220);
-		success = PhasePressure(1, 170.0, 200.0, 180.0, OT_PRESSURE);
+		PhasePreheat(130.0, 220.0);
+		success = PhasePressure(1, 170.0, 200.0, 170.0, OT_PRESSURE);
 	}
 	if (success) {
-		PhasePreheat(130, 200);
+		PhasePreheat(130.0, 210.0);
 		success = PhaseRelease(1, OT_RELEASE);
 	}
 
 	// Other vacuum
 	for (int i = 0; i < 2; i++) {
 		if (success) {
-			PhasePreheat(130.0, 200.0);
+			PhasePreheat(130.0, 210.0);
 			success = PhaseVacuum(2, 30.0, OT_VACUUM);
 		}
 		if (success) {
 			PhasePreheat(130.0, 220.0);
-			success = PhasePressure(2, 170.0, 200.0, 180.0, OT_PRESSURE);
+			success = PhasePressure(2, 170.0, 200.0, 170.0, OT_PRESSURE);
 		}
 		if (success) {
-			PhasePreheat(130.0, 200.0);
+			PhasePreheat(130.0, 210.0);
 			success = PhaseRelease(2, OT_RELEASE);
 		}
 	}
 
 	// Sterilization
 	if (success) {
+		PhasePreheat(130.0, 210.0);
 		success = PhaseVacuum(3, 30.0, OT_VACUUM);
 	}
 	if (success) {
-		PhasePreheat(130, 220);
-		success = PhasePressure(3, 290.0, 200.0, 180.0, OT_PRESSURE);
+		PhasePreheat(130.0, 220.0);
+		success = PhasePressure(3, 290.0, 200.0, 170.0, OT_PRESSURE);
 	}
 	if (success) {
-		PhasePreheat(130, 190);
+		PhasePreheat(130.0, 190.0);
 		SterilParam_s sterilParam = {
 				.chamberTemp = 135.4,
 				.chamberTempMin = 134.0,
@@ -263,7 +295,7 @@ uint8_t ProgramWrapped() {
 				.sterilTime = 300,
 				.pressMin = 310.0,
 				.pressMax = 340.0,
-				.steamTemp = 190.0,
+				.steamTemp = 200.0,
 				.steamTempMin = 170.0,
 				.printInterval = 30,
 				.timeout = 800
@@ -271,7 +303,7 @@ uint8_t ProgramWrapped() {
 		success = PhaseSteril(&sterilParam);
 	}
 	if (success) {
-		PhasePreheat(130, 200);
+		PhasePreheat(130.0, 210.0);
 		success = PhaseRelease(3, OT_RELEASE);
 	}
 
@@ -498,12 +530,16 @@ uint8_t ProgramHelixTest() {
 	if (success) {
 		success = PhaseHeatUp(130.0, 200.0, 50.0, OT_HEAT);
 	}
+	if (success) {
+		PhasePreheat(130.0, 210.0);
+		success = PhaseRelease(1, OT_RELEASE);
+	}
 
 	ResetTimer(TIMER_CYCLE);
 
 	// First vacuum
 	if (success) {
-		PhasePreheat(130, 200);
+		PhasePreheat(130, 210);
 		success = PhaseVacuum(1, 20.0, OT_VACUUM);
 	}
 	if (success) {
@@ -511,14 +547,14 @@ uint8_t ProgramHelixTest() {
 		success = PhasePressure(1, 170.0, 200.0, 180.0, OT_PRESSURE);
 	}
 	if (success) {
-		PhasePreheat(130, 200);
+		PhasePreheat(130, 210);
 		success = PhaseRelease(1, OT_RELEASE);
 	}
 
 	// Other vacuum
 	for (int i = 0; i < 1; i++) {
 		if (success) {
-			PhasePreheat(130.0, 200.0);
+			PhasePreheat(130.0, 210.0);
 			success = PhaseVacuum(2, 30.0, OT_VACUUM);
 		}
 		if (success) {
@@ -526,7 +562,7 @@ uint8_t ProgramHelixTest() {
 			success = PhasePressure(2, 170.0, 200.0, 180.0, OT_PRESSURE);
 		}
 		if (success) {
-			PhasePreheat(130.0, 200.0);
+			PhasePreheat(130.0, 210.0);
 			success = PhaseRelease(2, OT_RELEASE);
 		}
 	}
@@ -536,19 +572,19 @@ uint8_t ProgramHelixTest() {
 		success = PhaseVacuum(3, 20.0, OT_VACUUM);
 	}
 	if (success) {
-		PhasePreheat(130, 220);
+		PhasePreheat(120, 220);
 		success = PhasePressure(3, 290.0, 200.0, 180.0, OT_PRESSURE);
 	}
 	if (success) {
-		PhasePreheat(130, 190);
+		PhasePreheat(120, 190);
 		SterilParam_s sterilParam = {
 				.chamberTemp = 135.4,
 				.chamberTempMin = 134.0,
 				.chamberTempMax = 136.0,
-				.sterilTime = 210,
+				.sterilTime = 230, // 210
 				.pressMin = 310.0,
 				.pressMax = 350.0,
-				.steamTemp = 190.0,
+				.steamTemp = 200.0,
 				.steamTempMin = 170.0,
 				.printInterval = 30,
 				.timeout = 600

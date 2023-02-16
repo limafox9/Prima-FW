@@ -1,10 +1,10 @@
 /*==============================================================================
 
-Filename: leds.h
+Filename: display.h
 
-Created on: Dec 16, 2022
+Created on: 16 feb 2023
 
-Original work: Copyright (c) 2022 Luca Favenzi
+Original work: Copyright (c) 2023 Luca Favenzi
 Modified work:
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -28,16 +28,19 @@ SOFTWARE.
 Visit www.favenzi.it
       luca@favenzi.it
 
-==================================================================================
-PURPOSE: Modbus CRC16 calculation
+================================================================================
+PURPOSE:
 USAGE:
-================================================================================*/
+==============================================================================*/
 
 
 
-#ifndef INC_LEDS_H_
-#define INC_LEDS_H_
+#ifndef INC_DISPLAY_H_
+#define INC_DISPLAY_H_
 
-void StartLedsTask();
+#include "globals.h"
+#include "Inc/DB_Protocol.h"
 
-#endif /* INC_LEDS_H_ */
+void DashLed(e_DisplayDashboardLeds led, e_PowerState status);
+
+#endif /* INC_DISPLAY_H_ */
