@@ -120,22 +120,21 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 		if (HAL_GPIO_ReadPin(SW_CSH_GPIO_Port, SW_CSH_Pin) == 0) Beep(3, 100, 100);
 	}
 	if (GPIO_Pin == SW_LSH_Pin) {
-		DashLed(DISPLAY_LED_WARNING_LSH, ON);
 		if (HAL_GPIO_ReadPin(SW_LSH_GPIO_Port, SW_LSH_Pin) == 0) {
-			Beep(10, 1000, 500);
 			DashLed(DISPLAY_LED_WARNING_LSH, ON);
+			Beep(10, 1000, 500);
 		} else {
-			Beep(1, 100, 100);
 			DashLed(DISPLAY_LED_WARNING_LSH, OFF);
+			Beep(1, 100, 100);
 		}
 	}
 	if (GPIO_Pin == SW_CSL_Pin) {
 		if (HAL_GPIO_ReadPin(SW_CSL_GPIO_Port, SW_CSL_Pin) == 0) {
-			Beep(10, 1000, 500);
 			DashLed(DISPLAY_LED_WARNING_CTL, ON);
+			Beep(10, 1000, 500);
 		} else {
-			Beep(1, 100, 100);
 			DashLed(DISPLAY_LED_WARNING_CTL, OFF);
+			Beep(1, 100, 100);
 		}
 	}
 }

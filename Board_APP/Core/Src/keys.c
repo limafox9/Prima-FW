@@ -67,6 +67,8 @@ void ParseCommand(s_DisplayProtocolData* data) {
 			SelectParameter();
 		} else if (machineStatus.Show == SHOW_READINGS) {
 			SelectReading();
+		} else if (machineStatus.Show == SHOW_TIMESET) {
+			SelectTimeset();
 		} else {
 			__NOP();
 		}
@@ -83,6 +85,8 @@ void ParseCommand(s_DisplayProtocolData* data) {
 
 		if (machineStatus.Show == SHOW_PARAMETERS) {
 			ChangeParameter(1);
+		} else if (machineStatus.Show == SHOW_TIMESET) {
+			ChangeTimeset(1);
 		} else {
 			__NOP();
 		}
@@ -99,30 +103,37 @@ void ParseCommand(s_DisplayProtocolData* data) {
 //			currProgram = 1;
 //			ShowProgram();
 //		} else {
-			if ((machineStatus.Status == STATUS_READY) || (machineStatus.Status == STATUS_IDLE)) {
-				programStart = 1;
-//				osThreadResume(programTaskHandle);
-			}
-
-			if (machineStatus.Show == SHOW_PARAMETERS) {
+			if (machineStatus.Show == SHOW_PROGRAM) {
+				if ((machineStatus.Status == STATUS_READY) || (machineStatus.Status == STATUS_IDLE)) {
+					programStart = 1;
+	//				osThreadResume(programTaskHandle);
+				}
+			} else if (machineStatus.Show == SHOW_PARAMETERS) {
 				ChangeParameter(-1);
+			} else if (machineStatus.Show == SHOW_TIMESET) {
+				ChangeTimeset(-1);
 			} else {
 				__NOP();
 			}
 //		}
 
 	} else if (data->Param1 == KEY_PROG + KEY_LONG_PRESS) {
-		if (machineStatus.Status == STATUS_IDLE) {
-			__NOP();
-		} else if (machineStatus.Status == STATUS_READY) {
-			__NOP();
-		}
-
-		if (machineStatus.Show == SHOW_PARAMETERS) {
+		if (machineStatus.Show == SHOW_PROGRAM) {
+			if (machineStatus.Status == STATUS_IDLE) {
+				__NOP();
+			} else if (machineStatus.Status == STATUS_READY) {
+				__NOP();
+			}
+		} else if (machineStatus.Show == SHOW_PARAMETERS) {
 			machineStatus.Show = SHOW_PROGRAM;
 			SaveSettings();
 			ShowProgram();
 		} else if (machineStatus.Show == SHOW_READINGS) {
+			machineStatus.Show = SHOW_PROGRAM;
+			ShowProgram();
+		} else if (machineStatus.Show == SHOW_TIMESET) {
+			RTCDateTime.Year += 2000;
+			PCF8563_SetDateTime(&RTCDateTime);
 			machineStatus.Show = SHOW_PROGRAM;
 			ShowProgram();
 		} else {
@@ -132,20 +143,37 @@ void ParseCommand(s_DisplayProtocolData* data) {
 	} else if (data->Param1 == KEY_TEST + KEY_LONG_PRESS) {
 		__NOP();
 	} else if (data->Param1 == KEY_START + KEY_LONG_PRESS) {
-		if (machineStatus.Status == STATUS_IDLE) {
+
+		if (machineStatus.Show == SHOW_PROGRAM) {
+			if (machineStatus.Status == STATUS_IDLE) {
+				__NOP();
+			} else if (machineStatus.Status == STATUS_READY) {
+				__NOP();
+			} else if (machineStatus.Status = STATUS_RUNNING) {
+				abortProgram = 1;
+				machineStatus.Show = SHOW_PROGRAM;
+				ShowProgram();
+			} else {
+				__NOP();
+			}
+		} else {
 			__NOP();
-		} else if (machineStatus.Status == STATUS_READY) {
-			__NOP();
-		} else if (machineStatus.Status = STATUS_RUNNING) {
-			abortProgram = 1;
+		}
+
+	} else if (data->Param1 == KEY_TEST + KEY_PROG) {
+		if (machineStatus.Show == SHOW_PARAMETERS) {
+			machineStatus.Show = SHOW_PROGRAM;
+			ShowProgram();
+		} else if (machineStatus.Show == SHOW_READINGS) {
+			machineStatus.Show = SHOW_PROGRAM;
+			ShowProgram();
+		} else if (machineStatus.Show == SHOW_TIMESET) {
 			machineStatus.Show = SHOW_PROGRAM;
 			ShowProgram();
 		} else {
 			__NOP();
 		}
 
-	} else if (data->Param1 == KEY_TEST + KEY_PROG) {
-		__NOP();
 	} else if (data->Param1 == KEY_START + KEY_PROG) {
 		__NOP();
 	} else if (data->Param1 == KEY_START + KEY_TEST) {
@@ -153,7 +181,16 @@ void ParseCommand(s_DisplayProtocolData* data) {
 	} else if (data->Param1 == KEY_START + KEY_TEST + KEY_PROG) {
 		__NOP();
 	} else if (data->Param1 == KEY_TEST + KEY_PROG + KEY_LONG_PRESS) {
-		__NOP();
+		if (machineStatus.Show == SHOW_PROGRAM) {
+			if ((machineStatus.Status == STATUS_IDLE) || (machineStatus.Status == STATUS_READY)) {
+				machineStatus.Show = SHOW_TIMESET;
+				PCF8563_GetDateTime(&RTCDateTime);
+				RTCDateTime.Year -= 2000;
+				ShowTimeset();
+				__NOP();
+			}
+		}
+
 	} else if (data->Param1 == KEY_START + KEY_TEST + KEY_LONG_PRESS) {
 		if (machineStatus.Status == STATUS_IDLE) {
 			machineStatus.Show = SHOW_PARAMETERS;

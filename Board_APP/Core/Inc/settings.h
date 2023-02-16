@@ -46,7 +46,7 @@ USAGE:
 
 #define FW_VERSION_MAJOR 0
 #define FW_VERSION_MINOR 4
-#define FW_VERSION_REVISION 1
+#define FW_VERSION_REVISION 4
 
 //#define UART_MONITOR		huart1
 //#define UART_TDS			huart2

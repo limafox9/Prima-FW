@@ -78,6 +78,8 @@ extern Settings_s settings;
 
 RTCDateTime_s dt;
 
+RTCDateTime_s RTCDateTime;
+
 osThreadId keysTaskHandle;
 osThreadId serialTaskHandle;
 osThreadId sensorsTaskHandle;

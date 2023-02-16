@@ -46,6 +46,7 @@ typedef struct SterilParam_s {
 	float chamberTempMin;
 	float chamberTempMax;
 	uint16_t sterilTime;
+	float chamberPress;
 	float pressMin;
 	float pressMax;
 	float steamTemp;

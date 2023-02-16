@@ -35,10 +35,13 @@ USAGE:
 
 #include "modes.h"
 
+#include <stdio.h>
+
 #include "serial.h"
 #include "globals.h"
 #include "sensors.h"
 #include "settings.h"
+#include "system.h"
 #include "Inc/DB_Protocol.h"
 
 s_MachineStatus machineStatus = {STATUS_IDLE, SHOW_PROGRAM};
@@ -48,6 +51,7 @@ uint8_t currTest = 0;
 e_ProgramType currProgType = PROGTYPE_PROGRAM;
 uint8_t currParameter = 0;
 uint8_t currReading = 0;
+uint8_t currTimeset = 0;
 
 uint8_t progRunning = 0;
 uint8_t progStart = 0;
@@ -65,13 +69,18 @@ s_Program tests[] = {
 	{1, PROGTYPE_TEST, "Helix Test", "t. HE", 16, CLASS_USER, STERILTEMP_USER},
 	{2, PROGTYPE_TEST, "Vacuum Test", "t. UA", 32, CLASS_USER, STERILTEMP_USER},
 	{3, PROGTYPE_TEST, "Wash cycle", "UASH", DISPLAY_LED_WASH_CYCLE, CLASS_USER, STERILTEMP_USER},
-	{4, PROGTYPE_TEST, "Water fill", "UAtr", DISPLAY_LED_WATER_FILL, CLASS_USER, STERILTEMP_USER},
+	{4, PROGTYPE_TEST, "Water fill", "----", DISPLAY_LED_WATER_FILL, CLASS_USER, STERILTEMP_USER},
 };
 
 Parameter_s parameters[] = {
 	{1, "T1 Offset", " t1 ", EPA_T1_OFFSET, &settings.T1Offset, 1, -20, 20, 10},
 	{2, "T2 Offset", " t2 ", EPA_T2_OFFSET, &settings.T2Offset, 1, -20, 20, 10},
 	{3, "P1 Offset", " P1 ", EPA_CHAMBER_PRESSURE_OFFSET, &settings.ChamberPressOffset, 1, -15, 15, 1},
+	{4, "First Vacuum", " PH1", EPA_FIRST_VACUUM, &settings.FirstVacuum, 1, 10, 50, 1},
+	{5, "Other Vacuum", " PH ", EPA_OTHER_VACUUM, &settings.OtherVacuum, 1, 10, 60, 1},
+	{6, "Vacuum Threshold", " PU ", EPA_VACUUM_THRESHOLD, &settings.VacuumThreshold, 1, 30, 60, 1},
+	{7, "Other Pressure", "HIGH", EPA_OTHER_PRESSURE, &settings.OtherPressure, 1, 120, 200, 1},
+	{8, "Min. TDS", " CO ", EPA_TDS_MIN, &settings.WaterTDSMin, 1, -20, 20, 1},
 };
 
 Reading_s readings[] = {
@@ -83,6 +92,16 @@ Reading_s readings[] = {
 		{6, "P ambient", " PA ", &sensors.PressureAmbient},
 		{7, "TDS", " CO ", (uint16_t*)&sensors.WaterTDS},
 };
+
+Timeset_s timeset[] = {
+		{1, "Year", "yEAr", &RTCDateTime.Year, 22, 99},
+		{2, "Month", "nnon", &RTCDateTime.Month, 1, 12},
+		{3, "Day", " dAy", &RTCDateTime.Day, 1, 31},
+		{4, "Hour", "Hour", &RTCDateTime.Hour, 0, 23},
+		{5, "Minute", "nnin", &RTCDateTime.Minute, 0, 59},
+};
+
+const uint8_t monthDays[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
 void SelectProgram() {
 	if (currProgType == PROGTYPE_PROGRAM) currProgram++;
@@ -138,9 +157,9 @@ void ShowParameter() {
 	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, &parameters[currParameter].DigitsName);
 	char s[8];
 	if (parameters[currParameter].Divider > 1) {
-		sprintf(s,"%5.1f", (float)((float)*parameters[currParameter].Data / 10.0));
+		sprintf(s,"%5.1f", (float)((float)*parameters[currParameter].Value / 10.0));
 	} else {
-		sprintf(s,"%4d", *parameters[currParameter].Data);
+		sprintf(s,"%4d", *parameters[currParameter].Value);
 	}
 	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 2, 0, 0, s);
 	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "PArA");
@@ -152,11 +171,11 @@ void SelectParameter() {
 	ShowParameter();
 }
 
-void ChangeParameter(uint8_t increment) {
-	*parameters[currParameter].Data += increment;
-	if (*parameters[currParameter].Data < parameters[currParameter].Min) *parameters[currParameter].Data = parameters[currParameter].Min;
-	if (*parameters[currParameter].Data > parameters[currParameter].Max) *parameters[currParameter].Data = parameters[currParameter].Max;
-//	EEPROM_Write(parameters[currParameter].EepromAddress, parameters[currParameter].Data, 1);
+void ChangeParameter(int8_t increment) {
+	*parameters[currParameter].Value += increment;
+	if (*parameters[currParameter].Value < parameters[currParameter].Min) *parameters[currParameter].Value = parameters[currParameter].Min;
+	if (*parameters[currParameter].Value > parameters[currParameter].Max) *parameters[currParameter].Value = parameters[currParameter].Max;
+//	WriteSetting(parameters[currParameter].EepromAddress, parameters[currParameter].Data, 1);
 	ShowParameter();
 }
 
@@ -175,5 +194,31 @@ void SelectReading() {
 	ShowReading();
 }
 
+void ShowTimeset() {
+	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, &timeset[currTimeset].DigitsName);
+	char s[8];
+	sprintf(s," %02d", *timeset[currTimeset].Value);
+	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 2, 0, 0, s);
+	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "t.SEt");
+}
+
+void SelectTimeset() {
+	currTimeset++;
+	if (currTimeset > ((sizeof(timeset) / sizeof(Timeset_s)) - 1)) currTimeset = 0;
+	ShowTimeset();
+}
+
+void ChangeTimeset(int8_t increment) {
+	uint8_t index = *timeset[1].Value - 1;
+	uint8_t daysMax = monthDays[(int)index];
+	if (currTimeset == 2) timeset[currTimeset].Max = daysMax;
+	*timeset[currTimeset].Value += increment;
+	if (*timeset[currTimeset].Value < timeset[currTimeset].Min) *timeset[currTimeset].Value = timeset[currTimeset].Max;
+	if (*timeset[currTimeset].Value > timeset[currTimeset].Max) *timeset[currTimeset].Value = timeset[currTimeset].Min;
+	//	if (*timeset[currTimeset].Value < timeset[currTimeset].Min) *timeset[currTimeset].Value = timeset[currTimeset].Min;
+	//	if (*timeset[currTimeset].Value > timeset[currTimeset].Max) *timeset[currTimeset].Value = timeset[currTimeset].Max;
+//	WriteSetting(parameters[currParameter].EepromAddress, parameters[currParameter].Data, 1);
+	ShowTimeset();
+}
 
 

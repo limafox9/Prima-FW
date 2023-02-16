@@ -98,6 +98,13 @@ void StartProgramTask() {
 				case 1:
 					ProgramVacuumTest();
 					break;
+				case 2:
+					ProgramWash();
+					break;
+				case 3:
+					__NOP();
+//					ProgramVacuumTest();
+					break;
 				}
 			}
 		}
@@ -173,6 +180,10 @@ uint8_t ProgramUnwrapped() {
 	// Heat up
 	if (success) {
 		success = PhaseHeatUp(130.0, 200.0, 50.0, OT_HEAT);
+	}
+	if (success) {
+		PhasePreheat(130.0, 210.0);
+		success = PhaseRelease(1, OT_RELEASE);
 	}
 
 	ResetTimer(TIMER_CYCLE);
@@ -621,7 +632,7 @@ uint8_t ProgramVacuumTest() {
 	progRunning = 1;
 	progStop = 0;
 
-	success = PhaseBegin(600);
+//	success = PhaseBegin(600);
 
 	ResetTimer(TIMER_CYCLE);
 
@@ -641,6 +652,38 @@ uint8_t ProgramVacuumTest() {
 	}
 	if (success) {
 		success = PhaseRelease(1, OT_RELEASE);
+	}
+
+	// End
+	GetTimer(TIMER_CYCLE, &tCycle);
+	GetDateTime(&clockTime);
+	PhaseFinish(success, &clockTime, &tCycle);
+
+	progRunning = 0;
+	progStop = 0;
+
+}
+
+uint8_t ProgramWash() {
+
+	uint8_t success = 1;
+	RTCDateTime_s clockTime;
+	RTCTimerTime_s tCycle, tPhase;
+
+	progRunning = 1;
+	progStop = 0;
+
+//	success = PhaseBegin(600);
+
+	ResetTimer(TIMER_CYCLE);
+
+	success = PhaseBegin(600);
+
+	GetDateTime(&clockTime);
+	PrintHeader("CLEANING PROGRAM", sensors.T1, &clockTime);
+
+	if (success) {
+		success = PhaseClean();
 	}
 
 	// End

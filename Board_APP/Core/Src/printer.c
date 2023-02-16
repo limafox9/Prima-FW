@@ -150,12 +150,14 @@ void PrintHeader (const char* title, float t1, RTCDateTime_s* time) {
 //	Print("%c%c%c", ESC, 'a', 0); // Justify (0 = left, 1 = center, 2 = right)
 	PrintSize(1, 1);
 	Print("\n");
-	Print("S/N:     %s\n", machine.Serial);
-	Print("UID:     %08X %08X %08X\n", machine.MCUID[0], machine.MCUID[1], machine.MCUID[2]);
-	Print("SW:      v. %d.%01d.%02d\n", FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION);
+	Print("S/N:          %s\n", machine.Serial);
+	Print("UID:          %08X %08X %08X\n", machine.MCUID[0], machine.MCUID[1], machine.MCUID[2]);
+	Print("Firmware:     v. %d.%01d.%02d\n", FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION);
 	Print("\n");
-	Print("DATE:    %d-%02d-%02d (YYYY-MM-DD)\n", time->Year, time->Month, time->Day);
-	Print("CYCLE N. %d\n", settings.CyclesCount);
+	Print("Date (Y-M-D): %d-%02d-%02d\n", time->Year, time->Month, time->Day);
+	Print("CYCLE N.      %d\n", settings.CyclesCount);
+	Print("\n");
+	Print("ATM (kPa)     %0.1f\n", sensors.PressureAmbient);
 	Print("\n");
 	Print("\n");
 	Print("USER: ____________________________________\n");

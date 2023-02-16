@@ -71,5 +71,6 @@ uint8_t ProgramVacuumTest();
 uint8_t ProgramTestSteril();
 uint8_t ProgramCalibration();
 uint8_t ProgramResumeDry();
+uint8_t ProgramWash();
 
 #endif /* INC_PROGRAMS_H_ */

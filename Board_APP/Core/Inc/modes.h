@@ -49,6 +49,7 @@ typedef enum {
 	SHOW_PROGRAM,
 	SHOW_PARAMETERS,
 	SHOW_READINGS,
+	SHOW_TIMESET,
 	SHOW_ERROR,
 } e_ShowStatus;
 
@@ -112,7 +113,7 @@ typedef struct Parameter_s {
 	char Name[16];
 	char DigitsName[8];
 	uint8_t EepromAddress;
-	int8_t* Data;
+	int8_t* Value;
 	uint8_t Size;
 	int8_t Min;
 	int8_t Max;
@@ -125,6 +126,15 @@ typedef struct Reading_s {
 	char DigitsName[8];
 	float* Value;
 } Reading_s;
+
+typedef struct Timeset_s {
+	uint8_t ParamNumber;
+	char Name[16];
+	char DigitsName[8];
+	uint8_t* Value;
+	uint8_t Min;
+	uint8_t Max;
+} Timeset_s;
 
 
 extern s_MachineStatus machineStatus;
@@ -144,6 +154,9 @@ void SelectTest();
 void ShowProgram();
 void SelectParameter();
 void ShowParameter();
-void ChangeParameter(uint8_t increment);
+void ChangeParameter(int8_t increment);
+void ShowTimeset();
+void SelectTimeset();
+void ChangeTimeset11(int8_t increment);
 
 #endif /* INC_MODES_H_ */

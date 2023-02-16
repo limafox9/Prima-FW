@@ -675,7 +675,7 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pins : SW_CSH_Pin SW_CSL_Pin SW_LSH_Pin SW_DOOR_Pin */
   GPIO_InitStruct.Pin = SW_CSH_Pin|SW_CSL_Pin|SW_LSH_Pin|SW_DOOR_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
@@ -730,9 +730,6 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(SPI1_DATA_READY_GPIO_Port, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
-  HAL_NVIC_SetPriority(EXTI2_IRQn, 5, 0);
-  HAL_NVIC_EnableIRQ(EXTI2_IRQn);
-
   HAL_NVIC_SetPriority(EXTI3_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(EXTI3_IRQn);
 
