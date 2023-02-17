@@ -59,6 +59,9 @@ USAGE:
 #include "phases.h"
 #include "printer.h"
 #include "programs.h"
+#include "modes.h"
+#include "display.h"
+#include "settings.h"
 
 //#define RTD_A 3.9083e-3
 //#define RTD_B -5.775e-7
@@ -84,6 +87,7 @@ osThreadId keysTaskHandle;
 osThreadId serialTaskHandle;
 osThreadId sensorsTaskHandle;
 osThreadId programTaskHandle;
+osThreadId displayInfoTaskHandle;
 //
 //float calTemp(float Rt) {
 //	float Z1, Z2, Z3, Z4, temp;
@@ -118,6 +122,19 @@ void SysInit() {
 	SerialInit(&huart1, 115200);
 	SerialInit(&UART_DISPLAY, 115200);
 
+	osThreadDef(serialTask, StartSerialTask, osPriorityNormal, 1, 1024);
+	serialTaskHandle = osThreadCreate(osThread(serialTask), NULL);
+
+	osDelay(300);
+
+	DigitsWrite(1, "8.8.8.8");
+	DigitsWrite(2, "8.8.8.8");
+	DigitsWrite(3, "8.8.:8.8");
+	DashLed(0xFFFF, ON);
+	ProgressLed(0xFFFF);
+
+	osDelay(2000);
+
 	ClockInit(&hi2c1);
 	PWMPower_Init();
 	PrinterInit();
@@ -126,7 +143,26 @@ void SysInit() {
 
 	TM7705_Init(&hspi1);
 	BAT2U_Init(&huart2);
-//
+//	BAT2U_TDSCalibration(500);
+
+	LoadSettings();
+
+	DigitsWrite(1, "");
+	DigitsWrite(2, "");
+	DigitsWrite(3, "");
+	DashLed(0xFFFF, OFF);
+	ProgressLed(0x0000);
+
+	char s[8];
+//	sprintf(s, "%1d.%1d.%02d", FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION);
+	DigitsWrite(1, "FIr.");
+	sprintf(s, "%1d.%1d.%02d", machine.FWVersionMajor, machine.FWVersionMinor, machine.FWVersionRevision);
+	DigitsWrite (2, s);
+	sprintf(s, "%1d.%1d.%02d", machine.DisplayFWVersionMajor, machine.DisplayFWVersionMinor, machine.DisplayFWVersionRevision);
+	DigitsWrite (3, s);
+
+	osDelay(2000);
+
 	RTCDateTime_s RTCDateTime;
 	GetDateTime(&RTCDateTime);
 //
@@ -134,15 +170,11 @@ void SysInit() {
 //		settings.ChamberPressOffset = 0;
 //		SaveSettings();
 
-	LoadSettings();
 
-	lastError = 0;
+
 
 	osThreadDef(keysTask, StartKeysTask, osPriorityAboveNormal, 1, 1024);
 	keysTaskHandle = osThreadCreate(osThread(keysTask), NULL);
-
-	osThreadDef(serialTask, StartSerialTask, osPriorityNormal, 1, 1024);
-	serialTaskHandle = osThreadCreate(osThread(serialTask), NULL);
 
 	osThreadDef(sensorsTask, StartSensorsTask, osPriorityHigh, 1, 1024);
 	sensorsTaskHandle = osThreadCreate(osThread(sensorsTask), NULL);
@@ -150,9 +182,12 @@ void SysInit() {
 	osThreadDef(programTask, StartProgramTask, osPriorityNormal, 1, 1024);
 	programTaskHandle = osThreadCreate(osThread(programTask), NULL);
 
+	osThreadDef(displayInfoTask, StartDisplayInfoTask, osPriorityNormal, 1, 256);
+	displayInfoTaskHandle = osThreadCreate(osThread(displayInfoTask), NULL);
+
 //		PrintError("ERROR ERROR\n");
 
-//		EEPROM_Read(EPA_LAST_ERROR, &lastError, 1);
+		EEPROM_Read(EPA_LAST_ERROR, &lastError, 1);
 //
 //		osDelay(1000);
 //
@@ -162,8 +197,48 @@ void SysInit() {
 //	//	osDelay(10);
 //		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "8.8.:8.8");
 
-		osDelay(1000);
-		Beep(2, 100, 100);
+		if (lastError == ERROR_NONE) {
+			Beep(3, 100, 100);
+		} else {
+			Beep(1, 1000, 100);
+		}
+
+		DisplaySetLongPressInterval(3000);
+
+//		for (int i = 0; i < 16; i++) {
+//			ProgressLed(1<<i);
+//			osDelay(500);
+//		}
+//				ProgressLed(0b0100000000000000);
+
+
+//		ProgressLed(LED_PROGRESS_HEATING);
+//		osDelay(500);
+//		ProgressLed(LED_PROGRESS_1STVACUUM);
+//		osDelay(500);
+//		ProgressLed(LED_PROGRESS_1STPRESSURE);
+//		osDelay(500);
+//		ProgressLed(LED_PROGRESS_NVACUUM);
+//		osDelay(500);
+//		ProgressLed(LED_PROGRESS_NPRESSURE);
+//		osDelay(500);
+//		ProgressLed(LED_PROGRESS_NRELEASE);
+//		osDelay(500);
+//		ProgressLed(LED_PROGRESS_STERILVACUUM);
+//		osDelay(500);
+//		ProgressLed(LED_PROGRESS_STERILPRESSURE);
+//		osDelay(500);
+//		ProgressLed(LED_PROGRESS_STERILMAINTAIN);
+//		osDelay(500);
+//		ProgressLed(LED_PROGRESS_STERILRELEASE);
+//		osDelay(500);
+//		ProgressLed(LED_PROGRESS_DRY);
+//		osDelay(500);
+
+//		ProgressLed(0xFF);
+//		osDelay(500);
+
+
 //		printf("CIAO");
 //
 //	PrintHeader("HELIX TEST", 24.2, &d);

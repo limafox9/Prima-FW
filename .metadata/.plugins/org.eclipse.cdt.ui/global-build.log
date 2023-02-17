@@ -1,13 +1,33 @@
-20:32:40 **** Incremental Build of configuration Debug for project DB_Protocol ****
+21:50:42 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j4 all 
-make: Nothing to be done for 'all'.
-20:32:41 **** Incremental Build of configuration Debug for project DB_Protocol ****
+arm-none-eabi-gcc "../Src/DB_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/DB_protocol.d" -MT"Src/DB_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/DB_protocol.o"
+arm-none-eabi-ar -r  "libDB_Protocol.a" @"objects.list"  
+arm-none-eabi-ar: creating libDB_Protocol.a
+Finished building target: libDB_Protocol.a
+ 
+21:50:43 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j4 all 
-make: Nothing to be done for 'all'.
-20:32:41 **** Incremental Build of configuration Debug for project Board_APP ****
+arm-none-eabi-gcc "../Src/DB_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/DB_protocol.d" -MT"Src/DB_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/DB_protocol.o"
+arm-none-eabi-ar -r  "libDB_Protocol.a" @"objects.list"  
+arm-none-eabi-ar: creating libDB_Protocol.a
+Finished building target: libDB_Protocol.a
+ 
+21:50:44 **** Incremental Build of configuration Debug for project Board_APP ****
 make -j4 all 
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima-FW\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Board_APP.elf
+ 
 arm-none-eabi-size   Board_APP.elf 
+arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
+arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
    text	   data	    bss	    dec	    hex	filename
- 116104	   1604	  38516	 156224	  26240	Board_APP.elf
+ 117264	   1656	  38480	 157400	  266d8	Board_APP.elf
+arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
 Finished building: default.size.stdout
+ 
+Finished building: Board_APP.hex
+Finished building: Board_APP.bin
+ 
+ 
+Finished building: Board_APP.list
  

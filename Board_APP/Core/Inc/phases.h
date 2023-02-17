@@ -55,6 +55,8 @@ typedef struct SterilParam_s {
 	uint16_t timeout;
 } SterilParam_s;
 
+extern char currPhase[8];
+
 uint8_t PhaseBegin(uint8_t timeout);
 uint8_t PhaseResume(uint8_t timeout);
 uint8_t PhasePreheat(float chamberTemp, float steamGenTemp);

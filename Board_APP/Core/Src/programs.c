@@ -114,36 +114,18 @@ void StartProgramTask() {
 
 uint8_t ProgramResumeDry() {
 
-	uint8_t success = 1;
-	RTCDateTime_s clockTime;
-	RTCTimerTime_s tCycle, tPhase;
+//	uint8_t success = 1;
+//	RTCDateTime_s clockTime;
+//	RTCTimerTime_s tCycle, tPhase;
 
 	progRunning = 1;
 	progStop = 0;
 
-	lastError = ERROR_NONE;
+//	PhaseResume(600);
+	FanSet(ON);
 
-	success = PhaseResume(600);
-
-	// Dry
-	if (success) {
-		PhasePreheat(60, 90);
-		success = PhaseDry(20.0, 50.0, 180, 800);
-	}
-
-	if (success) {
-		uint8_t err = ERROR_NONE;
-		lastError = ERROR_NONE;
-		EEPROM_Write(EPA_LAST_ERROR, &err, 1);
-
-		machineStatus.Status = STATUS_READY;
-
-		osDelay(1000);
-		if (DoorSolenoidSet(UNLOCK) != UNLOCK) {
-			SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "Er.11");
-			return 0;
-		}
-	}
+	PhaseDry(20.0, 50.0, 180, 800);
+	SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_NONE, 0, 0, "");
 
 	ValveVacuumSet(OFF);
 	ValveWaterSteamSet(OFF);
@@ -154,9 +136,18 @@ uint8_t ProgramResumeDry() {
 	PumpVacuumSet(OFF);
 	PumpWaterLoadSet(OFF);
 
-	HeaterChamberTempSet(60);
-	HeaterSteamGeneratorTempSet(90);
 	FanSet(OFF);
+
+	lastError = ERROR_NONE;
+	EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
+
+	machineStatus.Status = STATUS_READY;
+
+	osDelay(1000);
+	if (DoorSolenoidSet(UNLOCK) != UNLOCK) {
+		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "Er.11");
+		return 0;
+	}
 
 	progRunning = 0;
 	progStop = 0;
@@ -172,7 +163,7 @@ uint8_t ProgramUnwrapped() {
 	progRunning = 1;
 	progStop = 0;
 
-	success = PhaseBegin(600);
+	if (!PhaseBegin(600)) return 0;
 
 	GetDateTime(&clockTime);
 	PrintHeader("UNWRAPPED", sensors.T1, &clockTime);
@@ -242,7 +233,7 @@ uint8_t ProgramWrapped() {
 	progRunning = 1;
 	progStop = 0;
 
-	success = PhaseBegin(600);
+	if (!PhaseBegin(600)) return 0;
 
 	GetDateTime(&clockTime);
 	PrintHeader("WRAPPED", sensors.T1, &clockTime);
@@ -345,7 +336,7 @@ uint8_t ProgramPrion() {
 	FanSet(ON);
 	SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
 
-	success = PhaseBegin(600);
+	if (!PhaseBegin(600)) return 0;
 
 	// Heat up
 	if (success) {
@@ -437,7 +428,7 @@ uint8_t ProgramGentle() {
 	progRunning = 1;
 	progStop = 0;
 
-	success = PhaseBegin(600);
+	if (!PhaseBegin(600)) return 0;
 
 	GetDateTime(&clockTime);
 	PrintHeader("GENTLE", sensors.T1, &clockTime);
@@ -532,7 +523,7 @@ uint8_t ProgramHelixTest() {
 	progRunning = 1;
 	progStop = 0;
 
-	success = PhaseBegin(600);
+	if (!PhaseBegin(600)) return 0;
 
 	GetDateTime(&clockTime);
 	PrintHeader("HELIX TEST", sensors.T1, &clockTime);
@@ -632,11 +623,11 @@ uint8_t ProgramVacuumTest() {
 	progRunning = 1;
 	progStop = 0;
 
-//	success = PhaseBegin(600);
+//	if (!PhaseBegin(600)) return 0;
 
 	ResetTimer(TIMER_CYCLE);
 
-	success = PhaseBegin(600);
+	if (!PhaseBegin(600)) return 0;
 
 	GetDateTime(&clockTime);
 	PrintHeader("VACUUM TEST", sensors.T1, &clockTime);
@@ -673,18 +664,16 @@ uint8_t ProgramWash() {
 	progRunning = 1;
 	progStop = 0;
 
-//	success = PhaseBegin(600);
+//	if (!PhaseBegin(600)) return 0;
 
 	ResetTimer(TIMER_CYCLE);
 
-	success = PhaseBegin(600);
+	if (!PhaseBegin(600)) return 0;
 
 	GetDateTime(&clockTime);
 	PrintHeader("CLEANING PROGRAM", sensors.T1, &clockTime);
 
-	if (success) {
-		success = PhaseClean();
-	}
+	PhaseClean();
 
 	// End
 	GetTimer(TIMER_CYCLE, &tCycle);
@@ -705,7 +694,7 @@ uint8_t ProgramTestSteril() {
 	progRunning = 1;
 	progStop = 0;
 
-	success = PhaseBegin(600);
+	if (!PhaseBegin(600)) return 0;
 
 	GetDateTime(&clockTime);
 	PrintHeader("QUICK CYCLE", sensors.T1, &clockTime);

@@ -36,7 +36,65 @@ USAGE:
 #include "display.h"
 
 #include "serial.h"
+#include "sensors.h"
+#include "phases.h"
+#include "modes.h"
+#include "Inc/DB_Protocol.h"
 
 void DashLed(e_DisplayDashboardLeds led, e_PowerState status) {
 	SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, led, status, 0, "");
 }
+
+void ProgressLed(ledProgress led) {
+	SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, led, 0, 0, "");
+}
+
+void DigitsWrite(uint8_t line, const char* digits) {
+	SendCommand(DISPLAY_CMD_WRITE_DIGITS, line, 0, 0, digits);
+}
+
+void DisplaySetBeep(e_PowerState set) {
+	SendCommand(DISPLAY_CMD_SET_KEYS_BEEP, set, 0, 0,"");
+}
+void DisplaySetLongPressInterval(uint16_t interval) {
+	SendCommand(DISPLAY_CMD_SET_LONG_PRESS_INTERVAL, interval, 0, 0,"");
+}
+
+void StartDisplayInfoTask() {
+
+	RTCTimerTime_s tPhase, tDisplay;
+	char s[8];
+
+
+	for (;;) {
+		if ((machineStatus.Status == STATUS_RUNNING) && (machineStatus.Show == SHOW_PROGRAM)) {
+			SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, currPhase);
+			ResetTimer(TIMER_DISPLAYINFO);
+			while(1) {
+				GetTimer(TIMER_DISPLAYINFO, &tDisplay);
+				if (tDisplay.Seconds > 1) {
+					break;
+				}
+				if ((machineStatus.Status) != STATUS_RUNNING || (machineStatus.Show != SHOW_PROGRAM)) break;
+				osDelay(200);
+			}
+		}
+		if ((machineStatus.Status == STATUS_RUNNING) && (machineStatus.Show == SHOW_PROGRAM)) {
+			ResetTimer(TIMER_DISPLAYINFO);
+			while(1) {
+				GetTimer(TIMER_PHASE, &tPhase);
+				sprintf(s, "%02d:%02d", tPhase.TimeMinute, tPhase.TimeSecond);
+				SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, s);
+				GetTimer(TIMER_DISPLAYINFO, &tDisplay);
+				if (tDisplay.Seconds > 4) {
+					break;
+				}
+				if ((machineStatus.Status) != STATUS_RUNNING || (machineStatus.Show != SHOW_PROGRAM)) break;
+				osDelay(200);
+			}
+		}
+	}
+
+}
+
+

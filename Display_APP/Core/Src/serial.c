@@ -47,9 +47,6 @@ USAGE:
 #include "globals.h"
 #include "Inc/DB_protocol.h"
 
-extern uint16_t SET_KeysLongPressInterval;
-extern uint16_t SET_FlashInterval;
-extern uint8_t SET_KeysBeep;
 
 extern UART_HandleTypeDef huart1;
 extern DMA_HandleTypeDef hdma_usart1_rx;
@@ -239,16 +236,16 @@ static void ParseCommand(s_DisplayProtocolData* data) {
 			ProgressBarRefresh();
 			break;
 		case DISPLAY_CMD_SET_LONG_PRESS_INTERVAL:
-//			SET_KeysLongPressInterval = (uint16_t)data->Param1;
+			SET_KeysLongPressInterval = (uint16_t)data->Param1;
 			break;
 		case DISPLAY_CMD_SET_FLASH_INTERVAL:
-//			SET_FlashInterval = (uint16_t)data->Param1;
+			SET_FlashInterval = (uint16_t)data->Param1;
 			break;
 		case DISPLAY_CMD_SET_KEYS_BEEP:
-//			SET_KeysBeep = (bool)data->Param1;
+			SET_KeysBeep = (bool)data->Param1;
 			break;
 		case DISPLAY_CMD_FW_VER:
-//			DBSendCommand(DISPLAY_CMD_OK, FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION, "");
+			SendCommand(DISPLAY_CMD_OK, FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION, "");
 			break;
 		case DISPLAY_CMD_CHECK:
 //			duration = ((uint16_t)data->Param1 >= 500) && ((uint16_t)data->Param1 <= 10000) ? (uint16_t)data->Param1 : 3000;

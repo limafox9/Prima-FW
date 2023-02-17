@@ -103,10 +103,19 @@ void PrintTestPage() {
 
 void PrintError(const char* errorString, RTCTimerTime_s* tTime) {
 	Print(errorString);
-	Print("----    T1     T2   PRESS   TIME\n");
+	Print("----    T1     T2    kPa    TIME\n");
 	Print("      %5.1f  %5.1f  %5.1f %3d:%02d\n", sensors.T1, sensors.T2, sensors.PressureChamber, tTime->TimeMinute, tTime->TimeSecond);
-	Print("        T3     T4    TDS\n");
-	Print("      %5.1f  %5.1f  %5d\n", sensors.TemperatureChamberHeater, sensors.TemperatureSteamGenerator, sensors.WaterTDS, tTime->TimeMinute, tTime->TimeSecond);
+	Print("        T3     T4    TDS   DO  LO\n");
+	Print("      %5.1f  %5.1f %5d   %s  %s\n", 	sensors.TemperatureChamberHeater,
+												sensors.TemperatureSteamGenerator,
+												sensors.WaterTDS,
+												(sensors.Door == OPEN) ? "OP" : "CL",
+												(sensors.Solenoid == LOCK) ? "LK" : "UN"
+												);
+	Print("\n");
+	Print("\n");
+	Print("\n");
+	Print("\n");
 }
 
 void Print(const char* format, ...) {
@@ -151,8 +160,8 @@ void PrintHeader (const char* title, float t1, RTCDateTime_s* time) {
 	PrintSize(1, 1);
 	Print("\n");
 	Print("S/N:          %s\n", machine.Serial);
-	Print("UID:          %08X %08X %08X\n", machine.MCUID[0], machine.MCUID[1], machine.MCUID[2]);
-	Print("Firmware:     v. %d.%01d.%02d\n", FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION);
+	Print("UID:          %08X %08X %08X\n", machine.MCUID[2], machine.MCUID[1], machine.MCUID[0]);
+	Print("Firmware:     v.%d.%02d.%1d (%d.%02d.%1d)\n", machine.FWVersionMajor, machine.FWVersionMinor, machine.FWVersionRevision, machine.DisplayFWVersionMajor, machine.DisplayFWVersionMinor, machine.DisplayFWVersionRevision);
 	Print("\n");
 	Print("Date (Y-M-D): %d-%02d-%02d\n", time->Year, time->Month, time->Day);
 	Print("CYCLE N.      %d\n", settings.CyclesCount);

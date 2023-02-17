@@ -36,7 +36,7 @@ USAGE:
 #include "PCF8563.h"
 #include "time.h"
 
-uint32_t timers[8] = {0};
+uint32_t timers[10] = {0};
 
 static uint32_t GetSafeDeltaTick(uint32_t startTick, uint32_t endTick);
 

@@ -43,6 +43,7 @@ typedef enum {
 	STATUS_READY,
 	STATUS_RUNNING,
 	STATUS_FAIL,
+	STATUS_ERROR,
 } e_MachineStatus;
 
 typedef enum {
@@ -101,6 +102,9 @@ typedef struct s_Program {
 	uint16_t DashLeds;
 	e_ProgramClass Class;
 	e_ProgramTemp SterilTemp;
+	uint8_t NVacuum;
+	uint16_t SterilTime;
+	uint8_t DryTime;
 } s_Program;
 
 typedef struct s_MachineStatus {

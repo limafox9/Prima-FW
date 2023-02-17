@@ -40,6 +40,7 @@ USAGE:
 #include "Inc/DB_Protocol.h"
 #include "programs.h"
 #include "modes.h"
+#include "settings.h"
 
 #define KEY_LONG_PRESS_MS 3000
 
@@ -54,170 +55,177 @@ static void KeysReceived(uint8_t keysCode);
 
 void ParseCommand(s_DisplayProtocolData* data) {
 
-	if (data->Param1 == KEY_PROG) {
-		if ((machineStatus.Status == STATUS_IDLE) && (machineStatus.Show == SHOW_PROGRAM)) {
-			SelectProgram();
-		} else if ((machineStatus.Status == STATUS_READY) && (machineStatus.Show == SHOW_PROGRAM)) {
-			SelectProgram();
-		} else if (machineStatus.Status == STATUS_RUNNING) {
-			machineStatus.Show = SHOW_READINGS;
-		}
+	if (data->Command == DISPLAY_CMD_KEYS_PRESSED) {
+		Beep(1, 100, 100);
+		if (data->Param1 == KEY_PROG) {
+			if ((machineStatus.Status == STATUS_IDLE) && (machineStatus.Show == SHOW_PROGRAM)) {
+				SelectProgram();
+			} else if ((machineStatus.Status == STATUS_READY) && (machineStatus.Show == SHOW_PROGRAM)) {
+				SelectProgram();
+			} else if (machineStatus.Status == STATUS_RUNNING) {
+				machineStatus.Show = SHOW_READINGS;
+			}
 
-		if (machineStatus.Show == SHOW_PARAMETERS) {
-			SelectParameter();
-		} else if (machineStatus.Show == SHOW_READINGS) {
-			SelectReading();
-		} else if (machineStatus.Show == SHOW_TIMESET) {
-			SelectTimeset();
-		} else {
-			__NOP();
-		}
-
-	} else if (data->Param1 == KEY_TEST) {
-		if ((machineStatus.Status == STATUS_IDLE) && (machineStatus.Show == SHOW_PROGRAM)) {
-			SelectTest();
-		} else if ((machineStatus.Status == STATUS_READY) && (machineStatus.Show == SHOW_PROGRAM)) {
-			SelectTest();
-		} else if (machineStatus.Status == STATUS_RUNNING) {
-			machineStatus.Show = SHOW_PROGRAM;
-			ShowProgram();
-		}
-
-		if (machineStatus.Show == SHOW_PARAMETERS) {
-			ChangeParameter(1);
-		} else if (machineStatus.Show == SHOW_TIMESET) {
-			ChangeTimeset(1);
-		} else {
-			__NOP();
-		}
-
-	} else if (data->Param1 == KEY_START) {
-
-//		if (lastError > 0) {
-//			currProgram = 99;
-//			programStart = 1;
-////			osThreadResume(programTaskHandle);
-//		} else if (currProgram == 99 ){
-//			abortProgram = 1;
-//			currProgType == PROGTYPE_PROGRAM;
-//			currProgram = 1;
-//			ShowProgram();
-//		} else {
-			if (machineStatus.Show == SHOW_PROGRAM) {
-				if ((machineStatus.Status == STATUS_READY) || (machineStatus.Status == STATUS_IDLE)) {
-					programStart = 1;
-	//				osThreadResume(programTaskHandle);
-				}
-			} else if (machineStatus.Show == SHOW_PARAMETERS) {
-				ChangeParameter(-1);
+			if (machineStatus.Show == SHOW_PARAMETERS) {
+				SelectParameter();
+			} else if (machineStatus.Show == SHOW_READINGS) {
+				SelectReading();
 			} else if (machineStatus.Show == SHOW_TIMESET) {
-				ChangeTimeset(-1);
+				SelectTimeset();
 			} else {
 				__NOP();
 			}
-//		}
 
-	} else if (data->Param1 == KEY_PROG + KEY_LONG_PRESS) {
-		if (machineStatus.Show == SHOW_PROGRAM) {
-			if (machineStatus.Status == STATUS_IDLE) {
-				__NOP();
-			} else if (machineStatus.Status == STATUS_READY) {
+		} else if (data->Param1 == KEY_TEST) {
+			if ((machineStatus.Status == STATUS_IDLE) && (machineStatus.Show == SHOW_PROGRAM)) {
+				SelectTest();
+			} else if ((machineStatus.Status == STATUS_READY) && (machineStatus.Show == SHOW_PROGRAM)) {
+				SelectTest();
+			} else if (machineStatus.Status == STATUS_RUNNING) {
+				machineStatus.Show = SHOW_PROGRAM;
+				ShowProgram();
+			}
+
+			if (machineStatus.Show == SHOW_PARAMETERS) {
+				ChangeParameter(1);
+			} else if (machineStatus.Show == SHOW_TIMESET) {
+				ChangeTimeset(1);
+			} else {
 				__NOP();
 			}
-		} else if (machineStatus.Show == SHOW_PARAMETERS) {
-			machineStatus.Show = SHOW_PROGRAM;
-			SaveSettings();
-			ShowProgram();
-		} else if (machineStatus.Show == SHOW_READINGS) {
-			machineStatus.Show = SHOW_PROGRAM;
-			ShowProgram();
-		} else if (machineStatus.Show == SHOW_TIMESET) {
-			RTCDateTime.Year += 2000;
-			PCF8563_SetDateTime(&RTCDateTime);
-			machineStatus.Show = SHOW_PROGRAM;
-			ShowProgram();
-		} else {
-			__NOP();
-		}
 
-	} else if (data->Param1 == KEY_TEST + KEY_LONG_PRESS) {
-		__NOP();
-	} else if (data->Param1 == KEY_START + KEY_LONG_PRESS) {
+		} else if (data->Param1 == KEY_START) {
+			if (lastError > 0) {
+				currProgram = 99;
+				programStart = 1;
+			} else {
+				if (machineStatus.Show == SHOW_PROGRAM) {
+					if ((machineStatus.Status == STATUS_READY) || (machineStatus.Status == STATUS_IDLE)) {
+						programStart = 1;
+					}
+				} else if (machineStatus.Show == SHOW_PARAMETERS) {
+					ChangeParameter(-1);
+				} else if (machineStatus.Show == SHOW_TIMESET) {
+					ChangeTimeset(-1);
+				} else {
+					__NOP();
+				}
+			}
 
-		if (machineStatus.Show == SHOW_PROGRAM) {
-			if (machineStatus.Status == STATUS_IDLE) {
-				__NOP();
-			} else if (machineStatus.Status == STATUS_READY) {
-				__NOP();
-			} else if (machineStatus.Status = STATUS_RUNNING) {
-				abortProgram = 1;
+		} else if (data->Param1 == KEY_PROG + KEY_LONG_PRESS) {
+			if (machineStatus.Show == SHOW_PROGRAM) {
+				if (machineStatus.Status == STATUS_IDLE) {
+					__NOP();
+				} else if (machineStatus.Status == STATUS_READY) {
+					__NOP();
+				}
+			} else if (machineStatus.Show == SHOW_PARAMETERS) {
+				machineStatus.Show = SHOW_PROGRAM;
+				SaveSettings();
+				ShowProgram();
+			} else if (machineStatus.Show == SHOW_READINGS) {
+				machineStatus.Show = SHOW_PROGRAM;
+				ShowProgram();
+			} else if (machineStatus.Show == SHOW_TIMESET) {
+				RTCDateTime.Year += 2000;
+				PCF8563_SetDateTime(&RTCDateTime);
 				machineStatus.Show = SHOW_PROGRAM;
 				ShowProgram();
 			} else {
 				__NOP();
 			}
-		} else {
-			__NOP();
-		}
 
-	} else if (data->Param1 == KEY_TEST + KEY_PROG) {
-		if (machineStatus.Show == SHOW_PARAMETERS) {
-			machineStatus.Show = SHOW_PROGRAM;
-			ShowProgram();
-		} else if (machineStatus.Show == SHOW_READINGS) {
-			machineStatus.Show = SHOW_PROGRAM;
-			ShowProgram();
-		} else if (machineStatus.Show == SHOW_TIMESET) {
-			machineStatus.Show = SHOW_PROGRAM;
-			ShowProgram();
-		} else {
+		} else if (data->Param1 == KEY_TEST + KEY_LONG_PRESS) {
 			__NOP();
-		}
 
-	} else if (data->Param1 == KEY_START + KEY_PROG) {
-		__NOP();
-	} else if (data->Param1 == KEY_START + KEY_TEST) {
-		__NOP();
-	} else if (data->Param1 == KEY_START + KEY_TEST + KEY_PROG) {
-		__NOP();
-	} else if (data->Param1 == KEY_TEST + KEY_PROG + KEY_LONG_PRESS) {
-		if (machineStatus.Show == SHOW_PROGRAM) {
-			if ((machineStatus.Status == STATUS_IDLE) || (machineStatus.Status == STATUS_READY)) {
-				machineStatus.Show = SHOW_TIMESET;
-				PCF8563_GetDateTime(&RTCDateTime);
-				RTCDateTime.Year -= 2000;
-				ShowTimeset();
+		} else if (data->Param1 == KEY_START + KEY_LONG_PRESS) {
+			if (currProgram == 99 ){
+				abortProgram = 1;
+				currProgType == PROGTYPE_PROGRAM;
+				currProgram = 0;
+				ShowProgram();
+			} else {
+				if (machineStatus.Show == SHOW_PROGRAM) {
+					if (machineStatus.Status == STATUS_IDLE) {
+						__NOP();
+					} else if (machineStatus.Status == STATUS_READY) {
+						__NOP();
+					} else if (machineStatus.Status = STATUS_RUNNING) {
+						abortProgram = 1;
+						machineStatus.Show = SHOW_PROGRAM;
+						ShowProgram();
+					} else {
+						__NOP();
+					}
+				} else {
+					__NOP();
+				}
+			}
+
+		} else if (data->Param1 == KEY_TEST + KEY_PROG) {
+			if (machineStatus.Show == SHOW_PARAMETERS) {
+				machineStatus.Show = SHOW_PROGRAM;
+				ShowProgram();
+			} else if (machineStatus.Show == SHOW_READINGS) {
+				machineStatus.Show = SHOW_PROGRAM;
+				ShowProgram();
+			} else if (machineStatus.Show == SHOW_TIMESET) {
+				machineStatus.Show = SHOW_PROGRAM;
+				ShowProgram();
+			} else {
 				__NOP();
 			}
-		}
 
-	} else if (data->Param1 == KEY_START + KEY_TEST + KEY_LONG_PRESS) {
-		if (machineStatus.Status == STATUS_IDLE) {
-			machineStatus.Show = SHOW_PARAMETERS;
-			ShowParameter();
-		} else if (machineStatus.Status == STATUS_READY) {
-			machineStatus.Show = SHOW_PARAMETERS;
-			ShowParameter();
+		} else if (data->Param1 == KEY_START + KEY_PROG) {
+			__NOP();
+		} else if (data->Param1 == KEY_START + KEY_TEST) {
+			__NOP();
+		} else if (data->Param1 == KEY_START + KEY_TEST + KEY_PROG) {
+			__NOP();
+		} else if (data->Param1 == KEY_TEST + KEY_PROG + KEY_LONG_PRESS) {
+			if (machineStatus.Show == SHOW_PROGRAM) {
+				if ((machineStatus.Status == STATUS_IDLE) || (machineStatus.Status == STATUS_READY)) {
+					machineStatus.Show = SHOW_TIMESET;
+					PCF8563_GetDateTime(&RTCDateTime);
+					RTCDateTime.Year -= 2000;
+					ShowTimeset();
+					__NOP();
+				}
+			}
+
+		} else if (data->Param1 == KEY_START + KEY_TEST + KEY_LONG_PRESS) {
+			if (machineStatus.Status == STATUS_IDLE) {
+				machineStatus.Show = SHOW_PARAMETERS;
+				ShowParameter();
+			} else if (machineStatus.Status == STATUS_READY) {
+				machineStatus.Show = SHOW_PARAMETERS;
+				ShowParameter();
+			} else {
+				__NOP();
+			}
+
+		} else if (data->Param1 == KEY_START + KEY_PROG + KEY_LONG_PRESS) {
+			if (machineStatus.Status == STATUS_IDLE) {
+				machineStatus.Show = SHOW_READINGS;
+				ShowReading();
+			} else if (machineStatus.Status == STATUS_READY) {
+				machineStatus.Show = SHOW_READINGS;
+				ShowReading();
+			} else {
+				__NOP();
+			}
+
+		} else if (data->Param1 == KEY_START + KEY_TEST + KEY_PROG + KEY_LONG_PRESS) {
+			__NOP();
 		} else {
 			__NOP();
 		}
-
-	} else if (data->Param1 == KEY_START + KEY_PROG + KEY_LONG_PRESS) {
-		if (machineStatus.Status == STATUS_IDLE) {
-			machineStatus.Show = SHOW_READINGS;
-			ShowReading();
-		} else if (machineStatus.Status == STATUS_READY) {
-			machineStatus.Show = SHOW_READINGS;
-			ShowReading();
-		} else {
-			__NOP();
-		}
-
-	} else if (data->Param1 == KEY_START + KEY_TEST + KEY_PROG + KEY_LONG_PRESS) {
-		__NOP();
-	} else {
-		__NOP();
+	} else if (data->Command == DISPLAY_CMD_OK) {
+		machine.DisplayFWVersionMajor = (uint8_t)data->Param1;
+		machine.DisplayFWVersionMinor = (uint8_t)data->Param2;
+		machine.DisplayFWVersionRevision = (uint8_t)data->Param3;
 	}
+
 }
 
 void StartKeysTask() {

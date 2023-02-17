@@ -53,14 +53,14 @@ void Display_ProtocolToData(uint8_t* bufferIn, s_DisplayProtocolData* dataOut) {
 				uint16_t rxCRC;
 				memcpy(&rxCRC, bufferIn + i + POS_CHECKSUM, 2);
 				uint16_t calcCRC = CRC16_Modbus(bufferIn + i + POS_COMMAND, i + POS_CHECKSUM - POS_COMMAND);
-	//			if (rxCRC == calcCRC) {
+				if (rxCRC == calcCRC) {
 					dataOut->Valid = 1;
 					memcpy(&dataOut->Command, bufferIn + i + POS_COMMAND, 2);
 					memcpy(&dataOut->Param1, bufferIn + i + POS_PARAM1, 4);
 					memcpy(&dataOut->Param2, bufferIn + i + POS_PARAM2, 4);
 					memcpy(&dataOut->Param3, bufferIn + i + POS_PARAM3, 4);
 					memcpy(dataOut->Digits, bufferIn + i + POS_DIGITS, 8);
-	//			}
+				}
 			}
 			break;
 		}

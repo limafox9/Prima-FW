@@ -41,9 +41,9 @@ USAGE:
 #include <stdio.h>
 
 
-#define FW_VERSION_MAJOR 		7
-#define FW_VERSION_MINOR 		0
-#define FW_VERSION_REVISION 	21
+#define FW_VERSION_MAJOR 		2
+#define FW_VERSION_MINOR 		2
+#define FW_VERSION_REVISION 	1
 
 //#define DIGIT_ROWS 				3
 //
@@ -53,7 +53,7 @@ USAGE:
 
 #define DEFAULT_SETTING_KEYS_LONG_PRESS_INTERVAL	3000
 #define DEFAULT_SETTING_LEDS_FLASH_INTERVAL			1000
-#define DEFAULT_SETTING_KEYS_BEEP					TRUE
+#define DEFAULT_SETTING_KEYS_BEEP					FALSE
 
 typedef struct s_GPIO {
 	GPIO_TypeDef* GPIO_Port;
@@ -65,6 +65,10 @@ typedef uint8_t bool;
 
 typedef enum {FALSE, TRUE} LOGIC_STATE;
 typedef enum {OFF, ON} POWER_STATE;
+
+extern uint16_t SET_KeysLongPressInterval;
+extern uint16_t SET_FlashInterval;
+extern uint8_t SET_KeysBeep;
 
 uint32_t GetSafeDeltaTick(uint32_t startTick, uint32_t endTick);
 void SwapBytes(void *pBytes, size_t size);

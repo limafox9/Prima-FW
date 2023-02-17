@@ -15,7 +15,8 @@ uint16_t progressBarBits;
 
 
 void ProgressBarWrite(uint16_t leds) {
-	COPYBITS(progressBarBits, leds, 11, 0);
+	memcpy(&progressBarBits, &leds, 11);
+	memcpy(&progressBarBits + 15, &leds, 1);
 	ProgressBarRefresh();
 }
 

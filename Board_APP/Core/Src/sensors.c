@@ -159,7 +159,7 @@ void StartSensorsTask() {
 //		sensors.T2 = TM7705_GetTemp(1, (float)(settings.T2Offset / 10.0) + (float)T_FACTORY_OFFSET);
 		sensors.PressureChamber = BufferAverage(pressBuf, PRESS_BUFFER_SIZE, ChamberPressureGet());
 		sensors.Current = CurrentGet();
-		sensors.WaterTDS = BAT2U_GetTDSValue(1, 100);
+		sensors.WaterTDS = (float)BAT2U_GetTDSValue(1, 100);
 		sensors.WaterDumpLevel = WaterDumpLevelGet();
 		sensors.WaterReservoirLevel = WaterReservoirLevelGet();
 

@@ -46,7 +46,7 @@ USAGE:
 
 #define FW_VERSION_MAJOR 0
 #define FW_VERSION_MINOR 4
-#define FW_VERSION_REVISION 4
+#define FW_VERSION_REVISION 9
 
 //#define UART_MONITOR		huart1
 //#define UART_TDS			huart2
@@ -101,6 +101,12 @@ typedef struct MachineData_s {
 	uint8_t ProductionYear;
 	uint8_t ProductionWeek;
 	MachineModel_e Model;
+	uint8_t FWVersionMajor;
+	uint8_t FWVersionMinor;
+	uint8_t FWVersionRevision;
+	uint8_t DisplayFWVersionMajor;
+	uint8_t DisplayFWVersionMinor;
+	uint8_t DisplayFWVersionRevision;
 } MachineData_s;
 
 extern Settings_s settings;

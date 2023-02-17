@@ -50,6 +50,8 @@ USAGE:
 uint8_t chamberHeaterTempSet;
 uint8_t steamGeneratorTempSet;
 
+char currPhase[8];
+
 //extern s_Sensors Sensors;
 
 
@@ -59,6 +61,7 @@ uint8_t PhaseBegin(uint8_t timeout) {
 
 	uint8_t retVal = 1;
 	RTCTimerTime_s tTimeout, tPhase;
+	sprintf(currPhase, "bEG. ");
 
 	ResetTimer(TIMER_PHASE);
 
@@ -67,14 +70,14 @@ uint8_t PhaseBegin(uint8_t timeout) {
 	GetTimer(TIMER_PHASE, &tPhase);
 	if (sensors.Door == OPEN) {
 		Beep(2, 100, 100);
-//		lastError = ERROR_PROTECTION_LOCK;
-//		PrintError("LOCK ERROR *** NO CONFIRMATION\n", tPhase);
+		lastError = ERROR_PROTECTION_LOCK;
+		PrintError("DOOR ERROR *** DOOR OPEN\n", &tPhase);
 		return 0;
 	}
 
 	if (DoorSolenoidSet(LOCK) != LOCK) {
 		lastError = ERROR_PROTECTION_LOCK;
-		PrintError("LOCK ERROR *** NO CONFIRMATION\n", tPhase);
+		PrintError("LOCK ERROR *** NO CONFIRMATION\n", &tPhase);
 		return 0;
 	}
 //	if (sensors.WaterTDS > settings.WaterTDS) {
@@ -85,12 +88,12 @@ uint8_t PhaseBegin(uint8_t timeout) {
 
 	if (sensors.WaterReservoirLevel == LOW) {
 		lastError = ERROR_WATER_LOW;
-		PrintError("RESR ERROR *** WATER LEVEL\n", tPhase);
+		PrintError("RESR ERROR *** WATER LEVEL\n", &tPhase);
 		return 0;
 	}
 	if (sensors.WaterDumpLevel == HIGH) {
 		lastError = ERROR_WATER_DUMP_HIGH;
-		PrintError("DUMP ERROR *** WATER DUMP LEVEL\n", tPhase);
+		PrintError("DUMP ERROR *** WATER DUMP LEVEL\n", &tPhase);
 		return 0;
 	}
 
@@ -106,6 +109,7 @@ uint8_t PhaseBegin(uint8_t timeout) {
 	PumpSteamGeneratorSet(OFF);
 	PumpVacuumSet(OFF);
 	PumpWaterLoadSet(OFF);
+
 
 	FanSet(ON);
 
@@ -144,6 +148,7 @@ uint8_t PhaseResume(uint8_t timeout) {
 
 	uint8_t retVal = 1;
 	RTCTimerTime_s tTimeout, tPhase;
+	sprintf(currPhase, "rES. ");
 
 	ResetTimer(TIMER_PHASE);
 	ResetTimer(TIMER_TIMEOUT);
@@ -194,6 +199,7 @@ uint8_t PhaseHeatUp(float ringTemp, float steamGenTemp, float chamberTemp, uint1
 
 	uint8_t retVal = 0;
 	RTCTimerTime_s tTimeout, tPhase;
+	sprintf(currPhase, "hEAt");
 
 	ResetTimer(TIMER_TIMEOUT);
 	ResetTimer(TIMER_PHASE);
@@ -268,6 +274,7 @@ uint8_t PhaseRelease(uint8_t nRelease, uint16_t timeout) {
 	RTCTimerTime_s tTimeout, tPhase;
 	ResetTimer(TIMER_TIMEOUT);
 	ResetTimer(TIMER_PHASE);
+	sprintf(currPhase, "rEL. ");
 
 	if (nRelease == 1) SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_NVACUUM, 0, 0, "");
 	else if (nRelease == 2) SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_NRELEASE, 0, 0, "");
@@ -311,6 +318,10 @@ uint8_t PhaseVacuum(uint8_t nVacuum, float press, uint16_t timeout) {
 
 	uint8_t retVal = 0;
 	RTCTimerTime_s tTimeout, tPhase, tExt;
+	char s[8];
+	sprintf(s, "UAC.%1d", nVacuum);
+	sprintf(currPhase, s);
+
 	float pressInit = sensors.PressureChamber;
 
 	const float pressDeltaValue = 10;
@@ -413,6 +424,10 @@ uint8_t PhasePressure(uint8_t nPressure, float press, float steamTemp, float ste
 
 	uint8_t retVal = 0;
 	RTCTimerTime_s tTimeout, tPhase;
+	char s[8];
+	sprintf(s, "PrE.%1d", nPressure);
+	sprintf(currPhase, s);
+
 	ResetTimer(TIMER_TIMEOUT);
 	ResetTimer(TIMER_PHASE);
 
@@ -475,6 +490,7 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 	static const float pSAMPLE_TIME_S = 1.0;
 
 	uint8_t retVal = 0;
+	sprintf(currPhase, "StEr");
 
 	float T1Min, T1Max, T2Min, T2Max, pMin, pMax;
 
@@ -540,6 +556,8 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 	}
 
 	if (retVal) {
+
+		sprintf(currPhase, "S.SUS");
 
 		ResetTimer(TIMER_PHASE);
 		ResetTimer(TIMER_1);
@@ -653,6 +671,8 @@ uint8_t PhaseDry(float firstVacPress, float otherVacPress, uint16_t time, uint16
 	uint8_t cycle = 0;
 	float currPress;
 	RTCTimerTime_s tTimeout, tPhase;
+	sprintf(currPhase, "dry");
+
 	ResetTimer(TIMER_TIMEOUT);
 	ResetTimer(TIMER_PHASE);
 
@@ -750,6 +770,7 @@ uint8_t PhaseClean() {
 	uint8_t retVal = 1;
 	uint8_t finish = 0;
 	RTCTimerTime_s tVac, tWater, tPhase;
+	sprintf(currPhase, "UASH");
 
 	ResetTimer(TIMER_PHASE);
 	ResetTimer(TIMER_3);
@@ -757,8 +778,8 @@ uint8_t PhaseClean() {
 	SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_DRY, 0, 0, "");
 
 	ValveDrainSteamSet(OFF);
-	ValveWaterSteamSet(OFF);
-	ValveDryIntakeSet(ON);
+	ValveWaterSteamSet(ON);
+	ValveDryIntakeSet(OFF);
 	ValveVacuumSet(ON);
 
 	while (1) {
@@ -789,6 +810,14 @@ uint8_t PhaseClean() {
 				}
 				osDelay(50);
 			}
+			osDelay(30000);
+			ValveDryIntakeSet(ON);
+			osDelay(10000);
+			ValveDryIntakeSet(OFF);
+			osDelay(50000);
+			ValveDryIntakeSet(ON);
+			osDelay(10000);
+			ValveDryIntakeSet(OFF);
 		}
 		GetTimer(TIMER_3, &tVac);
 		if (tVac.Seconds > 230) break;
@@ -796,10 +825,20 @@ uint8_t PhaseClean() {
 	}
 	PumpVacuumSet(OFF);
 
-	osDelay(10000);
+	ValveDrainSteamSet(ON);
+	ValveDryIntakeSet(ON);
 
+	while (1) {
+		if ((sensors.PressureChamber >= pressAmbientMin) && (sensors.PressureChamber <= pressAmbientMax)) {
+			break;
+		}
+		osDelay(200);
+	}
+
+	ValveDrainSteamSet(OFF);
 	ValveDryIntakeSet(OFF);
 	ValveVacuumSet(OFF);
+	ValveWaterSteamSet(OFF);
 
 	GetTimer(TIMER_PHASE, &tPhase);
 	Print("TIME                       %2d:%02d\n", tPhase.TimeMinute, tPhase.TimeSecond);
@@ -813,6 +852,8 @@ uint8_t PhaseVacuumHold(float vacPress, uint8_t tolerance, uint16_t time, uint16
 	uint8_t cycle = 0;
 	float currPress;
 	RTCTimerTime_s tTimeout, tPhase;
+	sprintf(currPhase, "U.HLd");
+
 	ResetTimer(TIMER_TIMEOUT);
 	ResetTimer(TIMER_PHASE);
 
@@ -900,6 +941,7 @@ uint8_t PhaseWait(uint16_t time) {
 uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer) {
 
 	uint8_t retVal = 1;
+	sprintf(currPhase, "FIn.");
 
 	ValveVacuumSet(OFF);
 	ValveWaterSteamSet(OFF);
@@ -912,25 +954,39 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 	HeaterSteamGeneratorTempSet(90);
 
 	if (success) {
-		ValveDryIntakeSet(ON);
-		ValveDrainSteamSet(ON);
-	} else {
-		ValveDryIntakeSet(OFF);
-		ValveDrainSteamSet(OFF);
-	}
-
-	ValveDrainSteamSet(OFF);
-	ValveDryIntakeSet(OFF);
-
-	if (success) {
 		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "PASS");
 
-		uint8_t err = ERROR_NONE;
+//		uint8_t err = ERROR_NONE;
 		lastError = ERROR_NONE;
-		EEPROM_Write(EPA_LAST_ERROR, &err, 1);
+		EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
 
 		PrintFooter("PASS", time, timer);
+		ValveDryIntakeSet(ON);
+		ValveDrainSteamSet(ON);
+
+		while (1) {
+			if ((sensors.PressureChamber >= pressAmbientMin) && (sensors.PressureChamber <= pressAmbientMax)) {
+				break;
+			}
+			lastError = CheckError();
+			if (lastError > 0) {
+				retVal = 0;
+				break;
+			}
+			osDelay(200);
+		}
+
+		machineStatus.Status = STATUS_READY;
+
+		FanSet(OFF);
+
+		osDelay(1000);
+		if (DoorSolenoidSet(UNLOCK) != UNLOCK) {
+			SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "Er.11");
+			return 0;
+		}
 		Beep(3, 100, 100);
+
 	} else {
 		char s[8];
 		sprintf(s,"Er.%02d", lastError);
@@ -942,27 +998,10 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 		Beep(1, 1000, 100);
 	}
 
-	while (1) {
-		if ((sensors.PressureChamber >= pressAmbientMin) && (sensors.PressureChamber <= pressAmbientMax)) {
-			break;
-		}
-		lastError = CheckError();
-		if (lastError > 0) {
-			retVal = 0;
-			break;
-		}
-		osDelay(200);
-	}
+	if (lastError != ERROR_NONE) machineStatus.Status = STATUS_ERROR;
 
-	machineStatus.Status = STATUS_READY;
-
-	FanSet(OFF);
-
-	osDelay(1000);
-	if (DoorSolenoidSet(UNLOCK) != UNLOCK) {
-		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "Er.11");
-		return 0;
-	}
+	ValveDrainSteamSet(OFF);
+	ValveDryIntakeSet(OFF);
 
 	return retVal;
 }

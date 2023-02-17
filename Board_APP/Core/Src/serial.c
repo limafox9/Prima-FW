@@ -61,7 +61,7 @@ uint8_t rxMain[UART_DISPLAY_RX_BUFFER_SIZE];
 uint8_t dataReady = 0;
 s_DisplayProtocolData rxData;
 
-static void ParseCommand(s_DisplayProtocolData* data);
+//static void ParseCommand(s_DisplayProtocolData* data);
 extern void DBInit(UART_HandleTypeDef* huart, GPIO_TypeDef* rs485_CS_GPIOPort, uint16_t rs485_CS_GPIOPin);
 extern void DBSend(uint16_t command, uint32_t param1, uint32_t param2, uint32_t param3, char* digits);
 
@@ -192,7 +192,7 @@ void StartSerialTask() {
 			ParseCommand(&rxData); // valid received command > parse
 //			memset(rxBuf, 0, sizeof(rxBuf));
 		}
-		osDelay(20);
+		osDelay(10);
 	}
 }
 

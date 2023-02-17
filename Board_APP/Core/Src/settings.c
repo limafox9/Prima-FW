@@ -70,6 +70,11 @@ void LoadSettings() {
 	machine.MCUID[0] = *(uint32_t*)(MCU_UID_ADDRESS);
 	machine.MCUID[1] = *(uint32_t*)(MCU_UID_ADDRESS + 0x04);
 	machine.MCUID[2] = *(uint32_t*)(MCU_UID_ADDRESS + 0x08);
+
+	machine.FWVersionMajor = FW_VERSION_MAJOR;
+	machine.FWVersionMinor = FW_VERSION_MINOR;
+	machine.FWVersionRevision = FW_VERSION_REVISION;
+
 	// EEPROM read
 	EEPROM_Read(EPA_MACHINE_SERIAL_NUMBER, &machine.Serial, 12);
 	EEPROM_Read(EPA_CYCLE_COUNTER_PERMANENT, &machine.ReadOnlyCyclesCount, 2);

@@ -41,6 +41,7 @@ USAGE:
 #include "serial.h"
 #include "buzzer.h"
 #include "progress_bar.h"
+#include "Inc/DB_Protocol.h"
 #include <stdlib.h>
 
 // GLOBAL VARS =================================================================
@@ -66,9 +67,9 @@ extern UART_HandleTypeDef huart1;
 //extern void DBInit(UART_HandleTypeDef* huart, GPIO_TypeDef* rs485_CS_GPIOPort, uint16_t rs485_CS_GPIOPin);
 
 // SETTINGS ====================================================================
-uint16_t 	SET_KeysLongPressDuration = DEFAULT_SETTING_KEYS_LONG_PRESS_INTERVAL;
-bool 		SET_KeysBeep = DEFAULT_SETTING_KEYS_BEEP;
-uint16_t 	SET_LedsFlashInterval = DEFAULT_SETTING_LEDS_FLASH_INTERVAL;
+uint16_t 	SET_KeysLongPressInterval = DEFAULT_SETTING_KEYS_LONG_PRESS_INTERVAL;
+uint8_t 		SET_KeysBeep = DEFAULT_SETTING_KEYS_BEEP;
+uint16_t 	SET_FlashInterval = DEFAULT_SETTING_LEDS_FLASH_INTERVAL;
 
 // Entry point
 void SysInit() {
@@ -106,7 +107,10 @@ void SysInit() {
 //
 //	Beep(3,100,100);
 
+	HAL_Delay(500);
+
 	DisplayUARTInit();
+	SendCommand(DISPLAY_CMD_OK, FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION, "");
 }
 
 uint32_t GetSafeDeltaTick(uint32_t startTick, uint32_t endTick) {

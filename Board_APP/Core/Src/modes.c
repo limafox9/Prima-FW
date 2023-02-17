@@ -58,11 +58,11 @@ uint8_t progStart = 0;
 uint8_t progStop = 0;
 
 s_Program programs[] = {
-	{1, PROGTYPE_PROGRAM, "Wrapped", "P. Un", 1, CLASS_B, STERILTEMP_134},
-	{2, PROGTYPE_PROGRAM, "Unwrapped", "P. Ur", 2, CLASS_B, STERILTEMP_134},
+	{1, PROGTYPE_PROGRAM, "Wrapped", "P. Un", 1, CLASS_B, STERILTEMP_134, },
+	{2, PROGTYPE_PROGRAM, "Unwrapped", "P. Ur", 2, CLASS_S, STERILTEMP_134},
 	{3, PROGTYPE_PROGRAM, "Prion", "P. Pr", 4, CLASS_B, STERILTEMP_134},
-	{4, PROGTYPE_PROGRAM, "Gentle", "P. GE", 8, CLASS_S, STERILTEMP_121},
-	{5, PROGTYPE_PROGRAM, "User", "P. US", 15, CLASS_S, STERILTEMP_USER},
+	{4, PROGTYPE_PROGRAM, "Gentle", "P. GE", 8, CLASS_B, STERILTEMP_121},
+	{5, PROGTYPE_PROGRAM, "User", "P. US", 15, CLASS_USER, STERILTEMP_USER},
 };
 
 s_Program tests[] = {
@@ -131,15 +131,17 @@ void ShowProgram() {
 		sprintf(s,"Er.%02d", lastError);
 		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, s);
 	} else {
-		if (currProgType == PROGTYPE_PROGRAM) {
-			SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, &programs[currProgram].DigitsName);
-			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, 63 + DISPLAY_LED_WASH_CYCLE + DISPLAY_LED_WATER_FILL, OFF, 0, "");
-			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, programs[currProgram].DashLeds, ON, 0, "");
-		}
-		if (currProgType == PROGTYPE_TEST) {
-			SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, &tests[currTest].DigitsName);
-			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, 63 + DISPLAY_LED_WASH_CYCLE + DISPLAY_LED_WATER_FILL, OFF, 0, "");
-			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, tests[currTest].DashLeds, ON, 0, "");
+		if (machineStatus.Status != STATUS_RUNNING) {
+			if (currProgType == PROGTYPE_PROGRAM) {
+				SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, &programs[currProgram].DigitsName);
+				SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, 63 + DISPLAY_LED_WASH_CYCLE + DISPLAY_LED_WATER_FILL, OFF, 0, "");
+				SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, programs[currProgram].DashLeds, ON, 0, "");
+			}
+			if (currProgType == PROGTYPE_TEST) {
+				SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, &tests[currTest].DigitsName);
+				SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, 63 + DISPLAY_LED_WASH_CYCLE + DISPLAY_LED_WATER_FILL, OFF, 0, "");
+				SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, tests[currTest].DashLeds, ON, 0, "");
+			}
 		}
 	}
 

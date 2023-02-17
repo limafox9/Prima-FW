@@ -47,13 +47,14 @@ static uint8_t Timeout(uint32_t timeoutMilliseconds);
 
 void BAT2U_Init(UART_HandleTypeDef* huart) {
 	huart_water = huart;
-	huart_water->Init.BaudRate = 2400;
+//	huart_water->Init.BaudRate = 2400;
 }
 
 uint16_t BAT2U_GetTDSValue(uint8_t channel, uint16_t timeout) {
 	int16_t pos;
 	uint16_t value;
 	uint8_t rxBuffer[6];
+	memset(rxBuffer, 0xFF, 6);
 	uint8_t txBuffer[6] = {0xA0, 0x00, 0x00, 0x00, 0x00, 0x00};
 	txBuffer[5] = GetChecksum(txBuffer, 5);
 	HAL_UART_Transmit(huart_water, txBuffer, 6, 500);
@@ -148,6 +149,7 @@ static uint8_t GetChecksum(uint8_t* buffer, uint16_t size) {
 	for (uint16_t i = 0; i < size; i++) {
 		sum += buffer[i];
 	}
+	return (uint8_t)(sum && 0xFF);
 }
 
 static uint8_t Timeout(uint32_t timeoutMilliseconds) {
