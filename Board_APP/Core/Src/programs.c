@@ -47,7 +47,7 @@ USAGE:
 #include "settings.h"
 
 #define OT_HEAT		1200
-#define OT_VACUUM	240
+#define OT_VACUUM	300
 #define OT_PRESSURE 600
 #define OT_RELEASE	120
 
@@ -207,8 +207,8 @@ uint8_t ProgramUnwrapped() {
 				.chamberTempMax = 136.0,
 				.sterilTime = 300,
 				.chamberPress = 320,
-				.pressMin = 310.0,
-				.pressMax = 340.0,
+				.pressMin = 290.0,
+				.pressMax = 350.0,
 				.steamTemp = 190.0,
 				.steamTempMin = 170.0,
 				.printInterval = 30,
@@ -224,7 +224,7 @@ uint8_t ProgramUnwrapped() {
 	// Dry
 	if (success) {
 		PhasePreheat(60, 90);
-		success = PhaseDry(20.0, 50.0, 540, 800);
+		success = PhaseDry(20.0, 50.0, 240, 800);
 	}
 
 	// End
@@ -403,8 +403,8 @@ uint8_t ProgramPrion() {
 				.chamberTempMin = 134.0,
 				.chamberTempMax = 136.0,
 				.sterilTime = 1080,
-				.pressMin = 310.0,
 				.chamberPress = 320,
+				.pressMin = 290.0,
 				.pressMax = 350.0,
 				.steamTemp = 190.0,
 				.steamTempMin = 170.0,
@@ -500,8 +500,8 @@ uint8_t ProgramGentle() {
 				.chamberTempMax = 125.0,
 				.sterilTime = 1200,
 				.chamberPress = 320,
-				.pressMin = 210.0,
-				.pressMax = 240.0,
+				.pressMin = 200.0,
+				.pressMax = 250.0,
 				.steamTemp = 190.0,
 				.steamTempMin = 170.0,
 				.printInterval = 120,
@@ -600,7 +600,7 @@ uint8_t ProgramHelixTest() {
 				.chamberTempMax = 136.0,
 				.sterilTime = 230, // 210
 				.chamberPress = 320,
-				.pressMin = 310.0,
+				.pressMin = 290.0,
 				.pressMax = 350.0,
 				.steamTemp = 200.0,
 				.steamTempMin = 170.0,
@@ -739,8 +739,8 @@ uint8_t ProgramTestSteril() {
 				.chamberTempMax = 136.0,
 				.sterilTime = 210,
 				.chamberPress = 320,
-				.pressMin = 310.0,
-				.pressMax = 340.0,
+				.pressMin = 290.0,
+				.pressMax = 350.0,
 				.steamTemp = 190.0,
 				.steamTempMin = 170.0,
 				.printInterval = 30,
