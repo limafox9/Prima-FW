@@ -115,12 +115,15 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
 	if(GPIO_Pin == SW_DOOR_Pin) {
 		Beep(1, 100, 100);
+		if ((machineStatus.Status == STATUS_READY) || (machineStatus.Status == STATUS_IDLE)) machineStatus.Status = (sensors.Door == CLOSED) ? STATUS_READY : STATUS_IDLE;
 	}
 	if (GPIO_Pin == SW_CSH_Pin) {
 		if (HAL_GPIO_ReadPin(SW_CSH_GPIO_Port, SW_CSH_Pin) == 0) Beep(3, 100, 100);
 	}
 	if (GPIO_Pin == SW_LSH_Pin) {
-		if (HAL_GPIO_ReadPin(SW_LSH_GPIO_Port, SW_LSH_Pin) == 0) {
+//		if (HAL_GPIO_ReadPin(SW_LSH_GPIO_Port, SW_LSH_Pin) == 0) {
+		osDelay(100);
+		if (WaterDumpLevelGet() == FULL) {
 			DashLed(DISPLAY_LED_WARNING_LSH, ON);
 			Beep(10, 1000, 500);
 		} else {
@@ -129,7 +132,9 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 		}
 	}
 	if (GPIO_Pin == SW_CSL_Pin) {
-		if (HAL_GPIO_ReadPin(SW_CSL_GPIO_Port, SW_CSL_Pin) == 0) {
+//		if (HAL_GPIO_ReadPin(SW_CSL_GPIO_Port, SW_CSL_Pin) == 0) {
+//		osDelay(100);
+		if (WaterReservoirLevelGet() == EMPTY) {
 			DashLed(DISPLAY_LED_WARNING_CTL, ON);
 			Beep(10, 1000, 500);
 		} else {

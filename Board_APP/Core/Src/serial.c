@@ -71,6 +71,7 @@ void SerialInit(UART_HandleTypeDef* huart, uint32_t baudRate) {
 //	HAL_UART_Receive_DMA(huart, UART_rxBuffer, UART_DISPLAY_RX_BUFFER_SIZE);
 
 	HAL_UARTEx_ReceiveToIdle_DMA(huart, UART_rxBuffer, UART_DISPLAY_RX_BUFFER_SIZE);
+	return;
 	__HAL_DMA_DISABLE_IT(&hdma_usart3_rx, DMA_IT_HT);
 }
 

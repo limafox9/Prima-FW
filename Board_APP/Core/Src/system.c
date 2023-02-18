@@ -63,6 +63,8 @@ USAGE:
 #include "display.h"
 #include "settings.h"
 
+//#define USE_RTOS_SYSTICK
+
 //#define RTD_A 3.9083e-3
 //#define RTD_B -5.775e-7
 
@@ -119,13 +121,13 @@ void SysInit() {
 ////	osDelay(10);
 //	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "8.8.:8.8");
 
-	SerialInit(&huart1, 115200);
+//	SerialInit(&huart1, 115200);
+
 	SerialInit(&UART_DISPLAY, 115200);
+	HAL_Delay(500);
 
 	osThreadDef(serialTask, StartSerialTask, osPriorityNormal, 1, 1024);
 	serialTaskHandle = osThreadCreate(osThread(serialTask), NULL);
-
-	osDelay(300);
 
 	DigitsWrite(1, "8.8.8.8");
 	DigitsWrite(2, "8.8.8.8");
@@ -133,7 +135,7 @@ void SysInit() {
 	DashLed(0xFFFF, ON);
 	ProgressLed(0xFFFF);
 
-	osDelay(2000);
+	HAL_Delay(2000);
 
 	ClockInit(&hi2c1);
 	PWMPower_Init();
@@ -155,13 +157,13 @@ void SysInit() {
 
 	char s[8];
 //	sprintf(s, "%1d.%1d.%02d", FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION);
-	DigitsWrite(1, "FIr.");
+	DigitsWrite(1, "Fir.");
 	sprintf(s, "%1d.%1d.%02d", machine.FWVersionMajor, machine.FWVersionMinor, machine.FWVersionRevision);
 	DigitsWrite (2, s);
 	sprintf(s, "%1d.%1d.%02d", machine.DisplayFWVersionMajor, machine.DisplayFWVersionMinor, machine.DisplayFWVersionRevision);
 	DigitsWrite (3, s);
 
-	osDelay(2000);
+	HAL_Delay(2000);
 
 	RTCDateTime_s RTCDateTime;
 	GetDateTime(&RTCDateTime);
@@ -169,9 +171,6 @@ void SysInit() {
 //		settings.T1Offset = 0;
 //		settings.ChamberPressOffset = 0;
 //		SaveSettings();
-
-
-
 
 	osThreadDef(keysTask, StartKeysTask, osPriorityAboveNormal, 1, 1024);
 	keysTaskHandle = osThreadCreate(osThread(keysTask), NULL);
@@ -182,8 +181,10 @@ void SysInit() {
 	osThreadDef(programTask, StartProgramTask, osPriorityNormal, 1, 1024);
 	programTaskHandle = osThreadCreate(osThread(programTask), NULL);
 
-	osThreadDef(displayInfoTask, StartDisplayInfoTask, osPriorityNormal, 1, 256);
+	osThreadDef(displayInfoTask, StartDisplayInfoTask, osPriorityNormal, 1, 512);
 	displayInfoTaskHandle = osThreadCreate(osThread(displayInfoTask), NULL);
+
+
 
 //		PrintError("ERROR ERROR\n");
 
@@ -200,10 +201,16 @@ void SysInit() {
 		if (lastError == ERROR_NONE) {
 			Beep(3, 100, 100);
 		} else {
+			machineStatus.Status = STATUS_ERROR;
 			Beep(1, 1000, 100);
 		}
 
 		DisplaySetLongPressInterval(3000);
+
+
+
+
+
 
 //		for (int i = 0; i < 16; i++) {
 //			ProgressLed(1<<i);
@@ -211,7 +218,7 @@ void SysInit() {
 //		}
 //				ProgressLed(0b0100000000000000);
 
-
+__NOP();
 //		ProgressLed(LED_PROGRESS_HEATING);
 //		osDelay(500);
 //		ProgressLed(LED_PROGRESS_1STVACUUM);

@@ -129,12 +129,23 @@ uint8_t ProgramResumeDry() {
 
 	ValveVacuumSet(OFF);
 	ValveWaterSteamSet(OFF);
-	ValveDrainSteamSet(OFF);
-	ValveDryIntakeSet(OFF);
 
 	PumpSteamGeneratorSet(OFF);
 	PumpVacuumSet(OFF);
 	PumpWaterLoadSet(OFF);
+
+	ValveDrainSteamSet(ON);
+	ValveDryIntakeSet(ON);
+
+	while (1) {
+		if ((sensors.PressureChamber >= pressAmbientMin) && (sensors.PressureChamber <= pressAmbientMax)) {
+			break;
+		}
+		osDelay(200);
+	}
+
+	ValveDrainSteamSet(OFF);
+	ValveDryIntakeSet(OFF);
 
 	FanSet(OFF);
 
@@ -170,7 +181,7 @@ uint8_t ProgramUnwrapped() {
 
 	// Heat up
 	if (success) {
-		success = PhaseHeatUp(130.0, 200.0, 50.0, OT_HEAT);
+		success = PhaseHeatUp(130.0, 200.0, 60.0, 160.0, OT_HEAT);
 	}
 	if (success) {
 		PhasePreheat(130.0, 210.0);
@@ -191,10 +202,11 @@ uint8_t ProgramUnwrapped() {
 	if (success) {
 		PhasePreheat(130, 190);
 		SterilParam_s sterilParam = {
-				.chamberTemp = 135.4,
+				.chamberTemp = 135.6,
 				.chamberTempMin = 134.0,
 				.chamberTempMax = 136.0,
 				.sterilTime = 300,
+				.chamberPress = 320,
 				.pressMin = 310.0,
 				.pressMax = 340.0,
 				.steamTemp = 190.0,
@@ -240,7 +252,7 @@ uint8_t ProgramWrapped() {
 
 	// Heat up
 	if (success) {
-		success = PhaseHeatUp(130.0, 200.0, 50.0, OT_HEAT);
+		success = PhaseHeatUp(130.0, 200.0, 50.0, 100.0, OT_HEAT);
 	}
 	if (success) {
 		PhasePreheat(130.0, 210.0);
@@ -291,12 +303,13 @@ uint8_t ProgramWrapped() {
 	if (success) {
 		PhasePreheat(130.0, 190.0);
 		SterilParam_s sterilParam = {
-				.chamberTemp = 135.4,
+				.chamberTemp = 135.6,
 				.chamberTempMin = 134.0,
 				.chamberTempMax = 136.0,
 				.sterilTime = 300,
-				.pressMin = 310.0,
-				.pressMax = 340.0,
+				.chamberPress = 320,
+				.pressMin = 290.0,
+				.pressMax = 350.0,
 				.steamTemp = 200.0,
 				.steamTempMin = 170.0,
 				.printInterval = 30,
@@ -340,7 +353,7 @@ uint8_t ProgramPrion() {
 
 	// Heat up
 	if (success) {
-		success = PhaseHeatUp(130.0, 200.0, 50.0, OT_HEAT);
+		success = PhaseHeatUp(130.0, 200.0, 60.0, 160.0, OT_HEAT);
 	}
 
 	ResetTimer(TIMER_CYCLE);
@@ -386,11 +399,12 @@ uint8_t ProgramPrion() {
 	if (success) {
 		PhasePreheat(130, 190);
 		SterilParam_s sterilParam = {
-				.chamberTemp = 135.4,
+				.chamberTemp = 135.6,
 				.chamberTempMin = 134.0,
 				.chamberTempMax = 136.0,
 				.sterilTime = 1080,
 				.pressMin = 310.0,
+				.chamberPress = 320,
 				.pressMax = 350.0,
 				.steamTemp = 190.0,
 				.steamTempMin = 170.0,
@@ -435,7 +449,7 @@ uint8_t ProgramGentle() {
 
 	// Heat up
 	if (success) {
-		success = PhaseHeatUp(118.0, 200.0, 50.0, OT_HEAT);
+		success = PhaseHeatUp(118.0, 200.0, 60.0, 160.0, OT_HEAT);
 	}
 
 	ResetTimer(TIMER_CYCLE);
@@ -485,6 +499,7 @@ uint8_t ProgramGentle() {
 				.chamberTempMin = 121.0,
 				.chamberTempMax = 125.0,
 				.sterilTime = 1200,
+				.chamberPress = 320,
 				.pressMin = 210.0,
 				.pressMax = 240.0,
 				.steamTemp = 190.0,
@@ -530,7 +545,7 @@ uint8_t ProgramHelixTest() {
 
 	// Heat up
 	if (success) {
-		success = PhaseHeatUp(130.0, 200.0, 50.0, OT_HEAT);
+		success = PhaseHeatUp(130.0, 200.0, 100.0, 160.0, OT_HEAT);
 	}
 	if (success) {
 		PhasePreheat(130.0, 210.0);
@@ -580,10 +595,11 @@ uint8_t ProgramHelixTest() {
 	if (success) {
 		PhasePreheat(120, 190);
 		SterilParam_s sterilParam = {
-				.chamberTemp = 135.4,
+				.chamberTemp = 135.6,
 				.chamberTempMin = 134.0,
 				.chamberTempMax = 136.0,
 				.sterilTime = 230, // 210
+				.chamberPress = 320,
 				.pressMin = 310.0,
 				.pressMax = 350.0,
 				.steamTemp = 200.0,
@@ -701,7 +717,7 @@ uint8_t ProgramTestSteril() {
 
 	// Heat up
 	if (success) {
-		success = PhaseHeatUp(130.0, 200.0, 50.0, OT_HEAT);
+		success = PhaseHeatUp(130.0, 200.0, 0.0, 160.0, OT_HEAT);
 	}
 
 	ResetTimer(TIMER_CYCLE);
@@ -713,15 +729,16 @@ uint8_t ProgramTestSteril() {
 	}
 	if (success) {
 		PhasePreheat(130, 220);
-		success = PhasePressure(3, 290.0, 200.0, 180.0, OT_PRESSURE);
+		success = PhasePressure(3, 290.0, 200.0, 50.0, OT_PRESSURE);
 	}
 	if (success) {
 		PhasePreheat(130, 190);
 		SterilParam_s sterilParam = {
-				.chamberTemp = 135.4,
+				.chamberTemp = 135.6,
 				.chamberTempMin = 134.0,
 				.chamberTempMax = 136.0,
 				.sterilTime = 210,
+				.chamberPress = 320,
 				.pressMin = 310.0,
 				.pressMax = 340.0,
 				.steamTemp = 190.0,

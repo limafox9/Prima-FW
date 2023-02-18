@@ -46,7 +46,7 @@ USAGE:
 
 #define FW_VERSION_MAJOR 0
 #define FW_VERSION_MINOR 4
-#define FW_VERSION_REVISION 9
+#define FW_VERSION_REVISION 17
 
 //#define UART_MONITOR		huart1
 //#define UART_TDS			huart2
@@ -73,7 +73,7 @@ USAGE:
 
 #define EPA_FIRST_VACUUM				0x23	// 1 byte
 #define EPA_OTHER_VACUUM				0x24	// 1 byte
-#define EPA_VACUUM_THRESHOLD				0x25	// 1 byte
+#define EPA_VACUUM_THRESHOLD			0x25	// 1 byte
 #define EPA_OTHER_PRESSURE				0x26	// 1 byte
 #define EPA_TDS_MIN						0x27	// 1 byte
 

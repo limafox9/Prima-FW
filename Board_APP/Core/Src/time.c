@@ -87,3 +87,7 @@ uint32_t GetSafeDeltaTick(uint32_t startTick, uint32_t endTick) {
 
 	return deltaTick;
 }
+
+//void TimerWait(uint32_t ) {
+//
+//}

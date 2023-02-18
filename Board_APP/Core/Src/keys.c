@@ -140,6 +140,7 @@ void ParseCommand(s_DisplayProtocolData* data) {
 
 		} else if (data->Param1 == KEY_START + KEY_LONG_PRESS) {
 			if (currProgram == 99 ){
+				ProgressLed(LED_PROGRESS_NONE);
 				abortProgram = 1;
 				currProgType == PROGTYPE_PROGRAM;
 				currProgram = 0;

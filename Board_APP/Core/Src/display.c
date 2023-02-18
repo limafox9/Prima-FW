@@ -93,6 +93,7 @@ void StartDisplayInfoTask() {
 				osDelay(200);
 			}
 		}
+		osDelay(100);
 	}
 
 }
