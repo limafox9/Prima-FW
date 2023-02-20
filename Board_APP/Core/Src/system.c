@@ -145,6 +145,9 @@ void SysInit() {
 
 	TM7705_Init(&hspi1);
 	BAT2U_Init(&huart2);
+	uint16_t dum;
+	dum = BAT2U_GetTDSValue(2, 100);
+	sensors.WaterTDS = BAT2U_GetTDSValue(1, 100);
 //	BAT2U_TDSCalibration(500);
 
 	LoadSettings();

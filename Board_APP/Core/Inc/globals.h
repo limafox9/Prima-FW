@@ -47,9 +47,9 @@ typedef enum {
 } e_DataType;
 
 typedef enum {
-	EMPTY = 0,
-	FULL = 1,
-	NORMAL = 2
+	EMPTY = 1,
+	FULL = 2,
+	NORMAL = 0
 } e_Level;
 
 //typedef enum {

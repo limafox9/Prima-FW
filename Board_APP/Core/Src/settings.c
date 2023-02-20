@@ -41,6 +41,7 @@ USAGE:
 #include "globals.h"
 #include "settings.h"
 #include "system.h"
+#include "time.h"
 
 typedef union {
 	uint8_t u8;
@@ -75,6 +76,13 @@ void LoadSettings() {
 	machine.FWVersionMinor = FW_VERSION_MINOR;
 	machine.FWVersionRevision = FW_VERSION_REVISION;
 
+//	uint32_t EEID;
+//	EEPROM_Read(0x00, &EEID, 4);
+//	if (EEID != 0x52504147) {
+//		SaveDefaults();
+//	}
+
+
 	// EEPROM read
 	EEPROM_Read(EPA_MACHINE_SERIAL_NUMBER, &machine.Serial, 12);
 	EEPROM_Read(EPA_CYCLE_COUNTER_PERMANENT, &machine.ReadOnlyCyclesCount, 2);
@@ -106,6 +114,32 @@ void SaveSettings() {
 	EEPROM_Write(EPA_VACUUM_THRESHOLD, &settings.VacuumThreshold, 1);
 	EEPROM_Write(EPA_OTHER_PRESSURE, &settings.OtherPressure, 1);
 	EEPROM_Write(EPA_TDS_MIN, &settings.WaterTDSMin, 1);
+
+}
+
+void SaveDefaults() {
+
+	RTCDateTime_s tTime = {2023, 1, 1, 12, 0, 0};
+	SetDateTime(&tTime);
+
+
+
+	char sn[12] = "GP0000000000";
+	EEPROM_Write(EPA_MACHINE_SERIAL_NUMBER, sn, 12);
+	EEPROM_Write(EPA_CYCLE_COUNTER_PERMANENT, 0, 2);
+	EEPROM_Write(EPA_CYCLE_COUNTER, 0, 2);
+
+	EEPROM_Write(EPA_T1_OFFSET, 0, 2);
+	EEPROM_Write(EPA_T2_OFFSET, 0, 2);
+	EEPROM_Write(EPA_CHAMBER_PRESSURE_OFFSET, 0, 2);
+	EEPROM_Write(EPA_FIRST_VACUUM, 18, 1);
+	EEPROM_Write(EPA_OTHER_VACUUM, 70, 1);
+	EEPROM_Write(EPA_VACUUM_THRESHOLD, 40, 1);
+	EEPROM_Write(EPA_OTHER_PRESSURE, 170, 1);
+	EEPROM_Write(EPA_TDS_MIN, 25, 1);
+
+	char s[4] = {'G', 'A', 'P', 'R'};
+	EEPROM_Write(0x00, s, 4); // Numeric ASCII for 'GAPR' (in little endian)
 
 }
 

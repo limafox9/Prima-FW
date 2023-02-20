@@ -154,9 +154,9 @@ static float Bytes2Float(uint8_t* ftoa_bytes_temp) {
    return float_variable;
 }
 
-void EEPROM_EraseAll () {
+void EEPROM_EraseAll() {
 	uint8_t pageData[EEPROM_PAGE_SIZE];
-	memset(pageData,0xff,EEPROM_PAGE_SIZE);
+	memset(pageData,0xFF,EEPROM_PAGE_SIZE);
 
 	for (int page = 0; page < EEPROM_PAGE_NUM; page++) {
 		EEPROM_Write(page * EEPROM_PAGE_SIZE, pageData, EEPROM_PAGE_SIZE);

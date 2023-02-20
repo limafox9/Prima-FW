@@ -39,14 +39,14 @@ USAGE:
 
 #include <stdio.h>
 
-#define DEFAULT_LOG_ACTIVE						1		// 1 = true, 0 = false
-#define DEFAULT_LOG_ACTIVE_LEVEL 				0		// Log level 0 = all, 99 = none
+#define DEFAULT_LOG_ACTIVE				0		// 1 = true, 0 = false
+#define DEFAULT_LOG_ACTIVE_LEVEL 		0		// Log level 0 = all, 99 = none
 
 #define DEFAULT_DOOR_SOLENOID_IMPULSE 	1000	// milliseconds
 
-#define FW_VERSION_MAJOR 0
-#define FW_VERSION_MINOR 4
-#define FW_VERSION_REVISION 18
+#define FW_VERSION_MAJOR 	0
+#define FW_VERSION_MINOR 	5
+#define FW_VERSION_REVISION 12
 
 //#define UART_MONITOR		huart1
 //#define UART_TDS			huart2

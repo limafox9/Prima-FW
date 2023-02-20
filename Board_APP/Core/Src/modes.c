@@ -90,7 +90,7 @@ Reading_s readings[] = {
 		{4, "T4", " t4 ", &sensors.TemperatureSteamGenerator},
 		{5, "P chamber", " P1 ", &sensors.PressureChamber},
 		{6, "P ambient", " PA ", &sensors.PressureAmbient},
-		{7, "TDS", " CO ", (uint16_t*)&sensors.WaterTDS},
+		{7, "TDS", " CO ", (uint16_t*)(&sensors.WaterTDS)},
 };
 
 Timeset_s timeset[] = {
@@ -185,7 +185,11 @@ void ChangeParameter(int8_t increment) {
 void ShowReading() {
 	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, &readings[currReading].DigitsName);
 	char s[8];
-	sprintf(s,"%5.1f", (float)*readings[currReading].Value);
+	if (currReading == 6) {
+		sprintf(s,"%4d", sensors.WaterTDS);
+	} else {
+		sprintf(s,"%5.1f", (float)(*readings[currReading].Value));
+	}
 	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 2, 0, 0, s);
 	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "rEAd");
 }

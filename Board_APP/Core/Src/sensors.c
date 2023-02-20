@@ -116,9 +116,11 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	if(GPIO_Pin == SW_DOOR_Pin) {
 		Beep(1, 100, 100);
 		if ((machineStatus.Status == STATUS_READY) || (machineStatus.Status == STATUS_IDLE)) machineStatus.Status = (sensors.Door == CLOSED) ? STATUS_READY : STATUS_IDLE;
+		if (machineStatus.Status == STATUS_IDLE) PhasePreheat(60.0, 90.0);
 	}
 	if (GPIO_Pin == SW_CSH_Pin) {
-		if (HAL_GPIO_ReadPin(SW_CSH_GPIO_Port, SW_CSH_Pin) == 0) Beep(3, 100, 100);
+		osDelay(100);
+		if ((WaterReservoirLevelGet() & FULL) == FULL) Beep(3, 100, 100);
 	}
 	if (GPIO_Pin == SW_LSH_Pin) {
 //		if (HAL_GPIO_ReadPin(SW_LSH_GPIO_Port, SW_LSH_Pin) == 0) {
@@ -133,8 +135,8 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	}
 	if (GPIO_Pin == SW_CSL_Pin) {
 //		if (HAL_GPIO_ReadPin(SW_CSL_GPIO_Port, SW_CSL_Pin) == 0) {
-//		osDelay(100);
-		if (WaterReservoirLevelGet() == EMPTY) {
+		osDelay(100);
+		if ((WaterReservoirLevelGet() & EMPTY) == EMPTY) {
 			DashLed(DISPLAY_LED_WARNING_CTL, ON);
 			Beep(10, 1000, 500);
 		} else {
@@ -154,7 +156,6 @@ void StartSensorsTask() {
 	sensors.PressureAmbient = (float)100.0;
 
 	for (;;) {
-
 		sensors.Door = DoorPositionGet();
 		sensors.Solenoid = DoorSolenoidKeyGet();
 		sensors.TemperatureSteamGenerator = SteamGeneratorTempGet();
@@ -164,7 +165,6 @@ void StartSensorsTask() {
 //		sensors.T2 = TM7705_GetTemp(1, (float)(settings.T2Offset / 10.0) + (float)T_FACTORY_OFFSET);
 		sensors.PressureChamber = BufferAverage(pressBuf, PRESS_BUFFER_SIZE, ChamberPressureGet());
 		sensors.Current = CurrentGet();
-		sensors.WaterTDS = (float)BAT2U_GetTDSValue(1, 100);
 		sensors.WaterDumpLevel = WaterDumpLevelGet();
 		sensors.WaterReservoirLevel = WaterReservoirLevelGet();
 
@@ -216,8 +216,11 @@ e_Level WaterDumpLevelGet() {
 
 e_Level WaterReservoirLevelGet() {
 	uint8_t level = NORMAL;
-	if (HAL_GPIO_ReadPin(SW_CSH_GPIO_Port, SW_CSH_Pin) == GPIO_PIN_RESET) level = FULL;
-	if (HAL_GPIO_ReadPin(SW_CSL_GPIO_Port, SW_CSL_Pin) == GPIO_PIN_RESET) level = EMPTY;
+	uint8_t lvlH, lvlL;
+	lvlH = HAL_GPIO_ReadPin(SW_CSH_GPIO_Port, SW_CSH_Pin);
+	lvlL = HAL_GPIO_ReadPin(SW_CSL_GPIO_Port, SW_CSL_Pin);
+	if (lvlH == LOW) level += FULL;
+	if (lvlL == LOW) level += EMPTY;
 	return level;
 }
 

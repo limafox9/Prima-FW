@@ -66,6 +66,7 @@ DMA_HandleTypeDef hdma_usart3_tx;
 
 osThreadId taskAliveHandle;
 osSemaphoreId semaphorePowerHandle;
+osSemaphoreId semaphoreSensorsHandle;
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -147,6 +148,9 @@ int main(void)
   /* definition and creation of semaphorePower */
   osSemaphoreDef(semaphorePower);
   semaphorePowerHandle = osSemaphoreCreate(osSemaphore(semaphorePower), 1);
+
+  osSemaphoreDef(semaphoreSensors);
+  semaphoreSensorsHandle = osSemaphoreCreate(osSemaphore(semaphoreSensors), 1);
 
   /* USER CODE BEGIN RTOS_SEMAPHORES */
   /* add semaphores, ... */

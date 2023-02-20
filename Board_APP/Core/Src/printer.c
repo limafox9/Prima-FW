@@ -182,6 +182,7 @@ void PrintFooter (const char* result, RTCDateTime_s* time, RTCTimerTime_s* timer
 	Print("FINISH                  %02d:%02d:%02d\n", time->Hour, time->Minute, time->Second);
 	Print("------------------------------------------\n");
 	Print("TOTAL TIME                 %2d:%02d\n", timer->TimeMinute, timer->TimeSecond);
+	PrintError("", time);
 	Print("\n");
 	PrintSize(3, 2);
 	if (lastError == 0)	Print("%s\n", result);

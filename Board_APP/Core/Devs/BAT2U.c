@@ -53,12 +53,14 @@ void BAT2U_Init(UART_HandleTypeDef* huart) {
 uint16_t BAT2U_GetTDSValue(uint8_t channel, uint16_t timeout) {
 	int16_t pos;
 	uint16_t value;
-	uint8_t rxBuffer[6];
+	uint8_t rxBuffer[6], dummy[6];
 	memset(rxBuffer, 0xFF, 6);
 	uint8_t txBuffer[6] = {0xA0, 0x00, 0x00, 0x00, 0x00, 0x00};
 	txBuffer[5] = GetChecksum(txBuffer, 5);
 	HAL_UART_Transmit(huart_water, txBuffer, 6, 500);
-	HAL_UART_Receive(huart_water, rxBuffer, 6, 500);
+//	HAL_Delay(20);
+	HAL_UART_Receive(huart_water, rxBuffer, 6, 1000);
+	HAL_UART_Receive(huart_water, dummy, 6, 1000);
 //	Timeout(0);
 //	do {
 //		HAL_UART_Receive_DMA(huart_water, rxBuffer, 6);
@@ -84,7 +86,8 @@ uint16_t BAT2U_GetTempValue(uint8_t channel, uint16_t timeout) {
 	uint8_t txBuffer[6] = {0xA0, 0x00, 0x00, 0x00, 0x00, 0x00};
 	txBuffer[5] = GetChecksum(txBuffer, 5);
 	HAL_UART_Transmit(huart_water, txBuffer, 6, 500);
-	HAL_UART_Receive(huart_water, rxBuffer, 6, 500);
+	HAL_UART_Receive(huart_water, rxBuffer, 6, 1000);
+	HAL_UART_Receive(huart_water, rxBuffer, 6, 1000);
 //	Timeout(0);
 //	do {
 //		osDelay(100);
@@ -145,11 +148,12 @@ static int16_t ByteInBuffer(uint8_t byteFind, uint8_t* bufferSearch, uint16_t bu
 }
 
 static uint8_t GetChecksum(uint8_t* buffer, uint16_t size) {
-	uint32_t sum = 0;
+	uint8_t sum = 0;
 	for (uint16_t i = 0; i < size; i++) {
 		sum += buffer[i];
 	}
-	return (uint8_t)(sum && 0xFF);
+//	return (uint8_t)(sum && 0xFF);
+	return sum;
 }
 
 static uint8_t Timeout(uint32_t timeoutMilliseconds) {

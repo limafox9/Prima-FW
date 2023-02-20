@@ -47,6 +47,8 @@ USAGE:
 #include "modes.h"
 #include "globals.h"
 
+#define STERIL_STABILIZATION_PERIOD 30
+
 uint8_t chamberHeaterTempSet;
 uint8_t steamGeneratorTempSet;
 
@@ -69,15 +71,16 @@ uint8_t PhaseBegin(uint8_t timeout) {
 
 	GetTimer(TIMER_PHASE, &tPhase);
 	if (sensors.Door == OPEN) {
-		Beep(2, 100, 100);
 		lastError = ERROR_OPEN_DOOR;
 		PrintError("DOOR ERROR *** DOOR OPEN\n", &tPhase);
+		Beep(1, 1000, 100);
 		return 0;
 	}
 
 	if (DoorSolenoidSet(LOCK) != LOCK) {
 		lastError = ERROR_PROTECTION_LOCK;
 		PrintError("LOCK ERROR *** NO CONFIRMATION\n", &tPhase);
+		Beep(1, 1000, 100);
 		return 0;
 	}
 //	if (sensors.WaterTDS > settings.WaterTDS) {
@@ -86,14 +89,16 @@ uint8_t PhaseBegin(uint8_t timeout) {
 //		return 0;
 //	}
 
-	if (sensors.WaterReservoirLevel == LOW) {
+	if ((sensors.WaterReservoirLevel & EMPTY) == EMPTY) {
 		lastError = ERROR_WATER_LOW;
-		PrintError("RESR ERROR *** WATER LEVEL\n", &tPhase);
+		PrintError("WATR ERROR *** WATER LEVEL\n", &tPhase);
+		Beep(1, 1000, 100);
 		return 0;
 	}
 	if (sensors.WaterDumpLevel == HIGH) {
 		lastError = ERROR_WATER_DUMP_HIGH;
 		PrintError("DUMP ERROR *** WATER DUMP LEVEL\n", &tPhase);
+		Beep(1, 1000, 100);
 		return 0;
 	}
 
@@ -482,14 +487,14 @@ uint8_t PhasePressure(uint8_t nPressure, float press, float steamTemp, float ste
 }
 
 uint8_t PhaseSteril(SterilParam_s* param) {
-	static const float pPID_KP = 0.5;
-	static const float pPID_KI = 1.0;	// 0.8
+	static const float pPID_KP = 0.6;  // >0.8
+	static const float pPID_KI = 0.3;	// >0.4
 	static const float pPID_KD = 0.2;
 	static const float pPID_TAU = 1.0;
-	static const float pPID_LIM_MIN = 0.5;
+	static const float pPID_LIM_MIN = 0.9; // >1.1
 	static const float pPID_LIM_MAX = 2.0;
-	static const float pPID_LIM_MIN_INT = -1.3; // -1.0
-	static const float pPID_LIM_MAX_INT = 1.3; // 1.0
+	static const float pPID_LIM_MIN_INT = -1.0; // -1.0
+	static const float pPID_LIM_MAX_INT = 1.0; // 1.0
 	static const float pSAMPLE_TIME_S = 1.0;
 
 	uint8_t retVal = 0;
@@ -523,9 +528,10 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 			osDelay(ret);
 		}
 		if ((sensors.T1 > param->chamberTempMin) && (sensors.T1 < param->chamberTempMax)) {
-			if ((sensors.PressureChamber > param->pressMin) && (sensors.PressureChamber < param->pressMax)){
+//			if ((sensors.PressureChamber > param->pressMin) && (sensors.PressureChamber < param->pressMax)){
+			if ((sensors.PressureChamber > 310.0) && (sensors.PressureChamber < 340)){
 				GetTimer(TIMER_3, &tWait);
-				if (tWait.Seconds > 30) {
+				if (tWait.Seconds > STERIL_STABILIZATION_PERIOD) {
 					retVal = 1;
 					break;
 				}
@@ -588,8 +594,8 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 			}
 
 			// PID Calculation and steam generation interval set
-//			float ret = PIDController_Update(&pidSteril, param->chamberTemp, sensors.T1);
-			float ret = PIDController_Update(&pidSteril, param->chamberPress, sensors.PressureChamber);
+			float ret = PIDController_Update(&pidSteril, param->chamberTemp, sensors.T1);
+//			float ret = PIDController_Update(&pidSteril, param->chamberPress, sensors.PressureChamber);
 			ret = (1/ret)*4000;
 			if ((sensors.T1 <= param->chamberTemp) && (HAL_GetTick() > (currTick + ret))) {
 				if (sensors.TemperatureSteamGenerator >= param->steamTempMin) {
@@ -599,10 +605,10 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 			}
 
 			// Delay before counting phase (steril) time. Wait to settle temp.
-			GetTimer(TIMER_3, &tDelay);
-			if (tDelay.Seconds < 20) {
-				ResetTimer(TIMER_PHASE);
-			}
+//			GetTimer(TIMER_3, &tDelay);
+//			if (tDelay.Seconds < 20) {
+//				ResetTimer(TIMER_PHASE);
+//			}
 
 			// Check for errors
 			GetTimer(TIMER_TIMEOUT, &tTimeout);
@@ -850,6 +856,35 @@ uint8_t PhaseClean() {
 	return retVal;
 }
 
+uint8_t PhaseWaterLoad(uint16_t timeout) {
+
+	uint8_t retVal = 1;
+	uint8_t finish = 0;
+	RTCTimerTime_s tVac, tWater, tPhase, tTimeout;
+	sprintf(currPhase, "UALd");
+
+	ResetTimer(TIMER_PHASE);
+	ResetTimer(TIMER_TIMEOUT);
+
+	ValveDrainSteamSet(OFF);
+	ValveWaterSteamSet(OFF);
+	ValveDryIntakeSet(OFF);
+	ValveVacuumSet(OFF);
+
+	if ((WaterReservoirLevelGet() & FULL) != FULL) {
+		PumpWaterLoadSet(ON);
+		while ((WaterReservoirLevelGet() & FULL) != FULL) {
+			GetTimer(TIMER_TIMEOUT, &tTimeout);
+			if (tTimeout.Seconds > timeout) break;
+			osDelay(100);
+		}
+	}
+
+	PumpWaterLoadSet(OFF);
+
+	return retVal;
+}
+
 uint8_t PhaseVacuumHold(float vacPress, uint8_t tolerance, uint16_t time, uint16_t timeout) {
 
 	uint8_t retVal = 1;
@@ -1004,6 +1039,8 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 
 	if (lastError != ERROR_NONE) machineStatus.Status = STATUS_ERROR;
 
+	PhasePreheat(0.0, 0.0);
+
 	ValveDrainSteamSet(OFF);
 	ValveDryIntakeSet(OFF);
 
@@ -1019,7 +1056,7 @@ void PhaseTestPID(SterilParam_s* param) {
 	static const float pPID_TAU = 1.0;
 	static const float pPID_LIM_MIN = 0.5;
 	static const float pPID_LIM_MAX = 2.0;
-	static const float pPID_LIM_MIN_INT = -0.5;
+	static const float pPID_LIM_MIN_INT = -1.5;
 	static const float pPID_LIM_MAX_INT = 1.5;
 	static const float pSAMPLE_TIME_S = 1.0;
 

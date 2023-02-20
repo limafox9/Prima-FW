@@ -51,6 +51,10 @@ USAGE:
 #define OT_PRESSURE 600
 #define OT_RELEASE	120
 
+#define DV_PREHEAT_CHAMBER_TEMP	60.0
+#define DV_HEATING_RING_TEMP	120.0
+#define DV_WATER_LOAD_TIMEOUT	300
+
 #define VAC_DVALUE	10
 #define VAC_DTIME	20
 
@@ -102,8 +106,7 @@ void StartProgramTask() {
 					ProgramWash();
 					break;
 				case 3:
-					__NOP();
-//					ProgramVacuumTest();
+					ProgramWaterLoad();
 					break;
 				}
 			}
@@ -160,6 +163,7 @@ uint8_t ProgramResumeDry() {
 		return 0;
 	}
 
+	PhasePreheat(0.0, 0.0);
 	progRunning = 0;
 	progStop = 0;
 
@@ -181,10 +185,10 @@ uint8_t ProgramUnwrapped() {
 
 	// Heat up
 	if (success) {
-		success = PhaseHeatUp(130.0, 200.0, 60.0, 160.0, OT_HEAT);
+		success = PhaseHeatUp(DV_HEATING_RING_TEMP, 200.0, DV_PREHEAT_CHAMBER_TEMP, 160.0, OT_HEAT);
 	}
 	if (success) {
-		PhasePreheat(130.0, 210.0);
+		PhasePreheat(DV_HEATING_RING_TEMP, 200.0);
 		success = PhaseRelease(1, OT_RELEASE);
 	}
 
@@ -192,24 +196,24 @@ uint8_t ProgramUnwrapped() {
 
 	// Sterilization
 	if (success) {
-		PhasePreheat(130, 200);
+		PhasePreheat(DV_HEATING_RING_TEMP, 200);
 		success = PhaseVacuum(1, 20.0, OT_VACUUM);
 	}
 	if (success) {
-		PhasePreheat(130, 220);
+		PhasePreheat(DV_HEATING_RING_TEMP, 220);
 		success = PhasePressure(3, 290.0, 200.0, 180.0, OT_PRESSURE);
 	}
 	if (success) {
-		PhasePreheat(130, 190);
+		PhasePreheat(DV_HEATING_RING_TEMP, 220);
 		SterilParam_s sterilParam = {
-				.chamberTemp = 135.6,
+				.chamberTemp = 135.2,
 				.chamberTempMin = 134.0,
 				.chamberTempMax = 136.0,
 				.sterilTime = 300,
 				.chamberPress = 320,
 				.pressMin = 290.0,
 				.pressMax = 350.0,
-				.steamTemp = 190.0,
+				.steamTemp = 200.0,
 				.steamTempMin = 170.0,
 				.printInterval = 30,
 				.timeout = 800
@@ -217,7 +221,7 @@ uint8_t ProgramUnwrapped() {
 		success = PhaseSteril(&sterilParam);
 	}
 	if (success) {
-		PhasePreheat(130, 200);
+		PhasePreheat(DV_HEATING_RING_TEMP, 200);
 		success = PhaseRelease(3, OT_RELEASE);
 	}
 
@@ -252,10 +256,10 @@ uint8_t ProgramWrapped() {
 
 	// Heat up
 	if (success) {
-		success = PhaseHeatUp(130.0, 200.0, 50.0, 100.0, OT_HEAT);
+		success = PhaseHeatUp(DV_HEATING_RING_TEMP, 200.0, DV_PREHEAT_CHAMBER_TEMP, 100.0, OT_HEAT);
 	}
 	if (success) {
-		PhasePreheat(130.0, 210.0);
+		PhasePreheat(DV_HEATING_RING_TEMP, 200.0);
 		success = PhaseRelease(1, OT_RELEASE);
 	}
 
@@ -263,45 +267,45 @@ uint8_t ProgramWrapped() {
 
 	// First vacuum
 	if (success) {
-		PhasePreheat(130.0, 210.0);
+		PhasePreheat(DV_HEATING_RING_TEMP, 210.0);
 		success = PhaseVacuum(1, 20.0, OT_VACUUM);
 	}
 	if (success) {
-		PhasePreheat(130.0, 220.0);
+		PhasePreheat(DV_HEATING_RING_TEMP, 220.0);
 		success = PhasePressure(1, 170.0, 200.0, 170.0, OT_PRESSURE);
 	}
 	if (success) {
-		PhasePreheat(130.0, 210.0);
+		PhasePreheat(DV_HEATING_RING_TEMP, 200.0);
 		success = PhaseRelease(1, OT_RELEASE);
 	}
 
 	// Other vacuum
 	for (int i = 0; i < 2; i++) {
 		if (success) {
-			PhasePreheat(130.0, 210.0);
+			PhasePreheat(DV_HEATING_RING_TEMP, 210.0);
 			success = PhaseVacuum(2, 30.0, OT_VACUUM);
 		}
 		if (success) {
-			PhasePreheat(130.0, 220.0);
+			PhasePreheat(DV_HEATING_RING_TEMP, 220.0);
 			success = PhasePressure(2, 170.0, 200.0, 170.0, OT_PRESSURE);
 		}
 		if (success) {
-			PhasePreheat(130.0, 210.0);
+			PhasePreheat(DV_HEATING_RING_TEMP, 200.0);
 			success = PhaseRelease(2, OT_RELEASE);
 		}
 	}
 
 	// Sterilization
 	if (success) {
-		PhasePreheat(130.0, 210.0);
+		PhasePreheat(DV_HEATING_RING_TEMP, 210.0);
 		success = PhaseVacuum(3, 30.0, OT_VACUUM);
 	}
 	if (success) {
-		PhasePreheat(130.0, 220.0);
+		PhasePreheat(DV_HEATING_RING_TEMP, 220.0);
 		success = PhasePressure(3, 290.0, 200.0, 170.0, OT_PRESSURE);
 	}
 	if (success) {
-		PhasePreheat(130.0, 190.0);
+		PhasePreheat(DV_HEATING_RING_TEMP, 220.0);
 		SterilParam_s sterilParam = {
 				.chamberTemp = 135.6,
 				.chamberTempMin = 134.0,
@@ -318,7 +322,7 @@ uint8_t ProgramWrapped() {
 		success = PhaseSteril(&sterilParam);
 	}
 	if (success) {
-		PhasePreheat(130.0, 210.0);
+		PhasePreheat(DV_HEATING_RING_TEMP, 200.0);
 		success = PhaseRelease(3, OT_RELEASE);
 	}
 
@@ -351,39 +355,42 @@ uint8_t ProgramPrion() {
 
 	if (!PhaseBegin(600)) return 0;
 
+	GetDateTime(&clockTime);
+	PrintHeader("PRION", sensors.T1, &clockTime);
+
 	// Heat up
 	if (success) {
-		success = PhaseHeatUp(130.0, 200.0, 60.0, 160.0, OT_HEAT);
+		success = PhaseHeatUp(DV_HEATING_RING_TEMP, 200.0, DV_PREHEAT_CHAMBER_TEMP, 160.0, OT_HEAT);
 	}
 
 	ResetTimer(TIMER_CYCLE);
 
 	// First vacuum
 	if (success) {
-		PhasePreheat(130, 200);
+		PhasePreheat(DV_HEATING_RING_TEMP, 210);
 		success = PhaseVacuum(1, 20.0, OT_VACUUM);
 	}
 	if (success) {
-		PhasePreheat(130, 220);
+		PhasePreheat(DV_HEATING_RING_TEMP, 220);
 		success = PhasePressure(1, 170.0, 200.0, 180.0, OT_PRESSURE);
 	}
 	if (success) {
-		PhasePreheat(130, 200);
+		PhasePreheat(DV_HEATING_RING_TEMP, 200);
 		success = PhaseRelease(1, OT_RELEASE);
 	}
 
 	// Other vacuum
 	for (int i = 0; i < 2; i++) {
 		if (success) {
-			PhasePreheat(130.0, 200.0);
+			PhasePreheat(DV_HEATING_RING_TEMP, 210.0);
 			success = PhaseVacuum(2, 30.0, OT_VACUUM);
 		}
 		if (success) {
-			PhasePreheat(130.0, 220.0);
+			PhasePreheat(DV_HEATING_RING_TEMP, 220.0);
 			success = PhasePressure(2, 170.0, 200.0, 180.0, OT_PRESSURE);
 		}
 		if (success) {
-			PhasePreheat(130.0, 200.0);
+			PhasePreheat(DV_HEATING_RING_TEMP, 200.0);
 			success = PhaseRelease(2, OT_RELEASE);
 		}
 	}
@@ -393,11 +400,11 @@ uint8_t ProgramPrion() {
 		success = PhaseVacuum(3, 30.0, OT_VACUUM);
 	}
 	if (success) {
-		PhasePreheat(130, 220);
+		PhasePreheat(DV_HEATING_RING_TEMP, 220);
 		success = PhasePressure(3, 290.0, 200.0, 180.0, OT_PRESSURE);
 	}
 	if (success) {
-		PhasePreheat(130, 190);
+		PhasePreheat(DV_HEATING_RING_TEMP, 220);
 		SterilParam_s sterilParam = {
 				.chamberTemp = 135.6,
 				.chamberTempMin = 134.0,
@@ -406,7 +413,7 @@ uint8_t ProgramPrion() {
 				.chamberPress = 320,
 				.pressMin = 290.0,
 				.pressMax = 350.0,
-				.steamTemp = 190.0,
+				.steamTemp = 200.0,
 				.steamTempMin = 170.0,
 				.printInterval = 120,
 				.timeout = 1500
@@ -414,7 +421,7 @@ uint8_t ProgramPrion() {
 		success = PhaseSteril(&sterilParam);
 	}
 	if (success) {
-		PhasePreheat(130, 200);
+		PhasePreheat(DV_HEATING_RING_TEMP, 200);
 		success = PhaseRelease(3, OT_RELEASE);
 	}
 
@@ -449,37 +456,37 @@ uint8_t ProgramGentle() {
 
 	// Heat up
 	if (success) {
-		success = PhaseHeatUp(118.0, 200.0, 60.0, 160.0, OT_HEAT);
+		success = PhaseHeatUp(DV_HEATING_RING_TEMP, 200.0, DV_PREHEAT_CHAMBER_TEMP, 160.0, OT_HEAT);
 	}
 
 	ResetTimer(TIMER_CYCLE);
 
 	// First vacuum
 	if (success) {
-		PhasePreheat(118, 200);
+		PhasePreheat(DV_HEATING_RING_TEMP, 210);
 		success = PhaseVacuum(1, 20.0, OT_VACUUM);
 	}
 	if (success) {
-		PhasePreheat(118, 220);
+		PhasePreheat(DV_HEATING_RING_TEMP, 220);
 		success = PhasePressure(1, 170.0, 200.0, 180.0, OT_PRESSURE);
 	}
 	if (success) {
-		PhasePreheat(118, 200);
+		PhasePreheat(DV_HEATING_RING_TEMP, 200);
 		success = PhaseRelease(1, OT_RELEASE);
 	}
 
 	// Other vacuum
 	for (int i = 0; i < 2; i++) {
 		if (success) {
-			PhasePreheat(118.0, 200.0);
+			PhasePreheat(DV_HEATING_RING_TEMP, 210.0);
 			success = PhaseVacuum(2, 30.0, OT_VACUUM);
 		}
 		if (success) {
-			PhasePreheat(118.0, 220.0);
+			PhasePreheat(DV_HEATING_RING_TEMP, 220.0);
 			success = PhasePressure(2, 170.0, 200.0, 180.0, OT_PRESSURE);
 		}
 		if (success) {
-			PhasePreheat(118.0, 200.0);
+			PhasePreheat(DV_HEATING_RING_TEMP, 200.0);
 			success = PhaseRelease(2, OT_RELEASE);
 		}
 	}
@@ -489,11 +496,11 @@ uint8_t ProgramGentle() {
 		success = PhaseVacuum(3, 30.0, OT_VACUUM);
 	}
 	if (success) {
-		PhasePreheat(130, 220);
+		PhasePreheat(DV_HEATING_RING_TEMP, 220);
 		success = PhasePressure(3, 190.0, 200.0, 180.0, OT_PRESSURE);
 	}
 	if (success) {
-		PhasePreheat(130, 190);
+		PhasePreheat(DV_HEATING_RING_TEMP, 220);
 		SterilParam_s sterilParam = {
 				.chamberTemp = 123.2,
 				.chamberTempMin = 121.0,
@@ -502,7 +509,7 @@ uint8_t ProgramGentle() {
 				.chamberPress = 320,
 				.pressMin = 200.0,
 				.pressMax = 250.0,
-				.steamTemp = 190.0,
+				.steamTemp = 200.0,
 				.steamTempMin = 170.0,
 				.printInterval = 120,
 				.timeout = 1800
@@ -510,7 +517,7 @@ uint8_t ProgramGentle() {
 		success = PhaseSteril(&sterilParam);
 	}
 	if (success) {
-		PhasePreheat(130, 200);
+		PhasePreheat(DV_HEATING_RING_TEMP, 200);
 		success = PhaseRelease(3,  OT_RELEASE);
 	}
 
@@ -545,10 +552,10 @@ uint8_t ProgramHelixTest() {
 
 	// Heat up
 	if (success) {
-		success = PhaseHeatUp(130.0, 200.0, 100.0, 160.0, OT_HEAT);
+		success = PhaseHeatUp(DV_HEATING_RING_TEMP, 200.0, DV_PREHEAT_CHAMBER_TEMP, 160.0, OT_HEAT);
 	}
 	if (success) {
-		PhasePreheat(130.0, 210.0);
+		PhasePreheat(DV_HEATING_RING_TEMP, 200.0);
 		success = PhaseRelease(1, OT_RELEASE);
 	}
 
@@ -556,30 +563,30 @@ uint8_t ProgramHelixTest() {
 
 	// First vacuum
 	if (success) {
-		PhasePreheat(130, 210);
+		PhasePreheat(DV_HEATING_RING_TEMP, 210);
 		success = PhaseVacuum(1, 20.0, OT_VACUUM);
 	}
 	if (success) {
-		PhasePreheat(130, 220);
+		PhasePreheat(DV_HEATING_RING_TEMP, 220);
 		success = PhasePressure(1, 170.0, 200.0, 180.0, OT_PRESSURE);
 	}
 	if (success) {
-		PhasePreheat(130, 210);
+		PhasePreheat(DV_HEATING_RING_TEMP, 200);
 		success = PhaseRelease(1, OT_RELEASE);
 	}
 
 	// Other vacuum
 	for (int i = 0; i < 1; i++) {
 		if (success) {
-			PhasePreheat(130.0, 210.0);
+			PhasePreheat(DV_HEATING_RING_TEMP, 210.0);
 			success = PhaseVacuum(2, 30.0, OT_VACUUM);
 		}
 		if (success) {
-			PhasePreheat(130.0, 220.0);
+			PhasePreheat(DV_HEATING_RING_TEMP, 220.0);
 			success = PhasePressure(2, 170.0, 200.0, 180.0, OT_PRESSURE);
 		}
 		if (success) {
-			PhasePreheat(130.0, 210.0);
+			PhasePreheat(DV_HEATING_RING_TEMP, 200.0);
 			success = PhaseRelease(2, OT_RELEASE);
 		}
 	}
@@ -589,13 +596,13 @@ uint8_t ProgramHelixTest() {
 		success = PhaseVacuum(3, 20.0, OT_VACUUM);
 	}
 	if (success) {
-		PhasePreheat(120, 220);
+		PhasePreheat(DV_HEATING_RING_TEMP, 220);
 		success = PhasePressure(3, 290.0, 200.0, 180.0, OT_PRESSURE);
 	}
 	if (success) {
-		PhasePreheat(120, 190);
+		PhasePreheat(DV_HEATING_RING_TEMP, 220);
 		SterilParam_s sterilParam = {
-				.chamberTemp = 135.6,
+				.chamberTemp = 135.5,
 				.chamberTempMin = 134.0,
 				.chamberTempMax = 136.0,
 				.sterilTime = 230, // 210
@@ -610,7 +617,7 @@ uint8_t ProgramHelixTest() {
 		success = PhaseSteril(&sterilParam);
 	}
 	if (success) {
-		PhasePreheat(130, 200);
+		PhasePreheat(DV_HEATING_RING_TEMP, 200);
 		success = PhaseRelease(3, OT_RELEASE);
 	}
 
@@ -701,6 +708,37 @@ uint8_t ProgramWash() {
 
 }
 
+uint8_t ProgramWaterLoad() {
+
+	uint8_t success = 1;
+	RTCDateTime_s clockTime;
+	RTCTimerTime_s tCycle, tPhase;
+
+	progRunning = 1;
+	progStop = 0;
+
+//	if (!PhaseBegin(600)) return 0;
+
+	ResetTimer(TIMER_CYCLE);
+
+//	if (!PhaseBegin(600)) return 0;
+
+//	GetDateTime(&clockTime);
+//	PrintHeader("CLEANING PROGRAM", sensors.T1, &clockTime);
+
+	PhaseWaterLoad(6000);
+
+	// End
+	GetTimer(TIMER_CYCLE, &tCycle);
+	GetDateTime(&clockTime);
+//	PhaseFinish(success, &clockTime, &tCycle);
+	PhasePreheat(0.0, 0.0);
+
+	progRunning = 0;
+	progStop = 0;
+
+}
+
 uint8_t ProgramTestSteril() {
 
 	uint8_t success = 1;
@@ -732,7 +770,7 @@ uint8_t ProgramTestSteril() {
 		success = PhasePressure(3, 290.0, 200.0, 50.0, OT_PRESSURE);
 	}
 	if (success) {
-		PhasePreheat(130, 190);
+		PhasePreheat(130, 220);
 		SterilParam_s sterilParam = {
 				.chamberTemp = 135.6,
 				.chamberTempMin = 134.0,
@@ -741,7 +779,7 @@ uint8_t ProgramTestSteril() {
 				.chamberPress = 320,
 				.pressMin = 290.0,
 				.pressMax = 350.0,
-				.steamTemp = 190.0,
+				.steamTemp = 200.0,
 				.steamTempMin = 170.0,
 				.printInterval = 30,
 				.timeout = 800
