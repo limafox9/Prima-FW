@@ -43,6 +43,7 @@ USAGE:
 #include "settings.h"
 #include "system.h"
 #include "Inc/DB_Protocol.h"
+#include "main.h"
 
 s_MachineStatus machineStatus = {STATUS_IDLE, SHOW_PROGRAM};
 
@@ -58,11 +59,11 @@ uint8_t progStart = 0;
 uint8_t progStop = 0;
 
 s_Program programs[] = {
-	{1, PROGTYPE_PROGRAM, "Wrapped", "P. Un", 1, CLASS_B, STERILTEMP_134, },
-	{2, PROGTYPE_PROGRAM, "Unwrapped", "P. Ur", 2, CLASS_S, STERILTEMP_134},
-	{3, PROGTYPE_PROGRAM, "Prion", "P. Pr", 4, CLASS_B, STERILTEMP_134},
-	{4, PROGTYPE_PROGRAM, "Gentle", "P. GE", 8, CLASS_B, STERILTEMP_121},
-	{5, PROGTYPE_PROGRAM, "User", "P. US", 15, CLASS_USER, STERILTEMP_USER},
+	{1, PROGTYPE_PROGRAM, "Wrapped", "P. Un", 1, CLASS_B, STERILTEMP_134, 1, 310, 300, 240},
+	{2, PROGTYPE_PROGRAM, "Unwrapped", "P. Ur", 2, CLASS_S, STERILTEMP_134, 4, 310, 300, 540},
+	{3, PROGTYPE_PROGRAM, "Prion", "P. Pr", 4, CLASS_B, STERILTEMP_134, 4, 310, 1000, 540},
+	{4, PROGTYPE_PROGRAM, "Gentle", "P. GE", 8, CLASS_B, STERILTEMP_121, 4, 210, 1200, 540},
+	{5, PROGTYPE_PROGRAM, "User", "P. US", 15, CLASS_USER, STERILTEMP_USER, 310, 0, 0, 0},
 };
 
 s_Program tests[] = {
@@ -73,14 +74,17 @@ s_Program tests[] = {
 };
 
 Parameter_s parameters[] = {
-	{1, "T1 Offset", " t1 ", EPA_T1_OFFSET, &settings.T1Offset, 1, -20, 20, 10},
-	{2, "T2 Offset", " t2 ", EPA_T2_OFFSET, &settings.T2Offset, 1, -20, 20, 10},
+	{1, "T1 Offset", " t1 ", EPA_T1_OFFSET, &settings.T1Offset, 1, -20, 20, 0.1},
+	{2, "T2 Offset", " t2 ", EPA_T2_OFFSET, &settings.T2Offset, 1, -20, 20, 0.1},
 	{3, "P1 Offset", " P1 ", EPA_CHAMBER_PRESSURE_OFFSET, &settings.ChamberPressOffset, 1, -15, 15, 1},
 	{4, "First Vacuum", " PH1", EPA_FIRST_VACUUM, &settings.FirstVacuum, 1, 10, 50, 1},
 	{5, "Other Vacuum", " PH ", EPA_OTHER_VACUUM, &settings.OtherVacuum, 1, 10, 60, 1},
 	{6, "Vacuum Threshold", " PU ", EPA_VACUUM_THRESHOLD, &settings.VacuumThreshold, 1, 30, 60, 1},
-	{7, "Other Pressure", "HIGH", EPA_OTHER_PRESSURE, &settings.OtherPressure, 1, 120, 200, 1},
-	{8, "Min. TDS", " CO ", EPA_TDS_MIN, &settings.WaterTDSMin, 1, -20, 20, 1},
+	{7, "Other Pressure", "HIGH", EPA_OTHER_PRESSURE, &settings.OtherPressure, 1, 12, 20, 10},
+	{8, "Min. TDS", " CO ", EPA_TDS_MIN, &settings.WaterTDSMin, 1, 5, 70, 1},
+	{9, "Vacuum Number", " UA ", EPA_TDS_MIN, &settings.VacNumber, 1, 3, 5, 1},
+	{10, "Clean Interval", "CIEA", EPA_TDS_MIN, &settings.CleanCyclesInterval, 1, 3, 9, 10},
+	{11, "Service interval", "SErU", EPA_TDS_MIN, &settings.ServiceCyclesInterval, 1, 5, 10, 100},
 };
 
 Reading_s readings[] = {
@@ -145,6 +149,7 @@ void ShowProgram() {
 		}
 	}
 
+	osSemaphoreWait(semaphoreSensorsHandle, 100);
 	char s[8];
 	sprintf(s,"%5.1f", sensors.T1);
 	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, s);
@@ -152,19 +157,22 @@ void ShowProgram() {
 	sprintf(s,"%5.1f", sensors.PressureChamber);
 	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 2, 0, 0, s);
 	osDelay(20);
+	osSemaphoreRelease(semaphoreSensorsHandle);
 
 }
 
 void ShowParameter() {
+	osSemaphoreWait(semaphoreSensorsHandle, 100);
 	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, &parameters[currParameter].DigitsName);
 	char s[8];
-	if (parameters[currParameter].Divider > 1) {
-		sprintf(s,"%5.1f", (float)((float)*parameters[currParameter].Value / 10.0));
+	if (parameters[currParameter].Increment < 1) {
+		sprintf(s,"%5.1f", (float)((float)*parameters[currParameter].Value) * parameters[currParameter].Increment);
 	} else {
-		sprintf(s,"%4d", *parameters[currParameter].Value);
+		sprintf(s,"%4d", *parameters[currParameter].Value * (uint8_t)parameters[currParameter].Increment);
 	}
 	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 2, 0, 0, s);
 	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "PArA");
+	osSemaphoreRelease(semaphoreSensorsHandle);
 }
 
 void SelectParameter() {
@@ -181,8 +189,8 @@ void ChangeParameter(int8_t increment) {
 	ShowParameter();
 }
 
-
 void ShowReading() {
+	osSemaphoreWait(semaphoreSensorsHandle, 100);
 	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, &readings[currReading].DigitsName);
 	char s[8];
 	if (currReading == 6) {
@@ -192,6 +200,7 @@ void ShowReading() {
 	}
 	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 2, 0, 0, s);
 	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "rEAd");
+	osSemaphoreRelease(semaphoreSensorsHandle);
 }
 
 void SelectReading() {

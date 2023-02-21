@@ -62,6 +62,8 @@ USAGE:
 
 #define AMBIENT_PRESSURE_TOLERANCE				10	// +/- kPa to consider chamber pressure = ambient pressure
 
+#define ERROR_BEEP_NUMBER			1
+
 #define SAMPLE_RATE					2			// Sample per second (SPS/Hz)
 #define AVERAGE_SAMPLES				5			// N. of samples for the average
 #define AVERAGE_SAMPLES_INTERVAL	10			// Interval between samples (milliseconds)
@@ -85,6 +87,7 @@ extern UART_HandleTypeDef huart2;
 extern Settings_s settings;
 
 extern uint8_t currProgram;
+extern osSemaphoreId semaphoreSensorsHandle;
 
 const float Z1 = -RTD_A;
 const float Z2 = RTD_A * RTD_A - (4 * RTD_B);
@@ -111,43 +114,51 @@ float BufferAverage(float* buffer, uint8_t size, float newValue);
 // DECLARATIONS
 //==============================================================================
 
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-{
-	if(GPIO_Pin == SW_DOOR_Pin) {
-		Beep(1, 100, 100);
-		if ((machineStatus.Status == STATUS_READY) || (machineStatus.Status == STATUS_IDLE)) machineStatus.Status = (sensors.Door == CLOSED) ? STATUS_READY : STATUS_IDLE;
-		if (machineStatus.Status == STATUS_IDLE) PhasePreheat(60.0, 90.0);
-	}
-	if (GPIO_Pin == SW_CSH_Pin) {
-		osDelay(100);
-		if ((WaterReservoirLevelGet() & FULL) == FULL) Beep(3, 100, 100);
-	}
-	if (GPIO_Pin == SW_LSH_Pin) {
-//		if (HAL_GPIO_ReadPin(SW_LSH_GPIO_Port, SW_LSH_Pin) == 0) {
-		osDelay(100);
-		if (WaterDumpLevelGet() == FULL) {
-			DashLed(DISPLAY_LED_WARNING_LSH, ON);
-			Beep(10, 1000, 500);
-		} else {
-			DashLed(DISPLAY_LED_WARNING_LSH, OFF);
-			Beep(1, 100, 100);
-		}
-	}
-	if (GPIO_Pin == SW_CSL_Pin) {
-//		if (HAL_GPIO_ReadPin(SW_CSL_GPIO_Port, SW_CSL_Pin) == 0) {
-		osDelay(100);
-		if ((WaterReservoirLevelGet() & EMPTY) == EMPTY) {
-			DashLed(DISPLAY_LED_WARNING_CTL, ON);
-			Beep(10, 1000, 500);
-		} else {
-			DashLed(DISPLAY_LED_WARNING_CTL, OFF);
-			Beep(1, 100, 100);
-		}
-	}
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+
+//	osSemaphoreWait(semaphoreSensorsHandle, 100);
+
+//	if(GPIO_Pin == SW_DOOR_Pin) {
+//		Beep(1, 100, 100);
+//		if ((machineStatus.Status == STATUS_READY) || (machineStatus.Status == STATUS_IDLE)) machineStatus.Status = (sensors.Door == CLOSED) ? STATUS_READY : STATUS_IDLE;
+//		if (machineStatus.Status == STATUS_IDLE) PhasePreheat(60.0, 90.0);
+//	}
+//	if (GPIO_Pin == SW_CSH_Pin) {
+//		osDelay(100);
+//		if ((WaterReservoirLevelGet() & FULL) == FULL) Beep(3, 100, 100);
+//	}
+//	if (GPIO_Pin == SW_LSH_Pin) {
+////		if (HAL_GPIO_ReadPin(SW_LSH_GPIO_Port, SW_LSH_Pin) == 0) {
+//		osDelay(100);
+//		if (WaterDumpLevelGet() == FULL) {
+//			DashLed(DISPLAY_LED_WARNING_LSH, ON);
+//			Beep(10, 1000, 500);
+//		} else {
+//			DashLed(DISPLAY_LED_WARNING_LSH, OFF);
+//			Beep(1, 100, 100);
+//		}
+//	}
+//	if (GPIO_Pin == SW_CSL_Pin) {
+////		if (HAL_GPIO_ReadPin(SW_CSL_GPIO_Port, SW_CSL_Pin) == 0) {
+//		osDelay(100);
+//		if ((WaterReservoirLevelGet() & EMPTY) == EMPTY) {
+//			DashLed(DISPLAY_LED_WARNING_CTL, ON);
+//			Beep(10, 1000, 500);
+//		} else {
+//			DashLed(DISPLAY_LED_WARNING_CTL, OFF);
+//			Beep(1, 100, 100);
+//		}
+//	}
+
+//	osSemaphoreRelease(semaphoreSensorsHandle);
 }
 
 void StartSensorsTask() {
 
+	static uint8_t prevLSH = NORMAL;
+	static uint8_t prevCSL = NORMAL;
+	static uint8_t prevCSH = NORMAL;
+	static uint8_t prevTDS = OFF;
 	// Fill buffer values
 	for (int i = 0 ; i < (sizeof(pressBuf) / sizeof(float)); i++) {
 		pressBuf[i] = ChamberPressureGet();
@@ -156,6 +167,7 @@ void StartSensorsTask() {
 	sensors.PressureAmbient = (float)100.0;
 
 	for (;;) {
+		osSemaphoreWait(semaphoreSensorsHandle, 100);
 		sensors.Door = DoorPositionGet();
 		sensors.Solenoid = DoorSolenoidKeyGet();
 		sensors.TemperatureSteamGenerator = SteamGeneratorTempGet();
@@ -186,18 +198,72 @@ void StartSensorsTask() {
 		else if (machineStatus.Show == SHOW_READINGS) ShowReading();
 		else if (machineStatus.Show == SHOW_PARAMETERS) ShowParameter();
 
-		if (sensors.WaterReservoirLevel == EMPTY) {
-			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, DISPLAY_LED_WARNING_CTL, ON, 0, "");
-		} else {
-			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, DISPLAY_LED_WARNING_CTL, OFF, 0, "");
-		}
 
 		if (sensors.WaterDumpLevel == FULL) {
-			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, DISPLAY_LED_WARNING_LSH, ON, 0, "");
+			if (prevLSH == NORMAL) {
+				DashLed(DISPLAY_LED_WARNING_LSH, ON);
+				prevLSH = FULL;
+				Beep(ERROR_BEEP_NUMBER, 1000, 500);
+			}
 		} else {
-			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, DISPLAY_LED_WARNING_LSH, OFF, 0, "");
+			if (prevLSH == FULL) {
+				DashLed(DISPLAY_LED_WARNING_LSH, OFF);
+				prevLSH = NORMAL;
+				Beep(1, 100, 100);
+			}
 		}
 
+		if (sensors.WaterReservoirLevel == EMPTY) {
+			if ((prevCSL && NORMAL) == NORMAL) {
+				DashLed(DISPLAY_LED_WARNING_CTL, ON);
+				prevCSL = EMPTY;
+				Beep(ERROR_BEEP_NUMBER, 1000, 500);
+			}
+		} else {
+			if (prevCSL == EMPTY) {
+				DashLed(DISPLAY_LED_WARNING_CTL, OFF);
+				prevCSL = NORMAL;
+				sensors.WaterTDS = BAT2U_GetTDSValue(1, 100);
+				Beep(1, 100, 100);
+			}
+		}
+
+		if (sensors.WaterReservoirLevel == FULL) {
+			if ((prevCSH && NORMAL) == NORMAL) {
+				prevCSH = FULL;
+				Beep(3, 100, 100);
+			}
+		} else {
+			if (prevCSH == FULL) {
+				prevCSH = NORMAL;
+			}
+		}
+
+		if (sensors.WaterTDS > settings.WaterTDSMin) {
+			if (prevTDS == OFF) {
+				prevTDS = ON;
+				DashLed(DISPLAY_LED_WARNING_TDS, ON);
+				Beep(ERROR_BEEP_NUMBER, 1000, 500);
+			}
+		} else {
+			if (prevTDS == ON) {
+				DashLed(DISPLAY_LED_WARNING_TDS, OFF);
+				prevTDS = OFF;
+			}
+		}
+
+//		if (sensors.WaterReservoirLevel == EMPTY) {
+//			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, DISPLAY_LED_WARNING_CTL, ON, 0, "");
+//		} else {
+//			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, DISPLAY_LED_WARNING_CTL, OFF, 0, "");
+//		}
+
+//		if (sensors.WaterDumpLevel == FULL) {
+//			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, DISPLAY_LED_WARNING_LSH, ON, 0, "");
+//		} else {
+//			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, DISPLAY_LED_WARNING_LSH, OFF, 0, "");
+//		}
+		osSemaphoreRelease(semaphoreSensorsHandle);
 		osDelay(1000 / SAMPLE_RATE);
 	}
 }
@@ -220,7 +286,7 @@ e_Level WaterReservoirLevelGet() {
 	lvlH = HAL_GPIO_ReadPin(SW_CSH_GPIO_Port, SW_CSH_Pin);
 	lvlL = HAL_GPIO_ReadPin(SW_CSL_GPIO_Port, SW_CSL_Pin);
 	if (lvlH == LOW) level += FULL;
-	if (lvlL == LOW) level += EMPTY;
+	if (lvlL == LOW) level = EMPTY;
 	return level;
 }
 

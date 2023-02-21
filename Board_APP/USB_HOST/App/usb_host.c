@@ -106,6 +106,17 @@ static void USBH_UserProcess  (USBH_HandleTypeDef *phost, uint8_t id)
 
   case HOST_USER_CLASS_ACTIVE:
   Appli_state = APPLICATION_READY;
+  Beep(1,100,100);
+
+  Mount_USB();
+
+  Check_USB_Details();   // check space details
+
+  Scan_USB("/");   // scan for files and directories
+
+  Create_File("/ROOTFILE.txt");
+  Write_File("/ROOTFILE.txt", "This data should be in root file\n");
+
   break;
 
   case HOST_USER_CONNECTION:

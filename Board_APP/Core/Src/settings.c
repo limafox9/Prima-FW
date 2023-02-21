@@ -38,6 +38,7 @@ USAGE:
 #include <stdio.h>
 #include <string.h>
 
+#include "_ver.h"
 #include "globals.h"
 #include "settings.h"
 #include "system.h"
@@ -96,6 +97,11 @@ void LoadSettings() {
 	EEPROM_Read(EPA_VACUUM_THRESHOLD, &settings.VacuumThreshold, 1);
 	EEPROM_Read(EPA_OTHER_PRESSURE, &settings.OtherPressure, 1);
 	EEPROM_Read(EPA_TDS_MIN, &settings.WaterTDSMin, 1);
+	EEPROM_Read(EPA_VACUUM_NUMBER, &settings.VacNumber, 1);
+	EEPROM_Read(EPA_CLEAN_CYCLES_INTERVAL, &settings.CleanCyclesInterval, 1);
+	EEPROM_Read(EPA_SERVICE_CYCLES_INTERVAL, &settings.ServiceCyclesInterval, 1);
+	EEPROM_Read(EPA_LAST_CLEAN_CYCLE, &settings.LastCleanCycle, 2);
+	EEPROM_Read(EPA_LAST_SERVICE_CYCLE, &settings.LastServiceCycle, 2);
 
 }
 
@@ -114,6 +120,9 @@ void SaveSettings() {
 	EEPROM_Write(EPA_VACUUM_THRESHOLD, &settings.VacuumThreshold, 1);
 	EEPROM_Write(EPA_OTHER_PRESSURE, &settings.OtherPressure, 1);
 	EEPROM_Write(EPA_TDS_MIN, &settings.WaterTDSMin, 1);
+	EEPROM_Write(EPA_VACUUM_NUMBER, &settings.VacNumber, 1);
+	EEPROM_Write(EPA_CLEAN_CYCLES_INTERVAL, &settings.CleanCyclesInterval, 1);
+	EEPROM_Write(EPA_SERVICE_CYCLES_INTERVAL, &settings.ServiceCyclesInterval, 1);
 
 }
 

@@ -66,7 +66,6 @@ DMA_HandleTypeDef hdma_usart3_tx;
 
 osThreadId taskAliveHandle;
 osSemaphoreId semaphorePowerHandle;
-osSemaphoreId semaphoreSensorsHandle;
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -148,9 +147,6 @@ int main(void)
   /* definition and creation of semaphorePower */
   osSemaphoreDef(semaphorePower);
   semaphorePowerHandle = osSemaphoreCreate(osSemaphore(semaphorePower), 1);
-
-  osSemaphoreDef(semaphoreSensors);
-  semaphoreSensorsHandle = osSemaphoreCreate(osSemaphore(semaphoreSensors), 1);
 
   /* USER CODE BEGIN RTOS_SEMAPHORES */
   /* add semaphores, ... */
@@ -755,13 +751,16 @@ static void MX_GPIO_Init(void)
 void StartTaskAlive(void const * argument)
 {
   /* init code for USB_HOST */
-  MX_USB_HOST_Init();
+//  MX_USB_HOST_Init();
   /* USER CODE BEGIN 5 */
   /* Infinite loop */
 
 	SysInit();
+//	  MX_USB_HOST_Init();
+//	  MX_IWDG_Init();
 	for(;;)	{
 		HAL_GPIO_TogglePin(LED_HEART_GPIO_Port, LED_HEART_Pin);
+//		HAL_IWDG_Refresh(&hiwdg);
 		osDelay(200);
 	}
   /* USER CODE END 5 */

@@ -3,6 +3,7 @@
 "./Core/Devs/BMP280.o"
 "./Core/Devs/PCF8563.o"
 "./Core/Devs/TM7705.o"
+"./Core/Src/File_Handling.o"
 "./Core/Src/actuators.o"
 "./Core/Src/buzzer.o"
 "./Core/Src/crc16.o"

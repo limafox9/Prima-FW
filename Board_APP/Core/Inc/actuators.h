@@ -48,7 +48,7 @@ extern TIM_HandleTypeDef htim3;
 #define PWM_TIMER_STEAM_GENERATOR htim3
 #define PWM_TIMER_STEAM_GENERATOR_PERIOD 7200
 
-#define DOOR_SOLENOID_IMPULSE 1000 	// Solenoid impulse duration (milliseconds)
+#define DOOR_SOLENOID_IMPULSE 500 	// Solenoid impulse duration (milliseconds)
 
 void PWMPower_Init();
 void PWMPower_Start();

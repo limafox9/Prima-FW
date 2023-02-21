@@ -85,12 +85,14 @@ RTCDateTime_s dt;
 
 RTCDateTime_s RTCDateTime;
 
-osThreadId keysTaskHandle;
+//osThreadId keysTaskHandle;
 osThreadId serialTaskHandle;
 osThreadId sensorsTaskHandle;
 osThreadId programTaskHandle;
 osThreadId displayInfoTaskHandle;
-//
+
+osSemaphoreId semaphoreSensorsHandle;
+
 //float calTemp(float Rt) {
 //	float Z1, Z2, Z3, Z4, temp;
 //
@@ -122,12 +124,24 @@ void SysInit() {
 //	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "8.8.:8.8");
 
 //	SerialInit(&huart1, 115200);
+	LoadSettings();
+
+	  osSemaphoreDef(semaphoreSensors);
+	  semaphoreSensorsHandle = osSemaphoreCreate(osSemaphore(semaphoreSensors), 1);
+
+	  osSemaphoreRelease(semaphoreSensorsHandle);
 
 	SerialInit(&UART_DISPLAY, 115200);
+
+
 	HAL_Delay(500);
 
-	osThreadDef(serialTask, StartSerialTask, osPriorityNormal, 1, 1024);
+
+
+	osThreadDef(serialTask, StartSerialTask, osPriorityNormal, 1, 512);
 	serialTaskHandle = osThreadCreate(osThread(serialTask), NULL);
+
+
 
 	DigitsWrite(1, "8.8.8.8");
 	DigitsWrite(2, "8.8.8.8");
@@ -135,28 +149,33 @@ void SysInit() {
 	DashLed(0xFFFF, ON);
 	ProgressLed(0xFFFF);
 
-	HAL_Delay(2000);
+	HAL_Delay(1000);
 
 	ClockInit(&hi2c1);
 	PWMPower_Init();
 	PrinterInit();
+
 //
 	HAL_ADCEx_Calibration_Start(&hadc1);
 
 	TM7705_Init(&hspi1);
+
 	BAT2U_Init(&huart2);
+
 	uint16_t dum;
 	dum = BAT2U_GetTDSValue(2, 100);
 	sensors.WaterTDS = BAT2U_GetTDSValue(1, 100);
 //	BAT2U_TDSCalibration(500);
 
-	LoadSettings();
+
 
 	DigitsWrite(1, "");
 	DigitsWrite(2, "");
 	DigitsWrite(3, "");
 	DashLed(0xFFFF, OFF);
 	ProgressLed(0x0000);
+
+
 
 	char s[8];
 //	sprintf(s, "%1d.%1d.%02d", FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION);
@@ -175,8 +194,8 @@ void SysInit() {
 //		settings.ChamberPressOffset = 0;
 //		SaveSettings();
 
-	osThreadDef(keysTask, StartKeysTask, osPriorityAboveNormal, 1, 1024);
-	keysTaskHandle = osThreadCreate(osThread(keysTask), NULL);
+//	osThreadDef(keysTask, StartKeysTask, osPriorityAboveNormal, 1, 1024);
+//	keysTaskHandle = osThreadCreate(osThread(keysTask), NULL);
 
 	osThreadDef(sensorsTask, StartSensorsTask, osPriorityHigh, 1, 1024);
 	sensorsTaskHandle = osThreadCreate(osThread(sensorsTask), NULL);
@@ -184,7 +203,7 @@ void SysInit() {
 	osThreadDef(programTask, StartProgramTask, osPriorityNormal, 1, 1024);
 	programTaskHandle = osThreadCreate(osThread(programTask), NULL);
 
-	osThreadDef(displayInfoTask, StartDisplayInfoTask, osPriorityNormal, 1, 512);
+	osThreadDef(displayInfoTask, StartDisplayInfoTask, osPriorityNormal, 1, 1024);
 	displayInfoTaskHandle = osThreadCreate(osThread(displayInfoTask), NULL);
 
 
@@ -208,10 +227,7 @@ void SysInit() {
 			Beep(1, 1000, 100);
 		}
 
-		DisplaySetLongPressInterval(3000);
-
-
-
+		DisplaySetLongPressInterval(DISPLAY_LONG_PRESS_INTERVAL);
 
 
 
@@ -530,6 +546,21 @@ __NOP();
 //		osDelay(onDelay);
 //	}
 //}
+
+void EmergencyStop() {
+	ValveDrainSteamSet(OFF);
+	ValveDryIntakeSet(OFF);
+	ValveVacuumSet(OFF);
+	ValveWaterSteamSet(OFF);
+
+	PumpSteamGeneratorSet(OFF);
+	PumpVacuumSet(OFF);
+	PumpWaterLoadSet(OFF);
+
+	HAL_GPIO_WritePin(SOLENOID_V1_GPIO_Port, SOLENOID_V1_Pin, OFF);
+	HAL_GPIO_WritePin(SOLENOID_V2_GPIO_Port, SOLENOID_V2_Pin, OFF);
+
+}
 
 void Log(e_LogLevel logLevel, e_LogTimeStamp logTimeStamp, e_LogOutput logOutput, const char* format, ...) {
 

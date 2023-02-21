@@ -44,10 +44,6 @@ USAGE:
 
 #define DEFAULT_DOOR_SOLENOID_IMPULSE 	1000	// milliseconds
 
-#define FW_VERSION_MAJOR 	0
-#define FW_VERSION_MINOR 	5
-#define FW_VERSION_REVISION 12
-
 //#define UART_MONITOR		huart1
 //#define UART_TDS			huart2
 #define UART_DISPLAY		huart3
@@ -60,6 +56,7 @@ USAGE:
 #define I2C_EEPROM_CLOCK	hi2c1
 #define I2C_ATM_PRESSURE 	//TBD
 
+#define DISPLAY_LONG_PRESS_INTERVAL 3000
 
 #define EPA_MACHINE_PROD_YEAR			0x0E	// 1 byte 0-199 after 2000
 #define EPA_MACHINE_PROD_MONTH			0x0F	// 1 byte 0-52 week of the year
@@ -76,17 +73,27 @@ USAGE:
 #define EPA_VACUUM_THRESHOLD			0x25	// 1 byte
 #define EPA_OTHER_PRESSURE				0x26	// 1 byte
 #define EPA_TDS_MIN						0x27	// 1 byte
+#define EPA_VACUUM_NUMBER				0x28
+#define EPA_CLEAN_CYCLES_INTERVAL		0x29
+#define EPA_SERVICE_CYCLES_INTERVAL		0x2A
+#define EPA_LAST_CLEAN_CYCLE			0x2C	// 2 byte
+#define EPA_LAST_SERVICE_CYCLE			0x2E	// 2 byte
 
 typedef struct Settings_s {
 	uint16_t CyclesCount;
-	int8_t T1Offset;			// -2..2 step 1 (0.1)
-	int8_t T2Offset;			// -2..2 step 1 (0.1)
-	int8_t ChamberPressOffset;	// -15..15 step 1
-	int8_t WaterTDSMin;
-	int8_t FirstVacuum;			// 10..50 step 1
-	int8_t VacuumThreshold;		// 30..60 step 1
-	int8_t OtherVacuum;			// 10..60 step 1
-	int8_t OtherPressure;		// 120..200 step 1
+	int8_t T1Offset;				// -2..2 step 1 (0.1)
+	int8_t T2Offset;				// -2..2 step 1 (0.1)
+	int8_t ChamberPressOffset;		// -15..15 step 1
+	int8_t WaterTDSMin;				// 5..70 step 1
+	int8_t FirstVacuum;				// 10..50 step 1
+	int8_t VacuumThreshold;			// 30..60 step 1
+	int8_t OtherVacuum;				// 10..60 step 1
+	int8_t OtherPressure;			// 120..200 step 1
+	int8_t VacNumber;				// 3..5 step 1
+	int8_t CleanCyclesInterval;		// 30, 60, 90
+	int8_t ServiceCyclesInterval;	// 500, 1000 step 10
+	int16_t LastCleanCycle;
+	int16_t LastServiceCycle;
 } Settings_s;
 
 typedef enum {

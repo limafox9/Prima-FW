@@ -103,8 +103,9 @@ typedef struct s_Program {
 	e_ProgramClass Class;
 	e_ProgramTemp SterilTemp;
 	uint8_t NVacuum;
+	uint16_t SterilPress;
 	uint16_t SterilTime;
-	uint8_t DryTime;
+	uint16_t DryTime;
 } s_Program;
 
 typedef struct s_MachineStatus {
@@ -121,7 +122,7 @@ typedef struct Parameter_s {
 	uint8_t Size;
 	int8_t Min;
 	int8_t Max;
-	uint8_t Divider;
+	float Increment;
 } Parameter_s;
 
 typedef struct Reading_s {
@@ -142,6 +143,9 @@ typedef struct Timeset_s {
 
 
 extern s_MachineStatus machineStatus;
+
+extern s_Program programs[];
+extern Parameter_s parameters[];
 
 extern uint8_t currProgram;
 extern uint8_t currTest;

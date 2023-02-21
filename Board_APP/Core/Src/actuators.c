@@ -40,6 +40,7 @@ USAGE:
 #include "pid.h"
 #include "sensors.h"
 #include "cmsis_os.h"
+#include "system.h"
 
 /* Controller parameters */
 #define PID_KP  7.0f
@@ -116,7 +117,9 @@ void PWMPower_Stop() {
 void StartChPowerTask() {
 
 	for (;;) {
+		osSemaphoreWait(semaphoreSensorsHandle, 100);
 		float ret = PIDController_Update(&pidHeaterChamber, (float)heaterChamberTempSet, sensors.TemperatureChamberHeater);
+		osSemaphoreRelease(semaphoreSensorsHandle);
 		// duty cycle %
 		uint16_t ut = 1000 * ret / 100;
 		uint16_t dt = 1000 - ut;
@@ -126,22 +129,23 @@ void StartChPowerTask() {
 			osSemaphoreRelease(semaphorePowerHandle);
 			HAL_GPIO_WritePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin, OFF);
 			osDelay(dt);
-
 	}
 }
 
 void StartSteamPowerTask() {
 	for (;;) {
+		osSemaphoreWait(semaphoreSensorsHandle, 100);
 		float ret = PIDController_Update(&pidHeaterSteamGenerator, (float)heaterSteamGeneratorTempSet, sensors.TemperatureSteamGenerator);
+		osSemaphoreRelease(semaphoreSensorsHandle);
 		// duty cycle %
 		uint16_t ut = 1000 * ret / 100;
 		uint16_t dt = 1000 - ut;
 		osSemaphoreWait(semaphorePowerHandle, osWaitForever);
 		HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, ON);
-			osDelay(ut);
-			osSemaphoreRelease(semaphorePowerHandle);
-			HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, OFF);
-			osDelay(dt);
+		osDelay(ut);
+		osSemaphoreRelease(semaphorePowerHandle);
+		HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, OFF);
+		osDelay(dt);
 
 	}
 }
@@ -182,7 +186,9 @@ void HeaterSteamGeneratorTempSet(float tempC) {
 
 void PWMHeaterSteamGenerator() {
 
+	osSemaphoreWait(semaphoreSensorsHandle, 100);
 	float ret = PIDController_Update(&pidHeaterSteamGenerator, (float)heaterSteamGeneratorTempSet, sensors.TemperatureSteamGenerator);
+	osSemaphoreRelease(semaphoreSensorsHandle);
 	// duty cycle %
 	uint16_t ut = 1000 * ret / 100;
 	uint16_t dt = 1000 - ut;
@@ -246,6 +252,7 @@ void FanSet(e_PowerState status) {
 }
 
 e_LockState DoorSolenoidSet(e_LockState status) {
+	osSemaphoreWait(semaphoreSensorsHandle, 100);
 	// All off for safe polarity set
 	HAL_GPIO_WritePin(SOLENOID_V1_GPIO_Port, SOLENOID_V1_Pin, OFF);
 	HAL_GPIO_WritePin(SOLENOID_V2_GPIO_Port, SOLENOID_V2_Pin, OFF);
@@ -257,11 +264,12 @@ e_LockState DoorSolenoidSet(e_LockState status) {
 		HAL_GPIO_WritePin(SOLENOID_V1_GPIO_Port, SOLENOID_V1_Pin, ON);
 	}
 
-	osDelay(DOOR_SOLENOID_IMPULSE);
+	HAL_Delay(DOOR_SOLENOID_IMPULSE);
 
 	// All off afetr LOCK/UNLOCK impulse
 	HAL_GPIO_WritePin(SOLENOID_V1_GPIO_Port, SOLENOID_V1_Pin, OFF);
 	HAL_GPIO_WritePin(SOLENOID_V2_GPIO_Port, SOLENOID_V2_Pin, OFF);
+	osSemaphoreRelease(semaphoreSensorsHandle);
 
 	// Return solenoid switch status for position confirmation
 	return !HAL_GPIO_ReadPin(SW_SOLENOID_GPIO_Port, SW_SOLENOID_Pin);

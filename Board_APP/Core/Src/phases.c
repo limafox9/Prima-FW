@@ -72,34 +72,40 @@ uint8_t PhaseBegin(uint8_t timeout) {
 	GetTimer(TIMER_PHASE, &tPhase);
 	if (sensors.Door == OPEN) {
 		lastError = ERROR_OPEN_DOOR;
-		PrintError("DOOR ERROR *** DOOR OPEN\n", &tPhase);
+		Print("DOOR ERROR *** DOOR OPEN\n");
 		Beep(1, 1000, 100);
-		return 0;
+		retVal = 0;
 	}
 
 	if (DoorSolenoidSet(LOCK) != LOCK) {
 		lastError = ERROR_PROTECTION_LOCK;
-		PrintError("LOCK ERROR *** NO CONFIRMATION\n", &tPhase);
+		Print("LOCK ERROR *** NO CONFIRMATION\n");
 		Beep(1, 1000, 100);
-		return 0;
+		retVal = 0;
 	}
-//	if (sensors.WaterTDS > settings.WaterTDS) {
-//		lastError = ERROR_WATER_HIGH_TDS;
-//		PrintError("WTDS ERROR *** WATER QUALITY\n", tPhase);
-//		return 0;
-//	}
+	sensors.WaterTDS = BAT2U_GetTDSValue(1, 100);
+	if (sensors.WaterTDS > settings.WaterTDSMin) {
+		lastError = ERROR_WATER_HIGH_TDS;
+		Print("WTDS ERROR *** WATER QUALITY\n");
+		retVal = 0;
+	}
 
 	if ((sensors.WaterReservoirLevel & EMPTY) == EMPTY) {
 		lastError = ERROR_WATER_LOW;
-		PrintError("WATR ERROR *** WATER LEVEL\n", &tPhase);
+		Print("WATR ERROR *** WATER LEVEL\n");
 		Beep(1, 1000, 100);
-		return 0;
+		retVal = 0;
 	}
 	if (sensors.WaterDumpLevel == HIGH) {
 		lastError = ERROR_WATER_DUMP_HIGH;
-		PrintError("DUMP ERROR *** WATER DUMP LEVEL\n", &tPhase);
+		Print("DUMP ERROR *** WATER DUMP LEVEL\n");
 		Beep(1, 1000, 100);
-		return 0;
+		retVal = 0;
+	}
+
+	if (retVal == 0) {
+		PrintError("\n", &tPhase);
+		return retVal;
 	}
 
 	ResetTimer(TIMER_TIMEOUT);
@@ -491,7 +497,7 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 	static const float pPID_KI = 0.3;	// >0.4
 	static const float pPID_KD = 0.2;
 	static const float pPID_TAU = 1.0;
-	static const float pPID_LIM_MIN = 0.9; // >1.1
+	static const float pPID_LIM_MIN = 1.0; // >1.1
 	static const float pPID_LIM_MAX = 2.0;
 	static const float pPID_LIM_MIN_INT = -1.0; // -1.0
 	static const float pPID_LIM_MAX_INT = 1.0; // 1.0
@@ -599,7 +605,7 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 			ret = (1/ret)*4000;
 			if ((sensors.T1 <= param->chamberTemp) && (HAL_GetTick() > (currTick + ret))) {
 				if (sensors.TemperatureSteamGenerator >= param->steamTempMin) {
-					SteamPulse(20);
+					SteamPulse(30);
 					currTick = HAL_GetTick();
 				}
 			}

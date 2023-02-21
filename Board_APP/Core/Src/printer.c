@@ -44,6 +44,7 @@ USAGE:
 #include "settings.h"
 #include "stm32f1xx_hal.h"
 #include "sensors.h"
+#include "modes.h"
 
 #define DC2 0x12
 #define ESC	0x1B
@@ -158,6 +159,18 @@ void PrintHeader (const char* title, float t1, RTCDateTime_s* time) {
 	Print("%s\n", title);
 //	Print("%c%c%c", ESC, 'a', 0); // Justify (0 = left, 1 = center, 2 = right)
 	PrintSize(1, 1);
+	if (currProgType == PROGTYPE_PROGRAM) {
+		uint8_t tSter = (programs[currProgram].SterilTemp == STERILTEMP_134) ? 134 : 121;
+		uint8_t minSter = programs[currProgram].SterilTime / 60;
+		uint8_t secSter = programs[currProgram].SterilTime % 60;
+		uint8_t minDry = programs[currProgram].DryTime / 60;
+		uint8_t secDry = programs[currProgram].DryTime % 60;
+		Print("VAC.N.  Temp.   Press.   Time   Dry\n");
+		//       3     134'C   310kPa  10:34  10:34
+		Print(" %2d     %3d'C   %3dkPa  %2d:%02d  %2d:%02d", settings.VacNumber, tSter, programs[currProgram].SterilPress, minSter, secSter, minDry, secDry);
+		Print("\n");
+	}
+	Print("------------------------------------------\n");
 	Print("\n");
 	Print("S/N:          %s\n", machine.Serial);
 	Print("UID:          %08X %08X %08X\n", machine.MCUID[2], machine.MCUID[1], machine.MCUID[0]);
@@ -169,7 +182,7 @@ void PrintHeader (const char* title, float t1, RTCDateTime_s* time) {
 	Print("ATM (kPa)     %0.1f\n", sensors.PressureAmbient);
 	Print("\n");
 	Print("\n");
-	Print("USER: ____________________________________\n");
+	Print("USER:\n");
 	Print("\n");
 	Print("------------------------------------------\n");
 	Print("STEP    T1     T2   PRESS   TIME\n");
@@ -182,12 +195,14 @@ void PrintFooter (const char* result, RTCDateTime_s* time, RTCTimerTime_s* timer
 	Print("FINISH                  %02d:%02d:%02d\n", time->Hour, time->Minute, time->Second);
 	Print("------------------------------------------\n");
 	Print("TOTAL TIME                 %2d:%02d\n", timer->TimeMinute, timer->TimeSecond);
-	PrintError("", time);
 	Print("\n");
 	PrintSize(3, 2);
 	if (lastError == 0)	Print("%s\n", result);
 	else Print("%s Err.%0d\n", result, lastError);
 	PrintSize(1, 1);
+	Print("\n");
+	if (lastError != 0) PrintError("", time);
+	Print("\n");
 	Print("\n");
 	Print("INDICATOR STRIP: PASS [] FAIL []\n");
 	Print("\n");

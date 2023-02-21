@@ -65,7 +65,6 @@ void StartDisplayInfoTask() {
 	RTCTimerTime_s tPhase, tDisplay;
 	char s[8];
 
-
 	for (;;) {
 		if ((machineStatus.Status == STATUS_RUNNING) && (machineStatus.Show == SHOW_PROGRAM)) {
 			SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, currPhase);

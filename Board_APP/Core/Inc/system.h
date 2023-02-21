@@ -39,6 +39,7 @@ USAGE:
 
 #include "globals.h"
 #include "PCF8563.h"
+#include "cmsis_os.h"
 
 #define MCU_UID_ADDRESS 0x1FFFF7E8
 
@@ -66,9 +67,11 @@ typedef enum {
 
 extern RTCDateTime_s RTCDateTime;
 
+extern osSemaphoreId semaphoreSensorsHandle;
+
 void SysInit();
 //void Beep(uint8_t hits, uint16_t onDelay, uint16_t offDelay);
 void Log(e_LogLevel logLevel, e_LogTimeStamp logTimeStamp, e_LogOutput logOutput, const char* format, ...);
-
+void EmergencyStop();
 
 #endif /* INC_SYSTEM_H_ */
