@@ -124,24 +124,20 @@ void SysInit() {
 //	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "8.8.:8.8");
 
 //	SerialInit(&huart1, 115200);
+
 	LoadSettings();
 
 	  osSemaphoreDef(semaphoreSensors);
 	  semaphoreSensorsHandle = osSemaphoreCreate(osSemaphore(semaphoreSensors), 1);
-
 	  osSemaphoreRelease(semaphoreSensorsHandle);
 
 	SerialInit(&UART_DISPLAY, 115200);
 
 
-	HAL_Delay(500);
-
-
-
 	osThreadDef(serialTask, StartSerialTask, osPriorityNormal, 1, 512);
 	serialTaskHandle = osThreadCreate(osThread(serialTask), NULL);
 
-
+	HAL_Delay(500);
 
 	DigitsWrite(1, "8.8.8.8");
 	DigitsWrite(2, "8.8.8.8");
@@ -203,7 +199,7 @@ void SysInit() {
 	osThreadDef(programTask, StartProgramTask, osPriorityNormal, 1, 1024);
 	programTaskHandle = osThreadCreate(osThread(programTask), NULL);
 
-	osThreadDef(displayInfoTask, StartDisplayInfoTask, osPriorityNormal, 1, 1024);
+	osThreadDef(displayInfoTask, StartDisplayInfoTask, osPriorityNormal, 1, 512);
 	displayInfoTaskHandle = osThreadCreate(osThread(displayInfoTask), NULL);
 
 
@@ -219,6 +215,13 @@ void SysInit() {
 //		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 2, 0, 0, "8.8.:8.8");
 //	//	osDelay(10);
 //		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "8.8.:8.8");
+
+		ProgramsInit();
+
+		currProgram = 1;
+		currProgType = PROGTYPE_PROGRAM;
+
+//		lastError = 0;
 
 		if (lastError == ERROR_NONE) {
 			Beep(3, 100, 100);

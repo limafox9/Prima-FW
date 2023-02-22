@@ -162,7 +162,7 @@ int main(void)
 
   /* Create the thread(s) */
   /* definition and creation of taskAlive */
-  osThreadDef(taskAlive, StartTaskAlive, osPriorityLow, 0, 2048);
+  osThreadDef(taskAlive, StartTaskAlive, osPriorityLow, 0, 4096);
   taskAliveHandle = osThreadCreate(osThread(taskAlive), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
@@ -751,7 +751,6 @@ static void MX_GPIO_Init(void)
 void StartTaskAlive(void const * argument)
 {
   /* init code for USB_HOST */
-//  MX_USB_HOST_Init();
   /* USER CODE BEGIN 5 */
   /* Infinite loop */
 

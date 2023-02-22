@@ -55,6 +55,9 @@ USAGE:
 #define DV_HEATING_RING_TEMP	120.0
 #define DV_WATER_LOAD_TIMEOUT	300
 
+#define DV_STERIL_TEMP_134		135.4
+#define DV_STERIL_TEMP_121		123.2
+
 #define VAC_DVALUE	10
 #define VAC_DTIME	20
 
@@ -72,19 +75,19 @@ void StartProgramTask() {
 			programStart = 0;
 			if (currProgType == PROGTYPE_PROGRAM) {
 				switch (currProgram) {
-				case 0:
+				case 1:
 					ProgramUnwrapped();
 					break;
-				case 1:
+				case 2:
 					ProgramWrapped();
 					break;
-				case 2:
+				case 3:
 					ProgramPrion();
 					break;
-				case 3:
+				case 4:
 					ProgramGentle();
 					break;
-				case 4:
+				case 0:
 					//ProgramUser();
 					break;
 				case 5:
@@ -127,6 +130,15 @@ uint8_t ProgramResumeDry() {
 //	PhaseResume(600);
 	FanSet(ON);
 
+	sprintf(currPhase, "rEL.");
+
+	while (1) {
+		if (sensors.PressureChamber <= pressAmbientMax) {
+			break;
+		}
+		osDelay(200);
+	}
+
 	PhaseDry(20.0, 50.0, 180, 800);
 	SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_NONE, 0, 0, "");
 
@@ -151,9 +163,6 @@ uint8_t ProgramResumeDry() {
 	ValveDryIntakeSet(OFF);
 
 	FanSet(OFF);
-
-	lastError = ERROR_NONE;
-	EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
 
 	machineStatus.Status = STATUS_READY;
 
@@ -206,7 +215,7 @@ uint8_t ProgramUnwrapped() {
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, 220);
 		SterilParam_s sterilParam = {
-				.chamberTemp = 135.4,
+				.chamberTemp = DV_STERIL_TEMP_134,
 				.chamberTempMin = 134.0,
 				.chamberTempMax = 136.0,
 				.sterilTime = 300,
@@ -307,7 +316,7 @@ uint8_t ProgramWrapped() {
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, 220.0);
 		SterilParam_s sterilParam = {
-				.chamberTemp = 135.6,
+				.chamberTemp = DV_STERIL_TEMP_134,
 				.chamberTempMin = 134.0,
 				.chamberTempMax = 136.0,
 				.sterilTime = 300,
@@ -502,11 +511,11 @@ uint8_t ProgramGentle() {
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, 220);
 		SterilParam_s sterilParam = {
-				.chamberTemp = 123.2,
+				.chamberTemp = DV_STERIL_TEMP_121,
 				.chamberTempMin = 121.0,
 				.chamberTempMax = 125.0,
 				.sterilTime = 1200,
-				.chamberPress = 320,
+				.chamberPress = 220,
 				.pressMin = 200.0,
 				.pressMax = 250.0,
 				.steamTemp = 200.0,
@@ -564,11 +573,11 @@ uint8_t ProgramHelixTest() {
 	// First vacuum
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, 210);
-		success = PhaseVacuum(1, 20.0, OT_VACUUM);
+		success = PhaseVacuum(1, (float)settings.FirstVacuum, OT_VACUUM);
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, 220);
-		success = PhasePressure(1, 170.0, 200.0, 180.0, OT_PRESSURE);
+		success = PhasePressure(1, (float)settings.OtherPressure * 10.0, 200.0, 180.0, OT_PRESSURE);
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, 200);
@@ -579,11 +588,11 @@ uint8_t ProgramHelixTest() {
 	for (int i = 0; i < 1; i++) {
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, 210.0);
-			success = PhaseVacuum(2, 30.0, OT_VACUUM);
+			success = PhaseVacuum(2, (float)settings.OtherVacuum, OT_VACUUM);
 		}
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, 220.0);
-			success = PhasePressure(2, 170.0, 200.0, 180.0, OT_PRESSURE);
+			success = PhasePressure(2, (float)settings.OtherPressure * 10.0, 200.0, 180.0, OT_PRESSURE);
 		}
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, 200.0);
@@ -593,7 +602,7 @@ uint8_t ProgramHelixTest() {
 
 	// Sterilization
 	if (success) {
-		success = PhaseVacuum(3, 20.0, OT_VACUUM);
+		success = PhaseVacuum(3, (float)settings.OtherVacuum, OT_VACUUM);
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, 220);
@@ -602,10 +611,10 @@ uint8_t ProgramHelixTest() {
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, 220);
 		SterilParam_s sterilParam = {
-				.chamberTemp = 135.5,
+				.chamberTemp = DV_STERIL_TEMP_134,
 				.chamberTempMin = 134.0,
 				.chamberTempMax = 136.0,
-				.sterilTime = 230, // 210
+				.sterilTime = 210, // 210
 				.chamberPress = 320,
 				.pressMin = 290.0,
 				.pressMax = 350.0,
@@ -772,7 +781,7 @@ uint8_t ProgramTestSteril() {
 	if (success) {
 		PhasePreheat(130, 220);
 		SterilParam_s sterilParam = {
-				.chamberTemp = 135.6,
+				.chamberTemp = DV_STERIL_TEMP_134,
 				.chamberTempMin = 134.0,
 				.chamberTempMax = 136.0,
 				.sterilTime = 210,

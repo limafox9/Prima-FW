@@ -59,11 +59,11 @@ uint8_t progStart = 0;
 uint8_t progStop = 0;
 
 s_Program programs[] = {
+	{0, PROGTYPE_PROGRAM, "User", "P. US", 15, CLASS_USER, STERILTEMP_USER, 1, 310, 0, 0,},
 	{1, PROGTYPE_PROGRAM, "Wrapped", "P. Un", 1, CLASS_B, STERILTEMP_134, 1, 310, 300, 240},
 	{2, PROGTYPE_PROGRAM, "Unwrapped", "P. Ur", 2, CLASS_S, STERILTEMP_134, 4, 310, 300, 540},
 	{3, PROGTYPE_PROGRAM, "Prion", "P. Pr", 4, CLASS_B, STERILTEMP_134, 4, 310, 1000, 540},
 	{4, PROGTYPE_PROGRAM, "Gentle", "P. GE", 8, CLASS_B, STERILTEMP_121, 4, 210, 1200, 540},
-	{5, PROGTYPE_PROGRAM, "User", "P. US", 15, CLASS_USER, STERILTEMP_USER, 310, 0, 0, 0},
 };
 
 s_Program tests[] = {
@@ -107,6 +107,13 @@ Timeset_s timeset[] = {
 
 const uint8_t monthDays[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
+void ProgramsInit() {
+
+	for (int i = 2; i < ((sizeof(tests) / sizeof(s_Program)) - 1); i++) {  // 0 (user) and 1 (wrapped) excluded
+		programs[i].NVacuum = settings.VacNumber;
+	}
+}
+
 void SelectProgram() {
 	if (currProgType == PROGTYPE_PROGRAM) currProgram++;
 	currProgType = PROGTYPE_PROGRAM;
@@ -140,6 +147,9 @@ void ShowProgram() {
 				SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, &programs[currProgram].DigitsName);
 				SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, 63 + DISPLAY_LED_WASH_CYCLE + DISPLAY_LED_WATER_FILL, OFF, 0, "");
 				SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, programs[currProgram].DashLeds, ON, 0, "");
+				DashLed(DISPLAY_LED_BCLASS, (programs[currProgram].NVacuum >= 3) ? ON : OFF);
+				DashLed(DISPLAY_LED_TEMP_134, (programs[currProgram].SterilTemp == STERILTEMP_134) ? ON : OFF);
+				DashLed(DISPLAY_LED_TEMP_121, (programs[currProgram].SterilTemp == STERILTEMP_121) ? ON : OFF);
 			}
 			if (currProgType == PROGTYPE_TEST) {
 				SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, &tests[currTest].DigitsName);
@@ -158,7 +168,6 @@ void ShowProgram() {
 	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 2, 0, 0, s);
 	osDelay(20);
 	osSemaphoreRelease(semaphoreSensorsHandle);
-
 }
 
 void ShowParameter() {

@@ -56,6 +56,7 @@ USAGE:
 #define I2C_EEPROM_CLOCK	hi2c1
 #define I2C_ATM_PRESSURE 	//TBD
 
+//TODO: Long press interval
 #define DISPLAY_LONG_PRESS_INTERVAL 3000
 
 #define EPA_MACHINE_PROD_YEAR			0x0E	// 1 byte 0-199 after 2000
@@ -94,6 +95,10 @@ typedef struct Settings_s {
 	int8_t ServiceCyclesInterval;	// 500, 1000 step 10
 	int16_t LastCleanCycle;
 	int16_t LastServiceCycle;
+	int8_t UserVacuumNumber;
+	int8_t UserSterilTemp;
+	int8_t UserSterilTime;
+	int8_t UserDryTime;
 } Settings_s;
 
 typedef enum {

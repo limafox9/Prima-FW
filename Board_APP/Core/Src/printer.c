@@ -169,6 +169,15 @@ void PrintHeader (const char* title, float t1, RTCDateTime_s* time) {
 		//       3     134'C   310kPa  10:34  10:34
 		Print(" %2d     %3d'C   %3dkPa  %2d:%02d  %2d:%02d", settings.VacNumber, tSter, programs[currProgram].SterilPress, minSter, secSter, minDry, secDry);
 		Print("\n");
+	} else if ((currProgType == PROGTYPE_TEST) && (currTest == 1)) {
+		uint8_t minSter = 210 / 60;
+		uint8_t secSter = 210 % 60;
+		uint8_t minDry = 300 / 60;
+		uint8_t secDry = 300 % 60;
+		Print("VAC.N.  Temp.   Press.   Time   Dry\n");
+		//       3     134'C   310kPa  10:34  10:34
+		Print(" %2d     %3d'C   %3dkPa  %2d:%02d  %2d:%02d", settings.VacNumber, 134, 310, minSter, secSter, minDry, secDry);
+		Print("\n");
 	}
 	Print("------------------------------------------\n");
 	Print("\n");

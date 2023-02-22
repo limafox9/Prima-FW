@@ -76,21 +76,14 @@ uint8_t PhaseBegin(uint8_t timeout) {
 		Beep(1, 1000, 100);
 		retVal = 0;
 	}
-
-	if (DoorSolenoidSet(LOCK) != LOCK) {
-		lastError = ERROR_PROTECTION_LOCK;
-		Print("LOCK ERROR *** NO CONFIRMATION\n");
-		Beep(1, 1000, 100);
-		retVal = 0;
-	}
-	sensors.WaterTDS = BAT2U_GetTDSValue(1, 100);
+//	sensors.WaterTDS = BAT2U_GetTDSValue(1, 100);
 	if (sensors.WaterTDS > settings.WaterTDSMin) {
 		lastError = ERROR_WATER_HIGH_TDS;
 		Print("WTDS ERROR *** WATER QUALITY\n");
 		retVal = 0;
 	}
 
-	if ((sensors.WaterReservoirLevel & EMPTY) == EMPTY) {
+	if (sensors.WaterReservoirLevel == EMPTY) {
 		lastError = ERROR_WATER_LOW;
 		Print("WATR ERROR *** WATER LEVEL\n");
 		Beep(1, 1000, 100);
@@ -105,7 +98,14 @@ uint8_t PhaseBegin(uint8_t timeout) {
 
 	if (retVal == 0) {
 		PrintError("\n", &tPhase);
-		return retVal;
+		return 0;
+	} else {
+		if (DoorSolenoidSet(LOCK) != LOCK) {
+			lastError = ERROR_PROTECTION_LOCK;
+			Print("LOCK ERROR *** NO CONFIRMATION\n");
+			Beep(1, 1000, 100);
+			return 0;
+		}
 	}
 
 	ResetTimer(TIMER_TIMEOUT);
@@ -132,13 +132,13 @@ uint8_t PhaseBegin(uint8_t timeout) {
 	EEPROM_Write(EPA_LAST_ERROR, &err, 1);
 
 	while (1) {
-		lastError = ERROR_PHASE_TIMEOUT;
 		GetTimer(TIMER_TIMEOUT, &tTimeout);
 		if ((sensors.PressureChamber >= pressAmbientMin) && (sensors.PressureChamber <= pressAmbientMax)) {
 			retVal = 1;
 			break;
 		}
 		if (tTimeout.Seconds > timeout) {
+			lastError = ERROR_PHASE_TIMEOUT;
 			retVal = 0;
 			break;
 		}
@@ -158,7 +158,7 @@ uint8_t PhaseResume(uint8_t timeout) {
 
 	uint8_t retVal = 1;
 	RTCTimerTime_s tTimeout, tPhase;
-	sprintf(currPhase, "rES. ");
+	sprintf(currPhase, "rESu");
 
 	ResetTimer(TIMER_PHASE);
 	ResetTimer(TIMER_TIMEOUT);
@@ -179,7 +179,6 @@ uint8_t PhaseResume(uint8_t timeout) {
 	PumpVacuumSet(OFF);
 	PumpWaterLoadSet(OFF);
 
-	FanSet(ON);
 
 	while (1) {
 		if ((sensors.PressureChamber >= pressAmbientMin) && (sensors.PressureChamber <= pressAmbientMax)) {
@@ -535,7 +534,7 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 		}
 		if ((sensors.T1 > param->chamberTempMin) && (sensors.T1 < param->chamberTempMax)) {
 //			if ((sensors.PressureChamber > param->pressMin) && (sensors.PressureChamber < param->pressMax)){
-			if ((sensors.PressureChamber > 310.0) && (sensors.PressureChamber < 340)){
+			if ((sensors.PressureChamber > param->pressMin) && (sensors.PressureChamber < param->pressMax)){
 				GetTimer(TIMER_3, &tWait);
 				if (tWait.Seconds > STERIL_STABILIZATION_PERIOD) {
 					retVal = 1;
@@ -691,6 +690,7 @@ uint8_t PhaseDry(float firstVacPress, float otherVacPress, uint16_t time, uint16
 
 	ResetTimer(TIMER_TIMEOUT);
 	ResetTimer(TIMER_PHASE);
+	ResetTimer(TIMER_1);
 
 	SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_DRY, 0, 0, "");
 	Print("DRY   --------------------------\n");
@@ -778,7 +778,18 @@ uint8_t PhaseDry(float firstVacPress, float otherVacPress, uint16_t time, uint16
 	GetTimer(TIMER_PHASE, &tPhase);
 	Print("TIME                       %2d:%02d\n", tPhase.TimeMinute, tPhase.TimeSecond);
 
-	return retVal;
+	if (currProgram == 99) {
+
+		lastError = ERROR_NONE;
+		EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
+		currProgType = PROGTYPE_PROGRAM;
+		currProgram = 1;
+		ShowProgram();
+
+		return 1;
+	} else {
+		return retVal;
+	}
 }
 
 uint8_t PhaseClean() {
@@ -1003,7 +1014,6 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 
 //		uint8_t err = ERROR_NONE;
 		lastError = ERROR_NONE;
-		EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
 
 		PrintFooter("PASS", time, timer);
 		ValveDryIntakeSet(ON);
@@ -1037,11 +1047,11 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 		sprintf(s,"Er.%02d", lastError);
 		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, s);
 
-		EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
-
 		PrintFooter("FAIL", time, timer);
 		Beep(1, 1000, 100);
 	}
+
+	EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
 
 	if (lastError != ERROR_NONE) machineStatus.Status = STATUS_ERROR;
 

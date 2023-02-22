@@ -136,15 +136,29 @@ void ParseCommand(s_DisplayProtocolData* data) {
 			}
 
 		} else if (data->Param1 == KEY_TEST + KEY_LONG_PRESS) {
-			__NOP();
+			if (machineStatus.Show == SHOW_PROGRAM) {
+				if (machineStatus.Status == STATUS_IDLE) {
+					__NOP();
+				} else if (machineStatus.Status == STATUS_READY) {
+					__NOP();
+				}
+			} else if (machineStatus.Show == SHOW_PARAMETERS) {
+				machineStatus.Show = SHOW_PROGRAM;
+				ShowProgram();
+			} else if (machineStatus.Show == SHOW_READINGS) {
+				machineStatus.Show = SHOW_PROGRAM;
+				ShowProgram();
+			} else if (machineStatus.Show == SHOW_TIMESET) {
+				machineStatus.Show = SHOW_PROGRAM;
+				ShowProgram();
+			} else {
+				__NOP();
+			}
 
 		} else if (data->Param1 == KEY_START + KEY_LONG_PRESS) {
-			if (currProgram == 99 ){
+			if (currProgram == 99 ) {
 				ProgressLed(LED_PROGRESS_NONE);
 				abortProgram = 1;
-				currProgType == PROGTYPE_PROGRAM;
-				currProgram = 0;
-				ShowProgram();
 			} else {
 				if (machineStatus.Show == SHOW_PROGRAM) {
 					if (machineStatus.Status == STATUS_IDLE) {
@@ -153,6 +167,7 @@ void ParseCommand(s_DisplayProtocolData* data) {
 						__NOP();
 					} else if (machineStatus.Status = STATUS_RUNNING) {
 						abortProgram = 1;
+
 						machineStatus.Show = SHOW_PROGRAM;
 						ShowProgram();
 					} else {
