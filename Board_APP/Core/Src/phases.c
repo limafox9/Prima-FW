@@ -46,6 +46,7 @@ USAGE:
 #include "settings.h"
 #include "modes.h"
 #include "globals.h"
+#include "system.h"
 
 #define STERIL_STABILIZATION_PERIOD 30
 
@@ -301,9 +302,14 @@ uint8_t PhaseRelease(uint8_t nRelease, uint16_t timeout) {
 	HAL_Delay(100);
 
 	while (1) {
+		osSemaphoreWait(semaphoreSensorsHandle, 100);
+		if ((sensors.PressureChamber >= sensors.PressureAmbient) && (sensors.PressureChamber <= (pressAmbientMax + 20))) {
+			ValveDryIntakeSet(ON);
+		}
 		if ((sensors.PressureChamber >= pressAmbientMin) && (sensors.PressureChamber <= pressAmbientMax)) {
 			GetTimer(TIMER_PHASE, &tPhase);
 			PrintStepLine("EXHA ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
+			ValveDryIntakeSet(OFF);
 			retVal = 1;
 			break;
 		}
@@ -321,6 +327,7 @@ uint8_t PhaseRelease(uint8_t nRelease, uint16_t timeout) {
 			retVal = 0;
 			break;
 		}
+		osSemaphoreRelease(semaphoreSensorsHandle);
 		osDelay(200);
 	}
 
