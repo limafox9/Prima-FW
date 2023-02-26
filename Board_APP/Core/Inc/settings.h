@@ -80,6 +80,20 @@ USAGE:
 #define EPA_LAST_CLEAN_CYCLE			0x2C	// 2 byte
 #define EPA_LAST_SERVICE_CYCLE			0x2E	// 2 byte
 
+#define EPA_USER_STERIL_TEMP			0x30	// 1 byte
+#define EPA_USER_STERIL_TIME			0x31	// 2 byte
+#define EPA_USER_DRY_TIME				0x33	// 2 byte
+#define EPA_USER_VACUUM_NUMBER			0x35	// 1 byte
+
+#define EPA_FUN_NIGHT_CYCLE_TIME		0x40	// 2 byte
+#define EPA_FUN_PRINTER_ACTIVE			0x42	// 1 byte
+#define EPA_FUN_USB_ACTIVE				0x43	// 1 byte
+#define EPA_FUN_WATER_LOAD_ACTIVE		0x44	// 1 byte
+#define EPA_FUN_TDS_ACTIVE				0x45	// 1 byte
+#define EPA_FUN_DRY_TIME				0x46	// 1 byte
+#define EPA_FUN_PRESS_DISPLAY_OFFSET	0x48	// 2 byte
+
+
 typedef struct Settings_s {
 	uint16_t CyclesCount;
 	int8_t T1Offset;				// -2..2 step 1 (0.1)
@@ -95,10 +109,17 @@ typedef struct Settings_s {
 	int8_t ServiceCyclesInterval;	// 500, 1000 step 10
 	int16_t LastCleanCycle;
 	int16_t LastServiceCycle;
-	int8_t UserVacuumNumber;
-	int8_t UserSterilTemp;
-	int8_t UserSterilTime;
-	int8_t UserDryTime;
+	int8_t UserSterilTemp;			// 121, 134
+	int16_t UserSterilTime;			// 4..30
+	int16_t UserDryTime;				// 0..3
+	int8_t UserVacuumNumber;		// 0, 1, 3, 4, 5
+	int16_t FunNightCycleTime;
+	int8_t FunPrinterActive;	// On Off
+	int8_t FunUSBActive;	// On Off
+	int8_t FunWaterLoadActive;	// On Off
+	int8_t FunTDSActive;	// On Off
+	int16_t FunDryTime;
+	int8_t FunPressureDisplay; // 0-100 kPa display @ATM
 } Settings_s;
 
 typedef enum {

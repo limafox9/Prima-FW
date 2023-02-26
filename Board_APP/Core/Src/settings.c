@@ -103,6 +103,19 @@ void LoadSettings() {
 	EEPROM_Read(EPA_LAST_CLEAN_CYCLE, &settings.LastCleanCycle, 2);
 	EEPROM_Read(EPA_LAST_SERVICE_CYCLE, &settings.LastServiceCycle, 2);
 
+	EEPROM_Read(EPA_USER_STERIL_TEMP, &settings.UserSterilTemp, 1);
+	EEPROM_Read(EPA_USER_STERIL_TIME, &settings.UserSterilTime, 2);
+	EEPROM_Read(EPA_USER_DRY_TIME, &settings.UserDryTime, 2);
+	EEPROM_Read(EPA_USER_VACUUM_NUMBER, &settings.UserVacuumNumber, 1);
+
+	EEPROM_Read(EPA_FUN_NIGHT_CYCLE_TIME, &settings.FunNightCycleTime, 2);
+	EEPROM_Read(EPA_FUN_PRINTER_ACTIVE, &settings.FunPrinterActive, 1);
+	EEPROM_Read(EPA_FUN_USB_ACTIVE, &settings.FunUSBActive, 1);
+	EEPROM_Read(EPA_FUN_WATER_LOAD_ACTIVE, &settings.FunWaterLoadActive, 1);
+	EEPROM_Read(EPA_FUN_TDS_ACTIVE, &settings.FunTDSActive, 1);
+	EEPROM_Read(EPA_FUN_DRY_TIME, &settings.FunDryTime, 2);
+	EEPROM_Read(EPA_FUN_PRESS_DISPLAY_OFFSET, &settings.FunPressureDisplay, 1);
+
 }
 
 void WriteSetting(uint8_t address, uint8_t* data, uint8_t size) {
@@ -124,14 +137,25 @@ void SaveSettings() {
 	EEPROM_Write(EPA_CLEAN_CYCLES_INTERVAL, &settings.CleanCyclesInterval, 1);
 	EEPROM_Write(EPA_SERVICE_CYCLES_INTERVAL, &settings.ServiceCyclesInterval, 1);
 
+	EEPROM_Write(EPA_USER_STERIL_TEMP, &settings.UserSterilTemp, 1);
+	EEPROM_Write(EPA_USER_STERIL_TIME, &settings.UserSterilTime, 2);
+	EEPROM_Write(EPA_USER_DRY_TIME, &settings.UserDryTime, 2);
+	EEPROM_Write(EPA_USER_VACUUM_NUMBER, &settings.UserVacuumNumber, 1);
+
+	EEPROM_Write(EPA_FUN_NIGHT_CYCLE_TIME, &settings.FunNightCycleTime, 2);
+	EEPROM_Write(EPA_FUN_PRINTER_ACTIVE, &settings.FunPrinterActive, 1);
+	EEPROM_Write(EPA_FUN_USB_ACTIVE, &settings.FunUSBActive, 1);
+	EEPROM_Write(EPA_FUN_WATER_LOAD_ACTIVE, &settings.FunWaterLoadActive, 1);
+	EEPROM_Write(EPA_FUN_TDS_ACTIVE, &settings.FunTDSActive, 1);
+	EEPROM_Write(EPA_FUN_DRY_TIME, &settings.FunDryTime, 2);
+	EEPROM_Write(EPA_FUN_PRESS_DISPLAY_OFFSET, &settings.FunPressureDisplay, 1);
+
 }
 
 void SaveDefaults() {
 
 	RTCDateTime_s tTime = {2023, 1, 1, 12, 0, 0};
 	SetDateTime(&tTime);
-
-
 
 	char sn[12] = "GP0000000000";
 	EEPROM_Write(EPA_MACHINE_SERIAL_NUMBER, sn, 12);
@@ -146,6 +170,19 @@ void SaveDefaults() {
 	EEPROM_Write(EPA_VACUUM_THRESHOLD, 40, 1);
 	EEPROM_Write(EPA_OTHER_PRESSURE, 170, 1);
 	EEPROM_Write(EPA_TDS_MIN, 25, 1);
+
+	EEPROM_Write(EPA_USER_STERIL_TEMP, 1, 1);
+	EEPROM_Write(EPA_USER_STERIL_TIME, 300, 2);
+	EEPROM_Write(EPA_USER_DRY_TIME, 300, 2);
+	EEPROM_Write(EPA_USER_VACUUM_NUMBER, 3, 1);
+
+	EEPROM_Write(EPA_FUN_NIGHT_CYCLE_TIME, 0, 2);
+	EEPROM_Write(EPA_FUN_PRINTER_ACTIVE, 1, 1);
+	EEPROM_Write(EPA_FUN_USB_ACTIVE, 1, 1);
+	EEPROM_Write(EPA_FUN_WATER_LOAD_ACTIVE, 1, 1);
+	EEPROM_Write(EPA_FUN_TDS_ACTIVE, 1, 1);
+	EEPROM_Write(EPA_FUN_DRY_TIME, 300, 2);
+	EEPROM_Write(EPA_FUN_PRESS_DISPLAY_OFFSET, 1, 1);
 
 	char s[4] = {'G', 'A', 'P', 'R'};
 	EEPROM_Write(0x00, s, 4); // Numeric ASCII for 'GAPR' (in little endian)

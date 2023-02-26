@@ -51,6 +51,7 @@ typedef enum {
 	SHOW_PARAMETERS,
 	SHOW_READINGS,
 	SHOW_TIMESET,
+	SHOW_USERSET,
 	SHOW_ERROR,
 } e_ShowStatus;
 
@@ -72,6 +73,28 @@ typedef enum {
 	STERILTEMP_134,
 	STERILTEMP_121,
 } e_ProgramTemp;
+
+typedef struct UserSet_s {
+	uint8_t ParamNumber;
+	char Name[16];
+	char DigitsName[8];
+	uint8_t EepromAddress;
+	int8_t* Value;
+	uint8_t Size;
+	int8_t Min;
+	int8_t Max;
+} UserSet_s;
+
+typedef struct Functions_s {
+	uint8_t ParamNumber;
+	char Name[16];
+	char DigitsName[8];
+	uint8_t EepromAddress;
+	int8_t* Value;
+	uint8_t Size;
+	int8_t Min;
+	int8_t Max;
+} Functions_s;
 
 typedef enum {
 	ERROR_NONE = 0,

@@ -88,21 +88,44 @@ Parameter_s parameters[] = {
 };
 
 Reading_s readings[] = {
-		{1, "T1", " t1 ", &sensors.T1},
-		{2, "T2", " t2 ", &sensors.T2},
-		{3, "T3", " t3 ", &sensors.TemperatureChamberHeater},
-		{4, "T4", " t4 ", &sensors.TemperatureSteamGenerator},
-		{5, "P chamber", " P1 ", &sensors.PressureChamber},
-		{6, "P ambient", " PA ", &sensors.PressureAmbient},
-		{7, "TDS", " CO ", (uint16_t*)(&sensors.WaterTDS)},
+	{1, "T1", " t1 ", &sensors.T1},
+	{2, "T2", " t2 ", &sensors.T2},
+	{3, "T3", " t3 ", &sensors.TemperatureChamberHeater},
+	{4, "T4", " t4 ", &sensors.TemperatureSteamGenerator},
+	{5, "P chamber", " P1 ", &sensors.PressureChamber},
+	{6, "P ambient", " PA ", &sensors.PressureAmbient},
+	{7, "TDS", " CO ", (uint16_t*)(&sensors.WaterTDS)},
+};
+
+UserSet_s user[] = {
+	{1, "User Steril Temp", " tE ", EPA_USER_STERIL_TEMP, &settings.UserSterilTemp, 1, 1, 2},
+	{2, "User Steril Time", " tE ", EPA_USER_STERIL_TIME, &settings.UserSterilTime, 2, 1, 2},
+	{3, "User Dry Time", " tE ", EPA_USER_DRY_TIME, &settings.UserDryTime, 2, 1, 2},
+	{4, "User Vacuum Number", " tE ", EPA_USER_VACUUM_NUMBER, &settings.UserVacuumNumber, 1, 1, 2},
+};
+
+Functions_s functions[] = {
+	{1, "Night cycle time", "POtI", EPA_FUN_NIGHT_CYCLE_TIME, &settings.UserSterilTemp, 2, 1, 2},
+	{2, "Printer on", "PrIn", EPA_FUN_PRINTER_ACTIVE, &settings.UserSterilTime, 1, 1, 2},
+	{3, "USB on", "USb ", EPA_FUN_USB_ACTIVE, &settings.UserDryTime, 1, 1, 2},
+	{4, "Water load on", "PUnP", EPA_FUN_WATER_LOAD_ACTIVE, &settings.UserVacuumNumber, 1, 1, 2},
+	{5, "TDS on", " CO ", EPA_FUN_TDS_ACTIVE, &settings.UserSterilTime, 1, 1, 2},
+	{6, "Dry Time", "dry ", EPA_FUN_DRY_TIME, &settings.UserDryTime, 2, 1, 2},
+	{7, "Pressure display", "PdSP", EPA_FUN_PRESS_DISPLAY_OFFSET, &settings.UserVacuumNumber, 1, 1, 2},
+	{8, "USB Export", "ESPr", 0, 0, 0, 0, 0, 0},
+	{9, "USB Import parameters", "LoAd", 0, 0, 0, 0, 0},
+	{10, "Consumption test", "PtSt", 0, 0, 0, 0, 0},
+	{11, "Print user parameters", "PUPA", 0, 0, 0, 0, 0},
+	{12, "Print tech parameters", "PTPA", 0, 0, 0, 0, 0},
+	{13, "Print last ticket", "PLTI", 0, 0, 0, 0, 0},
 };
 
 Timeset_s timeset[] = {
-		{1, "Year", "yEAr", &RTCDateTime.Year, 22, 99},
-		{2, "Month", "nnon", &RTCDateTime.Month, 1, 12},
-		{3, "Day", " dAy", &RTCDateTime.Day, 1, 31},
-		{4, "Hour", "Hour", &RTCDateTime.Hour, 0, 23},
-		{5, "Minute", "nnin", &RTCDateTime.Minute, 0, 59},
+	{1, "Year", "yEAr", &RTCDateTime.Year, 22, 99},
+	{2, "Month", "nnon", &RTCDateTime.Month, 1, 12},
+	{3, "Day", " dAy", &RTCDateTime.Day, 1, 31},
+	{4, "Hour", "Hour", &RTCDateTime.Hour, 0, 23},
+	{5, "Minute", "nnin", &RTCDateTime.Minute, 0, 59},
 };
 
 const uint8_t monthDays[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};

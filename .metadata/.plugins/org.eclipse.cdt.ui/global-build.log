@@ -1,26 +1,12 @@
-14:21:10 **** Incremental Build of configuration Debug for project DB_Protocol ****
-make -j4 all 
-arm-none-eabi-gcc "../Src/DB_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/DB_protocol.d" -MT"Src/DB_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/DB_protocol.o"
-arm-none-eabi-ar -r  "libDB_Protocol.a" @"objects.list"  
-arm-none-eabi-ar: creating libDB_Protocol.a
-Finished building target: libDB_Protocol.a
- 
-14:21:12 **** Incremental Build of configuration Debug for project DB_Protocol ****
-make -j4 all 
-arm-none-eabi-gcc "../Src/DB_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/DB_protocol.d" -MT"Src/DB_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/DB_protocol.o"
-arm-none-eabi-ar -r  "libDB_Protocol.a" @"objects.list"  
-arm-none-eabi-ar: creating libDB_Protocol.a
-Finished building target: libDB_Protocol.a
- 
-14:21:13 **** Incremental Build of configuration Debug for project Board_APP ****
-make -j4 all 
-arm-none-eabi-gcc "../Core/Src/sensors.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/sensors.d" -MT"Core/Src/sensors.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/sensors.o"
-arm-none-eabi-gcc "../Core/Src/settings.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/settings.d" -MT"Core/Src/settings.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/settings.o"
-In file included from ../Core/Inc/sensors.h:39,
-                 from ../Core/Src/sensors.c:36:
-../Core/Inc/globals.h:105:1: warning: useless storage class specifier in empty declaration
-  105 | };
-      | ^
+03:34:03 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j24 all 
+make: Nothing to be done for 'all'.
+03:34:03 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j24 all 
+make: Nothing to be done for 'all'.
+03:34:04 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/settings.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima Firmware/Source/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/settings.d" -MT"Core/Src/settings.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/settings.o"
 In file included from ../Core/Src/settings.c:42:
 ../Core/Inc/globals.h:105:1: warning: useless storage class specifier in empty declaration
   105 | };
@@ -30,39 +16,18 @@ In file included from ../Core/Src/settings.c:42:
    67 |  EEPROM_Read(address, data, size);
       |  ^~~~~~~~~~~
 ../Core/Src/settings.c: In function 'WriteSetting':
-../Core/Src/settings.c:110:2: warning: implicit declaration of function 'EEPROM_Write' [-Wimplicit-function-declaration]
-  110 |  EEPROM_Write(address, data, size);
+../Core/Src/settings.c:123:2: warning: implicit declaration of function 'EEPROM_Write' [-Wimplicit-function-declaration]
+  123 |  EEPROM_Write(address, data, size);
       |  ^~~~~~~~~~~~
-../Core/Src/sensors.c: In function 'HAL_GPIO_EXTI_Callback':
-../Core/Src/sensors.c:123:3: warning: implicit declaration of function 'Beep' [-Wimplicit-function-declaration]
-  123 |   Beep(1, 100, 100);
-      |   ^~~~
-../Core/Src/sensors.c:125:44: warning: implicit declaration of function 'PhasePreheat' [-Wimplicit-function-declaration]
-  125 |   if (machineStatus.Status == STATUS_IDLE) PhasePreheat(60.0, 90.0);
-      |                                            ^~~~~~~~~~~~
-../Core/Src/sensors.c: In function 'StartSensorsTask':
-../Core/Src/sensors.c:199:49: warning: implicit declaration of function 'ShowReading' [-Wimplicit-function-declaration]
-  199 |   else if (machineStatus.Show == SHOW_READINGS) ShowReading();
-      |                                                 ^~~~~~~~~~~
-../Core/Src/sensors.c: In function 'ADCToCurrent':
-../Core/Src/sensors.c:473:8: warning: unused variable 'current' [-Wunused-variable]
-  473 |  float current = voltage / FACTOR;
-      |        ^~~~~~~
-../Core/Src/sensors.c:462:8: warning: unused variable 'cutOff' [-Wunused-variable]
-  462 |  float cutOff = FACTOR/cutOffLimit;// convert current cut off to mV
-      |        ^~~~~~
-../Core/Src/sensors.c:408:24: warning: unused variable 'pkPa' [-Wunused-variable]
-  408 |  float readVolt, vRef, pkPa;
-      |                        ^~~~
-arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima-FW\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima Firmware\Source\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: Board_APP.elf
  
 arm-none-eabi-size   Board_APP.elf 
 arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
 arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
-   text	   data	    bss	    dec	    hex	filename
- 108424	   1796	  37724	 147944	  241e8	Board_APP.elf
 arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
+   text	   data	    bss	    dec	    hex	filename
+ 108728	   1796	  37732	 148256	  24320	Board_APP.elf
 Finished building: default.size.stdout
  
 Finished building: Board_APP.hex
