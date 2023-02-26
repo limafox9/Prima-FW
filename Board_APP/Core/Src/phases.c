@@ -303,9 +303,9 @@ uint8_t PhaseRelease(uint8_t nRelease, uint16_t timeout) {
 
 	while (1) {
 		osSemaphoreWait(semaphoreSensorsHandle, 100);
-		if ((sensors.PressureChamber >= sensors.PressureAmbient) && (sensors.PressureChamber <= (pressAmbientMax + 20))) {
-			ValveDryIntakeSet(ON);
-		}
+//		if ((sensors.PressureChamber >= sensors.PressureAmbient) && (sensors.PressureChamber <= (pressAmbientMax + 20))) {
+//			ValveDryIntakeSet(ON);
+//		}
 		if ((sensors.PressureChamber >= pressAmbientMin) && (sensors.PressureChamber <= pressAmbientMax)) {
 			GetTimer(TIMER_PHASE, &tPhase);
 			PrintStepLine("EXHA ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);

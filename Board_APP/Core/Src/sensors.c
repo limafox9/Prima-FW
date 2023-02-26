@@ -60,7 +60,8 @@ USAGE:
 #define SENSOR_TEMP_T1_ADC_CHANNEL 				0 // External 16bit ADC
 #define SENSOR_TEMP_T2_ADC_CHANNEL 				1 // External 16bit ADC
 
-#define AMBIENT_PRESSURE_TOLERANCE				10	// +/- kPa to consider chamber pressure = ambient pressure
+#define AMBIENT_PRESSURE_TOLERANCE_MIN			5	// +/- kPa to consider chamber pressure = ambient pressure
+#define AMBIENT_PRESSURE_TOLERANCE_MAX 			20	// +/- kPa to consider chamber pressure = ambient pressure
 
 #define ERROR_BEEP_NUMBER			1
 
@@ -191,8 +192,8 @@ void StartSensorsTask() {
 			sensors.PressureAmbient = sensors.PressureChamber;
 		}
 
-		pressAmbientMin = sensors.PressureAmbient - (float)AMBIENT_PRESSURE_TOLERANCE;
-		pressAmbientMax = sensors.PressureAmbient + (float)AMBIENT_PRESSURE_TOLERANCE;
+		pressAmbientMin = sensors.PressureAmbient - (float)AMBIENT_PRESSURE_TOLERANCE_MIN;
+		pressAmbientMax = sensors.PressureAmbient + (float)AMBIENT_PRESSURE_TOLERANCE_MAX;
 
 		if (machineStatus.Show == SHOW_PROGRAM) ShowProgram();
 		else if (machineStatus.Show == SHOW_READINGS) ShowReading();
