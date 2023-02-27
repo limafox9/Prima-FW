@@ -64,7 +64,7 @@ uint8_t PhaseBegin(uint8_t timeout) {
 
 	uint8_t retVal = 1;
 	RTCTimerTime_s tTimeout, tPhase;
-	sprintf(currPhase, "bEG. ");
+	sprintf(currPhase, "Init");
 
 	ResetTimer(TIMER_PHASE);
 
@@ -96,7 +96,6 @@ uint8_t PhaseBegin(uint8_t timeout) {
 		Beep(1, 1000, 100);
 		retVal = 0;
 	}
-
 	if (retVal == 0) {
 		PrintError("\n", &tPhase);
 		return 0;

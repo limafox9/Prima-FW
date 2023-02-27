@@ -216,5 +216,6 @@ void ChangeUserSetting(int8_t increment);
 void ShowFunctions();
 void SelectFunction();
 void ChangeFunction(int8_t increment);
+uint8_t GetDryTime(uint8_t class, uint8_t sterilTemp, uint8_t vacuumNumber);
 
 #endif /* INC_MODES_H_ */

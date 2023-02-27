@@ -591,7 +591,7 @@ uint8_t ProgramUser() {
 	}
 
 	// Other vacuum
-	if (settings.UserVacuumNumber > 2) {
+	if (settings.UserVacuumNumber >= 3) {
 		for (int i = 0; i < (settings.UserVacuumNumber - 2); i++) {  // -2 for 1st cycle and steril cycle
 			if (success) {
 				PhasePreheat(DV_HEATING_RING_TEMP, 210.0);
@@ -609,7 +609,7 @@ uint8_t ProgramUser() {
 	}
 
 	// Sterilization
-	if (settings.UserVacuumNumber > 2) {
+	if (settings.UserVacuumNumber >= 3) {
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, 210.0);
 			success = PhaseVacuum(3, (float)settings.OtherVacuum, OT_VACUUM);
@@ -617,7 +617,7 @@ uint8_t ProgramUser() {
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, 220.0);
-		success = PhasePressure(3, 290.0, 200.0, 170.0, OT_PRESSURE);
+		success = PhasePressure(3, (settings.UserSterilTemp == STERILTEMP_134) ? 290.0 : 190.0, 200.0, 170.0, OT_PRESSURE);
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, 220.0);

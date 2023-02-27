@@ -110,15 +110,17 @@ typedef struct Settings_s {
 	int16_t LastCleanCycle;
 	int16_t LastServiceCycle;
 	int8_t UserSterilTemp;			// 121, 134
-	int16_t UserSterilTime;			// 4..30
-	int16_t UserDryTime;				// 0..3
+	int8_t UserSterilTime;			// 4..30
+	int8_t UserDryClass;			// 0..3
+	int8_t UserDryTime;				// 0..28
 	int8_t UserVacuumNumber;		// 0, 1, 3, 4, 5
-	int16_t FunNightCycleTime;
+	int8_t FunNightCycleTime;
 	int8_t FunPrinterActive;	// On Off
 	int8_t FunUSBActive;	// On Off
 	int8_t FunWaterLoadActive;	// On Off
 	int8_t FunTDSActive;	// On Off
-	int16_t FunDryTime;
+	int8_t FunDryClass;
+	int8_t FunDryTime;
 	int8_t FunPressureDisplay; // 0-100 kPa display @ATM
 } Settings_s;
 

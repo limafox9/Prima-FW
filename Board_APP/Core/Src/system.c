@@ -151,6 +151,9 @@ void SysInit() {
 	PWMPower_Init();
 	PrinterInit();
 
+//	PrintLogo();
+//	return;
+
 //
 	HAL_ADCEx_Calibration_Start(&hadc1);
 

@@ -104,16 +104,17 @@ void LoadSettings() {
 	EEPROM_Read(EPA_LAST_SERVICE_CYCLE, &settings.LastServiceCycle, 2);
 
 	EEPROM_Read(EPA_USER_STERIL_TEMP, &settings.UserSterilTemp, 1);
-	EEPROM_Read(EPA_USER_STERIL_TIME, &settings.UserSterilTime, 2);
-	EEPROM_Read(EPA_USER_DRY_TIME, &settings.UserDryTime, 2);
+	EEPROM_Read(EPA_USER_STERIL_TIME, &settings.UserSterilTime, 1);
+	EEPROM_Read(EPA_USER_DRY_TIME, &settings.UserDryClass, 1);
 	EEPROM_Read(EPA_USER_VACUUM_NUMBER, &settings.UserVacuumNumber, 1);
+	settings.UserDryTime = GetDryTime(settings.UserDryClass, settings.UserSterilTemp, settings.UserVacuumNumber);
 
-	EEPROM_Read(EPA_FUN_NIGHT_CYCLE_TIME, &settings.FunNightCycleTime, 2);
+	EEPROM_Read(EPA_FUN_NIGHT_CYCLE_TIME, &settings.FunNightCycleTime, 1);
 	EEPROM_Read(EPA_FUN_PRINTER_ACTIVE, &settings.FunPrinterActive, 1);
 	EEPROM_Read(EPA_FUN_USB_ACTIVE, &settings.FunUSBActive, 1);
 	EEPROM_Read(EPA_FUN_WATER_LOAD_ACTIVE, &settings.FunWaterLoadActive, 1);
 	EEPROM_Read(EPA_FUN_TDS_ACTIVE, &settings.FunTDSActive, 1);
-	EEPROM_Read(EPA_FUN_DRY_TIME, &settings.FunDryTime, 2);
+	EEPROM_Read(EPA_FUN_DRY_TIME, &settings.FunDryClass, 2);
 	EEPROM_Read(EPA_FUN_PRESS_DISPLAY_OFFSET, &settings.FunPressureDisplay, 1);
 
 }
@@ -138,16 +139,16 @@ void SaveSettings() {
 	EEPROM_Write(EPA_SERVICE_CYCLES_INTERVAL, &settings.ServiceCyclesInterval, 1);
 
 	EEPROM_Write(EPA_USER_STERIL_TEMP, &settings.UserSterilTemp, 1);
-	EEPROM_Write(EPA_USER_STERIL_TIME, &settings.UserSterilTime, 2);
-	EEPROM_Write(EPA_USER_DRY_TIME, &settings.UserDryTime, 2);
+	EEPROM_Write(EPA_USER_STERIL_TIME, &settings.UserSterilTime, 1);
+	EEPROM_Write(EPA_USER_DRY_TIME, &settings.UserDryClass, 1);
 	EEPROM_Write(EPA_USER_VACUUM_NUMBER, &settings.UserVacuumNumber, 1);
 
-	EEPROM_Write(EPA_FUN_NIGHT_CYCLE_TIME, &settings.FunNightCycleTime, 2);
+	EEPROM_Write(EPA_FUN_NIGHT_CYCLE_TIME, &settings.FunNightCycleTime, 1);
 	EEPROM_Write(EPA_FUN_PRINTER_ACTIVE, &settings.FunPrinterActive, 1);
 	EEPROM_Write(EPA_FUN_USB_ACTIVE, &settings.FunUSBActive, 1);
 	EEPROM_Write(EPA_FUN_WATER_LOAD_ACTIVE, &settings.FunWaterLoadActive, 1);
 	EEPROM_Write(EPA_FUN_TDS_ACTIVE, &settings.FunTDSActive, 1);
-	EEPROM_Write(EPA_FUN_DRY_TIME, &settings.FunDryTime, 2);
+	EEPROM_Write(EPA_FUN_DRY_TIME, &settings.FunDryClass, 1);
 	EEPROM_Write(EPA_FUN_PRESS_DISPLAY_OFFSET, &settings.FunPressureDisplay, 1);
 
 }

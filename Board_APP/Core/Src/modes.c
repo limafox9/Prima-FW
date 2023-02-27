@@ -100,10 +100,10 @@ Reading_s readings[] = {
 };
 
 UserSet_s user[] = {
-	{1, "User Steril Temp", " tE ", EPA_USER_STERIL_TEMP, &settings.UserSterilTemp, 1, 0, 1},
-	{2, "User Steril Time", " St ", EPA_USER_STERIL_TIME, &settings.UserSterilTime, 2, 4, 30},
-	{3, "User Dry Time", " dr ", EPA_USER_DRY_TIME, &settings.UserDryTime, 2, 0, 3},
-	{4, "User Vacuum Number", " UA ", EPA_USER_VACUUM_NUMBER, &settings.UserVacuumNumber, 1, 0, 5},
+	{0, "User Steril Temp", " tE ", EPA_USER_STERIL_TEMP, &settings.UserSterilTemp, 1, 0, 1},
+	{1, "User Steril Time", " St ", EPA_USER_STERIL_TIME, &settings.UserSterilTime, 1, 4, 30},
+	{2, "User Dry Time", " dr ", EPA_USER_DRY_TIME, &settings.UserDryClass, 1, 0, 3},
+	{3, "User Vacuum Number", " UA ", EPA_USER_VACUUM_NUMBER, &settings.UserVacuumNumber, 1, 0, 5},
 };
 
 Functions_s functions[] = {
@@ -112,14 +112,14 @@ Functions_s functions[] = {
 	{3, "USB on", "USb ", EPA_FUN_USB_ACTIVE, &settings.UserDryTime, 1, 0, 1},
 	{4, "Water load on", "PUnP", EPA_FUN_WATER_LOAD_ACTIVE, &settings.UserVacuumNumber, 1, 0, 1},
 	{5, "TDS on", " CO ", EPA_FUN_TDS_ACTIVE, &settings.UserSterilTime, 1, 0, 1},
-	{6, "Dry Time", "dry ", EPA_FUN_DRY_TIME, &settings.UserDryTime, 2, 0, 0},
+	{6, "Dry Time", "dry ", EPA_FUN_DRY_TIME, &settings.FunDryClass, 1, 1, 3},
 	{7, "Pressure display", "PdSP", EPA_FUN_PRESS_DISPLAY_OFFSET, &settings.UserVacuumNumber, 1, 0, 1},
 	{8, "USB Export", "ESPr", 0, 0, 0, 0, 0, 0},
 	{9, "USB Import parameters", "LoAd", 0, 0, 0, 0, 0},
 	{10, "Consumption test", "PtSt", 0, 0, 0, 0, 0},
 	{11, "Print user parameters", "PUPA", 0, 0, 0, 0, 0},
-	{12, "Print tech parameters", "PTPA", 0, 0, 0, 0, 0},
-	{13, "Print last ticket", "PLTI", 0, 0, 0, 0, 0},
+	{12, "Print tech parameters", "PtPA", 0, 0, 0, 0, 0},
+	{13, "Print last ticket", "PLtI", 0, 0, 0, 0, 0},
 };
 
 
@@ -259,6 +259,8 @@ void ShowUserSetting() {
 	char s[8];
 	if (currUser == 0) {
 		sprintf(s,"%4d", (*user[currUser].Value == 0) ? 121 : 134);
+	} else if (currUser == 2){
+		sprintf(s,"%4d", GetDryTime(*user[currUser].Value, settings.UserSterilTemp, settings.UserVacuumNumber));
 	} else {
 		sprintf(s,"%4d", *user[currUser].Value);
 	}
@@ -285,6 +287,9 @@ void ChangeUserSetting(int8_t increment) {
 
 	if (*user[currUser].Value < user[currUser].Min) *user[currUser].Value = user[currUser].Max;
 	if (*user[currUser].Value > user[currUser].Max) *user[currUser].Value = user[currUser].Min;
+
+	settings.UserDryTime = GetDryTime(settings.UserDryClass, settings.UserSterilTemp, settings.UserVacuumNumber);
+
 //	WriteSetting(parameters[currParameter].EepromAddress, parameters[currParameter].Data, 1);
 	ShowUserSetting();
 }
@@ -348,4 +353,51 @@ void ChangeTimeset(int8_t increment) {
 	ShowTimeset();
 }
 
+uint8_t GetDryTime(uint8_t class, uint8_t sterilTemp, uint8_t vacuumNumber) {
+
+	uint8_t dryTime = 0;
+
+	if (class != 0) {
+		if (sterilTemp == STERILTEMP_121) {
+			switch (class) {
+			case 1:
+				dryTime = 18;
+				break;
+			case 2:
+				dryTime = 23;
+				break;
+			case 3:
+				dryTime = 28;
+				break;
+			}
+		} else if (vacuumNumber == 1) {
+			switch (class) {
+			case 1:
+				dryTime = 9;
+				break;
+			case 2:
+				dryTime = 14;
+				break;
+			case 3:
+				dryTime = 19;
+				break;
+			}
+
+		} else {
+			switch (class) {
+			case 1:
+				dryTime = 5;
+				break;
+			case 2:
+				dryTime = 10;
+				break;
+			case 3:
+				dryTime = 15;
+				break;
+			}
+		}
+	}
+
+	return dryTime;
+}
 
