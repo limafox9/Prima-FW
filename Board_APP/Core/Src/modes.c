@@ -53,13 +53,15 @@ e_ProgramType currProgType = PROGTYPE_PROGRAM;
 uint8_t currParameter = 0;
 uint8_t currReading = 0;
 uint8_t currTimeset = 0;
+uint8_t currUser = 0;
+uint8_t currFunction = 0;
 
 uint8_t progRunning = 0;
 uint8_t progStart = 0;
 uint8_t progStop = 0;
 
 s_Program programs[] = {
-	{0, PROGTYPE_PROGRAM, "User", "P. US", 15, CLASS_USER, STERILTEMP_USER, 1, 310, 0, 0,},
+	{0, PROGTYPE_PROGRAM, "User", "P. US", 15, CLASS_USER, STERILTEMP_134, 1, 310, 0, 0,},
 	{1, PROGTYPE_PROGRAM, "Wrapped", "P. Un", 1, CLASS_B, STERILTEMP_134, 1, 310, 300, 240},
 	{2, PROGTYPE_PROGRAM, "Unwrapped", "P. Ur", 2, CLASS_S, STERILTEMP_134, 4, 310, 300, 540},
 	{3, PROGTYPE_PROGRAM, "Prion", "P. Pr", 4, CLASS_B, STERILTEMP_134, 4, 310, 1000, 540},
@@ -67,10 +69,10 @@ s_Program programs[] = {
 };
 
 s_Program tests[] = {
-	{1, PROGTYPE_TEST, "Helix Test", "t. HE", 16, CLASS_USER, STERILTEMP_USER},
-	{2, PROGTYPE_TEST, "Vacuum Test", "t. UA", 32, CLASS_USER, STERILTEMP_USER},
-	{3, PROGTYPE_TEST, "Wash cycle", "UASH", DISPLAY_LED_WASH_CYCLE, CLASS_USER, STERILTEMP_USER},
-	{4, PROGTYPE_TEST, "Water fill", "----", DISPLAY_LED_WATER_FILL, CLASS_USER, STERILTEMP_USER},
+	{1, PROGTYPE_TEST, "Helix Test", "t. HE", 16, CLASS_USER, STERILTEMP_134},
+	{2, PROGTYPE_TEST, "Vacuum Test", "t. UA", 32, CLASS_USER, STERILTEMP_134},
+	{3, PROGTYPE_TEST, "Wash cycle", "UASH", DISPLAY_LED_WASH_CYCLE, CLASS_USER, STERILTEMP_134},
+	{4, PROGTYPE_TEST, "Water fill", "----", DISPLAY_LED_WATER_FILL, CLASS_USER, STERILTEMP_134},
 };
 
 Parameter_s parameters[] = {
@@ -98,20 +100,20 @@ Reading_s readings[] = {
 };
 
 UserSet_s user[] = {
-	{1, "User Steril Temp", " tE ", EPA_USER_STERIL_TEMP, &settings.UserSterilTemp, 1, 1, 2},
-	{2, "User Steril Time", " tE ", EPA_USER_STERIL_TIME, &settings.UserSterilTime, 2, 1, 2},
-	{3, "User Dry Time", " tE ", EPA_USER_DRY_TIME, &settings.UserDryTime, 2, 1, 2},
-	{4, "User Vacuum Number", " tE ", EPA_USER_VACUUM_NUMBER, &settings.UserVacuumNumber, 1, 1, 2},
+	{1, "User Steril Temp", " tE ", EPA_USER_STERIL_TEMP, &settings.UserSterilTemp, 1, 0, 1},
+	{2, "User Steril Time", " St ", EPA_USER_STERIL_TIME, &settings.UserSterilTime, 2, 4, 30},
+	{3, "User Dry Time", " dr ", EPA_USER_DRY_TIME, &settings.UserDryTime, 2, 0, 3},
+	{4, "User Vacuum Number", " UA ", EPA_USER_VACUUM_NUMBER, &settings.UserVacuumNumber, 1, 0, 5},
 };
 
 Functions_s functions[] = {
-	{1, "Night cycle time", "POtI", EPA_FUN_NIGHT_CYCLE_TIME, &settings.UserSterilTemp, 2, 1, 2},
-	{2, "Printer on", "PrIn", EPA_FUN_PRINTER_ACTIVE, &settings.UserSterilTime, 1, 1, 2},
-	{3, "USB on", "USb ", EPA_FUN_USB_ACTIVE, &settings.UserDryTime, 1, 1, 2},
-	{4, "Water load on", "PUnP", EPA_FUN_WATER_LOAD_ACTIVE, &settings.UserVacuumNumber, 1, 1, 2},
-	{5, "TDS on", " CO ", EPA_FUN_TDS_ACTIVE, &settings.UserSterilTime, 1, 1, 2},
-	{6, "Dry Time", "dry ", EPA_FUN_DRY_TIME, &settings.UserDryTime, 2, 1, 2},
-	{7, "Pressure display", "PdSP", EPA_FUN_PRESS_DISPLAY_OFFSET, &settings.UserVacuumNumber, 1, 1, 2},
+	{1, "Night cycle time", "POtI", EPA_FUN_NIGHT_CYCLE_TIME, &settings.UserSterilTemp, 2, 0, 120},
+	{2, "Printer on", "Prin", EPA_FUN_PRINTER_ACTIVE, &settings.UserSterilTime, 1, 0, 1},
+	{3, "USB on", "USb ", EPA_FUN_USB_ACTIVE, &settings.UserDryTime, 1, 0, 1},
+	{4, "Water load on", "PUnP", EPA_FUN_WATER_LOAD_ACTIVE, &settings.UserVacuumNumber, 1, 0, 1},
+	{5, "TDS on", " CO ", EPA_FUN_TDS_ACTIVE, &settings.UserSterilTime, 1, 0, 1},
+	{6, "Dry Time", "dry ", EPA_FUN_DRY_TIME, &settings.UserDryTime, 2, 0, 0},
+	{7, "Pressure display", "PdSP", EPA_FUN_PRESS_DISPLAY_OFFSET, &settings.UserVacuumNumber, 1, 0, 1},
 	{8, "USB Export", "ESPr", 0, 0, 0, 0, 0, 0},
 	{9, "USB Import parameters", "LoAd", 0, 0, 0, 0, 0},
 	{10, "Consumption test", "PtSt", 0, 0, 0, 0, 0},
@@ -119,6 +121,7 @@ Functions_s functions[] = {
 	{12, "Print tech parameters", "PTPA", 0, 0, 0, 0, 0},
 	{13, "Print last ticket", "PLTI", 0, 0, 0, 0, 0},
 };
+
 
 Timeset_s timeset[] = {
 	{1, "Year", "yEAr", &RTCDateTime.Year, 22, 99},
@@ -170,14 +173,23 @@ void ShowProgram() {
 				SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, &programs[currProgram].DigitsName);
 				SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, 63 + DISPLAY_LED_WASH_CYCLE + DISPLAY_LED_WATER_FILL, OFF, 0, "");
 				SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, programs[currProgram].DashLeds, ON, 0, "");
-				DashLed(DISPLAY_LED_BCLASS, (programs[currProgram].NVacuum >= 3) ? ON : OFF);
-				DashLed(DISPLAY_LED_TEMP_134, (programs[currProgram].SterilTemp == STERILTEMP_134) ? ON : OFF);
-				DashLed(DISPLAY_LED_TEMP_121, (programs[currProgram].SterilTemp == STERILTEMP_121) ? ON : OFF);
+				if (currProgram == PROGRAM_USER) {
+					DashLed(DISPLAY_LED_BCLASS, (settings.UserVacuumNumber >= 3) ? ON : OFF);
+					DashLed(DISPLAY_LED_TEMP_134, (settings.UserSterilTemp == STERILTEMP_134) ? ON : OFF);
+					DashLed(DISPLAY_LED_TEMP_121, (settings.UserSterilTemp == STERILTEMP_134) ? ON : OFF);
+				} else {
+					DashLed(DISPLAY_LED_BCLASS, (programs[currProgram].NVacuum >= 3) ? ON : OFF);
+					DashLed(DISPLAY_LED_TEMP_134, (programs[currProgram].SterilTemp == STERILTEMP_134) ? ON : OFF);
+					DashLed(DISPLAY_LED_TEMP_121, (programs[currProgram].SterilTemp == STERILTEMP_121) ? ON : OFF);
+				}
 			}
 			if (currProgType == PROGTYPE_TEST) {
 				SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, &tests[currTest].DigitsName);
 				SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, 63 + DISPLAY_LED_WASH_CYCLE + DISPLAY_LED_WATER_FILL, OFF, 0, "");
 				SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, tests[currTest].DashLeds, ON, 0, "");
+				DashLed(DISPLAY_LED_TEMP_134, OFF);
+				DashLed(DISPLAY_LED_TEMP_121, OFF);
+				DashLed(DISPLAY_LED_BCLASS, OFF);
 			}
 		}
 	}
@@ -239,6 +251,74 @@ void SelectReading() {
 	currReading++;
 	if (currReading > ((sizeof(readings) / sizeof(Reading_s)) - 1)) currReading = 0;
 	ShowReading();
+}
+
+void ShowUserSetting() {
+	osSemaphoreWait(semaphoreSensorsHandle, 100);
+	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, &user[currUser].DigitsName);
+	char s[8];
+	if (currUser == 0) {
+		sprintf(s,"%4d", (*user[currUser].Value == 0) ? 121 : 134);
+	} else {
+		sprintf(s,"%4d", *user[currUser].Value);
+	}
+	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 2, 0, 0, s);
+	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "USEr");
+	osSemaphoreRelease(semaphoreSensorsHandle);
+}
+
+void SelectUserSetting() {
+	currUser++;
+	if (currUser > ((sizeof(user) / sizeof(UserSet_s)) - 1)) currUser = 0;
+	ShowUserSetting();
+}
+
+void ChangeUserSetting(int8_t increment) {
+	*user[currUser].Value += increment;
+
+	if (currUser == 3) { // 0 to 5, no 2
+		if (*user[currUser].Value == 2) {
+			if (increment > 0) *user[currUser].Value = 3;
+			else *user[currUser].Value = 1;
+		}
+	}
+
+	if (*user[currUser].Value < user[currUser].Min) *user[currUser].Value = user[currUser].Max;
+	if (*user[currUser].Value > user[currUser].Max) *user[currUser].Value = user[currUser].Min;
+//	WriteSetting(parameters[currParameter].EepromAddress, parameters[currParameter].Data, 1);
+	ShowUserSetting();
+}
+
+void ShowFunctions() {
+	osSemaphoreWait(semaphoreSensorsHandle, 100);
+	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, &functions[currFunction].DigitsName);
+	char s[8];
+	if (currFunction == 0) {
+		sprintf(s,"%4d", (*functions[currFunction].Value == 0) ? 121 : 134);
+	} else if ((currFunction > 0) && (currFunction < 5)) {
+		sprintf(s,"%4s", (*functions[currFunction].Value == 1) ? "On" : " OFF");
+	} else {
+		sprintf(s,"%4d", *user[currUser].Value);
+	}
+	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 2, 0, 0, s);
+	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "FUnC");
+	osSemaphoreRelease(semaphoreSensorsHandle);
+}
+
+void SelectFunction() {
+	currFunction++;
+	if (currFunction > ((sizeof(functions) / sizeof(UserSet_s)) - 1)) currFunction = 0;
+	ShowFunctions();
+}
+
+void ChangeFunction(int8_t increment) {
+	if (currFunction == 0) *functions[currFunction].Value += (increment * 30);
+	else *functions[currFunction].Value += increment;
+
+	if (*functions[currFunction].Value < functions[currFunction].Min) *functions[currFunction].Value = functions[currFunction].Max;
+	if (*functions[currFunction].Value > functions[currFunction].Max) *functions[currFunction].Value = functions[currFunction].Min;
+//	WriteSetting(parameters[currParameter].EepromAddress, parameters[currParameter].Data, 1);
+	ShowFunctions();
 }
 
 void ShowTimeset() {

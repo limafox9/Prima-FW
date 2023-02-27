@@ -70,6 +70,10 @@ void ParseCommand(s_DisplayProtocolData* data) {
 				SelectParameter();
 			} else if (machineStatus.Show == SHOW_READINGS) {
 				SelectReading();
+			} else if (machineStatus.Show == SHOW_USERSET) {
+				SelectUserSetting();
+			} else if (machineStatus.Show == SHOW_FUNCTIONS) {
+				SelectFunction();
 			} else if (machineStatus.Show == SHOW_TIMESET) {
 				SelectTimeset();
 			} else {
@@ -90,6 +94,10 @@ void ParseCommand(s_DisplayProtocolData* data) {
 				ChangeParameter(1);
 			} else if (machineStatus.Show == SHOW_TIMESET) {
 				ChangeTimeset(1);
+			} else if (machineStatus.Show == SHOW_USERSET) {
+				ChangeUserSetting(1);
+			} else if (machineStatus.Show == SHOW_FUNCTIONS) {
+				ChangeFunction(1);
 			} else {
 				__NOP();
 			}
@@ -107,19 +115,45 @@ void ParseCommand(s_DisplayProtocolData* data) {
 					ChangeParameter(-1);
 				} else if (machineStatus.Show == SHOW_TIMESET) {
 					ChangeTimeset(-1);
+				} else if (machineStatus.Show == SHOW_USERSET) {
+					ChangeUserSetting(-1);
+				} else if (machineStatus.Show == SHOW_FUNCTIONS) {
+					ChangeFunction(-1);
 				} else {
 					__NOP();
 				}
 			}
 
 		} else if (data->Param1 == KEY_PROG + KEY_LONG_PRESS) {
+//			if ((machineStatus.Status == STATUS_IDLE) || (machineStatus.Status == STATUS_IDLE)) {
+//				if (machineStatus.Show == SHOW_USERSET) {
+//					machineStatus.Show = SHOW_PROGRAM;
+//					SaveSettings();
+//					ShowProgram();
+//				} else if (machineStatus.Show == SHOW_PROGRAM){
+//					machineStatus.Show = SHOW_USERSET;
+//					ShowUserSetting();
+//					return;
+//				}
+//			}
+
 			if (machineStatus.Show == SHOW_PROGRAM) {
 				if (machineStatus.Status == STATUS_IDLE) {
-					__NOP();
+					machineStatus.Show = SHOW_USERSET;
+					ShowUserSetting();
 				} else if (machineStatus.Status == STATUS_READY) {
-					__NOP();
+					machineStatus.Show = SHOW_USERSET;
+					ShowUserSetting();
 				}
 			} else if (machineStatus.Show == SHOW_PARAMETERS) {
+				machineStatus.Show = SHOW_PROGRAM;
+				SaveSettings();
+				ShowProgram();
+			} else if (machineStatus.Show == SHOW_USERSET) {
+				machineStatus.Show = SHOW_PROGRAM;
+				SaveSettings();
+				ShowProgram();
+			} else if (machineStatus.Show == SHOW_FUNCTIONS) {
 				machineStatus.Show = SHOW_PROGRAM;
 				SaveSettings();
 				ShowProgram();
@@ -136,12 +170,26 @@ void ParseCommand(s_DisplayProtocolData* data) {
 			}
 
 		} else if (data->Param1 == KEY_TEST + KEY_LONG_PRESS) {
+			if ((machineStatus.Status == STATUS_IDLE) || (machineStatus.Status == STATUS_IDLE)) {
+				if (machineStatus.Show == SHOW_FUNCTIONS) {
+					machineStatus.Show = SHOW_PROGRAM;
+					ShowProgram();
+				} else {
+					machineStatus.Show = SHOW_FUNCTIONS;
+					ShowFunctions();
+					return;
+				}
+			}
+
 			if (machineStatus.Show == SHOW_PROGRAM) {
 				if (machineStatus.Status == STATUS_IDLE) {
 					__NOP();
 				} else if (machineStatus.Status == STATUS_READY) {
 					__NOP();
 				}
+			} else if (machineStatus.Show == SHOW_USERSET) {
+				machineStatus.Show = SHOW_PROGRAM;
+				ShowProgram();
 			} else if (machineStatus.Show == SHOW_PARAMETERS) {
 				machineStatus.Show = SHOW_PROGRAM;
 				ShowProgram();

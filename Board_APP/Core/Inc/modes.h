@@ -52,6 +52,7 @@ typedef enum {
 	SHOW_READINGS,
 	SHOW_TIMESET,
 	SHOW_USERSET,
+	SHOW_FUNCTIONS,
 	SHOW_ERROR,
 } e_ShowStatus;
 
@@ -63,15 +64,31 @@ typedef enum {
 } e_ProgramType;
 
 typedef enum {
+	PROGRAM_USER,
+	PROGRAM_UNWRAPPED,
+	PROGRAM_WRAPPED,
+	PROGRAM_PRION,
+	PROGRAM_GENTLE,
+	PROGRAM_STERIL_TEST,
+	PROGRAM_RESUME_DRY = 99,
+} e_Program;
+
+typedef enum {
+	TEST_HELIX,
+	TEST_VACUUM,
+	TEST_WASH,
+	TEST_WATER_LOAD,
+} e_Test;
+
+typedef enum {
 	CLASS_USER,
 	CLASS_B,
 	CLASS_S,
 } e_ProgramClass;
 
 typedef enum {
-	STERILTEMP_USER,
-	STERILTEMP_134,
-	STERILTEMP_121,
+	STERILTEMP_121 = 0,
+	STERILTEMP_134 = 1,
 } e_ProgramTemp;
 
 typedef struct UserSet_s {
@@ -169,11 +186,15 @@ extern s_MachineStatus machineStatus;
 
 extern s_Program programs[];
 extern Parameter_s parameters[];
+extern UserSet_s user[];
+extern Functions_s functions[];
 
 extern uint8_t currProgram;
 extern uint8_t currTest;
 extern e_ProgramType currProgType;
 extern uint8_t currParameter;
+extern uint8_t currUser;
+extern uint8_t currFunction;
 
 extern uint8_t progRunning;
 extern uint8_t progStart;
@@ -189,5 +210,11 @@ void ChangeParameter(int8_t increment);
 void ShowTimeset();
 void SelectTimeset();
 void ChangeTimeset11(int8_t increment);
+void ShowUserSetting();
+void SelectUserSetting();
+void ChangeUserSetting(int8_t increment);
+void ShowFunctions();
+void SelectFunction();
+void ChangeFunction(int8_t increment);
 
 #endif /* INC_MODES_H_ */

@@ -42,18 +42,18 @@ USAGE:
 
 #define PROGRAMS_N 5
 #define TESTS_N 4
-
-typedef enum {
-	PROGRAM_UNWRAPPED,
-	PROGRAM_WRAPPED,
-	PROGRAM_PRION,
-	PROGRAM_GENTLE,
-	PROGRAM_USER,
-	PROGRAM_TEST_HELIX,
-	PROGRAM_TEST_VACUUM,
-	PROGRAM_WASH,
-	PROGRAM_WATER_LOAD
-} e_Program;
+//
+//typedef enum {
+//	PROGRAM_UNWRAPPED,
+//	PROGRAM_WRAPPED,
+//	PROGRAM_PRION,
+//	PROGRAM_GENTLE,
+//	PROGRAM_USER,
+//	PROGRAM_TEST_HELIX,
+//	PROGRAM_TEST_VACUUM,
+//	PROGRAM_WASH,
+//	PROGRAM_WATER_LOAD
+//} e_Program;
 
 extern uint8_t programStart;
 extern uint8_t lastError;
@@ -66,6 +66,7 @@ uint8_t ProgramUnwrapped();
 uint8_t ProgramWrapped();
 uint8_t ProgramPrion();
 uint8_t ProgramGentle();
+uint8_t ProgramUser();
 uint8_t ProgramHelixTest();
 uint8_t ProgramVacuumTest();
 uint8_t ProgramTestSteril();

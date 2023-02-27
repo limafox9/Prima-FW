@@ -57,6 +57,10 @@ USAGE:
 
 #define DV_STERIL_TEMP_134		135.4
 #define DV_STERIL_TEMP_121		123.2
+#define DV_STERIL_PRESS_MIN_134	290.0
+#define DV_STERIL_PRESS_MAX_134	350.0
+#define DV_STERIL_PRESS_MIN_121	200.0
+#define DV_STERIL_PRESS_MAX_121	250.0
 
 #define VAC_DVALUE	10
 #define VAC_DTIME	20
@@ -75,25 +79,25 @@ void StartProgramTask() {
 			programStart = 0;
 			if (currProgType == PROGTYPE_PROGRAM) {
 				switch (currProgram) {
-				case 1:
+				case PROGRAM_UNWRAPPED:
 					ProgramUnwrapped();
 					break;
-				case 2:
+				case PROGRAM_WRAPPED:
 					ProgramWrapped();
 					break;
-				case 3:
+				case PROGRAM_PRION:
 					ProgramPrion();
 					break;
-				case 4:
+				case PROGRAM_GENTLE:
 					ProgramGentle();
 					break;
-				case 0:
-					//ProgramUser();
+				case PROGRAM_USER:
+					ProgramUser();
 					break;
-				case 5:
+				case PROGRAM_STERIL_TEST:
 					ProgramTestSteril();
 					break;
-				case 99:
+				case PROGRAM_RESUME_DRY:
 					ProgramResumeDry();
 					break;
 				}
@@ -415,7 +419,7 @@ uint8_t ProgramPrion() {
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, 220);
 		SterilParam_s sterilParam = {
-				.chamberTemp = 135.6,
+				.chamberTemp = DV_STERIL_TEMP_134,
 				.chamberTempMin = 134.0,
 				.chamberTempMax = 136.0,
 				.sterilTime = 1080,
@@ -534,6 +538,114 @@ uint8_t ProgramGentle() {
 	if (success) {
 		PhasePreheat(60, 90);
 		success = PhaseDry(20.0, 50.0, 540, 600);
+	}
+
+	// End
+	GetTimer(TIMER_CYCLE, &tCycle);
+	GetDateTime(&clockTime);
+	PhaseFinish(success, &clockTime, &tCycle);
+
+	progRunning = 0;
+	progStop = 0;
+
+}
+
+uint8_t ProgramUser() {
+	uint8_t success = 1;
+	RTCDateTime_s clockTime;
+	RTCTimerTime_s tCycle, tPhase;
+
+	progRunning = 1;
+	progStop = 0;
+
+	if (!PhaseBegin(600)) return 0;
+
+	GetDateTime(&clockTime);
+	PrintHeader("USER", sensors.T1, &clockTime);
+
+	// Heat up
+	if (success) {
+		success = PhaseHeatUp(DV_HEATING_RING_TEMP, 200.0, DV_PREHEAT_CHAMBER_TEMP, 100.0, OT_HEAT);
+	}
+	if (success) {
+		PhasePreheat(DV_HEATING_RING_TEMP, 200.0);
+		success = PhaseRelease(1, OT_RELEASE);
+	}
+
+	ResetTimer(TIMER_CYCLE);
+
+	// First vacuum
+	if (settings.UserVacuumNumber > 0) {
+		if (success) {
+			PhasePreheat(DV_HEATING_RING_TEMP, 210.0);
+			success = PhaseVacuum(1, (float)settings.FirstVacuum, OT_VACUUM);
+		}
+		if (success) {
+			PhasePreheat(DV_HEATING_RING_TEMP, 220.0);
+			success = PhasePressure(1, (float)settings.OtherPressure * 10.0, 200.0, 170.0, OT_PRESSURE);
+		}
+		if (success) {
+			PhasePreheat(DV_HEATING_RING_TEMP, 200.0);
+			success = PhaseRelease(1, OT_RELEASE);
+		}
+	}
+
+	// Other vacuum
+	if (settings.UserVacuumNumber > 2) {
+		for (int i = 0; i < (settings.UserVacuumNumber - 2); i++) {  // -2 for 1st cycle and steril cycle
+			if (success) {
+				PhasePreheat(DV_HEATING_RING_TEMP, 210.0);
+				success = PhaseVacuum(2, (float)settings.OtherVacuum, OT_VACUUM);
+			}
+			if (success) {
+				PhasePreheat(DV_HEATING_RING_TEMP, 220.0);
+				success = PhasePressure(2, (float)settings.OtherPressure * 10.0, 200.0, 170.0, OT_PRESSURE);
+			}
+			if (success) {
+				PhasePreheat(DV_HEATING_RING_TEMP, 200.0);
+				success = PhaseRelease(2, OT_RELEASE);
+			}
+		}
+	}
+
+	// Sterilization
+	if (settings.UserVacuumNumber > 2) {
+		if (success) {
+			PhasePreheat(DV_HEATING_RING_TEMP, 210.0);
+			success = PhaseVacuum(3, (float)settings.OtherVacuum, OT_VACUUM);
+		}
+	}
+	if (success) {
+		PhasePreheat(DV_HEATING_RING_TEMP, 220.0);
+		success = PhasePressure(3, 290.0, 200.0, 170.0, OT_PRESSURE);
+	}
+	if (success) {
+		PhasePreheat(DV_HEATING_RING_TEMP, 220.0);
+		SterilParam_s sterilParam = {
+				.chamberTemp = (settings.UserSterilTemp == STERILTEMP_134) ? DV_STERIL_TEMP_134 : DV_STERIL_TEMP_121,
+				.chamberTempMin = (settings.UserSterilTemp == STERILTEMP_134) ? 134.0 : 121.0,
+				.chamberTempMax = (settings.UserSterilTemp == STERILTEMP_134) ? 136.0 : 125.0,
+				.sterilTime = settings.UserSterilTime * 60,
+				.chamberPress = (settings.UserSterilTemp == STERILTEMP_134) ? 320.0 : 220.0,
+				.pressMin = (settings.UserSterilTemp == STERILTEMP_134) ? DV_STERIL_PRESS_MIN_134 : DV_STERIL_PRESS_MIN_121,
+				.pressMax = (settings.UserSterilTemp == STERILTEMP_134) ? DV_STERIL_PRESS_MAX_134 : DV_STERIL_PRESS_MAX_121,
+				.steamTemp = 200.0,
+				.steamTempMin = 170.0,
+				.printInterval = 30,
+				.timeout = settings.UserSterilTime * 60 * 1.5,
+		};
+
+		success = PhaseSteril(&sterilParam);
+	}
+	if (success) {
+		PhasePreheat(DV_HEATING_RING_TEMP, 200.0);
+		success = PhaseRelease(3, OT_RELEASE);
+	}
+
+	// Dry
+	if (success) {
+		PhasePreheat(60, 90);
+		success = PhaseDry(20.0, 50.0, settings.UserDryTime * 60, settings.UserDryTime * 60 * 1.5);
 	}
 
 	// End
