@@ -577,12 +577,12 @@ uint8_t ProgramUser() {
 	// First vacuum
 	if (settings.UserVacuumNumber > 0) {
 		if (success) {
-			PhasePreheat(DV_HEATING_RING_TEMP, 210.0);
+			PhasePreheat(DV_HEATING_RING_TEMP, 200.0);
 			success = PhaseVacuum(1, (float)settings.FirstVacuum, OT_VACUUM);
 		}
 		if (success) {
-			PhasePreheat(DV_HEATING_RING_TEMP, 220.0);
-			success = PhasePressure(1, (float)settings.OtherPressure * 10.0, 200.0, 170.0, OT_PRESSURE);
+			PhasePreheat(DV_HEATING_RING_TEMP, 200.0);
+			success = PhasePressure(1, (float)settings.OtherPressure * 10.0, 190.0, 170.0, OT_PRESSURE);
 		}
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, 200.0);
@@ -594,12 +594,12 @@ uint8_t ProgramUser() {
 	if (settings.UserVacuumNumber >= 3) {
 		for (int i = 0; i < (settings.UserVacuumNumber - 2); i++) {  // -2 for 1st cycle and steril cycle
 			if (success) {
-				PhasePreheat(DV_HEATING_RING_TEMP, 210.0);
+				PhasePreheat(DV_HEATING_RING_TEMP, 200.0);
 				success = PhaseVacuum(2, (float)settings.OtherVacuum, OT_VACUUM);
 			}
 			if (success) {
-				PhasePreheat(DV_HEATING_RING_TEMP, 220.0);
-				success = PhasePressure(2, (float)settings.OtherPressure * 10.0, 200.0, 170.0, OT_PRESSURE);
+				PhasePreheat(DV_HEATING_RING_TEMP, 200.0);
+				success = PhasePressure(2, (float)settings.OtherPressure * 10.0, 190.0, 170.0, OT_PRESSURE);
 			}
 			if (success) {
 				PhasePreheat(DV_HEATING_RING_TEMP, 200.0);
@@ -611,16 +611,25 @@ uint8_t ProgramUser() {
 	// Sterilization
 	if (settings.UserVacuumNumber >= 3) {
 		if (success) {
-			PhasePreheat(DV_HEATING_RING_TEMP, 210.0);
+			PhasePreheat(DV_HEATING_RING_TEMP, 200.0);
 			success = PhaseVacuum(3, (float)settings.OtherVacuum, OT_VACUUM);
 		}
 	}
-	if (success) {
-		PhasePreheat(DV_HEATING_RING_TEMP, 220.0);
-		success = PhasePressure(3, (settings.UserSterilTemp == STERILTEMP_134) ? 290.0 : 190.0, 200.0, 170.0, OT_PRESSURE);
+	if (settings.UserVacuumNumber < 3) {
+		if (success) {
+			PhasePreheat(DV_HEATING_RING_TEMP, 200.0);
+			success = PhasePressure(3, (settings.UserSterilTemp == STERILTEMP_134) ? 200.0 : 180.0, 190.0, 170.0, OT_PRESSURE);
+		}
+		ValveDrainSteamSet(OFF);
+		osDelay(20000);
+		ValveDrainSteamSet(ON);
 	}
 	if (success) {
-		PhasePreheat(DV_HEATING_RING_TEMP, 220.0);
+		PhasePreheat(DV_HEATING_RING_TEMP, 200.0);
+		success = PhasePressure(3, (settings.UserSterilTemp == STERILTEMP_134) ? 290.0 : 190.0, 190.0, 170.0, OT_PRESSURE);
+	}
+	if (success) {
+		PhasePreheat(DV_HEATING_RING_TEMP, 200.0);
 		SterilParam_s sterilParam = {
 				.chamberTemp = (settings.UserSterilTemp == STERILTEMP_134) ? DV_STERIL_TEMP_134 : DV_STERIL_TEMP_121,
 				.chamberTempMin = (settings.UserSterilTemp == STERILTEMP_134) ? 134.0 : 121.0,
@@ -629,7 +638,7 @@ uint8_t ProgramUser() {
 				.chamberPress = (settings.UserSterilTemp == STERILTEMP_134) ? 320.0 : 220.0,
 				.pressMin = (settings.UserSterilTemp == STERILTEMP_134) ? DV_STERIL_PRESS_MIN_134 : DV_STERIL_PRESS_MIN_121,
 				.pressMax = (settings.UserSterilTemp == STERILTEMP_134) ? DV_STERIL_PRESS_MAX_134 : DV_STERIL_PRESS_MAX_121,
-				.steamTemp = 200.0,
+				.steamTemp = 190.0,
 				.steamTempMin = 170.0,
 				.printInterval = 30,
 				.timeout = settings.UserSterilTime * 60 * 1.5,

@@ -7,8 +7,8 @@
 		<item key="WizardProjectsImportPage.STORE_CLOSE_CREATED_PROJECTS_ID" value="false"/>
 		<item key="WizardProjectsImportPage.STORE_HIDE_CONFLICTING_PROJECTS_ID" value="false"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
-			<item value="D:\Galbiati\Prima Firmware\Source"/>
 			<item value="D:\Galbiati\Prima-FW"/>
+			<item value="D:\Galbiati\Prima Firmware\Source"/>
 		</list>
 		<list key="WizardProjectsImportPage.STORE_ARCHIVES">
 			<item value=""/>

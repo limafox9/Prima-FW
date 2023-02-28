@@ -1,102 +1,13 @@
-16:28:39 **** Incremental Build of configuration Debug for project DB_Protocol ****
+21:25:34 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j4 all 
 make: Nothing to be done for 'all'.
-16:28:40 **** Incremental Build of configuration Debug for project DB_Protocol ****
+21:25:35 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j4 all 
 make: Nothing to be done for 'all'.
-16:28:41 **** Incremental Build of configuration Debug for project Board_APP ****
+21:25:36 **** Incremental Build of configuration Debug for project Board_APP ****
 make -j4 all 
-arm-none-eabi-gcc "../Core/Src/printer.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/printer.d" -MT"Core/Src/printer.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/printer.o"
-arm-none-eabi-gcc "../Core/Src/system.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/system.d" -MT"Core/Src/system.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/system.o"
-In file included from ../Core/Src/printer.c:43:
-../Core/Inc/globals.h:105:1: warning: useless storage class specifier in empty declaration
-  105 | };
-      | ^
-../Core/Src/printer.c: In function 'PrinterInit':
-../Core/Src/printer.c:206:7: warning: unused variable 'd' [-Wunused-variable]
-  206 |  char d[10];
-      |       ^
-../Core/Src/printer.c: In function 'Print':
-../Core/Src/printer.c:258:14: warning: passing argument 1 of 'vsprintf' from incompatible pointer type [-Wincompatible-pointer-types]
-  258 |     vsprintf(buf, format, args);
-      |              ^~~
-      |              |
-      |              char **
-In file included from ../Core/Src/printer.c:37:
-c:\st\stm32cubeide_1.11.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\stdio.h:210:15: note: expected 'char * restrict' but argument is of type 'char **'
-  210 | int vsprintf (char *__restrict, const char *__restrict, __VALIST)
-      |               ^
-../Core/Src/printer.c:262:50: warning: passing argument 1 of 'strlen' from incompatible pointer type [-Wincompatible-pointer-types]
-  262 |     HAL_UART_Transmit(&UART_PRINTER, buf, strlen(buf), 1000);
-      |                                                  ^~~
-      |                                                  |
-      |                                                  char **
-In file included from ../Core/Src/printer.c:36:
-c:\st\stm32cubeide_1.11.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.100.202210260954\tools\arm-none-eabi\include\string.h:41:17: note: expected 'const char *' but argument is of type 'char **'
-   41 | size_t  strlen (const char *);
-      |                 ^~~~~~~~~~~~
-../Core/Src/printer.c:262:38: warning: passing argument 2 of 'HAL_UART_Transmit' from incompatible pointer type [-Wincompatible-pointer-types]
-  262 |     HAL_UART_Transmit(&UART_PRINTER, buf, strlen(buf), 1000);
-      |                                      ^~~
-      |                                      |
-      |                                      char **
-In file included from ../Core/Inc/stm32f1xx_hal_conf.h:338,
-                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:30,
-                 from ../Core/Inc/main.h:30,
-                 from ../Core/Devs/PCF8563.h:41,
-                 from ../Core/Inc/time.h:40,
-                 from ../Core/Inc/printer.h:41,
-                 from ../Core/Src/printer.c:40:
-../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h:725:73: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char **'
-  725 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
-      |                                                                ~~~~~~~~~^~~~~
-../Core/Src/printer.c: In function 'PrintFooter':
-../Core/Src/printer.c:364:37: warning: passing argument 2 of 'PrintError' from incompatible pointer type [-Wincompatible-pointer-types]
-  364 |  if (lastError != 0) PrintError("", time);
-      |                                     ^~~~
-      |                                     |
-      |                                     RTCDateTime_s *
-../Core/Src/printer.c:236:58: note: expected 'RTCTimerTime_s *' but argument is of type 'RTCDateTime_s *'
-  236 | void PrintError(const char* errorString, RTCTimerTime_s* tTime) {
-      |                                          ~~~~~~~~~~~~~~~~^~~~~
-In file included from ../Core/Inc/system.h:40,
-                 from ../Core/Src/system.c:38:
-../Core/Inc/globals.h:105:1: warning: useless storage class specifier in empty declaration
-  105 | };
-      | ^
-../Core/Src/system.c: In function 'SysInit':
-../Core/Src/system.c:165:8: warning: implicit declaration of function 'BAT2U_GetTDSValue'; did you mean 'BAT2U_GetValue'? [-Wimplicit-function-declaration]
-  165 |  dum = BAT2U_GetTDSValue(2, 100);
-      |        ^~~~~~~~~~~~~~~~~
-      |        BAT2U_GetValue
-../Core/Src/system.c:222:3: warning: implicit declaration of function 'ProgramsInit' [-Wimplicit-function-declaration]
-  222 |   ProgramsInit();
-      |   ^~~~~~~~~~~~
-../Core/Src/system.c:230:4: warning: implicit declaration of function 'Beep' [-Wimplicit-function-declaration]
-  230 |    Beep(3, 100, 100);
-      |    ^~~~
-../Core/Src/system.c:164:11: warning: variable 'dum' set but not used [-Wunused-but-set-variable]
-  164 |  uint16_t dum;
-      |           ^~~
-../Core/Src/system.c: In function 'Log':
-../Core/Src/system.c:573:16: warning: implicit declaration of function 'GetSetting'; did you mean 'ReadSetting'? [-Wimplicit-function-declaration]
-  573 |  if (*(int8_t*)GetSetting("LOG_ACTIVE") && logLevel >= *(int8_t*)GetSetting("LOG_ACTIVE_LEVEL")) {
-      |                ^~~~~~~~~~
-      |                ReadSetting
-arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima-FW\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Board_APP.elf
- 
 arm-none-eabi-size   Board_APP.elf 
-arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
-arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
    text	   data	    bss	    dec	    hex	filename
- 112096	   2408	  37728	 152232	  252a8	Board_APP.elf
-arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
+ 112192	   2408	  37728	 152328	  25308	Board_APP.elf
 Finished building: default.size.stdout
- 
-Finished building: Board_APP.hex
-Finished building: Board_APP.bin
- 
- 
-Finished building: Board_APP.list
  

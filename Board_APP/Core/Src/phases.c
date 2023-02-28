@@ -502,8 +502,8 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 	static const float pPID_KI = 0.3;	// >0.4
 	static const float pPID_KD = 0.2;
 	static const float pPID_TAU = 1.0;
-	static const float pPID_LIM_MIN = 1.0; // >1.1
-	static const float pPID_LIM_MAX = 2.0;
+	static const float pPID_LIM_MIN = 0.8; // >1.0
+	static const float pPID_LIM_MAX = 1.3; // 2.0
 	static const float pPID_LIM_MIN_INT = -1.0; // -1.0
 	static const float pPID_LIM_MAX_INT = 1.0; // 1.0
 	static const float pSAMPLE_TIME_S = 1.0;
