@@ -124,12 +124,18 @@ void Error_Handler(void);
 #define FAN_GPIO_Port GPIOA
 #define V_BUS_Pin GPIO_PIN_3
 #define V_BUS_GPIO_Port GPIOD
-#define SPI1_CS_Pin GPIO_PIN_7
-#define SPI1_CS_GPIO_Port GPIOD
-#define SPI1_DATA_READY_Pin GPIO_PIN_8
-#define SPI1_DATA_READY_GPIO_Port GPIOB
-#define SPI1_RESET_Pin GPIO_PIN_9
-#define SPI1_RESET_GPIO_Port GPIOB
+#define ADC_CS_Pin GPIO_PIN_7
+#define ADC_CS_GPIO_Port GPIOD
+#define ADC_CLOCK_Pin GPIO_PIN_3
+#define ADC_CLOCK_GPIO_Port GPIOB
+#define ADC_MISO_Pin GPIO_PIN_4
+#define ADC_MISO_GPIO_Port GPIOB
+#define ADC_MOSI_Pin GPIO_PIN_5
+#define ADC_MOSI_GPIO_Port GPIOB
+#define ADC_DATA_READY_Pin GPIO_PIN_8
+#define ADC_DATA_READY_GPIO_Port GPIOB
+#define ADC_RESET_Pin GPIO_PIN_9
+#define ADC_RESET_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 

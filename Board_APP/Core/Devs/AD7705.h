@@ -174,7 +174,7 @@ typedef enum {
 	COM_SETUP_READBACK_REG = 9
 } AD7705_Command;
 
-void AD7705_Init(SPI_HandleTypeDef* hspi);
+void AD7705_Init();
 uint16_t AD7705_GetValue(AD7705_Channel channel);
 float AD7705_GetTemp(AD7705_Channel channel, float offset);
 

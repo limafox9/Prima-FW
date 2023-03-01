@@ -159,7 +159,7 @@ void SysInit() {
 	HAL_ADCEx_Calibration_Start(&hadc1);
 
 //	TM7705_Init(&hspi1);
-	AD7705_Init(&hspi1);
+	AD7705_Init();
 
 	while (1) {
 		AD7705_GetTemp(CHANNEL_0, 0.0);
