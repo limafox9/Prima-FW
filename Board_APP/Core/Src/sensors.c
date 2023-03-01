@@ -173,7 +173,7 @@ void StartSensorsTask() {
 		sensors.Solenoid = DoorSolenoidKeyGet();
 		sensors.TemperatureSteamGenerator = SteamGeneratorTempGet();
 		sensors.TemperatureChamberHeater = ChamberHeaterTempGet();
-		sensors.T1 = TM7705_GetTemp(0, (float)(settings.T1Offset / 10.0) + (float)T_FACTORY_OFFSET);
+//		sensors.T1 = TM7705_GetTemp(0, (float)(settings.T1Offset / 10.0) + (float)T_FACTORY_OFFSET);
 		sensors.T2 = sensors.T1;
 //		sensors.T2 = TM7705_GetTemp(1, (float)(settings.T2Offset / 10.0) + (float)T_FACTORY_OFFSET);
 		sensors.PressureChamber = BufferAverage(pressBuf, PRESS_BUFFER_SIZE, ChamberPressureGet());

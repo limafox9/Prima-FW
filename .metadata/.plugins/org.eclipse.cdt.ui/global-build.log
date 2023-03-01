@@ -1,13 +1,128 @@
-21:25:34 **** Incremental Build of configuration Debug for project DB_Protocol ****
-make -j4 all 
+02:52:58 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j24 all 
 make: Nothing to be done for 'all'.
-21:25:35 **** Incremental Build of configuration Debug for project DB_Protocol ****
-make -j4 all 
+02:52:58 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j24 all 
 make: Nothing to be done for 'all'.
-21:25:36 **** Incremental Build of configuration Debug for project Board_APP ****
-make -j4 all 
+02:52:59 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Devs/AD7705.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima Firmware/Source/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Devs/AD7705.d" -MT"Core/Devs/AD7705.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Devs/AD7705.o"
+../Core/Devs/AD7705.c: In function 'AD7705_GetValue':
+../Core/Devs/AD7705.c:98:31: warning: passing argument 2 of 'HAL_SPI_Receive' from incompatible pointer type [-Wincompatible-pointer-types]
+   98 |  HAL_SPI_Receive(AD7705_hspi, &value, 2, 100);
+      |                               ^~~~~~
+      |                               |
+      |                               uint16_t * {aka short unsigned int *}
+In file included from ../Core/Inc/stm32f1xx_hal_conf.h:330,
+                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:30,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Devs/AD7705.h:43,
+                 from ../Core/Devs/AD7705.c:36:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h:672:69: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'uint16_t *' {aka 'short unsigned int *'}
+  672 | HAL_StatusTypeDef HAL_SPI_Receive(SPI_HandleTypeDef *hspi, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+      |                                                            ~~~~~~~~~^~~~~
+../Core/Devs/AD7705.c:92:14: warning: unused variable 'b2' [-Wunused-variable]
+   92 |  uint8_t b1, b2;
+      |              ^~
+../Core/Devs/AD7705.c:92:10: warning: unused variable 'b1' [-Wunused-variable]
+   92 |  uint8_t b1, b2;
+      |          ^~
+../Core/Devs/AD7705.c: In function 'AD7705_CalculateTemp':
+../Core/Devs/AD7705.c:117:10: warning: implicit declaration of function 'sqrt' [-Wimplicit-function-declaration]
+  117 |  temp = (sqrt(temp) + Z1) / Z4;
+      |          ^~~~
+../Core/Devs/AD7705.c:117:10: warning: incompatible implicit declaration of built-in function 'sqrt'
+../Core/Devs/AD7705.c:37:1: note: include '<math.h>' or provide a declaration of 'sqrt'
+   36 | #include "AD7705.h"
+  +++ |+#include <math.h>
+   37 | #include "stm32f1xx_hal.h"
+../Core/Devs/AD7705.c: In function 'AD7705_CommRegisterGet':
+../Core/Devs/AD7705.c:162:3: warning: implicit declaration of function 'osDelay' [-Wimplicit-function-declaration]
+  162 |   osDelay(1);
+      |   ^~~~~~~
+../Core/Devs/AD7705.c: In function 'AD7705_SWReset':
+../Core/Devs/AD7705.c:190:32: warning: passing argument 2 of 'HAL_SPI_Transmit' makes pointer from integer without a cast [-Wint-conversion]
+  190 |  HAL_SPI_Transmit(AD7705_hspi, 0xff, 1, 500);
+      |                                ^~~~
+      |                                |
+      |                                int
+In file included from ../Core/Inc/stm32f1xx_hal_conf.h:330,
+                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:30,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Devs/AD7705.h:43,
+                 from ../Core/Devs/AD7705.c:36:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h:671:70: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'int'
+  671 | HAL_StatusTypeDef HAL_SPI_Transmit(SPI_HandleTypeDef *hspi, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+      |                                                             ~~~~~~~~~^~~~~
+../Core/Devs/AD7705.c:191:32: warning: passing argument 2 of 'HAL_SPI_Transmit' makes pointer from integer without a cast [-Wint-conversion]
+  191 |  HAL_SPI_Transmit(AD7705_hspi, 0xff, 1, 500);
+      |                                ^~~~
+      |                                |
+      |                                int
+In file included from ../Core/Inc/stm32f1xx_hal_conf.h:330,
+                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:30,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Devs/AD7705.h:43,
+                 from ../Core/Devs/AD7705.c:36:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h:671:70: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'int'
+  671 | HAL_StatusTypeDef HAL_SPI_Transmit(SPI_HandleTypeDef *hspi, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+      |                                                             ~~~~~~~~~^~~~~
+../Core/Devs/AD7705.c:192:32: warning: passing argument 2 of 'HAL_SPI_Transmit' makes pointer from integer without a cast [-Wint-conversion]
+  192 |  HAL_SPI_Transmit(AD7705_hspi, 0xff, 1, 500);
+      |                                ^~~~
+      |                                |
+      |                                int
+In file included from ../Core/Inc/stm32f1xx_hal_conf.h:330,
+                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:30,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Devs/AD7705.h:43,
+                 from ../Core/Devs/AD7705.c:36:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h:671:70: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'int'
+  671 | HAL_StatusTypeDef HAL_SPI_Transmit(SPI_HandleTypeDef *hspi, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+      |                                                             ~~~~~~~~~^~~~~
+../Core/Devs/AD7705.c:193:32: warning: passing argument 2 of 'HAL_SPI_Transmit' makes pointer from integer without a cast [-Wint-conversion]
+  193 |  HAL_SPI_Transmit(AD7705_hspi, 0xff, 1, 500);
+      |                                ^~~~
+      |                                |
+      |                                int
+In file included from ../Core/Inc/stm32f1xx_hal_conf.h:330,
+                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:30,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Devs/AD7705.h:43,
+                 from ../Core/Devs/AD7705.c:36:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h:671:70: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'int'
+  671 | HAL_StatusTypeDef HAL_SPI_Transmit(SPI_HandleTypeDef *hspi, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+      |                                                             ~~~~~~~~~^~~~~
+../Core/Devs/AD7705.c: At top level:
+../Core/Devs/AD7705.c:48:17: warning: 'AD7705_GetCommRegister' declared 'static' but never defined [-Wunused-function]
+   48 | static uint8_t  AD7705_GetCommRegister(AD7705_Register regSelect, AD7705_ReadWrite rw, AD7705_Channel ch);
+      |                 ^~~~~~~~~~~~~~~~~~~~~~
+../Core/Devs/AD7705.c:49:17: warning: 'AD7705_GetSetupRegister' declared 'static' but never defined [-Wunused-function]
+   49 | static uint8_t  AD7705_GetSetupRegister(AD7705_ADCMode mode, AD7705_Gain gain, AD7705_Polarity polarity, AD7705_Buffer buffer);
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~
+../Core/Devs/AD7705.c:50:17: warning: 'AD7705_GetClockRegister' declared 'static' but never defined [-Wunused-function]
+   50 | static uint8_t  AD7705_GetClockRegister(AD7705_ClockFrequencyFilter freq, AD7705_ClockDis clockDisable);
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~
+../Core/Devs/AD7705.c:181:13: warning: 'AD7705_HWReset' defined but not used [-Wunused-function]
+  181 | static void AD7705_HWReset() {
+      |             ^~~~~~~~~~~~~~
+../Core/Devs/AD7705.c:148:16: warning: 'AD7705_CommRegisterGet' defined but not used [-Wunused-function]
+  148 | static uint8_t AD7705_CommRegisterGet() {
+      |                ^~~~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima Firmware\Source\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Board_APP.elf
+ 
 arm-none-eabi-size   Board_APP.elf 
+arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
+arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
+arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
    text	   data	    bss	    dec	    hex	filename
- 112192	   2408	  37728	 152328	  25308	Board_APP.elf
+  90656	   2408	  37672	 130736	  1feb0	Board_APP.elf
 Finished building: default.size.stdout
+ 
+Finished building: Board_APP.hex
+Finished building: Board_APP.bin
+ 
+ 
+Finished building: Board_APP.list
  

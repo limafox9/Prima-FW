@@ -62,6 +62,7 @@ USAGE:
 #include "modes.h"
 #include "display.h"
 #include "settings.h"
+#include "AD7705.h"
 
 //#define USE_RTOS_SYSTICK
 
@@ -157,7 +158,16 @@ void SysInit() {
 //
 	HAL_ADCEx_Calibration_Start(&hadc1);
 
-	TM7705_Init(&hspi1);
+//	TM7705_Init(&hspi1);
+	AD7705_Init(&hspi1);
+
+	while (1) {
+		AD7705_GetTemp(CHANNEL_0, 0.0);
+		AD7705_GetTemp(CHANNEL_1, 0.0);
+		osDelay(100);
+	}
+
+
 
 	BAT2U_Init(&huart2);
 
