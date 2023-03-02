@@ -159,11 +159,21 @@ void SysInit() {
 	HAL_ADCEx_Calibration_Start(&hadc1);
 
 //	TM7705_Init(&hspi1);
-	AD7705_Init();
+	TM7705_Init();
+	TM7705_SytemCalibFull(1);
+	TM7705_CalibSelf(1);		// this takes about 180ms
+	HAL_Delay(200);
+	TM7705_SytemCalibFull(2);
+	TM7705_CalibSelf(2);		// this takes about 180ms
+	HAL_Delay(200);
 
 	while (1) {
-		AD7705_GetTemp(CHANNEL_0, 0.0);
-		AD7705_GetTemp(CHANNEL_1, 0.0);
+		TM7705_GetTemp(1, 0.0);
+		TM7705_GetTemp(2, 0.0);
+//		TM7705_ReadAdc(1);
+//		TM7705_ReadAdc(2);
+//		AD7705_GetTemp(CHANNEL_0, 0.0);
+//		AD7705_GetTemp(CHANNEL_1, 0.0);
 		osDelay(100);
 	}
 

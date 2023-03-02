@@ -55,6 +55,8 @@ USAGE:
 //#include <reg52.h>
 #include <stdio.h>
 #include "tm7705.h"
+#include "stm32f1xx_hal.h"
+#include "main.h"
 
 #define SOFT_SPI // C51 IO 口模拟 SPI 接口
 
@@ -63,30 +65,42 @@ USAGE:
 #define __CH2_GAIN_BIPOLAR_BUF	(GAIN_1 | UNIPOLAR | BUF_EN)
 
 #ifdef SOFT_SPI		/* 软件SPI */
+
+#define RESET_0				HAL_GPIO_WritePin(ADC_RESET_GPIO_Port, ADC_RESET_Pin, GPIO_PIN_RESET)
+#define RESET_1 			HAL_GPIO_WritePin(ADC_RESET_GPIO_Port, ADC_RESET_Pin, GPIO_PIN_SET)
+#define CS_0				HAL_GPIO_WritePin(ADC_CS_GPIO_Port, ADC_CS_Pin, GPIO_PIN_RESET)
+#define CS_1				HAL_GPIO_WritePin(ADC_CS_GPIO_Port, ADC_CS_Pin, GPIO_PIN_SET)
+#define DATA_OUT_0			HAL_GPIO_WritePin(ADC_MOSI_GPIO_Port, ADC_MOSI_Pin, GPIO_PIN_RESET)
+#define DATA_OUT_1			HAL_GPIO_WritePin(ADC_MOSI_GPIO_Port, ADC_MOSI_Pin, GPIO_PIN_SET)
+#define CLOCK_0				HAL_GPIO_WritePin(ADC_CLOCK_GPIO_Port, ADC_CLOCK_Pin, GPIO_PIN_RESET)
+#define CLOCK_1				HAL_GPIO_WritePin(ADC_CLOCK_GPIO_Port, ADC_CLOCK_Pin, GPIO_PIN_SET)
+#define DATA_IN				HAL_GPIO_ReadPin(ADC_MISO_GPIO_Port, ADC_MISO_Pin)
+#define DATA_READY			HAL_GPIO_ReadPin(ADC_DATA_READY_GPIO_Port, ADC_DATA_READY_Pin)
+
 	/* 定义GPIO端口 */
-	sbit CS     = P1^0;
-	sbit RESET  = P1^1;
-	sbit DIN    = P1^2;
-	sbit SCK    = P1^3;
-	sbit DOUT   = P1^4;
-	sbit DRDY	= P1^5;
-
-	/* 定义口线置0和置1的宏 */
-	#define CS_0()		CS = 0
-	#define CS_1()		CS = 1
-
-	#define RESET_0()	RESET = 0
-	#define RESET_1()	RESET = 1
-
-	#define DI_0()		DIN = 0
-	#define DI_1()		DIN = 1
-
-	#define SCK_0()		SCK = 0
-	#define SCK_1()		SCK = 1
-
-	#define DO_IS_HIGH()	(DOUT != 0)
-
-	#define DRDY_IS_LOW()	(DRDY == 0)
+//	sbit CS     = P1^0;
+//	sbit RESET  = P1^1;
+//	sbit DIN    = P1^2;
+//	sbit SCK    = P1^3;
+//	sbit DOUT   = P1^4;
+//	sbit DRDY	= P1^5;
+//
+//	/* 定义口线置0和置1的宏 */
+//	#define CS_0()		CS = 0
+//	#define CS_1()		CS = 1
+//
+//	#define RESET_0()	RESET = 0
+//	#define RESET_1()	RESET = 1
+//
+//	#define DI_0()		DIN = 0
+//	#define DI_1()		DIN = 1
+//
+//	#define SCK_0()		SCK = 0
+//	#define SCK_1()		SCK = 1
+//
+//	#define DO_IS_HIGH()	(DOUT != 0)
+//
+//	#define DRDY_IS_LOW()	(DRDY == 0)
 #endif
 
 /* Communication register bit definition */
@@ -183,10 +197,10 @@ static void TM7705_ResetHard();
 //初始化
 void TM7705_Init() {
 	TM7705_ResetHard();		/* 硬件复位 */
-	DelayMs(5);
+	HAL_Delay(5);
 
 	TM7705_SyncSPI();		/* 同步SPI接口时序 */
-	DelayMs(5);
+	HAL_Delay(5);
 
 	/* 配置时钟寄存器 */
 	/* 先写通信寄存器，下一步是写时钟寄存器 */
@@ -198,28 +212,28 @@ void TM7705_Init() {
 	/* 每次上电进行一次自校准 */
 	TM7705_CalibSelf(1);	/* 内部自校准 CH1 */
 	//TM7705_CalibSelf(2);	/* 内部自校准 CH2 */
-	DelayMs(5);
+	HAL_Delay(5);
 }
 
 //硬件复位
 static void TM7705_ResetHard() {
-	RESET_1();
-	DelayMs(1);
-	RESET_0();
-	DelayMs(2);
-	RESET_1();
-	DelayMs(1);
+	RESET_1;
+	HAL_Delay(1);
+	RESET_0;
+	HAL_Delay(2);
+	RESET_1;
+	HAL_Delay(1);
 }
 
 //同步SPI时序
 static void TM7705_SyncSPI() {
 	/* AD7705串行接口失步后将其复位。复位后要延时500us再访问 */
-	CS_0();
+	CS_0;
 	TM7705_Send8Bit(0xFF);
 	TM7705_Send8Bit(0xFF);
 	TM7705_Send8Bit(0xFF);
 	TM7705_Send8Bit(0xFF);
-	CS_1();
+	CS_1;
 }
 
 //发送8个bit数据，不带片选CS
@@ -228,14 +242,14 @@ static void TM7705_Send8Bit(unsigned char _data) {
 
 	for(i = 0; i < 8; i++) {
 		if (_data & 0x80) {
-			DI_1();
+			DATA_OUT_1;
 		}
 		else {
-			DI_0();
+			DATA_OUT_0;
 		}
-		SCK_0();
+		CLOCK_0;
 		_data <<= 1;
-		SCK_1();
+		CLOCK_1;
 	}
 }
 
@@ -245,31 +259,31 @@ static unsigned char TM7705_Recive8Bit() {
 	unsigned char retc = 0;
 
 	for (i = 0; i < 8; i++) {
-		SCK_0();
+		CLOCK_0;
 		retc <<= 1;
-		if (DO_IS_HIGH()) {
+		if (DATA_IN) {
 			retc++;
 		}
-		SCK_1();
+		CLOCK_1;
 	}
 	return retc;
 }
 
 //发送1个byte数据，带片选CS
 static void TM7705_WriteByte(unsigned char _data) {
-	CS_0();
+	CS_0;
 	TM7705_Send8Bit(_data);
-	CS_1();
+	CS_1;
 }
 
 //发送3个byte数据，带片选CS
 static void TM7705_Write3Byte(unsigned long _data)
 {
-	CS_0();
+	CS_0;
 	TM7705_Send8Bit((_data >> 16) & 0xFF);
 	TM7705_Send8Bit((_data >> 8) & 0xFF);
 	TM7705_Send8Bit(_data);
-	CS_1();
+	CS_1;
 }
 
 
@@ -277,9 +291,9 @@ static void TM7705_Write3Byte(unsigned long _data)
 static unsigned char TM7705_ReadByte() {
 	unsigned char read;
 
-	CS_0();
+	CS_0;
 	read = TM7705_Recive8Bit();
-	CS_1();
+	CS_1;
 
 	return read;
 }
@@ -288,11 +302,11 @@ static unsigned char TM7705_ReadByte() {
 static unsigned short TM7705_Read2Byte() {
 	unsigned short read;
 
-	CS_0();
+	CS_0;
 	read = TM7705_Recive8Bit();
 	read <<= 8;
 	read += TM7705_Recive8Bit();
-	CS_1();
+	CS_1;
 
 	return read;
 }
@@ -301,13 +315,13 @@ static unsigned short TM7705_Read2Byte() {
 static unsigned long TM7705_Read3Byte() {
 	unsigned long read;
 
-	CS_0();
+	CS_0;
 	read = TM7705_Recive8Bit();
 	read <<= 8;
 	read += TM7705_Recive8Bit();
 	read <<= 8;
 	read += TM7705_Recive8Bit();
-	CS_1();
+	CS_1;
 
 	return read;
 }
@@ -317,7 +331,7 @@ static void TM7705_WaitDRDY() {
 	unsigned short i;
 
 	for (i = 0; i < 8000; i++) {
-		if (DRDY_IS_LOW()) {
+		if (!DATA_READY) {
 			break;
 		}
 	}
@@ -327,7 +341,7 @@ static void TM7705_WaitDRDY() {
 		//printf("重新同步SPI接口时序\r\n");	/* 调试语句. 用语排错 */
 		//printf("restart SPI bus\r\n");
 		TM7705_SyncSPI();  /* 同步SPI接口时序 */
-		//DelayMs(5);
+		HAL_Delay(5);
 	}
 }
 
@@ -516,3 +530,29 @@ unsigned short TM7705_ReadAdc(unsigned char _ch) {
 	}
 	return read;
 }
+
+static float calTemp(float Rt, float offset) {
+
+	const float RTD_A = 3.9083e-3;
+	const float RTD_B = -5.775e-7;
+
+	float Z1, Z2, Z3, Z4, temp;
+
+	Z1 = -RTD_A;
+	Z2 = RTD_A * RTD_A - (4 * RTD_B);
+	Z3 = (4 * RTD_B) / 1000;
+	Z4 = 2 * RTD_B;
+
+	temp = Z2 + (Z3 * Rt);
+	temp = (sqrt(temp) + Z1) / Z4;
+
+	temp += offset;
+
+	return temp;
+}
+
+float TM7705_GetTemp(uint8_t channel, float offset) {
+	uint16_t refRes = 2000; // ref resistor for voltage divider
+	return calTemp((float)TM7705_ReadAdc(channel) * (float)refRes / 65535.0, offset);
+}
+
