@@ -57,6 +57,7 @@ USAGE:
 
 extern uint8_t programStart;
 extern uint8_t lastError;
+extern uint8_t doorStatus;
 
 void SelectProgram();
 void SelectTest();

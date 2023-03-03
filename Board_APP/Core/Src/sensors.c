@@ -47,6 +47,8 @@ USAGE:
 #include "modes.h"
 #include "display.h"
 #include "7705.h"
+#include "time.h"
+#include "programs.h"
 
 
 //==============================================================================
@@ -71,7 +73,8 @@ USAGE:
 #define AVERAGE_SAMPLES_INTERVAL	10			// Interval between samples (milliseconds)
 #define V_REF						3.3			// Power supply
 #define ADC_BITS					12			// ADC resolution (8bit=256, 10bit=1024, 12bit=4096, 16bit=65536
-#define T_FACTORY_OFFSET			2			// Fixed factory offset for T1 and T2
+#define T1_FACTORY_OFFSET			2.0			// Fixed factory offset for T1
+#define T2_FACTORY_OFFSET			-1.0			// Fixed factory offset for T2
 //#define PTC_NOMINAL_RESISTANCE	1000	   	// Ω nominal resistance (typical @25°C)
 //#define PTC_NOMINAL_TEMPERATURE	0.0			// temperature of nominal resistance (typical 25°C)
 //#define PTC_BETA				3977		// The beta coefficient or the B value of the thermistor (usually 3000-4000) check the datasheet for the accurate value
@@ -122,7 +125,16 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 
 	if(GPIO_Pin == SW_DOOR_Pin) {
 		Beep(1, 100, 100);
-		if ((machineStatus.Status == STATUS_READY) || (machineStatus.Status == STATUS_IDLE)) machineStatus.Status = (sensors.Door == CLOSED) ? STATUS_READY : STATUS_IDLE;
+		osSemaphoreWait(semaphoreSensorsHandle, 100);
+		sensors.Door = DoorPositionGet();
+		ValveDryIntakeSet(DoorPositionGet());
+		doorStatus = DoorPositionGet();
+		ResetTimer(TIMER_DOOR);
+		machineStatus.Status = (sensors.Door == CLOSED) ? STATUS_READY : STATUS_IDLE;
+		osSemaphoreRelease(semaphoreSensorsHandle);
+//		if ((machineStatus.Status == STATUS_READY) || (machineStatus.Status == STATUS_IDLE)) {
+//			machineStatus.Status = (sensors.Door == CLOSED) ? STATUS_READY : STATUS_IDLE;
+//		}
 		if (machineStatus.Status == STATUS_IDLE) PhasePreheat(60.0, 90.0);
 	}
 //	if (GPIO_Pin == SW_CSH_Pin) {
@@ -174,9 +186,9 @@ void StartSensorsTask() {
 		sensors.Solenoid = DoorSolenoidKeyGet();
 		sensors.TemperatureSteamGenerator = SteamGeneratorTempGet();
 		sensors.TemperatureChamberHeater = ChamberHeaterTempGet();
-		sensors.T1 = TM7705_GetTemp(1, (float)(settings.T1Offset / 10.0) + (float)T_FACTORY_OFFSET);
-//		sensors.T2 = sensors.T1;
-		sensors.T2 = TM7705_GetTemp(2, (float)(settings.T2Offset / 10.0) + (float)T_FACTORY_OFFSET);
+		sensors.T1 = TM7705_GetTemp(1, (float)(settings.T1Offset / 10.0) + (float)T1_FACTORY_OFFSET);
+		HAL_Delay(50);
+		sensors.T2 = TM7705_GetTemp(2, (float)(settings.T2Offset / 10.0) + (float)T2_FACTORY_OFFSET);
 		sensors.PressureChamber = BufferAverage(pressBuf, PRESS_BUFFER_SIZE, ChamberPressureGet());
 		sensors.Current = CurrentGet();
 		sensors.WaterDumpLevel = WaterDumpLevelGet();
@@ -461,9 +473,6 @@ float ADCToCurrent(uint16_t adcValue) {
 	const float QOV =   quiescent_Output_voltage [model] * VCC;// set quiescent Output voltage for selected model
 	float voltage;// internal variable for voltage
 	float cutOff = FACTOR/cutOffLimit;// convert current cut off to mV
-
-
-
 
 
 	vRef = (float)V_REF;

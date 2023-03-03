@@ -411,25 +411,6 @@ uint8_t PhaseVacuum(uint8_t nVacuum, float press, uint16_t timeout) {
 }
 
 uint8_t PhasePressure(uint8_t nPressure, float press, float steamTemp, float steamTempMin, uint16_t timeout) {
-//	static const float pPID_KP = 500.0;
-//	static const float pPID_KI = 2000.0;
-//	static const float pPID_KD = 10.0;
-//	static const float pPID_TAU = 1.0;
-//	static const float pPID_LIM_MIN = 3000;
-//	static const float pPID_LIM_MAX = 8000;
-//	static const float pPID_LIM_MIN_INT = -1000;
-//	static const float pPID_LIM_MAX_INT = 1000;
-//	static const float pSAMPLE_TIME_S = 0.5;
-
-//	static const float pPID_KP = 0.4;
-//	static const float pPID_KI = 0.3;
-//	static const float pPID_KD = 0.4;
-//	static const float pPID_TAU = 0.1;
-//	static const float pPID_LIM_MIN = 0.87;
-//	static const float pPID_LIM_MAX = 2.0;
-//	static const float pPID_LIM_MIN_INT = -1;
-//	static const float pPID_LIM_MAX_INT = 1;
-//	static const float pSAMPLE_TIME_S = 0.25;
 
 	static const float pPID_KP = 0.5; // 1.0
 	static const float pPID_KI = 1.8; // 1.8
@@ -651,6 +632,13 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 				PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
 				retVal = 0;
 				break;
+//			} else if (fabs(sensors.T1 - sensors.T2) > 0.2) {
+//				lastError = ERROR_T1T2_MISMATCH;
+//				Print("STER ERROR *** T1 T2 MISMATCH\n");
+//				GetTimer(TIMER_PHASE, &tPhase);
+//				PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
+//				retVal = 0;
+//				break;
 			}
 
 			T1Min = (sensors.T1 < T1Min) ? sensors.T1 : T1Min;
@@ -692,7 +680,7 @@ uint8_t PhaseDry(float firstVacPress, float otherVacPress, uint16_t time, uint16
 	uint8_t cycle = 0;
 	float currPress;
 	RTCTimerTime_s tTimeout, tPhase;
-	sprintf(currPhase, "dry");
+	sprintf(currPhase, " dry");
 
 	ResetTimer(TIMER_TIMEOUT);
 	ResetTimer(TIMER_PHASE);
@@ -747,7 +735,7 @@ uint8_t PhaseDry(float firstVacPress, float otherVacPress, uint16_t time, uint16
 			while (1) {
 				GetTimer(TIMER_TIMEOUT, &tTimeout);
 				GetTimer(TIMER_PHASE, &tPhase);
-				if ((sensors.PressureChamber >= pressAmbientMin) && (sensors.PressureChamber <= pressAmbientMax)) {
+				if (sensors.PressureChamber >= (pressAmbientMin - 20)) {
 					osDelay(5000);
 					PrintStepLine("INTK  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
 					retVal = 1;

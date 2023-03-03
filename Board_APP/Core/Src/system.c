@@ -138,7 +138,7 @@ void SysInit() {
 	osThreadDef(serialTask, StartSerialTask, osPriorityNormal, 1, 512);
 	serialTaskHandle = osThreadCreate(osThread(serialTask), NULL);
 
-	HAL_Delay(500);
+	HAL_Delay(1000);
 
 	DigitsWrite(1, "8.8.8.8");
 	DigitsWrite(2, "8.8.8.8");
@@ -257,6 +257,8 @@ void SysInit() {
 
 		DisplaySetLongPressInterval(DISPLAY_LONG_PRESS_INTERVAL);
 
+		sensors.Door = DoorPositionGet();
+		machineStatus.Status = (sensors.Door == CLOSED) ? STATUS_READY : STATUS_IDLE;
 
 
 //		for (int i = 0; i < 16; i++) {
