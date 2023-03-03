@@ -38,6 +38,14 @@ USAGE:
 #ifndef DEVS_7705_H_
 #define DEVS_7705_H_
 
+#include <stdio.h>
+
+void TM7705_Init();
+float TM7705_GetTemp(uint8_t channel, float offset);
+void TM7705_CalibSelf(unsigned char _ch);
+void TM7705_SytemCalibZero(unsigned char _ch);
+void TM7705_SytemCalibFull(unsigned char _ch);
+uint16_t TM7705_ReadAdc(unsigned char _ch);
 
 
 #endif /* DEVS_7705_H_ */
