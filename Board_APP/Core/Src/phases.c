@@ -519,7 +519,7 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 			SteamPulse(50);
 			osDelay(ret);
 		}
-		if ((sensors.T1 > 135.0) && (sensors.T1 < param->chamberTempMax)) {
+		if ((sensors.T1 > 135.3) && (sensors.T1 < param->chamberTempMax)) {
 //			if ((sensors.PressureChamber > param->pressMin) && (sensors.PressureChamber < param->pressMax)){
 			if ((sensors.PressureChamber > param->pressMin) && (sensors.PressureChamber < param->pressMax)){
 				GetTimer(TIMER_3, &tWait);

@@ -188,7 +188,7 @@ uint8_t ProgramResumeDry() {
 		return 0;
 	}
 
-	PhasePreheat(0.0, 0.0);
+	PhasePreheat(60.0, 90.0);
 	progRunning = 0;
 	progStop = 0;
 
