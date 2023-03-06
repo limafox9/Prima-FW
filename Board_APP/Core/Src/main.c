@@ -713,6 +713,7 @@ static void MX_GPIO_Init(void)
 void StartTaskAlive(void const * argument)
 {
   /* init code for USB_HOST */
+//	MX_FATFS_Init();
   MX_USB_HOST_Init();
   /* USER CODE BEGIN 5 */
   /* Infinite loop */

@@ -1,10 +1,10 @@
-12:46:13 **** Incremental Build of configuration Debug for project DB_Protocol ****
+16:58:07 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j4 all 
 make: Nothing to be done for 'all'.
-12:46:14 **** Incremental Build of configuration Debug for project DB_Protocol ****
+16:58:08 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j4 all 
 make: Nothing to be done for 'all'.
-12:46:15 **** Incremental Build of configuration Debug for project Board_APP ****
+16:58:08 **** Incremental Build of configuration Debug for project Board_APP ****
 make -j4 all 
 arm-none-eabi-gcc "../Core/Src/settings.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/settings.d" -MT"Core/Src/settings.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/settings.o"
 In file included from ../Core/Src/settings.c:42:
@@ -29,6 +29,111 @@ Finished building target: Board_APP.elf
  
 arm-none-eabi-size   Board_APP.elf 
 arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
+   text	   data	    bss	    dec	    hex	filename
+ 108096	   2408	  37640	 148144	  242b0	Board_APP.elf
+arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
+Finished building: default.size.stdout
+arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
+ 
+Finished building: Board_APP.hex
+Finished building: Board_APP.bin
+ 
+ 
+Finished building: Board_APP.list
+ 
+17:09:49 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j4 all 
+make: Nothing to be done for 'all'.
+17:09:50 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j4 all 
+arm-none-eabi-gcc "../Middlewares/Third_Party/FatFs/src/option/ccsbcs.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Middlewares/Third_Party/FatFs/src/option/ccsbcs.d" -MT"Middlewares/Third_Party/FatFs/src/option/ccsbcs.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Middlewares/Third_Party/FatFs/src/option/ccsbcs.o"
+arm-none-eabi-gcc "../Middlewares/Third_Party/FatFs/src/option/syscall.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Middlewares/Third_Party/FatFs/src/option/syscall.d" -MT"Middlewares/Third_Party/FatFs/src/option/syscall.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Middlewares/Third_Party/FatFs/src/option/syscall.o"
+arm-none-eabi-gcc "../Middlewares/Third_Party/FatFs/src/drivers/usbh_diskio.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Middlewares/Third_Party/FatFs/src/drivers/usbh_diskio.d" -MT"Middlewares/Third_Party/FatFs/src/drivers/usbh_diskio.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Middlewares/Third_Party/FatFs/src/drivers/usbh_diskio.o"
+arm-none-eabi-gcc "../Middlewares/Third_Party/FatFs/src/diskio.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Middlewares/Third_Party/FatFs/src/diskio.d" -MT"Middlewares/Third_Party/FatFs/src/diskio.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Middlewares/Third_Party/FatFs/src/diskio.o"
+arm-none-eabi-gcc "../Middlewares/Third_Party/FatFs/src/ff.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Middlewares/Third_Party/FatFs/src/ff.d" -MT"Middlewares/Third_Party/FatFs/src/ff.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Middlewares/Third_Party/FatFs/src/ff.o"
+arm-none-eabi-gcc "../Middlewares/Third_Party/FatFs/src/ff_gen_drv.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Middlewares/Third_Party/FatFs/src/ff_gen_drv.d" -MT"Middlewares/Third_Party/FatFs/src/ff_gen_drv.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Middlewares/Third_Party/FatFs/src/ff_gen_drv.o"
+arm-none-eabi-gcc "../FATFS/App/fatfs.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"FATFS/App/fatfs.d" -MT"FATFS/App/fatfs.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "FATFS/App/fatfs.o"
+arm-none-eabi-gcc "../Core/Src/File_Handling.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/File_Handling.d" -MT"Core/Src/File_Handling.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/File_Handling.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+In file included from ../Core/Inc/system.h:40,
+                 from ../Core/Src/main.c:27:
+../Core/Inc/globals.h:105:1: warning: useless storage class specifier in empty declaration
+  105 | };
+      | ^
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima-FW\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Board_APP.elf
+ 
+arm-none-eabi-size   Board_APP.elf 
+arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
+   text	   data	    bss	    dec	    hex	filename
+ 141096	   2440	  46080	 189616	  2e4b0	Board_APP.elf
+arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
+arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
+Finished building: default.size.stdout
+ 
+Finished building: Board_APP.hex
+Finished building: Board_APP.bin
+ 
+ 
+Finished building: Board_APP.list
+ 
+17:13:00 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j4 all 
+make: Nothing to be done for 'all'.
+17:13:01 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j4 all 
+arm-none-eabi-gcc "../Middlewares/Third_Party/FatFs/src/option/ccsbcs.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Middlewares/Third_Party/FatFs/src/option/ccsbcs.d" -MT"Middlewares/Third_Party/FatFs/src/option/ccsbcs.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Middlewares/Third_Party/FatFs/src/option/ccsbcs.o"
+arm-none-eabi-gcc "../Middlewares/Third_Party/FatFs/src/option/syscall.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Middlewares/Third_Party/FatFs/src/option/syscall.d" -MT"Middlewares/Third_Party/FatFs/src/option/syscall.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Middlewares/Third_Party/FatFs/src/option/syscall.o"
+arm-none-eabi-gcc "../Middlewares/Third_Party/FatFs/src/drivers/usbh_diskio.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Middlewares/Third_Party/FatFs/src/drivers/usbh_diskio.d" -MT"Middlewares/Third_Party/FatFs/src/drivers/usbh_diskio.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Middlewares/Third_Party/FatFs/src/drivers/usbh_diskio.o"
+arm-none-eabi-gcc "../Middlewares/Third_Party/FatFs/src/diskio.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Middlewares/Third_Party/FatFs/src/diskio.d" -MT"Middlewares/Third_Party/FatFs/src/diskio.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Middlewares/Third_Party/FatFs/src/diskio.o"
+arm-none-eabi-gcc "../Middlewares/Third_Party/FatFs/src/ff.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Middlewares/Third_Party/FatFs/src/ff.d" -MT"Middlewares/Third_Party/FatFs/src/ff.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Middlewares/Third_Party/FatFs/src/ff.o"
+arm-none-eabi-gcc "../Middlewares/Third_Party/FatFs/src/ff_gen_drv.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Middlewares/Third_Party/FatFs/src/ff_gen_drv.d" -MT"Middlewares/Third_Party/FatFs/src/ff_gen_drv.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Middlewares/Third_Party/FatFs/src/ff_gen_drv.o"
+arm-none-eabi-gcc "../FATFS/App/fatfs.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"FATFS/App/fatfs.d" -MT"FATFS/App/fatfs.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "FATFS/App/fatfs.o"
+arm-none-eabi-gcc "../Core/Src/File_Handling.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/File_Handling.d" -MT"Core/Src/File_Handling.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/File_Handling.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+In file included from ../Core/Inc/system.h:40,
+                 from ../Core/Src/main.c:27:
+../Core/Inc/globals.h:105:1: warning: useless storage class specifier in empty declaration
+  105 | };
+      | ^
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima-FW\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Board_APP.elf
+ 
+arm-none-eabi-size   Board_APP.elf 
+arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
+   text	   data	    bss	    dec	    hex	filename
+ 140888	   2440	  46080	 189408	  2e3e0	Board_APP.elf
+arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
+arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
+Finished building: default.size.stdout
+ 
+Finished building: Board_APP.hex
+Finished building: Board_APP.bin
+ 
+ 
+Finished building: Board_APP.list
+ 
+17:14:13 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j4 all 
+make: Nothing to be done for 'all'.
+17:14:13 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j4 all 
+arm-none-eabi-size   Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+ 140888	   2440	  46080	 189408	  2e3e0	Board_APP.elf
+Finished building: default.size.stdout
+ 
+17:37:44 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j4 all 
+make: Nothing to be done for 'all'.
+17:37:45 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/File_Handling.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/File_Handling.d" -MT"Core/Src/File_Handling.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/File_Handling.o"
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima-FW\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Board_APP.elf
+ 
+arm-none-eabi-size   Board_APP.elf 
+arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
 arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
    text	   data	    bss	    dec	    hex	filename
  140888	   2440	  46080	 189408	  2e3e0	Board_APP.elf
@@ -36,8 +141,8 @@ arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
 Finished building: default.size.stdout
  
 Finished building: Board_APP.hex
- 
 Finished building: Board_APP.bin
+ 
  
 Finished building: Board_APP.list
  
