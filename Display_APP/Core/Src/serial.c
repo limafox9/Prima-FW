@@ -80,11 +80,11 @@ void SendCommand(uint16_t command, uint32_t param1, uint32_t param2, uint32_t pa
 
 	// Chip 485 ENABLE
 	HAL_GPIO_WritePin(USART1_CTS_GPIO_Port, USART1_CTS_Pin, GPIO_PIN_SET);
-	HAL_Delay(1);
+	HAL_Delay(5);
 	// Send data
 	HAL_UART_Transmit(&DISPLAY_UART_HANDLE, txBuffer, UART_DISPLAY_TX_BUFFER_SIZE, DISPLAY_UART_TX_TIMEOUT);
 	// Chip 485 DISABLE
-	HAL_Delay(1);
+	HAL_Delay(5);
 	HAL_GPIO_WritePin(USART1_CTS_GPIO_Port, USART1_CTS_Pin, GPIO_PIN_RESET);
 	osSemaphoreRelease(semaphoreSerialsHandle);
 }

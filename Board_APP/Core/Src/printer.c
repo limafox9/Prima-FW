@@ -265,25 +265,25 @@ void Print(const char* format, ...) {
 }
 
 void PrintLogo() {
-////	uint8_t logo[] = {0x7C, 0x44, 0x44, 0xFF, 0x44, 0x44, 0x7C, 0x00, 0x41, 0x62, 0x54, 0xC8, 0x54, 0x62, 0x41};
-//uint8_t w = 200;
-//uint8_t h = 91;
-//
-//	uint8_t data[w];
-//	uint8_t end[1] = {13};
-//
-//	uint8_t cmd[4] = {ESC, 'K', (w % 256), (w / 256)};
-//
-//	int c = 0;
-//	for (int y = 0; y < (h / 8); y++) {
-//		for (int x = 0; x < w; x++) {
-//			data[x] = reverse_byte(logo[c]);
-//			c++;
-//		}
-//		HAL_UART_Transmit(&UART_PRINTER, cmd, sizeof(cmd), 500);
-//		HAL_UART_Transmit(&UART_PRINTER, data, sizeof(data), 500);
-//		HAL_UART_Transmit(&UART_PRINTER, end, sizeof(end), 500);
-//	}
+//	uint8_t logo[] = {0x7C, 0x44, 0x44, 0xFF, 0x44, 0x44, 0x7C, 0x00, 0x41, 0x62, 0x54, 0xC8, 0x54, 0x62, 0x41};
+uint8_t w = 200;
+uint8_t h = 91;
+
+	uint8_t data[w];
+	uint8_t end[1] = {13};
+
+	uint8_t cmd[4] = {ESC, 'K', (w % 256), (w / 256)};
+
+	int c = 0;
+	for (int y = 0; y < (h / 8); y++) {
+		for (int x = 0; x < w; x++) {
+			data[x] = reverse_byte(logo[c]);
+			c++;
+		}
+		HAL_UART_Transmit(&UART_PRINTER, cmd, sizeof(cmd), 500);
+		HAL_UART_Transmit(&UART_PRINTER, data, sizeof(data), 500);
+		HAL_UART_Transmit(&UART_PRINTER, end, sizeof(end), 500);
+	}
 }
 
 void PrintHeader (const char* title, float t1, RTCDateTime_s* time) {

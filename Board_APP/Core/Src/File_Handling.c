@@ -41,8 +41,7 @@ void Send_Uart (char *string)
 
 void Mount_USB (void)
 {
-//	fresult = f_mount(&USBHFatFS, USBHPath, 1);
-	fresult = f_mount(&USBHFatFS, "0", 1);
+	fresult = f_mount(&USBHFatFS, USBHPath, 1);
 	if (fresult != FR_OK) Send_Uart ("ERROR!!! in mounting USB ...\n\n");
 	else Send_Uart("USB mounted successfully...\n");
 }

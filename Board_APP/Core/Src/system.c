@@ -126,7 +126,6 @@ void SysInit() {
 
 //	SerialInit(&huart1, 115200);
 
-
 	LoadSettings();
 
 	  osSemaphoreDef(semaphoreSensors);
@@ -139,7 +138,7 @@ void SysInit() {
 	osThreadDef(serialTask, StartSerialTask, osPriorityNormal, 1, 512);
 	serialTaskHandle = osThreadCreate(osThread(serialTask), NULL);
 
-	osDelay(500);
+	osDelay(1000);
 
 	DigitsWrite(1, "8.8.8.8");
 	DigitsWrite(2, "8.8.8.8");
