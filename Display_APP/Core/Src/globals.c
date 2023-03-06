@@ -48,6 +48,7 @@ USAGE:
 
 osThreadId 	taskKeysHandle;
 osThreadId 	taskDigitsHandle;
+osSemaphoreId semaphoreSerialsHandle;
 
 uint32_t 	UID[3];
 
@@ -73,6 +74,10 @@ uint16_t 	SET_FlashInterval = DEFAULT_SETTING_LEDS_FLASH_INTERVAL;
 
 // Entry point
 void SysInit() {
+
+	osSemaphoreDef(semaphoreSerial);
+	semaphoreSerialsHandle = osSemaphoreCreate(osSemaphore(semaphoreSerial), 1);
+	  osSemaphoreRelease(semaphoreSerialsHandle);
 
 	osThreadDef(keysTask, KeysTask, osPriorityNormal, 1, 256);
 	taskKeysHandle = osThreadCreate(osThread(keysTask), NULL);
@@ -107,7 +112,7 @@ void SysInit() {
 //
 //	Beep(3,100,100);
 
-	HAL_Delay(500);
+	osDelay(500);
 
 	DisplayUARTInit();
 	SendCommand(DISPLAY_CMD_OK, FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION, "");

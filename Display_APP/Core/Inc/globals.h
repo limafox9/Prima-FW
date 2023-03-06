@@ -38,11 +38,12 @@ USAGE:
 #define INC_GLOBALS_H_
 
 #include "main.h"
+#include "cmsis_os.h"
 #include <stdio.h>
 
 
 #define FW_VERSION_MAJOR 		2
-#define FW_VERSION_MINOR 		2
+#define FW_VERSION_MINOR 		5
 #define FW_VERSION_REVISION 	1
 
 //#define DIGIT_ROWS 				3
@@ -69,6 +70,8 @@ typedef enum {OFF, ON} POWER_STATE;
 extern uint16_t SET_KeysLongPressInterval;
 extern uint16_t SET_FlashInterval;
 extern uint8_t SET_KeysBeep;
+
+extern osSemaphoreId semaphoreSerialsHandle;
 
 uint32_t GetSafeDeltaTick(uint32_t startTick, uint32_t endTick);
 void SwapBytes(void *pBytes, size_t size);

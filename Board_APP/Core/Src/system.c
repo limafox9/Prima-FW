@@ -138,7 +138,7 @@ void SysInit() {
 	osThreadDef(serialTask, StartSerialTask, osPriorityNormal, 1, 512);
 	serialTaskHandle = osThreadCreate(osThread(serialTask), NULL);
 
-	HAL_Delay(1000);
+	osDelay(1000);
 
 	DigitsWrite(1, "8.8.8.8");
 	DigitsWrite(2, "8.8.8.8");

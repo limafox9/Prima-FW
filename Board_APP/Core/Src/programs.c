@@ -224,6 +224,15 @@ uint8_t ProgramUnwrapped() {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
 		success = PhaseVacuum(1, (float)settings.FirstVacuum, OT_VACUUM);
 	}
+	if (settings.UserVacuumNumber < 3) {
+		if (success) {
+			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
+			success = PhasePressure(3, 200.0, DV_STEAM_GEN_TEMP, 170.0, OT_PRESSURE);
+		}
+		ValveDrainSteamSet(OFF);
+		osDelay(20000);
+		ValveDrainSteamSet(ON);
+	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP+ 10);
 		success = PhasePressure(3, 290.0, DV_STEAM_GEN_TEMP, 180.0, OT_PRESSURE);

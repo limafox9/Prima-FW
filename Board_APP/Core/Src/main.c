@@ -713,12 +713,12 @@ static void MX_GPIO_Init(void)
 void StartTaskAlive(void const * argument)
 {
   /* init code for USB_HOST */
-//  MX_USB_HOST_Init();
+  MX_USB_HOST_Init();
   /* USER CODE BEGIN 5 */
   /* Infinite loop */
+		SysInit();
 
-	SysInit();
-//	  MX_USB_HOST_Init();
+
 //	  MX_IWDG_Init();
 	for(;;)	{
 		HAL_GPIO_TogglePin(LED_HEART_GPIO_Port, LED_HEART_Pin);

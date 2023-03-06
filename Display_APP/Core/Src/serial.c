@@ -73,19 +73,20 @@ void DisplayUARTInit() {
 void SendCommand(uint16_t command, uint32_t param1, uint32_t param2, uint32_t param3, char* digits) {
 
 	s_DisplayProtocolData txData = {command, param1, param2, param3, digits, 1};
-
+	osSemaphoreWait(semaphoreSerialsHandle, 100);
 	uint8_t txBuffer[UART_DISPLAY_TX_BUFFER_SIZE];
 	memset(txBuffer, 255, sizeof(txBuffer));
 	Display_DataToProtocol(&txData, txBuffer);
 
 	// Chip 485 ENABLE
 	HAL_GPIO_WritePin(USART1_CTS_GPIO_Port, USART1_CTS_Pin, GPIO_PIN_SET);
-	HAL_Delay(1);
+	HAL_Delay(5);
 	// Send data
 	HAL_UART_Transmit(&DISPLAY_UART_HANDLE, txBuffer, UART_DISPLAY_TX_BUFFER_SIZE, DISPLAY_UART_TX_TIMEOUT);
 	// Chip 485 DISABLE
-	HAL_Delay(1);
+	HAL_Delay(5);
 	HAL_GPIO_WritePin(USART1_CTS_GPIO_Port, USART1_CTS_Pin, GPIO_PIN_RESET);
+	osSemaphoreRelease(semaphoreSerialsHandle);
 }
 
 //void DisplaySendOK() {
@@ -112,9 +113,10 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
 
 	uint8_t headFound, tailFound;
 	uint8_t tempBuf[UART_DISPLAY_RX_BUFFER_SIZE];
-
+	osSemaphoreWait(semaphoreSerialsHandle, 100);
 	for (int i = UART_DISPLAY_RX_BUFFER_SIZE; i >= 0; i--) {
 		if ((UART_rxBuffer[i] == '<') && (UART_rxBuffer[i+1] == '~')) {
+
 
 			uint8_t p2[i];
 			memcpy(p2, UART_rxBuffer, i);
@@ -125,16 +127,19 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
 			memcpy(tempBuf, p1, UART_DISPLAY_RX_BUFFER_SIZE - i);
 			memcpy(tempBuf + UART_DISPLAY_RX_BUFFER_SIZE - i, p2, i);
 
+
 			Display_ProtocolToData(tempBuf, &rxData);
 			if (rxData.Valid) {
+				osSemaphoreRelease(semaphoreSerialsHandle);
 				ParseCommand(&rxData);
 			}
 		}
 	}
 
+
 	HAL_UARTEx_ReceiveToIdle_DMA(&DISPLAY_UART_HANDLE, UART_rxBuffer, UART_DISPLAY_RX_BUFFER_SIZE);
 	__HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT);
-
+	osSemaphoreRelease(semaphoreSerialsHandle);
 }
 
 
