@@ -45,6 +45,7 @@ USAGE:
 #include "stm32f1xx_hal.h"
 #include "sensors.h"
 #include "modes.h"
+#include "usbkey.h"
 
 #define DC2 0x12
 #define ESC	0x1B
@@ -54,6 +55,7 @@ USAGE:
 extern UART_HandleTypeDef UART_PRINTER;
 extern Settings_s settings;
 extern MachineData_s machine;
+void PrintSend(const char* format, ...);
 
 unsigned char reverse_byte(unsigned char x);
 
@@ -205,12 +207,12 @@ const unsigned char logo[] = {
 void PrinterInit() {
 	char d[10];
 
-	Print("%c%c", ESC, '@'); // Reset
+	PrintSend("%c%c", ESC, '@'); // Reset
 //	Print("%c%c", ESC, '5'); // Charset 2
 //	Print("%c%c", FS, '.'); // Disable Chinese Print Mode
 //	Print("%c%c", ESC, 0x54); // Upside-down print
 //	Print("%c%c%c", ESC, 0x57, 1); // Font size
-	Print("%c%c%c", ESC, '!', 0b00000101);
+	PrintSend("%c%c%c", ESC, '!', 0b00000101);
 //	Print("%c%c%c", ESC, '3', 10); // Line spacing (n*0.125mm, def. 30)
 //	Print("%c%c%c", ESC, 'a', 0); // Justify (0 = left, 1 = center, 2 = right)
 //	Print("%c%c%c",  GS, '!', 0x00);
@@ -220,9 +222,9 @@ void PrinterInit() {
 }
 
 void PrintSize(uint8_t width, uint8_t height) {
-	Print("%c%c%c", ESC, 'U', width); // Font width
+	PrintSend("%c%c%c", ESC, 'U', width); // Font width
 //	Print("%c%c%c", ESC, 'W', size); // Font size
-	Print("%c%c%c", ESC, 'V', height); // Font height
+	PrintSend("%c%c%c", ESC, 'V', height); // Font height
 }
 
 //void Print(const char* data) {
@@ -230,7 +232,7 @@ void PrintSize(uint8_t width, uint8_t height) {
 //}
 
 void PrintTestPage() {
-	Print("%c%c", DC2, 'T'); // Reset
+	PrintSend("%c%c", DC2, 'T'); // Reset
 }
 
 void PrintError(const char* errorString, RTCTimerTime_s* tTime) {
@@ -250,6 +252,22 @@ void PrintError(const char* errorString, RTCTimerTime_s* tTime) {
 	Print("\n");
 }
 
+void PrintSend(const char* format, ...) {
+
+		  va_list args;
+		  char* buf[80];
+		  va_start(args, format);
+		  vsprintf(buf, format, args);
+		  //printf(buf);
+		  va_end(args);
+
+		  if (settings.FunPrinterActive) {
+			  HAL_UART_Transmit(&UART_PRINTER, buf, strlen(buf), 1000);
+	//		  HAL_UART_Transmit(&huart1, "\n", 1, 100);
+		  }
+
+}
+
 void Print(const char* format, ...) {
 
 		  va_list args;
@@ -259,31 +277,36 @@ void Print(const char* format, ...) {
 		  //printf(buf);
 		  va_end(args);
 
-		  HAL_UART_Transmit(&UART_PRINTER, buf, strlen(buf), 1000);
-//		  HAL_UART_Transmit(&huart1, "\n", 1, 100);
+		  if (settings.FunPrinterActive) {
+			  HAL_UART_Transmit(&UART_PRINTER, buf, strlen(buf), 1000);
+	//		  HAL_UART_Transmit(&huart1, "\n", 1, 100);
+		  }
+		  if (settings.FunUSBActive) {
+			  SdcardWriteAction(currFilename , buf);
+		  }
 
 }
 
 void PrintLogo() {
-//	uint8_t logo[] = {0x7C, 0x44, 0x44, 0xFF, 0x44, 0x44, 0x7C, 0x00, 0x41, 0x62, 0x54, 0xC8, 0x54, 0x62, 0x41};
-uint8_t w = 200;
-uint8_t h = 91;
-
-	uint8_t data[w];
-	uint8_t end[1] = {13};
-
-	uint8_t cmd[4] = {ESC, 'K', (w % 256), (w / 256)};
-
-	int c = 0;
-	for (int y = 0; y < (h / 8); y++) {
-		for (int x = 0; x < w; x++) {
-			data[x] = reverse_byte(logo[c]);
-			c++;
-		}
-		HAL_UART_Transmit(&UART_PRINTER, cmd, sizeof(cmd), 500);
-		HAL_UART_Transmit(&UART_PRINTER, data, sizeof(data), 500);
-		HAL_UART_Transmit(&UART_PRINTER, end, sizeof(end), 500);
-	}
+////	uint8_t logo[] = {0x7C, 0x44, 0x44, 0xFF, 0x44, 0x44, 0x7C, 0x00, 0x41, 0x62, 0x54, 0xC8, 0x54, 0x62, 0x41};
+//uint8_t w = 200;
+//uint8_t h = 91;
+//
+//	uint8_t data[w];
+//	uint8_t end[1] = {13};
+//
+//	uint8_t cmd[4] = {ESC, 'K', (w % 256), (w / 256)};
+//
+//	int c = 0;
+//	for (int y = 0; y < (h / 8); y++) {
+//		for (int x = 0; x < w; x++) {
+//			data[x] = reverse_byte(logo[c]);
+//			c++;
+//		}
+//		HAL_UART_Transmit(&UART_PRINTER, cmd, sizeof(cmd), 500);
+//		HAL_UART_Transmit(&UART_PRINTER, data, sizeof(data), 500);
+//		HAL_UART_Transmit(&UART_PRINTER, end, sizeof(end), 500);
+//	}
 }
 
 void PrintHeader (const char* title, float t1, RTCDateTime_s* time) {

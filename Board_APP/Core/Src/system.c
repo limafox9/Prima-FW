@@ -267,6 +267,7 @@ void SysInit() {
 //			osDelay(500);
 //		}
 //				ProgressLed(0b0100000000000000);
+		SdcardWriteAction("test99.txt" , "Hello \r\n");
 
 __NOP();
 //		ProgressLed(LED_PROGRESS_HEATING);

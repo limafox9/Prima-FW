@@ -815,9 +815,9 @@ uint8_t ProgramVacuumTest() {
 	if (success) {
 		success = PhaseVacuumHold(18.0, 20.0, 240, 600);
 	}
-	if (success) {
-		success = PhaseRelease(1, OT_RELEASE);
-	}
+//	if (success) {
+//		success = PhaseRelease(1, OT_RELEASE);
+//	}
 
 	// End
 	GetTimer(TIMER_CYCLE, &tCycle);

@@ -107,19 +107,19 @@ UserSet_s user[] = {
 };
 
 Functions_s functions[] = {
-	{1, "Night cycle time", "POtI", EPA_FUN_NIGHT_CYCLE_TIME, &settings.UserSterilTemp, 2, 0, 120},
-	{2, "Printer on", "Prin", EPA_FUN_PRINTER_ACTIVE, &settings.UserSterilTime, 1, 0, 1},
-	{3, "USB on", "USb ", EPA_FUN_USB_ACTIVE, &settings.UserDryTime, 1, 0, 1},
-	{4, "Water load on", "PUnP", EPA_FUN_WATER_LOAD_ACTIVE, &settings.UserVacuumNumber, 1, 0, 1},
-	{5, "TDS on", " CO ", EPA_FUN_TDS_ACTIVE, &settings.UserSterilTime, 1, 0, 1},
-	{6, "Dry Time", "dry ", EPA_FUN_DRY_TIME, &settings.FunDryClass, 1, 1, 3},
-	{7, "Pressure display", "PdSP", EPA_FUN_PRESS_DISPLAY_OFFSET, &settings.UserVacuumNumber, 1, 0, 1},
-	{8, "USB Export", "ESPr", 0, 0, 0, 0, 0, 0},
-	{9, "USB Import parameters", "LoAd", 0, 0, 0, 0, 0},
-	{10, "Consumption test", "PtSt", 0, 0, 0, 0, 0},
-	{11, "Print user parameters", "PUPA", 0, 0, 0, 0, 0},
-	{12, "Print tech parameters", "PtPA", 0, 0, 0, 0, 0},
-	{13, "Print last ticket", "PLtI", 0, 0, 0, 0, 0},
+	{1, "Night cycle time", 		"POtI", EPA_FUN_NIGHT_CYCLE_TIME, &settings.UserSterilTemp, 2, 0, 120},
+	{2, "Printer on", 				"Prin", EPA_FUN_PRINTER_ACTIVE, &settings.FunPrinterActive, 1, 0, 1},
+	{3, "USB on", 					" USb", EPA_FUN_USB_ACTIVE, &settings.FunUSBActive, 1, 0, 1},
+	{4, "Water load on", 			"PUnP", EPA_FUN_WATER_LOAD_ACTIVE, &settings.FunWaterLoadActive, 1, 0, 1},
+	{5, "TDS on", 					" CO ", EPA_FUN_TDS_ACTIVE, &settings.FunTDSActive, 1, 0, 1},
+	{6, "Dry Time", 				" dry", EPA_FUN_DRY_TIME, &settings.FunDryClass, 1, 1, 3},
+	{7, "Pressure display", 		"PdSP", EPA_FUN_PRESS_DISPLAY_OFFSET, &settings.UserVacuumNumber, 1, 0, 1},
+	{8, "USB Export", 				"ESPr", 0, 0, 0, 0, 0, 0},
+	{9, "USB Import parameters", 	"LoAd", 0, 0, 0, 0, 0},
+	{10, "Consumption test", 		"PtSt", 0, 0, 0, 0, 0},
+	{11, "Print user parameters", 	"PUPA", 0, 0, 0, 0, 0},
+	{12, "Print tech parameters", 	"PtPA", 0, 0, 0, 0, 0},
+	{13, "Print last ticket", 		"PLtI", 0, 0, 0, 0, 0},
 };
 
 
@@ -319,6 +319,7 @@ void SelectFunction() {
 void ChangeFunction(int8_t increment) {
 	if (currFunction == 0) *functions[currFunction].Value += (increment * 30);
 	else *functions[currFunction].Value += increment;
+
 
 	if (*functions[currFunction].Value < functions[currFunction].Min) *functions[currFunction].Value = functions[currFunction].Max;
 	if (*functions[currFunction].Value > functions[currFunction].Max) *functions[currFunction].Value = functions[currFunction].Min;

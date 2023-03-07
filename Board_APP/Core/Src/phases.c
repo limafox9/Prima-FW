@@ -47,6 +47,7 @@ USAGE:
 #include "modes.h"
 #include "globals.h"
 #include "system.h"
+#include "usbkey.h"
 
 #define STERIL_STABILIZATION_PERIOD 30
 
@@ -54,6 +55,7 @@ uint8_t chamberHeaterTempSet;
 uint8_t steamGeneratorTempSet;
 
 char currPhase[8];
+
 
 //extern s_Sensors Sensors;
 
@@ -65,6 +67,17 @@ uint8_t PhaseBegin(uint8_t timeout) {
 	uint8_t retVal = 1;
 	RTCTimerTime_s tTimeout, tPhase;
 	sprintf(currPhase, "Init");
+
+
+	settings.CyclesCount++;
+	EEPROM_Write(EPA_CYCLE_COUNTER, &settings.CyclesCount, 2);
+	machine.ReadOnlyCyclesCount++;
+	EEPROM_Write(EPA_CYCLE_COUNTER_PERMANENT, &machine.ReadOnlyCyclesCount, 2);
+
+	RTCDateTime_s ct;
+	PCF8563_GetDateTime(&ct);
+	sprintf(currFilename, "%04d.%02d.%02d-%02d.%02d-%05d.txt", ct.Year, ct.Month, ct.Day, ct.Hour, ct.Minute, settings.CyclesCount);
+
 
 	ResetTimer(TIMER_PHASE);
 
@@ -122,11 +135,6 @@ uint8_t PhaseBegin(uint8_t timeout) {
 	PumpWaterLoadSet(OFF);
 
 	FanSet(ON);
-
-	settings.CyclesCount++;
-	EEPROM_Write(EPA_CYCLE_COUNTER, &settings.CyclesCount, 2);
-	machine.ReadOnlyCyclesCount++;
-	EEPROM_Write(EPA_CYCLE_COUNTER_PERMANENT, &machine.ReadOnlyCyclesCount, 2);
 
 	uint8_t err = ERROR_POWER_OFF;
 	EEPROM_Write(EPA_LAST_ERROR, &err, 1);
