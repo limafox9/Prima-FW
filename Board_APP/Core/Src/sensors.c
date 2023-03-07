@@ -73,8 +73,8 @@ USAGE:
 #define AVERAGE_SAMPLES_INTERVAL	10			// Interval between samples (milliseconds)
 #define V_REF						3.3			// Power supply
 #define ADC_BITS					12			// ADC resolution (8bit=256, 10bit=1024, 12bit=4096, 16bit=65536
-#define T1_FACTORY_OFFSET			2.0			// Fixed factory offset for T1
-#define T2_FACTORY_OFFSET			-1.0			// Fixed factory offset for T2
+#define T1_FACTORY_OFFSET			1.0			// Fixed factory offset for T1
+#define T2_FACTORY_OFFSET			-2.0			// Fixed factory offset for T2
 //#define PTC_NOMINAL_RESISTANCE	1000	   	// Ω nominal resistance (typical @25°C)
 //#define PTC_NOMINAL_TEMPERATURE	0.0			// temperature of nominal resistance (typical 25°C)
 //#define PTC_BETA				3977		// The beta coefficient or the B value of the thermistor (usually 3000-4000) check the datasheet for the accurate value
@@ -190,6 +190,7 @@ void StartSensorsTask() {
 		HAL_Delay(50);
 		sensors.T2 = TM7705_GetTemp(2, (float)(settings.T2Offset / 10.0) + (float)T2_FACTORY_OFFSET);
 		sensors.PressureChamber = BufferAverage(pressBuf, PRESS_BUFFER_SIZE, ChamberPressureGet());
+//		sensors.PressureChamber -= (!settings.FunPressureDisplay) ? 0 : 100;
 		sensors.Current = CurrentGet();
 		sensors.WaterDumpLevel = WaterDumpLevelGet();
 		sensors.WaterReservoirLevel = WaterReservoirLevelGet();
@@ -485,4 +486,7 @@ float ADCToCurrent(uint16_t adcValue) {
 	return readVolt;
 }
 
+float GetNormalizedPressure(float pressure) {
+	return (settings.FunPressureDisplay == 1) ? pressure : (pressure - 100);
+}
 

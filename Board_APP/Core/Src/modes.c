@@ -72,7 +72,7 @@ s_Program tests[] = {
 	{1, PROGTYPE_TEST, "Helix Test", "t. HE", 16, CLASS_USER, STERILTEMP_134},
 	{2, PROGTYPE_TEST, "Vacuum Test", "t. UA", 32, CLASS_USER, STERILTEMP_134},
 	{3, PROGTYPE_TEST, "Wash cycle", "UASH", DISPLAY_LED_WASH_CYCLE, CLASS_USER, STERILTEMP_134},
-	{4, PROGTYPE_TEST, "Water fill", "----", DISPLAY_LED_WATER_FILL, CLASS_USER, STERILTEMP_134},
+	{4, PROGTYPE_TEST, "Water fill", " H2O", DISPLAY_LED_WATER_FILL, CLASS_USER, STERILTEMP_134},
 };
 
 Parameter_s parameters[] = {
@@ -112,8 +112,8 @@ Functions_s functions[] = {
 	{3, "USB on", 					" USb", EPA_FUN_USB_ACTIVE, &settings.FunUSBActive, 1, 0, 1},
 	{4, "Water load on", 			"PUnP", EPA_FUN_WATER_LOAD_ACTIVE, &settings.FunWaterLoadActive, 1, 0, 1},
 	{5, "TDS on", 					" CO ", EPA_FUN_TDS_ACTIVE, &settings.FunTDSActive, 1, 0, 1},
-	{6, "Dry Time", 				" dry", EPA_FUN_DRY_TIME, &settings.FunDryClass, 1, 1, 3},
-	{7, "Pressure display", 		"PdSP", EPA_FUN_PRESS_DISPLAY_OFFSET, &settings.UserVacuumNumber, 1, 0, 1},
+	{6, "Pressure display", 		"PrES", EPA_FUN_PRESS_DISPLAY_OFFSET, &settings.FunPressureDisplay, 1, 0, 1},
+	{7, "Dry Time", 				" dry", EPA_FUN_DRY_TIME, &settings.FunDryClass, 1, 1, 3},
 	{8, "USB Export", 				"ESPr", 0, 0, 0, 0, 0, 0},
 	{9, "USB Import parameters", 	"LoAd", 0, 0, 0, 0, 0},
 	{10, "Consumption test", 		"PtSt", 0, 0, 0, 0, 0},
@@ -199,7 +199,7 @@ void ShowProgram() {
 	sprintf(s,"%5.1f", sensors.T1);
 	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, s);
 	osDelay(20);
-	sprintf(s,"%5.1f", sensors.PressureChamber);
+	sprintf(s,"%5.1f", GetNormalizedPressure(sensors.PressureChamber)) ;
 	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 2, 0, 0, s);
 	osDelay(20);
 	osSemaphoreRelease(semaphoreSensorsHandle);
@@ -239,6 +239,8 @@ void ShowReading() {
 	char s[8];
 	if (currReading == 6) {
 		sprintf(s,"%4d", sensors.WaterTDS);
+	} else if (currReading == 4 || currReading == 5) {
+		sprintf(s,"%5.1f", GetNormalizedPressure((float)(*readings[currReading].Value)));
 	} else {
 		sprintf(s,"%5.1f", (float)(*readings[currReading].Value));
 	}
@@ -300,7 +302,7 @@ void ShowFunctions() {
 	char s[8];
 	if (currFunction == 0) {
 		sprintf(s,"%4d", (*functions[currFunction].Value == 0) ? 121 : 134);
-	} else if ((currFunction > 0) && (currFunction < 5)) {
+	} else if ((currFunction > 0) && (currFunction < 6)) {
 		sprintf(s,"%4s", (*functions[currFunction].Value == 1) ? "On" : " OFF");
 	} else {
 		sprintf(s,"%4d", *user[currUser].Value);

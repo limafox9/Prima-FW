@@ -38,6 +38,7 @@ USAGE:
 #include "main.h"
 #include "cmsis_os.h"
 #include <stdio.h>
+#include "settings.h"
 
 UART_HandleTypeDef* huart_water;
 
@@ -54,28 +55,34 @@ uint16_t BAT2U_GetTDSValue(uint8_t channel, uint16_t timeout) {
 	int16_t pos;
 	uint16_t value;
 	uint8_t rxBuffer[6], dummy[6];
-	memset(rxBuffer, 0xFF, 6);
-	uint8_t txBuffer[6] = {0xA0, 0x00, 0x00, 0x00, 0x00, 0x00};
-	txBuffer[5] = GetChecksum(txBuffer, 5);
-	HAL_UART_Transmit(huart_water, txBuffer, 6, 500);
-//	HAL_Delay(20);
-	HAL_UART_Receive(huart_water, rxBuffer, 6, 1000);
-	HAL_UART_Receive(huart_water, dummy, 6, 1000);
-//	Timeout(0);
-//	do {
-//		HAL_UART_Receive_DMA(huart_water, rxBuffer, 6);
-//		pos = ByteInBuffer(0xAA, rxBuffer, 6);
-//		osDelay(500);
-//	} while ((pos < 0) && (!Timeout(timeout)));
-//	if (pos >= 0) {
-		if (channel ==1) {
-			value = rxBuffer[1] << 8 | rxBuffer[2];
-		} else if (channel == 2) {
-			value = rxBuffer[3] << 8 | rxBuffer[4];
-		}
-//	} else {
-//		value = 0xFFFF; // No valid value or timeout
-//	}
+
+	if (settings.FunTDSActive) {
+		memset(rxBuffer, 0xFF, 6);
+		uint8_t txBuffer[6] = {0xA0, 0x00, 0x00, 0x00, 0x00, 0x00};
+		txBuffer[5] = GetChecksum(txBuffer, 5);
+		HAL_UART_Transmit(huart_water, txBuffer, 6, 500);
+	//	HAL_Delay(20);
+		HAL_UART_Receive(huart_water, rxBuffer, 6, 1000);
+		HAL_UART_Receive(huart_water, dummy, 6, 1000);
+	//	Timeout(0);
+	//	do {
+	//		HAL_UART_Receive_DMA(huart_water, rxBuffer, 6);
+	//		pos = ByteInBuffer(0xAA, rxBuffer, 6);
+	//		osDelay(500);
+	//	} while ((pos < 0) && (!Timeout(timeout)));
+	//	if (pos >= 0) {
+			if (channel ==1) {
+				value = rxBuffer[1] << 8 | rxBuffer[2];
+			} else if (channel == 2) {
+				value = rxBuffer[3] << 8 | rxBuffer[4];
+			}
+	//	} else {
+	//		value = 0xFFFF; // No valid value or timeout
+	//	}
+	} else {
+		value == 0;
+	}
+
 	return value;
 }
 

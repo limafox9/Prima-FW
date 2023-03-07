@@ -136,12 +136,14 @@ void ProgramOpenDoorRelease() {
 
 uint8_t ProgramResumeDry() {
 
-//	uint8_t success = 1;
-//	RTCDateTime_s clockTime;
-//	RTCTimerTime_s tCycle, tPhase;
+	uint8_t success = 1;
+	RTCDateTime_s clockTime;
+	RTCTimerTime_s tCycle, tPhase;
 
 	progRunning = 1;
 	progStop = 0;
+
+	if (!PhaseBegin(600)) return 0;
 
 //	PhaseResume(600);
 	FanSet(ON);
@@ -864,6 +866,11 @@ uint8_t ProgramWaterLoad() {
 	uint8_t success = 1;
 	RTCDateTime_s clockTime;
 	RTCTimerTime_s tCycle, tPhase;
+
+	if (!settings.FunWaterLoadActive) {
+		Beep(2, 100, 100);
+		return;
+	}
 
 	progRunning = 1;
 	progStop = 0;

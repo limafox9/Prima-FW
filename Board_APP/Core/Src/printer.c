@@ -238,7 +238,7 @@ void PrintTestPage() {
 void PrintError(const char* errorString, RTCTimerTime_s* tTime) {
 	Print(errorString);
 	Print("----    T1     T2    kPa    TIME\n");
-	Print("      %5.1f  %5.1f  %5.1f %3d:%02d\n", sensors.T1, sensors.T2, sensors.PressureChamber, tTime->TimeMinute, tTime->TimeSecond);
+	Print("      %5.1f  %5.1f  %5.1f %3d:%02d\n", sensors.T1, sensors.T2, GetNormalizedPressure(sensors.PressureChamber), tTime->TimeMinute, tTime->TimeSecond);
 	Print("        T3     T4    TDS   DO  LO\n");
 	Print("      %5.1f  %5.1f %5d   %s  %s\n", 	sensors.TemperatureChamberHeater,
 												sensors.TemperatureSteamGenerator,
@@ -326,9 +326,11 @@ void PrintHeader (const char* title, float t1, RTCDateTime_s* time) {
 				uint8_t secSter = 0;
 				uint8_t minDry = settings.UserDryTime;
 				uint8_t secDry = 0;
+				uint16_t press = (settings.UserSterilTemp == STERILTEMP_134) ? 310 : 210;
+				press = (settings.FunPressureDisplay == 1) ? press : (press - 100);
 				Print("VAC.N.  Temp.   Press.   Time   Dry\n");
 				//       3     134'C   310kPa  10:34  10:34
-				Print(" %2d     %3d'C   %3dkPa  %2d:%02d  %2d:%02d", settings.UserVacuumNumber, tSter, (settings.UserSterilTemp == STERILTEMP_134) ? 310 : 210, minSter, secSter, minDry, secDry);
+				Print(" %2d     %3d'C   %3dkPa  %2d:%02d  %2d:%02d", settings.UserVacuumNumber, tSter, press, minSter, secSter, minDry, secDry);
 				Print("\n");
 			} else {
 				uint8_t tSter = (programs[currProgram].SterilTemp == STERILTEMP_134) ? 134 : 121;
@@ -338,7 +340,7 @@ void PrintHeader (const char* title, float t1, RTCDateTime_s* time) {
 				uint8_t secDry = programs[currProgram].DryTime % 60;
 				Print("VAC.N.  Temp.   Press.   Time   Dry\n");
 				//       3     134'C   310kPa  10:34  10:34
-				Print(" %2d     %3d'C   %3dkPa  %2d:%02d  %2d:%02d", settings.VacNumber, tSter, programs[currProgram].SterilPress, minSter, secSter, minDry, secDry);
+				Print(" %2d     %3d'C   %3dkPa  %2d:%02d  %2d:%02d", settings.VacNumber, tSter, GetNormalizedPressure(programs[currProgram].SterilPress), minSter, secSter, minDry, secDry);
 				Print("\n");
 			}
 	} else if (currProgType == PROGTYPE_TEST) {
@@ -349,7 +351,7 @@ void PrintHeader (const char* title, float t1, RTCDateTime_s* time) {
 			uint8_t secDry = 300 % 60;
 			Print("VAC.N.  Temp.   Press.   Time   Dry\n");
 			//       3     134'C   310kPa  10:34  10:34
-			Print(" %2d     %3d'C   %3dkPa  %2d:%02d  %2d:%02d", settings.VacNumber, 134, 310, minSter, secSter, minDry, secDry);
+			Print(" %2d     %3d'C   %3dkPa  %2d:%02d  %2d:%02d", settings.VacNumber, 134, (settings.FunPressureDisplay == 1) ? 310 : 210, minSter, secSter, minDry, secDry);
 			Print("\n");
 		}
 	}
@@ -400,7 +402,7 @@ void PrintFooter (const char* result, RTCDateTime_s* time, RTCTimerTime_s* timer
 }
 
 void PrintStepLine(const char* step, float t1, float t2, float pressure, RTCTimerTime_s* time) {
-	Print("%.4s  %5.1f  %5.1f  %5.1f %3d:%02d\n", step, t1, t2, pressure, time->TimeMinute, time->TimeSecond);
+	Print("%.4s  %5.1f  %5.1f  %5.1f %3d:%02d\n", step, t1, t2, GetNormalizedPressure(pressure), time->TimeMinute, time->TimeSecond);
 }
 
 void PrintDivisor() {

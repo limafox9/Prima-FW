@@ -1017,6 +1017,8 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 //		uint8_t err = ERROR_NONE;
 		lastError = ERROR_NONE;
 
+		EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
+
 		PrintFooter("PASS", time, timer);
 		ValveDryIntakeSet(ON);
 		ValveDrainSteamSet(ON);
@@ -1042,22 +1044,20 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 			SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "Er.11");
 			return 0;
 		}
+
 		Beep(3, 100, 100);
 
 	} else {
 		char s[8];
 		sprintf(s,"Er.%02d", lastError);
 		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, s);
-
+		machineStatus.Status = STATUS_ERROR;
+		EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
 		PrintFooter("FAIL", time, timer);
 		Beep(1, 1000, 100);
 	}
 
-	EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
-
-	if (lastError != ERROR_NONE) machineStatus.Status = STATUS_ERROR;
-
-	PhasePreheat(0.0, 0.0);
+	PhasePreheat(60.0, 90.0);
 
 	ValveDrainSteamSet(OFF);
 	ValveDryIntakeSet(OFF);
