@@ -146,7 +146,7 @@ void SysInit() {
 	DashLed(0xFFFF, ON);
 	ProgressLed(0xFFFF);
 
-	HAL_Delay(1000);
+	osDelay(1000);
 
 	ClockInit(&hi2c1);
 	PWMPower_Init();
@@ -259,6 +259,7 @@ void SysInit() {
 
 		sensors.Door = DoorPositionGet();
 		machineStatus.Status = (sensors.Door == CLOSED) ? STATUS_READY : STATUS_IDLE;
+
 
 
 //		for (int i = 0; i < 16; i++) {
