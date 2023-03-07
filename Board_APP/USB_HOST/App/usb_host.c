@@ -106,6 +106,10 @@ static void USBH_UserProcess  (USBH_HandleTypeDef *phost, uint8_t id)
 
   case HOST_USER_CLASS_ACTIVE:
   Appli_state = APPLICATION_READY;
+	SdcardWriteAction("CIAO.txt" , "Hello\n");
+	SdcardWriteAction("CIAO.txt" , "Hello\n");
+	SdcardWriteAction("CIAO.txt" , "Hello\n");
+
   break;
 
   case HOST_USER_CONNECTION:

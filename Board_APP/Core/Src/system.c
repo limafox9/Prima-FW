@@ -63,6 +63,7 @@ USAGE:
 #include "display.h"
 #include "settings.h"
 #include "AD7705.h"
+#include "usbkey.h"
 
 //#define USE_RTOS_SYSTICK
 
@@ -91,6 +92,8 @@ osThreadId serialTaskHandle;
 osThreadId sensorsTaskHandle;
 osThreadId programTaskHandle;
 osThreadId displayInfoTaskHandle;
+
+osThreadId usbTaskHandle;
 
 osSemaphoreId semaphoreSensorsHandle;
 
@@ -126,11 +129,13 @@ void SysInit() {
 
 //	SerialInit(&huart1, 115200);
 
-	LoadSettings();
 
 	  osSemaphoreDef(semaphoreSensors);
 	  semaphoreSensorsHandle = osSemaphoreCreate(osSemaphore(semaphoreSensors), 1);
 	  osSemaphoreRelease(semaphoreSensorsHandle);
+
+//		osDelay(500);
+
 
 	SerialInit(&UART_DISPLAY, 115200);
 
@@ -138,7 +143,16 @@ void SysInit() {
 	osThreadDef(serialTask, StartSerialTask, osPriorityNormal, 1, 512);
 	serialTaskHandle = osThreadCreate(osThread(serialTask), NULL);
 
-	osDelay(1000);
+	machine.DisplayFWVersionMajor = 0;
+	machine.DisplayFWVersionMinor = 0;
+	machine.DisplayFWVersionRevision = 0;
+
+	osDelay(500);
+
+	do {
+		SendCommand(DISPLAY_CMD_FW_VER, 0, 0, 0, "");
+		osDelay(50);
+	} while (machine.DisplayFWVersionMajor == 0 && machine.DisplayFWVersionMinor == 0 && machine.DisplayFWVersionRevision == 0);
 
 	DigitsWrite(1, "8.8.8.8");
 	DigitsWrite(2, "8.8.8.8");
@@ -147,6 +161,8 @@ void SysInit() {
 	ProgressLed(0xFFFF);
 
 	osDelay(1000);
+
+	LoadSettings();
 
 	ClockInit(&hi2c1);
 	PWMPower_Init();
@@ -218,7 +234,7 @@ void SysInit() {
 //	osThreadDef(keysTask, StartKeysTask, osPriorityAboveNormal, 1, 1024);
 //	keysTaskHandle = osThreadCreate(osThread(keysTask), NULL);
 
-	osThreadDef(sensorsTask, StartSensorsTask, osPriorityHigh, 1, 1024);
+	osThreadDef(sensorsTask, StartSensorsTask, osPriorityHigh, 1, 512);
 	sensorsTaskHandle = osThreadCreate(osThread(sensorsTask), NULL);
 
 	osThreadDef(programTask, StartProgramTask, osPriorityNormal, 1, 1024);
@@ -261,13 +277,15 @@ void SysInit() {
 		machineStatus.Status = (sensors.Door == CLOSED) ? STATUS_READY : STATUS_IDLE;
 
 
+//		osThreadDef(usbTask, StartUSBTask, osPriorityNormal, 1, 4096);
+//		usbTaskHandle = osThreadCreate(osThread(usbTask), NULL);
 
 //		for (int i = 0; i < 16; i++) {
 //			ProgressLed(1<<i);
 //			osDelay(500);
 //		}
 //				ProgressLed(0b0100000000000000);
-		SdcardWriteAction("test99.txt" , "Hello \r\n");
+//		SdcardWriteAction("test99.txt" , "Hello \r\n");
 
 __NOP();
 //		ProgressLed(LED_PROGRESS_HEATING);

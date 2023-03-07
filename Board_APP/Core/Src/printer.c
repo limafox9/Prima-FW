@@ -261,7 +261,7 @@ void PrintSend(const char* format, ...) {
 		  //printf(buf);
 		  va_end(args);
 
-		  if (settings.FunPrinterActive) {
+		  if (settings.FunPrinterActive == 1) {
 			  HAL_UART_Transmit(&UART_PRINTER, buf, strlen(buf), 1000);
 	//		  HAL_UART_Transmit(&huart1, "\n", 1, 100);
 		  }
@@ -277,11 +277,11 @@ void Print(const char* format, ...) {
 		  //printf(buf);
 		  va_end(args);
 
-		  if (settings.FunPrinterActive) {
+		  if (settings.FunPrinterActive == 1) {
 			  HAL_UART_Transmit(&UART_PRINTER, buf, strlen(buf), 1000);
 	//		  HAL_UART_Transmit(&huart1, "\n", 1, 100);
 		  }
-		  if (settings.FunUSBActive) {
+		  if (settings.FunUSBActive == 1) {
 			  SdcardWriteAction(currFilename , buf);
 		  }
 

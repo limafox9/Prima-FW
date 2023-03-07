@@ -105,6 +105,8 @@ void ParseCommand(s_DisplayProtocolData* data) {
 		} else if (data->Param1 == KEY_START) {
 			if (lastError > 0) {
 				currProgram = 99;
+				machineStatus.Status == STATUS_READY;
+				machineStatus.Show = SHOW_PROGRAM;
 				programStart = 1;
 			} else {
 				if (machineStatus.Show == SHOW_PROGRAM) {
@@ -294,7 +296,6 @@ void ParseCommand(s_DisplayProtocolData* data) {
 		machine.DisplayFWVersionMinor = (uint8_t)data->Param2;
 		machine.DisplayFWVersionRevision = (uint8_t)data->Param3;
 	}
-
 }
 
 void StartKeysTask() {

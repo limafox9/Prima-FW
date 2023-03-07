@@ -115,7 +115,7 @@ void SysInit() {
 	osDelay(500);
 
 	DisplayUARTInit();
-	SendCommand(DISPLAY_CMD_OK, FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION, "");
+//	SendCommand(DISPLAY_CMD_OK, FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION, "");
 }
 
 uint32_t GetSafeDeltaTick(uint32_t startTick, uint32_t endTick) {

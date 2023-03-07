@@ -110,8 +110,9 @@ void sdcardErrorHandle(uint8_t error_code , char *error_message);
 //
 void SdcardEjected(void);
 void SdcardInserted(void);
-void SdcardWriteAction(char *file_name , char *buffer);
+void SdcardWriteAction(char *file_name , char *data);
 
+void StartUSBTask();
 
 #ifdef __cplusplus
 }

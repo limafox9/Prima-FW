@@ -42,8 +42,8 @@ USAGE:
 #include <stdio.h>
 
 
-#define FW_VERSION_MAJOR 		2
-#define FW_VERSION_MINOR 		5
+#define FW_VERSION_MAJOR 		3
+#define FW_VERSION_MINOR 		1
 #define FW_VERSION_REVISION 	1
 
 //#define DIGIT_ROWS 				3
