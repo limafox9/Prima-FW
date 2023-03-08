@@ -338,6 +338,8 @@ static void KeysReceived(uint8_t keysCode) {
 	if (keysCode == KEY_S1) {
 		__NOP();
 	} else if (keysCode == KEY_S2) {
+		SdcardWriteAction("CIAO1.txt" , "Hello\n");
+
 		__NOP();
 	} else if (keysCode == KEY_S3) {
 		__NOP();

@@ -40,6 +40,7 @@ USAGE:
 
 FATFS fatfs;
 FATFS *pfatfs;
+FIL USBFile;
 // state Holders
 uint8_t state_mount = 0;
 uint8_t state_unmount = 0;
@@ -194,10 +195,26 @@ char Buffer[MAX_BUFFER];
 //		return file_state;
 //}
 
+//FATFS USBHFatFS;
+
+void USB_Mount() {
+//	if (state_mount == 0) {
+		if (f_mount(&fatfs, "", 1) == FR_OK) {
+			state_mount = 1;
+		}
+//	}
+ }
+
+void USB_Unmount() {
+	if (state_mount == 1) {
+		if (f_mount(NULL, "", 1) == FR_OK) {
+			state_mount = 0;
+		}
+	}
+ }
+
 void StartUSBTask() {
 	SdcardWriteAction("CIAO.txt" , "Hello\n");
-	SdcardWriteAction("CIAO.txt" , "Hello\n");
-	SdcardWriteAction("CIAO1.txt" , "Hello\n");
 
 	for (;;) {
 
@@ -207,24 +224,19 @@ void StartUSBTask() {
 
 void SdcardWriteAction(char *file_name , char *data)
 {
-	FRESULT fr;
-	static FATFS USBHFatFS;
-	static FIL USBHFile;
+	FRESULT fr, fr1;
 
-
-	if (f_mount(&USBHFatFS, "", 1) == FR_OK) {
-//		  osSemaphoreWait(semaphoreSensorsHandle, 100);
-
-		fr = f_open(&USBHFile, file_name, FA_READ | FA_WRITE | FA_OPEN_ALWAYS);
-
-		if (fr == FR_OK) fr = f_lseek(&USBHFile,USBHFile.fsize);
-
-		if (fr == FR_OK) fr = f_printf(&USBHFile, data);
-
-		fr = f_close(&USBHFile);
-//		  osSemaphoreRelease(semaphoreSensorsHandle);
+	USB_Mount();
+	if (state_mount == 1) {
+		fr = f_open(&USBFile, file_name, FA_READ | FA_WRITE | FA_OPEN_ALWAYS);
+		if (fr == FR_OK) {
+			f_lseek(&USBFile,USBFile.fsize);
+			f_printf(&USBFile, data);
+//			f_close(&USBHFile);
+//			osDelay(100);
+			f_close(&USBFile);
+		}
 	}
-
 //		FIL fil;
 //		FRESULT fr;
 //

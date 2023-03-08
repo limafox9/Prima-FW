@@ -1,3 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;Prima_Display_APP/Core/Src/display.cpp&apos; to &apos;display.c&apos;" description="Rename resource &apos;display.cpp&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="Core/Src/display.cpp" name="display.c" stamp="1670128049602" updateReferences="true"/>&#x0A;<refactoring comment="Rename resource &apos;Prima_Display_APP/Core/Src/buzzer.cpp&apos; to &apos;buzzer.c&apos;" description="Rename resource &apos;buzzer.cpp&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="Core/Src/buzzer.cpp" name="buzzer.c" stamp="1670128054574" updateReferences="true"/>
-</session>
