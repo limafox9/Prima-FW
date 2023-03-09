@@ -1,0 +1,75 @@
+/*
+ * serial.c
+ *
+ *  Created on: Dec 6, 2022
+ *      Author: josh
+ */
+
+#include "serial.h"
+
+struct serialPacket_s {
+	char markHead[2];
+	char command[3];
+	uint8_t* p_payload;
+	uint16_t crc16;
+	char markTail[4];
+};
+
+enum serCommands_e{
+	BEEP = 0x1b,
+	KEYS_PRESSED = 0x11,
+	DISPLAY_DIGITS = 0x1d,
+	PANEL_LEDS = 0x1e,
+	PROGRESS_LEDS = 0x1f
+};
+
+void SerialSendPacket(enum serCommand_e command, uint8_t* ptr_payload, uint16_t payloadSize);
+void serialTransmit(uint8_t* p_txBuffer);
+
+// ==============================================================
+
+void SendKeys(uint8_t keys){
+
+	SerialSendPacket(command, ptr_payload, payloadSize) ) , &keys, sizeof(keys));
+}
+
+
+void SerialSendPacket(enum serCommand_e command, uint8_t* ptr_payload, uint16_t payloadSize) {
+
+	uint16_t checksum;
+
+//	char markHead[] = SERIAL_PACKET_HEAD;
+//	uint8_t headSize = sizeof(markHead) - 1;
+//	//size_t commandSize = sizeof(*command);
+//	char markTail[] = SERIAL_PACKET_TAIL;
+//	uint8_t tailSize = sizeof(markTail) - 1;
+//	//size_t payloadSize = sizeof(*payload);
+//	uint8_t checksumSize = sizeof(checksum);
+
+
+	uint8_t* txBuffer = (uint8_t*)malloc(sizeof(SERIAL_PACKET_HEAD));
+
+	checksum = crc16(ptr_payload, payloadSize);
+
+//	txBuffer = (uint8_t*)malloc()headSize + identifierSize + payloadSize + checksumSize + tailSize);
+
+	memcpy(txBuffer, markHead, headSize-1);
+	memcpy(txBuffer + headSize, ptr_command, commandSize-1);
+	memcpy(txBuffer + headSize + commandSize, ptr_payload, payloadSize);
+	memcpy(txBuffer + headSize + commandSize + payloadSize, &checksum, checksumSize);
+	memcpy(txBuffer + headSize + commandSize + payloadSize + checksumSize, markTail, tailSize-1);
+
+	serialTransmit(txBuffer);
+
+	free(txBuffer);
+
+}
+
+
+void serialTransmit(uint8_t* p_txBuffer) {
+
+	HAL_GPIO_WritePin(USART1_CTS_GPIO_Port, USART1_CTS_Pin, 1);
+	HAL_UART_Transmit(&UART, p_txBuffer, sizeof(*p_txBuffer), SERIAL_TX_TIMEOUT);
+	HAL_GPIO_WritePin(USART1_CTS_GPIO_Port, USART1_CTS_Pin, 0);
+
+}

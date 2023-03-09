@@ -1,0 +1,88 @@
+/*
+ * serial.c
+ *
+ *  Created on: Dec 6, 2022
+ *      Author: josh
+ */
+
+#include "serial.h"
+
+#define SWAP(x) SwapBytes(&x, sizeof(x));
+
+struct serialPacket_s {
+	char markHead[2];
+	char command[3];
+	uint8_t* p_payload;
+	uint16_t crc16;
+	char markTail[4];
+};
+
+
+void SerialSendCommand(command_e command, uint8_t* ptr_payload, uint16_t payloadSize);
+void serialTransmit(uint8_t* p_txBuffer, size_t size);
+
+// ==============================================================
+
+void SendKeys(uint8_t keys){
+
+	SerialSendCommand(COMMAND_KEYS_PRESSED, &keys, sizeof(keys));
+}
+
+// ==============================================================
+
+void SerialSendCommand(command_e command, uint8_t* ptr_payload, uint16_t payloadSize) {
+
+	uint16_t checksum;
+	uint32_t head = SERIAL_PACKET_HEAD;
+	uint32_t tail = SERIAL_PACKET_TAIL;
+
+	size_t bufferSize = sizeof(head) + sizeof(command) + payloadSize + sizeof(checksum) + sizeof(tail);
+
+	uint8_t* txBuffer = malloc(bufferSize);
+
+	checksum = crc16(ptr_payload, payloadSize);
+
+
+	SWAP(head);
+	SWAP(tail);
+	SWAP(checksum);
+
+	memcpy(txBuffer, &head, sizeof(head));
+	memcpy(txBuffer + sizeof(head), &command, sizeof(command));
+	memcpy(txBuffer + sizeof(head) + sizeof(command), ptr_payload, payloadSize);
+	memcpy(txBuffer + sizeof(head) + sizeof(command) + payloadSize, &checksum, sizeof(checksum));
+	memcpy(txBuffer + sizeof(head) + sizeof(command) + payloadSize + sizeof(checksum), &tail, sizeof(tail));
+
+	serialTransmit(txBuffer, bufferSize);
+
+	free(txBuffer);
+
+}
+
+void serialTransmit(uint8_t* p_txBuffer, size_t size) {
+
+	// Chip 485 ENABLE
+	HAL_GPIO_WritePin(USART1_CTS_GPIO_Port, USART1_CTS_Pin, 1);
+	// TRANSMIT
+	HAL_UART_Transmit(&UART, p_txBuffer, size, SERIAL_TX_TIMEOUT);
+	// Chip 485 DISABLE
+	HAL_GPIO_WritePin(USART1_CTS_GPIO_Port, USART1_CTS_Pin, 0);
+
+}
+
+uint8_t checkEndian(){
+	int n=1;
+	return (*(char *)&n == 1);
+}
+
+void SwapBytes(void *pv, size_t n)
+{
+    char *p = pv;
+    size_t lo, hi;
+    for(lo=0, hi=n-1; hi>lo; lo++, hi--)
+    {
+        char tmp=p[lo];
+        p[lo] = p[hi];
+        p[hi] = tmp;
+    }
+}

@@ -1,0 +1,18 @@
+/*
+ * crc16_modbus.h
+ *
+ *  Created on: Dec 5, 2022
+ *      Author: josh
+ */
+
+#ifndef INC_CRC16_MODBUS_H_
+#define INC_CRC16_MODBUS_H_
+
+#include <stdint.h>
+
+// Modbus CRC16
+
+extern uint16_t crc16_old(uint8_t *k, uint8_t i);
+extern uint16_t crc16( const unsigned char* buf, unsigned int len)
+
+#endif /* INC_CRC16_MODBUS_H_ */
