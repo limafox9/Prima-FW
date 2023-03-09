@@ -102,18 +102,17 @@ static void USBH_UserProcess  (USBH_HandleTypeDef *phost, uint8_t id)
 
   case HOST_USER_DISCONNECTION:
   Appli_state = APPLICATION_DISCONNECT;
+  Beep(1, 100, 100);
   break;
 
   case HOST_USER_CLASS_ACTIVE:
   Appli_state = APPLICATION_READY;
-	SdcardWriteAction("CIAO.txt" , "Hello\n");
-	SdcardWriteAction("CIAO.txt" , "Hello\n");
-	SdcardWriteAction("CIAO.txt" , "Hello\n");
-
   break;
 
   case HOST_USER_CONNECTION:
   Appli_state = APPLICATION_START;
+  Beep(1, 100, 100);
+
   break;
 
   default:

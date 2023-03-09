@@ -113,6 +113,7 @@ void SdcardInserted(void);
 void SdcardWriteAction(char *file_name , char *data);
 
 void StartUSBTask();
+void USB_Mount();
 
 #ifdef __cplusplus
 }
