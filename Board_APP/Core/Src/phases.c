@@ -48,6 +48,7 @@ USAGE:
 #include "globals.h"
 #include "system.h"
 #include "usbkey.h"
+#include "programs.h"
 
 #define STERIL_STABILIZATION_PERIOD 30
 
@@ -502,6 +503,7 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 
 	float T1Min, T1Max, T2Min, T2Max, pMin, pMax;
 	uint8_t overPress = 0;
+	uint8_t timerReset = 0;
 
 	RTCTimerTime_s tTimeout, tPhase, tInterval, tDelay, tWait;
 	ResetTimer(TIMER_TIMEOUT);
@@ -527,7 +529,11 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 			SteamPulse(50);
 			osDelay(ret);
 		}
-		if ((sensors.T1 > 135.3) && (sensors.T1 < param->chamberTempMax)) {
+		if ((sensors.T1 >= param->chamberTemp) && (sensors.T1 < param->chamberTempMax)) {
+			if (timerReset == 0) {
+				timerReset = 1;
+				ResetTimer(TIMER_3);
+			}
 //			if ((sensors.PressureChamber > param->pressMin) && (sensors.PressureChamber < param->pressMax)){
 			if ((sensors.PressureChamber > param->pressMin) && (sensors.PressureChamber < param->pressMax)){
 				GetTimer(TIMER_3, &tWait);
@@ -536,10 +542,10 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 					break;
 				}
 			} else {
-				ResetTimer(TIMER_3);
+//				ResetTimer(TIMER_3);
 			}
 		} else {
-			ResetTimer(TIMER_3);
+//			ResetTimer(TIMER_3);
 		}
 		if ((sensors.PressureChamber > param->pressMax) && (overPress == 0)) {
 			overPress = 1;
@@ -676,8 +682,8 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 	HeaterSteamGeneratorTempSet(param->steamTemp);
 
 	Print("TIME                       %2d:%02d\n", tPhase.TimeMinute, tPhase.TimeSecond);
-	Print("MIN   %5.1f  %5.1f  %5.1f\n", T1Min, T2Min, pMin);
-	Print("MAX   %5.1f  %5.1f  %5.1f\n", T1Max, T2Max, pMax);
+	Print("MIN   %5.1f  %5.1f  %5.1f\n", T1Min, T2Min, GetNormalizedPressure(pMin));
+	Print("MAX   %5.1f  %5.1f  %5.1f\n", T1Max, T2Max, GetNormalizedPressure(pMax));
 
 	return retVal;
 }
@@ -850,7 +856,7 @@ uint8_t PhaseClean() {
 		}
 		GetTimer(TIMER_3, &tVac);
 		if (tVac.Seconds > 230) break;
-		osDelay(50);
+		osDelay(200);
 	}
 	PumpVacuumSet(OFF);
 
@@ -895,7 +901,11 @@ uint8_t PhaseWaterLoad(uint16_t timeout) {
 		while ((WaterReservoirLevelGet() & FULL) != FULL) {
 			GetTimer(TIMER_TIMEOUT, &tTimeout);
 			if (tTimeout.Seconds > timeout) break;
-			osDelay(100);
+			lastError = CheckError();
+			if (lastError > 0) {
+				break;
+			}
+			osDelay(200);
 		}
 	}
 
@@ -1052,9 +1062,17 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 		sprintf(s,"Er.%02d", lastError);
 		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, s);
 		machineStatus.Status = STATUS_ERROR;
+		machineStatus.Status = STATUS_READY;
+
 		EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
 		PrintFooter("FAIL", time, timer);
 		Beep(1, 1000, 100);
+		if (lastError == ERROR_ABNORMAL_EXIT) {
+			currProgram = 99;
+			machineStatus.Status == STATUS_READY;
+			machineStatus.Show = SHOW_PROGRAM;
+			programStart = 1;
+		}
 	}
 
 	PhasePreheat(60.0, 90.0);

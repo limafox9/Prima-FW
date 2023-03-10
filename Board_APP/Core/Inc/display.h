@@ -42,7 +42,9 @@ USAGE:
 #include "Inc/DB_Protocol.h"
 
 void DashLed(e_DisplayDashboardLeds led, e_PowerState status);
+void DashLedsOff();
 void ProgressLed(ledProgress led);
+void ProgressLedsOff();
 void DigitsWrite(uint8_t line, const char* digits);
 void DisplaySetBeep(e_PowerState set);
 void DisplaySetLongPressInterval(uint16_t interval);

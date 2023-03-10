@@ -171,7 +171,7 @@ uint8_t ProgramResumeDry() {
 	ValveDryIntakeSet(ON);
 
 	while (1) {
-		if ((sensors.PressureChamber >= pressAmbientMin) && (sensors.PressureChamber <= pressAmbientMax)) {
+		if ((sensors.PressureChamber >= (sensors.PressureAmbient - 20.0)) && (sensors.PressureChamber <= (sensors.PressureAmbient + 20.0))) {
 			break;
 		}
 		osDelay(200);
@@ -200,7 +200,7 @@ uint8_t ProgramUnwrapped() {
 
 	uint8_t success = 1;
 	RTCDateTime_s clockTime;
-	RTCTimerTime_s tCycle, tPhase;
+	RTCTimerTime_s tCycle, tPhase, tWait;
 
 	progRunning = 1;
 	progStop = 0;
@@ -222,17 +222,26 @@ uint8_t ProgramUnwrapped() {
 	ResetTimer(TIMER_CYCLE);
 
 	// Sterilization
+//	if (success) {
+//		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
+//		success = PhaseVacuum(1, (float)settings.FirstVacuum, OT_VACUUM);
+//	}
+//	if (settings.UserVacuumNumber < 3) {
 	if (success) {
-		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-		success = PhaseVacuum(1, (float)settings.FirstVacuum, OT_VACUUM);
+		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
+		success = PhasePressure(3, 200.0, DV_STEAM_GEN_TEMP, 170.0, OT_PRESSURE);
 	}
-	if (settings.UserVacuumNumber < 3) {
-		if (success) {
-			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-			success = PhasePressure(3, 200.0, DV_STEAM_GEN_TEMP, 170.0, OT_PRESSURE);
-		}
+	if (success) {
 		ValveDrainSteamSet(OFF);
-		osDelay(20000);
+		ResetTimer(TIMER_5);
+		do {
+			GetTimer(TIMER_5, &tWait);
+			lastError = CheckError();
+			if (lastError > 0) {
+				break;
+			}
+			osDelay(200);
+		} while (tWait.Seconds < 20);
 		ValveDrainSteamSet(ON);
 	}
 	if (success) {
@@ -675,9 +684,11 @@ uint8_t ProgramUser() {
 	}
 
 	// Dry
-	if (success) {
-		PhasePreheat(60, 90);
-		success = PhaseDry(20.0, 50.0, settings.UserDryTime * 60, settings.UserDryTime * 60 * 1.5);
+	if (settings.UserDryTime > 0) {
+		if (success) {
+			PhasePreheat(60, 90);
+			success = PhaseDry(20.0, 50.0, settings.UserDryTime * 60, settings.UserDryTime * 60 * 1.5);
+		}
 	}
 
 	// End
@@ -890,7 +901,7 @@ uint8_t ProgramWaterLoad() {
 	GetTimer(TIMER_CYCLE, &tCycle);
 	GetDateTime(&clockTime);
 //	PhaseFinish(success, &clockTime, &tCycle);
-	PhasePreheat(0.0, 0.0);
+	PhasePreheat(60.0, 90.0);
 
 	progRunning = 0;
 	progStop = 0;

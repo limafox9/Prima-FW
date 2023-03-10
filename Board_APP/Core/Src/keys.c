@@ -109,6 +109,7 @@ void ParseCommand(s_DisplayProtocolData* data) {
 				machineStatus.Show = SHOW_PROGRAM;
 				programStart = 1;
 			} else {
+				if (progRunning == 1 && currTest == 3) abortProgram = 1;
 				if (machineStatus.Show == SHOW_PROGRAM) {
 					if ((machineStatus.Status == STATUS_READY) || (machineStatus.Status == STATUS_IDLE)) {
 						programStart = 1;
@@ -212,8 +213,12 @@ void ParseCommand(s_DisplayProtocolData* data) {
 
 		} else if (data->Param1 == KEY_START + KEY_LONG_PRESS) {
 			if (currProgram == 99 ) {
-				ProgressLed(LED_PROGRESS_NONE);
+				DashLedsOff();
+				ProgressLedsOff();
 				abortProgram = 1;
+				machineStatus.Status = STATUS_READY;
+				machineStatus.Show = SHOW_PROGRAM;
+				ShowProgram();
 			} else {
 				if (machineStatus.Show == SHOW_PROGRAM) {
 					if (machineStatus.Status == STATUS_IDLE) {
@@ -222,7 +227,7 @@ void ParseCommand(s_DisplayProtocolData* data) {
 						__NOP();
 					} else if (machineStatus.Status = STATUS_RUNNING) {
 						abortProgram = 1;
-
+						machineStatus.Status = STATUS_READY;
 						machineStatus.Show = SHOW_PROGRAM;
 						ShowProgram();
 					} else {

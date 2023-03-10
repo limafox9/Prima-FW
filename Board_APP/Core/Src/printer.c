@@ -326,7 +326,7 @@ void PrintHeader (const char* title, float t1, RTCDateTime_s* time) {
 				uint8_t secSter = 0;
 				uint8_t minDry = settings.UserDryTime;
 				uint8_t secDry = 0;
-				uint16_t press = (settings.UserSterilTemp == STERILTEMP_134) ? 310 : 210;
+				uint16_t press = (settings.UserSterilTemp == STERILTEMP_134) ? 310 : 220;
 				press = (settings.FunPressureDisplay == 1) ? press : (press - 100);
 				Print("VAC.N.  Temp.   Press.   Time   Dry\n");
 				//       3     134'C   310kPa  10:34  10:34
@@ -340,7 +340,7 @@ void PrintHeader (const char* title, float t1, RTCDateTime_s* time) {
 				uint8_t secDry = programs[currProgram].DryTime % 60;
 				Print("VAC.N.  Temp.   Press.   Time   Dry\n");
 				//       3     134'C   310kPa  10:34  10:34
-				Print(" %2d     %3d'C   %3dkPa  %2d:%02d  %2d:%02d", settings.VacNumber, tSter, GetNormalizedPressure(programs[currProgram].SterilPress), minSter, secSter, minDry, secDry);
+				Print(" %2d     %3d'C   %3dkPa  %2d:%02d  %2d:%02d", settings.VacNumber, tSter, (uint16_t)GetNormalizedPressure(programs[currProgram].SterilPress), minSter, secSter, minDry, secDry);
 				Print("\n");
 			}
 	} else if (currProgType == PROGTYPE_TEST) {

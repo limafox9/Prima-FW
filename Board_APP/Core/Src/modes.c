@@ -65,7 +65,7 @@ s_Program programs[] = {
 	{1, PROGTYPE_PROGRAM, "Wrapped", "P. Un", 1, CLASS_B, STERILTEMP_134, 1, 310, 300, 240},
 	{2, PROGTYPE_PROGRAM, "Unwrapped", "P. Ur", 2, CLASS_S, STERILTEMP_134, 4, 310, 300, 540},
 	{3, PROGTYPE_PROGRAM, "Prion", "P. Pr", 4, CLASS_B, STERILTEMP_134, 4, 310, 1000, 540},
-	{4, PROGTYPE_PROGRAM, "Gentle", "P. GE", 8, CLASS_B, STERILTEMP_121, 4, 210, 1200, 540},
+	{4, PROGTYPE_PROGRAM, "Gentle", "P. GE", 8, CLASS_B, STERILTEMP_121, 4, 220, 1200, 540},
 };
 
 s_Program tests[] = {
@@ -171,7 +171,8 @@ void ShowProgram() {
 		if (machineStatus.Status != STATUS_RUNNING) {
 			if (currProgType == PROGTYPE_PROGRAM) {
 				SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, &programs[currProgram].DigitsName);
-				SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, 63 + DISPLAY_LED_WASH_CYCLE + DISPLAY_LED_WATER_FILL, OFF, 0, "");
+//				SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, 63 + DISPLAY_LED_WASH_CYCLE + DISPLAY_LED_WATER_FILL, OFF, 0, "");
+				DashLedsOff();
 				SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, programs[currProgram].DashLeds, ON, 0, "");
 				if (currProgram == PROGRAM_USER) {
 					DashLed(DISPLAY_LED_BCLASS, (settings.UserVacuumNumber >= 3) ? ON : OFF);
@@ -185,7 +186,8 @@ void ShowProgram() {
 			}
 			if (currProgType == PROGTYPE_TEST) {
 				SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, &tests[currTest].DigitsName);
-				SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, 63 + DISPLAY_LED_WASH_CYCLE + DISPLAY_LED_WATER_FILL, OFF, 0, "");
+//				SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, 63 + DISPLAY_LED_WASH_CYCLE + DISPLAY_LED_WATER_FILL, OFF, 0, "");
+				DashLedsOff();
 				SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, tests[currTest].DashLeds, ON, 0, "");
 				DashLed(DISPLAY_LED_TEMP_134, OFF);
 				DashLed(DISPLAY_LED_TEMP_121, OFF);

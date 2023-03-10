@@ -45,8 +45,16 @@ void DashLed(e_DisplayDashboardLeds led, e_PowerState status) {
 	SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, led, status, 0, "");
 }
 
+void DashLedsOff() {
+	SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, 0x3FFF, OFF, 0, "");
+}
+
 void ProgressLed(ledProgress led) {
 	SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, led, 0, 0, "");
+}
+
+void ProgressLedsOff() {
+	SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, 0, 0, 0, "");
 }
 
 void DigitsWrite(uint8_t line, const char* digits) {
