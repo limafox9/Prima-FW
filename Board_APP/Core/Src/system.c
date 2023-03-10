@@ -87,7 +87,7 @@ RTCDateTime_s dt;
 
 RTCDateTime_s RTCDateTime;
 
-//osThreadId keysTaskHandle;
+osThreadId keysTaskHandle;
 osThreadId serialTaskHandle;
 osThreadId sensorsTaskHandle;
 osThreadId programTaskHandle;
@@ -231,8 +231,8 @@ void SysInit() {
 //		settings.ChamberPressOffset = 0;
 //		SaveSettings();
 
-//	osThreadDef(keysTask, StartKeysTask, osPriorityAboveNormal, 1, 1024);
-//	keysTaskHandle = osThreadCreate(osThread(keysTask), NULL);
+	osThreadDef(keysTask, StartKeysTask, osPriorityAboveNormal, 1, 1024);
+	keysTaskHandle = osThreadCreate(osThread(keysTask), NULL);
 
 	osThreadDef(sensorsTask, StartSensorsTask, osPriorityHigh, 1, 512);
 	sensorsTaskHandle = osThreadCreate(osThread(sensorsTask), NULL);
@@ -242,6 +242,9 @@ void SysInit() {
 
 	osThreadDef(displayInfoTask, StartDisplayInfoTask, osPriorityNormal, 1, 512);
 	displayInfoTaskHandle = osThreadCreate(osThread(displayInfoTask), NULL);
+
+	osThreadDef(usbTask, StartUSBTask, osPriorityNormal, 1, 512);
+	usbTaskHandle = osThreadCreate(osThread(usbTask), NULL);
 
 
 

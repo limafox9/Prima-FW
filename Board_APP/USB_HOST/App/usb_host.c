@@ -50,6 +50,15 @@ ApplicationTypeDef Appli_state = APPLICATION_IDLE;
 /* USER CODE END 0 */
 
 /*
+ * Background task
+ */
+void MX_USB_HOST_Process(void)
+{
+  /* USB Host Background task */
+  USBH_Process(&hUsbHostFS);
+}
+
+/*
  * user callback declaration
  */
 static void USBH_UserProcess(USBH_HandleTypeDef *phost, uint8_t id);

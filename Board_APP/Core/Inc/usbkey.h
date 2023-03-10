@@ -41,6 +41,7 @@ USAGE:
 #include "stm32f1xx.h"
 #include "fatfs.h"
 #include "stdio.h"
+#include <stdio.h>
 
 #define SDCARD_ERROR_OPEN_NORMAL	 		0x1
 #define SDCARD_ERROR_OPEN_WRITE_MODE	0x2
@@ -86,6 +87,8 @@ typedef struct {
 } storage_info_t;
 
 extern char currFilename[32];
+extern char USBString[64];
+extern uint8_t USBWrite ;
 
 void InitSdcard(void);
 //
