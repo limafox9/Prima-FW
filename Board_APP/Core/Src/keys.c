@@ -121,7 +121,18 @@ void ParseCommand(s_DisplayProtocolData* data) {
 				} else if (machineStatus.Show == SHOW_USERSET) {
 					ChangeUserSetting(-1);
 				} else if (machineStatus.Show == SHOW_FUNCTIONS) {
-					ChangeFunction(-1);
+					if (functions[currFunction].ParamNumber == 10) {
+						if (progRunning == 1) {
+							abortProgram = 1;
+							machineStatus.Status = STATUS_READY;
+							machineStatus.Show = SHOW_PROGRAM;
+							ShowProgram();
+						} else {
+							uint8_t PowerTest();
+						}
+					} else {
+						ChangeFunction(-1);
+					}
 				} else {
 					__NOP();
 				}

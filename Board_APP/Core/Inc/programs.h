@@ -76,5 +76,6 @@ uint8_t ProgramCalibration();
 uint8_t ProgramResumeDry();
 uint8_t ProgramWash();
 uint8_t ProgramWaterLoad();
+uint8_t PowerTest();
 
 #endif /* INC_PROGRAMS_H_ */

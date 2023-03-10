@@ -116,7 +116,7 @@ Functions_s functions[] = {
 	{7, "Dry Time", 				" dry", EPA_FUN_DRY_TIME, &settings.FunDryClass, 1, 1, 3},
 	{8, "USB Export", 				"ESPr", 0, 0, 0, 0, 0, 0},
 	{9, "USB Import parameters", 	"LoAd", 0, 0, 0, 0, 0},
-	{10, "Consumption test", 		"PtSt", 0, 0, 0, 0, 0},
+	{10, "Power test", 		"tESt", 0, 0, 0, 0, 0},
 	{11, "Print user parameters", 	"PUPA", 0, 0, 0, 0, 0},
 	{12, "Print tech parameters", 	"PtPA", 0, 0, 0, 0, 0},
 	{13, "Print last ticket", 		"PLtI", 0, 0, 0, 0, 0},

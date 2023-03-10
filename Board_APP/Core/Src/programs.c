@@ -866,6 +866,50 @@ uint8_t ProgramVacuumTest() {
 
 }
 
+uint8_t PowerTest() {
+
+	uint8_t success = 1;
+	RTCDateTime_s clockTime;
+	RTCTimerTime_s tCycle, tPhase;
+
+	progRunning = 1;
+	progStop = 0;
+
+//	if (!PhaseBegin(600)) return 0;
+
+	ResetTimer(TIMER_CYCLE);
+
+	if (!PhaseBegin(600)) return 0;
+
+	GetDateTime(&clockTime);
+	PrintHeader("VACUUM TEST", sensors.T1, &clockTime);
+
+	if (success) {
+		success = PhaseVacuum(1, 20.0, OT_VACUUM);
+	}
+	if (success) {
+		success = PhaseWait(240);
+	}
+	if (success) {
+		success = PhaseVacuumHold(18.0, 20.0, 240, 600);
+	}
+//	if (success) {
+//		success = PhaseRelease(1, OT_RELEASE);
+//	}
+	machineStatus.Status = STATUS_READY;
+
+	ResetTimer(TIMER_FAN);
+
+	// End
+	GetTimer(TIMER_CYCLE, &tCycle);
+	GetDateTime(&clockTime);
+	PhaseFinish(success, &clockTime, &tCycle);
+
+	progRunning = 0;
+	progStop = 0;
+
+}
+
 uint8_t ProgramWash() {
 
 	uint8_t success = 1;

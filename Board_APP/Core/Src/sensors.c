@@ -377,7 +377,7 @@ uint16_t ReadADC(uint32_t channel) {
 		adcRead = HAL_ADC_GetValue(&hadc1);
 		HAL_ADC_Stop(&hadc1);
 		averageTotal += adcRead;
-		osDelay(AVERAGE_SAMPLES_INTERVAL);
+		osDelay(1);
 	}
 
 	if (averageTotal < 1000) averageTotal = 5000;
