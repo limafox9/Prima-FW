@@ -61,6 +61,7 @@ typedef enum {
 	TIMER_3,
 	TIMER_4,
 	TIMER_5,
+	TIMER_FAN,
 	TIMER_DOOR,
 	TIMER_TIMEOUT
 } RTCTimer_e;

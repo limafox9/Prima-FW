@@ -66,6 +66,8 @@ USAGE:
 #define VAC_DVALUE	10
 #define VAC_DTIME	20
 
+#define FAN_OFF_DELAY	600
+
 extern osThreadId sensorsTaskHandle;
 
 extern Sensors_s sensors;
@@ -74,13 +76,18 @@ uint8_t doorStatus;
 uint8_t programStart = 0;
 
 void StartProgramTask() {
-	RTCTimerTime_s timerDoor;
+	RTCTimerTime_s timerDoor, timerFan;
 	doorStatus = (HAL_GPIO_ReadPin(SW_DOOR_GPIO_Port, SW_DOOR_Pin) == GPIO_PIN_SET) ? OPEN : CLOSED;
 	for (;;) {
 
 		GetTimer(TIMER_DOOR, &timerDoor);
 		if ((doorStatus == OPEN) && (timerDoor.Seconds > 10)) {
 			ValveDryIntakeSet(OFF);
+		}
+
+		GetTimer(TIMER_FAN, &timerFan);
+		if ((machineStatus.Status != STATUS_RUNNING) && (timerFan.Seconds > FAN_OFF_DELAY)) {
+			FanSet(OFF);
 		}
 
 		if (programStart){
@@ -180,7 +187,9 @@ uint8_t ProgramResumeDry() {
 	ValveDrainSteamSet(OFF);
 	ValveDryIntakeSet(OFF);
 
-	FanSet(OFF);
+//	FanSet(OFF);
+	ResetTimer(TIMER_FAN);
+
 
 	machineStatus.Status = STATUS_READY;
 
@@ -254,7 +263,7 @@ uint8_t ProgramUnwrapped() {
 				.chamberTemp = DV_STERIL_TEMP_134,
 				.chamberTempMin = 134.0,
 				.chamberTempMax = 136.0,
-				.sterilTime = 300,
+				.sterilTime = 240,
 				.chamberPress = 320,
 				.pressMin = 290.0,
 				.pressMax = 350.0,
@@ -585,7 +594,7 @@ uint8_t ProgramGentle() {
 uint8_t ProgramUser() {
 	uint8_t success = 1;
 	RTCDateTime_s clockTime;
-	RTCTimerTime_s tCycle, tPhase;
+	RTCTimerTime_s tCycle, tPhase, tWait;
 
 	progRunning = 1;
 	progStop = 0;
@@ -612,6 +621,8 @@ uint8_t ProgramUser() {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
 			success = PhaseVacuum(1, (float)settings.FirstVacuum, OT_VACUUM);
 		}
+	}
+	if (settings.UserVacuumNumber >= 3) {
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
 			success = PhasePressure(1, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP, 170.0, OT_PRESSURE);
@@ -652,9 +663,19 @@ uint8_t ProgramUser() {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
 			success = PhasePressure(3, (settings.UserSterilTemp == STERILTEMP_134) ? 200.0 : 180.0, DV_STEAM_GEN_TEMP, 170.0, OT_PRESSURE);
 		}
-		ValveDrainSteamSet(OFF);
-		osDelay(20000);
-		ValveDrainSteamSet(ON);
+		if (success) {
+			ValveDrainSteamSet(OFF);
+			ResetTimer(TIMER_5);
+			do {
+				GetTimer(TIMER_5, &tWait);
+				lastError = CheckError();
+				if (lastError > 0) {
+					break;
+				}
+				osDelay(200);
+			} while (tWait.Seconds < 20);
+			ValveDrainSteamSet(ON);
+		}
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
@@ -831,6 +852,9 @@ uint8_t ProgramVacuumTest() {
 //	if (success) {
 //		success = PhaseRelease(1, OT_RELEASE);
 //	}
+	machineStatus.Status = STATUS_READY;
+
+	ResetTimer(TIMER_FAN);
 
 	// End
 	GetTimer(TIMER_CYCLE, &tCycle);
@@ -867,6 +891,10 @@ uint8_t ProgramWash() {
 	GetDateTime(&clockTime);
 	PhaseFinish(success, &clockTime, &tCycle);
 
+	machineStatus.Status = STATUS_READY;
+
+	ResetTimer(TIMER_FAN);
+
 	progRunning = 0;
 	progStop = 0;
 
@@ -902,6 +930,7 @@ uint8_t ProgramWaterLoad() {
 	GetDateTime(&clockTime);
 //	PhaseFinish(success, &clockTime, &tCycle);
 	PhasePreheat(60.0, 90.0);
+	machineStatus.Status = STATUS_READY;
 
 	progRunning = 0;
 	progStop = 0;

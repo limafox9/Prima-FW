@@ -85,29 +85,43 @@ uint8_t PhaseBegin(uint8_t timeout) {
 	osDelay(1000);
 
 	GetTimer(TIMER_PHASE, &tPhase);
+
+	if (doorOpened == 0 && currProgram != 99) {
+		lastError = ERROR_NONE;
+		Print("DOOR ERROR *** DOOR NOT OPEN\n");
+		Beep(3, 100, 100);
+		retVal = 0;
+
+	}
+
 	if (sensors.Door == OPEN) {
-		lastError = ERROR_OPEN_DOOR;
+		lastError = ERROR_NONE;
 		Print("DOOR ERROR *** DOOR OPEN\n");
-		Beep(1, 1000, 100);
+		Beep(3, 100, 100);
 		retVal = 0;
 	}
+
 //	sensors.WaterTDS = BAT2U_GetTDSValue(1, 100);
 	if (sensors.WaterTDS > settings.WaterTDSMin) {
-		lastError = ERROR_WATER_HIGH_TDS;
+		lastError = ERROR_NONE;
+//		lastError = ERROR_WATER_HIGH_TDS;
 		Print("WTDS ERROR *** WATER QUALITY\n");
+		Beep(3, 100, 100);
 		retVal = 0;
 	}
 
 	if (sensors.WaterReservoirLevel == EMPTY) {
-		lastError = ERROR_WATER_LOW;
+		lastError = ERROR_NONE;
+//		lastError = ERROR_WATER_LOW;
 		Print("WATR ERROR *** WATER LEVEL\n");
-		Beep(1, 1000, 100);
+		Beep(3, 100, 100);
 		retVal = 0;
 	}
 	if (sensors.WaterDumpLevel == HIGH) {
-		lastError = ERROR_WATER_DUMP_HIGH;
+		lastError = ERROR_NONE;
+//		lastError = ERROR_WATER_DUMP_HIGH;
 		Print("DUMP ERROR *** WATER DUMP LEVEL\n");
-		Beep(1, 1000, 100);
+		Beep(3, 100, 100);
 		retVal = 0;
 	}
 	if (retVal == 0) {
@@ -125,7 +139,7 @@ uint8_t PhaseBegin(uint8_t timeout) {
 	ResetTimer(TIMER_TIMEOUT);
 
 	machineStatus.Status = STATUS_RUNNING;
-
+	doorOpened = 0;
 	ValveDrainSteamSet(OFF);
 	ValveDryIntakeSet(OFF);
 	ValveVacuumSet(OFF);
@@ -1047,7 +1061,8 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 
 		machineStatus.Status = STATUS_READY;
 
-		FanSet(OFF);
+//		FanSet(OFF);
+		ResetTimer(TIMER_FAN);
 
 		osDelay(1000);
 		if (DoorSolenoidSet(UNLOCK) != UNLOCK) {

@@ -279,6 +279,12 @@ void SysInit() {
 		sensors.Door = DoorPositionGet();
 		machineStatus.Status = (sensors.Door == CLOSED) ? STATUS_READY : STATUS_IDLE;
 
+//		lastDoorStatus = sensors.Door;
+		doorOpened = 0;
+
+		sensors.Solenoid == DoorSolenoidKeyGet();
+		if (lastError == ERROR_NONE && sensors.Solenoid == LOCK) DoorSolenoidSet(UNLOCK);
+//		if (sensors.Door == CLOSED) DigitsWrite(3, "OPEn");
 
 //		osThreadDef(usbTask, StartUSBTask, osPriorityNormal, 1, 4096);
 //		usbTaskHandle = osThreadCreate(osThread(usbTask), NULL);

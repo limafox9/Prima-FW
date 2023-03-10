@@ -364,6 +364,8 @@ static void KeysReceived(uint8_t keysCode) {
 	} else if (keysCode == KEY_S2 + KEY_S1 + KEY_LONG_PRESS) {
 		__NOP();
 	} else if (keysCode == KEY_S3 + KEY_S2 + KEY_LONG_PRESS) {
+		machine.ReadOnlyCyclesCount = 0;
+		EEPROM_Write(EPA_CYCLE_COUNTER, 0, 2);
 		__NOP();
 	} else if (keysCode == KEY_S3 + KEY_S1 + KEY_LONG_PRESS) {
 		__NOP();

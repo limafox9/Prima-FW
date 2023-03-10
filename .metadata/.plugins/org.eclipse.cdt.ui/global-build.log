@@ -1,43 +1,13 @@
-14:56:40 **** Incremental Build of configuration Debug for project DB_Protocol ****
+19:04:59 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j4 all 
 make: Nothing to be done for 'all'.
-14:56:41 **** Incremental Build of configuration Debug for project DB_Protocol ****
+19:05:00 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j4 all 
 make: Nothing to be done for 'all'.
-14:56:42 **** Incremental Build of configuration Debug for project Board_APP ****
+19:05:00 **** Incremental Build of configuration Debug for project Board_APP ****
 make -j4 all 
-arm-none-eabi-gcc "../Core/Src/settings.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/settings.d" -MT"Core/Src/settings.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/settings.o"
-In file included from ../Core/Src/settings.c:42:
-../Core/Inc/globals.h:105:1: warning: useless storage class specifier in empty declaration
-  105 | };
-      | ^
-../Core/Src/settings.c: In function 'ReadSetting':
-../Core/Src/settings.c:67:2: warning: implicit declaration of function 'EEPROM_Read' [-Wimplicit-function-declaration]
-   67 |  EEPROM_Read(address, data, size);
-      |  ^~~~~~~~~~~
-../Core/Src/settings.c: In function 'LoadSettings':
-../Core/Src/settings.c:110:25: warning: implicit declaration of function 'GetDryTime'; did you mean 'GetDateTime'? [-Wimplicit-function-declaration]
-  110 |  settings.UserDryTime = GetDryTime(settings.UserDryClass, settings.UserSterilTemp, settings.UserVacuumNumber);
-      |                         ^~~~~~~~~~
-      |                         GetDateTime
-../Core/Src/settings.c: In function 'WriteSetting':
-../Core/Src/settings.c:124:2: warning: implicit declaration of function 'EEPROM_Write' [-Wimplicit-function-declaration]
-  124 |  EEPROM_Write(address, data, size);
-      |  ^~~~~~~~~~~~
-arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima-FW\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Board_APP.elf
- 
 arm-none-eabi-size   Board_APP.elf 
-arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
-arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
    text	   data	    bss	    dec	    hex	filename
- 134192	   2440	  49400	 186032	  2d6b0	Board_APP.elf
-arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
+ 134624	   2440	  49400	 186464	  2d860	Board_APP.elf
 Finished building: default.size.stdout
- 
-Finished building: Board_APP.hex
-Finished building: Board_APP.bin
- 
- 
-Finished building: Board_APP.list
  

@@ -75,6 +75,8 @@ typedef struct s_Sensors{
 } Sensors_s;
 
 extern Sensors_s sensors;
+extern e_OpenClosedState lastDoorStatus;
+extern uint8_t doorOpened;
 extern float pressAmbientMin;
 extern float pressAmbientMax;
 

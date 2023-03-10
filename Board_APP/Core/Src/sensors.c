@@ -94,6 +94,9 @@ extern Settings_s settings;
 extern uint8_t currProgram;
 extern osSemaphoreId semaphoreSensorsHandle;
 
+e_OpenClosedState lastDoorStatus;
+uint8_t doorOpened;
+
 const float Z1 = -RTD_A;
 const float Z2 = RTD_A * RTD_A - (4 * RTD_B);
 const float Z3 = (4 * RTD_B) / 1000;
@@ -183,6 +186,9 @@ void StartSensorsTask() {
 	for (;;) {
 		osSemaphoreWait(semaphoreSensorsHandle, 100);
 		sensors.Door = DoorPositionGet();
+		if (sensors.Door == OPEN) {
+			doorOpened = 1;
+		}
 		sensors.Solenoid = DoorSolenoidKeyGet();
 		sensors.TemperatureSteamGenerator = SteamGeneratorTempGet();
 		sensors.TemperatureChamberHeater = ChamberHeaterTempGet();
@@ -288,7 +294,9 @@ e_LockState DoorSolenoidKeyGet() {
 }
 
 e_OpenClosedState DoorPositionGet() {
-	return (HAL_GPIO_ReadPin(SW_DOOR_GPIO_Port, SW_DOOR_Pin) == GPIO_PIN_SET) ? OPEN : CLOSED;
+	uint8_t stsDoor = HAL_GPIO_ReadPin(SW_DOOR_GPIO_Port, SW_DOOR_Pin);
+
+	return (stsDoor == GPIO_PIN_SET) ? OPEN : CLOSED;
 }
 
 e_Level WaterDumpLevelGet() {
