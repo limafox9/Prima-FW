@@ -42,6 +42,7 @@ USAGE:
 #include "fatfs.h"
 #include "stdio.h"
 #include <stdio.h>
+#include "cmsis_os.h"
 
 #define SDCARD_ERROR_OPEN_NORMAL	 		0x1
 #define SDCARD_ERROR_OPEN_WRITE_MODE	0x2
@@ -86,9 +87,10 @@ typedef struct {
 
 } storage_info_t;
 
-extern char currFilename[32];
-extern char USBString[64];
+extern char currFilename[];
+extern char USBString[];
 extern uint8_t USBWrite ;
+extern xQueueHandle usbQueue;
 
 void InitSdcard(void);
 //

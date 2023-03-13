@@ -1,0 +1,5 @@
+settings.c:65:6:ReadSetting	1
+settings.c:70:6:LoadSettings	1
+settings.c:122:6:WriteSetting	1
+settings.c:127:6:SaveSettings	1
+settings.c:156:6:SaveDefaults	1

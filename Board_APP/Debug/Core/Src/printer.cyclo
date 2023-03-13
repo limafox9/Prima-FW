@@ -1,0 +1,13 @@
+printer.c:207:6:PrinterInit	1
+printer.c:224:6:PrintSize	1
+printer.c:234:6:PrintTestPage	1
+printer.c:238:6:PrintError	3
+printer.c:255:6:PrintSend	2
+printer.c:271:6:Print	3
+printer.c:290:6:PrintLogo	1
+printer.c:312:6:PrintHeader	10
+printer.c:379:6:PrintFooter	3
+printer.c:404:6:PrintStepLine	1
+printer.c:408:6:PrintDivisor	1
+printer.c:413:6:PrintLF	2
+printer.c:422:15:reverse_byte	1

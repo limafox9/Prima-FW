@@ -37,6 +37,7 @@ USAGE:
 
 #include "system.h"
 
+#define USB_BUFFER_LENGHT 49
 
 FATFS fatfs;
 FATFS *pfatfs;
@@ -45,35 +46,31 @@ uint8_t state_mount = 0;
 uint8_t state_unmount = 0;
 //
 char currFilename[32];
-char USBString[64];
+char USBString[USB_BUFFER_LENGHT];
 uint8_t USBWrite ;
+xQueueHandle usbQueue;
 
-#define MAX_BUFFER 512
+#define MAX_BUFFER 10
 char Buffer[MAX_BUFFER];
 
 void StartUSBTask() {
 //	SdcardWriteAction("CIAO.txt" , "Hello\n");
 volatile FRESULT fr;
+
+usbQueue = xQueueCreate(10, USB_BUFFER_LENGHT);
+
+
 	for (;;) {
 		MX_USB_HOST_Process();
-		if(USBWrite == 1)
-		{
+		if (xQueueReceive(usbQueue, USBString, portMAX_DELAY) == pdTRUE)	{
 			if(f_mount(&USBHFatFS, "", 1) == FR_OK)
 			{
-				fr = f_open(&USBHFile, currFilename, FA_READ | FA_WRITE | FA_OPEN_ALWAYS);
-				if(fr != FR_OK)
-          continue;
-				fr = f_lseek(&USBHFile,USBHFile.fsize);
-				if(fr != FR_OK)
-          continue;
+				f_open(&USBHFile, currFilename, FA_READ | FA_WRITE | FA_OPEN_ALWAYS);
+				f_lseek(&USBHFile,USBHFile.fsize);
 				f_printf(&USBHFile,USBString);
-				fr = f_close(&USBHFile);
-				if(fr != FR_OK)
-          continue;
-				else USBWrite == 0;
+				f_close(&USBHFile);
 			}
 		}
-		osDelay(50);
 	}
 
 }

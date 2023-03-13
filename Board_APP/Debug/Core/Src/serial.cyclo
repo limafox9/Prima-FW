@@ -1,0 +1,4 @@
+serial.c:69:6:SerialInit	1
+serial.c:78:6:SendCommand	1
+serial.c:101:6:HAL_UARTEx_RxEventCallback	5
+serial.c:188:6:StartSerialTask	2

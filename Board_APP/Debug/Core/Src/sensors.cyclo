@@ -1,0 +1,16 @@
+sensors.c:125:6:HAL_GPIO_EXTI_Callback	3
+sensors.c:173:6:StartSensorsTask	22
+sensors.c:292:13:DoorSolenoidKeyGet	1
+sensors.c:296:19:DoorPositionGet	1
+sensors.c:302:9:WaterDumpLevelGet	2
+sensors.c:306:9:WaterReservoirLevelGet	3
+sensors.c:316:7:SteamGeneratorTempGet	1
+sensors.c:320:7:ChamberHeaterTempGet	1
+sensors.c:324:7:ChamberPressureGet	1
+sensors.c:328:7:CurrentGet	1
+sensors.c:339:7:BufferAverage	3
+sensors.c:361:10:ReadADC	4
+sensors.c:389:7:ADCToTemp	1
+sensors.c:407:7:ADCToPress	1
+sensors.c:428:7:ADCToCurrent	1
+sensors.c:497:7:GetNormalizedPressure	2

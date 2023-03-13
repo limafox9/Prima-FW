@@ -1,0 +1,8 @@
+display.c:44:6:DashLed	1
+display.c:48:6:DashLedsOff	1
+display.c:52:6:ProgressLed	1
+display.c:56:6:ProgressLedsOff	1
+display.c:60:6:DigitsWrite	1
+display.c:64:6:DisplaySetBeep	1
+display.c:67:6:DisplaySetLongPressInterval	1
+display.c:71:6:StartDisplayInfoTask	11

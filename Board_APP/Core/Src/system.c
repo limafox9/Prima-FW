@@ -130,6 +130,19 @@ void SysInit() {
 //	SerialInit(&huart1, 115200);
 
 
+//	MX_DriverVbusFS(0);
+//	HAL_Delay(1000);
+//	MX_DriverVbusFS(1);
+//	HAL_Delay(1000);
+//	MX_DriverVbusFS(0);
+//	HAL_Delay(1000);
+
+//	  MX_FATFS_Init();
+//	  MX_USB_HOST_Init();
+
+
+
+
 	  osSemaphoreDef(semaphoreSensors);
 	  semaphoreSensorsHandle = osSemaphoreCreate(osSemaphore(semaphoreSensors), 1);
 	  osSemaphoreRelease(semaphoreSensorsHandle);

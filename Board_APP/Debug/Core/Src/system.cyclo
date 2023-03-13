@@ -1,0 +1,3 @@
+system.c:114:6:SysInit	7
+system.c:622:6:EmergencyStop	1
+system.c:637:6:Log	7

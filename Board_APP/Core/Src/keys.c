@@ -41,6 +41,8 @@ USAGE:
 #include "programs.h"
 #include "modes.h"
 #include "settings.h"
+#include "cmsis_os.h"
+#include "usbkey.h"
 
 #define KEY_LONG_PRESS_MS 3000
 
@@ -354,7 +356,9 @@ static void KeysReceived(uint8_t keysCode) {
 	if (keysCode == KEY_S1) {
 		__NOP();
 	} else if (keysCode == KEY_S2) {
-		SdcardWriteAction("CIAO.txt" , "Hello\n");
+//		SdcardWriteAction("CIAO.txt" , "Hello\n");
+		sprintf(currFilename, "Prova3.txt");
+		xQueueSend(usbQueue, "Hello2\n", portMAX_DELAY);
 		__NOP();
 	} else if (keysCode == KEY_S3) {
 		__NOP();
