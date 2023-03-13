@@ -79,7 +79,7 @@ all: main-build
 main-build: Board_APP.elf secondary-outputs
 
 dependents:
-	-cd D:/Galbiati/Prima\ Firmware/Source/DB_Protocol/Debug && $(MAKE) clean all
+	-cd D:/Galbiati/Prima\ Firmware/Source/DB_Protocol/Debug && $(MAKE) all
 
 # Tool invocations
 Board_APP.elf Board_APP.map: $(OBJS) $(USER_OBJS) D:/Galbiati/Prima\ Firmware/Source/DB_Protocol/Debug/libDB_Protocol.a D:\Galbiati\Prima\ Firmware\Source\Board_APP\STM32F105VCTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
