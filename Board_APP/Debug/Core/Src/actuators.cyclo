@@ -17,5 +17,5 @@ actuators.c:242:6:ValveDrainSteamSet	1
 actuators.c:246:6:ValveWaterSteamSet	1
 actuators.c:250:6:FanSet	1
 actuators.c:254:13:DoorSolenoidSet	3
-actuators.c:278:6:DoorSolenoidDisconnect	1
-actuators.c:284:6:ActuatorsSafeStatus	1
+actuators.c:280:6:DoorSolenoidDisconnect	1
+actuators.c:286:6:ActuatorsSafeStatus	1

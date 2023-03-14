@@ -75,18 +75,19 @@ uint16_t 	SET_FlashInterval = DEFAULT_SETTING_LEDS_FLASH_INTERVAL;
 // Entry point
 void SysInit() {
 
+//	osDelay(500);
+//	DigitsClearAll();
+	ProgressBarInit();
+
 	osSemaphoreDef(semaphoreSerial);
 	semaphoreSerialsHandle = osSemaphoreCreate(osSemaphore(semaphoreSerial), 1);
 	  osSemaphoreRelease(semaphoreSerialsHandle);
 
-	osThreadDef(keysTask, KeysTask, osPriorityNormal, 1, 256);
+	osThreadDef(keysTask, KeysTask, osPriorityNormal, 1, 512);
 	taskKeysHandle = osThreadCreate(osThread(keysTask), NULL);
 
-	osThreadDef(digitsTask, DigitsRefreshTask, osPriorityNormal, 1, 512);
+	osThreadDef(digitsTask, DigitsRefreshTask, osPriorityNormal, 1, 1024);
 	taskDigitsHandle = osThreadCreate(osThread(digitsTask), NULL);
-
-	DigitsInit();
-	ProgressBarInit();
 
 //	ProgressBarSetAll();
 
@@ -112,7 +113,6 @@ void SysInit() {
 //
 //	Beep(3,100,100);
 
-	osDelay(500);
 
 	DisplayUARTInit();
 //	SendCommand(DISPLAY_CMD_OK, FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION, "");

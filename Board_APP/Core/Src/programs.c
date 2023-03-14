@@ -231,10 +231,10 @@ uint8_t ProgramUnwrapped() {
 	ResetTimer(TIMER_CYCLE);
 
 	// Sterilization
-//	if (success) {
-//		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-//		success = PhaseVacuum(1, (float)settings.FirstVacuum, OT_VACUUM);
-//	}
+	if (success) {
+		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
+		success = PhaseVacuum(1, (float)settings.FirstVacuum, OT_VACUUM);
+	}
 //	if (settings.UserVacuumNumber < 3) {
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);

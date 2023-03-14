@@ -44,7 +44,7 @@ USAGE:
 
 #define FW_VERSION_MAJOR 		3
 #define FW_VERSION_MINOR 		1
-#define FW_VERSION_REVISION 	1
+#define FW_VERSION_REVISION 	2
 
 //#define DIGIT_ROWS 				3
 //

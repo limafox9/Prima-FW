@@ -36,8 +36,15 @@ USAGE:
 #include "usbkey.h"
 
 #include "system.h"
+#include "main.h"
+#include "usbh_core.h"
 
 #define USB_BUFFER_LENGHT 49
+
+#define usbCS0 HAL_GPIO_WritePin(GPIOD, GPIO_PIN_3, GPIO_PIN_RESET)
+#define usbCS1 HAL_GPIO_WritePin(GPIOD, GPIO_PIN_3, GPIO_PIN_SET)
+
+
 
 FATFS fatfs;
 FATFS *pfatfs;
@@ -59,16 +66,34 @@ volatile FRESULT fr;
 
 usbQueue = xQueueCreate(10, USB_BUFFER_LENGHT);
 
+//HAL_GPIO_WritePin(GPIOD, GPIO_PIN_3, GPIO_PIN_RESET);
+
+//MX_FATFS_Init();
+//MX_USB_HOST_Init();
+
+
+//int i = 0;
+//
+//while(i < 1000)
+//{
+//	MX_USB_HOST_Process();
+//	HAL_Delay(1);
+//	i++;
+//}
+//HAL_GPIO_WritePin(GPIOD, GPIO_PIN_3, GPIO_PIN_SET);
+//osDelay(1000);
+//HAL_GPIO_WritePin(GPIOD, GPIO_PIN_3, GPIO_PIN_RESET);
+//osDelay(1000);
 
 	for (;;) {
-		MX_USB_HOST_Process();
+//		MX_USB_HOST_Process();
 		if (xQueueReceive(usbQueue, USBString, portMAX_DELAY) == pdTRUE)	{
-			if(f_mount(&USBHFatFS, "", 1) == FR_OK)
-			{
-				f_open(&USBHFile, currFilename, FA_READ | FA_WRITE | FA_OPEN_ALWAYS);
-				f_lseek(&USBHFile,USBHFile.fsize);
-				f_printf(&USBHFile,USBString);
-				f_close(&USBHFile);
+			if(f_mount(&USBHFatFS, "", 1) == FR_OK)	{
+				if (f_open(&USBHFile, currFilename, FA_READ | FA_WRITE | FA_OPEN_ALWAYS) == FR_OK) {
+					f_lseek(&USBHFile,USBHFile.fsize);
+					f_printf(&USBHFile,USBString);
+					f_close(&USBHFile);
+				}
 			}
 		}
 	}

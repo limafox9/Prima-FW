@@ -64,6 +64,8 @@ USAGE:
 #include "settings.h"
 #include "AD7705.h"
 #include "usbkey.h"
+#include "usbh_conf.h"
+#include "usb_host.h"
 
 //#define USE_RTOS_SYSTICK
 
@@ -80,6 +82,9 @@ extern ADC_HandleTypeDef hadc1;
 
 extern Sensors_s sensors;
 extern Settings_s settings;
+
+
+extern USBH_HandleTypeDef hUsbHostFS;
 
 //uint8_t UART_rxBuffer[UART_DISPLAY_BUFFER_SIZE] = {0};
 
@@ -142,10 +147,11 @@ void SysInit() {
 
 
 
-
 	  osSemaphoreDef(semaphoreSensors);
 	  semaphoreSensorsHandle = osSemaphoreCreate(osSemaphore(semaphoreSensors), 1);
 	  osSemaphoreRelease(semaphoreSensorsHandle);
+
+
 
 //		osDelay(500);
 
@@ -153,8 +159,9 @@ void SysInit() {
 	SerialInit(&UART_DISPLAY, 115200);
 
 
-	osThreadDef(serialTask, StartSerialTask, osPriorityNormal, 1, 512);
-	serialTaskHandle = osThreadCreate(osThread(serialTask), NULL);
+
+	  osThreadDef(serialTask, StartSerialTask, osPriorityHigh, 1, 1024);
+		serialTaskHandle = osThreadCreate(osThread(serialTask), NULL);
 
 	machine.DisplayFWVersionMajor = 0;
 	machine.DisplayFWVersionMinor = 0;
@@ -247,7 +254,7 @@ void SysInit() {
 	osThreadDef(keysTask, StartKeysTask, osPriorityAboveNormal, 1, 1024);
 	keysTaskHandle = osThreadCreate(osThread(keysTask), NULL);
 
-	osThreadDef(sensorsTask, StartSensorsTask, osPriorityHigh, 1, 512);
+	osThreadDef(sensorsTask, StartSensorsTask, osPriorityNormal, 1, 512);
 	sensorsTaskHandle = osThreadCreate(osThread(sensorsTask), NULL);
 
 	osThreadDef(programTask, StartProgramTask, osPriorityNormal, 1, 1024);
@@ -256,7 +263,7 @@ void SysInit() {
 	osThreadDef(displayInfoTask, StartDisplayInfoTask, osPriorityNormal, 1, 512);
 	displayInfoTaskHandle = osThreadCreate(osThread(displayInfoTask), NULL);
 
-	osThreadDef(usbTask, StartUSBTask, osPriorityNormal, 1, 512);
+	osThreadDef(usbTask, StartUSBTask, osPriorityHigh, 1, 2048);
 	usbTaskHandle = osThreadCreate(osThread(usbTask), NULL);
 
 

@@ -40,12 +40,15 @@ USAGE:
 
 #include <stdio.h>
 #include "main.h"
+#include "cmsis_os.h"
 
 //#define UART_MONITOR 	huart1
 #define UART_TDS		huart2
 #define UART_DISPLAY 	huart3
 #define UART_DISPLAY_TX_BUFFER_SIZE 29		// default 30 (bytes)
 #define UART_DISPLAY_RX_BUFFER_SIZE 29		// default 30 (bytes)
+
+extern xQueueHandle serialQueue;
 
 void SerialInit(UART_HandleTypeDef* huart, uint32_t baudRate);
 //void SerialReceived(UART_HandleTypeDef* huart, uint8_t* data, uint32_t size);

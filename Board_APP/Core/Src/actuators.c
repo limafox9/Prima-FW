@@ -252,6 +252,7 @@ void FanSet(e_PowerState status) {
 }
 
 e_LockState DoorSolenoidSet(e_LockState status) {
+	uint8_t check = 0;
 	osSemaphoreWait(semaphoreSensorsHandle, 100);
 	// All off for safe polarity set
 	HAL_GPIO_WritePin(SOLENOID_V1_GPIO_Port, SOLENOID_V1_Pin, OFF);
@@ -269,10 +270,11 @@ e_LockState DoorSolenoidSet(e_LockState status) {
 	// All off afetr LOCK/UNLOCK impulse
 	HAL_GPIO_WritePin(SOLENOID_V1_GPIO_Port, SOLENOID_V1_Pin, OFF);
 	HAL_GPIO_WritePin(SOLENOID_V2_GPIO_Port, SOLENOID_V2_Pin, OFF);
+	check = !HAL_GPIO_ReadPin(SW_SOLENOID_GPIO_Port, SW_SOLENOID_Pin);
 	osSemaphoreRelease(semaphoreSensorsHandle);
-
 	// Return solenoid switch status for position confirmation
-	return !HAL_GPIO_ReadPin(SW_SOLENOID_GPIO_Port, SW_SOLENOID_Pin);
+	return check;
+
 }
 
 void DoorSolenoidDisconnect() {

@@ -23,6 +23,7 @@
 #include "usb_host.h"
 #include "usbh_core.h"
 #include "usbh_msc.h"
+#include "fatfs.h"
 
 /* USER CODE BEGIN Includes */
 
@@ -50,15 +51,6 @@ ApplicationTypeDef Appli_state = APPLICATION_IDLE;
 /* USER CODE END 0 */
 
 /*
- * Background task
- */
-void MX_USB_HOST_Process(void)
-{
-  /* USB Host Background task */
-  USBH_Process(&hUsbHostFS);
-}
-
-/*
  * user callback declaration
  */
 static void USBH_UserProcess(USBH_HandleTypeDef *phost, uint8_t id);
@@ -67,7 +59,14 @@ static void USBH_UserProcess(USBH_HandleTypeDef *phost, uint8_t id);
  * -- Insert your external function declaration here --
  */
 /* USER CODE BEGIN 1 */
-
+/*
+ * Background task
+ */
+void MX_USB_HOST_Process(void)
+{
+  /* USB Host Background task */
+  USBH_Process(&hUsbHostFS);
+}
 /* USER CODE END 1 */
 
 /**
@@ -104,6 +103,9 @@ void MX_USB_HOST_Init(void)
 static void USBH_UserProcess  (USBH_HandleTypeDef *phost, uint8_t id)
 {
   /* USER CODE BEGIN CALL_BACK_1 */
+
+	static uint8_t dis = 0;
+
   switch(id)
   {
   case HOST_USER_SELECT_CONFIGURATION:
@@ -111,12 +113,16 @@ static void USBH_UserProcess  (USBH_HandleTypeDef *phost, uint8_t id)
 
   case HOST_USER_DISCONNECTION:
   Appli_state = APPLICATION_DISCONNECT;
-  Beep(1, 50, 50);
+	if(f_mount(0, "", 1) == FR_OK)	{
+	  Beep(1, 50, 50);
+	}
   break;
 
   case HOST_USER_CLASS_ACTIVE:
   Appli_state = APPLICATION_READY;
-  Beep(1, 50, 50);
+	if(f_mount(&USBHFatFS, "", 1) == FR_OK)	{
+	  Beep(1, 50, 50);
+	}
   break;
 
   case HOST_USER_CONNECTION:

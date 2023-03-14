@@ -130,7 +130,7 @@ void ParseCommand(s_DisplayProtocolData* data) {
 							machineStatus.Show = SHOW_PROGRAM;
 							ShowProgram();
 						} else {
-							uint8_t PowerTest();
+//							uint8_t PowerTest();
 						}
 					} else {
 						ChangeFunction(-1);

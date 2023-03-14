@@ -36,7 +36,7 @@ USAGE:
 #include "PCF8563.h"
 #include "time.h"
 
-uint32_t timers[10] = {0};
+uint32_t timers[20] = {0};
 
 static uint32_t GetSafeDeltaTick(uint32_t startTick, uint32_t endTick);
 
@@ -45,7 +45,7 @@ void ClockInit(I2C_HandleTypeDef* hi2c) {
 
 	PCF8563_Init(hi2c);
 
-	for (int i = 0; i < 8; i++) {
+	for (int i = 0; i < sizeof(timers); i++) {
 		ResetTimer(i);
 	}
 }
