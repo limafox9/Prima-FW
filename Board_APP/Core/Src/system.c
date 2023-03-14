@@ -262,6 +262,7 @@ void SysInit() {
 
 	osThreadDef(displayInfoTask, StartDisplayInfoTask, osPriorityNormal, 1, 512);
 	displayInfoTaskHandle = osThreadCreate(osThread(displayInfoTask), NULL);
+	osThreadSuspend(displayInfoTaskHandle);
 
 	osThreadDef(usbTask, StartUSBTask, osPriorityHigh, 1, 2048);
 	usbTaskHandle = osThreadCreate(osThread(usbTask), NULL);

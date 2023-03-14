@@ -38,7 +38,6 @@ USAGE:
 
 #include "serial.h"
 #include "cmsis_os.h"
-#include "buzzer.h"
 #include "globals.h"
 #include "Inc/DB_Protocol.h"
 #include "actuators.h"

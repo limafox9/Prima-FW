@@ -70,6 +70,18 @@ PIDController pidHeaterSteamGenerator = {PID_KP, PID_KI, PID_KD, PID_TAU, PID_LI
 void StartChPowerTask();
 void StartSteamPowerTask();
 
+void Beep(uint8_t hits, uint16_t onDelay, uint16_t offDelay) {
+
+	uint32_t tick;
+
+	for (uint8_t i = 0; i < hits; i++) {
+		HAL_GPIO_WritePin(BEEP_GPIO_Port, BEEP_Pin, ON);
+		HAL_Delay(onDelay);
+		HAL_GPIO_WritePin(BEEP_GPIO_Port, BEEP_Pin, OFF);
+		HAL_Delay(offDelay);
+	}
+}
+
 void SteamPulse(uint16_t pulseDuration) {
 	if (pulseDuration < 10) pulseDuration = 10;
 	PumpSteamGeneratorSet(ON);
@@ -252,7 +264,7 @@ void FanSet(e_PowerState status) {
 }
 
 e_LockState DoorSolenoidSet(e_LockState status) {
-	uint8_t check = 0;
+	e_LockState check;
 	osSemaphoreWait(semaphoreSensorsHandle, 100);
 	// All off for safe polarity set
 	HAL_GPIO_WritePin(SOLENOID_V1_GPIO_Port, SOLENOID_V1_Pin, OFF);
@@ -270,7 +282,7 @@ e_LockState DoorSolenoidSet(e_LockState status) {
 	// All off afetr LOCK/UNLOCK impulse
 	HAL_GPIO_WritePin(SOLENOID_V1_GPIO_Port, SOLENOID_V1_Pin, OFF);
 	HAL_GPIO_WritePin(SOLENOID_V2_GPIO_Port, SOLENOID_V2_Pin, OFF);
-	check = !HAL_GPIO_ReadPin(SW_SOLENOID_GPIO_Port, SW_SOLENOID_Pin);
+	check = DoorSolenoidKeyGet();
 	osSemaphoreRelease(semaphoreSensorsHandle);
 	// Return solenoid switch status for position confirmation
 	return check;

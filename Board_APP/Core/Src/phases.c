@@ -70,11 +70,6 @@ uint8_t PhaseBegin(uint8_t timeout) {
 	sprintf(currPhase, "Init");
 
 
-	settings.CyclesCount++;
-	EEPROM_Write(EPA_CYCLE_COUNTER, &settings.CyclesCount, 2);
-	machine.ReadOnlyCyclesCount++;
-	EEPROM_Write(EPA_CYCLE_COUNTER_PERMANENT, &machine.ReadOnlyCyclesCount, 2);
-
 	RTCDateTime_s ct;
 	PCF8563_GetDateTime(&ct);
 	sprintf(currFilename, "%04d.%02d.%02d-%02d.%02d-%05d.txt", ct.Year, ct.Month, ct.Day, ct.Hour, ct.Minute, settings.CyclesCount);
@@ -94,7 +89,7 @@ uint8_t PhaseBegin(uint8_t timeout) {
 
 	}
 
-	if (sensors.Door == OPEN) {
+	if (sensors.Door == OPEN && currProgram != 99) {
 		lastError = ERROR_NONE;
 		Print("DOOR ERROR *** DOOR OPEN\n");
 		Beep(3, 100, 100);
@@ -102,7 +97,7 @@ uint8_t PhaseBegin(uint8_t timeout) {
 	}
 
 //	sensors.WaterTDS = BAT2U_GetTDSValue(1, 100);
-	if (sensors.WaterTDS > settings.WaterTDSMin) {
+	if (sensors.WaterTDS > settings.WaterTDSMin && currProgram != 99) {
 		lastError = ERROR_NONE;
 //		lastError = ERROR_WATER_HIGH_TDS;
 		Print("WTDS ERROR *** WATER QUALITY\n");
@@ -110,14 +105,14 @@ uint8_t PhaseBegin(uint8_t timeout) {
 		retVal = 0;
 	}
 
-	if (sensors.WaterReservoirLevel == EMPTY) {
+	if (sensors.WaterReservoirLevel == EMPTY && currProgram != 99) {
 		lastError = ERROR_NONE;
 //		lastError = ERROR_WATER_LOW;
 		Print("WATR ERROR *** WATER LEVEL\n");
 		Beep(3, 100, 100);
 		retVal = 0;
 	}
-	if (sensors.WaterDumpLevel == HIGH) {
+	if (sensors.WaterDumpLevel == HIGH && currProgram != 99) {
 		lastError = ERROR_NONE;
 //		lastError = ERROR_WATER_DUMP_HIGH;
 		Print("DUMP ERROR *** WATER DUMP LEVEL\n");
@@ -139,7 +134,9 @@ uint8_t PhaseBegin(uint8_t timeout) {
 	ResetTimer(TIMER_TIMEOUT);
 
 	machineStatus.Status = STATUS_RUNNING;
-	doorOpened = 0;
+	osThreadResume(displayInfoTaskHandle);
+
+//	doorOpened = 0;
 	ValveDrainSteamSet(OFF);
 	ValveDryIntakeSet(OFF);
 	ValveVacuumSet(OFF);
@@ -172,6 +169,13 @@ uint8_t PhaseBegin(uint8_t timeout) {
 			break;
 		}
 		osDelay(200);
+	}
+
+	if (retVal == 1 && currProgram != 99) {
+		settings.CyclesCount++;
+		EEPROM_Write(EPA_CYCLE_COUNTER, &settings.CyclesCount, 2);
+		machine.ReadOnlyCyclesCount++;
+		EEPROM_Write(EPA_CYCLE_COUNTER_PERMANENT, &machine.ReadOnlyCyclesCount, 2);
 	}
 
 	return retVal;
@@ -289,7 +293,7 @@ uint8_t CheckError() {
 	if (abortProgram == 1) {
 		abortProgram = 0;
 		retError = ERROR_ABNORMAL_EXIT;
-	} else if ((machineStatus.Status == STATUS_RUNNING) && (sensors.Door == OPEN)) {
+	} else if (sensors.Door == OPEN) {
 		retError = ERROR_OPEN_DOOR;
 	} else if (sensors.TemperatureSteamGenerator > 230.0) {
 		retError = ERROR_STEAM_OVERTEMP;
@@ -570,7 +574,7 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 		GetTimer(TIMER_TIMEOUT, &tTimeout);
 		if (tTimeout.Seconds > param->timeout) {
 			lastError = ERROR_PHASE_TIMEOUT;
-			Print("STER ERROR *** TIMEOUT CLIMB\n");
+			Print("STER ERROR *** TIMEOUT RISE\n");
 			GetTimer(TIMER_PHASE, &tPhase);
 			PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
 			retVal = 0;
@@ -588,6 +592,7 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 
 		sprintf(currPhase, "StEr");
 
+		ResetTimer(TIMER_TIMEOUT);
 		ResetTimer(TIMER_PHASE);
 		ResetTimer(TIMER_1);
 		ResetTimer(TIMER_3);
@@ -870,6 +875,11 @@ uint8_t PhaseClean() {
 		}
 		GetTimer(TIMER_3, &tVac);
 		if (tVac.Seconds > 230) break;
+		lastError = CheckError();
+		if (lastError > 0 && lastError != ERROR_ABNORMAL_EXIT) {
+			retVal = 0;
+			break;
+		}
 		osDelay(200);
 	}
 	PumpVacuumSet(OFF);
@@ -910,20 +920,24 @@ uint8_t PhaseWaterLoad(uint16_t timeout) {
 	ValveDryIntakeSet(OFF);
 	ValveVacuumSet(OFF);
 
+
 	if ((WaterReservoirLevelGet() & FULL) != FULL) {
 		PumpWaterLoadSet(ON);
 		while ((WaterReservoirLevelGet() & FULL) != FULL) {
 			GetTimer(TIMER_TIMEOUT, &tTimeout);
 			if (tTimeout.Seconds > timeout) break;
 			lastError = CheckError();
-			if (lastError > 0) {
+			if (lastError == ERROR_ABNORMAL_EXIT) {
+				lastError = ERROR_NONE;
 				break;
 			}
+			lastError = ERROR_NONE;
 			osDelay(200);
 		}
 	}
 
 	PumpWaterLoadSet(OFF);
+
 
 	return retVal;
 }
@@ -1066,7 +1080,7 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 
 		osDelay(1000);
 		if (DoorSolenoidSet(UNLOCK) != UNLOCK) {
-			SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "Er.11");
+			DigitsWrite(3, "Er.11");
 			return 0;
 		}
 
@@ -1089,6 +1103,7 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 			programStart = 1;
 		}
 	}
+	osThreadSuspend(displayInfoTaskHandle);
 
 	PhasePreheat(60.0, 90.0);
 

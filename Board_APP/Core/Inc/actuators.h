@@ -50,6 +50,8 @@ extern TIM_HandleTypeDef htim3;
 
 #define DOOR_SOLENOID_IMPULSE 500 	// Solenoid impulse duration (milliseconds)
 
+void Beep(uint8_t hits, uint16_t onDelay, uint16_t offDelay);
+
 void PWMPower_Init();
 void PWMPower_Start();
 void PWMPower_Stop();

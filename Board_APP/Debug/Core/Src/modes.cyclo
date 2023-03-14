@@ -1,7 +1,7 @@
 modes.c:136:6:ProgramsInit	2
 modes.c:143:6:SelectProgram	3
 modes.c:154:6:SelectTest	3
-modes.c:164:6:ShowProgram	15
+modes.c:164:6:ShowProgram	17
 modes.c:221:6:ShowParameter	2
 modes.c:235:6:SelectParameter	2
 modes.c:241:6:ChangeParameter	3

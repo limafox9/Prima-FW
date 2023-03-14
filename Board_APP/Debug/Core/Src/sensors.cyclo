@@ -1,4 +1,4 @@
-sensors.c:125:6:HAL_GPIO_EXTI_Callback	3
+sensors.c:125:6:HAL_GPIO_EXTI_Callback	4
 sensors.c:173:6:StartSensorsTask	22
 sensors.c:292:13:DoorSolenoidKeyGet	1
 sensors.c:296:19:DoorPositionGet	1

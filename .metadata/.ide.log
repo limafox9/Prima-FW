@@ -57865,3 +57865,171 @@
 
 
 2023-03-13 08:33:03,993 [INFO] Activator:180 - !SESSION log4j initialized
+2023-03-14 14:03:50,871 [INFO] Activator:176 - 
+
+
+2023-03-14 14:03:50,874 [INFO] Activator:177 - !SESSION log4j initialized
+2023-03-14 14:04:02,626 [INFO] LogOutputStream:77 - [STDOUT_REDIRECT] 
+2023-03-14 14:04:20,797 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+2023-03-14 14:04:20,799 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] SLF4J: Defaulting to no-operation (NOP) logger implementation
+2023-03-14 14:04:20,800 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+2023-03-14 14:05:49,903 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 14:05:49,906 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 14:05:49,908 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 14:34:28,408 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 14:34:28,409 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 14:34:28,410 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 14:39:35,430 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 14:39:35,432 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 14:39:35,433 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 14:39:35,506 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 14:39:35,507 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 14:39:35,509 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 14:39:40,557 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 14:39:40,558 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 14:39:40,559 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 14:42:58,993 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 14:42:58,994 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 14:42:58,994 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 14:45:48,979 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 14:45:48,980 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 14:45:48,981 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 14:45:51,045 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 14:45:51,046 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 14:45:51,047 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 14:48:54,336 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 14:48:54,337 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 14:48:54,337 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 14:48:55,748 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 14:48:55,758 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 14:48:55,759 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 14:50:45,498 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 14:50:45,499 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 14:50:45,499 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 14:50:46,288 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 14:50:46,289 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 14:50:46,289 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:00:01,160 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:00:01,165 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:00:01,166 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:00:01,253 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:00:01,254 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:00:01,255 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:00:12,289 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:00:12,290 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:00:12,291 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:00:14,053 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:00:14,055 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:00:14,056 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:09:14,514 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:09:14,517 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:09:14,520 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:09:15,385 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:09:15,386 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:09:15,388 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:16:22,772 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:16:22,774 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:16:22,776 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:16:23,514 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:16:23,515 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:16:23,517 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:22:34,013 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:22:34,014 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:22:34,015 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:22:34,996 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:22:34,998 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:22:34,999 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:25:51,168 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:25:51,169 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:25:51,169 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:25:53,131 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:25:53,132 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:25:53,133 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:30:48,593 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:30:48,594 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:30:48,595 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:30:50,073 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:30:50,074 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:30:50,075 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:33:40,633 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:33:40,634 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:33:40,635 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:33:42,517 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:33:42,518 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:33:42,518 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:42:55,628 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:42:55,631 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:42:55,633 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:42:56,323 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:42:56,324 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:42:56,325 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:44:52,508 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:44:52,509 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:44:52,510 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:44:52,541 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:44:52,542 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 15:44:52,542 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:00:56,142 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:00:56,144 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:00:56,144 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:00:56,191 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:00:56,192 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:00:56,193 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:14:16,849 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:14:16,851 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:14:16,852 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:14:16,897 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:14:16,898 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:14:16,898 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:16:05,566 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:16:05,568 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:16:05,569 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:16:05,628 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:16:05,629 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:16:05,629 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:16:06,100 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:16:06,101 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:16:06,102 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:17:30,759 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:17:30,760 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:17:30,760 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:17:31,488 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:17:31,489 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:17:31,490 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:20:39,601 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:20:39,602 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:20:39,602 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:20:40,018 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:20:40,019 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:20:40,020 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:22:55,719 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:22:55,720 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:22:55,720 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:22:56,155 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:22:56,156 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:22:56,156 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:25:13,157 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:25:13,158 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:25:13,159 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:25:13,557 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:25:13,558 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:25:13,559 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:27:49,828 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:27:49,829 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:27:49,830 [ERROR] ConfigurationRetriever:142 - IOException on connection: artifactory.st.com
+2023-03-14 16:28:20,925 [INFO] Activator:176 - 
+
+
+2023-03-14 16:28:20,928 [INFO] Activator:177 - !SESSION log4j initialized
+2023-03-14 16:28:30,097 [INFO] LogOutputStream:77 - [STDOUT_REDIRECT] 
+2023-03-14 16:28:48,494 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+2023-03-14 16:28:48,495 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] SLF4J: Defaulting to no-operation (NOP) logger implementation
+2023-03-14 16:28:48,498 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+2023-03-14 16:30:03,269 [INFO] Activator:176 - 
+
+
+2023-03-14 16:30:03,273 [INFO] Activator:177 - !SESSION log4j initialized
+2023-03-14 16:30:12,904 [INFO] LogOutputStream:77 - [STDOUT_REDIRECT] 
+2023-03-14 16:30:31,587 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+2023-03-14 16:30:31,588 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] SLF4J: Defaulting to no-operation (NOP) logger implementation
+2023-03-14 16:30:31,592 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.

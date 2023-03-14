@@ -45,6 +45,7 @@ USAGE:
 #include "printer.h"
 #include "modes.h"
 #include "settings.h"
+#include "system.h"
 
 #define OT_HEAT		1200
 #define OT_VACUUM	300
@@ -192,7 +193,6 @@ uint8_t ProgramResumeDry() {
 
 
 	machineStatus.Status = STATUS_READY;
-
 	osDelay(1000);
 	if (DoorSolenoidSet(UNLOCK) != UNLOCK) {
 		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "Er.11");
@@ -201,6 +201,8 @@ uint8_t ProgramResumeDry() {
 
 	PhasePreheat(60.0, 90.0);
 	progRunning = 0;
+	osThreadSuspend(displayInfoTaskHandle);
+
 	progStop = 0;
 
 }
@@ -291,6 +293,8 @@ uint8_t ProgramUnwrapped() {
 	PhaseFinish(success, &clockTime, &tCycle);
 
 	progRunning = 0;
+	osThreadSuspend(displayInfoTaskHandle);
+
 	progStop = 0;
 
 }
@@ -392,6 +396,8 @@ uint8_t ProgramWrapped() {
 	PhaseFinish(success, &clockTime, &tCycle);
 
 	progRunning = 0;
+	osThreadSuspend(displayInfoTaskHandle);
+
 	progStop = 0;
 
 }
@@ -491,6 +497,8 @@ uint8_t ProgramPrion() {
 	PhaseFinish(success, &clockTime, &tCycle);
 
 	progRunning = 0;
+	osThreadSuspend(displayInfoTaskHandle);
+
 	progStop = 0;
 
 }
@@ -587,6 +595,8 @@ uint8_t ProgramGentle() {
 	PhaseFinish(success, &clockTime, &tCycle);
 
 	progRunning = 0;
+	osThreadSuspend(displayInfoTaskHandle);
+
 	progStop = 0;
 
 }
@@ -718,6 +728,8 @@ uint8_t ProgramUser() {
 	PhaseFinish(success, &clockTime, &tCycle);
 
 	progRunning = 0;
+	osThreadSuspend(displayInfoTaskHandle);
+
 	progStop = 0;
 
 }
@@ -818,6 +830,8 @@ uint8_t ProgramHelixTest() {
 	PhaseFinish(success, &clockTime, &tCycle);
 
 	progRunning = 0;
+	osThreadSuspend(displayInfoTaskHandle);
+
 	progStop = 0;
 
 }
@@ -862,6 +876,8 @@ uint8_t ProgramVacuumTest() {
 	PhaseFinish(success, &clockTime, &tCycle);
 
 	progRunning = 0;
+	osThreadSuspend(displayInfoTaskHandle);
+
 	progStop = 0;
 
 }
@@ -874,8 +890,6 @@ uint8_t PowerTest() {
 
 	progRunning = 1;
 	progStop = 0;
-
-//	if (!PhaseBegin(600)) return 0;
 
 	ResetTimer(TIMER_CYCLE);
 
@@ -919,8 +933,6 @@ uint8_t ProgramWash() {
 	progRunning = 1;
 	progStop = 0;
 
-//	if (!PhaseBegin(600)) return 0;
-
 	ResetTimer(TIMER_CYCLE);
 
 	if (!PhaseBegin(600)) return 0;
@@ -940,6 +952,8 @@ uint8_t ProgramWash() {
 	ResetTimer(TIMER_FAN);
 
 	progRunning = 0;
+	osThreadSuspend(displayInfoTaskHandle);
+
 	progStop = 0;
 
 }
@@ -954,8 +968,10 @@ uint8_t ProgramWaterLoad() {
 		Beep(2, 100, 100);
 		return;
 	}
-
+	machineStatus.Status = STATUS_RUNNING;
 	progRunning = 1;
+	osThreadResume(displayInfoTaskHandle);
+
 	progStop = 0;
 
 //	if (!PhaseBegin(600)) return 0;
@@ -977,6 +993,7 @@ uint8_t ProgramWaterLoad() {
 	machineStatus.Status = STATUS_READY;
 
 	progRunning = 0;
+	osThreadSuspend(displayInfoTaskHandle);
 	progStop = 0;
 
 }

@@ -49,7 +49,7 @@
 			<item key="ignoreCase" value="true"/>
 			<item key="isRegExSearch" value="false"/>
 			<item key="isWholeWord" value="false"/>
-			<item key="textPattern" value="USBH_LL_DriverVBUS"/>
+			<item key="textPattern" value="maintain"/>
 			<item key="scope" value="3"/>
 			<list key="fileNamePatterns">
 				<item value="*.h"/>
@@ -62,7 +62,7 @@
 			<item key="ignoreCase" value="true"/>
 			<item key="isRegExSearch" value="false"/>
 			<item key="isWholeWord" value="false"/>
-			<item key="textPattern" value="usb_otg"/>
+			<item key="textPattern" value="USBH_LL_DriverVBUS"/>
 			<item key="scope" value="3"/>
 			<list key="fileNamePatterns">
 				<item value="*.c"/>
@@ -75,7 +75,7 @@
 			<item key="ignoreCase" value="true"/>
 			<item key="isRegExSearch" value="false"/>
 			<item key="isWholeWord" value="false"/>
-			<item key="textPattern" value="T2"/>
+			<item key="textPattern" value="usb_otg"/>
 			<item key="scope" value="3"/>
 			<list key="fileNamePatterns">
 				<item value="*.c"/>
@@ -88,6 +88,19 @@
 			<item key="ignoreCase" value="true"/>
 			<item key="isRegExSearch" value="false"/>
 			<item key="isWholeWord" value="false"/>
+			<item key="textPattern" value="T2"/>
+			<item key="scope" value="3"/>
+			<list key="fileNamePatterns">
+				<item value="*.c"/>
+				<item value="*.h"/>
+			</list>
+			<list key="workingSets">
+			</list>
+		</section>
+		<section name="HISTORY4">
+			<item key="ignoreCase" value="true"/>
+			<item key="isRegExSearch" value="false"/>
+			<item key="isWholeWord" value="false"/>
 			<item key="textPattern" value="sensors.T2"/>
 			<item key="scope" value="3"/>
 			<list key="fileNamePatterns">
@@ -97,7 +110,7 @@
 			<list key="workingSets">
 			</list>
 		</section>
-		<section name="HISTORY4">
+		<section name="HISTORY5">
 			<item key="ignoreCase" value="true"/>
 			<item key="isRegExSearch" value="false"/>
 			<item key="isWholeWord" value="false"/>
@@ -110,7 +123,7 @@
 			<list key="workingSets">
 			</list>
 		</section>
-		<section name="HISTORY5">
+		<section name="HISTORY6">
 			<item key="ignoreCase" value="true"/>
 			<item key="isRegExSearch" value="false"/>
 			<item key="isWholeWord" value="false"/>
@@ -123,7 +136,7 @@
 			<list key="workingSets">
 			</list>
 		</section>
-		<section name="HISTORY6">
+		<section name="HISTORY7">
 			<item key="ignoreCase" value="true"/>
 			<item key="isRegExSearch" value="false"/>
 			<item key="isWholeWord" value="false"/>
@@ -136,7 +149,7 @@
 			<list key="workingSets">
 			</list>
 		</section>
-		<section name="HISTORY7">
+		<section name="HISTORY8">
 			<item key="ignoreCase" value="true"/>
 			<item key="isRegExSearch" value="false"/>
 			<item key="isWholeWord" value="false"/>
@@ -149,7 +162,7 @@
 			<list key="workingSets">
 			</list>
 		</section>
-		<section name="HISTORY8">
+		<section name="HISTORY9">
 			<item key="ignoreCase" value="true"/>
 			<item key="isRegExSearch" value="false"/>
 			<item key="isWholeWord" value="false"/>
@@ -162,7 +175,7 @@
 			<list key="workingSets">
 			</list>
 		</section>
-		<section name="HISTORY9">
+		<section name="HISTORY10">
 			<item key="ignoreCase" value="true"/>
 			<item key="isRegExSearch" value="false"/>
 			<item key="isWholeWord" value="false"/>
@@ -174,23 +187,11 @@
 			<list key="workingSets">
 			</list>
 		</section>
-		<section name="HISTORY10">
-			<item key="ignoreCase" value="true"/>
-			<item key="isRegExSearch" value="false"/>
-			<item key="isWholeWord" value="false"/>
-			<item key="textPattern" value="PrintError"/>
-			<item key="scope" value="3"/>
-			<list key="fileNamePatterns">
-				<item value="*.c"/>
-			</list>
-			<list key="workingSets">
-			</list>
-		</section>
 		<section name="HISTORY11">
 			<item key="ignoreCase" value="true"/>
 			<item key="isRegExSearch" value="false"/>
 			<item key="isWholeWord" value="false"/>
-			<item key="textPattern" value="status_error"/>
+			<item key="textPattern" value="PrintError"/>
 			<item key="scope" value="3"/>
 			<list key="fileNamePatterns">
 				<item value="*.c"/>

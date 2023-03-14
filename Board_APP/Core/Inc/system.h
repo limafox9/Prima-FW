@@ -67,6 +67,15 @@ typedef enum {
 
 extern RTCDateTime_s RTCDateTime;
 
+
+extern osThreadId keysTaskHandle;
+extern osThreadId serialTaskHandle;
+extern osThreadId sensorsTaskHandle;
+extern osThreadId programTaskHandle;
+extern osThreadId displayInfoTaskHandle;
+
+extern osThreadId usbTaskHandle;
+
 extern osSemaphoreId semaphoreSensorsHandle;
 
 void SysInit();

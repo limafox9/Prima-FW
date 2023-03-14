@@ -172,12 +172,12 @@ void ShowProgram() {
 	} else {
 		if (machineStatus.Status != STATUS_RUNNING) {
 			if (currProgType == PROGTYPE_PROGRAM) {
-				SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, (sensors.Door == OPEN || doorOpened == 0) ? "LoAd" : &programs[currProgram].DigitsName);
+				DigitsWrite(3, (sensors.Door == OPEN || doorOpened == 0) ? "LoAd" : &programs[currProgram].DigitsName);
 				if (lastProg != programs[currProgram].DashLeds) {
 					SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, 63 + DISPLAY_LED_WASH_CYCLE + DISPLAY_LED_WATER_FILL, OFF, 0, "");
 	//				DashLedsOff();
 	//				SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, ~programs[currProgram].DashLeds, OFF, 0, "");
-					SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, programs[currProgram].DashLeds, ON, 0, "");
+					if (currProgram != 99) SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, programs[currProgram].DashLeds, ON, 0, "");
 					lastProg = programs[currProgram].DashLeds;
 				}
 				if (currProgram == PROGRAM_USER) {
@@ -191,13 +191,13 @@ void ShowProgram() {
 				}
 			}
 			if (currProgType == PROGTYPE_TEST) {
-				SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, (sensors.Door == OPEN || doorOpened == 0) ? "LoAd" : &tests[currProgram].DigitsName);
+				DigitsWrite(3, (sensors.Door == OPEN || doorOpened == 0) ? "LoAd" : &tests[currProgram].DigitsName);
 				if (lastTest != tests[currTest].DashLeds) {
 	//				SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, &tests[currTest].DigitsName);
 					SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, 63 + DISPLAY_LED_WASH_CYCLE + DISPLAY_LED_WATER_FILL, OFF, 0, "");
 	//				DashLedsOff();
 	//				SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, ~programs[currProgram].DashLeds, OFF, 0, "");
-					SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, tests[currTest].DashLeds, ON, 0, "");
+					if (currProgram != 99) SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, tests[currTest].DashLeds, ON, 0, "");
 					lastTest = tests[currTest].DashLeds;
 				}
 				DashLed(DISPLAY_LED_TEMP_134, OFF);

@@ -130,7 +130,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 		Beep(1, 100, 100);
 		osSemaphoreWait(semaphoreSensorsHandle, 100);
 		sensors.Door = DoorPositionGet();
-		ValveDryIntakeSet(DoorPositionGet());
+		if (machineStatus.Status == STATUS_READY) ValveDryIntakeSet(DoorPositionGet());
 		doorStatus = DoorPositionGet();
 		ResetTimer(TIMER_DOOR);
 		machineStatus.Status = (sensors.Door == CLOSED) ? STATUS_READY : STATUS_IDLE;

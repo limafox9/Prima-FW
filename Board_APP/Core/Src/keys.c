@@ -109,6 +109,7 @@ void ParseCommand(s_DisplayProtocolData* data) {
 				currProgram = 99;
 				machineStatus.Status == STATUS_READY;
 				machineStatus.Show = SHOW_PROGRAM;
+				lastError = ERROR_NONE;
 				programStart = 1;
 			} else {
 				if (progRunning == 1 && currTest == 3) abortProgram = 1;
@@ -239,6 +240,8 @@ void ParseCommand(s_DisplayProtocolData* data) {
 					} else if (machineStatus.Status == STATUS_READY) {
 						__NOP();
 					} else if (machineStatus.Status = STATUS_RUNNING) {
+						DashLedsOff();
+						ProgressLedsOff();
 						abortProgram = 1;
 						machineStatus.Status = STATUS_READY;
 						machineStatus.Show = SHOW_PROGRAM;
@@ -356,9 +359,9 @@ static void KeysReceived(uint8_t keysCode) {
 	if (keysCode == KEY_S1) {
 		__NOP();
 	} else if (keysCode == KEY_S2) {
-//		SdcardWriteAction("CIAO.txt" , "Hello\n");
-		sprintf(currFilename, "Prova3.txt");
-		xQueueSend(usbQueue, "Hello2\n", portMAX_DELAY);
+////		SdcardWriteAction("CIAO.txt" , "Hello\n");
+//		sprintf(currFilename, "Prova3.txt");
+//		xQueueSend(usbQueue, "Hello2\n", portMAX_DELAY);
 		__NOP();
 	} else if (keysCode == KEY_S3) {
 		__NOP();

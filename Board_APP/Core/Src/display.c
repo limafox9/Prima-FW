@@ -64,6 +64,7 @@ void DigitsWrite(uint8_t line, const char* digits) {
 void DisplaySetBeep(e_PowerState set) {
 	SendCommand(DISPLAY_CMD_SET_KEYS_BEEP, set, 0, 0,"");
 }
+
 void DisplaySetLongPressInterval(uint16_t interval) {
 	SendCommand(DISPLAY_CMD_SET_LONG_PRESS_INTERVAL, interval, 0, 0,"");
 }
@@ -74,7 +75,7 @@ void StartDisplayInfoTask() {
 	char s[8];
 
 	for (;;) {
-		if ((machineStatus.Status == STATUS_RUNNING) && (machineStatus.Show == SHOW_PROGRAM)) {
+		if (machineStatus.Status == STATUS_RUNNING && machineStatus.Show == SHOW_PROGRAM) {
 			SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, currPhase);
 			ResetTimer(TIMER_DISPLAYINFO);
 			while(1) {
@@ -85,8 +86,6 @@ void StartDisplayInfoTask() {
 				if ((machineStatus.Status) != STATUS_RUNNING || (machineStatus.Show != SHOW_PROGRAM)) break;
 				osDelay(200);
 			}
-		}
-		if ((machineStatus.Status == STATUS_RUNNING) && (machineStatus.Show == SHOW_PROGRAM)) {
 			ResetTimer(TIMER_DISPLAYINFO);
 			while(1) {
 				GetTimer(TIMER_PHASE, &tPhase);

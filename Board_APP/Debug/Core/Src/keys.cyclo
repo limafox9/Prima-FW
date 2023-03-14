@@ -1,4 +1,4 @@
 keys.c:58:6:ParseCommand	78
-keys.c:319:6:StartKeysTask	4
-keys.c:342:16:GetPressedKeys	3
-keys.c:354:13:KeysReceived	15
+keys.c:322:6:StartKeysTask	4
+keys.c:345:16:GetPressedKeys	3
+keys.c:357:13:KeysReceived	15
