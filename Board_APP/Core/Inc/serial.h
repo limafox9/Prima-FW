@@ -48,8 +48,6 @@ USAGE:
 #define UART_DISPLAY_TX_BUFFER_SIZE 29		// default 30 (bytes)
 #define UART_DISPLAY_RX_BUFFER_SIZE 29		// default 30 (bytes)
 
-extern xQueueHandle serialQueue;
-
 void SerialInit(UART_HandleTypeDef* huart, uint32_t baudRate);
 //void SerialReceived(UART_HandleTypeDef* huart, uint8_t* data, uint32_t size);
 void SerialSend(UART_HandleTypeDef* huart, uint8_t* data, uint32_t size);

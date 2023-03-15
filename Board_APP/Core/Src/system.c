@@ -264,8 +264,8 @@ void SysInit() {
 	displayInfoTaskHandle = osThreadCreate(osThread(displayInfoTask), NULL);
 	osThreadSuspend(displayInfoTaskHandle);
 
-	osThreadDef(usbTask, StartUSBTask, osPriorityHigh, 1, 2048);
-	usbTaskHandle = osThreadCreate(osThread(usbTask), NULL);
+//	osThreadDef(usbTask, StartUSBTask, osPriorityNormal, 1, 4096);
+//	usbTaskHandle = osThreadCreate(osThread(usbTask), NULL);
 
 
 
@@ -307,8 +307,8 @@ void SysInit() {
 		if (lastError == ERROR_NONE && sensors.Solenoid == LOCK) DoorSolenoidSet(UNLOCK);
 //		if (sensors.Door == CLOSED) DigitsWrite(3, "OPEn");
 
-//		osThreadDef(usbTask, StartUSBTask, osPriorityNormal, 1, 4096);
-//		usbTaskHandle = osThreadCreate(osThread(usbTask), NULL);
+		osThreadDef(usbTask, StartUSBTask, osPriorityNormal, 1, 4096);
+		usbTaskHandle = osThreadCreate(osThread(usbTask), NULL);
 
 //		for (int i = 0; i < 16; i++) {
 //			ProgressLed(1<<i);

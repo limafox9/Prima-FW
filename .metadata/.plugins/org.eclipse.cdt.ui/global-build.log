@@ -1,26 +1,11 @@
- 
-arm-none-eabi-size   Board_APP.elf 
-arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
-   text	   data	    bss	    dec	    hex	filename
- 140752	   2440	  56168	 199360	  30ac0	Board_APP.elf
-arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
-arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
-Finished building: default.size.stdout
- 
-Finished building: Board_APP.hex
-Finished building: Board_APP.bin
- 
- 
-Finished building: Board_APP.list
- 
-18:02:59 **** Incremental Build of configuration Debug for project DB_Protocol ****
-make -j4 all 
+08:08:31 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j24 all 
 make: Nothing to be done for 'all'.
-18:02:59 **** Incremental Build of configuration Debug for project DB_Protocol ****
-make -j4 all 
+08:08:31 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j24 all 
 make: Nothing to be done for 'all'.
-18:03:00 **** Incremental Build of configuration Debug for project Board_APP ****
-make -j4 all 
+08:08:31 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j24 all 
 arm-none-eabi-size   Board_APP.elf 
    text	   data	    bss	    dec	    hex	filename
  140752	   2440	  56168	 199360	  30ac0	Board_APP.elf

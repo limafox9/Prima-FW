@@ -92,30 +92,30 @@ extern char USBString[];
 extern uint8_t USBWrite ;
 extern xQueueHandle usbQueue;
 
-void InitSdcard(void);
+//void InitSdcard(void);
+////
+//void _mountSdcard(void);
+//void _unmountSdcard(void);
+////
+//void _writeString(char *str , FIL *fil);
+//void _readString(char *buffer , size_t read_size , FIL *fil);
+////
+//void _openfile(char *file_name , openType_t type , FIL *fil);
+//void _closefile(FIL *fil);
+////
+//void clearBuffer(void);
+//void insertBuffer(char *data);
+////
+//void _makeDirectory(char *dir_name);
+////
+//file_state_t getFileState(char *file);
+//storage_info_t getSpaceInfo();
 //
-void _mountSdcard(void);
-void _unmountSdcard(void);
-//
-void _writeString(char *str , FIL *fil);
-void _readString(char *buffer , size_t read_size , FIL *fil);
-//
-void _openfile(char *file_name , openType_t type , FIL *fil);
-void _closefile(FIL *fil);
-//
-void clearBuffer(void);
-void insertBuffer(char *data);
-//
-void _makeDirectory(char *dir_name);
-//
-file_state_t getFileState(char *file);
-storage_info_t getSpaceInfo();
-
-void sdcardErrorHandle(uint8_t error_code , char *error_message);
-//
-void SdcardEjected(void);
-void SdcardInserted(void);
-void SdcardWriteAction(char *file_name , char *data);
+//void sdcardErrorHandle(uint8_t error_code , char *error_message);
+////
+//void SdcardEjected(void);
+//void SdcardInserted(void);
+//void SdcardWriteAction(char *file_name , char *data);
 
 void StartUSBTask();
 
