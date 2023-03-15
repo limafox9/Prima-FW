@@ -101,7 +101,9 @@ osThreadId displayInfoTaskHandle;
 osThreadId usbTaskHandle;
 
 osSemaphoreId semaphoreSensorsHandle;
+osSemaphoreId semaphoreSerialHandle;
 xQueueHandle usbQueue;
+xQueueHandle serialQueue;
 
 //float calTemp(float Rt) {
 //	float Z1, Z2, Z3, Z4, temp;
@@ -151,9 +153,14 @@ void SysInit() {
 	  osSemaphoreDef(semaphoreSensors);
 	  semaphoreSensorsHandle = osSemaphoreCreate(osSemaphore(semaphoreSensors), 1);
 	  osSemaphoreRelease(semaphoreSensorsHandle);
+	  osSemaphoreDef(semaphoreSerial);
+	  semaphoreSerialHandle = osSemaphoreCreate(osSemaphore(semaphoreSerial), 1);
+	  osSemaphoreRelease(semaphoreSerialHandle);
 
 
 	  usbQueue = xQueueCreate(10, USB_BUFFER_LENGHT);
+	  serialQueue = xQueueCreate(5, sizeof(struct __s_DisplayProtocolData));
+
 
 
 //		osDelay(500);
@@ -223,8 +230,9 @@ void SysInit() {
 	BAT2U_Init(&huart2);
 
 	uint16_t dum;
-	dum = BAT2U_GetTDSValue(2, 100);
-	sensors.WaterTDS = BAT2U_GetTDSValue(1, 100);
+	dum = BAT2U_GetTDSValue(1, 100);
+//	sensors.WaterTDS = BAT2U_GetTDSValue(1, 100);
+	sensors.WaterTDS = dum;
 //	BAT2U_TDSCalibration(500);
 
 
@@ -254,7 +262,7 @@ void SysInit() {
 //		settings.ChamberPressOffset = 0;
 //		SaveSettings();
 
-	osThreadDef(keysTask, StartKeysTask, osPriorityAboveNormal, 1, 1024);
+	osThreadDef(keysTask, StartKeysTask, osPriorityAboveNormal, 1, 512);
 	keysTaskHandle = osThreadCreate(osThread(keysTask), NULL);
 
 	osThreadDef(sensorsTask, StartSensorsTask, osPriorityNormal, 1, 512);

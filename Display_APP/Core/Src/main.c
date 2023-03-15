@@ -150,7 +150,7 @@ int main(void)
 
   /* Create the thread(s) */
   /* definition and creation of taskMain */
-  osThreadDef(taskMain, TaskMain, osPriorityNormal, 0, 1024);
+  osThreadDef(taskMain, TaskMain, osPriorityNormal, 0, 512);
   taskMainHandle = osThreadCreate(osThread(taskMain), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
@@ -344,7 +344,7 @@ void TaskMain(void const * argument)
 	/* Infinite loop */
 	for(;;)
 	{
-
+		__NOP();
 		osDelay(100);
 	}
 

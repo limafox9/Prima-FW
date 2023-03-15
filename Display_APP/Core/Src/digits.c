@@ -69,8 +69,8 @@ void DigitsInit() {
 
 void DigitsWrite(uint8_t row, char* digits) {
 
-	memset(DigitsRow[row - 1], 0x00, 8);	// row: 1..3, index: 0..2
-	memcpy(DigitsRow[row - 1], digits, strlen(digits) + 1);
+	memset(DigitsRow[row - 1], 0x00, DIGITS_ROW_BUFFER_SIZE);	// row: 1..3, index: 0..2
+	memcpy(DigitsRow[row - 1], digits, DIGITS_ROW_BUFFER_SIZE);
 }
 
 

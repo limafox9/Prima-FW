@@ -146,24 +146,57 @@ uint8_t ProgramResumeDry() {
 
 	uint8_t success = 1;
 	RTCDateTime_s clockTime;
-	RTCTimerTime_s tCycle, tPhase;
+	RTCTimerTime_s tCycle, tPhase, tTimeout;
+
+	ResetTimer(TIMER_TIMEOUT);
 
 	progRunning = 1;
 	progStop = 0;
 
-	if (!PhaseBegin(600)) return 0;
-
-//	PhaseResume(600);
-	FanSet(ON);
-
+//	if (!PhaseBegin(600)) return 0;
+	lastError = ERROR_NONE;
 	sprintf(currPhase, "rEL.");
+	osThreadResume(displayInfoTaskHandle);
+
+	ValveDrainSteamSet(OFF);
+	ValveDryIntakeSet(OFF);
+	ValveVacuumSet(OFF);
+	ValveWaterSteamSet(OFF);
+
+	PumpSteamGeneratorSet(OFF);
+	PumpVacuumSet(OFF);
+	PumpWaterLoadSet(OFF);
 
 	while (1) {
+		GetTimer(TIMER_TIMEOUT, &tTimeout);
 		if (sensors.PressureChamber <= pressAmbientMax) {
+			success = 1;
+			break;
+		}
+		if (tTimeout.Seconds > OT_RELEASE) {
+			lastError = ERROR_PHASE_TIMEOUT;
+			success = 0;
+			break;
+		}
+		if (abortProgram) {
+			abortProgram = 0;
+			lastError = ERROR_ABNORMAL_EXIT;
+			success = 0;
 			break;
 		}
 		osDelay(200);
 	}
+
+//	PhaseResume(600);
+	FanSet(ON);
+
+
+//	while (1) {
+//		if (sensors.PressureChamber <= pressAmbientMax) {
+//			break;
+//		}
+//		osDelay(200);
+//	}
 
 	PhaseDry(20.0, 50.0, 180, 800);
 	SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_NONE, 0, 0, "");
@@ -179,7 +212,7 @@ uint8_t ProgramResumeDry() {
 	ValveDryIntakeSet(ON);
 
 	while (1) {
-		if ((sensors.PressureChamber >= (sensors.PressureAmbient - 20.0)) && (sensors.PressureChamber <= (sensors.PressureAmbient + 20.0))) {
+		if ((sensors.PressureChamber >= pressAmbientMin) && (sensors.PressureChamber <= pressAmbientMax)) {
 			break;
 		}
 		osDelay(200);
@@ -208,6 +241,7 @@ uint8_t ProgramResumeDry() {
 }
 
 uint8_t ProgramUnwrapped() {
+
 
 	uint8_t success = 1;
 	RTCDateTime_s clockTime;
@@ -720,6 +754,10 @@ uint8_t ProgramUser() {
 			PhasePreheat(60, 90);
 			success = PhaseDry(20.0, 50.0, settings.UserDryTime * 60, settings.UserDryTime * 60 * 1.5);
 		}
+	} else {
+		PhasePreheat(60, 90);
+		success = PhaseVacuum(1, 50.0, 300);
+
 	}
 
 	// End
@@ -861,7 +899,7 @@ uint8_t ProgramVacuumTest() {
 		success = PhaseWait(240);
 	}
 	if (success) {
-		success = PhaseVacuumHold(18.0, 20.0, 240, 600);
+		success = PhaseVacuumHold(18.0, 2.0, 240, 600);
 	}
 //	if (success) {
 //		success = PhaseRelease(1, OT_RELEASE);

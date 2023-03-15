@@ -43,6 +43,7 @@ USAGE:
 #include "actuators.h"
 #include "programs.h"
 #include "modes.h"
+#include "system.h"
 
 extern UART_HandleTypeDef huart1;
 extern UART_HandleTypeDef huart2;
@@ -77,7 +78,7 @@ void SerialInit(UART_HandleTypeDef* huart, uint32_t baudRate) {
 void SendCommand(uint16_t command, uint32_t param1, uint32_t param2, uint32_t param3, char* digits) {
 
 	s_DisplayProtocolData txData = {command, param1, param2, param3, digits, 1};
-
+	osSemaphoreWait(semaphoreSerialHandle, 100);
 	memcpy(&txData.Digits, digits, strlen(digits) + 1);
 
 	uint8_t txBuffer[UART_DISPLAY_TX_BUFFER_SIZE + 10];
@@ -86,12 +87,13 @@ void SendCommand(uint16_t command, uint32_t param1, uint32_t param2, uint32_t pa
 
 	// Chip 485 ENABLE
 	HAL_GPIO_WritePin(USART3_CTS_GPIO_Port, USART3_CTS_Pin, GPIO_PIN_SET);
-	HAL_Delay(5);
+	HAL_Delay(2);
 	// Send data
 	HAL_UART_Transmit(&UART_DISPLAY, txBuffer, UART_DISPLAY_TX_BUFFER_SIZE, DISPLAY_UART_TX_TIMEOUT);
 	// Chip 485 DISABLE
-	HAL_Delay(5);
+	HAL_Delay(2);
 	HAL_GPIO_WritePin(USART3_CTS_GPIO_Port, USART3_CTS_Pin, GPIO_PIN_RESET);
+	osSemaphoreRelease(semaphoreSerialHandle);
 }
 
 // RECEIVE
@@ -99,9 +101,10 @@ void SendCommand(uint16_t command, uint32_t param1, uint32_t param2, uint32_t pa
 
 void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
 
+		s_DisplayProtocolData cmdData;
 	uint8_t headFound, tailFound;
 	uint8_t tempBuf[UART_DISPLAY_RX_BUFFER_SIZE];
-
+	osSemaphoreWait(semaphoreSerialHandle, 100);
 	for (int i = UART_DISPLAY_RX_BUFFER_SIZE; i >= 0; i--) {
 		if ((UART_rxBuffer[i] == '<') && (UART_rxBuffer[i+1] == '~')) {
 
@@ -119,13 +122,14 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
 			Display_ProtocolToData(tempBuf, &rxData);
 			if (rxData.Valid) {
 				dataReady = 1;
+//				xQueueSend(serialQueue, &cmdData, 100);
 			}
 		}
 	}
 
 	HAL_UARTEx_ReceiveToIdle_DMA(huart, UART_rxBuffer, UART_DISPLAY_RX_BUFFER_SIZE);
 	__HAL_DMA_DISABLE_IT(&hdma_usart3_rx, DMA_IT_HT);
-
+	osSemaphoreRelease(semaphoreSerialHandle);
 
 }
 
@@ -187,12 +191,13 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
 void StartSerialTask() {
 
 	for (;;) {
-		if (dataReady) {
+		if (dataReady == 1)	{
 			dataReady = 0;
+//			if (xQueueReceive(serialQueue, &rxData, portMAX_DELAY) == pdTRUE)	{
 			ParseCommand(&rxData); // valid received command > parse
 //			memset(rxBuf, 0, sizeof(rxBuf));
 		}
-		osDelay(10);
+		osDelay(5);
 	}
 }
 

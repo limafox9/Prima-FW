@@ -72,8 +72,12 @@ uint8_t PhaseBegin(uint8_t timeout) {
 
 	RTCDateTime_s ct;
 	PCF8563_GetDateTime(&ct);
-	sprintf(currFilename, "%04d.%02d.%02d-%02d.%02d-%05d.txt", ct.Year, ct.Month, ct.Day, ct.Hour, ct.Minute, settings.CyclesCount);
+	sprintf(currFilename, "%02d.%02d.%02d-%02d.%02d-%05d.txt", ct.Year%100, ct.Month, ct.Day, ct.Hour, ct.Minute, settings.CyclesCount);
 
+	uint16_t dum;
+	dum = BAT2U_GetTDSValue(2, 100);
+	sensors.WaterTDS = BAT2U_GetTDSValue(1, 100);
+//	sensors.WaterTDS = dum;
 
 	ResetTimer(TIMER_PHASE);
 
@@ -293,16 +297,22 @@ uint8_t CheckError() {
 	if (abortProgram == 1) {
 		abortProgram = 0;
 		retError = ERROR_ABNORMAL_EXIT;
-	} else if (sensors.Door == OPEN) {
-		retError = ERROR_OPEN_DOOR;
-	} else if (sensors.TemperatureSteamGenerator > 230.0) {
-		retError = ERROR_STEAM_OVERTEMP;
-	} else if (sensors.TemperatureChamberHeater > 150.0) {
-		retError = ERROR_RING_OVERTEMP;
-	} else if ((sensors.T1 > 138.0) || (sensors.T2 > 138.0)) {
-		retError = ERROR_CHAMBER_OVERTEMP;
-	} else if (sensors.PressureChamber > 345.0) {
-		retError = ERROR_OVERPRESSURE;
+	} else {
+		if (currProgram != PROGRAM_RESUME_DRY) {
+			if (sensors.Door == OPEN) {
+				retError = ERROR_OPEN_DOOR;
+			} else if (sensors.Solenoid == UNLOCK) {
+				retError = ERROR_PROTECTION_LOCK;
+			} else if (sensors.TemperatureSteamGenerator > 230.0) {
+				retError = ERROR_STEAM_OVERTEMP;
+			} else if (sensors.TemperatureChamberHeater > 150.0) {
+				retError = ERROR_RING_OVERTEMP;
+			} else if ((sensors.T1 > 138.0) || (sensors.T2 > 138.0)) {
+				retError = ERROR_CHAMBER_OVERTEMP;
+			} else if (sensors.PressureChamber > 345.0) {
+				retError = ERROR_OVERPRESSURE;
+			}
+		}
 	}
 
 	return retError;

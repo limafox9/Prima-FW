@@ -59,7 +59,7 @@ void KeysTask() {
 		pressKeys = GetPressedKeys();
 		keyPressStart = HAL_GetTick();
 		if (pressKeys != 0) {
-			osDelay(10); // Debounce
+			osDelay(5); // Debounce
 			pressKeys = GetPressedKeys();
 			while (GetPressedKeys() != 0) {
 				if ((HAL_GetTick() - keyPressStart) > SET_KeysLongPressInterval) {
@@ -67,14 +67,14 @@ void KeysTask() {
 					pressKeys += KEY_LONG_PRESS;
 					break;
 				}
-				osDelay(10);
+				osDelay(5);
 			}
 			if (SET_KeysBeep) Beep(1, 100, 100);
 			SendCommand(DISPLAY_CMD_KEYS_PRESSED, pressKeys, 0, 0, "");
 			KeysReceived(pressKeys);
-			while (GetPressedKeys()) osDelay(10);
+			while (GetPressedKeys()) osDelay(5);
 		}
-		osDelay(10);
+		osDelay(5);
 	}
 }
 

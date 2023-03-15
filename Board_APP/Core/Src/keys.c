@@ -106,10 +106,9 @@ void ParseCommand(s_DisplayProtocolData* data) {
 
 		} else if (data->Param1 == KEY_START) {
 			if (lastError > 0) {
-				currProgram = 99;
+				currProgram = PROGRAM_RESUME_DRY;
 				machineStatus.Status == STATUS_READY;
 				machineStatus.Show = SHOW_PROGRAM;
-				lastError = ERROR_NONE;
 				programStart = 1;
 			} else {
 				if (progRunning == 1 && currTest == 3) abortProgram = 1;
