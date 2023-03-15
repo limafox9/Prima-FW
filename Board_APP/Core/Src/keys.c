@@ -360,8 +360,8 @@ static void KeysReceived(uint8_t keysCode) {
 		__NOP();
 	} else if (keysCode == KEY_S2) {
 ////		SdcardWriteAction("CIAO.txt" , "Hello\n");
-		sprintf(currFilename, "Prova3.txt");
-		xQueueSend(usbQueue, "Hello2\n", 100);
+		sprintf(currFilename, "Prova3.txt"); //remove
+		xQueueSend(usbQueue, "Hello2\n", 100); //remove
 		__NOP();
 	} else if (keysCode == KEY_S3) {
 		__NOP();

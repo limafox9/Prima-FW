@@ -101,6 +101,7 @@ osThreadId displayInfoTaskHandle;
 osThreadId usbTaskHandle;
 
 osSemaphoreId semaphoreSensorsHandle;
+xQueueHandle usbQueue;
 
 //float calTemp(float Rt) {
 //	float Z1, Z2, Z3, Z4, temp;
@@ -151,6 +152,8 @@ void SysInit() {
 	  semaphoreSensorsHandle = osSemaphoreCreate(osSemaphore(semaphoreSensors), 1);
 	  osSemaphoreRelease(semaphoreSensorsHandle);
 
+
+	  usbQueue = xQueueCreate(10, USB_BUFFER_LENGHT);
 
 
 //		osDelay(500);
@@ -307,7 +310,7 @@ void SysInit() {
 		if (lastError == ERROR_NONE && sensors.Solenoid == LOCK) DoorSolenoidSet(UNLOCK);
 //		if (sensors.Door == CLOSED) DigitsWrite(3, "OPEn");
 
-		osThreadDef(usbTask, StartUSBTask, osPriorityNormal, 1, 4096);
+		osThreadDef(usbTask, StartUSBTask, osPriorityNormal, 1, 2048);
 		usbTaskHandle = osThreadCreate(osThread(usbTask), NULL);
 
 //		for (int i = 0; i < 16; i++) {

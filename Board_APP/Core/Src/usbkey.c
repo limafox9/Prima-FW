@@ -39,7 +39,6 @@ USAGE:
 #include "main.h"
 #include "usbh_core.h"
 
-#define USB_BUFFER_LENGHT 49
 
 #define usbCS0 HAL_GPIO_WritePin(GPIOD, GPIO_PIN_3, GPIO_PIN_RESET)
 #define usbCS1 HAL_GPIO_WritePin(GPIOD, GPIO_PIN_3, GPIO_PIN_SET)
@@ -55,7 +54,7 @@ uint8_t state_unmount = 0;
 char currFilename[32];
 char USBString[USB_BUFFER_LENGHT];
 uint8_t USBWrite ;
-xQueueHandle usbQueue;
+
 
 #define MAX_BUFFER 10
 char Buffer[MAX_BUFFER];
@@ -63,8 +62,6 @@ char Buffer[MAX_BUFFER];
 void StartUSBTask() {
 //	SdcardWriteAction("CIAO.txt" , "Hello\n");
 volatile FRESULT fr;
-
-usbQueue = xQueueCreate(10, USB_BUFFER_LENGHT);
 
 //HAL_GPIO_WritePin(GPIOD, GPIO_PIN_3, GPIO_PIN_RESET);
 

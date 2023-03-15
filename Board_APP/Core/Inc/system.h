@@ -77,6 +77,7 @@ extern osThreadId displayInfoTaskHandle;
 extern osThreadId usbTaskHandle;
 
 extern osSemaphoreId semaphoreSensorsHandle;
+extern xQueueHandle usbQueue;
 
 void SysInit();
 //void Beep(uint8_t hits, uint16_t onDelay, uint16_t offDelay);

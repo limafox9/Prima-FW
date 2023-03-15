@@ -46,6 +46,7 @@ USAGE:
 #include "sensors.h"
 #include "modes.h"
 #include "usbkey.h"
+#include "system.h"
 
 #define DC2 0x12
 #define ESC	0x1B
@@ -282,7 +283,8 @@ void Print(const char* format, ...) {
 	//		  HAL_UART_Transmit(&huart1, "\n", 1, 100);
 		  }
 		  if (settings.FunUSBActive == 1) {
-			  SdcardWriteAction(currFilename , buf);
+//			  SdcardWriteAction(currFilename , buf);
+			  xQueueSend(usbQueue, buf, 100);
 		  }
 
 }

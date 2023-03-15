@@ -1,2 +1,2 @@
-usbkey.c:63:6:StartUSBTask	4
-usbkey.c:103:6:SdcardWriteAction	1
+usbkey.c:62:6:StartUSBTask	4
+usbkey.c:100:6:SdcardWriteAction	1

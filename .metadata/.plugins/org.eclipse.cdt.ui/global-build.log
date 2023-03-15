@@ -1,13 +1,31 @@
-08:08:31 **** Incremental Build of configuration Debug for project DB_Protocol ****
-make -j24 all 
+11:31:36 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j4 all 
 make: Nothing to be done for 'all'.
-08:08:31 **** Incremental Build of configuration Debug for project DB_Protocol ****
-make -j24 all 
+11:31:36 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j4 all 
 make: Nothing to be done for 'all'.
-08:08:31 **** Incremental Build of configuration Debug for project Board_APP ****
-make -j24 all 
-arm-none-eabi-size   Board_APP.elf 
+11:31:37 **** Build of configuration Debug for project Display_APP ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'TaskMain':
+../Core/Src/main.c:342:2: warning: implicit declaration of function 'SysInit'; did you mean 'SystemInit'? [-Wimplicit-function-declaration]
+  342 |  SysInit();
+      |  ^~~~~~~
+      |  SystemInit
+arm-none-eabi-gcc -o "Display_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Display_APP\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Display_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima-FW\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Display_APP.elf
+ 
+arm-none-eabi-size   Display_APP.elf 
+arm-none-eabi-objdump -h -S  Display_APP.elf  > "Display_APP.list"
    text	   data	    bss	    dec	    hex	filename
- 140752	   2440	  56168	 199360	  30ac0	Board_APP.elf
+  46992	    496	  11128	  58616	   e4f8	Display_APP.elf
+arm-none-eabi-objcopy  -O ihex  Display_APP.elf  "Display_APP.hex"
+arm-none-eabi-objcopy  -O binary  Display_APP.elf  "Display_APP.bin"
 Finished building: default.size.stdout
+ 
+Finished building: Display_APP.hex
+Finished building: Display_APP.bin
+ 
+ 
+Finished building: Display_APP.list
  

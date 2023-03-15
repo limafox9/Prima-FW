@@ -159,7 +159,7 @@ int main(void)
 
   /* Create the thread(s) */
   /* definition and creation of taskAlive */
-  osThreadDef(taskAlive, StartTaskAlive, osPriorityLow, 0, 2048);
+  osThreadDef(taskAlive, StartTaskAlive, osPriorityLow, 0, 1024);
   taskAliveHandle = osThreadCreate(osThread(taskAlive), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
