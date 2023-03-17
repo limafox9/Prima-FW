@@ -62,6 +62,8 @@ USAGE:
 #define EPA_MACHINE_PROD_YEAR			0x0E	// 1 byte 0-199 after 2000
 #define EPA_MACHINE_PROD_MONTH			0x0F	// 1 byte 0-52 week of the year
 #define EPA_MACHINE_SERIAL_NUMBER	 	0x10	// 12 bytes
+#define EPA_MACHINE_MODEL				0x8F	// 18, 23
+#define EPA_MACHINE_SIZE				0x80	// 15 byte (\0 terminated string) model name
 #define EPA_CYCLE_COUNTER_PERMANENT 	0x1C	// 2 bytes - Cycla counter permanent
 #define EPA_CYCLE_COUNTER 				0x1E	// 2 bytes - Cycle counter resettable
 #define EPA_T1_OFFSET 					0x20	// 1 byte +/- 127 in 0.1 steps
@@ -92,6 +94,12 @@ USAGE:
 #define EPA_FUN_TDS_ACTIVE				0x45	// 1 byte
 #define EPA_FUN_DRY_TIME				0x46	// 1 byte
 #define EPA_FUN_PRESS_DISPLAY_OFFSET	0x48	// 2 byte
+
+typedef struct ConfigSettings_s {
+	char* ParamName;
+	uint8_t EEpromAddress;
+	uint8_t Size;
+} ConfigSettings_s;
 
 
 typedef struct Settings_s {
@@ -147,6 +155,7 @@ typedef struct MachineData_s {
 extern Settings_s settings;
 extern MachineData_s machine;
 extern int8_t ambientPressure;
+extern ConfigSettings_s configSettings[];
 
 void SaveSettings();
 void LoadSettings();

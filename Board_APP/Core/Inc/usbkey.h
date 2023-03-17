@@ -89,6 +89,12 @@ typedef struct {
 
 } storage_info_t;
 
+
+typedef struct {
+	char* param;
+	char* value;
+} s_ConfigParameter;
+
 extern char currFilename[];
 extern char USBString[];
 extern uint8_t USBWrite ;
@@ -120,6 +126,7 @@ extern uint8_t USBWrite ;
 //void SdcardWriteAction(char *file_name , char *data);
 
 void StartUSBTask();
+void LoadUSBConfig();
 
 #ifdef __cplusplus
 }

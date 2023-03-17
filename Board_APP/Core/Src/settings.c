@@ -62,6 +62,11 @@ Settings_s settings;
 MachineData_s machine;
 int8_t ambientPressure;
 
+ConfigSettings_s configSettings[] = {
+		{"MACHINE_SERIAL_NUMBER", EPA_MACHINE_SERIAL_NUMBER, 12},
+		{"FUN_PRESS_DISPLAY_OFFSET", EPA_FUN_PRESS_DISPLAY_OFFSET, 1},
+};
+
 void ReadSetting(uint8_t address, uint8_t* data, uint8_t size) {
 	// EEPROM read
 	EEPROM_Read(address, data, size);

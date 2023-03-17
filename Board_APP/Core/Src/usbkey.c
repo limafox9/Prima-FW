@@ -38,11 +38,17 @@ USAGE:
 #include "system.h"
 #include "main.h"
 #include "usbh_core.h"
+#include <string.h>
+#include <stdio.h>
+#include "settings.h"
 
 
 #define usbCS0 HAL_GPIO_WritePin(GPIOD, GPIO_PIN_3, GPIO_PIN_RESET)
 #define usbCS1 HAL_GPIO_WritePin(GPIOD, GPIO_PIN_3, GPIO_PIN_SET)
 
+#define CONFIG_FILENAME	"PRIMA.CFG"
+#define CONFIG_FILE_VERSION 1
+#define CONFIG_FILE_MAX_ROW_LENGHT 49
 
 
 FATFS fatfs;
@@ -56,8 +62,75 @@ char USBString[USB_BUFFER_LENGHT];
 uint8_t USBWrite ;
 
 
-#define MAX_BUFFER 10
+#define MAX_BUFFER 32
 char Buffer[MAX_BUFFER];
+
+char *ltrim(char *s) {
+    while(isspace(*s)) s++;
+    return s;
+}
+
+char *rtrim(char *s) {
+    char* back = s + strlen(s);
+    while(isspace(*--back));
+    *(back+1) = '\0';
+    return s;
+}
+
+char *trim(char *s) {
+    return rtrim(ltrim(s));
+}
+
+uint8_t isnumber(char* strcheck) {
+
+	for (int i=0;i<strlen(strcheck); i++) {
+		if (!isdigit(strcheck[i])) {
+			return 0;
+		}
+	}
+	return 1;
+}
+
+const char* getfield(char* line, int num)
+{
+    const char* tok;
+    for (tok = strtok(line, ":"); tok && *tok; tok = strtok(NULL, ":\n")) {
+        if (!--num) return trim(tok);
+    }
+    return NULL;
+}
+
+uint8_t GetParam(char* sRow, s_ConfigParameter* param) {
+
+	char parameter[CONFIG_FILE_MAX_ROW_LENGHT];
+	char value = 0;
+	char line[CONFIG_FILE_MAX_ROW_LENGHT];
+	uint8_t retVal = 0;
+
+	strcpy(line, sRow);
+	strcpy(param->param, getfield(line, 1));
+	strcpy(line, sRow);
+	strcpy(param->value, getfield(line, 2));
+
+//	strcpy(line, sRow);
+//	if (getfield(line, 2) != NULL) {
+//		param->value = atoi(parameter);
+//		retVal = 1;
+//	}
+
+	return retVal;
+
+//	parameter = strtok(sRow, ":");
+//	if (strlen(trim(sRow)) != 0) {
+//		param->param = trim(sRow);
+//		if (isnumber(trim(parameter))) {
+//			param->value = atoi(trim(param));
+//			retVal = 1;
+//		}
+//	}
+//
+//	return retVal;
+}
 
 void StartUSBTask() {
 //	SdcardWriteAction("CIAO.txt" , "Hello\n");
@@ -86,7 +159,7 @@ volatile FRESULT fr;
 //		MX_USB_HOST_Process();
 		if (xQueueReceive(usbQueue, USBString, portMAX_DELAY) == pdTRUE)	{
 			if(f_mount(&USBHFatFS, "", 1) == FR_OK)	{
-				if (f_open(&USBHFile, currFilename, FA_READ | FA_WRITE | FA_OPEN_ALWAYS) == FR_OK) {
+				if (f_open(&USBHFile, currFilename, FA_WRITE | FA_OPEN_ALWAYS) == FR_OK) {
 					f_lseek(&USBHFile,USBHFile.fsize);
 					f_printf(&USBHFile,USBString);
 					f_close(&USBHFile);
@@ -96,6 +169,181 @@ volatile FRESULT fr;
 	}
 
 }
+
+void LoadUSBConfig()  {
+
+	char rBuffer[CONFIG_FILE_MAX_ROW_LENGHT];
+	s_ConfigParameter param;
+
+	if(f_mount(&USBHFatFS, "", 1) == FR_OK)	{
+		if (f_open(&USBHFile, CONFIG_FILENAME, FA_READ | FA_OPEN_EXISTING) == FR_OK) {
+			if (f_eof(&USBHFile) == 0) {
+				f_gets(rBuffer, CONFIG_FILE_MAX_ROW_LENGHT, &USBHFile);
+
+				GetParam(rBuffer, &param);
+				if (strcmp(param.param, "VERSION") == 0 && param.value >= CONFIG_FILE_VERSION) {
+					printf("%d_\n", param.value);
+					while (f_eof(&USBHFile) == 0) {
+						f_gets(rBuffer, CONFIG_FILE_MAX_ROW_LENGHT, &USBHFile);
+						GetParam(rBuffer, &param);
+
+						if (strcmp(param.param, "LAST_ERROR") == 0) {
+							uint8_t bVal = (uint8_t)atoi(param.value);
+							WriteSetting(EPA_LAST_ERROR, &bVal, 1);
+
+						} else if (strcmp(param.param, "MACHINE_SERIAL_NUMBER") == 0) {
+							WriteSetting(EPA_MACHINE_SERIAL_NUMBER, param.value, 12);
+
+						} else if (strcmp(param.param, "MACHINE_MODEL") == 0) {
+							WriteSetting(EPA_MACHINE_MODEL, param.value, 15);
+
+						} else if (strcmp(param.param, "MACHINE_SIZE") == 0) {
+							uint8_t bVal = (uint8_t)atoi(param.value);
+							WriteSetting(EPA_MACHINE_SIZE, &bVal, 1);
+
+						} else if (strcmp(param.param, "MACHINE_PROD_YEAR") == 0) {
+							uint8_t bVal = (uint8_t)atoi(param.value);
+							WriteSetting(EPA_MACHINE_PROD_YEAR, &bVal, 1);
+
+						} else if (strcmp(param.param, "MACHINE_PROD_MONTH") == 0) {
+							uint8_t bVal = (uint8_t)atoi(param.value);
+							WriteSetting(EPA_MACHINE_PROD_MONTH, &bVal, 1);
+
+						} else if (strcmp(param.param, "CYCLE_COUNTER") == 0) {
+							uint16_t  bVal = (uint16_t)atoi(param.value);
+							WriteSetting(EPA_CYCLE_COUNTER, &bVal, 2);
+
+						} else if (strcmp(param.param, "CYCLE_COUNTER_PERMANENT") == 0) {
+							uint16_t bVal = (uint16_t)atoi(param.value);
+							WriteSetting(EPA_CYCLE_COUNTER_PERMANENT, &bVal, 2);
+
+						} else if (strcmp(param.param, "T1_OFFSET") == 0) {
+							int8_t bVal = (int8_t)atoi(param.value);
+							WriteSetting(EPA_T1_OFFSET, &bVal, 1);
+
+						} else if (strcmp(param.param, "T2_OFFSET") == 0) {
+							int8_t bVal = (int8_t)atoi(param.value);
+							WriteSetting(EPA_T2_OFFSET, &bVal, 1);
+
+						} else if (strcmp(param.param, "CHAMBER_PRESSURE_OFFSET") == 0) {
+							int8_t bVal = (int8_t)atoi(param.value);
+							WriteSetting(EPA_CHAMBER_PRESSURE_OFFSET, &bVal, 1);
+
+
+						} else if (strcmp(param.param, "FIRST_VACUUM") == 0) {
+							uint8_t bVal = (uint8_t)atoi(param.value);
+							WriteSetting(EPA_FIRST_VACUUM, &bVal, 1);
+
+						} else if (strcmp(param.param, "OTHER_VACUUM") == 0) {
+							uint8_t bVal = (uint8_t)atoi(param.value);
+							WriteSetting(EPA_OTHER_VACUUM, &bVal, 1);
+
+						} else if (strcmp(param.param, "VACUUM_THRESHOLD") == 0) {
+							uint8_t bVal = (uint8_t)atoi(param.value);
+							WriteSetting(EPA_VACUUM_THRESHOLD, &bVal, 1);
+
+						} else if (strcmp(param.param, "OTHER_PRESSURE") == 0) {
+							uint8_t bVal = (uint8_t)atoi(param.value);
+							WriteSetting(EPA_OTHER_PRESSURE, &bVal, 1);
+
+						} else if (strcmp(param.param, "TDS_MIN") == 0) {
+							uint8_t bVal = (uint8_t)atoi(param.value);
+							WriteSetting(EPA_TDS_MIN, &bVal, 1);
+
+						} else if (strcmp(param.param, "VACUUM_NUMBER") == 0) {
+							uint8_t bVal = (uint8_t)atoi(param.value);
+							WriteSetting(EPA_VACUUM_NUMBER, &bVal, 1);
+
+						} else if (strcmp(param.param, "CLEAN_CYCLES_INTERVAL") == 0) {
+							uint8_t bVal = (uint8_t)atoi(param.value);
+							WriteSetting(EPA_CLEAN_CYCLES_INTERVAL, &bVal, 1);
+
+						} else if (strcmp(param.param, "SERVICE_CYCLES_INTERVAL") == 0) {
+							uint8_t bVal = (uint8_t)atoi(param.value);
+							WriteSetting(EPA_SERVICE_CYCLES_INTERVAL, &bVal, 1);
+
+
+						} else if (strcmp(param.param, "LAST_CLEAN_CYCLE") == 0) {
+							uint16_t bVal = (uint16_t)atoi(param.value);
+							WriteSetting(EPA_LAST_CLEAN_CYCLE, &bVal, 2);
+
+						} else if (strcmp(param.param, "LAST_SERVICE_CYCLE") == 0) {
+							uint16_t bVal = (uint16_t)atoi(param.value);
+							WriteSetting(EPA_LAST_SERVICE_CYCLE, &bVal, 2);
+
+						} else if (strcmp(param.param, "USER_STERIL_TEMP") == 0) {
+							uint8_t bVal = (uint8_t)atoi(param.value);
+							WriteSetting(EPA_USER_STERIL_TEMP, &bVal, 1);
+
+						} else if (strcmp(param.param, "USER_STERIL_TIME") == 0) {
+							uint16_t bVal = (uint16_t)atoi(param.value);
+							WriteSetting(EPA_USER_STERIL_TIME, &bVal, 2);
+
+						} else if (strcmp(param.param, "USER_DRY_TIME") == 0) {
+							uint16_t bVal = (uint16_t)atoi(param.value);
+							WriteSetting(EPA_USER_DRY_TIME, &bVal, 2);
+
+						} else if (strcmp(param.param, "USER_VACUUM_NUMBER") == 0) {
+							uint8_t bVal = (uint8_t)atoi(param.value);
+							WriteSetting(EPA_USER_VACUUM_NUMBER, &bVal, 1);
+
+						} else if (strcmp(param.param, "FUN_NIGHT_CYCLE_TIME") == 0) {
+							uint16_t bVal = (uint16_t)atoi(param.value);
+							WriteSetting(EPA_FUN_NIGHT_CYCLE_TIME, &bVal, 2);
+
+						} else if (strcmp(param.param, "FUN_PRINTER_ACTIVE") == 0) {
+							uint8_t bVal = (uint8_t)atoi(param.value);
+							WriteSetting(EPA_FUN_PRINTER_ACTIVE, &bVal, 1);
+
+						} else if (strcmp(param.param, "FUN_USB_ACTIVE") == 0) {
+							uint8_t bVal = (uint8_t)atoi(param.value);
+							WriteSetting(EPA_FUN_USB_ACTIVE, &bVal, 1);
+
+						} else if (strcmp(param.param, "FUN_WATER_LOAD_ACTIVE") == 0) {
+							uint8_t bVal = (uint8_t)atoi(param.value);
+							WriteSetting(EPA_FUN_WATER_LOAD_ACTIVE, &bVal, 1);
+
+						} else if (strcmp(param.param, "FUN_TDS_ACTIVE") == 0) {
+							uint8_t bVal = (uint8_t)atoi(param.value);
+							WriteSetting(EPA_FUN_TDS_ACTIVE, &bVal, 1);
+
+						} else if (strcmp(param.param, "FUN_DRY_TIME") == 0) {
+							uint16_t bVal = (uint16_t)atoi(param.value);
+							WriteSetting(EPA_FUN_DRY_TIME, &bVal, 2);
+
+						} else if (strcmp(param.param, "FUN_PRESS_DISPLAY_OFFSET") == 0) {
+							uint8_t bVal = (uint8_t)atoi(param.value);
+							WriteSetting(EPA_FUN_PRESS_DISPLAY_OFFSET, &bVal, 1);
+						}
+//						if (strcmp(param.param, "FUN_PRESS_DISPLAY_OFFSET") == 0) {
+//							bVal = (uint8_t)param.value;
+//							WriteSetting(EPA_FUN_PRESS_DISPLAY_OFFSET, &bVal, 1);
+//						}
+
+	//				printf("%s", rBuffer);
+					}
+				}
+			}
+
+
+
+//				param = strtok(rBuffer, ":");
+//				if (strcmp(trim(rBuffer), "VERSION") == 0) {
+//					param = strtok(NULL, ":");
+//					if (isdigit(trim(param)))
+//					printf("%s_\n", trim(param));
+//				}
+
+
+//			f_lseek(&USBHFile,USBHFile.fsize);
+//			f_printf(&USBHFile,USBString);
+			f_close(&USBHFile);
+			HAL_NVIC_SystemReset();
+		}
+	}
+
+}
+
 
 void SdcardWriteAction(char *file_name , char *data)
 {

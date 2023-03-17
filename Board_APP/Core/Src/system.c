@@ -321,6 +321,10 @@ void SysInit() {
 		osThreadDef(usbTask, StartUSBTask, osPriorityNormal, 1, 2048);
 		usbTaskHandle = osThreadCreate(osThread(usbTask), NULL);
 
+
+
+		LoadUSBConfig();
+
 //		for (int i = 0; i < 16; i++) {
 //			ProgressLed(1<<i);
 //			osDelay(500);
