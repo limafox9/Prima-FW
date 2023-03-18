@@ -91,8 +91,8 @@ typedef struct {
 
 
 typedef struct {
-	char* param;
-	char* value;
+	char param[49];
+	char value[20];
 } s_ConfigParameter;
 
 extern char currFilename[];

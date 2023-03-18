@@ -243,7 +243,7 @@ void StartSensorsTask() {
 			if (prevCSL == EMPTY) {
 				DashLed(DISPLAY_LED_WARNING_CTL, OFF);
 				prevCSL = NORMAL;
-//				sensors.WaterTDS = BAT2U_GetTDSValue(1, 100);
+				sensors.WaterTDS = BAT2U_GetTDSValue(1, 200);
 				Beep(1, 100, 100);
 			}
 		}
@@ -325,8 +325,29 @@ float ChamberPressureGet() {
 	return ADCToPress(ReadADC(SENSOR_PRESS_CHAMBER_ADC_CHANNEL));
 }
 
-float CurrentGet() {
-	return ADCToCurrent(ReadADC(SENSOR_CURRENT_ADC_CHANNEL));
+uint16_t CurrentGet() {
+
+	RTCTimerTime_s tTimeout;
+	uint16_t max = 0;
+	float val, read[200];
+
+	for (int i = 0; i < 200; i++) {
+		val = (float)ReadADC(SENSOR_CURRENT_ADC_CHANNEL) - 2048;
+		val *= (float)(5.0 / 4096.0);
+		val /= 0.04;
+		read[i] = val;
+	}
+
+//	ResetTimer(TIMER_5);
+//	do {
+//		read = ReadADC(SENSOR_CURRENT_ADC_CHANNEL) - 2048;
+//		if (read > max) max = read;
+//		GetTimer(TIMER_5, &tTimeout);
+//	} while (tTimeout.Seconds < 3);
+//
+//	max = max * (2.5/2048) / 1.41421
+
+	return max;
 }
 
 //uint16_t TemperatureT1Get() {return TM7705_GetValue(SENSOR_TEMP_T1_ADC_CHANNEL);}

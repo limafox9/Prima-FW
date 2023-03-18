@@ -159,7 +159,7 @@ HAL_Init();
 
   /* Create the thread(s) */
   /* definition and creation of taskAlive */
-  osThreadDef(taskAlive, StartTaskAlive, osPriorityLow, 0, 256);
+  osThreadDef(taskAlive, StartTaskAlive, osPriorityLow, 0, 512);
   taskAliveHandle = osThreadCreate(osThread(taskAlive), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */

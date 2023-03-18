@@ -75,8 +75,8 @@ uint8_t PhaseBegin(uint8_t timeout) {
 	sprintf(currFilename, "%02d.%02d.%02d-%02d.%02d-%05d.txt", ct.Year%100, ct.Month, ct.Day, ct.Hour, ct.Minute, settings.CyclesCount);
 
 	uint16_t dum;
-	dum = BAT2U_GetTDSValue(2, 100);
-	sensors.WaterTDS = BAT2U_GetTDSValue(1, 100);
+	dum = BAT2U_GetTDSValue(1, 200);
+	sensors.WaterTDS = dum;
 //	sensors.WaterTDS = dum;
 
 	ResetTimer(TIMER_PHASE);
@@ -976,10 +976,10 @@ uint8_t PhaseVacuumHold(float vacPress, uint8_t tolerance, uint16_t time, uint16
 		GetTimer(TIMER_TIMEOUT, &tTimeout);
 		GetTimer(TIMER_PHASE, &tPhase);
 		if (sensors.PressureChamber > (vacPress + tolerance)) {
-			lastError = ERROR_VACUUM_TEST_FAILED;
-			Print("VAC  ERROR *** OVER PRESSURE\n");
-			GetTimer(TIMER_PHASE, &tPhase);
-			PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
+//			lastError = ERROR_VACUUM_TEST_FAILED;
+//			Print("VAC  ERROR *** OVER PRESSURE\n");
+//			GetTimer(TIMER_PHASE, &tPhase);
+//			PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
 			retVal = 0;
 			break;
 		} else if (tTimeout.Seconds > timeout) {
@@ -1007,7 +1007,7 @@ uint8_t PhaseVacuumHold(float vacPress, uint8_t tolerance, uint16_t time, uint16
 	return retVal;
 }
 
-uint8_t PhaseWait(uint16_t time) {
+uint8_t PhaseWait(float vacPress, uint8_t tolerance, uint16_t time) {
 
 	uint8_t retVal = 1;
 	uint8_t cycle = 0;
@@ -1028,6 +1028,14 @@ uint8_t PhaseWait(uint16_t time) {
 		GetTimer(TIMER_PHASE, &tPhase);
 		if (tPhase.Seconds > time) {
 			retVal = 1;
+			break;
+		}
+		if (sensors.PressureChamber > (vacPress + tolerance)) {
+//			lastError = ERROR_VACUUM_TEST_FAILED;
+//			Print("VAC  ERROR *** OVER PRESSURE\n");
+//			GetTimer(TIMER_PHASE, &tPhase);
+//			PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
+			retVal = 0;
 			break;
 		}
 		lastError = CheckError();

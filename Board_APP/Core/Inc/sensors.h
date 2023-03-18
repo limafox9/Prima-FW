@@ -56,7 +56,7 @@ float ChamberTempT1Get();
 float AmbientPressureGet();
 float ChamberPressureGet();
 float GetNormalizedPressure(float pressure);
-float CurrentGet();
+uint16_t CurrentGet();
 uint16_t WaterQualityGet();
 
 typedef struct s_Sensors{

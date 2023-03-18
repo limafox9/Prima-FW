@@ -68,7 +68,7 @@ uint8_t PhaseRelease(uint8_t nRelease, uint16_t timeout);
 uint8_t PhaseSteril(SterilParam_s* param);
 uint8_t PhaseDry(float firstVacPress, float otherVacPress, uint16_t time, uint16_t timeout);
 uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer);
-uint8_t PhaseWait(uint16_t time);
+uint8_t PhaseWait(float vacPress, uint8_t tolerance, uint16_t time);
 uint8_t PhaseWaterLoad(uint16_t timeout);
 void PhaseTestPID(SterilParam_s* param);
 

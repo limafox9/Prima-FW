@@ -123,18 +123,7 @@ void ParseCommand(s_DisplayProtocolData* data) {
 				} else if (machineStatus.Show == SHOW_USERSET) {
 					ChangeUserSetting(-1);
 				} else if (machineStatus.Show == SHOW_FUNCTIONS) {
-					if (functions[currFunction].ParamNumber == 10) {
-						if (progRunning == 1) {
-							abortProgram = 1;
-							machineStatus.Status = STATUS_READY;
-							machineStatus.Show = SHOW_PROGRAM;
-							ShowProgram();
-						} else {
-//							uint8_t PowerTest();
-						}
-					} else {
 						ChangeFunction(-1);
-					}
 				} else {
 					__NOP();
 				}
@@ -248,6 +237,14 @@ void ParseCommand(s_DisplayProtocolData* data) {
 					} else {
 						__NOP();
 					}
+				} else if (machineStatus.Show == SHOW_FUNCTIONS) {
+					if (functions[currFunction].ParamNumber == 9) {
+						LoadUSBConfig();
+					} else if (functions[currFunction].ParamNumber == 10) {
+						PowerTest();
+					} else {
+						__NOP();
+					}
 				} else {
 					__NOP();
 				}
@@ -263,6 +260,8 @@ void ParseCommand(s_DisplayProtocolData* data) {
 			} else if (machineStatus.Show == SHOW_TIMESET) {
 				machineStatus.Show = SHOW_PROGRAM;
 				ShowProgram();
+			} else if (machineStatus.Show == SHOW_FUNCTIONS) {
+
 			} else {
 				__NOP();
 			}

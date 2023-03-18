@@ -107,10 +107,19 @@ uint8_t GetParam(char* sRow, s_ConfigParameter* param) {
 	char line[CONFIG_FILE_MAX_ROW_LENGHT];
 	uint8_t retVal = 0;
 
-	strcpy(line, sRow);
-	strcpy(param->param, getfield(line, 1));
-	strcpy(line, sRow);
-	strcpy(param->value, getfield(line, 2));
+	memset(param->param, 0, sizeof(param->param));
+	memset(param->value, 0, sizeof(param->value));
+
+	if (strchr(sRow, ':') != NULL) {
+		strcpy(param->param, strtok(sRow,":"));
+		strcpy(param->value, strtok(NULL,":"));
+		retVal = 1;
+	}
+//
+//	strcpy(line, sRow);
+//	strcpy(param->param, getfield(line, 1));
+//	strcpy(line, sRow);
+//	strcpy(param->value, getfield(line, 2));
 
 //	strcpy(line, sRow);
 //	if (getfield(line, 2) != NULL) {
@@ -182,7 +191,6 @@ void LoadUSBConfig()  {
 
 				GetParam(rBuffer, &param);
 				if (strcmp(param.param, "VERSION") == 0 && param.value >= CONFIG_FILE_VERSION) {
-					printf("%d_\n", param.value);
 					while (f_eof(&USBHFile) == 0) {
 						f_gets(rBuffer, CONFIG_FILE_MAX_ROW_LENGHT, &USBHFile);
 						GetParam(rBuffer, &param);

@@ -230,8 +230,8 @@ void SysInit() {
 	BAT2U_Init(&huart2);
 
 	uint16_t dum;
-	dum = BAT2U_GetTDSValue(1, 100);
-//	sensors.WaterTDS = BAT2U_GetTDSValue(1, 100);
+//	dum = BAT2U_GetTDSValue(2, 200);
+	dum = BAT2U_GetTDSValue(1, 200);
 	sensors.WaterTDS = dum;
 //	BAT2U_TDSCalibration(500);
 
@@ -321,9 +321,10 @@ void SysInit() {
 		osThreadDef(usbTask, StartUSBTask, osPriorityNormal, 1, 2048);
 		usbTaskHandle = osThreadCreate(osThread(usbTask), NULL);
 
+		PhasePreheat(60, 90);
 
-
-		LoadUSBConfig();
+//		PowerTest();
+//		LoadUSBConfig();
 
 //		for (int i = 0; i < 16; i++) {
 //			ProgressLed(1<<i);

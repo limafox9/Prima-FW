@@ -69,6 +69,9 @@ USAGE:
 
 #define FAN_OFF_DELAY	600
 
+#define POWER_TEST_ON_TIME 3000
+#define POWER_TEST_PAUSE_TIME 1000
+
 extern osThreadId sensorsTaskHandle;
 
 extern Sensors_s sensors;
@@ -896,10 +899,10 @@ uint8_t ProgramVacuumTest() {
 		success = PhaseVacuum(1, 20.0, OT_VACUUM);
 	}
 	if (success) {
-		success = PhaseWait(240);
+		success = PhaseWait(sensors.PressureChamber, 5.0, 240);
 	}
 	if (success) {
-		success = PhaseVacuumHold(18.0, 2.0, 240, 600);
+		success = PhaseVacuumHold(sensors.PressureChamber, 2.0, 240, 600);
 	}
 //	if (success) {
 //		success = PhaseRelease(1, OT_RELEASE);
@@ -922,43 +925,111 @@ uint8_t ProgramVacuumTest() {
 
 uint8_t PowerTest() {
 
-	uint8_t success = 1;
-	RTCDateTime_s clockTime;
-	RTCTimerTime_s tCycle, tPhase;
+	char val[4];
 
-	progRunning = 1;
-	progStop = 0;
+	osSemaphoreWait(semaphoreSensorsHandle, 100);
 
-	ResetTimer(TIMER_CYCLE);
+	machineStatus.Show = SHOW_FUNCTIONS;
+	PWMPower_Stop();
+	FanSet(OFF);
 
-	if (!PhaseBegin(600)) return 0;
+	DigitsWrite(2, "FAn");
+	FanSet(ON);
+	osDelay(POWER_TEST_ON_TIME);
+//	osDelay(500);
+//	sprintf(val,"%d", CurrentGet());
+//	DigitsWrite(1, val);
+	FanSet(OFF);
+	osDelay(POWER_TEST_PAUSE_TIME);
 
-	GetDateTime(&clockTime);
-	PrintHeader("VACUUM TEST", sensors.T1, &clockTime);
+	DigitsWrite(2, "H St");
+	HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, ON);
+	osDelay(POWER_TEST_ON_TIME);
+//	osDelay(500);
+//	sprintf(val,"%d", CurrentGet());
+//	DigitsWrite(1, val);
+	HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, OFF);
+	osDelay(POWER_TEST_PAUSE_TIME);
 
-	if (success) {
-		success = PhaseVacuum(1, 20.0, OT_VACUUM);
-	}
-	if (success) {
-		success = PhaseWait(240);
-	}
-	if (success) {
-		success = PhaseVacuumHold(18.0, 20.0, 240, 600);
-	}
-//	if (success) {
-//		success = PhaseRelease(1, OT_RELEASE);
-//	}
-	machineStatus.Status = STATUS_READY;
+	DigitsWrite(2, "H rI");
+	HAL_GPIO_WritePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin, ON);
+	osDelay(POWER_TEST_ON_TIME);
+//	osDelay(500);
+//	sprintf(val,"%d", CurrentGet());
+//	DigitsWrite(1, val);
+	HAL_GPIO_WritePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin, OFF);
+	osDelay(POWER_TEST_PAUSE_TIME);
 
-	ResetTimer(TIMER_FAN);
+	DigitsWrite(2, "U UA");
+	ValveVacuumSet(ON);
+	osDelay(POWER_TEST_ON_TIME);
+//	osDelay(500);
+//	sprintf(val,"%d", CurrentGet());
+//	DigitsWrite(1, val);
+	ValveVacuumSet(OFF);
+	osDelay(POWER_TEST_PAUSE_TIME);
 
-	// End
-	GetTimer(TIMER_CYCLE, &tCycle);
-	GetDateTime(&clockTime);
-	PhaseFinish(success, &clockTime, &tCycle);
+	DigitsWrite(2, "U dr");
+	ValveDrainSteamSet(ON);
+	osDelay(POWER_TEST_ON_TIME);
+	ValveDrainSteamSet(OFF);
+	osDelay(POWER_TEST_PAUSE_TIME);
 
-	progRunning = 0;
-	progStop = 0;
+	DigitsWrite(2, "U Ut");
+	ValveWaterSteamSet(ON);
+	osDelay(POWER_TEST_ON_TIME);
+	ValveWaterSteamSet(OFF);
+	osDelay(POWER_TEST_PAUSE_TIME);
+
+	DigitsWrite(2, "U In");
+	ValveDryIntakeSet(ON);
+	osDelay(POWER_TEST_ON_TIME);
+	ValveDryIntakeSet(OFF);
+	osDelay(POWER_TEST_PAUSE_TIME);
+
+	DigitsWrite(2, "P Ut");
+	PumpWaterLoadSet(ON);
+	osDelay(POWER_TEST_ON_TIME);
+	PumpWaterLoadSet(OFF);
+	osDelay(POWER_TEST_PAUSE_TIME);
+
+	DigitsWrite(2, "P UA");
+	ValveVacuumSet(ON);
+	PumpVacuumSet(ON);
+	osDelay(POWER_TEST_ON_TIME);
+	PumpVacuumSet(OFF);
+	ValveVacuumSet(OFF);
+	osDelay(POWER_TEST_PAUSE_TIME);
+
+	DigitsWrite(2, "P St");
+	ValveWaterSteamSet(ON);
+	PumpSteamGeneratorSet(ON);
+	osDelay(POWER_TEST_ON_TIME);
+	PumpSteamGeneratorSet(OFF);
+	ValveWaterSteamSet(OFF);
+	osDelay(POWER_TEST_PAUSE_TIME);
+
+	DigitsWrite(2, "SOLE");
+	HAL_GPIO_WritePin(SOLENOID_V1_GPIO_Port, SOLENOID_V1_Pin, OFF);
+	HAL_GPIO_WritePin(SOLENOID_V2_GPIO_Port, SOLENOID_V2_Pin, OFF);
+	// LOCK
+	HAL_GPIO_WritePin(SOLENOID_V2_GPIO_Port, SOLENOID_V2_Pin, ON);
+	osDelay(POWER_TEST_ON_TIME);
+
+	HAL_GPIO_WritePin(SOLENOID_V1_GPIO_Port, SOLENOID_V1_Pin, OFF);
+	HAL_GPIO_WritePin(SOLENOID_V2_GPIO_Port, SOLENOID_V2_Pin, OFF);
+	// UNLOCK
+	HAL_GPIO_WritePin(SOLENOID_V1_GPIO_Port, SOLENOID_V1_Pin, ON);
+	osDelay(POWER_TEST_ON_TIME);
+	// All off afetr LOCK/UNLOCK impulse
+	HAL_GPIO_WritePin(SOLENOID_V1_GPIO_Port, SOLENOID_V1_Pin, OFF);
+	HAL_GPIO_WritePin(SOLENOID_V2_GPIO_Port, SOLENOID_V2_Pin, OFF);
+
+	DigitsWrite(2, "----");
+	PWMPower_Start();
+	osSemaphoreRelease(semaphoreSensorsHandle);
+	osThreadResume(displayInfoTaskHandle);
+
 
 }
 

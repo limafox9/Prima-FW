@@ -7,10 +7,10 @@ sensors.c:306:9:WaterReservoirLevelGet	3
 sensors.c:316:7:SteamGeneratorTempGet	1
 sensors.c:320:7:ChamberHeaterTempGet	1
 sensors.c:324:7:ChamberPressureGet	1
-sensors.c:328:7:CurrentGet	1
-sensors.c:339:7:BufferAverage	3
-sensors.c:361:10:ReadADC	4
-sensors.c:389:7:ADCToTemp	1
-sensors.c:407:7:ADCToPress	1
-sensors.c:428:7:ADCToCurrent	1
-sensors.c:497:7:GetNormalizedPressure	2
+sensors.c:328:10:CurrentGet	2
+sensors.c:360:7:BufferAverage	3
+sensors.c:382:10:ReadADC	4
+sensors.c:410:7:ADCToTemp	1
+sensors.c:428:7:ADCToPress	1
+sensors.c:449:7:ADCToCurrent	1
+sensors.c:518:7:GetNormalizedPressure	2
