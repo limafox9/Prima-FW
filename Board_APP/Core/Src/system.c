@@ -321,7 +321,8 @@ void SysInit() {
 		osThreadDef(usbTask, StartUSBTask, osPriorityNormal, 1, 2048);
 		usbTaskHandle = osThreadCreate(osThread(usbTask), NULL);
 
-		PhasePreheat(60, 90);
+		ResetTimer(TIMER_NIGHT_CYCLE);
+		PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
 
 //		PowerTest();
 //		LoadUSBConfig();
@@ -681,7 +682,7 @@ void Log(e_LogLevel logLevel, e_LogTimeStamp logTimeStamp, e_LogOutput logOutput
 		}
 		if ((logTimeStamp & LOG_TIME_ELAPSED) == LOG_TIME_ELAPSED) {
 			GetTimer(1, &t);
-			sprintf(buffer, "%3d:%02d:%02d ", t.TimeHour, t.TimeMinute, t.TimeSecond);
+			sprintf(buffer, "%3d:%02d:%02d ", t.Hours, t.TimeMinute, t.TimeSecond);
 			strcat(s, buffer);
 		}
 

@@ -815,18 +815,19 @@ uint8_t PhaseDry(float firstVacPress, float otherVacPress, uint16_t time, uint16
 	GetTimer(TIMER_PHASE, &tPhase);
 	Print("TIME                       %2d:%02d\n", tPhase.TimeMinute, tPhase.TimeSecond);
 
-	if (currProgram == 99) {
-
-		lastError = ERROR_NONE;
-		EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
-		currProgType = PROGTYPE_PROGRAM;
-		currProgram = 1;
-		ShowProgram();
-
-		return 1;
-	} else {
+//	if (currProgram == 99) {
+//
+//		lastError = ERROR_NONE;
+//		EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
+//		currProgType = PROGTYPE_PROGRAM;
+//		currProgram = 1;
+//		ShowProgram();
+//
+//		return 1;
+//	} else {
+	//		return retVal;
+//	}
 		return retVal;
-	}
 }
 
 uint8_t PhaseClean() {
@@ -1127,6 +1128,9 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 
 	ValveDrainSteamSet(OFF);
 	ValveDryIntakeSet(OFF);
+
+	PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
+	ResetTimer(TIMER_NIGHT_CYCLE);
 
 	return retVal;
 }

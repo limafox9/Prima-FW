@@ -2,5 +2,5 @@ time.c:44:6:ClockInit	2
 time.c:53:6:GetDateTime	1
 time.c:58:6:SetDateTime	1
 time.c:63:6:GetTimer	1
-time.c:72:6:ResetTimer	1
-time.c:77:10:GetSafeDeltaTick	2
+time.c:73:6:ResetTimer	1
+time.c:78:10:GetSafeDeltaTick	2

@@ -107,7 +107,7 @@ UserSet_s user[] = {
 };
 
 Functions_s functions[] = {
-	{1, "Night cycle time", 		"POtI", EPA_FUN_NIGHT_CYCLE_TIME, &settings.UserSterilTemp, 2, 0, 120},
+	{1, "Night cycle time", 		"POtI", EPA_FUN_NIGHT_CYCLE_TIME, &settings.FunNightCycleTime, 2, 0, 120},
 	{2, "Printer on", 				"Prin", EPA_FUN_PRINTER_ACTIVE, &settings.FunPrinterActive, 1, 0, 1},
 	{3, "USB on", 					" USb", EPA_FUN_USB_ACTIVE, &settings.FunUSBActive, 1, 0, 1},
 	{4, "Water load on", 			"PUnP", EPA_FUN_WATER_LOAD_ACTIVE, &settings.FunWaterLoadActive, 1, 0, 1},
@@ -314,7 +314,7 @@ void ShowFunctions() {
 	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, &functions[currFunction].DigitsName);
 	char s[8];
 	if (currFunction == 0) {
-		sprintf(s,"%4d", (*functions[currFunction].Value == 0) ? 121 : 134);
+		sprintf(s,"%4d", *functions[currFunction].Value);
 	} else if ((currFunction > 0) && (currFunction < 6)) {
 		sprintf(s,"%4s", (*functions[currFunction].Value == 1) ? "On" : " OFF");
 	} else {

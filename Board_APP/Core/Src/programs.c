@@ -94,6 +94,15 @@ void StartProgramTask() {
 			FanSet(OFF);
 		}
 
+		if (settings.FunNightCycleTime > 0) {
+			GetTimer(TIMER_NIGHT_CYCLE, &timerFan);
+			if ((machineStatus.Status != STATUS_RUNNING) && (timerFan.Minutes > settings.FunNightCycleTime)) {
+				PhasePreheat(0, 0);
+			} else if (machineStatus.Status == STATUS_RUNNING) {
+				ResetTimer(TIMER_NIGHT_CYCLE);
+			}
+		}
+
 		if (programStart){
 			programStart = 0;
 			if (currProgType == PROGTYPE_PROGRAM) {
@@ -183,7 +192,7 @@ uint8_t ProgramResumeDry() {
 		}
 		if (abortProgram) {
 			abortProgram = 0;
-			lastError = ERROR_ABNORMAL_EXIT;
+			lastError = ERROR_NONE;
 			success = 0;
 			break;
 		}
@@ -235,11 +244,17 @@ uint8_t ProgramResumeDry() {
 		return 0;
 	}
 
-	PhasePreheat(60.0, 90.0);
+	PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
 	progRunning = 0;
 	osThreadSuspend(displayInfoTaskHandle);
 
 	progStop = 0;
+
+	lastError = ERROR_NONE;
+	EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
+	currProgType = PROGTYPE_PROGRAM;
+	currProgram = 1;
+	ShowProgram();
 
 }
 
@@ -314,13 +329,13 @@ uint8_t ProgramUnwrapped() {
 		success = PhaseSteril(&sterilParam);
 	}
 	if (success) {
-		PhasePreheat(60, 90);
+		PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
 		success = PhaseRelease(3, OT_RELEASE);
 	}
 
 	// Dry
 	if (success) {
-		PhasePreheat(60, 90);
+		PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
 		success = PhaseDry(20.0, 50.0, 240, 800);
 	}
 
@@ -417,13 +432,13 @@ uint8_t ProgramWrapped() {
 		success = PhaseSteril(&sterilParam);
 	}
 	if (success) {
-		PhasePreheat(60, 90);
+		PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
 		success = PhaseRelease(3, OT_RELEASE);
 	}
 
 	// Dry
 	if (success) {
-		PhasePreheat(60, 90);
+		PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
 		success = PhaseDry(20.0, 50.0, 540, 800);
 	}
 
@@ -518,13 +533,13 @@ uint8_t ProgramPrion() {
 		success = PhaseSteril(&sterilParam);
 	}
 	if (success) {
-		PhasePreheat(60, 90);
+		PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
 		success = PhaseRelease(3, OT_RELEASE);
 	}
 
 	// Dry
 	if (success) {
-		PhasePreheat(60, 90);
+		PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
 		success = PhaseDry(20.0, 50.0, 540, 600);
 	}
 
@@ -616,13 +631,13 @@ uint8_t ProgramGentle() {
 		success = PhaseSteril(&sterilParam);
 	}
 	if (success) {
-		PhasePreheat(60, 90);
+		PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
 		success = PhaseRelease(3,  OT_RELEASE);
 	}
 
 	// Dry
 	if (success) {
-		PhasePreheat(60, 90);
+		PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
 		success = PhaseDry(20.0, 50.0, 540, 600);
 	}
 
@@ -747,18 +762,18 @@ uint8_t ProgramUser() {
 		success = PhaseSteril(&sterilParam);
 	}
 	if (success) {
-		PhasePreheat(60, 90);
+		PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
 		success = PhaseRelease(3, OT_RELEASE);
 	}
 
 	// Dry
 	if (settings.UserDryTime > 0) {
 		if (success) {
-			PhasePreheat(60, 90);
+			PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
 			success = PhaseDry(20.0, 50.0, settings.UserDryTime * 60, settings.UserDryTime * 60 * 1.5);
 		}
 	} else {
-		PhasePreheat(60, 90);
+		PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
 		success = PhaseVacuum(1, 50.0, 300);
 
 	}
@@ -855,13 +870,13 @@ uint8_t ProgramHelixTest() {
 		success = PhaseSteril(&sterilParam);
 	}
 	if (success) {
-		PhasePreheat(60, 90);
+		PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
 		success = PhaseRelease(3, OT_RELEASE);
 	}
 
 	// Dry
 	if (success) {
-		PhasePreheat(60, 90);
+		PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
 		success = PhaseDry(20.0, 50.0, 300, 600);
 	}
 
@@ -1098,7 +1113,7 @@ uint8_t ProgramWaterLoad() {
 	GetTimer(TIMER_CYCLE, &tCycle);
 	GetDateTime(&clockTime);
 //	PhaseFinish(success, &clockTime, &tCycle);
-	PhasePreheat(60.0, 90.0);
+	PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
 	machineStatus.Status = STATUS_READY;
 
 	progRunning = 0;

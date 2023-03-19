@@ -59,6 +59,9 @@ USAGE:
 //TODO: Long press interval
 #define DISPLAY_LONG_PRESS_INTERVAL 3000
 
+#define PREHEAT_STANDBY_STEAM_TEMP 90
+#define PREHEAT_STANDBY_RING_TEMP 60
+
 #define EPA_MACHINE_PROD_YEAR			0x0E	// 1 byte 0-199 after 2000
 #define EPA_MACHINE_PROD_MONTH			0x0F	// 1 byte 0-52 week of the year
 #define EPA_MACHINE_SERIAL_NUMBER	 	0x10	// 12 bytes
@@ -68,6 +71,8 @@ USAGE:
 #define EPA_CYCLE_COUNTER 				0x1E	// 2 bytes - Cycle counter resettable
 #define EPA_T1_OFFSET 					0x20	// 1 byte +/- 127 in 0.1 steps
 #define EPA_T2_OFFSET 					0x21	// 1 byte +/- 127 in 0.1 steps
+#define EPA_T1_FACTORY_OFFSET 			0x60	// 2 byte +/- 1000 in 0.1 steps
+#define EPA_T2_FACTORY_OFFSET 			0x62	// 2 byte +/- 1000 in 0.1 steps
 #define EPA_CHAMBER_PRESSURE_OFFSET 	0x22	// 1 byte +/- 127 in 1 steps
 #define EPA_LAST_ERROR					0x0A	// 1 byte
 
@@ -106,6 +111,8 @@ typedef struct Settings_s {
 	uint16_t CyclesCount;
 	int8_t T1Offset;				// -2..2 step 1 (0.1)
 	int8_t T2Offset;				// -2..2 step 1 (0.1)
+	int16_t T1FactoryOffset;		// -100..100 step 1 (0.1)
+	int16_t T2FactoryOffset;		// -100..100 step 1 (0.1)
 	int8_t ChamberPressOffset;		// -15..15 step 1
 	int8_t WaterTDSMin;				// 5..70 step 1
 	int8_t FirstVacuum;				// 10..50 step 1

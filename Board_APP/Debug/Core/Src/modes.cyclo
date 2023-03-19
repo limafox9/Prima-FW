@@ -10,7 +10,7 @@ modes.c:265:6:SelectReading	2
 modes.c:271:6:ShowUserSetting	4
 modes.c:287:6:SelectUserSetting	2
 modes.c:293:6:ChangeUserSetting	6
-modes.c:312:6:ShowFunctions	6
+modes.c:312:6:ShowFunctions	5
 modes.c:328:6:SelectFunction	2
 modes.c:334:6:ChangeFunction	4
 modes.c:345:6:ShowTimeset	1

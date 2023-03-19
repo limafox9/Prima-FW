@@ -233,6 +233,14 @@ void LoadUSBConfig()  {
 							int8_t bVal = (int8_t)atoi(param.value);
 							WriteSetting(EPA_T2_OFFSET, &bVal, 1);
 
+						} else if (strcmp(param.param, "T1_FACTORY_OFFSET") == 0) {
+							int16_t bVal = (int16_t)atoi(param.value);
+							WriteSetting(EPA_T1_FACTORY_OFFSET, &bVal, 2);
+
+						} else if (strcmp(param.param, "T2_FACTORY_OFFSET") == 0) {
+							int16_t bVal = (int16_t)atoi(param.value);
+							WriteSetting(EPA_T2_FACTORY_OFFSET, &bVal, 2);
+
 						} else if (strcmp(param.param, "CHAMBER_PRESSURE_OFFSET") == 0) {
 							int8_t bVal = (int8_t)atoi(param.value);
 							WriteSetting(EPA_CHAMBER_PRESSURE_OFFSET, &bVal, 1);
