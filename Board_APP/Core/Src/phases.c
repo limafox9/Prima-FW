@@ -74,18 +74,22 @@ uint8_t PhaseBegin(uint8_t timeout) {
 	PCF8563_GetDateTime(&ct);
 	sprintf(currFilename, "%02d.%02d.%02d-%02d.%02d-%05d.txt", ct.Year%100, ct.Month, ct.Day, ct.Hour, ct.Minute, settings.CyclesCount);
 
-	uint16_t dum;
-	dum = BAT2U_GetTDSValue(1, 200);
-	sensors.WaterTDS = dum;
-//	sensors.WaterTDS = dum;
+	if (settings.FunTDSActive > 0) {
+		uint16_t dum;
+		dum = BAT2U_GetTDSValue(2, 200);
+		dum = BAT2U_GetTDSValue(1, 200);
+		sensors.WaterTDS = dum;
+	} else {
+		sensors.WaterTDS = 0;
+	}
 
 	ResetTimer(TIMER_PHASE);
 
-	osDelay(1000);
+//	osDelay(1000);
 
 	GetTimer(TIMER_PHASE, &tPhase);
 
-	if (doorOpened == 0 && currProgram != 99) {
+	if (doorOpened == 0 && currProgram != PROGRAM_RESUME_DRY) {
 		lastError = ERROR_NONE;
 		Print("DOOR ERROR *** DOOR NOT OPEN\n");
 		Beep(3, 100, 100);
@@ -93,7 +97,7 @@ uint8_t PhaseBegin(uint8_t timeout) {
 
 	}
 
-	if (sensors.Door == OPEN && currProgram != 99) {
+	if (sensors.Door == OPEN && currProgram != PROGRAM_RESUME_DRY) {
 		lastError = ERROR_NONE;
 		Print("DOOR ERROR *** DOOR OPEN\n");
 		Beep(3, 100, 100);
@@ -101,7 +105,7 @@ uint8_t PhaseBegin(uint8_t timeout) {
 	}
 
 //	sensors.WaterTDS = BAT2U_GetTDSValue(1, 100);
-	if (sensors.WaterTDS > settings.WaterTDSMin && currProgram != 99) {
+	if (settings.FunTDSActive > 0 && sensors.WaterTDS > settings.WaterTDSMin && currProgram != PROGRAM_RESUME_DRY) {
 		lastError = ERROR_NONE;
 //		lastError = ERROR_WATER_HIGH_TDS;
 		Print("WTDS ERROR *** WATER QUALITY\n");
@@ -109,14 +113,14 @@ uint8_t PhaseBegin(uint8_t timeout) {
 		retVal = 0;
 	}
 
-	if (sensors.WaterReservoirLevel == EMPTY && currProgram != 99) {
+	if (sensors.WaterReservoirLevel == EMPTY && currProgram != PROGRAM_RESUME_DRY) {
 		lastError = ERROR_NONE;
 //		lastError = ERROR_WATER_LOW;
 		Print("WATR ERROR *** WATER LEVEL\n");
 		Beep(3, 100, 100);
 		retVal = 0;
 	}
-	if (sensors.WaterDumpLevel == HIGH && currProgram != 99) {
+	if (sensors.WaterDumpLevel == HIGH && currProgram != PROGRAM_RESUME_DRY) {
 		lastError = ERROR_NONE;
 //		lastError = ERROR_WATER_DUMP_HIGH;
 		Print("DUMP ERROR *** WATER DUMP LEVEL\n");
@@ -175,7 +179,7 @@ uint8_t PhaseBegin(uint8_t timeout) {
 		osDelay(200);
 	}
 
-	if (retVal == 1 && currProgram != 99) {
+	if (currProgram != PROGRAM_RESUME_DRY) {
 		settings.CyclesCount++;
 		EEPROM_Write(EPA_CYCLE_COUNTER, &settings.CyclesCount, 2);
 		machine.ReadOnlyCyclesCount++;
@@ -301,7 +305,7 @@ uint8_t CheckError() {
 		if (currProgram != PROGRAM_RESUME_DRY) {
 			if (sensors.Door == OPEN) {
 				retError = ERROR_OPEN_DOOR;
-			} else if (sensors.Solenoid == UNLOCK) {
+			} else if (DoorSolenoidKeyGet() == UNLOCK) {
 				retError = ERROR_PROTECTION_LOCK;
 			} else if (sensors.TemperatureSteamGenerator > 230.0) {
 				retError = ERROR_STEAM_OVERTEMP;
@@ -815,7 +819,7 @@ uint8_t PhaseDry(float firstVacPress, float otherVacPress, uint16_t time, uint16
 	GetTimer(TIMER_PHASE, &tPhase);
 	Print("TIME                       %2d:%02d\n", tPhase.TimeMinute, tPhase.TimeSecond);
 
-	if (currProgram == 99) {
+	if (currProgram == PROGRAM_RESUME_DRY) {
 
 		lastError = ERROR_NONE;
 		EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
@@ -1115,7 +1119,7 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 		PrintFooter("FAIL", time, timer);
 		Beep(1, 1000, 100);
 		if (lastError == ERROR_ABNORMAL_EXIT) {
-			currProgram = 99;
+			currProgram = PROGRAM_RESUME_DRY;
 			machineStatus.Status == STATUS_READY;
 			machineStatus.Show = SHOW_PROGRAM;
 			programStart = 1;
@@ -1127,6 +1131,8 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 
 	ValveDrainSteamSet(OFF);
 	ValveDryIntakeSet(OFF);
+
+	doorOpened = 0;
 
 	return retVal;
 }

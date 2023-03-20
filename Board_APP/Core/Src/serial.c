@@ -257,7 +257,7 @@ void StartSerialTask() {
 //	} else if (data->Param1 == KEY_START + KEY_LONG_PRESS) {
 //		if (lastError != 0) {
 //			currProgType =
-//			currProgram = 99;
+//			currProgram = PROGRAM_RESUME_DRY;
 //			machineStatus = machineStatusEx;
 //			ShowProgram();
 //		} else if (machineStatus == OP_IDLE) {

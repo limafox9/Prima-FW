@@ -5,9 +5,9 @@ printer.c:239:6:PrintError	3
 printer.c:256:6:PrintSend	2
 printer.c:272:6:Print	3
 printer.c:292:6:PrintLogo	1
-printer.c:314:6:PrintHeader	10
-printer.c:381:6:PrintFooter	3
-printer.c:406:6:PrintStepLine	1
-printer.c:410:6:PrintDivisor	1
-printer.c:415:6:PrintLF	2
-printer.c:424:15:reverse_byte	1
+printer.c:314:6:PrintHeader	15
+printer.c:390:6:PrintFooter	3
+printer.c:415:6:PrintStepLine	1
+printer.c:419:6:PrintDivisor	1
+printer.c:424:6:PrintLF	2
+printer.c:433:15:reverse_byte	1

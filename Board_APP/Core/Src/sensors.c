@@ -243,7 +243,14 @@ void StartSensorsTask() {
 			if (prevCSL == EMPTY) {
 				DashLed(DISPLAY_LED_WARNING_CTL, OFF);
 				prevCSL = NORMAL;
-				sensors.WaterTDS = BAT2U_GetTDSValue(1, 200);
+				if (settings.FunTDSActive > 0) {
+					uint16_t dum;
+					dum = BAT2U_GetTDSValue(2, 200);
+					dum = BAT2U_GetTDSValue(1, 200);
+					sensors.WaterTDS = dum;
+				} else {
+					sensors.WaterTDS = 0;
+				}
 				Beep(1, 100, 100);
 			}
 		}
@@ -259,17 +266,18 @@ void StartSensorsTask() {
 				Beep(1, 100, 100);
 			}
 		}
-
-		if (sensors.WaterTDS > settings.WaterTDSMin) {
-			if (prevTDS == OFF) {
-				DashLed(DISPLAY_LED_WARNING_TDS, ON);
-				prevTDS = ON;
-				Beep(ERROR_BEEP_NUMBER, 1000, 500);
-			}
-		} else {
-			if (prevTDS == ON) {
-				DashLed(DISPLAY_LED_WARNING_TDS, OFF);
-				prevTDS = OFF;
+		if (settings.FunTDSActive > 0) {
+			if (sensors.WaterTDS > settings.WaterTDSMin) {
+				if (prevTDS == OFF) {
+					DashLed(DISPLAY_LED_WARNING_TDS, ON);
+					prevTDS = ON;
+					Beep(ERROR_BEEP_NUMBER, 1000, 500);
+				}
+			} else {
+				if (prevTDS == ON) {
+					DashLed(DISPLAY_LED_WARNING_TDS, OFF);
+					prevTDS = OFF;
+				}
 			}
 		}
 

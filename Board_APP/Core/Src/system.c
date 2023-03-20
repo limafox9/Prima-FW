@@ -229,11 +229,14 @@ void SysInit() {
 
 	BAT2U_Init(&huart2);
 
-	uint16_t dum;
-//	dum = BAT2U_GetTDSValue(2, 200);
-	dum = BAT2U_GetTDSValue(1, 200);
-	sensors.WaterTDS = dum;
-//	BAT2U_TDSCalibration(500);
+	if (settings.FunTDSActive > 0) {
+		uint16_t dum;
+		dum = BAT2U_GetTDSValue(2, 200);
+		dum = BAT2U_GetTDSValue(1, 200);
+		sensors.WaterTDS = dum;
+	} else {
+		sensors.WaterTDS = 0;
+	}
 
 
 

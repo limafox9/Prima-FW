@@ -43,6 +43,7 @@ USAGE:
 #include "settings.h"
 #include "cmsis_os.h"
 #include "usbkey.h"
+#include "sensors.h"
 
 #define KEY_LONG_PRESS_MS 3000
 
@@ -214,10 +215,11 @@ void ParseCommand(s_DisplayProtocolData* data) {
 			}
 
 		} else if (data->Param1 == KEY_START + KEY_LONG_PRESS) {
-			if (currProgram == 99 ) {
+			if (currProgram == PROGRAM_RESUME_DRY ) {
 				DashLedsOff();
 				ProgressLedsOff();
 				abortProgram = 1;
+				programStart = 0;
 				machineStatus.Status = STATUS_READY;
 				machineStatus.Show = SHOW_PROGRAM;
 				ShowProgram();
@@ -358,8 +360,8 @@ static void KeysReceived(uint8_t keysCode) {
 		__NOP();
 	} else if (keysCode == KEY_S2) {
 ////		SdcardWriteAction("CIAO.txt" , "Hello\n");
-		sprintf(currFilename, "Prova3.txt"); //remove
-		xQueueSend(usbQueue, "Hello2\n", 100); //remove
+//		sprintf(currFilename, "Prova3.txt"); //remove
+//		xQueueSend(usbQueue, "Hello2\n", 100); //remove
 		__NOP();
 	} else if (keysCode == KEY_S3) {
 		__NOP();
@@ -378,6 +380,12 @@ static void KeysReceived(uint8_t keysCode) {
 	} else if (keysCode == KEY_S3 + KEY_S2 + KEY_S1) {
 		__NOP();
 	} else if (keysCode == KEY_S2 + KEY_S1 + KEY_LONG_PRESS) {
+		uint16_t dum;
+		BAT2U_TDSCalibration(500);
+		dum = BAT2U_GetTDSValue(2, 200);
+		dum = BAT2U_GetTDSValue(1, 200);
+		sensors.WaterTDS = dum;
+		Beep(1, 100, 100);
 		__NOP();
 	} else if (keysCode == KEY_S3 + KEY_S2 + KEY_LONG_PRESS) {
 		machine.ReadOnlyCyclesCount = 0;

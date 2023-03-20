@@ -153,6 +153,9 @@ uint8_t ProgramResumeDry() {
 
 	ResetTimer(TIMER_TIMEOUT);
 
+	ProgressLedsOff();
+	DigitsWrite(3,"----");
+
 	progRunning = 1;
 	progStop = 0;
 
@@ -202,7 +205,8 @@ uint8_t ProgramResumeDry() {
 //	}
 
 	PhaseDry(20.0, 50.0, 180, 800);
-	SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_NONE, 0, 0, "");
+//	SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_NONE, 0, 0, "");
+
 
 	ValveVacuumSet(OFF);
 	ValveWaterSteamSet(OFF);
@@ -234,6 +238,7 @@ uint8_t ProgramResumeDry() {
 		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "Er.11");
 		return 0;
 	}
+
 
 	PhasePreheat(60.0, 90.0);
 	progRunning = 0;
@@ -663,6 +668,12 @@ uint8_t ProgramUser() {
 	ResetTimer(TIMER_CYCLE);
 
 	// First vacuum
+	if (settings.UserVacuumNumber == 0) {
+		if (success) {
+			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
+			success = PhaseVacuum(1, 70.0, OT_VACUUM);
+		}
+	}
 	if (settings.UserVacuumNumber > 0) {
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
@@ -1062,6 +1073,8 @@ uint8_t ProgramWash() {
 
 	progRunning = 0;
 	osThreadSuspend(displayInfoTaskHandle);
+
+	doorOpened = 0;
 
 	progStop = 0;
 

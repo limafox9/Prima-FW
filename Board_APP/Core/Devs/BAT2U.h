@@ -43,5 +43,6 @@ USAGE:
 
 void BAT2U_Init(UART_HandleTypeDef* huart);
 uint16_t BAT2U_GetValue(uint8_t channel);
+uint16_t BAT2U_GetTDSValue(uint8_t channel, uint16_t timeout);
 
 #endif /* INC_BAT2U_H_ */
