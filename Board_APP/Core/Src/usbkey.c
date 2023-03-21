@@ -234,12 +234,12 @@ void LoadUSBConfig()  {
 							WriteSetting(EPA_T2_OFFSET, &bVal, 1);
 
 						} else if (strcmp(param.param, "T1_FACTORY_OFFSET") == 0) {
-							int16_t bVal = (int16_t)atoi(param.value);
-							WriteSetting(EPA_T1_FACTORY_OFFSET, &bVal, 2);
+							int8_t bVal = (int8_t)atoi(param.value);
+							WriteSetting(EPA_T1_FACTORY_OFFSET, &bVal, 1);
 
 						} else if (strcmp(param.param, "T2_FACTORY_OFFSET") == 0) {
-							int16_t bVal = (int16_t)atoi(param.value);
-							WriteSetting(EPA_T2_FACTORY_OFFSET, &bVal, 2);
+							int8_t bVal = (int8_t)atoi(param.value);
+							WriteSetting(EPA_T2_FACTORY_OFFSET, &bVal, 1);
 
 						} else if (strcmp(param.param, "CHAMBER_PRESSURE_OFFSET") == 0) {
 							int8_t bVal = (int8_t)atoi(param.value);
@@ -259,7 +259,7 @@ void LoadUSBConfig()  {
 							WriteSetting(EPA_VACUUM_THRESHOLD, &bVal, 1);
 
 						} else if (strcmp(param.param, "OTHER_PRESSURE") == 0) {
-							uint8_t bVal = (uint8_t)atoi(param.value);
+							uint8_t bVal = (uint8_t)(atoi(param.value) / 10);
 							WriteSetting(EPA_OTHER_PRESSURE, &bVal, 1);
 
 						} else if (strcmp(param.param, "TDS_MIN") == 0) {
@@ -304,8 +304,8 @@ void LoadUSBConfig()  {
 							WriteSetting(EPA_USER_VACUUM_NUMBER, &bVal, 1);
 
 						} else if (strcmp(param.param, "FUN_NIGHT_CYCLE_TIME") == 0) {
-							uint16_t bVal = (uint16_t)atoi(param.value);
-							WriteSetting(EPA_FUN_NIGHT_CYCLE_TIME, &bVal, 2);
+							uint8_t bVal = (uint8_t)atoi(param.value);
+							WriteSetting(EPA_FUN_NIGHT_CYCLE_TIME, &bVal, 1);
 
 						} else if (strcmp(param.param, "FUN_PRINTER_ACTIVE") == 0) {
 							uint8_t bVal = (uint8_t)atoi(param.value);
@@ -323,9 +323,9 @@ void LoadUSBConfig()  {
 							uint8_t bVal = (uint8_t)atoi(param.value);
 							WriteSetting(EPA_FUN_TDS_ACTIVE, &bVal, 1);
 
-						} else if (strcmp(param.param, "FUN_DRY_TIME") == 0) {
-							uint16_t bVal = (uint16_t)atoi(param.value);
-							WriteSetting(EPA_FUN_DRY_TIME, &bVal, 2);
+						} else if (strcmp(param.param, "FUN_DRY_CLASS") == 0) {
+							uint8_t bVal = (uint8_t)atoi(param.value);
+							WriteSetting(EPA_FUN_DRY_CLASS, &bVal, 1);
 
 						} else if (strcmp(param.param, "FUN_PRESS_DISPLAY_OFFSET") == 0) {
 							uint8_t bVal = (uint8_t)atoi(param.value);

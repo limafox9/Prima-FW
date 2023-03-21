@@ -58,10 +58,10 @@ typedef struct SterilParam_s {
 extern char currPhase[8];
 
 uint8_t PhaseBegin(uint8_t timeout);
-uint8_t PhaseResume(uint8_t timeout);
+uint8_t PhaseResume();
 uint8_t PhasePreheat(float chamberTemp, float steamGenTemp);
 uint8_t PhaseHeatUp(float ringTemp, float steamGenTemp, float chamberTemp, float chamberPress, uint16_t timeout);
-uint8_t PhaseVacuum(uint8_t nVacuum, float press, uint16_t timeout);
+uint8_t PhaseVacuum(uint8_t nVacuum, float press, uint8_t skipThreshold, uint16_t timeout);
 uint8_t PhaseVacuumHold(float vacPress, uint8_t tolerance, uint16_t time, uint16_t timeout);
 uint8_t PhasePressure(uint8_t nPressure, float press, float steamTemp, float steamTempMin, uint16_t timeout);
 uint8_t PhaseRelease(uint8_t nRelease, uint16_t timeout);

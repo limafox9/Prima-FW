@@ -302,20 +302,20 @@ void SysInit() {
 
 //		lastError = 0;
 
-		if (lastError == ERROR_NONE) {
-			Beep(3, 100, 100);
-		} else {
-			machineStatus.Status = STATUS_ERROR;
-			Beep(1, 1000, 100);
-		}
-
 		DisplaySetLongPressInterval(DISPLAY_LONG_PRESS_INTERVAL);
 
 		sensors.Door = DoorPositionGet();
 		machineStatus.Status = (sensors.Door == CLOSED) ? STATUS_READY : STATUS_IDLE;
 
 //		lastDoorStatus = sensors.Door;
-		doorOpened = 0;
+		doorOpened = (sensors.Door == CLOSED) ? 0 : 1;
+
+		if (lastError == ERROR_NONE) {
+			Beep(3, 100, 100);
+		} else {
+			machineStatus.Status = STATUS_ERROR;
+			Beep(1, 1000, 100);
+		}
 
 		sensors.Solenoid == DoorSolenoidKeyGet();
 		if (lastError == ERROR_NONE && sensors.Solenoid == LOCK) DoorSolenoidSet(UNLOCK);

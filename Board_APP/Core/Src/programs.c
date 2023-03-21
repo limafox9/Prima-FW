@@ -169,7 +169,6 @@ uint8_t ProgramResumeDry() {
 	progStop = 0;
 
 //	if (!PhaseBegin(600)) return 0;
-	lastError = ERROR_NONE;
 	sprintf(currPhase, "rEL.");
 	osThreadResume(displayInfoTaskHandle);
 
@@ -241,19 +240,24 @@ uint8_t ProgramResumeDry() {
 	ResetTimer(TIMER_FAN);
 
 
-	machineStatus.Status = STATUS_READY;
 	osDelay(1000);
 	if (DoorSolenoidSet(UNLOCK) != UNLOCK) {
 		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "Er.11");
 		return 0;
 	}
 
+	machineStatus.Status = STATUS_READY;
+	lastError = ERROR_NONE;
+	EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
+	progRunning = 0;
+	progStop = 0;
+	currProgType = PROGTYPE_PROGRAM;
+	currProgram = 1;
+	ShowProgram();
 
 	PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
-	progRunning = 0;
 	osThreadSuspend(displayInfoTaskHandle);
 
-	progStop = 0;
 
 }
 
@@ -286,7 +290,7 @@ uint8_t ProgramUnwrapped() {
 	// Sterilization
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-		success = PhaseVacuum(1, (float)settings.FirstVacuum, OT_VACUUM);
+		success = PhaseVacuum(1, (float)settings.FirstVacuum, 0, OT_VACUUM);
 	}
 //	if (settings.UserVacuumNumber < 3) {
 	if (success) {
@@ -377,7 +381,7 @@ uint8_t ProgramWrapped() {
 	// First vacuum
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-		success = PhaseVacuum(1, (float)settings.FirstVacuum, OT_VACUUM);
+		success = PhaseVacuum(1, (float)settings.FirstVacuum, 0, OT_VACUUM);
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
@@ -392,7 +396,7 @@ uint8_t ProgramWrapped() {
 	for (int i = 0; i < (settings.VacNumber - 2); i++) {  // -2 for 1st cycle and steril cycle
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-			success = PhaseVacuum(2, (float)settings.OtherVacuum, OT_VACUUM);
+			success = PhaseVacuum(2, (float)settings.OtherVacuum, 0, OT_VACUUM);
 		}
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
@@ -407,7 +411,7 @@ uint8_t ProgramWrapped() {
 	// Sterilization
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, 210.0);
-		success = PhaseVacuum(3, (float)settings.OtherVacuum, OT_VACUUM);
+		success = PhaseVacuum(3, (float)settings.OtherVacuum, 0, OT_VACUUM);
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
@@ -479,7 +483,7 @@ uint8_t ProgramPrion() {
 	// First vacuum
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-		success = PhaseVacuum(1, (float)settings.FirstVacuum, OT_VACUUM);
+		success = PhaseVacuum(1, (float)settings.FirstVacuum, 0, OT_VACUUM);
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
@@ -494,7 +498,7 @@ uint8_t ProgramPrion() {
 	for (int i = 0; i < (settings.VacNumber - 2); i++) {  // -2 for 1st cycle and steril cycle
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-			success = PhaseVacuum(2, (float)settings.OtherVacuum, OT_VACUUM);
+			success = PhaseVacuum(2, (float)settings.OtherVacuum, 0, OT_VACUUM);
 		}
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
@@ -508,7 +512,7 @@ uint8_t ProgramPrion() {
 
 	// Sterilization
 	if (success) {
-		success = PhaseVacuum(3, (float)settings.OtherVacuum, OT_VACUUM);
+		success = PhaseVacuum(3, (float)settings.OtherVacuum, 0, OT_VACUUM);
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
@@ -577,7 +581,7 @@ uint8_t ProgramGentle() {
 	// First vacuum
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-		success = PhaseVacuum(1, (float)settings.FirstVacuum, OT_VACUUM);
+		success = PhaseVacuum(1, (float)settings.FirstVacuum, 0, OT_VACUUM);
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
@@ -592,7 +596,7 @@ uint8_t ProgramGentle() {
 	for (int i = 0; i < (settings.VacNumber - 2); i++) {  // -2 for 1st cycle and steril cycle
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-			success = PhaseVacuum(2, (float)settings.OtherVacuum, OT_VACUUM);
+			success = PhaseVacuum(2, (float)settings.OtherVacuum, 0, OT_VACUUM);
 		}
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
@@ -606,7 +610,7 @@ uint8_t ProgramGentle() {
 
 	// Sterilization
 	if (success) {
-		success = PhaseVacuum(3, (float)settings.OtherVacuum, OT_VACUUM);
+		success = PhaseVacuum(3, (float)settings.OtherVacuum, 0, OT_VACUUM);
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
@@ -680,13 +684,13 @@ uint8_t ProgramUser() {
 	if (settings.UserVacuumNumber == 0) {
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-			success = PhaseVacuum(1, 70.0, OT_VACUUM);
+			success = PhaseVacuum(1, 50.0, 0, OT_VACUUM);
 		}
 	}
 	if (settings.UserVacuumNumber > 0) {
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-			success = PhaseVacuum(1, (float)settings.FirstVacuum, OT_VACUUM);
+			success = PhaseVacuum(1, (float)settings.FirstVacuum, 0, OT_VACUUM);
 		}
 	}
 	if (settings.UserVacuumNumber >= 3) {
@@ -705,7 +709,7 @@ uint8_t ProgramUser() {
 		for (int i = 0; i < (settings.UserVacuumNumber - 2); i++) {  // -2 for 1st cycle and steril cycle
 			if (success) {
 				PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-				success = PhaseVacuum(2, (float)settings.OtherVacuum, OT_VACUUM);
+				success = PhaseVacuum(2, (float)settings.OtherVacuum, 0, OT_VACUUM);
 			}
 			if (success) {
 				PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
@@ -722,7 +726,7 @@ uint8_t ProgramUser() {
 	if (settings.UserVacuumNumber >= 3) {
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-			success = PhaseVacuum(3, (float)settings.OtherVacuum, OT_VACUUM);
+			success = PhaseVacuum(3, (float)settings.OtherVacuum, 0, OT_VACUUM);
 		}
 	}
 	if (settings.UserVacuumNumber < 3) {
@@ -779,7 +783,7 @@ uint8_t ProgramUser() {
 		}
 	} else {
 		PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
-		success = PhaseVacuum(1, 50.0, 300);
+		success = PhaseVacuum(1, 50.0, 0, 300);
 
 	}
 
@@ -822,7 +826,7 @@ uint8_t ProgramHelixTest() {
 	// First vacuum
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-		success = PhaseVacuum(1, (float)settings.FirstVacuum, OT_VACUUM);
+		success = PhaseVacuum(1, (float)settings.FirstVacuum, 0, OT_VACUUM);
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
@@ -837,7 +841,7 @@ uint8_t ProgramHelixTest() {
 	for (int i = 0; i < 1; i++) {
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-			success = PhaseVacuum(2, (float)settings.OtherVacuum, OT_VACUUM);
+			success = PhaseVacuum(2, (float)settings.OtherVacuum, 0, OT_VACUUM);
 		}
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
@@ -851,7 +855,7 @@ uint8_t ProgramHelixTest() {
 
 	// Sterilization
 	if (success) {
-		success = PhaseVacuum(3, (float)settings.OtherVacuum, OT_VACUUM);
+		success = PhaseVacuum(3, (float)settings.OtherVacuum, 0, OT_VACUUM);
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
@@ -916,7 +920,7 @@ uint8_t ProgramVacuumTest() {
 	PrintHeader("VACUUM TEST", sensors.T1, &clockTime);
 
 	if (success) {
-		success = PhaseVacuum(1, 20.0, OT_VACUUM);
+		success = PhaseVacuum(1, 20.0, 1, OT_VACUUM);
 	}
 	if (success) {
 		success = PhaseWait(sensors.PressureChamber, 5.0, 240);
@@ -934,11 +938,46 @@ uint8_t ProgramVacuumTest() {
 	// End
 	GetTimer(TIMER_CYCLE, &tCycle);
 	GetDateTime(&clockTime);
+
+//	if (!success) PrintFooter("FAIL", &clockTime, &tCycle);
+
+//		uint8_t err = ERROR_NONE;
+//	lastError = ERROR_NONE;
+//
+//	EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
+
+	ValveDryIntakeSet(ON);
+	ValveDrainSteamSet(ON);
+
+	while (1) {
+		if ((sensors.PressureChamber >= pressAmbientMin) && (sensors.PressureChamber <= pressAmbientMax)) {
+			break;
+		}
+		lastError = CheckError();
+		if (lastError > 0) {
+			success = 0;
+			break;
+		}
+		osDelay(200);
+	}
+
+	machineStatus.Status = STATUS_READY;
+
+//		FanSet(OFF);
+	ResetTimer(TIMER_FAN);
+
+	osDelay(1000);
+	if (DoorSolenoidSet(UNLOCK) != UNLOCK) {
+		DigitsWrite(3, "Er.11");
+		return 0;
+	}
+
+	Beep(1, 1000, 100);
+
 	PhaseFinish(success, &clockTime, &tCycle);
 
 	progRunning = 0;
 	osThreadSuspend(displayInfoTaskHandle);
-
 	progStop = 0;
 
 }

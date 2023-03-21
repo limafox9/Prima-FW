@@ -1,5 +1,5 @@
-sensors.c:125:6:HAL_GPIO_EXTI_Callback	4
-sensors.c:173:6:StartSensorsTask	24
+sensors.c:125:6:HAL_GPIO_EXTI_Callback	6
+sensors.c:176:6:StartSensorsTask	21
 sensors.c:300:13:DoorSolenoidKeyGet	1
 sensors.c:304:19:DoorPositionGet	1
 sensors.c:310:9:WaterDumpLevelGet	2

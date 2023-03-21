@@ -189,48 +189,42 @@ uint8_t PhaseBegin(uint8_t timeout) {
 	return retVal;
 }
 
-uint8_t PhaseResume(uint8_t timeout) {
+uint8_t PhaseResume() {
 
 	uint8_t retVal = 1;
 	RTCTimerTime_s tTimeout, tPhase;
-	sprintf(currPhase, "rESu");
 
-	ResetTimer(TIMER_PHASE);
-	ResetTimer(TIMER_TIMEOUT);
+	lastError = ERROR_NONE;
 
-	osDelay(1000);
+	EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
 
-	GetTimer(TIMER_PHASE, &tPhase);
-	if ((sensors.Door == OPEN) || (sensors.Solenoid == UNLOCK)) {
-		return 0;
-	}
-
-	ValveDrainSteamSet(OFF);
-	ValveDryIntakeSet(OFF);
-	ValveVacuumSet(OFF);
-	ValveWaterSteamSet(OFF);
-
-	PumpSteamGeneratorSet(OFF);
-	PumpVacuumSet(OFF);
-	PumpWaterLoadSet(OFF);
-
+	ValveDryIntakeSet(ON);
+	ValveDrainSteamSet(ON);
 
 	while (1) {
 		if ((sensors.PressureChamber >= pressAmbientMin) && (sensors.PressureChamber <= pressAmbientMax)) {
-			retVal = 1;
 			break;
 		}
-		GetTimer(TIMER_TIMEOUT, &tTimeout);
-		if (tTimeout.Seconds > timeout) {
-			lastError = ERROR_PHASE_TIMEOUT;
-			Print("HEAT ERROR *** TIMEOUT\n");
+		lastError = CheckError();
+		if (lastError > 0) {
 			retVal = 0;
 			break;
 		}
 		osDelay(200);
 	}
 
-	return retVal;
+	machineStatus.Status = STATUS_READY;
+
+//		FanSet(OFF);
+	ResetTimer(TIMER_FAN);
+
+	osDelay(1000);
+	if (DoorSolenoidSet(UNLOCK) != UNLOCK) {
+		DigitsWrite(3, "Er.11");
+		return 0;
+	}
+
+	doorOpened = 0;
 }
 
 uint8_t PhasePreheat(float ringTemp, float steamGenTemp) {
@@ -374,7 +368,7 @@ uint8_t PhaseRelease(uint8_t nRelease, uint16_t timeout) {
 	return retVal;
 }
 
-uint8_t PhaseVacuum(uint8_t nVacuum, float press, uint16_t timeout) {
+uint8_t PhaseVacuum(uint8_t nVacuum, float press, uint8_t skipThreshold, uint16_t timeout) {
 
 	uint8_t retVal = 0;
 	RTCTimerTime_s tTimeout, tPhase, tExt;
@@ -425,15 +419,17 @@ uint8_t PhaseVacuum(uint8_t nVacuum, float press, uint16_t timeout) {
 //		}
 		GetTimer(TIMER_TIMEOUT, &tTimeout);
 		if (tTimeout.Seconds > timeout) {
-			if (sensors.PressureChamber > settings.VacuumThreshold) {
-				lastError = ERROR_PHASE_TIMEOUT;
-				Print("VACU ERROR *** TIMEOUT\n");
-				GetTimer(TIMER_PHASE, &tPhase);
-				PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
-				retVal = 0;
-			} else {
-				retVal = 1;
-			}
+				if (skipThreshold == 0 && sensors.PressureChamber <= settings.VacuumThreshold) {
+					retVal = 1;
+
+				} else {
+					lastError = ERROR_PHASE_TIMEOUT;
+					Print("VACU ERROR *** TIMEOUT\n");
+					GetTimer(TIMER_PHASE, &tPhase);
+					PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
+					retVal = 0;
+
+				}
 			break;
 		}
 		lastError = CheckError();
@@ -819,18 +815,18 @@ uint8_t PhaseDry(float firstVacPress, float otherVacPress, uint16_t time, uint16
 	GetTimer(TIMER_PHASE, &tPhase);
 	Print("TIME                       %2d:%02d\n", tPhase.TimeMinute, tPhase.TimeSecond);
 
-	if (currProgram == PROGRAM_RESUME_DRY) {
-
-		lastError = ERROR_NONE;
-		EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
-		currProgType = PROGTYPE_PROGRAM;
-		currProgram = 1;
-		ShowProgram();
-
-		return 1;
-	} else {
-//		return retVal;
-	}
+//	if (currProgram == PROGRAM_RESUME_DRY) {
+//
+//		lastError = ERROR_NONE;
+//		EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
+//		currProgType = PROGTYPE_PROGRAM;
+//		currProgram = 1;
+//		ShowProgram();
+//
+//		return 1;
+//	} else {
+////		return retVal;
+//	}
 	return retVal;
 }
 
@@ -981,10 +977,10 @@ uint8_t PhaseVacuumHold(float vacPress, uint8_t tolerance, uint16_t time, uint16
 		GetTimer(TIMER_TIMEOUT, &tTimeout);
 		GetTimer(TIMER_PHASE, &tPhase);
 		if (sensors.PressureChamber > (vacPress + tolerance)) {
-//			lastError = ERROR_VACUUM_TEST_FAILED;
-//			Print("VAC  ERROR *** OVER PRESSURE\n");
-//			GetTimer(TIMER_PHASE, &tPhase);
-//			PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
+			lastError = ERROR_VACUUM_TEST_FAILED;
+			Print("VAC  ERROR *** OVER PRESSURE\n");
+			GetTimer(TIMER_PHASE, &tPhase);
+			PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
 			retVal = 0;
 			break;
 		} else if (tTimeout.Seconds > timeout) {
@@ -1036,10 +1032,10 @@ uint8_t PhaseWait(float vacPress, uint8_t tolerance, uint16_t time) {
 			break;
 		}
 		if (sensors.PressureChamber > (vacPress + tolerance)) {
-//			lastError = ERROR_VACUUM_TEST_FAILED;
-//			Print("VAC  ERROR *** OVER PRESSURE\n");
-//			GetTimer(TIMER_PHASE, &tPhase);
-//			PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
+			lastError = ERROR_VACUUM_TEST_FAILED;
+			Print("VAC  ERROR *** OVER PRESSURE\n");
+			GetTimer(TIMER_PHASE, &tPhase);
+			PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
 			retVal = 0;
 			break;
 		}
@@ -1075,12 +1071,12 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 	if (success) {
 		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "PASS");
 
+		PrintFooter("PASS", time, timer);
+
 //		uint8_t err = ERROR_NONE;
 		lastError = ERROR_NONE;
-
 		EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
 
-		PrintFooter("PASS", time, timer);
 		ValveDryIntakeSet(ON);
 		ValveDrainSteamSet(ON);
 
@@ -1098,7 +1094,7 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 
 		machineStatus.Status = STATUS_READY;
 
-//		FanSet(OFF);
+	//		FanSet(OFF);
 		ResetTimer(TIMER_FAN);
 
 		osDelay(1000);

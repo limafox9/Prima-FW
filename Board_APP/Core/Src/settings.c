@@ -67,7 +67,7 @@ ConfigSettings_s configSettings[] = {
 		{"FUN_PRESS_DISPLAY_OFFSET", EPA_FUN_PRESS_DISPLAY_OFFSET, 1},
 };
 
-void ReadSetting(uint8_t address, uint8_t* data, uint8_t size) {
+void ReadSetting(uint8_t address, void* data, uint8_t size) {
 	// EEPROM read
 	EEPROM_Read(address, data, size);
 }
@@ -96,10 +96,10 @@ void LoadSettings() {
 
 	EEPROM_Read(EPA_T1_OFFSET, &settings.T1Offset, 1);
 	EEPROM_Read(EPA_T2_OFFSET, &settings.T2Offset, 1);
-	EEPROM_Read(EPA_T1_FACTORY_OFFSET, &settings.T1FactoryOffset, 2);
-	EEPROM_Read(EPA_T2_FACTORY_OFFSET, &settings.T2FactoryOffset, 2);
-	EEPROM_Read(PREHEAT_STANDBY_RING_TEMP, &settings.PreheatRingTemp, 2);
-	EEPROM_Read(PREHEAT_STANDBY_STEAM_TEMP, &settings.PreheatSteamTemp, 2);
+	EEPROM_Read(EPA_T1_FACTORY_OFFSET, &settings.T1FactoryOffset, 1);
+	EEPROM_Read(EPA_T2_FACTORY_OFFSET, &settings.T2FactoryOffset, 1);
+	EEPROM_Read(PREHEAT_STANDBY_RING_TEMP, &settings.PreheatRingTemp, 1);
+	EEPROM_Read(PREHEAT_STANDBY_STEAM_TEMP, &settings.PreheatSteamTemp, 1);
 	EEPROM_Read(EPA_CHAMBER_PRESSURE_OFFSET, &settings.ChamberPressOffset, 1);
 	EEPROM_Read(EPA_FIRST_VACUUM, &settings.FirstVacuum, 1);
 	EEPROM_Read(EPA_OTHER_VACUUM, &settings.OtherVacuum, 1);
@@ -123,12 +123,12 @@ void LoadSettings() {
 	EEPROM_Read(EPA_FUN_USB_ACTIVE, &settings.FunUSBActive, 1);
 	EEPROM_Read(EPA_FUN_WATER_LOAD_ACTIVE, &settings.FunWaterLoadActive, 1);
 	EEPROM_Read(EPA_FUN_TDS_ACTIVE, &settings.FunTDSActive, 1);
-	EEPROM_Read(EPA_FUN_DRY_TIME, &settings.FunDryClass, 2);
+	EEPROM_Read(EPA_FUN_DRY_CLASS, &settings.FunDryClass, 1);
 	EEPROM_Read(EPA_FUN_PRESS_DISPLAY_OFFSET, &settings.FunPressureDisplay, 1);
 
 }
 
-void WriteSetting(uint8_t address, uint8_t* data, uint8_t size) {
+void WriteSetting(uint8_t address, void* data, uint8_t size) {
 	// EEPROM read
 	EEPROM_Write(address, data, size);
 }
@@ -137,10 +137,10 @@ void SaveSettings() {
 
 	EEPROM_Write(EPA_T1_OFFSET, &settings.T1Offset, 1);
 	EEPROM_Write(EPA_T2_OFFSET, &settings.T2Offset, 1);
-	EEPROM_Write(EPA_T1_FACTORY_OFFSET, &settings.T1FactoryOffset, 2);
-	EEPROM_Write(EPA_T2_FACTORY_OFFSET, &settings.T2FactoryOffset, 2);
-	EEPROM_Write(PREHEAT_STANDBY_RING_TEMP, &settings.PreheatRingTemp, 2);
-	EEPROM_Write(PREHEAT_STANDBY_STEAM_TEMP, &settings.PreheatSteamTemp, 2);
+	EEPROM_Write(EPA_T1_FACTORY_OFFSET, &settings.T1FactoryOffset, 1);
+	EEPROM_Write(EPA_T2_FACTORY_OFFSET, &settings.T2FactoryOffset, 1);
+	EEPROM_Write(PREHEAT_STANDBY_RING_TEMP, &settings.PreheatRingTemp, 1);
+	EEPROM_Write(PREHEAT_STANDBY_STEAM_TEMP, &settings.PreheatSteamTemp, 1);
 	EEPROM_Write(EPA_CHAMBER_PRESSURE_OFFSET, &settings.ChamberPressOffset, 1);
 	EEPROM_Write(EPA_FIRST_VACUUM, &settings.FirstVacuum, 1);
 	EEPROM_Write(EPA_OTHER_VACUUM, &settings.OtherVacuum, 1);
@@ -161,7 +161,7 @@ void SaveSettings() {
 	EEPROM_Write(EPA_FUN_USB_ACTIVE, &settings.FunUSBActive, 1);
 	EEPROM_Write(EPA_FUN_WATER_LOAD_ACTIVE, &settings.FunWaterLoadActive, 1);
 	EEPROM_Write(EPA_FUN_TDS_ACTIVE, &settings.FunTDSActive, 1);
-	EEPROM_Write(EPA_FUN_DRY_TIME, &settings.FunDryClass, 1);
+	EEPROM_Write(EPA_FUN_DRY_CLASS, &settings.FunDryClass, 1);
 	EEPROM_Write(EPA_FUN_PRESS_DISPLAY_OFFSET, &settings.FunPressureDisplay, 1);
 
 }
@@ -169,7 +169,7 @@ void SaveSettings() {
 void SaveDefaults(uint8_t factoryDefault) {
 
 
-	if (!factoryDefault) {
+	if (factoryDefault) {
 		RTCDateTime_s tTime = {2023, 1, 1, 12, 0, 0};
 		SetDateTime(&tTime);
 
@@ -177,39 +177,39 @@ void SaveDefaults(uint8_t factoryDefault) {
 
 		char sn[12] = "GP0000000000";
 		EEPROM_Write(EPA_MACHINE_SERIAL_NUMBER, sn, 12);
-		EEPROM_Write(EPA_CYCLE_COUNTER_PERMANENT, 0, 2);
-		EEPROM_Write(EPA_CYCLE_COUNTER, 0, 2);
+		EEPROM_Write(EPA_CYCLE_COUNTER_PERMANENT, &(uint16_t){0}, 2);
+		EEPROM_Write(EPA_CYCLE_COUNTER, &(uint16_t){0}, 2);
 
-		EEPROM_Write(EPA_T1_FACTORY_OFFSET, 0, 2);
-		EEPROM_Write(EPA_T2_FACTORY_OFFSET, 0, 2);
-		EEPROM_Write(PREHEAT_STANDBY_RING_TEMP, 60, 2);
-		EEPROM_Write(PREHEAT_STANDBY_STEAM_TEMP, 90, 2);
+		EEPROM_Write(EPA_T1_FACTORY_OFFSET, &(int8_t){30}, 1);
+		EEPROM_Write(EPA_T2_FACTORY_OFFSET, &(int8_t){0}, 1);
+		EEPROM_Write(PREHEAT_STANDBY_RING_TEMP, &(uint8_t){60}, 1);
+		EEPROM_Write(PREHEAT_STANDBY_STEAM_TEMP, &(uint8_t){90}, 1);
+
+		char s[4] = {'G', 'A', 'P', 'R'};
+		EEPROM_Write(0x00, s, 4); // Numeric ASCII for 'GAPR' (in little endian)
 	}
 
-	EEPROM_Write(EPA_T1_OFFSET, 0, 1);
-	EEPROM_Write(EPA_T2_OFFSET, 0, 1);
-	EEPROM_Write(EPA_CHAMBER_PRESSURE_OFFSET, 0, 1);
-	EEPROM_Write(EPA_FIRST_VACUUM, 18, 1);
-	EEPROM_Write(EPA_OTHER_VACUUM, 70, 1);
-	EEPROM_Write(EPA_VACUUM_THRESHOLD, 40, 1);
-	EEPROM_Write(EPA_OTHER_PRESSURE, 170, 1);
-	EEPROM_Write(EPA_TDS_MIN, 25, 1);
+	EEPROM_Write(EPA_T1_OFFSET, &(int8_t){0}, 1);
+	EEPROM_Write(EPA_T2_OFFSET, &(int8_t){0}, 1);
+	EEPROM_Write(EPA_CHAMBER_PRESSURE_OFFSET, &(int8_t){0}, 1);
+	EEPROM_Write(EPA_FIRST_VACUUM, &(uint8_t){20}, 1);
+	EEPROM_Write(EPA_OTHER_VACUUM, &(uint8_t){70}, 1);
+	EEPROM_Write(EPA_VACUUM_THRESHOLD, &(uint8_t){50}, 1);
+	EEPROM_Write(EPA_OTHER_PRESSURE, &(uint8_t){170 / 10}, 1);
+	EEPROM_Write(EPA_TDS_MIN, &(uint8_t){25}, 1);
 
-	EEPROM_Write(EPA_USER_STERIL_TEMP, 1, 1);
-	EEPROM_Write(EPA_USER_STERIL_TIME, 300, 2);
-	EEPROM_Write(EPA_USER_DRY_TIME, 300, 2);
-	EEPROM_Write(EPA_USER_VACUUM_NUMBER, 3, 1);
+	EEPROM_Write(EPA_USER_STERIL_TEMP, &(uint8_t){134}, 1);
+	EEPROM_Write(EPA_USER_STERIL_TIME, &(uint16_t){240}, 2);
+	EEPROM_Write(EPA_USER_DRY_TIME, &(uint8_t){0}, 2);
+	EEPROM_Write(EPA_USER_VACUUM_NUMBER, &(uint8_t){1}, 1);
 
-	EEPROM_Write(EPA_FUN_NIGHT_CYCLE_TIME, 0, 2);
-	EEPROM_Write(EPA_FUN_PRINTER_ACTIVE, 1, 1);
-	EEPROM_Write(EPA_FUN_USB_ACTIVE, 1, 1);
-	EEPROM_Write(EPA_FUN_WATER_LOAD_ACTIVE, 1, 1);
-	EEPROM_Write(EPA_FUN_TDS_ACTIVE, 1, 1);
-	EEPROM_Write(EPA_FUN_DRY_TIME, 300, 2);
-	EEPROM_Write(EPA_FUN_PRESS_DISPLAY_OFFSET, 1, 1);
-
-	char s[4] = {'G', 'A', 'P', 'R'};
-	EEPROM_Write(0x00, s, 4); // Numeric ASCII for 'GAPR' (in little endian)
+	EEPROM_Write(EPA_FUN_NIGHT_CYCLE_TIME, &(uint8_t){30}, 2);
+	EEPROM_Write(EPA_FUN_PRINTER_ACTIVE, &(uint8_t){1}, 1);
+	EEPROM_Write(EPA_FUN_USB_ACTIVE, &(uint8_t){1}, 1);
+	EEPROM_Write(EPA_FUN_WATER_LOAD_ACTIVE, &(uint8_t){1}, 1);
+	EEPROM_Write(EPA_FUN_TDS_ACTIVE, &(uint8_t){1}, 1);
+	EEPROM_Write(EPA_FUN_DRY_CLASS, &(uint8_t){1}, 1);
+	EEPROM_Write(EPA_FUN_PRESS_DISPLAY_OFFSET, &(uint8_t){1}, 1);
 
 }
 

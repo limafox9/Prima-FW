@@ -130,10 +130,13 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 		Beep(1, 100, 100);
 		osSemaphoreWait(semaphoreSensorsHandle, 100);
 		sensors.Door = DoorPositionGet();
+		if (sensors.Door == OPEN) {
+			doorOpened = 1;
+		}
 		if (machineStatus.Status == STATUS_READY) ValveDryIntakeSet(DoorPositionGet());
 		doorStatus = DoorPositionGet();
 		ResetTimer(TIMER_DOOR);
-		machineStatus.Status = (sensors.Door == CLOSED) ? STATUS_READY : STATUS_IDLE;
+		if (machineStatus.Status != STATUS_ERROR) machineStatus.Status = (sensors.Door == CLOSED) ? STATUS_READY : STATUS_IDLE;
 		osSemaphoreRelease(semaphoreSensorsHandle);
 //		if ((machineStatus.Status == STATUS_READY) || (machineStatus.Status == STATUS_IDLE)) {
 //			machineStatus.Status = (sensors.Door == CLOSED) ? STATUS_READY : STATUS_IDLE;
@@ -186,9 +189,6 @@ void StartSensorsTask() {
 	for (;;) {
 		osSemaphoreWait(semaphoreSensorsHandle, 100);
 		sensors.Door = DoorPositionGet();
-		if (sensors.Door == OPEN) {
-			doorOpened = 1;
-		}
 		sensors.Solenoid = DoorSolenoidKeyGet();
 		sensors.TemperatureSteamGenerator = SteamGeneratorTempGet();
 		sensors.TemperatureChamberHeater = ChamberHeaterTempGet();
@@ -206,7 +206,7 @@ void StartSensorsTask() {
 //		sprintf(d, "%0.1f", Sensors.TemperatureSteamGenerator);
 //		SendCommand(COMMAND_WRITE_DIGITS_ROW_1, 0, 0, 0, d);
 
-		if ((machineStatus.Status == STATUS_READY) || (machineStatus.Status == STATUS_IDLE)) machineStatus.Status = (sensors.Door == CLOSED) ? STATUS_READY : STATUS_IDLE;
+//		if ((machineStatus.Status == STATUS_READY) || (machineStatus.Status == STATUS_IDLE)) machineStatus.Status = (sensors.Door == CLOSED) ? STATUS_READY : STATUS_IDLE;
 
 		if (sensors.Door == OPEN) {
 			sensors.PressureAmbient = sensors.PressureChamber;

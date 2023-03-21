@@ -100,7 +100,7 @@ USAGE:
 #define EPA_FUN_USB_ACTIVE				0x43	// 1 byte
 #define EPA_FUN_WATER_LOAD_ACTIVE		0x44	// 1 byte
 #define EPA_FUN_TDS_ACTIVE				0x45	// 1 byte
-#define EPA_FUN_DRY_TIME				0x46	// 1 byte
+#define EPA_FUN_DRY_CLASS				0x46	// 1 byte
 #define EPA_FUN_PRESS_DISPLAY_OFFSET	0x48	// 2 byte
 
 typedef struct ConfigSettings_s {
@@ -111,37 +111,37 @@ typedef struct ConfigSettings_s {
 
 
 typedef struct Settings_s {
-	uint16_t CyclesCount;
 	int8_t T1Offset;				// -2..2 step 1 (0.1)
 	int8_t T2Offset;				// -2..2 step 1 (0.1)
-	int16_t T1FactoryOffset;		// -100..100 step 1 (0.1)
-	int16_t T2FactoryOffset;		// -100..100 step 1 (0.1)
+	int8_t ChamberPressOffset;		// -15..15 step 1
+	int8_t T1FactoryOffset;		// -100..100 step 1 (0.1)
+	int8_t T2FactoryOffset;		// -100..100 step 1 (0.1)
 	uint8_t PreheatRingTemp;		// 0..255 step 1
 	uint8_t PreheatSteamTemp;		// 0..255 step 1
-	int8_t ChamberPressOffset;		// -15..15 step 1
-	int8_t WaterTDSMin;				// 5..70 step 1
-	int8_t FirstVacuum;				// 10..50 step 1
-	int8_t VacuumThreshold;			// 30..60 step 1
-	int8_t OtherVacuum;				// 10..60 step 1
-	int8_t OtherPressure;			// 120..200 step 1
-	int8_t VacNumber;				// 3..5 step 1
-	int8_t CleanCyclesInterval;		// 30, 60, 90
-	int8_t ServiceCyclesInterval;	// 500, 1000 step 10
-	int16_t LastCleanCycle;
-	int16_t LastServiceCycle;
-	int8_t UserSterilTemp;			// 121, 134
-	int8_t UserSterilTime;			// 4..30
-	int8_t UserDryClass;			// 0..3
-	int8_t UserDryTime;				// 0..28
-	int8_t UserVacuumNumber;		// 0, 1, 3, 4, 5
-	int8_t FunNightCycleTime;
-	int8_t FunPrinterActive;	// On Off
-	int8_t FunUSBActive;	// On Off
-	int8_t FunWaterLoadActive;	// On Off
-	int8_t FunTDSActive;	// On Off
-	int8_t FunDryClass;
-	int8_t FunDryTime;
-	int8_t FunPressureDisplay; // 0-100 kPa display @ATM
+	uint8_t WaterTDSMin;				// 5..70 step 1
+	uint8_t FirstVacuum;				// 10..50 step 1
+	uint8_t VacuumThreshold;			// 30..60 step 1
+	uint8_t OtherVacuum;				// 10..60 step 1
+	uint8_t OtherPressure;			// 120..200 step 1
+	uint8_t VacNumber;				// 3..5 step 1
+	uint8_t CleanCyclesInterval;		// 30, 60, 90
+	uint8_t ServiceCyclesInterval;	// 500, 1000 step 10
+	uint8_t UserSterilTemp;			// 121, 134
+	uint8_t UserSterilTime;			// 4..30
+	uint8_t UserDryClass;			// 0..3
+	uint8_t UserDryTime;				// 0..28
+	uint8_t UserVacuumNumber;		// 0, 1, 3, 4, 5
+	uint8_t FunNightCycleTime;
+	uint8_t FunPrinterActive;	// On Off
+	uint8_t FunUSBActive;	// On Off
+	uint8_t FunWaterLoadActive;	// On Off
+	uint8_t FunTDSActive;	// On Off
+	uint8_t FunDryClass;
+	uint8_t FunDryTime;
+	uint8_t FunPressureDisplay; // 0-100 kPa display @ATM
+	uint16_t CyclesCount;
+	uint16_t LastCleanCycle;
+	uint16_t LastServiceCycle;
 } Settings_s;
 
 typedef enum {
@@ -171,8 +171,8 @@ extern ConfigSettings_s configSettings[];
 
 void SaveSettings();
 void LoadSettings();
-void ReadSetting(uint8_t address, uint8_t* data, uint8_t size);
-void WriteSetting(uint8_t address, uint8_t* data, uint8_t size);
+void ReadSetting(uint8_t address, void* data, uint8_t size);
+void WriteSetting(uint8_t address, void* data, uint8_t size);
 
 //void* GetSetting(const char* settingName);
 //uint8_t SetSetting(const char* settingName, void* value);

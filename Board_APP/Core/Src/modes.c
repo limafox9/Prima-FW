@@ -114,7 +114,7 @@ Functions_s functions[] = {
 	{4, "Water load on", 			"PUnP", EPA_FUN_WATER_LOAD_ACTIVE, &settings.FunWaterLoadActive, 1, 0, 1},
 	{5, "TDS on", 					" CO ", EPA_FUN_TDS_ACTIVE, &settings.FunTDSActive, 1, 0, 1},
 	{6, "Pressure display", 		"PrES", EPA_FUN_PRESS_DISPLAY_OFFSET, &settings.FunPressureDisplay, 1, 0, 1},
-	{7, "Dry Time", 				" dry", EPA_FUN_DRY_TIME, &settings.FunDryClass, 1, 1, 3},
+	{7, "Dry Time", 				" dry", EPA_FUN_DRY_CLASS, &settings.FunDryClass, 1, 1, 3},
 	{8, "USB Export", 				"ESPr", 0, 0, 0, 0, 0, 0},
 	{9, "USB Import parameters", 	"LoAd", 0, 0, 0, 0, 0},
 	{10, "Power test", 		"tESt", 0, 0, 0, 0, 0},
@@ -170,7 +170,7 @@ void ShowProgram() {
 
 	static lastProg, lastTest, lastProgType;
 
-	if (lastError > 0) {
+	if (machineStatus.Status == STATUS_ERROR) {
 		char s[8];
 		sprintf(s,"Er.%02d", lastError);
 		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, s);
@@ -240,7 +240,8 @@ void ShowParameter() {
 	if (parameters[currParameter].Increment < 1) {
 		sprintf(s,"%5.1f", (float)((float)*parameters[currParameter].Value) * parameters[currParameter].Increment);
 	} else {
-		sprintf(s,"%4d", *parameters[currParameter].Value * (uint8_t)parameters[currParameter].Increment);
+//		sprintf(s,"%4d", *parameters[currParameter].Value * (uint8_t)parameters[currParameter].Increment);
+		sprintf(s,"%4d", (uint16_t)(*parameters[currParameter].Value * parameters[currParameter].Increment));
 	}
 	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 2, 0, 0, s);
 	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "PArA");

@@ -106,10 +106,10 @@ void ParseCommand(s_DisplayProtocolData* data) {
 			}
 
 		} else if (data->Param1 == KEY_START) {
-			if (lastError > 0) {
+			if (machineStatus.Status == STATUS_ERROR) {
 				currProgram = PROGRAM_RESUME_DRY;
-				machineStatus.Status == STATUS_READY;
-				machineStatus.Show = SHOW_PROGRAM;
+//				machineStatus.Status == STATUS_READY;
+//				machineStatus.Show = SHOW_PROGRAM;
 				programStart = 1;
 			} else {
 				if (progRunning == 1 && currTest == 3) abortProgram = 1;
@@ -396,6 +396,9 @@ static void KeysReceived(uint8_t keysCode) {
 
 		__NOP();
 	} else if (keysCode == KEY_S3 + KEY_S2 + KEY_S1 + KEY_LONG_PRESS) {
+		SaveDefaults(1);
+		Beep(1, 50, 50);
+		HAL_NVIC_SystemReset();
 		__NOP();
 	} else {
 		__NOP();
