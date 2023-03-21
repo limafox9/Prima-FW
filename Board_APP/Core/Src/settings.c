@@ -94,9 +94,13 @@ void LoadSettings() {
 	EEPROM_Read(EPA_CYCLE_COUNTER_PERMANENT, &machine.ReadOnlyCyclesCount, 2);
 	EEPROM_Read(EPA_CYCLE_COUNTER, &settings.CyclesCount, 2);
 
-	EEPROM_Read(EPA_T1_OFFSET, &settings.T1Offset, 2);
-	EEPROM_Read(EPA_T2_OFFSET, &settings.T2Offset, 2);
-	EEPROM_Read(EPA_CHAMBER_PRESSURE_OFFSET, &settings.ChamberPressOffset, 2);
+	EEPROM_Read(EPA_T1_OFFSET, &settings.T1Offset, 1);
+	EEPROM_Read(EPA_T2_OFFSET, &settings.T2Offset, 1);
+	EEPROM_Read(EPA_T1_FACTORY_OFFSET, &settings.T1FactoryOffset, 2);
+	EEPROM_Read(EPA_T2_FACTORY_OFFSET, &settings.T2FactoryOffset, 2);
+	EEPROM_Read(PREHEAT_STANDBY_RING_TEMP, &settings.PreheatRingTemp, 2);
+	EEPROM_Read(PREHEAT_STANDBY_STEAM_TEMP, &settings.PreheatSteamTemp, 2);
+	EEPROM_Read(EPA_CHAMBER_PRESSURE_OFFSET, &settings.ChamberPressOffset, 1);
 	EEPROM_Read(EPA_FIRST_VACUUM, &settings.FirstVacuum, 1);
 	EEPROM_Read(EPA_OTHER_VACUUM, &settings.OtherVacuum, 1);
 	EEPROM_Read(EPA_VACUUM_THRESHOLD, &settings.VacuumThreshold, 1);
@@ -131,9 +135,13 @@ void WriteSetting(uint8_t address, uint8_t* data, uint8_t size) {
 
 void SaveSettings() {
 
-	EEPROM_Write(EPA_T1_OFFSET, &settings.T1Offset, 2);
-	EEPROM_Write(EPA_T2_OFFSET, &settings.T2Offset, 2);
-	EEPROM_Write(EPA_CHAMBER_PRESSURE_OFFSET, &settings.ChamberPressOffset, 2);
+	EEPROM_Write(EPA_T1_OFFSET, &settings.T1Offset, 1);
+	EEPROM_Write(EPA_T2_OFFSET, &settings.T2Offset, 1);
+	EEPROM_Write(EPA_T1_FACTORY_OFFSET, &settings.T1FactoryOffset, 2);
+	EEPROM_Write(EPA_T2_FACTORY_OFFSET, &settings.T2FactoryOffset, 2);
+	EEPROM_Write(PREHEAT_STANDBY_RING_TEMP, &settings.PreheatRingTemp, 2);
+	EEPROM_Write(PREHEAT_STANDBY_STEAM_TEMP, &settings.PreheatSteamTemp, 2);
+	EEPROM_Write(EPA_CHAMBER_PRESSURE_OFFSET, &settings.ChamberPressOffset, 1);
 	EEPROM_Write(EPA_FIRST_VACUUM, &settings.FirstVacuum, 1);
 	EEPROM_Write(EPA_OTHER_VACUUM, &settings.OtherVacuum, 1);
 	EEPROM_Write(EPA_VACUUM_THRESHOLD, &settings.VacuumThreshold, 1);
@@ -158,19 +166,29 @@ void SaveSettings() {
 
 }
 
-void SaveDefaults() {
+void SaveDefaults(uint8_t factoryDefault) {
 
-	RTCDateTime_s tTime = {2023, 1, 1, 12, 0, 0};
-	SetDateTime(&tTime);
 
-	char sn[12] = "GP0000000000";
-	EEPROM_Write(EPA_MACHINE_SERIAL_NUMBER, sn, 12);
-	EEPROM_Write(EPA_CYCLE_COUNTER_PERMANENT, 0, 2);
-	EEPROM_Write(EPA_CYCLE_COUNTER, 0, 2);
+	if (!factoryDefault) {
+		RTCDateTime_s tTime = {2023, 1, 1, 12, 0, 0};
+		SetDateTime(&tTime);
 
-	EEPROM_Write(EPA_T1_OFFSET, 0, 2);
-	EEPROM_Write(EPA_T2_OFFSET, 0, 2);
-	EEPROM_Write(EPA_CHAMBER_PRESSURE_OFFSET, 0, 2);
+		BAT2U_TDSCalibration(500);
+
+		char sn[12] = "GP0000000000";
+		EEPROM_Write(EPA_MACHINE_SERIAL_NUMBER, sn, 12);
+		EEPROM_Write(EPA_CYCLE_COUNTER_PERMANENT, 0, 2);
+		EEPROM_Write(EPA_CYCLE_COUNTER, 0, 2);
+
+		EEPROM_Write(EPA_T1_FACTORY_OFFSET, 0, 2);
+		EEPROM_Write(EPA_T2_FACTORY_OFFSET, 0, 2);
+		EEPROM_Write(PREHEAT_STANDBY_RING_TEMP, 60, 2);
+		EEPROM_Write(PREHEAT_STANDBY_STEAM_TEMP, 90, 2);
+	}
+
+	EEPROM_Write(EPA_T1_OFFSET, 0, 1);
+	EEPROM_Write(EPA_T2_OFFSET, 0, 1);
+	EEPROM_Write(EPA_CHAMBER_PRESSURE_OFFSET, 0, 1);
 	EEPROM_Write(EPA_FIRST_VACUUM, 18, 1);
 	EEPROM_Write(EPA_OTHER_VACUUM, 70, 1);
 	EEPROM_Write(EPA_VACUUM_THRESHOLD, 40, 1);

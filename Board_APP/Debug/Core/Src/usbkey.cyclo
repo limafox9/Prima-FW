@@ -5,5 +5,5 @@ usbkey.c:84:9:isnumber	3
 usbkey.c:94:13:getfield	4
 usbkey.c:103:9:GetParam	2
 usbkey.c:144:6:StartUSBTask	4
-usbkey.c:182:6:LoadUSBConfig	38
-usbkey.c:356:6:SdcardWriteAction	1
+usbkey.c:182:6:LoadUSBConfig	41
+usbkey.c:364:6:SdcardWriteAction	1

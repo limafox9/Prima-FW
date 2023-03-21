@@ -176,9 +176,9 @@ typedef struct Timeset_s {
 	uint8_t ParamNumber;
 	char Name[16];
 	char DigitsName[8];
-	uint8_t* Value;
-	uint8_t Min;
-	uint8_t Max;
+	uint16_t* Value;
+	uint16_t Min;
+	uint16_t Max;
 } Timeset_s;
 
 

@@ -138,7 +138,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 //		if ((machineStatus.Status == STATUS_READY) || (machineStatus.Status == STATUS_IDLE)) {
 //			machineStatus.Status = (sensors.Door == CLOSED) ? STATUS_READY : STATUS_IDLE;
 //		}
-		if (machineStatus.Status == STATUS_IDLE) PhasePreheat(60.0, 90.0);
+		if (machineStatus.Status == STATUS_IDLE) PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
 	}
 //	if (GPIO_Pin == SW_CSH_Pin) {
 //		osDelay(100);
@@ -192,9 +192,9 @@ void StartSensorsTask() {
 		sensors.Solenoid = DoorSolenoidKeyGet();
 		sensors.TemperatureSteamGenerator = SteamGeneratorTempGet();
 		sensors.TemperatureChamberHeater = ChamberHeaterTempGet();
-		sensors.T1 = TM7705_GetTemp(1, (float)(settings.T1Offset / 10.0) + (float)T1_FACTORY_OFFSET);
+		sensors.T1 = TM7705_GetTemp(1, (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0));
 		HAL_Delay(50);
-		sensors.T2 = TM7705_GetTemp(2, (float)(settings.T2Offset / 10.0) + (float)T2_FACTORY_OFFSET);
+		sensors.T2 = TM7705_GetTemp(2, (float)(settings.T2Offset / 10.0) + (float)(settings.T2FactoryOffset / 10.0));
 		sensors.PressureChamber = BufferAverage(pressBuf, PRESS_BUFFER_SIZE, ChamberPressureGet());
 //		sensors.PressureChamber -= (!settings.FunPressureDisplay) ? 0 : 100;
 		sensors.Current = CurrentGet();
@@ -428,7 +428,7 @@ float ADCToTemp(uint16_t adcValue) {
 	tCelsius = Z2 + (Z3 * Rt);
 	tCelsius = (sqrt(tCelsius) + Z1) / Z4;
 
-	tCelsius += (settings.T1Offset / 10.0);
+//	tCelsius += (settings.T1Offset / 10.0);
 
 	return tCelsius;
 }

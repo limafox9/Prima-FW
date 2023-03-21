@@ -190,7 +190,7 @@ void LoadUSBConfig()  {
 				f_gets(rBuffer, CONFIG_FILE_MAX_ROW_LENGHT, &USBHFile);
 
 				GetParam(rBuffer, &param);
-				if (strcmp(param.param, "VERSION") == 0 && param.value >= CONFIG_FILE_VERSION) {
+				if (strcmp(param.param, "VERSION") == 0 && (uint8_t)atoi(param.value) >= CONFIG_FILE_VERSION) {
 					while (f_eof(&USBHFile) == 0) {
 						f_gets(rBuffer, CONFIG_FILE_MAX_ROW_LENGHT, &USBHFile);
 						GetParam(rBuffer, &param);
@@ -200,10 +200,10 @@ void LoadUSBConfig()  {
 							WriteSetting(EPA_LAST_ERROR, &bVal, 1);
 
 						} else if (strcmp(param.param, "MACHINE_SERIAL_NUMBER") == 0) {
-							WriteSetting(EPA_MACHINE_SERIAL_NUMBER, param.value, 12);
+							WriteSetting(EPA_MACHINE_SERIAL_NUMBER, trim(param.value), 12);
 
 						} else if (strcmp(param.param, "MACHINE_MODEL") == 0) {
-							WriteSetting(EPA_MACHINE_MODEL, param.value, 15);
+							WriteSetting(EPA_MACHINE_MODEL, trim(param.value), 15);
 
 						} else if (strcmp(param.param, "MACHINE_SIZE") == 0) {
 							uint8_t bVal = (uint8_t)atoi(param.value);
@@ -232,6 +232,14 @@ void LoadUSBConfig()  {
 						} else if (strcmp(param.param, "T2_OFFSET") == 0) {
 							int8_t bVal = (int8_t)atoi(param.value);
 							WriteSetting(EPA_T2_OFFSET, &bVal, 1);
+
+						} else if (strcmp(param.param, "T1_FACTORY_OFFSET") == 0) {
+							int16_t bVal = (int16_t)atoi(param.value);
+							WriteSetting(EPA_T1_FACTORY_OFFSET, &bVal, 2);
+
+						} else if (strcmp(param.param, "T2_FACTORY_OFFSET") == 0) {
+							int16_t bVal = (int16_t)atoi(param.value);
+							WriteSetting(EPA_T2_FACTORY_OFFSET, &bVal, 2);
 
 						} else if (strcmp(param.param, "CHAMBER_PRESSURE_OFFSET") == 0) {
 							int8_t bVal = (int8_t)atoi(param.value);

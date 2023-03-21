@@ -44,9 +44,11 @@ USAGE:
 
 typedef struct RTCTimerTime_s {
 	uint16_t	TimeHour;
+	uint16_t	Hours;	// Total hours elapsed
+	uint32_t	Minutes;	// Total minutes elapsed
+	uint32_t	Seconds;	// Total seconds elapsed
 	uint8_t		TimeMinute;	// Minutes in 0..59 format
 	uint8_t		TimeSecond;	// Seconds in 0..59 format
-	uint32_t	Seconds;	// Total seconds elapsed
 	uint32_t	Ticks;		// Total Ticks elapsed
 } RTCTimerTime_s;
 
@@ -59,6 +61,7 @@ typedef enum {
 	TIMER_FAN,
 	TIMER_DOOR,
 	TIMER_TIMEOUT,
+	TIMER_NIGHT_CYCLE,
 	TIMER_1,
 	TIMER_2,
 	TIMER_3,
@@ -66,6 +69,7 @@ typedef enum {
 	TIMER_5,
 } RTCTimer_e;
 
+extern uint16_t yearSet;
 
 void ClockInit(I2C_HandleTypeDef* hi2c);
 void SetDateTime(RTCDateTime_s* dateTime);

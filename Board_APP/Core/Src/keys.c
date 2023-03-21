@@ -385,13 +385,15 @@ static void KeysReceived(uint8_t keysCode) {
 		dum = BAT2U_GetTDSValue(2, 200);
 		dum = BAT2U_GetTDSValue(1, 200);
 		sensors.WaterTDS = dum;
-		Beep(1, 100, 100);
+		Beep(1, 50, 50);
 		__NOP();
 	} else if (keysCode == KEY_S3 + KEY_S2 + KEY_LONG_PRESS) {
 		machine.ReadOnlyCyclesCount = 0;
 		EEPROM_Write(EPA_CYCLE_COUNTER, 0, 2);
+		Beep(1, 50, 50);
 		__NOP();
 	} else if (keysCode == KEY_S3 + KEY_S1 + KEY_LONG_PRESS) {
+
 		__NOP();
 	} else if (keysCode == KEY_S3 + KEY_S2 + KEY_S1 + KEY_LONG_PRESS) {
 		__NOP();

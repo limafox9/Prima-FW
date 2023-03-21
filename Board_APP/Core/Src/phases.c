@@ -829,8 +829,9 @@ uint8_t PhaseDry(float firstVacPress, float otherVacPress, uint16_t time, uint16
 
 		return 1;
 	} else {
-		return retVal;
+//		return retVal;
 	}
+	return retVal;
 }
 
 uint8_t PhaseClean() {
@@ -1127,10 +1128,11 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 	}
 	osThreadSuspend(displayInfoTaskHandle);
 
-	PhasePreheat(60.0, 90.0);
-
 	ValveDrainSteamSet(OFF);
 	ValveDryIntakeSet(OFF);
+
+	PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
+	ResetTimer(TIMER_NIGHT_CYCLE);
 
 	doorOpened = 0;
 

@@ -64,9 +64,10 @@ void GetTimer(uint8_t timer, RTCTimerTime_s* timerTime) {
 
 	timerTime->Ticks = GetSafeDeltaTick(timers[timer], HAL_GetTick());
 	timerTime->Seconds = timerTime->Ticks / 1000;
+	timerTime->Minutes = timerTime->Ticks / 1000 / 60;
+	timerTime->Hours = timerTime->Ticks / 1000 / 60 / 60;
 	timerTime->TimeSecond = (timerTime->Ticks / 1000) % 60;
 	timerTime->TimeMinute = (timerTime->Ticks / 1000 / 60) % 60;
-	timerTime->TimeHour = timerTime->Ticks / 1000 / 60 / 60;
 }
 
 void ResetTimer(uint8_t timer) {
