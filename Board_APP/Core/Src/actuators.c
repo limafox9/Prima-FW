@@ -96,9 +96,10 @@ void SteamPulse(uint16_t pulseDuration) {
 
 void HeaterChamberTempSet(float tempC) {
 
+	heaterChamberTempSet = tempC;
+
 	if (tempC > 0.0) {
 		PIDController_Init(&pidHeaterChamber);
-		heaterChamberTempSet = tempC;
 		PWM_TIMER_HEATER_CHAMBER.Instance->ARR = 7200;
 		HAL_TIM_Base_Start_IT(&PWM_TIMER_HEATER_CHAMBER);
 	} else {

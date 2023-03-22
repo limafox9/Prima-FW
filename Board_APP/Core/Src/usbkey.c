@@ -297,7 +297,7 @@ void LoadUSBConfig()  {
 
 						} else if (strcmp(param.param, "USER_DRY_TIME") == 0) {
 							uint16_t bVal = (uint16_t)atoi(param.value);
-							WriteSetting(EPA_USER_DRY_TIME, &bVal, 2);
+							WriteSetting(EPA_USER_DRY_CLASS, &bVal, 2);
 
 						} else if (strcmp(param.param, "USER_VACUUM_NUMBER") == 0) {
 							uint8_t bVal = (uint8_t)atoi(param.value);
@@ -361,8 +361,7 @@ void LoadUSBConfig()  {
 }
 
 
-void SdcardWriteAction(char *file_name , char *data)
-{
+void SdcardWriteAction(char *file_name , char *data) {
 
 	sprintf(USBString, data);
 	sprintf(currFilename, file_name);

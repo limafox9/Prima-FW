@@ -37,7 +37,7 @@
 	<section name="TextSearchPage">
 		<item key="CASE_SENSITIVE" value="false"/>
 		<item key="REG_EX_SEARCH" value="false"/>
-		<item key="WHOLE_WORD" value="false"/>
+		<item key="WHOLE_WORD" value="true"/>
 		<item key="SEARCH_DERIVED" value="false"/>
 		<item key="SEARCH_IN_BINARIES" value="false"/>
 		<item key="HISTORY_SIZE" value="12"/>
@@ -46,6 +46,32 @@
 			<item key="1" value="*.c"/>
 		</section>
 		<section name="HISTORY0">
+			<item key="ignoreCase" value="true"/>
+			<item key="isRegExSearch" value="false"/>
+			<item key="isWholeWord" value="true"/>
+			<item key="textPattern" value="PREHEAT_STANDBY_STEAM_TEMP"/>
+			<item key="scope" value="3"/>
+			<list key="fileNamePatterns">
+				<item value="*.h"/>
+				<item value="*.c"/>
+			</list>
+			<list key="workingSets">
+			</list>
+		</section>
+		<section name="HISTORY1">
+			<item key="ignoreCase" value="true"/>
+			<item key="isRegExSearch" value="false"/>
+			<item key="isWholeWord" value="true"/>
+			<item key="textPattern" value="PREHEAT_STANDBY_RING_TEMP"/>
+			<item key="scope" value="3"/>
+			<list key="fileNamePatterns">
+				<item value="*.h"/>
+				<item value="*.c"/>
+			</list>
+			<list key="workingSets">
+			</list>
+		</section>
+		<section name="HISTORY2">
 			<item key="ignoreCase" value="true"/>
 			<item key="isRegExSearch" value="false"/>
 			<item key="isWholeWord" value="false"/>
@@ -58,7 +84,7 @@
 			<list key="workingSets">
 			</list>
 		</section>
-		<section name="HISTORY1">
+		<section name="HISTORY3">
 			<item key="ignoreCase" value="true"/>
 			<item key="isRegExSearch" value="false"/>
 			<item key="isWholeWord" value="false"/>
@@ -71,7 +97,7 @@
 			<list key="workingSets">
 			</list>
 		</section>
-		<section name="HISTORY2">
+		<section name="HISTORY4">
 			<item key="ignoreCase" value="true"/>
 			<item key="isRegExSearch" value="false"/>
 			<item key="isWholeWord" value="false"/>
@@ -84,7 +110,7 @@
 			<list key="workingSets">
 			</list>
 		</section>
-		<section name="HISTORY3">
+		<section name="HISTORY5">
 			<item key="ignoreCase" value="true"/>
 			<item key="isRegExSearch" value="false"/>
 			<item key="isWholeWord" value="false"/>
@@ -97,7 +123,7 @@
 			<list key="workingSets">
 			</list>
 		</section>
-		<section name="HISTORY4">
+		<section name="HISTORY6">
 			<item key="ignoreCase" value="true"/>
 			<item key="isRegExSearch" value="false"/>
 			<item key="isWholeWord" value="false"/>
@@ -110,7 +136,7 @@
 			<list key="workingSets">
 			</list>
 		</section>
-		<section name="HISTORY5">
+		<section name="HISTORY7">
 			<item key="ignoreCase" value="true"/>
 			<item key="isRegExSearch" value="false"/>
 			<item key="isWholeWord" value="false"/>
@@ -123,7 +149,7 @@
 			<list key="workingSets">
 			</list>
 		</section>
-		<section name="HISTORY6">
+		<section name="HISTORY8">
 			<item key="ignoreCase" value="true"/>
 			<item key="isRegExSearch" value="false"/>
 			<item key="isWholeWord" value="false"/>
@@ -136,7 +162,7 @@
 			<list key="workingSets">
 			</list>
 		</section>
-		<section name="HISTORY7">
+		<section name="HISTORY9">
 			<item key="ignoreCase" value="true"/>
 			<item key="isRegExSearch" value="false"/>
 			<item key="isWholeWord" value="false"/>
@@ -149,7 +175,7 @@
 			<list key="workingSets">
 			</list>
 		</section>
-		<section name="HISTORY8">
+		<section name="HISTORY10">
 			<item key="ignoreCase" value="true"/>
 			<item key="isRegExSearch" value="false"/>
 			<item key="isWholeWord" value="false"/>
@@ -162,7 +188,7 @@
 			<list key="workingSets">
 			</list>
 		</section>
-		<section name="HISTORY9">
+		<section name="HISTORY11">
 			<item key="ignoreCase" value="true"/>
 			<item key="isRegExSearch" value="false"/>
 			<item key="isWholeWord" value="false"/>
@@ -175,33 +201,14 @@
 			<list key="workingSets">
 			</list>
 		</section>
-		<section name="HISTORY10">
-			<item key="ignoreCase" value="true"/>
-			<item key="isRegExSearch" value="false"/>
-			<item key="isWholeWord" value="false"/>
-			<item key="textPattern" value="fa_open_append"/>
-			<item key="scope" value="0"/>
-			<list key="fileNamePatterns">
-				<item value="*.c"/>
-				<item value="*.h"/>
-			</list>
-			<list key="workingSets">
-			</list>
-		</section>
-		<section name="HISTORY11">
-			<item key="ignoreCase" value="true"/>
-			<item key="isRegExSearch" value="false"/>
-			<item key="isWholeWord" value="false"/>
-			<item key="textPattern" value="append"/>
-			<item key="scope" value="3"/>
-			<list key="fileNamePatterns">
-				<item value="*.c"/>
-			</list>
-			<list key="workingSets">
-			</list>
-		</section>
 	</section>
 	<section name="">
 		<item key="org.eclipse.search.resultpage.limit" value="1000"/>
+	</section>
+	<section name="ReplaceDialog2">
+		<list key="replace_with">
+			<item value="settings.PreheatSteamTemp"/>
+			<item value="settings.PreheatRingTemp"/>
+		</list>
 	</section>
 </section>

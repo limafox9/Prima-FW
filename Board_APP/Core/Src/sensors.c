@@ -133,7 +133,10 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 		if (sensors.Door == OPEN) {
 			doorOpened = 1;
 		}
-		if (machineStatus.Status == STATUS_READY) ValveDryIntakeSet(DoorPositionGet());
+		if (machineStatus.Status == STATUS_READY || machineStatus.Status == STATUS_PASS) {
+			ValveDryIntakeSet(DoorPositionGet());
+			machineStatus.Status == STATUS_READY;
+		}
 		doorStatus = DoorPositionGet();
 		ResetTimer(TIMER_DOOR);
 		if (machineStatus.Status != STATUS_ERROR) machineStatus.Status = (sensors.Door == CLOSED) ? STATUS_READY : STATUS_IDLE;
@@ -141,7 +144,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 //		if ((machineStatus.Status == STATUS_READY) || (machineStatus.Status == STATUS_IDLE)) {
 //			machineStatus.Status = (sensors.Door == CLOSED) ? STATUS_READY : STATUS_IDLE;
 //		}
-		if (machineStatus.Status == STATUS_IDLE) PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
+		if (machineStatus.Status == STATUS_IDLE) PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 	}
 //	if (GPIO_Pin == SW_CSH_Pin) {
 //		osDelay(100);

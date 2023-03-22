@@ -69,6 +69,8 @@ uint8_t PhaseBegin(uint8_t timeout) {
 	RTCTimerTime_s tTimeout, tPhase;
 	sprintf(currPhase, "Init");
 
+	settings.UserDryTime = GetDryTime(settings.UserDryClass, settings.UserSterilTemp, settings.UserVacuumNumber);
+
 
 	RTCDateTime_s ct;
 	PCF8563_GetDateTime(&ct);
@@ -120,7 +122,7 @@ uint8_t PhaseBegin(uint8_t timeout) {
 		Beep(3, 100, 100);
 		retVal = 0;
 	}
-	if (sensors.WaterDumpLevel == HIGH && currProgram != PROGRAM_RESUME_DRY) {
+	if (sensors.WaterDumpLevel == FULL && currProgram != PROGRAM_RESUME_DRY) {
 		lastError = ERROR_NONE;
 //		lastError = ERROR_WATER_DUMP_HIGH;
 		Print("DUMP ERROR *** WATER DUMP LEVEL\n");
@@ -1092,7 +1094,7 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 			osDelay(200);
 		}
 
-		machineStatus.Status = STATUS_READY;
+		machineStatus.Status = STATUS_PASS;
 
 	//		FanSet(OFF);
 		ResetTimer(TIMER_FAN);
@@ -1110,7 +1112,6 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 		sprintf(s,"Er.%02d", lastError);
 		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, s);
 		machineStatus.Status = STATUS_ERROR;
-		machineStatus.Status = STATUS_READY;
 
 		EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
 		PrintFooter("FAIL", time, timer);
@@ -1127,7 +1128,7 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 	ValveDrainSteamSet(OFF);
 	ValveDryIntakeSet(OFF);
 
-	PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
+	PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 	ResetTimer(TIMER_NIGHT_CYCLE);
 
 	doorOpened = 0;

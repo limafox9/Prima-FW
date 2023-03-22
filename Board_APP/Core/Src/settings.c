@@ -98,8 +98,8 @@ void LoadSettings() {
 	EEPROM_Read(EPA_T2_OFFSET, &settings.T2Offset, 1);
 	EEPROM_Read(EPA_T1_FACTORY_OFFSET, &settings.T1FactoryOffset, 1);
 	EEPROM_Read(EPA_T2_FACTORY_OFFSET, &settings.T2FactoryOffset, 1);
-	EEPROM_Read(PREHEAT_STANDBY_RING_TEMP, &settings.PreheatRingTemp, 1);
-	EEPROM_Read(PREHEAT_STANDBY_STEAM_TEMP, &settings.PreheatSteamTemp, 1);
+	EEPROM_Read(EPA_PREHEAT_STANDBY_RING_TEMP, &settings.PreheatRingTemp, 1);
+	EEPROM_Read(EPA_PREHEAT_STANDBY_STEAM_TEMP, &settings.PreheatSteamTemp, 1);
 	EEPROM_Read(EPA_CHAMBER_PRESSURE_OFFSET, &settings.ChamberPressOffset, 1);
 	EEPROM_Read(EPA_FIRST_VACUUM, &settings.FirstVacuum, 1);
 	EEPROM_Read(EPA_OTHER_VACUUM, &settings.OtherVacuum, 1);
@@ -107,14 +107,14 @@ void LoadSettings() {
 	EEPROM_Read(EPA_OTHER_PRESSURE, &settings.OtherPressure, 1);
 	EEPROM_Read(EPA_TDS_MIN, &settings.WaterTDSMin, 1);
 	EEPROM_Read(EPA_VACUUM_NUMBER, &settings.VacNumber, 1);
-	EEPROM_Read(EPA_CLEAN_CYCLES_INTERVAL, &settings.CleanCyclesInterval, 1);
-	EEPROM_Read(EPA_SERVICE_CYCLES_INTERVAL, &settings.ServiceCyclesInterval, 1);
+	EEPROM_Read(EPA_CLEAN_CYCLES_INTERVAL, &settings.CleanCyclesInterval, 2);
+	EEPROM_Read(EPA_SERVICE_CYCLES_INTERVAL, &settings.ServiceCyclesInterval, 2);
 	EEPROM_Read(EPA_LAST_CLEAN_CYCLE, &settings.LastCleanCycle, 2);
 	EEPROM_Read(EPA_LAST_SERVICE_CYCLE, &settings.LastServiceCycle, 2);
 
 	EEPROM_Read(EPA_USER_STERIL_TEMP, &settings.UserSterilTemp, 1);
 	EEPROM_Read(EPA_USER_STERIL_TIME, &settings.UserSterilTime, 1);
-	EEPROM_Read(EPA_USER_DRY_TIME, &settings.UserDryClass, 1);
+	EEPROM_Read(EPA_USER_DRY_CLASS, &settings.UserDryClass, 1);
 	EEPROM_Read(EPA_USER_VACUUM_NUMBER, &settings.UserVacuumNumber, 1);
 	settings.UserDryTime = GetDryTime(settings.UserDryClass, settings.UserSterilTemp, settings.UserVacuumNumber);
 
@@ -139,8 +139,8 @@ void SaveSettings() {
 	EEPROM_Write(EPA_T2_OFFSET, &settings.T2Offset, 1);
 	EEPROM_Write(EPA_T1_FACTORY_OFFSET, &settings.T1FactoryOffset, 1);
 	EEPROM_Write(EPA_T2_FACTORY_OFFSET, &settings.T2FactoryOffset, 1);
-	EEPROM_Write(PREHEAT_STANDBY_RING_TEMP, &settings.PreheatRingTemp, 1);
-	EEPROM_Write(PREHEAT_STANDBY_STEAM_TEMP, &settings.PreheatSteamTemp, 1);
+	EEPROM_Write(EPA_PREHEAT_STANDBY_RING_TEMP, &settings.PreheatRingTemp, 1);
+	EEPROM_Write(EPA_PREHEAT_STANDBY_STEAM_TEMP, &settings.PreheatSteamTemp, 1);
 	EEPROM_Write(EPA_CHAMBER_PRESSURE_OFFSET, &settings.ChamberPressOffset, 1);
 	EEPROM_Write(EPA_FIRST_VACUUM, &settings.FirstVacuum, 1);
 	EEPROM_Write(EPA_OTHER_VACUUM, &settings.OtherVacuum, 1);
@@ -148,12 +148,12 @@ void SaveSettings() {
 	EEPROM_Write(EPA_OTHER_PRESSURE, &settings.OtherPressure, 1);
 	EEPROM_Write(EPA_TDS_MIN, &settings.WaterTDSMin, 1);
 	EEPROM_Write(EPA_VACUUM_NUMBER, &settings.VacNumber, 1);
-	EEPROM_Write(EPA_CLEAN_CYCLES_INTERVAL, &settings.CleanCyclesInterval, 1);
-	EEPROM_Write(EPA_SERVICE_CYCLES_INTERVAL, &settings.ServiceCyclesInterval, 1);
+//	EEPROM_Write(EPA_CLEAN_CYCLES_INTERVAL, &settings.CleanCyclesInterval, 1);
+//	EEPROM_Write(EPA_SERVICE_CYCLES_INTERVAL, &settings.ServiceCyclesInterval, 1);
 
 	EEPROM_Write(EPA_USER_STERIL_TEMP, &settings.UserSterilTemp, 1);
 	EEPROM_Write(EPA_USER_STERIL_TIME, &settings.UserSterilTime, 1);
-	EEPROM_Write(EPA_USER_DRY_TIME, &settings.UserDryClass, 1);
+	EEPROM_Write(EPA_USER_DRY_CLASS, &settings.UserDryClass, 1);
 	EEPROM_Write(EPA_USER_VACUUM_NUMBER, &settings.UserVacuumNumber, 1);
 
 	EEPROM_Write(EPA_FUN_NIGHT_CYCLE_TIME, &settings.FunNightCycleTime, 1);
@@ -182,8 +182,12 @@ void SaveDefaults(uint8_t factoryDefault) {
 
 		EEPROM_Write(EPA_T1_FACTORY_OFFSET, &(int8_t){30}, 1);
 		EEPROM_Write(EPA_T2_FACTORY_OFFSET, &(int8_t){0}, 1);
-		EEPROM_Write(PREHEAT_STANDBY_RING_TEMP, &(uint8_t){60}, 1);
-		EEPROM_Write(PREHEAT_STANDBY_STEAM_TEMP, &(uint8_t){90}, 1);
+		EEPROM_Write(EPA_PREHEAT_STANDBY_RING_TEMP, &(uint8_t){60}, 1);
+		EEPROM_Write(EPA_PREHEAT_STANDBY_STEAM_TEMP, &(uint8_t){90}, 1);
+		EEPROM_Write(EPA_CLEAN_CYCLES_INTERVAL, &(uint16_t){50}, 2);
+		EEPROM_Write(EPA_SERVICE_CYCLES_INTERVAL, &(uint16_t){999}, 2);
+		EEPROM_Write(EPA_LAST_CLEAN_CYCLE, &(uint16_t){0}, 2);
+		EEPROM_Write(EPA_LAST_SERVICE_CYCLE, &(uint16_t){0}, 2);
 
 		char s[4] = {'G', 'A', 'P', 'R'};
 		EEPROM_Write(0x00, s, 4); // Numeric ASCII for 'GAPR' (in little endian)
@@ -193,14 +197,14 @@ void SaveDefaults(uint8_t factoryDefault) {
 	EEPROM_Write(EPA_T2_OFFSET, &(int8_t){0}, 1);
 	EEPROM_Write(EPA_CHAMBER_PRESSURE_OFFSET, &(int8_t){0}, 1);
 	EEPROM_Write(EPA_FIRST_VACUUM, &(uint8_t){20}, 1);
-	EEPROM_Write(EPA_OTHER_VACUUM, &(uint8_t){70}, 1);
+	EEPROM_Write(EPA_OTHER_VACUUM, &(uint8_t){30}, 1);
 	EEPROM_Write(EPA_VACUUM_THRESHOLD, &(uint8_t){50}, 1);
 	EEPROM_Write(EPA_OTHER_PRESSURE, &(uint8_t){170 / 10}, 1);
 	EEPROM_Write(EPA_TDS_MIN, &(uint8_t){25}, 1);
 
 	EEPROM_Write(EPA_USER_STERIL_TEMP, &(uint8_t){134}, 1);
 	EEPROM_Write(EPA_USER_STERIL_TIME, &(uint16_t){240}, 2);
-	EEPROM_Write(EPA_USER_DRY_TIME, &(uint8_t){0}, 2);
+	EEPROM_Write(EPA_USER_DRY_CLASS, &(uint8_t){0}, 2);
 	EEPROM_Write(EPA_USER_VACUUM_NUMBER, &(uint8_t){1}, 1);
 
 	EEPROM_Write(EPA_FUN_NIGHT_CYCLE_TIME, &(uint8_t){30}, 2);

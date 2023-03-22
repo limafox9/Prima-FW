@@ -80,7 +80,7 @@ uint8_t doorStatus;
 uint8_t programStart = 0;
 
 void StartProgramTask() {
-	RTCTimerTime_s timerDoor, timerFan;
+	RTCTimerTime_s timerDoor, timerFan, timerNCycle;
 	doorStatus = (HAL_GPIO_ReadPin(SW_DOOR_GPIO_Port, SW_DOOR_Pin) == GPIO_PIN_SET) ? OPEN : CLOSED;
 	for (;;) {
 
@@ -95,9 +95,9 @@ void StartProgramTask() {
 		}
 
 		if (settings.FunNightCycleTime > 0) {
-			GetTimer(TIMER_NIGHT_CYCLE, &timerFan);
-			if ((machineStatus.Status != STATUS_RUNNING) && (timerFan.Minutes > settings.FunNightCycleTime)) {
-				PhasePreheat(0, 0);
+			GetTimer(TIMER_NIGHT_CYCLE, &timerNCycle);
+			if ((machineStatus.Status != STATUS_RUNNING) && (timerNCycle.Minutes > settings.FunNightCycleTime)) {
+				PhasePreheat(0.0, 0.0);
 			} else if (machineStatus.Status == STATUS_RUNNING) {
 				ResetTimer(TIMER_NIGHT_CYCLE);
 			}
@@ -105,44 +105,45 @@ void StartProgramTask() {
 
 		if (programStart){
 			programStart = 0;
-			if (currProgType == PROGTYPE_PROGRAM) {
-				switch (currProgram) {
-				case PROGRAM_UNWRAPPED:
-					ProgramUnwrapped();
-					break;
-				case PROGRAM_WRAPPED:
-					ProgramWrapped();
-					break;
-				case PROGRAM_PRION:
-					ProgramPrion();
-					break;
-				case PROGRAM_GENTLE:
-					ProgramGentle();
-					break;
-				case PROGRAM_USER:
-					ProgramUser();
-					break;
-				case PROGRAM_STERIL_TEST:
-//					ProgramTestSteril();
-					break;
-				case PROGRAM_RESUME_DRY:
-					ProgramResumeDry();
-					break;
-				}
-			} else if (currProgType == PROGTYPE_TEST) {
-				switch (currTest) {
-				case 0:
-					ProgramHelixTest();
-					break;
-				case 1:
-					ProgramVacuumTest();
-					break;
-				case 2:
-					ProgramWash();
-					break;
-				case 3:
-					ProgramWaterLoad();
-					break;
+			if (currProgram == PROGRAM_RESUME_DRY) {
+				ProgramResumeDry();
+			} else {
+				if (currProgType == PROGTYPE_PROGRAM) {
+					switch (currProgram) {
+					case PROGRAM_UNWRAPPED:
+						ProgramUnwrapped();
+						break;
+					case PROGRAM_WRAPPED:
+						ProgramWrapped();
+						break;
+					case PROGRAM_PRION:
+						ProgramPrion();
+						break;
+					case PROGRAM_GENTLE:
+						ProgramGentle();
+						break;
+					case PROGRAM_USER:
+						ProgramUser();
+						break;
+					case PROGRAM_STERIL_TEST:
+	//					ProgramTestSteril();
+						break;
+					}
+				} else if (currProgType == PROGTYPE_TEST) {
+					switch (currTest) {
+					case 0:
+						ProgramHelixTest();
+						break;
+					case 1:
+						ProgramVacuumTest();
+						break;
+					case 2:
+						ProgramWash();
+						break;
+					case 3:
+						ProgramWaterLoad();
+						break;
+					}
 				}
 			}
 		}
@@ -239,7 +240,6 @@ uint8_t ProgramResumeDry() {
 //	FanSet(OFF);
 	ResetTimer(TIMER_FAN);
 
-
 	osDelay(1000);
 	if (DoorSolenoidSet(UNLOCK) != UNLOCK) {
 		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "Er.11");
@@ -255,9 +255,8 @@ uint8_t ProgramResumeDry() {
 	currProgram = 1;
 	ShowProgram();
 
-	PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
+	PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 	osThreadSuspend(displayInfoTaskHandle);
-
 
 }
 
@@ -311,7 +310,7 @@ uint8_t ProgramUnwrapped() {
 		ValveDrainSteamSet(ON);
 	}
 	if (success) {
-		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP+ 10);
+		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
 		success = PhasePressure(3, 290.0, DV_STEAM_GEN_TEMP, 180.0, OT_PRESSURE);
 	}
 	if (success) {
@@ -332,14 +331,16 @@ uint8_t ProgramUnwrapped() {
 		success = PhaseSteril(&sterilParam);
 	}
 	if (success) {
-		PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
+		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 		success = PhaseRelease(3, OT_RELEASE);
 	}
 
 	// Dry
+	uint8_t dryTime = 0;
 	if (success) {
-		PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
-		success = PhaseDry(20.0, 50.0, 240, 800);
+		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
+		dryTime = GetDryTime(settings.FunDryClass, STERILTEMP_134, 1) * 60;
+		success = PhaseDry(20.0, 50.0, dryTime, dryTime * 1.5);
 	}
 
 	// End
@@ -435,14 +436,16 @@ uint8_t ProgramWrapped() {
 		success = PhaseSteril(&sterilParam);
 	}
 	if (success) {
-		PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
+		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 		success = PhaseRelease(3, OT_RELEASE);
 	}
 
 	// Dry
+	uint8_t dryTime = 0;
 	if (success) {
-		PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
-		success = PhaseDry(20.0, 50.0, 540, 800);
+		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
+		dryTime = GetDryTime(settings.FunDryClass, STERILTEMP_134, settings.VacNumber) * 60;
+		success = PhaseDry(20.0, 50.0, dryTime, dryTime * 1.5);
 	}
 
 	// End
@@ -536,14 +539,16 @@ uint8_t ProgramPrion() {
 		success = PhaseSteril(&sterilParam);
 	}
 	if (success) {
-		PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
+		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 		success = PhaseRelease(3, OT_RELEASE);
 	}
 
 	// Dry
+	uint8_t dryTime = 0;
 	if (success) {
-		PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
-		success = PhaseDry(20.0, 50.0, 540, 600);
+		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
+		dryTime = GetDryTime(settings.FunDryClass, STERILTEMP_134, settings.VacNumber) * 60;
+		success = PhaseDry(20.0, 50.0, dryTime, dryTime * 1.5);
 	}
 
 	// End
@@ -634,14 +639,16 @@ uint8_t ProgramGentle() {
 		success = PhaseSteril(&sterilParam);
 	}
 	if (success) {
-		PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
+		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 		success = PhaseRelease(3,  OT_RELEASE);
 	}
 
 	// Dry
+	uint8_t dryTime = 0;
 	if (success) {
-		PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
-		success = PhaseDry(20.0, 50.0, 540, 600);
+		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
+		dryTime = GetDryTime(settings.FunDryClass, STERILTEMP_121, settings.VacNumber) * 60;
+		success = PhaseDry(20.0, 50.0, dryTime, dryTime * 1.5);
 	}
 
 	// End
@@ -771,20 +778,21 @@ uint8_t ProgramUser() {
 		success = PhaseSteril(&sterilParam);
 	}
 	if (success) {
-		PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
+		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 		success = PhaseRelease(3, OT_RELEASE);
 	}
 
 	// Dry
 	if (settings.UserDryTime > 0) {
+		uint8_t dryTime = 0;
 		if (success) {
-			PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
-			success = PhaseDry(20.0, 50.0, settings.UserDryTime * 60, settings.UserDryTime * 60 * 1.5);
+			PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
+			dryTime = GetDryTime(settings.UserDryClass, settings.UserSterilTemp, settings.UserVacuumNumber) * 60;
+			success = PhaseDry(20.0, 50.0, dryTime, dryTime * 1.5);
 		}
 	} else {
-		PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
+		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 		success = PhaseVacuum(1, 50.0, 0, 300);
-
 	}
 
 	// End
@@ -879,14 +887,16 @@ uint8_t ProgramHelixTest() {
 		success = PhaseSteril(&sterilParam);
 	}
 	if (success) {
-		PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
+		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 		success = PhaseRelease(3, OT_RELEASE);
 	}
 
 	// Dry
+	uint8_t dryTime = 0;
 	if (success) {
-		PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
-		success = PhaseDry(20.0, 50.0, 300, 600);
+		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
+		dryTime = GetDryTime(settings.FunDryClass, STERILTEMP_134, 3) * 60;
+		success = PhaseDry(20.0, 50.0, dryTime, dryTime * 1.5);
 	}
 
 	// End
@@ -931,7 +941,7 @@ uint8_t ProgramVacuumTest() {
 //	if (success) {
 //		success = PhaseRelease(1, OT_RELEASE);
 //	}
-	machineStatus.Status = STATUS_READY;
+//	machineStatus.Status = STATUS_READY;
 
 	ResetTimer(TIMER_FAN);
 
@@ -946,33 +956,33 @@ uint8_t ProgramVacuumTest() {
 //
 //	EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
 
-	ValveDryIntakeSet(ON);
-	ValveDrainSteamSet(ON);
+	if (lastError == ERROR_VACUUM_TEST_FAILED) {
 
-	while (1) {
-		if ((sensors.PressureChamber >= pressAmbientMin) && (sensors.PressureChamber <= pressAmbientMax)) {
-			break;
+		ValveDryIntakeSet(ON);
+		ValveDrainSteamSet(ON);
+
+		while (1) {
+			if ((sensors.PressureChamber >= pressAmbientMin) && (sensors.PressureChamber <= pressAmbientMax)) {
+				break;
+			}
+//			lastError = CheckError();
+//			if (lastError > 0) {
+//				success = 0;
+//				break;
+//			}
+			osDelay(200);
 		}
-		lastError = CheckError();
-		if (lastError > 0) {
-			success = 0;
-			break;
-		}
-		osDelay(200);
+		ResetTimer(TIMER_FAN);
+
+//		osDelay(1000);
+//		if (DoorSolenoidSet(UNLOCK) != UNLOCK) {
+//			DigitsWrite(3, "Er.11");
+//			return 0;
+//		}
+
+		Beep(1, 1000, 100);
+
 	}
-
-	machineStatus.Status = STATUS_READY;
-
-//		FanSet(OFF);
-	ResetTimer(TIMER_FAN);
-
-	osDelay(1000);
-	if (DoorSolenoidSet(UNLOCK) != UNLOCK) {
-		DigitsWrite(3, "Er.11");
-		return 0;
-	}
-
-	Beep(1, 1000, 100);
 
 	PhaseFinish(success, &clockTime, &tCycle);
 
@@ -1121,7 +1131,7 @@ uint8_t ProgramWash() {
 
 	progRunning = 0;
 	osThreadSuspend(displayInfoTaskHandle);
-
+	EEPROM_Write(EPA_LAST_CLEAN_CYCLE, settings.CyclesCount, 2);
 	doorOpened = 0;
 
 	progStop = 0;
@@ -1159,7 +1169,7 @@ uint8_t ProgramWaterLoad() {
 	GetTimer(TIMER_CYCLE, &tCycle);
 	GetDateTime(&clockTime);
 //	PhaseFinish(success, &clockTime, &tCycle);
-	PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
+	PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 	machineStatus.Status = STATUS_READY;
 
 	progRunning = 0;
@@ -1222,7 +1232,7 @@ uint8_t ProgramWaterLoad() {
 //
 //	// Dry
 //	if (success) {
-//		PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
+//		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 //		success = PhaseDry(20.0, 50.0, 30, 800);
 //	}
 //

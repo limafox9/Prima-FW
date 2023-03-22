@@ -289,6 +289,70 @@ void Print(const char* format, ...) {
 
 }
 
+void PrintSettings() {
+	RTCDateTime_s clockTime;
+	GetDateTime(&clockTime);
+
+	Print("\n");
+	Print("******************************************\n");
+	PrintSize(2, 2);
+	Print("SETTINGS\n");
+	PrintSize(1, 1);
+	Print("------------------------------------------\n");
+	Print("\n");
+	Print("S/N:          %s\n", machine.Serial);
+	Print("UID:          %08X %08X %08X\n", machine.MCUID[2], machine.MCUID[1], machine.MCUID[0]);
+	Print("Firmware:     v.%d.%02d.%1d (%d.%02d.%1d)\n", machine.FWVersionMajor, machine.FWVersionMinor, machine.FWVersionRevision, machine.DisplayFWVersionMajor, machine.DisplayFWVersionMinor, machine.DisplayFWVersionRevision);
+	Print("Prod.         %d %d\n", machine.ProductionYear, machine.ProductionWeek);
+	Print("\n");
+	Print("Date (Y-M-D): %d-%02d-%02d\n", clockTime.Year, clockTime.Month, clockTime.Day);
+	Print("Cycles        %d\n", settings.CyclesCount);
+	Print("\n");
+	Print("T1_OFFSET                %f\n", (float)(settings.T1Offset / 10));
+	Print("T2_OFFSET                %f\n", (float)(settings.T2Offset / 10));
+	Print("CHAMBER_PRESSURE_OFFSET  %f\n", (float)(settings.ChamberPressOffset / 10));
+
+
+//	LAST_ERROR
+//	MACHINE_SIZE
+//	MACHINE_PROD_YEAR
+//	MACHINE_PROD_MONTH
+//	MACHINE_SERIAL_NUMBER
+//	CYCLE_COUNTER_PERMANENT
+//	CYCLE_COUNTER
+//
+//	T1_OFFSET
+//	T2_OFFSET
+//	CHAMBER_PRESSURE_OFFSET
+//	FIRST_VACUUM
+//	OTHER_VACUUM
+//	VACUUM_THRESHOLD
+//	OTHER_PRESSURE
+//	TDS_MIN
+//	VACUUM_NUMBER
+//	CLEAN_CYCLES_INTERVAL
+//	SERVICE_CYCLES_INTERVAL
+//	LAST_CLEAN_CYCLE
+//	LAST_SERVICE_CYCLE
+//	MACHINE_MODEL
+//
+//	USER_STERIL_TEMP
+//	USER_STERIL_TIME
+//	USER_DRY_CLASS
+//	USER_VACUUM_NUMBER
+//	FUN_NIGHT_CYCLE_TIME
+//	FUN_PRINTER_ACTIVE
+//	FUN_USB_ACTIVE
+//	FUN_WATER_LOAD_ACTIVE
+//	FUN_TDS_ACTIVE
+//	FUN_DRY_CLASS
+//	FUN_PRESS_DISPLAY_OFFSET
+//	T1_FACTORY_OFFSET
+//	T2_FACTORY_OFFSET
+//	PREHEAT_STANDBY_RING_TEMP
+//	PREHEAT_STANDBY_STEAM_TEMP
+}
+
 void PrintLogo() {
 ////	uint8_t logo[] = {0x7C, 0x44, 0x44, 0xFF, 0x44, 0x44, 0x7C, 0x00, 0x41, 0x62, 0x54, 0xC8, 0x54, 0x62, 0x41};
 //uint8_t w = 200;

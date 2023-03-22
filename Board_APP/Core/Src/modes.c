@@ -62,17 +62,17 @@ uint8_t progStart = 0;
 uint8_t progStop = 0;
 
 s_Program programs[] = {
-	{0, PROGTYPE_PROGRAM, "User", "P. US", 15, CLASS_USER, STERILTEMP_134, 1, 310, 0, 0,},
-	{1, PROGTYPE_PROGRAM, "Wrapped", "P. Un", 1, CLASS_B, STERILTEMP_134, 1, 310, 300, 240},
-	{2, PROGTYPE_PROGRAM, "Unwrapped", "P. Ur", 2, CLASS_S, STERILTEMP_134, 4, 310, 300, 540},
-	{3, PROGTYPE_PROGRAM, "Prion", "P. Pr", 4, CLASS_B, STERILTEMP_134, 4, 310, 1000, 540},
-	{4, PROGTYPE_PROGRAM, "Gentle", "P. GE", 8, CLASS_B, STERILTEMP_121, 4, 220, 1200, 540},
+	{0, PROGTYPE_PROGRAM, "User", "P.USr", 15, CLASS_USER, STERILTEMP_134, 1, 310, 0, 0,},
+	{1, PROGTYPE_PROGRAM, "Wrapped", "P.Unr", 1, CLASS_B, STERILTEMP_134, 1, 310, 300, 240},
+	{2, PROGTYPE_PROGRAM, "Unwrapped", "P.UrP", 2, CLASS_S, STERILTEMP_134, 4, 310, 300, 540},
+	{3, PROGTYPE_PROGRAM, "Prion", "P.PrI", 4, CLASS_B, STERILTEMP_134, 4, 310, 1000, 540},
+	{4, PROGTYPE_PROGRAM, "Gentle", "P.GEn", 8, CLASS_B, STERILTEMP_121, 4, 220, 1200, 540},
 };
 
 s_Program tests[] = {
-	{1, PROGTYPE_TEST, "Helix Test", "t. HE", 16, CLASS_USER, STERILTEMP_134},
-	{2, PROGTYPE_TEST, "Vacuum Test", "t. UA", 32, CLASS_USER, STERILTEMP_134},
-	{3, PROGTYPE_TEST, "Wash cycle", "UASH", DISPLAY_LED_WASH_CYCLE, CLASS_USER, STERILTEMP_134},
+	{1, PROGTYPE_TEST, "Helix Test", "t.HEL", 16, CLASS_USER, STERILTEMP_134},
+	{2, PROGTYPE_TEST, "Vacuum Test", "t.UAC", 32, CLASS_USER, STERILTEMP_134},
+	{3, PROGTYPE_TEST, "Wash cycle", "CLEA", DISPLAY_LED_WASH_CYCLE, CLASS_USER, STERILTEMP_134},
 	{4, PROGTYPE_TEST, "Water fill", " H2O", DISPLAY_LED_WATER_FILL, CLASS_USER, STERILTEMP_134},
 };
 
@@ -103,7 +103,7 @@ Reading_s readings[] = {
 UserSet_s user[] = {
 	{0, "User Steril Temp", " tE ", EPA_USER_STERIL_TEMP, &settings.UserSterilTemp, 1, 0, 1},
 	{1, "User Steril Time", " St ", EPA_USER_STERIL_TIME, &settings.UserSterilTime, 1, 4, 30},
-	{2, "User Dry Time", " dr ", EPA_USER_DRY_TIME, &settings.UserDryClass, 1, 0, 3},
+	{2, "User Dry Time", " dr ", EPA_USER_DRY_CLASS, &settings.UserDryClass, 1, 0, 3},
 	{3, "User Vacuum Number", " UA ", EPA_USER_VACUUM_NUMBER, &settings.UserVacuumNumber, 1, 0, 5},
 };
 
@@ -177,10 +177,18 @@ void ShowProgram() {
 	} else {
 		if (machineStatus.Status != STATUS_RUNNING) {
 			if (currProgType == PROGTYPE_PROGRAM) {
-				if (doorOpened == 0) {
-					DigitsWrite(3, "OPEN");
+				if (machineStatus.Status == STATUS_PASS) {
+					DigitsWrite(3, "PASS");
 				} else {
-					DigitsWrite(3, (sensors.Door == OPEN) ? "LoAd" : &programs[currProgram].DigitsName);
+					if (currProgram == PROGRAM_RESUME_DRY) {
+						DigitsWrite(3, "----");
+					} else {
+						if (doorOpened == 0) {
+							DigitsWrite(3, "OPEN");
+						} else {
+							DigitsWrite(3, (sensors.Door == OPEN) ? "LoAd" : &programs[currProgram].DigitsName);
+						}
+					}
 				}
 				if (lastProg != programs[currProgram].DashLeds || lastProgType != currProgType) {
 					SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, 63 + DISPLAY_LED_WASH_CYCLE + DISPLAY_LED_WATER_FILL, OFF, 0, "");
@@ -200,10 +208,18 @@ void ShowProgram() {
 				}
 			}
 			if (currProgType == PROGTYPE_TEST) {
-				if (doorOpened == 0) {
-					DigitsWrite(3, "OPEN");
+				if (machineStatus.Status == STATUS_PASS) {
+					DigitsWrite(3, "PASS");
 				} else {
-					DigitsWrite(3, (sensors.Door == OPEN) ? "LoAd" : &programs[currProgram].DigitsName);
+					if (currProgram == PROGRAM_RESUME_DRY) {
+						DigitsWrite(3, "----");
+					} else {
+						if (doorOpened == 0) {
+							DigitsWrite(3, "OPEN");
+						} else {
+							DigitsWrite(3, (sensors.Door == OPEN) ? "LoAd" : &tests[currTest].DigitsName);
+						}
+					}
 				}
 				if (lastTest != tests[currTest].DashLeds || lastProgType != currProgType) {
 	//				SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, &tests[currTest].DigitsName);
@@ -402,7 +418,7 @@ uint8_t GetDryTime(uint8_t class, uint8_t sterilTemp, uint8_t vacuumNumber) {
 				dryTime = 28;
 				break;
 			}
-		} else if (vacuumNumber == 1) {
+		} else if (vacuumNumber >= 3) {
 			switch (class) {
 			case 1:
 				dryTime = 9;

@@ -59,9 +59,6 @@ USAGE:
 //TODO: Long press interval
 #define DISPLAY_LONG_PRESS_INTERVAL 3000
 
-#define PREHEAT_STANDBY_STEAM_TEMP 90
-#define PREHEAT_STANDBY_RING_TEMP 60
-
 #define EPA_LAST_ERROR					0x0A	// 1 byte
 
 #define EPA_MACHINE_PROD_YEAR			0x0E	// 1 byte 0-199 after 2000
@@ -76,8 +73,8 @@ USAGE:
 #define EPA_T1_FACTORY_OFFSET 			0x60	// 2 byte +/- 1000 in 0.1 steps
 #define EPA_T2_FACTORY_OFFSET 			0x62	// 2 byte +/- 1000 in 0.1 steps
 #define EPA_CHAMBER_PRESSURE_OFFSET 	0x22	// 1 byte +/- 127 in 1 steps
-#define PREHEAT_STANDBY_RING_TEMP		0x65	// 1 byte 0-255 in 1 steps
-#define PREHEAT_STANDBY_STEAM_TEMP		0x66	// 1 byte 0-255 in 1 steps
+#define EPA_PREHEAT_STANDBY_RING_TEMP	0x65	// 1 byte 0-255 in 1 steps
+#define EPA_PREHEAT_STANDBY_STEAM_TEMP	0x66	// 1 byte 0-255 in 1 steps
 
 #define EPA_FIRST_VACUUM				0x23	// 1 byte
 #define EPA_OTHER_VACUUM				0x24	// 1 byte
@@ -85,14 +82,14 @@ USAGE:
 #define EPA_OTHER_PRESSURE				0x26	// 1 byte
 #define EPA_TDS_MIN						0x27	// 1 byte
 #define EPA_VACUUM_NUMBER				0x28
-#define EPA_CLEAN_CYCLES_INTERVAL		0x29
-#define EPA_SERVICE_CYCLES_INTERVAL		0x2A
+#define EPA_CLEAN_CYCLES_INTERVAL		0x4C	// 2 byte
+#define EPA_SERVICE_CYCLES_INTERVAL		0x4E	// 2 byte
 #define EPA_LAST_CLEAN_CYCLE			0x2C	// 2 byte
 #define EPA_LAST_SERVICE_CYCLE			0x2E	// 2 byte
 
 #define EPA_USER_STERIL_TEMP			0x30	// 1 byte
 #define EPA_USER_STERIL_TIME			0x31	// 2 byte
-#define EPA_USER_DRY_TIME				0x33	// 2 byte
+#define EPA_USER_DRY_CLASS				0x33	// 2 byte
 #define EPA_USER_VACUUM_NUMBER			0x35	// 1 byte
 
 #define EPA_FUN_NIGHT_CYCLE_TIME		0x40	// 2 byte
@@ -124,8 +121,6 @@ typedef struct Settings_s {
 	uint8_t OtherVacuum;				// 10..60 step 1
 	uint8_t OtherPressure;			// 120..200 step 1
 	uint8_t VacNumber;				// 3..5 step 1
-	uint8_t CleanCyclesInterval;		// 30, 60, 90
-	uint8_t ServiceCyclesInterval;	// 500, 1000 step 10
 	uint8_t UserSterilTemp;			// 121, 134
 	uint8_t UserSterilTime;			// 4..30
 	uint8_t UserDryClass;			// 0..3
@@ -142,6 +137,8 @@ typedef struct Settings_s {
 	uint16_t CyclesCount;
 	uint16_t LastCleanCycle;
 	uint16_t LastServiceCycle;
+	uint16_t CleanCyclesInterval;		// 30, 60, 90
+	uint16_t ServiceCyclesInterval;	// 500, 1000 step 10
 } Settings_s;
 
 typedef enum {

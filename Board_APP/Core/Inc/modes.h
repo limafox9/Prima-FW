@@ -39,11 +39,12 @@ USAGE:
 #define INC_MODES_H_
 
 typedef enum {
-	STATUS_IDLE,
-	STATUS_READY,
-	STATUS_RUNNING,
-	STATUS_FAIL,
-	STATUS_ERROR,
+	STATUS_IDLE = 1,
+	STATUS_READY = 2,
+	STATUS_RUNNING = 4,
+	STATUS_FAIL = 8,
+	STATUS_PASS = 16,
+	STATUS_ERROR = 32,
 } e_MachineStatus;
 
 typedef enum {

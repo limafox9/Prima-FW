@@ -249,12 +249,33 @@ void SysInit() {
 
 
 	char s[8];
+	int16_t nextClean = settings.CyclesCount - settings.CleanCyclesInterval + settings.LastCleanCycle;
+	int16_t nextService = settings.CyclesCount - settings.ServiceCyclesInterval + settings.LastServiceCycle;
 //	sprintf(s, "%1d.%1d.%02d", FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION);
-	DigitsWrite(1, "Fir.");
+//	DigitsWrite(1, "Fir.");
+	sprintf(s,"%4d", nextService);
+	DigitsWrite (1, s);
 	sprintf(s, "%1d.%1d.%02d", machine.FWVersionMajor, machine.FWVersionMinor, machine.FWVersionRevision);
 	DigitsWrite (2, s);
 	sprintf(s, "%1d.%1d.%02d", machine.DisplayFWVersionMajor, machine.DisplayFWVersionMinor, machine.DisplayFWVersionRevision);
 	DigitsWrite (3, s);
+
+	HAL_Delay(2000);
+
+
+	if (nextClean >= 0) {
+		sprintf(s,"%4d", nextClean);
+		DigitsWrite (1, s);
+		DigitsWrite (2, "UASH");
+		DigitsWrite (3, "----");
+		Beep(3, 1000, 100);
+	} else if (nextService >= 0) {
+		sprintf(s,"%4d", nextService);
+		DigitsWrite (1, s);
+		DigitsWrite (2, "SErU");
+		DigitsWrite (3, "----");
+		Beep(3, 1000, 100);
+	}
 
 	HAL_Delay(2000);
 
@@ -324,8 +345,12 @@ void SysInit() {
 		osThreadDef(usbTask, StartUSBTask, osPriorityNormal, 1, 2048);
 		usbTaskHandle = osThreadCreate(osThread(usbTask), NULL);
 
+		if (settings.PreheatRingTemp > 120) settings.PreheatRingTemp = 120;
+		if (settings.PreheatSteamTemp > 180) settings.PreheatSteamTemp = 180;
 		ResetTimer(TIMER_NIGHT_CYCLE);
-		PhasePreheat(PREHEAT_STANDBY_RING_TEMP, PREHEAT_STANDBY_STEAM_TEMP);
+		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
+
+//		settings.FunNightCycleTime = 2; //remove
 
 //		PowerTest();
 //		LoadUSBConfig();

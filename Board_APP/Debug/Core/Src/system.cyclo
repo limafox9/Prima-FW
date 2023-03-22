@@ -1,3 +1,3 @@
-system.c:122:6:SysInit	8
-system.c:650:6:EmergencyStop	1
-system.c:665:6:Log	7
+system.c:122:6:SysInit	13
+system.c:675:6:EmergencyStop	1
+system.c:690:6:Log	7
