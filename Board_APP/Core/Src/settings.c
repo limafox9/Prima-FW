@@ -193,6 +193,7 @@ void SaveDefaults(uint8_t factoryDefault) {
 		EEPROM_Write(0x00, s, 4); // Numeric ASCII for 'GAPR' (in little endian)
 	}
 
+	EEPROM_Write(EPA_LAST_ERROR, &(int8_t){0}, 1);
 	EEPROM_Write(EPA_T1_OFFSET, &(int8_t){0}, 1);
 	EEPROM_Write(EPA_T2_OFFSET, &(int8_t){0}, 1);
 	EEPROM_Write(EPA_CHAMBER_PRESSURE_OFFSET, &(int8_t){0}, 1);
@@ -203,7 +204,7 @@ void SaveDefaults(uint8_t factoryDefault) {
 	EEPROM_Write(EPA_TDS_MIN, &(uint8_t){25}, 1);
 
 	EEPROM_Write(EPA_USER_STERIL_TEMP, &(uint8_t){134}, 1);
-	EEPROM_Write(EPA_USER_STERIL_TIME, &(uint16_t){240}, 2);
+	EEPROM_Write(EPA_USER_STERIL_TIME, &(uint16_t){4}, 2);
 	EEPROM_Write(EPA_USER_DRY_CLASS, &(uint8_t){0}, 2);
 	EEPROM_Write(EPA_USER_VACUUM_NUMBER, &(uint8_t){1}, 1);
 

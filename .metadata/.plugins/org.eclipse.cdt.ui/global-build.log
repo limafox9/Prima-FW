@@ -1,13 +1,111 @@
-21:41:54 **** Incremental Build of configuration Debug for project DB_Protocol ****
+15:32:39 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j4 all 
 make: Nothing to be done for 'all'.
-21:41:55 **** Incremental Build of configuration Debug for project DB_Protocol ****
+15:32:39 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j4 all 
 make: Nothing to be done for 'all'.
-21:41:55 **** Incremental Build of configuration Debug for project Board_APP ****
+15:32:40 **** Incremental Build of configuration Debug for project Board_APP ****
 make -j4 all 
+arm-none-eabi-gcc "../Core/Src/printer.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/printer.d" -MT"Core/Src/printer.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/printer.o"
+In file included from ../Core/Src/printer.c:43:
+../Core/Inc/globals.h:105:1: warning: useless storage class specifier in empty declaration
+  105 | };
+      | ^
+../Core/Src/printer.c: In function 'PrinterInit':
+../Core/Src/printer.c:209:7: warning: unused variable 'd' [-Wunused-variable]
+  209 |  char d[10];
+      |       ^
+../Core/Src/printer.c: In function 'PrintSend':
+../Core/Src/printer.c:261:14: warning: passing argument 1 of 'vsprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+  261 |     vsprintf(buf, format, args);
+      |              ^~~
+      |              |
+      |              char **
+In file included from ../Core/Src/printer.c:37:
+c:\st\stm32cubeide_1.11.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.200.202301161003\tools\arm-none-eabi\include\stdio.h:210:15: note: expected 'char * restrict' but argument is of type 'char **'
+  210 | int vsprintf (char *__restrict, const char *__restrict, __VALIST)
+      |               ^
+../Core/Src/printer.c:266:51: warning: passing argument 1 of 'strlen' from incompatible pointer type [-Wincompatible-pointer-types]
+  266 |      HAL_UART_Transmit(&UART_PRINTER, buf, strlen(buf), 1000);
+      |                                                   ^~~
+      |                                                   |
+      |                                                   char **
+In file included from ../Core/Src/printer.c:36:
+c:\st\stm32cubeide_1.11.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.200.202301161003\tools\arm-none-eabi\include\string.h:41:17: note: expected 'const char *' but argument is of type 'char **'
+   41 | size_t  strlen (const char *);
+      |                 ^~~~~~~~~~~~
+../Core/Src/printer.c:266:39: warning: passing argument 2 of 'HAL_UART_Transmit' from incompatible pointer type [-Wincompatible-pointer-types]
+  266 |      HAL_UART_Transmit(&UART_PRINTER, buf, strlen(buf), 1000);
+      |                                       ^~~
+      |                                       |
+      |                                       char **
+In file included from ../Core/Inc/stm32f1xx_hal_conf.h:338,
+                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:30,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Devs/PCF8563.h:41,
+                 from ../Core/Inc/time.h:40,
+                 from ../Core/Inc/printer.h:41,
+                 from ../Core/Src/printer.c:40:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h:725:73: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char **'
+  725 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+      |                                                                ~~~~~~~~~^~~~~
+../Core/Src/printer.c: In function 'Print':
+../Core/Src/printer.c:277:14: warning: passing argument 1 of 'vsprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+  277 |     vsprintf(buf, format, args);
+      |              ^~~
+      |              |
+      |              char **
+In file included from ../Core/Src/printer.c:37:
+c:\st\stm32cubeide_1.11.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.200.202301161003\tools\arm-none-eabi\include\stdio.h:210:15: note: expected 'char * restrict' but argument is of type 'char **'
+  210 | int vsprintf (char *__restrict, const char *__restrict, __VALIST)
+      |               ^
+../Core/Src/printer.c:282:51: warning: passing argument 1 of 'strlen' from incompatible pointer type [-Wincompatible-pointer-types]
+  282 |      HAL_UART_Transmit(&UART_PRINTER, buf, strlen(buf), 1000);
+      |                                                   ^~~
+      |                                                   |
+      |                                                   char **
+In file included from ../Core/Src/printer.c:36:
+c:\st\stm32cubeide_1.11.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.200.202301161003\tools\arm-none-eabi\include\string.h:41:17: note: expected 'const char *' but argument is of type 'char **'
+   41 | size_t  strlen (const char *);
+      |                 ^~~~~~~~~~~~
+../Core/Src/printer.c:282:39: warning: passing argument 2 of 'HAL_UART_Transmit' from incompatible pointer type [-Wincompatible-pointer-types]
+  282 |      HAL_UART_Transmit(&UART_PRINTER, buf, strlen(buf), 1000);
+      |                                       ^~~
+      |                                       |
+      |                                       char **
+In file included from ../Core/Inc/stm32f1xx_hal_conf.h:338,
+                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:30,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Devs/PCF8563.h:41,
+                 from ../Core/Inc/time.h:40,
+                 from ../Core/Inc/printer.h:41,
+                 from ../Core/Src/printer.c:40:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h:725:73: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char **'
+  725 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+      |                                                                ~~~~~~~~~^~~~~
+../Core/Src/printer.c: In function 'PrintFooter':
+../Core/Src/printer.c:493:37: warning: passing argument 2 of 'PrintError' from incompatible pointer type [-Wincompatible-pointer-types]
+  493 |  if (lastError != 0) PrintError("", time);
+      |                                     ^~~~
+      |                                     |
+      |                                     RTCDateTime_s *
+../Core/Src/printer.c:239:58: note: expected 'RTCTimerTime_s *' but argument is of type 'RTCDateTime_s *'
+  239 | void PrintError(const char* errorString, RTCTimerTime_s* tTime) {
+      |                                          ~~~~~~~~~~~~~~~~^~~~~
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima-FW\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Board_APP.elf
+ 
 arm-none-eabi-size   Board_APP.elf 
+arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
+arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
    text	   data	    bss	    dec	    hex	filename
- 149380	   2440	  56184	 208004	  32c84	Board_APP.elf
+ 150988	   2252	  56188	 209428	  33214	Board_APP.elf
+arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
 Finished building: default.size.stdout
+ 
+Finished building: Board_APP.hex
+Finished building: Board_APP.bin
+ 
+ 
+Finished building: Board_APP.list
  

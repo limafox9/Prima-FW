@@ -75,6 +75,7 @@ USAGE:
 #define ADC_BITS					12			// ADC resolution (8bit=256, 10bit=1024, 12bit=4096, 16bit=65536
 #define T1_FACTORY_OFFSET			3.0			// Fixed factory offset for T1
 #define T2_FACTORY_OFFSET			0.0			// Fixed factory offset for T2
+#define TDS_THRESHOLD				500
 //#define PTC_NOMINAL_RESISTANCE	1000	   	// Ω nominal resistance (typical @25°C)
 //#define PTC_NOMINAL_TEMPERATURE	0.0			// temperature of nominal resistance (typical 25°C)
 //#define PTC_BETA				3977		// The beta coefficient or the B value of the thermistor (usually 3000-4000) check the datasheet for the accurate value
@@ -176,6 +177,22 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 //	osSemaphoreRelease(semaphoreSensorsHandle);
 }
 
+uint16_t WaterQualityGet() {
+	uint16_t retVal, dum;
+
+	if (settings.FunTDSActive > 0) {
+		for (int i = 0; i < 10; i++) {
+			retVal = BAT2U_GetTDSValue(1, 500);
+			if (retVal < TDS_THRESHOLD) break;
+			osDelay(500);
+			retVal = 0;
+		}
+	} else {
+		retVal = 0;
+	}
+	return retVal;
+}
+
 void StartSensorsTask() {
 
 	static uint8_t prevLSH = NORMAL;
@@ -246,14 +263,7 @@ void StartSensorsTask() {
 			if (prevCSL == EMPTY) {
 				DashLed(DISPLAY_LED_WARNING_CTL, OFF);
 				prevCSL = NORMAL;
-				if (settings.FunTDSActive > 0) {
-					uint16_t dum;
-					dum = BAT2U_GetTDSValue(2, 200);
-					dum = BAT2U_GetTDSValue(1, 200);
-					sensors.WaterTDS = dum;
-				} else {
-					sensors.WaterTDS = 0;
-				}
+				sensors.WaterTDS = WaterQualityGet();
 				Beep(1, 100, 100);
 			}
 		}

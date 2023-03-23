@@ -244,6 +244,8 @@ void ParseCommand(s_DisplayProtocolData* data) {
 						LoadUSBConfig();
 					} else if (functions[currFunction].ParamNumber == 10) {
 						PowerTest();
+					} else if (functions[currFunction].ParamNumber == 12) {
+						PrintSettings();
 					} else {
 						__NOP();
 					}
@@ -366,7 +368,7 @@ static void KeysReceived(uint8_t keysCode) {
 	} else if (keysCode == KEY_S3) {
 		__NOP();
 	} else if (keysCode == KEY_S1 + KEY_LONG_PRESS) {
-		EEPROM_Write(EPA_LAST_SERVICE_CYCLE, settings.CyclesCount, 2);
+		EEPROM_Write(EPA_LAST_SERVICE_CYCLE, &settings.CyclesCount, 2);
 		__NOP();
 	} else if (keysCode == KEY_S2 + KEY_LONG_PRESS) {
 		__NOP();

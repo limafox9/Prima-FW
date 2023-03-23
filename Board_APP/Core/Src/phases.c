@@ -76,14 +76,7 @@ uint8_t PhaseBegin(uint8_t timeout) {
 	PCF8563_GetDateTime(&ct);
 	sprintf(currFilename, "%02d.%02d.%02d-%02d.%02d-%05d.txt", ct.Year%100, ct.Month, ct.Day, ct.Hour, ct.Minute, settings.CyclesCount);
 
-	if (settings.FunTDSActive > 0) {
-		uint16_t dum;
-		dum = BAT2U_GetTDSValue(2, 200);
-		dum = BAT2U_GetTDSValue(1, 200);
-		sensors.WaterTDS = dum;
-	} else {
-		sensors.WaterTDS = 0;
-	}
+	sensors.WaterTDS = WaterQualityGet();
 
 	ResetTimer(TIMER_PHASE);
 

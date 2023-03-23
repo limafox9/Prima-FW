@@ -228,15 +228,7 @@ void SysInit() {
 
 
 	BAT2U_Init(&huart2);
-
-	if (settings.FunTDSActive > 0) {
-		uint16_t dum;
-		dum = BAT2U_GetTDSValue(2, 200);
-		dum = BAT2U_GetTDSValue(1, 200);
-		sensors.WaterTDS = dum;
-	} else {
-		sensors.WaterTDS = 0;
-	}
+	sensors.WaterTDS = WaterQualityGet();
 
 
 
@@ -249,8 +241,8 @@ void SysInit() {
 
 
 	char s[8];
-	int16_t nextClean = settings.CyclesCount - settings.CleanCyclesInterval + settings.LastCleanCycle;
-	int16_t nextService = settings.CyclesCount - settings.ServiceCyclesInterval + settings.LastServiceCycle;
+	int16_t nextClean = settings.CyclesCount - (settings.CleanCyclesInterval + settings.LastCleanCycle);
+	int16_t nextService = settings.CyclesCount - (settings.ServiceCyclesInterval + settings.LastServiceCycle);
 //	sprintf(s, "%1d.%1d.%02d", FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION);
 //	DigitsWrite(1, "Fir.");
 	sprintf(s,"%4d", nextService);
@@ -266,7 +258,7 @@ void SysInit() {
 	if (nextClean >= 0) {
 		sprintf(s,"%4d", nextClean);
 		DigitsWrite (1, s);
-		DigitsWrite (2, "UASH");
+		DigitsWrite (2, "CLEA");
 		DigitsWrite (3, "----");
 		Beep(3, 1000, 100);
 	} else if (nextService >= 0) {

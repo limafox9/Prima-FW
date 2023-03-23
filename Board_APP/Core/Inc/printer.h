@@ -49,5 +49,6 @@ void PrintStepLine(const char* step, float t1, float t2, float pressure, RTCTime
 void PrintHeader (const char* title, float t1, RTCDateTime_s* time);
 void PrintFooter (const char* result, RTCDateTime_s* time, RTCTimerTime_s* timer);
 void PrintTestPage();
+void PrintSettings();
 
 #endif /* INC_PRINTER_H_ */

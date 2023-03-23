@@ -1131,7 +1131,7 @@ uint8_t ProgramWash() {
 
 	progRunning = 0;
 	osThreadSuspend(displayInfoTaskHandle);
-	EEPROM_Write(EPA_LAST_CLEAN_CYCLE, settings.CyclesCount, 2);
+	EEPROM_Write(EPA_LAST_CLEAN_CYCLE, &settings.CyclesCount, 2);
 	doorOpened = 0;
 
 	progStop = 0;

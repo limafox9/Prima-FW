@@ -306,11 +306,40 @@ void PrintSettings() {
 	Print("Prod.         %d %d\n", machine.ProductionYear, machine.ProductionWeek);
 	Print("\n");
 	Print("Date (Y-M-D): %d-%02d-%02d\n", clockTime.Year, clockTime.Month, clockTime.Day);
-	Print("Cycles        %d\n", settings.CyclesCount);
+	Print("Cycles              %d\n", settings.CyclesCount);
 	Print("\n");
-	Print("T1_OFFSET                %f\n", (float)(settings.T1Offset / 10));
-	Print("T2_OFFSET                %f\n", (float)(settings.T2Offset / 10));
-	Print("CHAMBER_PRESSURE_OFFSET  %f\n", (float)(settings.ChamberPressOffset / 10));
+	int16_t nextClean = settings.CyclesCount - (settings.CleanCyclesInterval + settings.LastCleanCycle);
+	int16_t nextService = settings.CyclesCount - (settings.ServiceCyclesInterval + settings.LastServiceCycle);
+	Print("Cycles to Clean     %d\n", nextClean);
+	Print("Cycles to Service   %d\n", nextService);
+	Print("\n");
+	Print("T1_OFFSET                 %0.1f\n", (float)(settings.T1Offset / 10));
+	Print("T2_OFFSET                 %0.1f\n", (float)(settings.T2Offset / 10));
+	Print("CHAMBER_PRESSURE_OFFSET   %0.1f\n", (float)(settings.ChamberPressOffset / 10));
+	Print("\n");
+	Print("FIRST_VACUUM              %d\n", settings.FirstVacuum);
+	Print("OTHER_VACUUM              %d\n", settings.OtherVacuum);
+	Print("VACUUM_THRESHOLD          %d\n", settings.VacuumThreshold);
+	Print("OTHER_PRESSURE            %d\n", settings.OtherPressure);
+	Print("TDS_MIN                   %d\n", settings.WaterTDSMin);
+	Print("VACUUM_NUMBER             %d\n", settings.VacNumber);
+	Print("\n");
+	Print("USER_STERIL_TEMP          %d\n", settings.UserSterilTemp);
+	Print("USER_STERIL_TIME          %d\n", settings.UserSterilTime);
+	Print("USER_DRY_CLASS            %d\n", settings.UserDryClass);
+	Print("USER_VACUUM_NUMBER        %d\n", settings.UserVacuumNumber);
+	Print("\n");
+	Print("FUN_NIGHT_CYCLE_TIME      %d\n", settings.FunNightCycleTime);
+	Print("FUN_PRINTER_ACTIVE        %s\n", (settings.FunPrinterActive == 1) ? "ON" : " OFF");
+	Print("FUN_USB_ACTIVE            %s\n", (settings.FunUSBActive == 1) ? "ON" : " OFF");
+	Print("FUN_WATER_LOAD_ACTIVE     %s\n", (settings.FunWaterLoadActive == 1) ? "ON" : " OFF");
+	Print("FUN_TDS_ACTIVE            %s\n", (settings.FunTDSActive == 1) ? "ON" : " OFF");
+	Print("\n");
+	Print("FUN_DRY_CLASS             %d\n", settings.FunDryClass);
+	Print("FUN_PRESS_DISPLAY_OFFSET  %s\n", (settings.FunPressureDisplay == 1) ? "100" : "0");
+	Print("\n");
+	Print("******************************************\n");
+	Print("\n\n\n\n");
 
 
 //	LAST_ERROR

@@ -86,8 +86,8 @@ Parameter_s parameters[] = {
 	{7, "Other Pressure", "HIGH", EPA_OTHER_PRESSURE, &settings.OtherPressure, 1, 12, 20, 10},
 	{8, "Min. TDS", " CO ", EPA_TDS_MIN, &settings.WaterTDSMin, 1, 5, 70, 1},
 	{9, "Vacuum Number", " UA ", EPA_TDS_MIN, &settings.VacNumber, 1, 3, 5, 1},
-	{10, "Clean Interval", "CIEA", EPA_TDS_MIN, &settings.CleanCyclesInterval, 1, 3, 9, 10},
-	{11, "Service interval", "SErU", EPA_TDS_MIN, &settings.ServiceCyclesInterval, 1, 5, 10, 100},
+//	{10, "Clean Interval", "CLEA", EPA_TDS_MIN, &settings.CleanCyclesInterval, 1, 3, 9, 10},
+//	{11, "Service interval", "SErU", EPA_TDS_MIN, &settings.ServiceCyclesInterval, 1, 5, 10, 100},
 };
 
 Reading_s readings[] = {
@@ -115,12 +115,12 @@ Functions_s functions[] = {
 	{5, "TDS on", 					" CO ", EPA_FUN_TDS_ACTIVE, &settings.FunTDSActive, 1, 0, 1},
 	{6, "Pressure display", 		"PrES", EPA_FUN_PRESS_DISPLAY_OFFSET, &settings.FunPressureDisplay, 1, 0, 1},
 	{7, "Dry Time", 				" dry", EPA_FUN_DRY_CLASS, &settings.FunDryClass, 1, 1, 3},
-	{8, "USB Export", 				"ESPr", 0, 0, 0, 0, 0, 0},
+//	{8, "USB Export", 				"ESPr", 0, 0, 0, 0, 0, 0},
 	{9, "USB Import parameters", 	"LoAd", 0, 0, 0, 0, 0},
 	{10, "Power test", 		"tESt", 0, 0, 0, 0, 0},
-	{11, "Print user parameters", 	"PUPA", 0, 0, 0, 0, 0},
+//	{11, "Print user parameters", 	"PUPA", 0, 0, 0, 0, 0},
 	{12, "Print tech parameters", 	"PtPA", 0, 0, 0, 0, 0},
-	{13, "Print last ticket", 		"PLtI", 0, 0, 0, 0, 0},
+//	{13, "Print last ticket", 		"PLtI", 0, 0, 0, 0, 0},
 };
 
 
@@ -345,12 +345,14 @@ void ShowFunctions() {
 	osSemaphoreWait(semaphoreSensorsHandle, 100);
 	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, &functions[currFunction].DigitsName);
 	char s[8];
-	if (currFunction == 0) {
-		sprintf(s,"%4d", *functions[currFunction].Value);
-	} else if ((currFunction > 0) && (currFunction < 6)) {
+	if ((currFunction >= 1) && (currFunction < 5)) {
 		sprintf(s,"%4s", (*functions[currFunction].Value == 1) ? "On" : " OFF");
+	} else if ((currFunction == 5)) {
+		sprintf(s,"%4s", (*functions[currFunction].Value == 1) ? " 100" : "   0");
+	} else if ((currFunction >= 7)) {
+		sprintf(s,"Strt");
 	} else {
-		sprintf(s,"%4d", *user[currUser].Value);
+		sprintf(s,"%4d", *functions[currFunction].Value);
 	}
 	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 2, 0, 0, s);
 	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "FUnC");
