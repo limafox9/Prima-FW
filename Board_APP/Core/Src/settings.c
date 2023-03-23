@@ -43,6 +43,7 @@ USAGE:
 #include "settings.h"
 #include "system.h"
 #include "time.h"
+#include "modes.h"
 
 typedef union {
 	uint8_t u8;
@@ -203,7 +204,7 @@ void SaveDefaults(uint8_t factoryDefault) {
 	EEPROM_Write(EPA_OTHER_PRESSURE, &(uint8_t){170 / 10}, 1);
 	EEPROM_Write(EPA_TDS_MIN, &(uint8_t){25}, 1);
 
-	EEPROM_Write(EPA_USER_STERIL_TEMP, &(uint8_t){134}, 1);
+	EEPROM_Write(EPA_USER_STERIL_TEMP, &(uint8_t){STERILTEMP_134}, 1);
 	EEPROM_Write(EPA_USER_STERIL_TIME, &(uint16_t){4}, 2);
 	EEPROM_Write(EPA_USER_DRY_CLASS, &(uint8_t){0}, 2);
 	EEPROM_Write(EPA_USER_VACUUM_NUMBER, &(uint8_t){1}, 1);

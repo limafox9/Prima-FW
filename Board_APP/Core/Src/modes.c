@@ -366,12 +366,12 @@ void SelectFunction() {
 }
 
 void ChangeFunction(int8_t increment) {
-	if (currFunction == 0) *functions[currFunction].Value += (increment * 30);
-	else *functions[currFunction].Value += increment;
-
-
-	if (*functions[currFunction].Value < functions[currFunction].Min) *functions[currFunction].Value = functions[currFunction].Max;
-	if (*functions[currFunction].Value > functions[currFunction].Max) *functions[currFunction].Value = functions[currFunction].Min;
+	if (functions[currFunction].Min != 0 || functions[currFunction].Max != 0) {
+		if (currFunction == 0) *functions[currFunction].Value += (increment * 30);
+		else *functions[currFunction].Value += increment;
+		if (*functions[currFunction].Value < functions[currFunction].Min) *functions[currFunction].Value = functions[currFunction].Max;
+		if (*functions[currFunction].Value > functions[currFunction].Max) *functions[currFunction].Value = functions[currFunction].Min;
+	}
 //	WriteSetting(parameters[currParameter].EepromAddress, parameters[currParameter].Data, 1);
 	ShowFunctions();
 }

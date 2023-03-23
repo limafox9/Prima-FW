@@ -289,6 +289,26 @@ void Print(const char* format, ...) {
 
 }
 
+void PrintPowerTestHeader() {
+	RTCDateTime_s clockTime;
+	GetDateTime(&clockTime);
+
+	Print("\n");
+	Print("******************************************\n");
+	PrintSize(2, 2);
+	Print("POWER TEST\n");
+	PrintSize(1, 1);
+	Print("------------------------------------------\n");
+	Print("\n");
+	Print("S/N:          %s\n", machine.Serial);
+	Print("UID:          %08X %08X %08X\n", machine.MCUID[2], machine.MCUID[1], machine.MCUID[0]);
+	Print("Firmware:     v.%d.%02d.%1d (%d.%02d.%1d)\n", machine.FWVersionMajor, machine.FWVersionMinor, machine.FWVersionRevision, machine.DisplayFWVersionMajor, machine.DisplayFWVersionMinor, machine.DisplayFWVersionRevision);
+	Print("\n");
+	Print("Date (Y-M-D): %d-%02d-%02d\n", clockTime.Year, clockTime.Month, clockTime.Day);
+	Print("Cycles        %d\n", settings.CyclesCount);
+	Print("\n");
+}
+
 void PrintSettings() {
 	RTCDateTime_s clockTime;
 	GetDateTime(&clockTime);
@@ -339,7 +359,7 @@ void PrintSettings() {
 	Print("FUN_PRESS_DISPLAY_OFFSET  %s\n", (settings.FunPressureDisplay == 1) ? "100" : "0");
 	Print("\n");
 	Print("******************************************\n");
-	Print("\n\n\n\n");
+	Print("\n\n\n\n\n");
 
 
 //	LAST_ERROR
@@ -404,7 +424,7 @@ void PrintLogo() {
 //	}
 }
 
-void PrintHeader (const char* title, float t1, RTCDateTime_s* time) {
+void PrintHeader (const char* title, float t1, uint8_t dryTime, RTCDateTime_s* time) {
 
 	Print("\n");
 	Print("******************************************\n");
@@ -423,7 +443,7 @@ void PrintHeader (const char* title, float t1, RTCDateTime_s* time) {
 				uint8_t tSter = (settings.UserSterilTemp == STERILTEMP_134) ? 134 : 121;
 				uint8_t minSter = settings.UserSterilTime;
 				uint8_t secSter = 0;
-				uint8_t minDry = settings.UserDryTime;
+				uint8_t minDry = dryTime;
 				uint8_t secDry = 0;
 				uint16_t press = (settings.UserSterilTemp == STERILTEMP_134) ? 310 : 220;
 				press = (settings.FunPressureDisplay == 1) ? press : (press - 100);

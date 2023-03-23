@@ -262,7 +262,6 @@ uint8_t ProgramResumeDry() {
 
 uint8_t ProgramUnwrapped() {
 
-
 	uint8_t success = 1;
 	RTCDateTime_s clockTime;
 	RTCTimerTime_s tCycle, tPhase, tWait;
@@ -272,8 +271,11 @@ uint8_t ProgramUnwrapped() {
 
 	if (!PhaseBegin(600)) return 0;
 
+	uint16_t dryTime = 0;
+	dryTime = GetDryTime(settings.FunDryClass, STERILTEMP_134, 1) * 60;
+
 	GetDateTime(&clockTime);
-	PrintHeader("UNWRAPPED", sensors.T1, &clockTime);
+	PrintHeader("UNWRAPPED", sensors.T1, dryTime, &clockTime);
 
 	// Heat up
 	if (success) {
@@ -336,14 +338,12 @@ uint8_t ProgramUnwrapped() {
 	}
 
 	// Dry
-	uint8_t dryTime = 0;
 	if (success) {
-		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
-		dryTime = GetDryTime(settings.FunDryClass, STERILTEMP_134, 1) * 60;
 		success = PhaseDry(20.0, 50.0, dryTime, dryTime * 1.5);
 	}
 
 	// End
+	PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 	GetTimer(TIMER_CYCLE, &tCycle);
 	GetDateTime(&clockTime);
 	PhaseFinish(success, &clockTime, &tCycle);
@@ -365,8 +365,11 @@ uint8_t ProgramWrapped() {
 
 	if (!PhaseBegin(600)) return 0;
 
+	uint16_t dryTime = 0;
+	dryTime = GetDryTime(settings.FunDryClass, STERILTEMP_134, settings.VacNumber) * 60;
+
 	GetDateTime(&clockTime);
-	PrintHeader("WRAPPED", sensors.T1, &clockTime);
+	PrintHeader("WRAPPED", sensors.T1, dryTime, &clockTime);
 
 	// Heat up
 	if (success) {
@@ -441,14 +444,12 @@ uint8_t ProgramWrapped() {
 	}
 
 	// Dry
-	uint8_t dryTime = 0;
 	if (success) {
-		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
-		dryTime = GetDryTime(settings.FunDryClass, STERILTEMP_134, settings.VacNumber) * 60;
 		success = PhaseDry(20.0, 50.0, dryTime, dryTime * 1.5);
 	}
 
 	// End
+	PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 	GetTimer(TIMER_CYCLE, &tCycle);
 	GetDateTime(&clockTime);
 	PhaseFinish(success, &clockTime, &tCycle);
@@ -472,9 +473,11 @@ uint8_t ProgramPrion() {
 	SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
 
 	if (!PhaseBegin(600)) return 0;
+	uint16_t dryTime = 0;
+	dryTime = GetDryTime(settings.FunDryClass, STERILTEMP_134, settings.VacNumber) * 60;
 
 	GetDateTime(&clockTime);
-	PrintHeader("PRION", sensors.T1, &clockTime);
+	PrintHeader("PRION", sensors.T1, dryTime, &clockTime);
 
 	// Heat up
 	if (success) {
@@ -544,14 +547,12 @@ uint8_t ProgramPrion() {
 	}
 
 	// Dry
-	uint8_t dryTime = 0;
 	if (success) {
-		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
-		dryTime = GetDryTime(settings.FunDryClass, STERILTEMP_134, settings.VacNumber) * 60;
 		success = PhaseDry(20.0, 50.0, dryTime, dryTime * 1.5);
 	}
 
 	// End
+	PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 	GetTimer(TIMER_CYCLE, &tCycle);
 	GetDateTime(&clockTime);
 	PhaseFinish(success, &clockTime, &tCycle);
@@ -572,9 +573,11 @@ uint8_t ProgramGentle() {
 	progStop = 0;
 
 	if (!PhaseBegin(600)) return 0;
+	uint16_t dryTime = 0;
+	dryTime = GetDryTime(settings.FunDryClass, STERILTEMP_121, settings.VacNumber) * 60;
 
 	GetDateTime(&clockTime);
-	PrintHeader("GENTLE", sensors.T1, &clockTime);
+	PrintHeader("GENTLE", sensors.T1, dryTime, &clockTime);
 
 	// Heat up
 	if (success) {
@@ -644,14 +647,12 @@ uint8_t ProgramGentle() {
 	}
 
 	// Dry
-	uint8_t dryTime = 0;
 	if (success) {
-		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
-		dryTime = GetDryTime(settings.FunDryClass, STERILTEMP_121, settings.VacNumber) * 60;
 		success = PhaseDry(20.0, 50.0, dryTime, dryTime * 1.5);
 	}
 
 	// End
+	PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 	GetTimer(TIMER_CYCLE, &tCycle);
 	GetDateTime(&clockTime);
 	PhaseFinish(success, &clockTime, &tCycle);
@@ -673,8 +674,11 @@ uint8_t ProgramUser() {
 
 	if (!PhaseBegin(600)) return 0;
 
+	uint16_t dryTime = 0;
+	dryTime = GetDryTime(settings.UserDryClass, settings.UserSterilTemp, settings.UserVacuumNumber) * 60;
+
 	GetDateTime(&clockTime);
-	PrintHeader("USER", sensors.T1, &clockTime);
+	PrintHeader("USER", sensors.T1, dryTime, &clockTime);
 
 	// Heat up
 	if (success) {
@@ -783,19 +787,17 @@ uint8_t ProgramUser() {
 	}
 
 	// Dry
-	if (settings.UserDryTime > 0) {
-		uint8_t dryTime = 0;
-		if (success) {
-			PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
-			dryTime = GetDryTime(settings.UserDryClass, settings.UserSterilTemp, settings.UserVacuumNumber) * 60;
+	if (success) {
+		if (dryTime > 0) {
 			success = PhaseDry(20.0, 50.0, dryTime, dryTime * 1.5);
-		}
-	} else {
+		} else {
 		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 		success = PhaseVacuum(1, 50.0, 0, 300);
+		}
 	}
 
 	// End
+	PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 	GetTimer(TIMER_CYCLE, &tCycle);
 	GetDateTime(&clockTime);
 	PhaseFinish(success, &clockTime, &tCycle);
@@ -817,8 +819,11 @@ uint8_t ProgramHelixTest() {
 
 	if (!PhaseBegin(600)) return 0;
 
+	uint16_t dryTime = 0;
+	dryTime = GetDryTime(settings.FunDryClass, STERILTEMP_134, 3) * 60;
+
 	GetDateTime(&clockTime);
-	PrintHeader("HELIX TEST", sensors.T1, &clockTime);
+	PrintHeader("HELIX TEST", sensors.T1, dryTime, &clockTime);
 
 	// Heat up
 	if (success) {
@@ -892,14 +897,12 @@ uint8_t ProgramHelixTest() {
 	}
 
 	// Dry
-	uint8_t dryTime = 0;
 	if (success) {
-		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
-		dryTime = GetDryTime(settings.FunDryClass, STERILTEMP_134, 3) * 60;
 		success = PhaseDry(20.0, 50.0, dryTime, dryTime * 1.5);
 	}
 
 	// End
+	PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 	GetTimer(TIMER_CYCLE, &tCycle);
 	GetDateTime(&clockTime);
 	PhaseFinish(success, &clockTime, &tCycle);
@@ -927,7 +930,7 @@ uint8_t ProgramVacuumTest() {
 	if (!PhaseBegin(600)) return 0;
 
 	GetDateTime(&clockTime);
-	PrintHeader("VACUUM TEST", sensors.T1, &clockTime);
+	PrintHeader("VACUUM TEST", sensors.T1, 0, &clockTime);
 
 	if (success) {
 		success = PhaseVacuum(1, 20.0, 1, OT_VACUUM);
@@ -995,12 +998,18 @@ uint8_t ProgramVacuumTest() {
 uint8_t PowerTest() {
 
 	char val[4];
+	uint8_t tCount = 0;
 
 	osSemaphoreWait(semaphoreSensorsHandle, 100);
 
 	machineStatus.Show = SHOW_FUNCTIONS;
 	PWMPower_Stop();
 	FanSet(OFF);
+
+	PrintPowerTestHeader();
+
+	tCount++;
+	Print("%2d - NO LOAD\n", tCount);
 
 	DigitsWrite(2, "FAn");
 	FanSet(ON);
@@ -1010,6 +1019,8 @@ uint8_t PowerTest() {
 //	DigitsWrite(1, val);
 	FanSet(OFF);
 	osDelay(POWER_TEST_PAUSE_TIME);
+	tCount++;
+	Print("%2d - FAN\n", tCount);
 
 	DigitsWrite(2, "H St");
 	HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, ON);
@@ -1019,6 +1030,8 @@ uint8_t PowerTest() {
 //	DigitsWrite(1, val);
 	HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, OFF);
 	osDelay(POWER_TEST_PAUSE_TIME);
+	tCount++;
+	Print("%2d - STEAM GENERATOR\n", tCount);
 
 	DigitsWrite(2, "H rI");
 	HAL_GPIO_WritePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin, ON);
@@ -1028,6 +1041,8 @@ uint8_t PowerTest() {
 //	DigitsWrite(1, val);
 	HAL_GPIO_WritePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin, OFF);
 	osDelay(POWER_TEST_PAUSE_TIME);
+	tCount++;
+	Print("%2d - HEATING RING\n", tCount);
 
 	DigitsWrite(2, "U UA");
 	ValveVacuumSet(ON);
@@ -1037,30 +1052,40 @@ uint8_t PowerTest() {
 //	DigitsWrite(1, val);
 	ValveVacuumSet(OFF);
 	osDelay(POWER_TEST_PAUSE_TIME);
+	tCount++;
+	Print("%2d - VACUUM VALVE\n", tCount);
 
 	DigitsWrite(2, "U dr");
 	ValveDrainSteamSet(ON);
 	osDelay(POWER_TEST_ON_TIME);
 	ValveDrainSteamSet(OFF);
 	osDelay(POWER_TEST_PAUSE_TIME);
+	tCount++;
+	Print("%2d - DRAIN STEAM VALVE\n", tCount);
 
 	DigitsWrite(2, "U Ut");
 	ValveWaterSteamSet(ON);
 	osDelay(POWER_TEST_ON_TIME);
 	ValveWaterSteamSet(OFF);
 	osDelay(POWER_TEST_PAUSE_TIME);
+	tCount++;
+	Print("%2d - WATER STEAM VALVE\n", tCount);
 
 	DigitsWrite(2, "U In");
 	ValveDryIntakeSet(ON);
 	osDelay(POWER_TEST_ON_TIME);
 	ValveDryIntakeSet(OFF);
 	osDelay(POWER_TEST_PAUSE_TIME);
+	tCount++;
+	Print("%2d - INTAKE FRONT VALVE\n", tCount);
 
 	DigitsWrite(2, "P Ut");
 	PumpWaterLoadSet(ON);
 	osDelay(POWER_TEST_ON_TIME);
 	PumpWaterLoadSet(OFF);
 	osDelay(POWER_TEST_PAUSE_TIME);
+	tCount++;
+	Print("%2d - WATER LOAD PUMP\n", tCount);
 
 	DigitsWrite(2, "P UA");
 	ValveVacuumSet(ON);
@@ -1069,6 +1094,8 @@ uint8_t PowerTest() {
 	PumpVacuumSet(OFF);
 	ValveVacuumSet(OFF);
 	osDelay(POWER_TEST_PAUSE_TIME);
+	tCount++;
+	Print("%2d - VACUUM VALVE\n", tCount);
 
 	DigitsWrite(2, "P St");
 	ValveWaterSteamSet(ON);
@@ -1077,6 +1104,8 @@ uint8_t PowerTest() {
 	PumpSteamGeneratorSet(OFF);
 	ValveWaterSteamSet(OFF);
 	osDelay(POWER_TEST_PAUSE_TIME);
+	tCount++;
+	Print("%2d - WATER STEAM VALVE\n", tCount);
 
 	DigitsWrite(2, "SOLE");
 	HAL_GPIO_WritePin(SOLENOID_V1_GPIO_Port, SOLENOID_V1_Pin, OFF);
@@ -1093,12 +1122,17 @@ uint8_t PowerTest() {
 	// All off afetr LOCK/UNLOCK impulse
 	HAL_GPIO_WritePin(SOLENOID_V1_GPIO_Port, SOLENOID_V1_Pin, OFF);
 	HAL_GPIO_WritePin(SOLENOID_V2_GPIO_Port, SOLENOID_V2_Pin, OFF);
+	tCount++;
+	Print("%2d - LOCK/UNLOCK SOLENOID\n", tCount);
 
 	DigitsWrite(2, "----");
 	PWMPower_Start();
 	osSemaphoreRelease(semaphoreSensorsHandle);
 	osThreadResume(displayInfoTaskHandle);
 
+	Print("\n");
+	Print("******************************************\n");
+	Print("\n\n\n\n\n");
 
 }
 
@@ -1116,7 +1150,7 @@ uint8_t ProgramWash() {
 	if (!PhaseBegin(600)) return 0;
 
 	GetDateTime(&clockTime);
-	PrintHeader("CLEANING PROGRAM", sensors.T1, &clockTime);
+	PrintHeader("CLEANING PROGRAM", sensors.T1, 0, &clockTime);
 
 	PhaseClean();
 

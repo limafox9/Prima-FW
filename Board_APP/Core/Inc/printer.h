@@ -46,9 +46,10 @@ void PrintDivisor();
 void PrinterInit();
 void PrintSize(uint8_t width, uint8_t height);
 void PrintStepLine(const char* step, float t1, float t2, float pressure, RTCTimerTime_s* time);
-void PrintHeader (const char* title, float t1, RTCDateTime_s* time);
+void PrintHeader (const char* title, float t1, uint8_t dryTime, RTCDateTime_s* time);
 void PrintFooter (const char* result, RTCDateTime_s* time, RTCTimerTime_s* timer);
 void PrintTestPage();
+void PrintPowerTestHeader();
 void PrintSettings();
 
 #endif /* INC_PRINTER_H_ */

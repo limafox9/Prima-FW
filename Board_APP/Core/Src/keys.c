@@ -124,7 +124,7 @@ void ParseCommand(s_DisplayProtocolData* data) {
 				} else if (machineStatus.Show == SHOW_USERSET) {
 					ChangeUserSetting(-1);
 				} else if (machineStatus.Show == SHOW_FUNCTIONS) {
-						ChangeFunction(-1);
+					ChangeFunction(-1);
 				} else {
 					__NOP();
 				}
@@ -216,7 +216,7 @@ void ParseCommand(s_DisplayProtocolData* data) {
 
 		} else if (data->Param1 == KEY_START + KEY_LONG_PRESS) {
 			if (currProgram == PROGRAM_RESUME_DRY ) {
-				DashLedsOff();
+//				DashLedsOff();
 				ProgressLedsOff();
 				abortProgram = 1;
 				programStart = 0;
@@ -369,6 +369,7 @@ static void KeysReceived(uint8_t keysCode) {
 		__NOP();
 	} else if (keysCode == KEY_S1 + KEY_LONG_PRESS) {
 		EEPROM_Write(EPA_LAST_SERVICE_CYCLE, &settings.CyclesCount, 2);
+		Beep(1, 50, 50);
 		__NOP();
 	} else if (keysCode == KEY_S2 + KEY_LONG_PRESS) {
 		__NOP();
