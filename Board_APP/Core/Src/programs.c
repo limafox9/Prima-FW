@@ -247,6 +247,7 @@ uint8_t ProgramResumeDry() {
 	}
 
 	machineStatus.Status = STATUS_READY;
+	machineStatus.Show = SHOW_PROGRAM;
 	lastError = ERROR_NONE;
 	EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
 	progRunning = 0;

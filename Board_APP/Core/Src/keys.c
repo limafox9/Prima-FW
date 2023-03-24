@@ -61,12 +61,10 @@ void ParseCommand(s_DisplayProtocolData* data) {
 	if (data->Command == DISPLAY_CMD_KEYS_PRESSED) {
 		Beep(1, 100, 100);
 		if (data->Param1 == KEY_PROG) {
-			if ((machineStatus.Status == STATUS_IDLE) && (machineStatus.Show == SHOW_PROGRAM)) {
-				SelectProgram();
-			} else if ((machineStatus.Status == STATUS_READY) && (machineStatus.Show == SHOW_PROGRAM)) {
-				SelectProgram();
-			} else if (machineStatus.Status == STATUS_RUNNING) {
+			if (progRunning == 1) {
 				machineStatus.Show = SHOW_READINGS;
+			} else if ((machineStatus.Status == STATUS_IDLE || machineStatus.Status == STATUS_READY) && (machineStatus.Show == SHOW_PROGRAM)) {
+				SelectProgram();
 			}
 
 			if (machineStatus.Show == SHOW_PARAMETERS) {
@@ -84,13 +82,11 @@ void ParseCommand(s_DisplayProtocolData* data) {
 			}
 
 		} else if (data->Param1 == KEY_TEST) {
-			if ((machineStatus.Status == STATUS_IDLE) && (machineStatus.Show == SHOW_PROGRAM)) {
-				SelectTest();
-			} else if ((machineStatus.Status == STATUS_READY) && (machineStatus.Show == SHOW_PROGRAM)) {
-				SelectTest();
-			} else if (machineStatus.Status == STATUS_RUNNING) {
+			if (progRunning == 1) {
 				machineStatus.Show = SHOW_PROGRAM;
 				ShowProgram();
+			} else if ((machineStatus.Status == STATUS_IDLE || machineStatus.Status == STATUS_READY) && (machineStatus.Show == SHOW_PROGRAM)) {
+				SelectTest();
 			}
 
 			if (machineStatus.Show == SHOW_PARAMETERS) {

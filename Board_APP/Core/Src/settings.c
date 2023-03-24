@@ -92,7 +92,10 @@ void LoadSettings() {
 
 	// EEPROM read
 	EEPROM_Read(EPA_MACHINE_SERIAL_NUMBER, &machine.Serial, 12);
+
 	EEPROM_Read(EPA_CYCLE_COUNTER_PERMANENT, &machine.ReadOnlyCyclesCount, 2);
+	EEPROM_Read(EPA_MACHINE_PROD_YEAR, &machine.ProductionYear, 1);
+	EEPROM_Read(EPA_MACHINE_PROD_MONTH, &machine.ProductionWeek, 1);
 	EEPROM_Read(EPA_CYCLE_COUNTER, &settings.CyclesCount, 2);
 
 	EEPROM_Read(EPA_T1_OFFSET, &settings.T1Offset, 1);

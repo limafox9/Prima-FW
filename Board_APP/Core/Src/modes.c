@@ -342,8 +342,8 @@ void ChangeUserSetting(int8_t increment) {
 }
 
 void ShowFunctions() {
-	osSemaphoreWait(semaphoreSensorsHandle, 100);
-	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, &functions[currFunction].DigitsName);
+	osSemaphoreWait(semaphoreSensorsHandle, 1000);
+	DigitsWrite(1, &functions[currFunction].DigitsName);
 	char s[8];
 	if ((currFunction >= 1) && (currFunction < 5)) {
 		sprintf(s,"%4s", (*functions[currFunction].Value == 1) ? "On" : " OFF");
@@ -354,8 +354,8 @@ void ShowFunctions() {
 	} else {
 		sprintf(s,"%4d", *functions[currFunction].Value);
 	}
-	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 2, 0, 0, s);
-	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "FUnC");
+	DigitsWrite(2, s);
+	DigitsWrite(3, "FUnC");
 	osSemaphoreRelease(semaphoreSensorsHandle);
 }
 
