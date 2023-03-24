@@ -211,42 +211,45 @@ void ParseCommand(s_DisplayProtocolData* data) {
 			}
 
 		} else if (data->Param1 == KEY_START + KEY_LONG_PRESS) {
-			if (currProgram == PROGRAM_RESUME_DRY ) {
-//				DashLedsOff();
-				ProgressLedsOff();
-				abortProgram = 1;
-				programStart = 0;
-				machineStatus.Status = STATUS_READY;
-				machineStatus.Show = SHOW_PROGRAM;
-				ShowProgram();
-			} else {
-				if (machineStatus.Show == SHOW_PROGRAM) {
-					if (machineStatus.Status == STATUS_IDLE) {
-						__NOP();
-					} else if (machineStatus.Status == STATUS_READY) {
-						__NOP();
-					} else if (machineStatus.Status = STATUS_RUNNING) {
-						DashLedsOff();
-						ProgressLedsOff();
-						abortProgram = 1;
-						machineStatus.Status = STATUS_READY;
-						machineStatus.Show = SHOW_PROGRAM;
-						ShowProgram();
-					} else {
-						__NOP();
-					}
-				} else if (machineStatus.Show == SHOW_FUNCTIONS) {
-					if (functions[currFunction].ParamNumber == 9) {
-						LoadUSBConfig();
-					} else if (functions[currFunction].ParamNumber == 10) {
-						PowerTest();
-					} else if (functions[currFunction].ParamNumber == 12) {
-						PrintSettings();
-					} else {
-						__NOP();
-					}
+			if (lastError == ERROR_NONE) {
+				if (currProgram == PROGRAM_RESUME_DRY) {
+	//				DashLedsOff();
+					ProgressLedsOff();
+					abortProgram = 1;
+					programStart = 0;
+					machineStatus.Status = STATUS_READY;
+					machineStatus.Show = SHOW_PROGRAM;
+					ShowProgram();
 				} else {
-					__NOP();
+					if (machineStatus.Show == SHOW_PROGRAM) {
+						if (machineStatus.Status == STATUS_IDLE) {
+							__NOP();
+						} else if (machineStatus.Status == STATUS_READY) {
+							__NOP();
+						} else if (machineStatus.Status = STATUS_RUNNING) {
+							DashLedsOff();
+							ProgressLedsOff();
+							abortProgram = 1;
+							machineStatus.Status = STATUS_READY;
+							machineStatus.Show = SHOW_PROGRAM;
+							ShowProgram();
+						} else {
+							__NOP();
+						}
+					} else if (machineStatus.Show == SHOW_FUNCTIONS) {
+						if (functions[currFunction].ParamNumber == 9) {
+							LoadUSBConfig();
+						} else if (functions[currFunction].ParamNumber == 10) {
+							PowerTest();
+						} else if (functions[currFunction].ParamNumber == 12) {
+							PrintSettings();
+						} else {
+							__NOP();
+						}
+					} else {
+						__NOP();
+					}
+
 				}
 			}
 
