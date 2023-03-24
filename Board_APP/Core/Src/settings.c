@@ -201,6 +201,7 @@ void SaveDefaults(uint8_t factoryDefault) {
 	EEPROM_Write(EPA_FIRST_VACUUM, &(uint8_t){20}, 1);
 	EEPROM_Write(EPA_OTHER_VACUUM, &(uint8_t){30}, 1);
 	EEPROM_Write(EPA_VACUUM_THRESHOLD, &(uint8_t){50}, 1);
+	EEPROM_Write(EPA_VACUUM_NUMBER, &(uint8_t){3}, 1);
 	EEPROM_Write(EPA_OTHER_PRESSURE, &(uint8_t){170 / 10}, 1);
 	EEPROM_Write(EPA_TDS_MIN, &(uint8_t){25}, 1);
 

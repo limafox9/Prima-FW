@@ -59,9 +59,9 @@ USAGE:
 
 #define DV_STERIL_TEMP_134		135.4
 #define DV_STERIL_TEMP_121		123.2
-#define DV_STERIL_PRESS_MIN_134	290.0
+#define DV_STERIL_PRESS_MIN_134	308.0
 #define DV_STERIL_PRESS_MAX_134	350.0
-#define DV_STERIL_PRESS_MIN_121	200.0
+#define DV_STERIL_PRESS_MIN_121	208.0
 #define DV_STERIL_PRESS_MAX_121	250.0
 
 #define VAC_DVALUE	10
@@ -271,11 +271,13 @@ uint8_t ProgramUnwrapped() {
 
 	if (!PhaseBegin(600)) return 0;
 
+	uint16_t sterilTime = 0;
 	uint16_t dryTime = 0;
+	sterilTime = 240;
 	dryTime = GetDryTime(settings.FunDryClass, STERILTEMP_134, 1) * 60;
 
 	GetDateTime(&clockTime);
-	PrintHeader("UNWRAPPED", sensors.T1, dryTime, &clockTime);
+	PrintHeader("UNWRAPPED", sensors.T1, dryTime, sterilTime, &clockTime);
 
 	// Heat up
 	if (success) {
@@ -321,7 +323,7 @@ uint8_t ProgramUnwrapped() {
 				.chamberTemp = DV_STERIL_TEMP_134,
 				.chamberTempMin = 134.0,
 				.chamberTempMax = 136.0,
-				.sterilTime = 240,
+				.sterilTime = sterilTime,
 				.chamberPress = 320,
 				.pressMin = 290.0,
 				.pressMax = 350.0,
@@ -365,11 +367,13 @@ uint8_t ProgramWrapped() {
 
 	if (!PhaseBegin(600)) return 0;
 
+	uint16_t sterilTime = 0;
 	uint16_t dryTime = 0;
+	sterilTime = 300;
 	dryTime = GetDryTime(settings.FunDryClass, STERILTEMP_134, settings.VacNumber) * 60;
 
 	GetDateTime(&clockTime);
-	PrintHeader("WRAPPED", sensors.T1, dryTime, &clockTime);
+	PrintHeader("WRAPPED", sensors.T1, dryTime, sterilTime, &clockTime);
 
 	// Heat up
 	if (success) {
@@ -427,7 +431,7 @@ uint8_t ProgramWrapped() {
 				.chamberTemp = DV_STERIL_TEMP_134,
 				.chamberTempMin = 134.0,
 				.chamberTempMax = 136.0,
-				.sterilTime = 300,
+				.sterilTime = sterilTime,
 				.chamberPress = 320,
 				.pressMin = 290.0,
 				.pressMax = 350.0,
@@ -473,11 +477,14 @@ uint8_t ProgramPrion() {
 	SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
 
 	if (!PhaseBegin(600)) return 0;
+
+	uint16_t sterilTime = 0;
 	uint16_t dryTime = 0;
+	sterilTime = 1080;
 	dryTime = GetDryTime(settings.FunDryClass, STERILTEMP_134, settings.VacNumber) * 60;
 
 	GetDateTime(&clockTime);
-	PrintHeader("PRION", sensors.T1, dryTime, &clockTime);
+	PrintHeader("PRION", sensors.T1, dryTime, sterilTime, &clockTime);
 
 	// Heat up
 	if (success) {
@@ -530,7 +537,7 @@ uint8_t ProgramPrion() {
 				.chamberTemp = DV_STERIL_TEMP_134,
 				.chamberTempMin = 134.0,
 				.chamberTempMax = 136.0,
-				.sterilTime = 1080,
+				.sterilTime = sterilTime,
 				.chamberPress = 320,
 				.pressMin = 290.0,
 				.pressMax = 350.0,
@@ -573,11 +580,14 @@ uint8_t ProgramGentle() {
 	progStop = 0;
 
 	if (!PhaseBegin(600)) return 0;
+
+	uint16_t sterilTime = 0;
 	uint16_t dryTime = 0;
+	sterilTime = 1200;
 	dryTime = GetDryTime(settings.FunDryClass, STERILTEMP_121, settings.VacNumber) * 60;
 
 	GetDateTime(&clockTime);
-	PrintHeader("GENTLE", sensors.T1, dryTime, &clockTime);
+	PrintHeader("GENTLE", sensors.T1, dryTime, sterilTime, &clockTime);
 
 	// Heat up
 	if (success) {
@@ -630,7 +640,7 @@ uint8_t ProgramGentle() {
 				.chamberTemp = DV_STERIL_TEMP_121,
 				.chamberTempMin = 121.0,
 				.chamberTempMax = 125.0,
-				.sterilTime = 1200,
+				.sterilTime = sterilTime,
 				.chamberPress = 220,
 				.pressMin = 200.0,
 				.pressMax = 250.0,
@@ -674,11 +684,13 @@ uint8_t ProgramUser() {
 
 	if (!PhaseBegin(600)) return 0;
 
+	uint16_t sterilTime = 0;
 	uint16_t dryTime = 0;
+	sterilTime = settings.UserSterilTime * 60;
 	dryTime = GetDryTime(settings.UserDryClass, settings.UserSterilTemp, settings.UserVacuumNumber) * 60;
 
 	GetDateTime(&clockTime);
-	PrintHeader("USER", sensors.T1, dryTime, &clockTime);
+	PrintHeader("USER", sensors.T1, dryTime, sterilTime, &clockTime);
 
 	// Heat up
 	if (success) {
@@ -769,7 +781,7 @@ uint8_t ProgramUser() {
 				.chamberTemp = (settings.UserSterilTemp == STERILTEMP_134) ? DV_STERIL_TEMP_134 : DV_STERIL_TEMP_121,
 				.chamberTempMin = (settings.UserSterilTemp == STERILTEMP_134) ? 134.0 : 121.0,
 				.chamberTempMax = (settings.UserSterilTemp == STERILTEMP_134) ? 136.0 : 125.0,
-				.sterilTime = settings.UserSterilTime * 60,
+				.sterilTime = sterilTime,
 				.chamberPress = (settings.UserSterilTemp == STERILTEMP_134) ? 320.0 : 220.0,
 				.pressMin = (settings.UserSterilTemp == STERILTEMP_134) ? DV_STERIL_PRESS_MIN_134 : DV_STERIL_PRESS_MIN_121,
 				.pressMax = (settings.UserSterilTemp == STERILTEMP_134) ? DV_STERIL_PRESS_MAX_134 : DV_STERIL_PRESS_MAX_121,
@@ -819,11 +831,13 @@ uint8_t ProgramHelixTest() {
 
 	if (!PhaseBegin(600)) return 0;
 
+	uint16_t sterilTime = 0;
 	uint16_t dryTime = 0;
+	sterilTime = 210;
 	dryTime = GetDryTime(settings.FunDryClass, STERILTEMP_134, 3) * 60;
 
 	GetDateTime(&clockTime);
-	PrintHeader("HELIX TEST", sensors.T1, dryTime, &clockTime);
+	PrintHeader("HELIX TEST", sensors.T1, dryTime, sterilTime, &clockTime);
 
 	// Heat up
 	if (success) {
@@ -880,7 +894,7 @@ uint8_t ProgramHelixTest() {
 				.chamberTemp = DV_STERIL_TEMP_134,
 				.chamberTempMin = 134.0,
 				.chamberTempMax = 136.0,
-				.sterilTime = 210, // 210
+				.sterilTime = sterilTime, // 210
 				.chamberPress = 320,
 				.pressMin = 290.0,
 				.pressMax = 350.0,
@@ -930,7 +944,7 @@ uint8_t ProgramVacuumTest() {
 	if (!PhaseBegin(600)) return 0;
 
 	GetDateTime(&clockTime);
-	PrintHeader("VACUUM TEST", sensors.T1, 0, &clockTime);
+	PrintHeader("VACUUM TEST", sensors.T1, 0, 0, &clockTime);
 
 	if (success) {
 		success = PhaseVacuum(1, 20.0, 1, OT_VACUUM);
@@ -1150,7 +1164,7 @@ uint8_t ProgramWash() {
 	if (!PhaseBegin(600)) return 0;
 
 	GetDateTime(&clockTime);
-	PrintHeader("CLEANING PROGRAM", sensors.T1, 0, &clockTime);
+	PrintHeader("CLEANING PROGRAM", sensors.T1, 0, 0, &clockTime);
 
 	PhaseClean();
 

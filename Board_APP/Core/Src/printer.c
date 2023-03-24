@@ -292,6 +292,7 @@ void Print(const char* format, ...) {
 void PrintPowerTestHeader() {
 	RTCDateTime_s clockTime;
 	GetDateTime(&clockTime);
+	sprintf(currFilename, "%02d_%02d_%02d-%02d_%02d-PWTEST.txt", clockTime.Year%100, clockTime.Month, clockTime.Day, clockTime.Hour, clockTime.Minute);
 
 	Print("\n");
 	Print("******************************************\n");
@@ -312,6 +313,7 @@ void PrintPowerTestHeader() {
 void PrintSettings() {
 	RTCDateTime_s clockTime;
 	GetDateTime(&clockTime);
+	sprintf(currFilename, "%02d_%02d_%02d-%02d_%02d-SETTINGS.txt", clockTime.Year%100, clockTime.Month, clockTime.Day, clockTime.Hour, clockTime.Minute);
 
 	Print("\n");
 	Print("******************************************\n");
@@ -333,14 +335,14 @@ void PrintSettings() {
 	Print("Cycles to Clean     %d\n", nextClean);
 	Print("Cycles to Service   %d\n", nextService);
 	Print("\n");
-	Print("T1_OFFSET                 %0.1f\n", (float)(settings.T1Offset / 10));
-	Print("T2_OFFSET                 %0.1f\n", (float)(settings.T2Offset / 10));
-	Print("CHAMBER_PRESSURE_OFFSET   %0.1f\n", (float)(settings.ChamberPressOffset / 10));
+	Print("T1_OFFSET                 %0.1f\n", (float)settings.T1Offset / 10.0);
+	Print("T2_OFFSET                 %0.1f\n", (float)settings.T2Offset / 10.0);
+	Print("CHAMBER_PRESSURE_OFFSET   %d\n", settings.ChamberPressOffset);
 	Print("\n");
 	Print("FIRST_VACUUM              %d\n", settings.FirstVacuum);
 	Print("OTHER_VACUUM              %d\n", settings.OtherVacuum);
 	Print("VACUUM_THRESHOLD          %d\n", settings.VacuumThreshold);
-	Print("OTHER_PRESSURE            %d\n", settings.OtherPressure);
+	Print("OTHER_PRESSURE            %d\n", settings.OtherPressure * 10);
 	Print("TDS_MIN                   %d\n", settings.WaterTDSMin);
 	Print("VACUUM_NUMBER             %d\n", settings.VacNumber);
 	Print("\n");
@@ -349,7 +351,11 @@ void PrintSettings() {
 	Print("USER_DRY_CLASS            %d\n", settings.UserDryClass);
 	Print("USER_VACUUM_NUMBER        %d\n", settings.UserVacuumNumber);
 	Print("\n");
-	Print("FUN_NIGHT_CYCLE_TIME      %d\n", settings.FunNightCycleTime);
+	if (settings.FunNightCycleTime > 0) {
+		Print("FUN_NIGHT_CYCLE_TIME      %d\n", settings.FunNightCycleTime);
+	} else {
+		Print("FUN_NIGHT_CYCLE_TIME      OFF\n");
+	}
 	Print("FUN_PRINTER_ACTIVE        %s\n", (settings.FunPrinterActive == 1) ? "ON" : " OFF");
 	Print("FUN_USB_ACTIVE            %s\n", (settings.FunUSBActive == 1) ? "ON" : " OFF");
 	Print("FUN_WATER_LOAD_ACTIVE     %s\n", (settings.FunWaterLoadActive == 1) ? "ON" : " OFF");
@@ -424,7 +430,7 @@ void PrintLogo() {
 //	}
 }
 
-void PrintHeader (const char* title, float t1, uint8_t dryTime, RTCDateTime_s* time) {
+void PrintHeader (const char* title, float t1, uint16_t dryTime, uint16_t sterilTime, RTCDateTime_s* time) {
 
 	Print("\n");
 	Print("******************************************\n");
@@ -441,10 +447,10 @@ void PrintHeader (const char* title, float t1, uint8_t dryTime, RTCDateTime_s* t
 		else vacN = settings.VacNumber;
 		if (currProgram == PROGRAM_USER) {
 				uint8_t tSter = (settings.UserSterilTemp == STERILTEMP_134) ? 134 : 121;
-				uint8_t minSter = settings.UserSterilTime;
-				uint8_t secSter = 0;
-				uint8_t minDry = dryTime;
-				uint8_t secDry = 0;
+				uint8_t minSter = sterilTime / 60;
+				uint8_t secSter = sterilTime % 60;;
+				uint8_t minDry = dryTime / 60;
+				uint8_t secDry = dryTime % 60;
 				uint16_t press = (settings.UserSterilTemp == STERILTEMP_134) ? 310 : 220;
 				press = (settings.FunPressureDisplay == 1) ? press : (press - 100);
 				Print("VAC.N.  Temp.   Press.   Time   Dry\n");
@@ -453,10 +459,10 @@ void PrintHeader (const char* title, float t1, uint8_t dryTime, RTCDateTime_s* t
 				Print("\n");
 			} else {
 				uint8_t tSter = (programs[currProgram].SterilTemp == STERILTEMP_134) ? 134 : 121;
-				uint8_t minSter = programs[currProgram].SterilTime / 60;
-				uint8_t secSter = programs[currProgram].SterilTime % 60;
-				uint8_t minDry = programs[currProgram].DryTime / 60;
-				uint8_t secDry = programs[currProgram].DryTime % 60;
+				uint8_t minSter = sterilTime / 60;
+				uint8_t secSter = sterilTime % 60;
+				uint8_t minDry = dryTime / 60;
+				uint8_t secDry = dryTime % 60;
 				Print("VAC.N.  Temp.   Press.   Time   Dry\n");
 				//       3     134'C   310kPa  10:34  10:34
 				Print(" %2d     %3d'C   %3dkPa  %2d:%02d  %2d:%02d", vacN, tSter, (uint16_t)GetNormalizedPressure(programs[currProgram].SterilPress), minSter, secSter, minDry, secDry);

@@ -63,8 +63,8 @@ uint8_t progStop = 0;
 
 s_Program programs[] = {
 	{0, PROGTYPE_PROGRAM, "User", "P.USr", 15, CLASS_USER, STERILTEMP_134, 1, 310, 0, 0,},
-	{1, PROGTYPE_PROGRAM, "Wrapped", "P.Unr", 1, CLASS_B, STERILTEMP_134, 1, 310, 300, 240},
-	{2, PROGTYPE_PROGRAM, "Unwrapped", "P.UrP", 2, CLASS_S, STERILTEMP_134, 4, 310, 300, 540},
+	{1, PROGTYPE_PROGRAM, "Unwrapped", "P.Unr", 1, CLASS_B, STERILTEMP_134, 1, 310, 300, 240},
+	{2, PROGTYPE_PROGRAM, "Wrapped", "P.UrP", 2, CLASS_S, STERILTEMP_134, 4, 310, 300, 540},
 	{3, PROGTYPE_PROGRAM, "Prion", "P.PrI", 4, CLASS_B, STERILTEMP_134, 4, 310, 1000, 540},
 	{4, PROGTYPE_PROGRAM, "Gentle", "P.GEn", 8, CLASS_B, STERILTEMP_121, 4, 220, 1200, 540},
 };
@@ -229,9 +229,9 @@ void ShowProgram() {
 					if (currProgram != PROGRAM_RESUME_DRY) SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, tests[currTest].DashLeds, ON, 0, "");
 					lastTest = tests[currTest].DashLeds;
 				}
-				DashLed(DISPLAY_LED_TEMP_134, OFF);
+				DashLed(DISPLAY_LED_TEMP_134, (currTest == TEST_HELIX) ? ON : OFF);
 				DashLed(DISPLAY_LED_TEMP_121, OFF);
-				DashLed(DISPLAY_LED_BCLASS, OFF);
+				DashLed(DISPLAY_LED_BCLASS, (currTest == TEST_HELIX) ? ON : OFF);
 			}
 		}
 	}
@@ -257,7 +257,7 @@ void ShowParameter() {
 		sprintf(s,"%5.1f", (float)((float)*parameters[currParameter].Value) * parameters[currParameter].Increment);
 	} else {
 //		sprintf(s,"%4d", *parameters[currParameter].Value * (uint8_t)parameters[currParameter].Increment);
-		sprintf(s,"%4d", (uint16_t)(*parameters[currParameter].Value * parameters[currParameter].Increment));
+		sprintf(s,"%4d", (int16_t)(*parameters[currParameter].Value * parameters[currParameter].Increment));
 	}
 	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 2, 0, 0, s);
 	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "PArA");

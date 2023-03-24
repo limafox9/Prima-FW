@@ -74,7 +74,7 @@ uint8_t PhaseBegin(uint8_t timeout) {
 
 	RTCDateTime_s ct;
 	PCF8563_GetDateTime(&ct);
-	sprintf(currFilename, "%02d.%02d.%02d-%02d.%02d-%05d.txt", ct.Year%100, ct.Month, ct.Day, ct.Hour, ct.Minute, settings.CyclesCount);
+	sprintf(currFilename, "%02d_%02d_%02d-%02d_%02d-%05d.txt", ct.Year%100, ct.Month, ct.Day, ct.Hour, ct.Minute, settings.CyclesCount);
 
 	sensors.WaterTDS = WaterQualityGet();
 
