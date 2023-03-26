@@ -293,6 +293,7 @@ void PrintPowerTestHeader() {
 	RTCDateTime_s clockTime;
 	GetDateTime(&clockTime);
 	sprintf(currFilename, "%02d_%02d_%02d-%02d_%02d-PWTEST.txt", clockTime.Year%100, clockTime.Month, clockTime.Day, clockTime.Hour, clockTime.Minute);
+//	PrintTitle("GALBIATI REPORT");
 
 	Print("\n");
 	Print("******************************************\n");
@@ -314,6 +315,7 @@ void PrintSettings() {
 	RTCDateTime_s clockTime;
 	GetDateTime(&clockTime);
 	sprintf(currFilename, "%02d_%02d_%02d-%02d_%02d-SETTINGS.txt", clockTime.Year%100, clockTime.Month, clockTime.Day, clockTime.Hour, clockTime.Minute);
+//	PrintTitle("GALBIATI REPORT");
 
 	Print("\n");
 	Print("******************************************\n");
@@ -430,8 +432,18 @@ void PrintLogo() {
 //	}
 }
 
+void PrintTitle(const char* title) {
+	Print("\n");
+	Print("******************************************\n");
+	PrintSize(2, 2);
+	Print("%s\n", title);
+	PrintSize(1, 1);
+
+}
+
 void PrintHeader (const char* title, float t1, uint16_t dryTime, uint16_t sterilTime, RTCDateTime_s* time) {
 
+	PrintTitle("GALBIATI REPORT");
 	Print("\n");
 	Print("******************************************\n");
 //	Print("123456789012345678901234567890123456789012\n");
@@ -525,10 +537,7 @@ void PrintFooter (const char* result, RTCDateTime_s* time, RTCTimerTime_s* timer
 	Print("OPERATOR: ________________________________\n");
 	Print("\n");
 	Print("******************************************\n");
-	Print("\n");
-	Print("\n");
-	Print("\n");
-	Print("\n");
+	Print("\n\n\n\n\n");
 }
 
 void PrintStepLine(const char* step, float t1, float t2, float pressure, RTCTimerTime_s* time) {

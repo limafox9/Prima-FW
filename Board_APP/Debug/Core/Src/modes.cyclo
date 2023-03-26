@@ -12,8 +12,8 @@ modes.c:319:6:SelectUserSetting	2
 modes.c:325:6:ChangeUserSetting	6
 modes.c:344:6:ShowFunctions	7
 modes.c:362:6:SelectFunction	2
-modes.c:368:6:ChangeFunction	6
-modes.c:379:6:ShowTimeset	1
-modes.c:387:6:SelectTimeset	2
-modes.c:393:6:ChangeTimeset	4
-modes.c:406:9:GetDryTime	16
+modes.c:368:6:ChangeFunction	10
+modes.c:383:6:ShowTimeset	1
+modes.c:391:6:SelectTimeset	2
+modes.c:397:6:ChangeTimeset	4
+modes.c:410:9:GetDryTime	16

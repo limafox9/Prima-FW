@@ -108,7 +108,7 @@ UserSet_s user[] = {
 };
 
 Functions_s functions[] = {
-	{1, "Night cycle time", 		"POtI", EPA_FUN_NIGHT_CYCLE_TIME, &settings.FunNightCycleTime, 2, 0, 120},
+	{1, "Night cycle time", 		"POtI", EPA_FUN_NIGHT_CYCLE_TIME, &settings.FunNightCycleTime, 1, 0, 120},
 	{2, "Printer on", 				"Prin", EPA_FUN_PRINTER_ACTIVE, &settings.FunPrinterActive, 1, 0, 1},
 	{3, "USB on", 					" USb", EPA_FUN_USB_ACTIVE, &settings.FunUSBActive, 1, 0, 1},
 	{4, "Water load on", 			"PUnP", EPA_FUN_WATER_LOAD_ACTIVE, &settings.FunWaterLoadActive, 1, 0, 1},
@@ -367,7 +367,11 @@ void SelectFunction() {
 
 void ChangeFunction(int8_t increment) {
 	if (functions[currFunction].Min != 0 || functions[currFunction].Max != 0) {
-		if (currFunction == 0) *functions[currFunction].Value += (increment * 30);
+		if (currFunction == 0) {
+			if (*functions[currFunction].Value == 120 && increment > 0) *functions[currFunction].Value = 0;
+			else if (*functions[currFunction].Value == 0 && increment < 0) *functions[currFunction].Value = 120;
+			else *functions[currFunction].Value += increment * 30;
+		}
 		else *functions[currFunction].Value += increment;
 		if (*functions[currFunction].Value < functions[currFunction].Min) *functions[currFunction].Value = functions[currFunction].Max;
 		if (*functions[currFunction].Value > functions[currFunction].Max) *functions[currFunction].Value = functions[currFunction].Min;

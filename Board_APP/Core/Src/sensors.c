@@ -76,6 +76,9 @@ USAGE:
 #define T1_FACTORY_OFFSET			3.0			// Fixed factory offset for T1
 #define T2_FACTORY_OFFSET			0.0			// Fixed factory offset for T2
 #define TDS_THRESHOLD				500
+
+#define USE_AVERAGE
+#define MOVING_AVERAGE_SAMPLE_SIZE	5
 //#define PTC_NOMINAL_RESISTANCE	1000	   	// Ω nominal resistance (typical @25°C)
 //#define PTC_NOMINAL_TEMPERATURE	0.0			// temperature of nominal resistance (typical 25°C)
 //#define PTC_BETA				3977		// The beta coefficient or the B value of the thermistor (usually 3000-4000) check the datasheet for the accurate value
@@ -112,6 +115,10 @@ Sensors_s sensors;
 
 float pressAmbientMin;
 float pressAmbientMax;
+
+float t1Buffer[MOVING_AVERAGE_SAMPLE_SIZE];
+float t2Buffer[MOVING_AVERAGE_SAMPLE_SIZE];
+float p1Buffer[MOVING_AVERAGE_SAMPLE_SIZE];
 
 #define PRESS_BUFFER_SIZE 5 // >= 2
 float pressBuf[PRESS_BUFFER_SIZE];
@@ -193,31 +200,68 @@ uint16_t WaterQualityGet() {
 	return retVal;
 }
 
+float MovingAverage(float* buffer, uint8_t size, float newValue) {
+
+	float retAvg = 0;
+
+	// Shift values right
+	for (int i = 0; i < size - 1; i++) {
+		buffer[0] = buffer[i + 1];
+	}
+
+	// Leftmost add new read
+	buffer[size - 1] = newValue;
+
+	// Calc average
+	for (int i = 0; i < size; i++) {
+		retAvg += buffer[i];
+	}
+	retAvg = retAvg / size;
+
+	return retAvg;
+
+}
+
 void StartSensorsTask() {
 
 	static uint8_t prevLSH = NORMAL;
 	static uint8_t prevCSL = NORMAL;
 	static uint8_t prevCSH = NORMAL;
 	static uint8_t prevTDS = OFF;
+
+#ifdef USE_AVERAGE
 	// Fill buffer values
-	for (int i = 0 ; i < (sizeof(pressBuf) / sizeof(float)); i++) {
-		pressBuf[i] = ChamberPressureGet();
+	sensors.T1 = TM7705_GetTemp(1, (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0));
+	sensors.T2 = TM7705_GetTemp(2, (float)(settings.T2Offset / 10.0) + (float)(settings.T2FactoryOffset / 10.0));
+	sensors.PressureChamber = ChamberPressureGet() + (float)settings.ChamberPressOffset;
+
+	for (int i = 0 ; i < MOVING_AVERAGE_SAMPLE_SIZE; i++) {
+		t1Buffer[i] = sensors.T1;
+		t2Buffer[i] = sensors.T2;
+		p1Buffer[i] = sensors.PressureChamber;
 	}
+#endif
 
 	sensors.PressureAmbient = (float)100.0;
 
 	for (;;) {
+//		Beep(1, 50, 50);
 		osSemaphoreWait(semaphoreSensorsHandle, 100);
+#ifdef USE_AVERAGE
+		sensors.T1 = MovingAverage(t1Buffer, MOVING_AVERAGE_SAMPLE_SIZE, TM7705_GetTemp(1, (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0)));
+		sensors.T2 = MovingAverage(t2Buffer, MOVING_AVERAGE_SAMPLE_SIZE, TM7705_GetTemp(2, (float)(settings.T2Offset / 10.0) + (float)(settings.T2FactoryOffset / 10.0)));
+		sensors.PressureChamber = MovingAverage(p1Buffer, MOVING_AVERAGE_SAMPLE_SIZE, ChamberPressureGet() + (float)settings.ChamberPressOffset);
+#else
+		sensors.T1 = TM7705_GetTemp(1, (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0));
+		sensors.T2 = TM7705_GetTemp(2, (float)(settings.T2Offset / 10.0) + (float)(settings.T2FactoryOffset / 10.0));
+		sensors.PressureChamber = ChamberPressureGet() + (float)settings.ChamberPressOffset);
+#endif
 		sensors.Door = DoorPositionGet();
 		sensors.Solenoid = DoorSolenoidKeyGet();
 		sensors.TemperatureSteamGenerator = SteamGeneratorTempGet();
 		sensors.TemperatureChamberHeater = ChamberHeaterTempGet();
-		sensors.T1 = TM7705_GetTemp(1, (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0));
-		HAL_Delay(50);
-		sensors.T2 = TM7705_GetTemp(2, (float)(settings.T2Offset / 10.0) + (float)(settings.T2FactoryOffset / 10.0));
-		sensors.PressureChamber = BufferAverage(pressBuf, PRESS_BUFFER_SIZE, ChamberPressureGet());
 //		sensors.PressureChamber -= (!settings.FunPressureDisplay) ? 0 : 100;
-		sensors.Current = CurrentGet();
+//		sensors.Current = CurrentGet();
 		sensors.WaterDumpLevel = WaterDumpLevelGet();
 		sensors.WaterReservoirLevel = WaterReservoirLevelGet();
 
@@ -377,28 +421,6 @@ uint16_t CurrentGet() {
 //==============================================================================
 // DEFINITIONS
 //==============================================================================
-
-float BufferAverage(float* buffer, uint8_t size, float newValue) {
-
-	float retAvg = 0;
-
-	// Shift values right
-	for (int i = size - 1; i > 0; i--) {
-		buffer[i] = buffer[i - 1];
-	}
-
-	// Leftmost add new read
-	buffer[0] = newValue;
-
-	// Calc average
-	for (int i = 0; i < size; i++) {
-		retAvg += buffer[i];
-	}
-	retAvg = retAvg / size;
-
-	return retAvg;
-
-}
 
 uint16_t ReadADC(uint32_t channel) {
 

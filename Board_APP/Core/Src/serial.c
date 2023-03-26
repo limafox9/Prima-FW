@@ -104,10 +104,13 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
 		s_DisplayProtocolData cmdData;
 	uint8_t headFound, tailFound;
 	uint8_t tempBuf[UART_DISPLAY_RX_BUFFER_SIZE];
+	char p1, p2;
 	osSemaphoreWait(semaphoreSerialHandle, 100);
 	if (huart->Instance == huart3.Instance) {
 		for (int i = UART_DISPLAY_RX_BUFFER_SIZE; i >= 0; i--) {
-			if (UART_rxBuffer[i] == '<') {
+			p1 = UART_rxBuffer[i];
+			p2 = (i < (UART_DISPLAY_RX_BUFFER_SIZE - 1)) ? UART_rxBuffer[i+1] : UART_rxBuffer[0];
+			if (p1 == '<' && p2 == '~') {
 
 				HAL_Delay(5);
 

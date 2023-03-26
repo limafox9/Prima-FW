@@ -123,6 +123,7 @@ void LoadSettings() {
 	settings.UserDryTime = GetDryTime(settings.UserDryClass, settings.UserSterilTemp, settings.UserVacuumNumber);
 
 	EEPROM_Read(EPA_FUN_NIGHT_CYCLE_TIME, &settings.FunNightCycleTime, 1);
+
 	EEPROM_Read(EPA_FUN_PRINTER_ACTIVE, &settings.FunPrinterActive, 1);
 	EEPROM_Read(EPA_FUN_USB_ACTIVE, &settings.FunUSBActive, 1);
 	EEPROM_Read(EPA_FUN_WATER_LOAD_ACTIVE, &settings.FunWaterLoadActive, 1);
@@ -159,6 +160,7 @@ void SaveSettings() {
 	EEPROM_Write(EPA_USER_STERIL_TIME, &settings.UserSterilTime, 1);
 	EEPROM_Write(EPA_USER_DRY_CLASS, &settings.UserDryClass, 1);
 	EEPROM_Write(EPA_USER_VACUUM_NUMBER, &settings.UserVacuumNumber, 1);
+
 
 	EEPROM_Write(EPA_FUN_NIGHT_CYCLE_TIME, &settings.FunNightCycleTime, 1);
 	EEPROM_Write(EPA_FUN_PRINTER_ACTIVE, &settings.FunPrinterActive, 1);
