@@ -106,7 +106,7 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-HAL_Init();
+  HAL_Init();
 
   /* USER CODE BEGIN Init */
 
@@ -159,7 +159,7 @@ HAL_Init();
 
   /* Create the thread(s) */
   /* definition and creation of taskAlive */
-  osThreadDef(taskAlive, StartTaskAlive, osPriorityLow, 0, 512);
+  osThreadDef(taskAlive, StartTaskAlive, osPriorityLow, 0, 2048);
   taskAliveHandle = osThreadCreate(osThread(taskAlive), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
