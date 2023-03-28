@@ -104,31 +104,35 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
 		s_DisplayProtocolData cmdData;
 	uint8_t headFound, tailFound;
 	uint8_t tempBuf[UART_DISPLAY_RX_BUFFER_SIZE];
+	char p1, p2;
+
 	osSemaphoreWait(semaphoreSerialHandle, 100);
-	for (int i = UART_DISPLAY_RX_BUFFER_SIZE; i >= 0; i--) {
-		if ((UART_rxBuffer[i] == '<') && (UART_rxBuffer[i+1] == '~')) {
+	if (huart->Instance == huart3.Instance) {
+		for (int i = UART_DISPLAY_RX_BUFFER_SIZE; i >= 0; i--) {
+			p1 = UART_rxBuffer[i];
+			p2 = (i < (UART_DISPLAY_RX_BUFFER_SIZE - 1)) ? UART_rxBuffer[i+1] : UART_rxBuffer[0];
+			if (p1 == '<' && p2 == '~') {
 
-			HAL_Delay(5);
+				HAL_Delay(5);
 
-			uint8_t p2[i];
-			memcpy(p2, UART_rxBuffer, i);
+				uint8_t p2[i];
+				memcpy(p2, UART_rxBuffer, i);
 
-			uint8_t p1[UART_DISPLAY_RX_BUFFER_SIZE - i];
-			memcpy(p1, UART_rxBuffer + i, UART_DISPLAY_RX_BUFFER_SIZE - i);
+				uint8_t p1[UART_DISPLAY_RX_BUFFER_SIZE - i];
+				memcpy(p1, UART_rxBuffer + i, UART_DISPLAY_RX_BUFFER_SIZE - i);
 
-			memcpy(tempBuf, p1, UART_DISPLAY_RX_BUFFER_SIZE - i);
-			memcpy(tempBuf + UART_DISPLAY_RX_BUFFER_SIZE - i, p2, i);
+				memcpy(tempBuf, p1, UART_DISPLAY_RX_BUFFER_SIZE - i);
+				memcpy(tempBuf + UART_DISPLAY_RX_BUFFER_SIZE - i, p2, i);
 
-			Display_ProtocolToData(tempBuf, &rxData);
-			if (rxData.Valid) {
-				dataReady = 1;
-//				xQueueSend(serialQueue, &cmdData, 100);
+				Display_ProtocolToData(tempBuf, &rxData);
+				if (rxData.Valid) {
+					dataReady = 1;
+	//				xQueueSend(serialQueue, &cmdData, 100);
+				}
 			}
 		}
 	}
 
-	HAL_UARTEx_ReceiveToIdle_DMA(huart, UART_rxBuffer, UART_DISPLAY_RX_BUFFER_SIZE);
-	__HAL_DMA_DISABLE_IT(&hdma_usart3_rx, DMA_IT_HT);
 	osSemaphoreRelease(semaphoreSerialHandle);
 
 }
