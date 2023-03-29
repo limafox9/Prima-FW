@@ -72,6 +72,13 @@ uint8_t PhaseBegin(uint8_t timeout) {
 	settings.UserDryTime = GetDryTime(settings.UserDryClass, settings.UserSterilTemp, settings.UserVacuumNumber);
 
 
+	if (currProgram != PROGRAM_RESUME_DRY) {
+		settings.CyclesCount++;
+		EEPROM_Write(EPA_CYCLE_COUNTER, &settings.CyclesCount, 2);
+		machine.ReadOnlyCyclesCount++;
+		EEPROM_Write(EPA_CYCLE_COUNTER_PERMANENT, &machine.ReadOnlyCyclesCount, 2);
+	}
+
 	RTCDateTime_s ct;
 	PCF8563_GetDateTime(&ct);
 	sprintf(currFilename, "%02d_%02d_%02d-%02d_%02d-%05d.txt", ct.Year%100, ct.Month, ct.Day, ct.Hour, ct.Minute, settings.CyclesCount);
@@ -172,13 +179,6 @@ uint8_t PhaseBegin(uint8_t timeout) {
 			break;
 		}
 		osDelay(200);
-	}
-
-	if (currProgram != PROGRAM_RESUME_DRY) {
-		settings.CyclesCount++;
-		EEPROM_Write(EPA_CYCLE_COUNTER, &settings.CyclesCount, 2);
-		machine.ReadOnlyCyclesCount++;
-		EEPROM_Write(EPA_CYCLE_COUNTER_PERMANENT, &machine.ReadOnlyCyclesCount, 2);
 	}
 
 	return retVal;
@@ -670,13 +670,13 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 				PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
 				retVal = 0;
 				break;
-//			} else if (fabs(sensors.T1 - sensors.T2) > 0.2) {
-//				lastError = ERROR_T1T2_MISMATCH;
-//				Print("STER ERROR *** T1 T2 MISMATCH\n");
-//				GetTimer(TIMER_PHASE, &tPhase);
-//				PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
-//				retVal = 0;
-//				break;
+			} else if (fabs(sensors.T1 - sensors.T2) > 0.2) {
+				lastError = ERROR_T1T2_MISMATCH;
+				Print("STER ERROR *** T1 T2 MISMATCH\n");
+				GetTimer(TIMER_PHASE, &tPhase);
+				PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
+				retVal = 0;
+				break;
 			}
 
 			T1Min = (sensors.T1 < T1Min) ? sensors.T1 : T1Min;
