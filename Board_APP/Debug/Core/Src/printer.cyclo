@@ -2,6 +2,7 @@ printer.c:208:6:PrinterInit	1
 printer.c:225:6:PrintSize	1
 printer.c:235:6:PrintTestPage	1
 printer.c:239:6:PrintError	3
+<<<<<<< Updated upstream
 printer.c:256:6:PrintSend	2
 printer.c:272:6:Print	3
 printer.c:292:6:PrintPowerTestHeader	1
@@ -14,3 +15,16 @@ printer.c:543:6:PrintStepLine	1
 printer.c:547:6:PrintDivisor	1
 printer.c:552:6:PrintLF	2
 printer.c:561:15:reverse_byte	1
+=======
+printer.c:253:6:PrintSend	2
+printer.c:269:6:Print	4
+printer.c:291:6:PrintPowerTestHeader	3
+printer.c:326:6:PrintSettings	7
+printer.c:424:6:PrintLogo	1
+printer.c:446:6:PrintHeader	15
+printer.c:522:6:PrintFooter	3
+printer.c:547:6:PrintStepLine	1
+printer.c:551:6:PrintDivisor	1
+printer.c:556:6:PrintLF	2
+printer.c:565:15:reverse_byte	1
+>>>>>>> Stashed changes

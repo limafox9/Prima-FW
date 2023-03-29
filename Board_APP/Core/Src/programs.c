@@ -1148,6 +1148,8 @@ uint8_t PowerTest() {
 	Print("\n");
 	Print("******************************************\n");
 	Print("\n\n\n\n\n");
+	progRunning = 0;
+	progStop = 0;
 
 }
 

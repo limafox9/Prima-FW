@@ -1,0 +1,4 @@
+bootloader.c:38:6:bootloaderInit	1
+bootloader.c:100:6:Beep	2
+bootloader.c:112:6:jumpToApp	1
+bootloader.c:129:6:deinitEverything	1
