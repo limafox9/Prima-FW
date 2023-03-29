@@ -51,6 +51,7 @@ USAGE:
 #include "programs.h"
 
 #define STERIL_STABILIZATION_PERIOD 30
+#define STERIL_T1_T2_MISMATCH_MAX 1.0
 
 uint8_t chamberHeaterTempSet;
 uint8_t steamGeneratorTempSet;
@@ -532,8 +533,6 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 	ResetTimer(TIMER_TIMEOUT);
 	ResetTimer(TIMER_PHASE);
 
-	SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_STERILMAINTAIN, 0, 0, "");
-	Print("STER  --------------------------\n");
 
 	PIDController pidSteril = {pPID_KP, pPID_KI, pPID_KD, pPID_TAU, pPID_LIM_MIN, pPID_LIM_MAX, pPID_LIM_MIN_INT, pPID_LIM_MAX_INT, pSAMPLE_TIME_S};
 
@@ -593,7 +592,13 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 		osDelay(100);
 	}
 
+	GetTimer(TIMER_PHASE, &tPhase);
+	PrintStepLine("RISE ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
+
 	if (retVal) {
+
+		SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_STERILMAINTAIN, 0, 0, "");
+		Print("STER  --------------------------\n");
 
 		sprintf(currPhase, "StEr");
 
@@ -670,7 +675,7 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 				PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
 				retVal = 0;
 				break;
-			} else if (fabs(sensors.T1 - sensors.T2) > 0.2) {
+			} else if (fabs(sensors.T1 - sensors.T2) > STERIL_T1_T2_MISMATCH_MAX) {
 				lastError = ERROR_T1T2_MISMATCH;
 				Print("STER ERROR *** T1 T2 MISMATCH\n");
 				GetTimer(TIMER_PHASE, &tPhase);

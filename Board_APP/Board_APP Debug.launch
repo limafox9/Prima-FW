@@ -19,7 +19,7 @@
     <stringAttribute key="com.st.stm32cube.ide.mcu.debug.launch.swv_port" value="61235"/>
     <stringAttribute key="com.st.stm32cube.ide.mcu.debug.launch.swv_trace_hclk" value="16000000"/>
     <booleanAttribute key="com.st.stm32cube.ide.mcu.debug.launch.useRemoteTarget" value="true"/>
-    <stringAttribute key="com.st.stm32cube.ide.mcu.debug.launch.vector_table" value=""/>
+    <stringAttribute key="com.st.stm32cube.ide.mcu.debug.launch.vector_table" value="C000"/>
     <booleanAttribute key="com.st.stm32cube.ide.mcu.debug.launch.verify_flash_download" value="true"/>
     <booleanAttribute key="com.st.stm32cube.ide.mcu.debug.stlink.cti_allow_halt" value="false"/>
     <booleanAttribute key="com.st.stm32cube.ide.mcu.debug.stlink.cti_signal_halt" value="false"/>
@@ -48,7 +48,7 @@
     <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.initCommands" value=""/>
     <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.ipAddress" value="localhost"/>
     <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.jtagDeviceId" value="com.st.stm32cube.ide.mcu.debug.stlink"/>
-    <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.pcRegister" value=""/>
+    <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.pcRegister" value="0800C000"/>
     <intAttribute key="org.eclipse.cdt.debug.gdbjtag.core.portNumber" value="61234"/>
     <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.runCommands" value=""/>
     <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.setPcRegister" value="false"/>

@@ -247,10 +247,7 @@ void PrintError(const char* errorString, RTCTimerTime_s* tTime) {
 												(sensors.Door == OPEN) ? "OP" : "CL",
 												(sensors.Solenoid == LOCK) ? "LK" : "UN"
 												);
-	Print("\n");
-	Print("\n");
-	Print("\n");
-	Print("\n");
+	Print("\n\n\n\n");
 }
 
 void PrintSend(const char* format, ...) {
@@ -308,6 +305,20 @@ void PrintPowerTestHeader() {
 	Print("Date (Y-M-D): %d-%02d-%02d\n", clockTime.Year, clockTime.Month, clockTime.Day);
 	Print("Cycles        %d\n", settings.CyclesCount);
 	Print("\n");
+	Print("----    T1     T2    kPa    TIME\n");
+	Print("      %5.1f  %5.1f  %5.1f %3d:%02d\n", sensors.T1, sensors.T2, GetNormalizedPressure(sensors.PressureChamber), clockTime.Hour, clockTime.Minute);
+	Print("        T3     T4    TDS   DO  LO\n");
+	Print("      %5.1f  %5.1f %5d   %s  %s\n", 	sensors.TemperatureChamberHeater,
+												sensors.TemperatureSteamGenerator,
+												sensors.WaterTDS,
+												(sensors.Door == OPEN) ? "OP" : "CL",
+												(sensors.Solenoid == LOCK) ? "LK" : "UN"
+												);
+	Print("\n");
+	Print("------------------------------------------\n");
+	Print("\n");
+
+
 }
 
 void PrintSettings() {

@@ -110,7 +110,7 @@ void ParseCommand(s_DisplayProtocolData* data) {
 			} else {
 				if (progRunning == 1 && currTest == 3) abortProgram = 1;
 				if (machineStatus.Show == SHOW_PROGRAM) {
-					if ((machineStatus.Status == STATUS_READY) || (machineStatus.Status == STATUS_IDLE)) {
+					if (((machineStatus.Status == STATUS_READY) || (machineStatus.Status == STATUS_IDLE)) && doorOpened == 1) {
 						programStart = 1;
 					}
 				} else if (machineStatus.Show == SHOW_PARAMETERS) {

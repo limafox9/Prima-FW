@@ -1,13 +1,13 @@
-03:17:10 **** Incremental Build of configuration Debug for project DB_Protocol ****
+12:08:56 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j24 all 
 make: Nothing to be done for 'all'.
-03:17:10 **** Incremental Build of configuration Debug for project DB_Protocol ****
+12:08:56 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j24 all 
 make: Nothing to be done for 'all'.
-03:17:10 **** Incremental Build of configuration Debug for project Board_APP ****
+12:08:56 **** Incremental Build of configuration Debug for project Board_APP ****
 make -j24 all 
 arm-none-eabi-size   Board_APP.elf 
    text	   data	    bss	    dec	    hex	filename
- 152596	   2252	  56188	 211036	  3385c	Board_APP.elf
+ 152804	   2252	  56188	 211244	  3392c	Board_APP.elf
 Finished building: default.size.stdout
  

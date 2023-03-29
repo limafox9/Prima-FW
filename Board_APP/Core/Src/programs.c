@@ -913,7 +913,8 @@ uint8_t ProgramHelixTest() {
 
 	// Dry
 	if (success) {
-		success = PhaseDry(20.0, 50.0, dryTime, dryTime * 1.5);
+//		success = PhaseDry(20.0, 50.0, dryTime, dryTime * 1.5);
+		success = PhaseDry(20.0, 50.0, 120, 180);
 	}
 
 	// End
