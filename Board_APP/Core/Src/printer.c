@@ -275,13 +275,15 @@ void Print(const char* format, ...) {
 		  //printf(buf);
 		  va_end(args);
 
-		  if (settings.FunPrinterActive == 1) {
-			  HAL_UART_Transmit(&UART_PRINTER, buf, strlen(buf), 1000);
-	//		  HAL_UART_Transmit(&huart1, "\n", 1, 100);
-		  }
-		  if (settings.FunUSBActive == 1) {
-//			  SdcardWriteAction(currFilename , buf);
-			  xQueueSend(usbQueue, buf, 100);
+		  if (currProgram != PROGRAM_RESUME_DRY) {
+			  if (settings.FunPrinterActive == 1) {
+				  HAL_UART_Transmit(&UART_PRINTER, buf, strlen(buf), 1000);
+		//		  HAL_UART_Transmit(&huart1, "\n", 1, 100);
+			  }
+			  if (settings.FunUSBActive == 1) {
+	//			  SdcardWriteAction(currFilename , buf);
+				  xQueueSend(usbQueue, buf, 100);
+			  }
 		  }
 
 }
@@ -289,7 +291,7 @@ void Print(const char* format, ...) {
 void PrintPowerTestHeader() {
 	RTCDateTime_s clockTime;
 	GetDateTime(&clockTime);
-	sprintf(currFilename, "%02d_%02d_%02d-%02d_%02d-PWTEST.txt", clockTime.Year%100, clockTime.Month, clockTime.Day, clockTime.Hour, clockTime.Minute);
+	sprintf(currFilename, "%02d_%02d_%02d-%02d_%02d_%02d-PWTEST.txt", clockTime.Year%100, clockTime.Month, clockTime.Day, clockTime.Hour, clockTime.Minute, clockTime.Second);
 
 	Print("\n");
 	Print("******************************************\n");
@@ -324,7 +326,7 @@ void PrintPowerTestHeader() {
 void PrintSettings() {
 	RTCDateTime_s clockTime;
 	GetDateTime(&clockTime);
-	sprintf(currFilename, "%02d_%02d_%02d-%02d_%02d-SETTINGS.txt", clockTime.Year%100, clockTime.Month, clockTime.Day, clockTime.Hour, clockTime.Minute);
+	sprintf(currFilename, "%02d_%02d_%02d-%02d_%02d_%02d-PWTEST.txt", clockTime.Year%100, clockTime.Month, clockTime.Day, clockTime.Hour, clockTime.Minute, clockTime.Second);
 
 	Print("\n");
 	Print("******************************************\n");

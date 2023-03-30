@@ -1,33 +1,33 @@
-13:49:50 **** Incremental Build of configuration Debug for project DB_Protocol ****
+16:34:58 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j24 all 
 arm-none-eabi-gcc "../Src/DB_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/DB_protocol.d" -MT"Src/DB_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/DB_protocol.o"
 arm-none-eabi-ar -r  "libDB_Protocol.a" @"objects.list"  
 arm-none-eabi-ar: creating libDB_Protocol.a
 Finished building target: libDB_Protocol.a
  
-13:49:50 **** Incremental Build of configuration Debug for project DB_Protocol ****
+16:34:58 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j24 all 
 arm-none-eabi-gcc "../Src/DB_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/DB_protocol.d" -MT"Src/DB_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/DB_protocol.o"
 arm-none-eabi-ar -r  "libDB_Protocol.a" @"objects.list"  
 arm-none-eabi-ar: creating libDB_Protocol.a
 Finished building target: libDB_Protocol.a
  
-13:49:51 **** Incremental Build of configuration Debug for project Display_APP ****
+16:34:59 **** Incremental Build of configuration Debug for project Board_APP ****
 make -j24 all 
-arm-none-eabi-gcc -o "Display_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Display_APP\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Display_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima Firmware\Source\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Display_APP.elf
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima Firmware\Source\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Board_APP.elf
  
-arm-none-eabi-size   Display_APP.elf 
-arm-none-eabi-objdump -h -S  Display_APP.elf  > "Display_APP.list"
-arm-none-eabi-objcopy  -O ihex  Display_APP.elf  "Display_APP.hex"
-arm-none-eabi-objcopy  -O binary  Display_APP.elf  "Display_APP.bin"
+arm-none-eabi-size   Board_APP.elf 
+arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
+arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
+arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
    text	   data	    bss	    dec	    hex	filename
-  47216	    496	  13176	  60888	   edd8	Display_APP.elf
+ 153100	   2252	  56188	 211540	  33a54	Board_APP.elf
 Finished building: default.size.stdout
  
-Finished building: Display_APP.hex
-Finished building: Display_APP.bin
+Finished building: Board_APP.hex
+Finished building: Board_APP.bin
  
  
-Finished building: Display_APP.list
+Finished building: Board_APP.list
  

@@ -9,5 +9,5 @@ programs.c:678:9:ProgramUser	36
 programs.c:825:9:ProgramHelixTest	16
 programs.c:933:9:ProgramVacuumTest	8
 programs.c:1014:9:PowerTest	1
-programs.c:1155:9:ProgramWash	2
-programs.c:1191:9:ProgramWaterLoad	2
+programs.c:1158:9:ProgramWash	2
+programs.c:1194:9:ProgramWaterLoad	2

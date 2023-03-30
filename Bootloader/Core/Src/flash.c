@@ -35,6 +35,8 @@ USAGE:
 
 #include "flash.h"
 
+#include "Inc/DB_Protocol.h"
+
 
 uint8_t dispString[32];
 uint8_t readBuf[256];
@@ -79,6 +81,23 @@ uint8_t iap_usb(FIL *fil)
 		i++;
 		programAddr += 256;
 
+		if (d > 200) d = 0;
+
+		switch (d) {
+		case 0:
+			SendCommand(DISPLAY_CMD_WRITE_DIGITS,1,0,0,"o   ");
+			break;
+		case 50:
+			SendCommand(DISPLAY_CMD_WRITE_DIGITS,1,0,0," o  ");
+			break;
+		case 100:
+			SendCommand(DISPLAY_CMD_WRITE_DIGITS,1,0,0,"  o ");
+			break;
+		case 150:
+			SendCommand(DISPLAY_CMD_WRITE_DIGITS,1,0,0,"   o");
+			break;
+		}
+		d++;
 
 	}
 	f_close(fil);

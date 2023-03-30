@@ -68,6 +68,8 @@ uint8_t PhaseBegin(uint8_t timeout) {
 
 	uint8_t retVal = 1;
 	RTCTimerTime_s tTimeout, tPhase;
+	char errText[40];
+
 	sprintf(currPhase, "Init");
 
 	settings.UserDryTime = GetDryTime(settings.UserDryClass, settings.UserSterilTemp, settings.UserVacuumNumber);
@@ -80,9 +82,9 @@ uint8_t PhaseBegin(uint8_t timeout) {
 		EEPROM_Write(EPA_CYCLE_COUNTER_PERMANENT, &machine.ReadOnlyCyclesCount, 2);
 	}
 
-	RTCDateTime_s ct;
-	PCF8563_GetDateTime(&ct);
-	sprintf(currFilename, "%02d_%02d_%02d-%02d_%02d-%05d.txt", ct.Year%100, ct.Month, ct.Day, ct.Hour, ct.Minute, settings.CyclesCount);
+//	RTCDateTime_s ct;
+//	PCF8563_GetDateTime(&ct);
+//	sprintf(currFilename, "%02d_%02d_%02d-%02d_%02d_%02d-%05d.txt", ct.Year%100, ct.Month, ct.Day, ct.Hour, ct.Minute, ct.Second, settings.CyclesCount);
 
 	sensors.WaterTDS = WaterQualityGet();
 
@@ -94,7 +96,7 @@ uint8_t PhaseBegin(uint8_t timeout) {
 
 	if (doorOpened == 0 && currProgram != PROGRAM_RESUME_DRY) {
 		lastError = ERROR_NONE;
-		Print("DOOR ERROR *** DOOR NOT OPEN\n");
+		sprintf(errText, "DOOR ERROR *** DOOR NOT OPEN\n");
 		Beep(3, 100, 100);
 		retVal = 0;
 
@@ -102,7 +104,7 @@ uint8_t PhaseBegin(uint8_t timeout) {
 
 	if (sensors.Door == OPEN && currProgram != PROGRAM_RESUME_DRY) {
 		lastError = ERROR_NONE;
-		Print("DOOR ERROR *** DOOR OPEN\n");
+		sprintf(errText, "DOOR ERROR *** DOOR OPEN\n");
 		Beep(3, 100, 100);
 		retVal = 0;
 	}
@@ -111,7 +113,7 @@ uint8_t PhaseBegin(uint8_t timeout) {
 	if (settings.FunTDSActive > 0 && sensors.WaterTDS > settings.WaterTDSMin && currProgram != PROGRAM_RESUME_DRY) {
 		lastError = ERROR_NONE;
 //		lastError = ERROR_WATER_HIGH_TDS;
-		Print("WTDS ERROR *** WATER QUALITY\n");
+		sprintf(errText, "WTDS ERROR *** WATER QUALITY\n");
 		Beep(3, 100, 100);
 		retVal = 0;
 	}
@@ -119,27 +121,48 @@ uint8_t PhaseBegin(uint8_t timeout) {
 	if (sensors.WaterReservoirLevel == EMPTY && currProgram != PROGRAM_RESUME_DRY) {
 		lastError = ERROR_NONE;
 //		lastError = ERROR_WATER_LOW;
-		Print("WATR ERROR *** WATER LEVEL\n");
+		sprintf(errText, "WATR ERROR *** WATER LEVEL\n");
 		Beep(3, 100, 100);
 		retVal = 0;
 	}
 	if (sensors.WaterDumpLevel == FULL && currProgram != PROGRAM_RESUME_DRY) {
 		lastError = ERROR_NONE;
 //		lastError = ERROR_WATER_DUMP_HIGH;
-		Print("DUMP ERROR *** WATER DUMP LEVEL\n");
+		sprintf(errText, "DUMP ERROR *** WATER DUMP LEVEL\n");
 		Beep(3, 100, 100);
 		retVal = 0;
 	}
+
+
+	RTCDateTime_s ct;
+	PCF8563_GetDateTime(&ct);
+	sprintf(currFilename, "%02d_%02d_%02d-%02d_%02d_%02d-%05d.txt", ct.Year%100, ct.Month, ct.Day, ct.Hour, ct.Minute, ct.Second, settings.CyclesCount);
+
 	if (retVal == 0) {
+		Print(errText);
 		PrintError("\n", &tPhase);
 		return 0;
 	} else {
 		if (DoorSolenoidSet(LOCK) != LOCK) {
 			lastError = ERROR_PROTECTION_LOCK;
-			Print("LOCK ERROR *** NO CONFIRMATION\n");
+			sprintf(errText, "LOCK ERROR *** NO CONFIRMATION\n");
+			Print(errText);
+			PrintError("\n", &tPhase);
 			Beep(1, 1000, 100);
 			return 0;
 		}
+
+		if (currProgram != PROGRAM_RESUME_DRY) {
+			settings.CyclesCount++;
+			EEPROM_Write(EPA_CYCLE_COUNTER, &settings.CyclesCount, 2);
+			machine.ReadOnlyCyclesCount++;
+			EEPROM_Write(EPA_CYCLE_COUNTER_PERMANENT, &machine.ReadOnlyCyclesCount, 2);
+		}
+
+		RTCDateTime_s ct;
+		PCF8563_GetDateTime(&ct);
+		sprintf(currFilename, "%02d_%02d_%02d-%02d_%02d_%02d-%05d.txt", ct.Year%100, ct.Month, ct.Day, ct.Hour, ct.Minute, ct.Second, settings.CyclesCount);
+
 	}
 
 	ResetTimer(TIMER_TIMEOUT);
@@ -1102,6 +1125,9 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 			DigitsWrite(3, "Er.11");
 			return 0;
 		}
+
+		progRunning = 0;
+		progStop = 0;
 
 		Beep(3, 100, 100);
 

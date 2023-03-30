@@ -152,10 +152,14 @@ void CheckUpdate() {
 		if (f_open(&USBHFile, "PRIMA_APP.BIN", FA_READ) == FR_OK) {
 //			f_lseek(&USBHFile,USBHFile.fsize);
 //			f_printf(&USBHFile,USBString);
+			SendCommand(DISPLAY_CMD_WRITE_DIGITS,1,0,0,"    ");
 			SendCommand(DISPLAY_CMD_WRITE_DIGITS,2,0,0,"UPdt");
+			SendCommand(DISPLAY_CMD_WRITE_DIGITS,3,0,0,"    ");
 			Beep(1, 100, 100);
 			iap_usb(&USBHFile);
-			SendCommand(DISPLAY_CMD_WRITE_DIGITS,2,0,0,"    ");
+			SendCommand(DISPLAY_CMD_WRITE_DIGITS,1,0,0,"    ");
+			SendCommand(DISPLAY_CMD_WRITE_DIGITS,2,0,0,"boot");
+			SendCommand(DISPLAY_CMD_WRITE_DIGITS,3,0,0,"    ");
 			Beep(1, 1000, 100);
 			f_close(&USBHFile);
 			HAL_NVIC_SystemReset();
