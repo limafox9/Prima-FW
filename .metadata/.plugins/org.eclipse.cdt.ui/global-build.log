@@ -1,13 +1,33 @@
-12:08:56 **** Incremental Build of configuration Debug for project DB_Protocol ****
+13:49:50 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j24 all 
-make: Nothing to be done for 'all'.
-12:08:56 **** Incremental Build of configuration Debug for project DB_Protocol ****
+arm-none-eabi-gcc "../Src/DB_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/DB_protocol.d" -MT"Src/DB_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/DB_protocol.o"
+arm-none-eabi-ar -r  "libDB_Protocol.a" @"objects.list"  
+arm-none-eabi-ar: creating libDB_Protocol.a
+Finished building target: libDB_Protocol.a
+ 
+13:49:50 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j24 all 
-make: Nothing to be done for 'all'.
-12:08:56 **** Incremental Build of configuration Debug for project Board_APP ****
+arm-none-eabi-gcc "../Src/DB_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/DB_protocol.d" -MT"Src/DB_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/DB_protocol.o"
+arm-none-eabi-ar -r  "libDB_Protocol.a" @"objects.list"  
+arm-none-eabi-ar: creating libDB_Protocol.a
+Finished building target: libDB_Protocol.a
+ 
+13:49:51 **** Incremental Build of configuration Debug for project Display_APP ****
 make -j24 all 
-arm-none-eabi-size   Board_APP.elf 
+arm-none-eabi-gcc -o "Display_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Display_APP\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Display_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima Firmware\Source\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Display_APP.elf
+ 
+arm-none-eabi-size   Display_APP.elf 
+arm-none-eabi-objdump -h -S  Display_APP.elf  > "Display_APP.list"
+arm-none-eabi-objcopy  -O ihex  Display_APP.elf  "Display_APP.hex"
+arm-none-eabi-objcopy  -O binary  Display_APP.elf  "Display_APP.bin"
    text	   data	    bss	    dec	    hex	filename
- 152804	   2252	  56188	 211244	  3392c	Board_APP.elf
+  47216	    496	  13176	  60888	   edd8	Display_APP.elf
 Finished building: default.size.stdout
+ 
+Finished building: Display_APP.hex
+Finished building: Display_APP.bin
+ 
+ 
+Finished building: Display_APP.list
  

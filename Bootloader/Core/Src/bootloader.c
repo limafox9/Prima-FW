@@ -35,6 +35,17 @@ USAGE:
 
 #include "bootloader.h"
 
+#include "fatfs.h"
+#include "usb_host.h"
+#include "Inc/DB_Protocol.h"
+#include "_ver.h"
+#include "keys.h"
+#include "serial.h"
+
+uint8_t DisplayFWVersionMajor;
+uint8_t DisplayFWVersionMinor;
+uint8_t DisplayFWVersionRevision;
+
 void bootloaderInit()
 {
 //	Flashed_offset = 0;
@@ -109,21 +120,69 @@ void Beep(uint8_t hits, uint16_t onDelay, uint16_t offDelay) {
 	}
 }
 
+void BootloaderInit() {
+
+	char s[8];
+	sprintf(s, "%01d.%01d.%02d", FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION);
+	SendCommand(DISPLAY_CMD_WRITE_DIGITS,3,0,0,s);
+	HAL_Delay(2000);
+
+	SendCommand(DISPLAY_CMD_GET_KEYS, 0, 0, 0, "");
+	ReceiveCommand();
+//	do {
+//		ReceiveCommand();
+//	} while (keysReceivedOK == 0);
+
+	__NOP();
+
+	sprintf(s, "%04d", keysReceived);
+
+	SendCommand(DISPLAY_CMD_WRITE_DIGITS,2,0,0,s);
+	SendCommand(DISPLAY_CMD_WRITE_DIGITS,3,0,0,"----");
+	if (keysReceived == KEY_PROG + KEY_TEST) {
+		CheckUpdate();
+	} else {
+		jumpToApp(0x0800E000);
+	}
+
+}
+
+void CheckUpdate() {
+	if(f_mount(&USBHFatFS, "", 1) == FR_OK)	{
+		if (f_open(&USBHFile, "PRIMA_APP.BIN", FA_READ) == FR_OK) {
+//			f_lseek(&USBHFile,USBHFile.fsize);
+//			f_printf(&USBHFile,USBString);
+			SendCommand(DISPLAY_CMD_WRITE_DIGITS,2,0,0,"UPdt");
+			Beep(1, 100, 100);
+			iap_usb(&USBHFile);
+			SendCommand(DISPLAY_CMD_WRITE_DIGITS,2,0,0,"    ");
+			Beep(1, 1000, 100);
+			f_close(&USBHFile);
+			HAL_NVIC_SystemReset();
+		}
+	}
+//	HAL_NVIC_SystemReset();
+
+}
+
 void jumpToApp(const uint32_t address)
 {
-	const JumpStruct* vector_p = (JumpStruct*)address;
-
 	Beep(2, 50, 100);
 
 	deinitEverything();
     SCB->VTOR = (uint32_t)address;
 
-	/* let's do The Jump! */
+    void (*app_reset_handler)(void) = (void*)(*((volatile uint32_t*) (0x0800E000 + 4U)));
+     //__set_MSP(*(volatile uint32_t*) 0x08040000);
+     // Turn OFF the Green Led to tell the user that Bootloader is not running
+     app_reset_handler();    //call the app reset handler
+
+     /* let's do The Jump! */
     /* Jump, used asm to avoid stack optimization */
 	/* Jump, used asm to avoid stack optimization */
-	    asm("\n\
-	        msr msp, %0; \n\
-	        bx %1;" : : "r"(vector_p->stack_addr), "r"(vector_p->func_p));
+//	    asm("\n\
+//	        msr msp, %0; \n\
+//	        bx %1;" : : "r"(vector_p->stack_addr), "r"(vector_p->func_p));
 }
 
 void deinitEverything()

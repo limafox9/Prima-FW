@@ -24,6 +24,11 @@
 /-----------------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f1xx_hal.h"
+#include "usbh_core.h"
+#include "usbh_msc.h"
+
+	                    	  	  	  	                    	  	  	  	                    	  	  	  	                    	  	  	  	                                       	  	  	  	                    	  	  	  	                    	  	  	  	                    	  	  	  	                    	  	  	  	                          	  	  	  	                    	  	  	  	                    	  	  	  	                    	  	  	  	                    	  	  	  	                    	  	  	  	                    	  	  	  	                    	  	  	  	                    	  	  	  	                    	  	  	  	                    	  	  	  	                              	  	  	  	                    	  	  	  	                               	  	  	  	                    	           	  	  	                    	  	            	  	                    	  	  	           	                    	  	  	  	                    	  	  	  	                    	  	  	  	                    	  	  	  	                    	  	  	  	                    	  	  	  	                    	  	  	  	                    	  	  	  /* Handle for USB Host */
+#define HOST_HANDLE hUsbHostFS
 
 /*-----------------------------------------------------------------------------/
 / Functions and Buffer Configurations
@@ -77,6 +82,16 @@
 /* This option switches f_forward() function. (0:Disable or 1:Enable)
 /  To enable it, also _FS_TINY need to be set to 1. */
 
+#define _USE_BUFF_WO_ALIGNMENT  1
+/* This option is available only for usbh diskio interface and allows to disable
+/  the management of the unaligned buffer.
+/  When STM32 USB OTG HS or FS IP is used with internal DMA enabled, this define
+/  must be set to 0 to align data into 32bits through an internal scratch buffer
+/  before being processed by the DMA . Otherwise (DMA not used), this define must
+/  be set to 1 to avoid Data alignment and improve the performance.
+/  Please note that if _USE_BUFF_WO_ALIGNMENT is set to 1 and an unaligned 32bits
+/  buffer is forwarded to the FatFs Write/Read functions, an error will be returned.
+/  (0: default value or 1: unaligned buffer return an error). */
 /*-----------------------------------------------------------------------------/
 / Locale and Namespace Configurations
 /-----------------------------------------------------------------------------*/
@@ -113,7 +128,7 @@
 /   1    - ASCII (No extended character. Valid for only non-LFN configuration.) */
 
 #define _USE_LFN     1    /* 0 to 3 */
-#define _MAX_LFN     32    /* Maximum LFN length to handle (12 to 255) */
+#define _MAX_LFN     255    /* Maximum LFN length to handle (12 to 255) */
 /* The _USE_LFN option switches the LFN feature.
 /
 /   0: Disable LFN feature. _MAX_LFN has no effect.
@@ -218,7 +233,7 @@
 /  _NORTC_MDAY and _NORTC_YEAR have no effect.
 /  These options have no effect at read-only configuration (_FS_READONLY == 1). */
 
-#define _FS_LOCK    2     /* 0:Disable or >=1:Enable */
+#define _FS_LOCK    1     /* 0:Disable or >=1:Enable */
 /* The _FS_LOCK option switches file lock feature to control duplicated file open
 /  and illegal operation to open objects. This option must be 0 when _FS_READONLY
 /  is 1.

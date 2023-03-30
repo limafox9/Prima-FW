@@ -3,6 +3,7 @@
 	<name>Bootloader</name>
 	<comment></comment>
 	<projects>
+		<project>DB_Protocol</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

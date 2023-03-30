@@ -41,5 +41,6 @@ USAGE:
 #include <stdio.h>
 
 void KeysTask();
+uint8_t GetPressedKeys();
 
 #endif /* INC_KEYS_H_ */

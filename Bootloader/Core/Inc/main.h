@@ -59,6 +59,8 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define LED_HEART_Pin GPIO_PIN_6
 #define LED_HEART_GPIO_Port GPIOA
+#define USART3_CTS_Pin GPIO_PIN_15
+#define USART3_CTS_GPIO_Port GPIOE
 #define BEEP_Pin GPIO_PIN_13
 #define BEEP_GPIO_Port GPIOD
 #define KEY_S1_Pin GPIO_PIN_6

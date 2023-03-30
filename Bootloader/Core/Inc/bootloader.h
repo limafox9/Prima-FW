@@ -79,9 +79,16 @@ typedef struct
     application_t*	func_p;        // Program Counter
 } JumpStruct;
 
-AppSelection App;
-uint32_t Flashed_offset;
-FlashStatus flashStatus;
+extern uint8_t DisplayFWVersionMajor;
+extern uint8_t DisplayFWVersionMinor;
+extern uint8_t DisplayFWVersionRevision;
+
+//AppSelection App;
+//uint32_t Flashed_offset;
+//FlashStatus flashStatus;
+
+void CheckUpdate();
+void BootloaderInit();
 
 void bootloaderInit();
 void flashWord(uint32_t word);

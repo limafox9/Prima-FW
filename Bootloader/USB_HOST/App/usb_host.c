@@ -22,9 +22,11 @@
 
 #include "usb_host.h"
 #include "usbh_core.h"
-#include "usbh_mtp.h"
+#include "usbh_msc.h"
 
 /* USER CODE BEGIN Includes */
+
+#include "bootloader.h"
 
 /* USER CODE END Includes */
 
@@ -76,7 +78,7 @@ void MX_USB_HOST_Init(void)
   {
     Error_Handler();
   }
-  if (USBH_RegisterClass(&hUsbHostFS, USBH_MTP_CLASS) != USBH_OK)
+  if (USBH_RegisterClass(&hUsbHostFS, USBH_MSC_CLASS) != USBH_OK)
   {
     Error_Handler();
   }
@@ -114,6 +116,7 @@ static void USBH_UserProcess  (USBH_HandleTypeDef *phost, uint8_t id)
 
   case HOST_USER_CLASS_ACTIVE:
   Appli_state = APPLICATION_READY;
+  CheckUpdate();
   break;
 
   case HOST_USER_CONNECTION:
