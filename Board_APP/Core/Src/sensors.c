@@ -114,6 +114,11 @@ float pressAmbientMin;
 float pressAmbientMax;
 
 #define PRESS_BUFFER_SIZE 5 // >= 2
+
+float t1[AVERAGE_SAMPLES];
+float t2[AVERAGE_SAMPLES];
+float p[AVERAGE_SAMPLES];
+
 float pressBuf[PRESS_BUFFER_SIZE];
 float pressAvg;
 
@@ -200,8 +205,14 @@ void StartSensorsTask() {
 	static uint8_t prevCSH = NORMAL;
 	static uint8_t prevTDS = OFF;
 	// Fill buffer values
-	for (int i = 0 ; i < (sizeof(pressBuf) / sizeof(float)); i++) {
-		pressBuf[i] = ChamberPressureGet();
+	sensors.T1 = TM7705_GetTemp(1, (float)((float)settings.T1Offset / 10.0) + (float)((double)settings.T1FactoryOffset / 10.0));
+	sensors.T2 = TM7705_GetTemp(2, (float)((float)settings.T2Offset / 10.0) + (float)((double)settings.T2FactoryOffset / 10.0));
+	sensors.PressureChamber = ChamberPressureGet();
+
+	for (int i = 0 ; i < AVERAGE_SAMPLES; i++) {
+		t1[i] = sensors.T1;
+		t2[i] = sensors.T2;
+		p[i] = sensors.PressureChamber;
 	}
 
 	sensors.PressureAmbient = (float)100.0;
@@ -212,12 +223,13 @@ void StartSensorsTask() {
 		sensors.Solenoid = DoorSolenoidKeyGet();
 		sensors.TemperatureSteamGenerator = SteamGeneratorTempGet();
 		sensors.TemperatureChamberHeater = ChamberHeaterTempGet();
-		sensors.T1 = TM7705_GetTemp(1, (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0));
-		HAL_Delay(50);
-		sensors.T2 = TM7705_GetTemp(2, (float)(settings.T2Offset / 10.0) + (float)(settings.T2FactoryOffset / 10.0));
-		sensors.PressureChamber = BufferAverage(pressBuf, PRESS_BUFFER_SIZE, ChamberPressureGet());
+		sensors.T1 = BufferAverage(t1, AVERAGE_SAMPLES, TM7705_GetTemp(1, (float)((float)settings.T1Offset / 10.0) + (float)((double)settings.T1FactoryOffset / 10.0)));
+//		HAL_Delay(50);
+		sensors.T2 = BufferAverage(t1, AVERAGE_SAMPLES, TM7705_GetTemp(2, (float)((float)settings.T2Offset / 10.0) + (float)((double)settings.T2FactoryOffset / 10.0)));
+//		sensors.PressureChamber = BufferAverage(pressBuf, PRESS_BUFFER_SIZE, ChamberPressureGet());
+		sensors.PressureChamber = ChamberPressureGet();
 //		sensors.PressureChamber -= (!settings.FunPressureDisplay) ? 0 : 100;
-		sensors.Current = CurrentGet();
+//		sensors.Current = CurrentGet();
 		sensors.WaterDumpLevel = WaterDumpLevelGet();
 		sensors.WaterReservoirLevel = WaterReservoirLevelGet();
 
@@ -380,15 +392,15 @@ uint16_t CurrentGet() {
 
 float BufferAverage(float* buffer, uint8_t size, float newValue) {
 
-	float retAvg = 0;
+	float retAvg = 0.0;
 
 	// Shift values right
-	for (int i = size - 1; i > 0; i--) {
-		buffer[i] = buffer[i - 1];
+	for (int i = 0; i < size - 1; i++) {
+		buffer[i] = buffer[i + 1];
 	}
 
 	// Leftmost add new read
-	buffer[0] = newValue;
+	buffer[size - 1] = newValue;
 
 	// Calc average
 	for (int i = 0; i < size; i++) {

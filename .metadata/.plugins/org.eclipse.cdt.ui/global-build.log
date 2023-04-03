@@ -1,19 +1,36 @@
-16:34:58 **** Incremental Build of configuration Debug for project DB_Protocol ****
+09:28:27 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j24 all 
 arm-none-eabi-gcc "../Src/DB_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/DB_protocol.d" -MT"Src/DB_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/DB_protocol.o"
 arm-none-eabi-ar -r  "libDB_Protocol.a" @"objects.list"  
 arm-none-eabi-ar: creating libDB_Protocol.a
 Finished building target: libDB_Protocol.a
  
-16:34:58 **** Incremental Build of configuration Debug for project DB_Protocol ****
+09:28:28 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j24 all 
 arm-none-eabi-gcc "../Src/DB_protocol.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/DB_protocol.d" -MT"Src/DB_protocol.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/DB_protocol.o"
 arm-none-eabi-ar -r  "libDB_Protocol.a" @"objects.list"  
 arm-none-eabi-ar: creating libDB_Protocol.a
 Finished building target: libDB_Protocol.a
  
-16:34:59 **** Incremental Build of configuration Debug for project Board_APP ****
+09:28:29 **** Incremental Build of configuration Debug for project Board_APP ****
 make -j24 all 
+arm-none-eabi-gcc "../Core/Src/settings.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima Firmware/Source/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/settings.d" -MT"Core/Src/settings.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/settings.o"
+In file included from ../Core/Src/settings.c:42:
+../Core/Inc/globals.h:106:1: warning: useless storage class specifier in empty declaration
+  106 | };
+      | ^
+../Core/Src/settings.c: In function 'ReadSetting':
+../Core/Src/settings.c:73:2: warning: implicit declaration of function 'EEPROM_Read' [-Wimplicit-function-declaration]
+   73 |  EEPROM_Read(address, data, size);
+      |  ^~~~~~~~~~~
+../Core/Src/settings.c: In function 'WriteSetting':
+../Core/Src/settings.c:137:2: warning: implicit declaration of function 'EEPROM_Write' [-Wimplicit-function-declaration]
+  137 |  EEPROM_Write(address, data, size);
+      |  ^~~~~~~~~~~~
+../Core/Src/settings.c: In function 'SaveDefaults':
+../Core/Src/settings.c:180:3: warning: implicit declaration of function 'BAT2U_TDSCalibration' [-Wimplicit-function-declaration]
+  180 |   BAT2U_TDSCalibration(500);
+      |   ^~~~~~~~~~~~~~~~~~~~
 arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima Firmware\Source\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima Firmware\Source\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: Board_APP.elf
  
@@ -22,7 +39,7 @@ arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
 arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
 arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
    text	   data	    bss	    dec	    hex	filename
- 153100	   2252	  56188	 211540	  33a54	Board_APP.elf
+ 153420	   2252	  56228	 211900	  33bbc	Board_APP.elf
 Finished building: default.size.stdout
  
 Finished building: Board_APP.hex

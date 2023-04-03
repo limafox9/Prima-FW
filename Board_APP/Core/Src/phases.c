@@ -630,18 +630,19 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 		ResetTimer(TIMER_1);
 		ResetTimer(TIMER_3);
 
-		T1Min = sensors.T1;
-		T1Max = sensors.T1;
-		T2Min = sensors.T2;
-		T2Max = sensors.T2;
-		pMin = sensors.PressureChamber;
-		pMax = sensors.PressureChamber;
+		T1Min = (float)sensors.T1;
+		T1Max = (float)sensors.T1;
+		T2Min = (float)sensors.T2;
+		T2Max = (float)sensors.T2;
+		pMin = (float)sensors.PressureChamber;
+		pMax = (float)sensors.PressureChamber;
 
 		uint32_t currTick = HAL_GetTick();
 
 		Beep(1, 100, 100);
 
 		while (1) {
+			osSemaphoreWait(semaphoreSensorsHandle, 100);
 
 			// Exit successful on phase completion
 			GetTimer(TIMER_PHASE, &tPhase);
@@ -707,12 +708,12 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 				break;
 			}
 
-			T1Min = (sensors.T1 < T1Min) ? sensors.T1 : T1Min;
-			T1Max = (sensors.T1 > T1Max) ? sensors.T1 : T1Max;
-			T2Min = (sensors.T2 < T2Min) ? sensors.T2 : T2Min;
-			T2Max = (sensors.T2 > T2Max) ? sensors.T2 : T2Max;
-			pMin = (sensors.PressureChamber < pMin) ? sensors.PressureChamber : pMin;
-			pMax = (sensors.PressureChamber > pMax) ? sensors.PressureChamber : pMax;
+			T1Min = ((float)sensors.T1 < T1Min) ? (float)sensors.T1 : T1Min;
+			T1Max = ((float)sensors.T1 > T1Max) ? (float)sensors.T1 : T1Max;
+			T2Min = ((float)sensors.T2 < T2Min) ? (float)sensors.T2 : T2Min;
+			T2Max = ((float)sensors.T2 > T2Max) ? (float)sensors.T2 : T2Max;
+			pMin = ((float)sensors.PressureChamber < pMin) ? (float)sensors.PressureChamber : pMin;
+			pMax = ((float)sensors.PressureChamber > pMax) ? (float)sensors.PressureChamber : pMax;
 
 			GetTimer(TIMER_1, &tInterval);
 			if (tInterval.Seconds >= param->printInterval) {
@@ -725,9 +726,13 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 				retVal = 0;
 				break;
 			}
+			osSemaphoreRelease(semaphoreSensorsHandle);
+
 			osDelay(200);
 		}
+		osSemaphoreRelease(semaphoreSensorsHandle);
 	}
+	osSemaphoreRelease(semaphoreSensorsHandle);
 
 	osDelay(100);
 	ValveDrainSteamSet(OFF);

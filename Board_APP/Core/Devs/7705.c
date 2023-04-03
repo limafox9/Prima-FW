@@ -399,28 +399,29 @@ uint16_t TM7705_ReadAdc(unsigned char _ch) {
 
 static float calTemp(float Rt, float offset) {
 
-	const float RTD_A = 3.9083e-3;
-	const float RTD_B = -5.775e-7;
+	const double RTD_A = 3.9083e-3;
+	const double RTD_B = -5.775e-7;
 
-	float Z1, Z2, Z3, Z4, temp;
+	double Z1, Z2, Z3, Z4, temp;
 
 	Z1 = -RTD_A;
-	Z2 = RTD_A * RTD_A - (4 * RTD_B);
-	Z3 = (4 * RTD_B) / 1000;
-	Z4 = 2 * RTD_B;
+	Z2 = RTD_A * RTD_A - (4.0 * RTD_B);
+	Z3 = (4.0 * RTD_B) / 1000.0;
+	Z4 = 2.0 * RTD_B;
 
 	temp = Z2 + (Z3 * Rt);
 	temp = (sqrt(temp) + Z1) / Z4;
 
-	temp += offset;
+	temp += (double)offset;
 
-	return temp;
+	return (float)temp;
 }
 
 float TM7705_GetTemp(uint8_t channel, float offset) {
 	uint16_t refRes = 2000; // ref resistor for voltage divider
 	float adcValue = (float)TM7705_ReadAdc(channel);
 	float tempValue = calTemp( adcValue * (float)refRes / 65535.0, offset);
+	round(tempValue * 100.0) / 100.0;
 	return tempValue;
 }
 
