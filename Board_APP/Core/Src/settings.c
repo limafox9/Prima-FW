@@ -185,7 +185,7 @@ void SaveDefaults(uint8_t factoryDefault) {
 		EEPROM_Write(EPA_CYCLE_COUNTER, &(uint16_t){0}, 2);
 
 		EEPROM_Write(EPA_T1_FACTORY_OFFSET, &(int8_t){30}, 1);
-		EEPROM_Write(EPA_T2_FACTORY_OFFSET, &(int8_t){0}, 1);
+		EEPROM_Write(EPA_T2_FACTORY_OFFSET, &(int8_t){30}, 1);
 		EEPROM_Write(EPA_PREHEAT_STANDBY_RING_TEMP, &(uint8_t){60}, 1);
 		EEPROM_Write(EPA_PREHEAT_STANDBY_STEAM_TEMP, &(uint8_t){90}, 1);
 		EEPROM_Write(EPA_CLEAN_CYCLES_INTERVAL, &(uint16_t){50}, 2);

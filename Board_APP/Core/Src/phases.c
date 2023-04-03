@@ -53,6 +53,10 @@ USAGE:
 #define STERIL_STABILIZATION_PERIOD 30
 #define STERIL_T1_T2_MISMATCH_MAX 1.0
 
+#define STEAM_PULSE_PRESSURE	100
+#define STEAM_PULSE_RISE		60
+#define STEAM_PULSE_STERIL		40
+
 uint8_t chamberHeaterTempSet;
 uint8_t steamGeneratorTempSet;
 
@@ -320,7 +324,7 @@ uint8_t CheckError() {
 				retError = ERROR_OPEN_DOOR;
 			} else if (DoorSolenoidKeyGet() == UNLOCK) {
 				retError = ERROR_PROTECTION_LOCK;
-			} else if (sensors.TemperatureSteamGenerator > 230.0) {
+			} else if (sensors.TemperatureSteamGenerator > 235.0) {
 				retError = ERROR_STEAM_OVERTEMP;
 			} else if (sensors.TemperatureChamberHeater > 150.0) {
 				retError = ERROR_RING_OVERTEMP;
@@ -468,15 +472,15 @@ uint8_t PhaseVacuum(uint8_t nVacuum, float press, uint8_t skipThreshold, uint16_
 
 uint8_t PhasePressure(uint8_t nPressure, float press, float steamTemp, float steamTempMin, uint16_t timeout) {
 
-	static const float pPID_KP = 0.5; // 1.0
-	static const float pPID_KI = 1.8; // 1.8
+	static const float pPID_KP = 1.5; // 1.0
+	static const float pPID_KI = 0.6; // 1.8
 	static const float pPID_KD = 0.2; // 1.0
 	static const float pPID_TAU = 1.0;
-	static const float pPID_LIM_MIN = 0.5; // 0.8
-	static const float pPID_LIM_MAX = 1.5; // 2.0
-	static const float pPID_LIM_MIN_INT = -1.5; // -1.5
-	static const float pPID_LIM_MAX_INT = 1.5; // 1.5
-	static const float pSAMPLE_TIME_S = 0.5; // 0.1
+	static const float pPID_LIM_MIN = 0.6; // 0.8
+	static const float pPID_LIM_MAX = 1.8; // 2.0
+	static const float pPID_LIM_MIN_INT = -1.0; // -1.5
+	static const float pPID_LIM_MAX_INT = 1.0; // 1.5
+	static const float pSAMPLE_TIME_S = 1.0; // 0.1
 
 	uint8_t retVal = 0;
 	RTCTimerTime_s tTimeout, tPhase;
@@ -501,7 +505,7 @@ uint8_t PhasePressure(uint8_t nPressure, float press, float steamTemp, float ste
 //		float ret = PIDController_Update(&pidSteam, steamTemp, 31.0);
 
 		if (sensors.TemperatureSteamGenerator >= steamTempMin) {
-			SteamPulse(50);
+			SteamPulse(STEAM_PULSE_PRESSURE);
 			osDelay(ret);
 //			Beep(1,100,100);
 		}
@@ -535,14 +539,14 @@ uint8_t PhasePressure(uint8_t nPressure, float press, float steamTemp, float ste
 }
 
 uint8_t PhaseSteril(SterilParam_s* param) {
-	static const float pPID_KP = 0.6;  // >0.8
+	static const float pPID_KP = 0.8;  // >0.8
 	static const float pPID_KI = 0.3;	// >0.4
-	static const float pPID_KD = 0.2;
+	static const float pPID_KD = 0.5;
 	static const float pPID_TAU = 1.0;
-	static const float pPID_LIM_MIN = 0.8; // >1.0
+	static const float pPID_LIM_MIN = 0.5; // >1.0
 	static const float pPID_LIM_MAX = 1.3; // 2.0
-	static const float pPID_LIM_MIN_INT = -1.0; // -1.0
-	static const float pPID_LIM_MAX_INT = 1.0; // 1.0
+	static const float pPID_LIM_MIN_INT = -0.8; // -1.0
+	static const float pPID_LIM_MAX_INT = 0.8; // 1.0
 	static const float pSAMPLE_TIME_S = 1.0;
 
 	uint8_t retVal = 0;
@@ -570,8 +574,9 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 //		float ret = PIDController_Update(&pidSteril, param->chamberPress, sensors.PressureChamber);
 		ret = (1/ret)*4000;
 //		if ((Sensors.T1 < param->chamberTemp) && (Sensors.TemperatureSteamGenerator >= param->steamTempMin)) {
-		if ((sensors.TemperatureSteamGenerator >= param->steamTempMin) && (sensors.T1 < param->chamberTemp)) {
-			SteamPulse(50);
+//		if ((sensors.TemperatureSteamGenerator >= param->steamTempMin) && (sensors.T1 < param->chamberTemp)) {
+		if (sensors.TemperatureSteamGenerator >= param->steamTempMin) {
+			SteamPulse(STEAM_PULSE_RISE);
 			osDelay(ret);
 		}
 		if ((sensors.T1 >= param->chamberTemp) && (sensors.T1 < param->chamberTempMax)) {
@@ -656,9 +661,10 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 			float ret = PIDController_Update(&pidSteril, param->chamberTemp, sensors.T1);
 //			float ret = PIDController_Update(&pidSteril, param->chamberPress, sensors.PressureChamber);
 			ret = (1/ret)*4000;
-			if ((sensors.T1 <= param->chamberTemp) && (HAL_GetTick() > (currTick + ret))) {
+//			if ((sensors.T1 <= param->chamberTemp) && (HAL_GetTick() > (currTick + ret))) {
+			if (HAL_GetTick() > (currTick + ret)) {
 				if (sensors.TemperatureSteamGenerator >= param->steamTempMin) {
-					SteamPulse(30);
+					SteamPulse(STEAM_PULSE_STERIL);
 					currTick = HAL_GetTick();
 				}
 			}

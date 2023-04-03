@@ -206,7 +206,7 @@ void StartSensorsTask() {
 	static uint8_t prevTDS = OFF;
 	// Fill buffer values
 	sensors.T1 = TM7705_GetTemp(1, (float)((float)settings.T1Offset / 10.0) + (float)((double)settings.T1FactoryOffset / 10.0));
-	sensors.T2 = TM7705_GetTemp(2, (float)((float)settings.T2Offset / 10.0) + (float)((double)settings.T2FactoryOffset / 10.0));
+	sensors.T2 = TM7705_GetTemp(2, (float)((float)settings.T2Offset / 10.0) + (float)((double)settings.T1FactoryOffset / 10.0));
 	sensors.PressureChamber = ChamberPressureGet();
 
 	for (int i = 0 ; i < AVERAGE_SAMPLES; i++) {
@@ -225,9 +225,9 @@ void StartSensorsTask() {
 		sensors.TemperatureChamberHeater = ChamberHeaterTempGet();
 		sensors.T1 = BufferAverage(t1, AVERAGE_SAMPLES, TM7705_GetTemp(1, (float)((float)settings.T1Offset / 10.0) + (float)((double)settings.T1FactoryOffset / 10.0)));
 //		HAL_Delay(50);
-		sensors.T2 = BufferAverage(t1, AVERAGE_SAMPLES, TM7705_GetTemp(2, (float)((float)settings.T2Offset / 10.0) + (float)((double)settings.T2FactoryOffset / 10.0)));
+		sensors.T2 = BufferAverage(t2, AVERAGE_SAMPLES, TM7705_GetTemp(2, (float)((float)settings.T2Offset / 10.0) + (float)((double)settings.T2FactoryOffset / 10.0)));
 //		sensors.PressureChamber = BufferAverage(pressBuf, PRESS_BUFFER_SIZE, ChamberPressureGet());
-		sensors.PressureChamber = ChamberPressureGet();
+		sensors.PressureChamber = BufferAverage(p, AVERAGE_SAMPLES, ChamberPressureGet());
 //		sensors.PressureChamber -= (!settings.FunPressureDisplay) ? 0 : 100;
 //		sensors.Current = CurrentGet();
 		sensors.WaterDumpLevel = WaterDumpLevelGet();
@@ -464,17 +464,19 @@ float ADCToPress(uint16_t adcValue) {
 
 	vRef = (float)V_REF;
 
-	readVolt = (vRef / (float)(pow(2, ADC_BITS) - 1) * (float)adcValue); 	// Voltage read
+	readVolt = (vRef / (float)(pow(2, ADC_BITS)) * (float)adcValue); 	// Voltage read
 
 	// Transfer function: Vout = Vs*(0.0012858*P+0.04) @Vs=5.0V
 	//pkPa = (readVolt - (0,04 * vRefSensor)) / (0.0012858 * vRefSensor);
 
 	pkPa = readVolt;
-	pkPa = pkPa / 4.99;
+	pkPa = pkPa / 5.0;
 	pkPa = pkPa - 0.04;
 	pkPa = pkPa / 0.0012858;
 
-	pkPa += settings.ChamberPressOffset;
+	pkPa += (float)settings.ChamberPressOffset;
+
+	pkPa += (pkPa - 310) * 0.03;
 
 	return pkPa;
 }
