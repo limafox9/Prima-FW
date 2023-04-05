@@ -232,7 +232,7 @@ uint8_t ProgramResumeDry() {
 	ValveDryIntakeSet(ON);
 
 	while (1) {
-		if ((sensors.PressureChamber >= pressAmbientMin) && (sensors.PressureChamber <= pressAmbientMax)) {
+		if ((sensors.PressureChamber >= (pressAmbientMin - 10)) && (sensors.PressureChamber <= pressAmbientMax)) {
 			break;
 		}
 		osDelay(200);
@@ -795,6 +795,10 @@ uint8_t ProgramUser() {
 				.printInterval = 30,
 				.timeout = settings.UserSterilTime * 60 * 1.5,
 		};
+
+		if (settings.UserVacuumNumber == 0 && settings.UserSterilTemp == STERILTEMP_134) {
+			sterilParam.chamberTemp = 135.0; // if vacuums == 0 -> lower steril temp due to too high pressure in some cases
+		}
 
 		success = PhaseSteril(&sterilParam);
 	}

@@ -355,6 +355,25 @@ void SysInit() {
 //		SdcardWriteAction("test99.txt" , "Hello \r\n");
 
 __NOP();
+
+
+SterilParam_s p = {
+		.chamberTemp = 40.0,
+		.chamberTempMin = 134.0,
+		.chamberTempMax = 136.0,
+		.sterilTime = 0,
+		.chamberPress = 320,
+		.pressMin = 0,
+		.pressMax = 0,
+		.steamTemp = 0,
+		.steamTempMin = 170.0,
+		.printInterval = 30,
+		.timeout = 800
+};
+
+
+PhaseTestPID(&p);
+
 //		ProgressLed(LED_PROGRESS_HEATING);
 //		osDelay(500);
 //		ProgressLed(LED_PROGRESS_1STVACUUM);

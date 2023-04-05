@@ -61,7 +61,6 @@ float PIDController_Update(PIDController *pid, float setpoint, float measurement
 	*/
     float proportional = pid->Kp * error;
 
-
 	/*
 	* Integral
 	*/
