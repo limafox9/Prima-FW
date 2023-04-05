@@ -472,15 +472,15 @@ uint8_t PhaseVacuum(uint8_t nVacuum, float press, uint8_t skipThreshold, uint16_
 
 uint8_t PhasePressure(uint8_t nPressure, float press, float steamTemp, float steamTempMin, uint16_t timeout) {
 
-	static const float pPID_KP = 1.5; // 1.0
-	static const float pPID_KI = 0.6; // 1.8
-	static const float pPID_KD = 0.2; // 1.0
-	static const float pPID_TAU = 1.0;
-	static const float pPID_LIM_MIN = 0.6; // 0.8
-	static const float pPID_LIM_MAX = 1.8; // 2.0
-	static const float pPID_LIM_MIN_INT = -1.0; // -1.5
-	static const float pPID_LIM_MAX_INT = 1.0; // 1.5
-	static const float pSAMPLE_TIME_S = 1.0; // 0.1
+	float pPID_KP = 1.5; // 1.0
+	float pPID_KI = 0.6; // 1.8
+	float pPID_KD = 0.2; // 1.0
+	float pPID_TAU = 1.0;
+	float pPID_LIM_MIN = 0.6; // 0.8
+	float pPID_LIM_MAX = 1.8; // 2.0
+	float pPID_LIM_MIN_INT = -1.0; // -1.5
+	float pPID_LIM_MAX_INT = 1.0; // 1.5
+	float pSAMPLE_TIME_S = 1.0; // 0.1
 
 	uint8_t retVal = 0;
 	RTCTimerTime_s tTimeout, tPhase;
@@ -539,15 +539,15 @@ uint8_t PhasePressure(uint8_t nPressure, float press, float steamTemp, float ste
 }
 
 uint8_t PhaseSteril(SterilParam_s* param) {
-	float pPID_KP = 0.9;  // >0.8
-	float pPID_KI = 0.1;	// >0.4
-	float pPID_KD = 0.5;
+	float pPID_KP = 1.5; // 1.0
+	float pPID_KI = 0.6; // 1.8
+	float pPID_KD = 0.2; // 1.0
 	float pPID_TAU = 1.0;
-	float pPID_LIM_MIN = 0.5; // >1.0
-	float pPID_LIM_MAX = 1.3; // 2.0
-	float pPID_LIM_MIN_INT = -0.1; // -1.0
-	float pPID_LIM_MAX_INT = 0.1; // 1.0
-	float pSAMPLE_TIME_S = 1.0;
+	float pPID_LIM_MIN = 0.8; // 0.8
+	float pPID_LIM_MAX = 1.8; // 2.0
+	float pPID_LIM_MIN_INT = -1.0; // -1.5
+	float pPID_LIM_MAX_INT = 1.0; // 1.5
+	float pSAMPLE_TIME_S = 1.0; // 0.1
 
 	uint8_t retVal = 0;
 	sprintf(currPhase, "rISE");
@@ -662,11 +662,11 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 
 		Beep(1, 100, 100);
 
-		pPID_KP = 100.0;
+		pPID_KP = 200.0;
 		pPID_KI = 10.0;
-		pPID_KD = 100.0;
-		pPID_TAU = 50.0;
-		pPID_LIM_MIN = 0.0;
+		pPID_KD = 500.0;
+		pPID_TAU = 5.0;
+		pPID_LIM_MIN = -120.0;
 		pPID_LIM_MAX = 120.0;
 		pPID_LIM_MIN_INT = -5.0;
 		pPID_LIM_MAX_INT = 5.0;
@@ -1213,11 +1213,11 @@ extern UART_HandleTypeDef huart1;
 void PhaseTestPID(SterilParam_s* param) {
 	float pPID_KP, pPID_KI, pPID_KD, pPID_TAU, pPID_LIM_MIN, pPID_LIM_MAX, pPID_LIM_MIN_INT, pPID_LIM_MAX_INT, pSAMPLE_TIME_S;
 
-	pPID_KP = 100.0;
+	pPID_KP = 200.0;
 	pPID_KI = 10.0;
-	pPID_KD = 100.0;
-	pPID_TAU = 50.0;
-	pPID_LIM_MIN = 0.0;
+	pPID_KD = 500.0;
+	pPID_TAU = 5.0;
+	pPID_LIM_MIN = -120.0;
 	pPID_LIM_MAX = 120.0;
 	pPID_LIM_MIN_INT = -5.0;
 	pPID_LIM_MAX_INT = 5.0;

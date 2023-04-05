@@ -476,7 +476,7 @@ float ADCToPress(uint16_t adcValue) {
 
 	pkPa += (float)settings.ChamberPressOffset;
 
-	pkPa += (pkPa - 310) * 0.03;
+//	pkPa += (pkPa - 310) * 0.03;
 
 	return pkPa;
 }

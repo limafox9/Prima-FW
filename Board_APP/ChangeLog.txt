@@ -1,5 +1,30 @@
 PRIMA Board_APP
 
+[2.4.8] - 2023-04-05
+  CHANGED
+    - Ottimizzato PID steril con modifica calcolo Ki e Kd.
+    - Modificato limite underpressure a 290 per testare solo steril
+
+[2.4.7] - 2023-04-05
+  CHANGED
+    - Modificato target temp. steam gen. in press da 220 a 190.
+
+[2.4.6] - 2023-04-05
+  CHANGED
+    - Modificato target temp. steam gen. in rise e steril da 210 a 190. DV_STEAM_GEN_TEMP_STERIL
+
+[2.4.5] - 2023-04-05
+  CHANGED
+    - Modificato target temp. steam gen. in rise e steril da 220 a 210. DV_STEAM_GEN_TEMP_STERIL
+
+[2.4.4] - 2023-04-05
+  CHANGED
+    - Annullata compensazione drift sensore pressione
+
+[2.4.3] - 2023-04-05
+  CHANGED
+    - Modificato PID rise. Non raggiungeva temp. target.
+
 [2.4.2] - 2023-04-05
   CHANGED
     - Modificata logica PID generazione vapore in steril. Da variazione 
