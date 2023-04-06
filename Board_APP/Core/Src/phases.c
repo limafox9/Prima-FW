@@ -662,11 +662,11 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 
 		Beep(1, 100, 100);
 
-		pPID_KP = 100.0;
-		pPID_KI = 10.0;
-		pPID_KD = 100.0;
-		pPID_TAU = 50.0;
-		pPID_LIM_MIN = 0.0;
+		pPID_KP = 200.0;
+		pPID_KI = 1.0;
+		pPID_KD = 150.0;
+		pPID_TAU = 1.0;
+		pPID_LIM_MIN = -120.0;
 		pPID_LIM_MAX = 120.0;
 		pPID_LIM_MIN_INT = -5.0;
 		pPID_LIM_MAX_INT = 5.0;
@@ -699,7 +699,7 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 //			if ((sensors.T1 <= param->chamberTemp) && (HAL_GetTick() > (currTick + ret))) {
 			if (ret > 0.0) {
 				SteamPulse(ret);
-				osDelay(1000);
+				osDelay(2000);
 			}
 
 //			if (HAL_GetTick() > (currTick + ret)) {
