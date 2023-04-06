@@ -539,14 +539,14 @@ uint8_t PhasePressure(uint8_t nPressure, float press, float steamTemp, float ste
 }
 
 uint8_t PhaseSteril(SterilParam_s* param) {
-	float pPID_KP = 0.9;  // >0.8
-	float pPID_KI = 0.1;	// >0.4
-	float pPID_KD = 0.5;
+	float pPID_KP = 1.5;  // >0.8
+	float pPID_KI = 0.6;	// >0.4
+	float pPID_KD = 0.2;
 	float pPID_TAU = 1.0;
-	float pPID_LIM_MIN = 0.5; // >1.0
-	float pPID_LIM_MAX = 1.3; // 2.0
-	float pPID_LIM_MIN_INT = -0.1; // -1.0
-	float pPID_LIM_MAX_INT = 0.1; // 1.0
+	float pPID_LIM_MIN = 0.8; // >1.0
+	float pPID_LIM_MAX = 1.8; // 2.0
+	float pPID_LIM_MIN_INT = -1.0; // -1.0
+	float pPID_LIM_MAX_INT = 1.0; // 1.0
 	float pSAMPLE_TIME_S = 1.0;
 
 	uint8_t retVal = 0;
