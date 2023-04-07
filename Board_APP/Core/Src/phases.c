@@ -662,9 +662,9 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 
 		Beep(1, 100, 100);
 
-		pPID_KP = 200.0;
-		pPID_KI = 1.0;
-		pPID_KD = 150.0;
+		pPID_KP = 50.0;
+		pPID_KI = 20.0;
+		pPID_KD = 50.0;
 		pPID_TAU = 1.0;
 		pPID_LIM_MIN = -120.0;
 		pPID_LIM_MAX = 120.0;

@@ -1,5 +1,9 @@
 PRIMA Board_APP
 
+[2.4.10] - 2023-04-06
+  CHANGED
+    - Modificato PID steril
+
 [2.4.9] - 2023-04-06
   CHANGED
     - Modificato calcolo PID (inserita somma derivativa).

@@ -1,10 +1,10 @@
-18:16:18 **** Incremental Build of configuration Debug for project DB_Protocol ****
+18:57:54 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j4 all 
 make: Nothing to be done for 'all'.
-18:16:19 **** Incremental Build of configuration Debug for project DB_Protocol ****
+18:57:55 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j4 all 
 make: Nothing to be done for 'all'.
-18:16:19 **** Incremental Build of configuration Debug for project Board_APP ****
+18:57:56 **** Incremental Build of configuration Debug for project Board_APP ****
 make -j4 all 
 arm-none-eabi-size   Board_APP.elf 
    text	   data	    bss	    dec	    hex	filename
