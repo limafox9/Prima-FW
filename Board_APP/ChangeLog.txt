@@ -1,4 +1,31 @@
+-------------------------------------------------------------------------------
 PRIMA Board_APP
+-------------------------------------------------------------------------------
+
+[2.4.15] - 2023-04-07
+  CHANGED
+    - Rimesso controllo errori
+    - Rimesso rise ma, target aumentato di 0.3°C
+    - Stabilizzazione a 5 sec.
+
+[2.4.14] - 2023-04-07
+  CHANGED
+    - Tolto controllo errori fase ster per test
+
+[2.4.13] - 2023-04-07
+  CHANGED
+    - Eliminata fase rise per test
+
+[2.4.12] - 2023-04-07
+  CHANGED
+    - Ripristinata fase stabilizzazione dopo rise a 15s
+    - Tolto controllo temp target rise -0.4°C
+
+[2.4.11] - 2023-04-07
+  CHANGED
+    - Modificato PID steril (aumentata Kd, diminuito poco Kp e diminuito Ki)
+    - Target temp rise diminuito di 0.4°C
+    - Modificata frequenza getto in steril > 1500ms
 
 [2.4.10] - 2023-04-06
   CHANGED
@@ -7,20 +34,22 @@ PRIMA Board_APP
 [2.4.9] - 2023-04-06
   CHANGED
     - Modificato calcolo PID (inserita somma derivativa).
-    - Modificati parametri PID steril (Kp 100>200, Ki 10>1, pPID_LIM_MIN 0>-120)
+    - Modificati parametri PID steril (Kp 100>200, Ki 10>1,
+      pPID_LIM_MIN 0>-120)
 
 [2.4.3] - 2023-04-06
   CHANGED
     - Modificato PID rise. Non raggiungeva temp target.
-    - Modificato valore underpressure per ciclo 134 (308kPa) e per ciclo 121 (190kPa)
+    - Modificato valore underpressure per ciclo 134 (308kPa) e per ciclo
+      121 (190kPa)
 
 [2.4.2] - 2023-04-05
   CHANGED
     - Modificata logica PID generazione vapore in steril. Da variazione 
-    intervallo a gestione getto con intervallo fisso (1 sec.). Da 0 a 120ms. 
-    Modificati parametri derivativi e integrativi.
+      intervallo a gestione getto con intervallo fisso (1 sec.). Da 0 a 120ms. 
+    - Modificati parametri derivativi e integrativi.
     - Ritocco ai parametri PID fase rise. Diminuita componente integrativa ed 
-    aumentata leggermente quella proporzionale.
+      aumentata leggermente quella proporzionale.
     - Riportata temp. fascia a 126°C
 
 [2.3.15] - 2023-04-04
@@ -34,29 +63,29 @@ PRIMA Board_APP
 [2.3.13] - 2023-04-04
   CAHNGED
     - Aumentata tolleranza dal vuoto per apertura porta dopo asciugatura di 
-    emergenza (reset error). Portata a pressAmbientMin - 10.
+      emergenza (reset error). Portata a pressAmbientMin - 10.
     - Modificata applicazione intervallo impulsi PID in fase steril (dopo rise)
-    per evitare pausa pressione ad inizio fase.
+      per evitare pausa pressione ad inizio fase.
 
 [2.3.12] - 2023-04-04
   CHANGED
     - Riduzione a 1 sec. (da 30s) del tempo di stabilizzazione dopo rise.
-    Parametrizzato, non eliminato in modo da poterlo variare senza intervenire
-    nel codice.
+      Parametrizzato, non eliminato in modo da poterlo variare senza intervenire
+      nel codice.
     - In ciclo user in caso di 0 vuoti se la sterilizzazione è a 134, ridotta 
-    la temp di sterilizzazione da 135.4 a 135.0. 
-    Richiesto per evitare alcuni casi con pressione in steril troppo alta.
+      la temp di sterilizzazione da 135.4 a 135.0. 
+      Richiesto per evitare alcuni casi con pressione in steril troppo alta.
 
 [2.3.11] - 2023-04-03
   ADDED
     - Sistema di compensazione per sensore di pressione. Aggiunto calcolo (fun.
-    ADCToPress) con divergenza da pressione calibrata in sterilizzazione (presa
-    come zero).
+      ADCToPress) con divergenza da pressione calibrata in sterilizzazione (presa
+      come zero).
   CHANGED
     - Factory offset a 3.0 anche per T2. Modificato anche il factory reset.
   FIXED
     - Corretto delay a 50ms tra letture T1 e T2 da 7705 per non avere errori 
-    dai registri non completamente resettati.
+      dai registri non completamente resettati.
     - Migliorata la frequenza di lettura sensori.
     - Migliorato il calcolo di media mobile (5 sample). Attivo su T1, T2 e 
-    pressione camera.
+      pressione camera.
