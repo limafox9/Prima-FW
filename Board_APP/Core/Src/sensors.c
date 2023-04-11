@@ -223,9 +223,11 @@ void StartSensorsTask() {
 		sensors.Solenoid = DoorSolenoidKeyGet();
 		sensors.TemperatureSteamGenerator = SteamGeneratorTempGet();
 		sensors.TemperatureChamberHeater = ChamberHeaterTempGet();
-		sensors.T1 = BufferAverage(t1, AVERAGE_SAMPLES, TM7705_GetTemp(1, (float)((float)settings.T1Offset / 10.0) + (float)((double)settings.T1FactoryOffset / 10.0)));
+//		sensors.T1 = BufferAverage(t1, AVERAGE_SAMPLES, TM7705_GetTemp(1, (float)((float)settings.T1Offset / 10.0) + (float)((double)settings.T1FactoryOffset / 10.0)));
+		sensors.T1 = TM7705_GetTemp(1, (float)((float)settings.T1Offset / 10.0) + (float)((double)settings.T1FactoryOffset / 10.0));
 //		HAL_Delay(50);
-		sensors.T2 = BufferAverage(t2, AVERAGE_SAMPLES, TM7705_GetTemp(2, (float)((float)settings.T2Offset / 10.0) + (float)((double)settings.T2FactoryOffset / 10.0)));
+//		sensors.T2 = BufferAverage(t2, AVERAGE_SAMPLES, TM7705_GetTemp(2, (float)((float)settings.T2Offset / 10.0) + (float)((double)settings.T2FactoryOffset / 10.0)));
+		sensors.T2 = TM7705_GetTemp(2, (float)((float)settings.T2Offset / 10.0) + (float)((double)settings.T2FactoryOffset / 10.0));
 //		sensors.PressureChamber = BufferAverage(pressBuf, PRESS_BUFFER_SIZE, ChamberPressureGet());
 		sensors.PressureChamber = BufferAverage(p, AVERAGE_SAMPLES, ChamberPressureGet());
 //		sensors.PressureChamber -= (!settings.FunPressureDisplay) ? 0 : 100;

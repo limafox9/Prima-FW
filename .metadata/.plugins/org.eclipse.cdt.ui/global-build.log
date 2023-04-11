@@ -1,139 +1,63 @@
-18:02:37 **** Incremental Build of configuration Debug for project DB_Protocol ****
+19:27:26 **** Build of configuration Debug for project DB_Protocol ****
 make -j4 all 
 make: Nothing to be done for 'all'.
-18:02:38 **** Incremental Build of configuration Debug for project DB_Protocol ****
+19:27:27 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j4 all 
 make: Nothing to be done for 'all'.
-18:02:38 **** Incremental Build of configuration Debug for project Board_APP ****
+19:27:28 **** Build of configuration Debug for project Board_APP ****
 make -j4 all 
-arm-none-eabi-gcc "../Core/Src/phases.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/phases.d" -MT"Core/Src/phases.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/phases.o"
+arm-none-eabi-gcc "../Core/Src/sensors.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/sensors.d" -MT"Core/Src/sensors.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/sensors.o"
 arm-none-eabi-gcc "../Core/Src/settings.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/settings.d" -MT"Core/Src/settings.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/settings.o"
 In file included from ../Core/Inc/sensors.h:39,
-                 from ../Core/Src/phases.c:38:
+                 from ../Core/Src/sensors.c:36:
 ../Core/Inc/globals.h:106:1: warning: useless storage class specifier in empty declaration
   106 | };
       | ^
-../Core/Src/phases.c: In function 'PhaseBegin':
-../Core/Src/phases.c:84:3: warning: implicit declaration of function 'EEPROM_Write' [-Wimplicit-function-declaration]
-   84 |   EEPROM_Write(EPA_CYCLE_COUNTER, &settings.CyclesCount, 2);
-      |   ^~~~~~~~~~~~
-../Core/Src/phases.c:147:3: warning: implicit declaration of function 'PrintError' [-Wimplicit-function-declaration]
-  147 |   PrintError("\n", &tPhase);
-      |   ^~~~~~~~~~
-../Core/Src/phases.c: In function 'PhaseResume':
-../Core/Src/phases.c:246:3: warning: implicit declaration of function 'DigitsWrite' [-Wimplicit-function-declaration]
-  246 |   DigitsWrite(3, "Er.11");
-      |   ^~~~~~~~~~~
-../Core/Src/phases.c:218:27: warning: unused variable 'tPhase' [-Wunused-variable]
-  218 |  RTCTimerTime_s tTimeout, tPhase;
-      |                           ^~~~~~
-../Core/Src/phases.c:218:17: warning: unused variable 'tTimeout' [-Wunused-variable]
-  218 |  RTCTimerTime_s tTimeout, tPhase;
-      |                 ^~~~~~~~
-../Core/Src/phases.c:217:10: warning: variable 'retVal' set but not used [-Wunused-but-set-variable]
-  217 |  uint8_t retVal = 1;
-      |          ^~~~~~
-../Core/Src/phases.c: In function 'PhaseHeatUp':
-../Core/Src/phases.c:269:2: warning: implicit declaration of function 'SendCommand' [-Wimplicit-function-declaration]
-  269 |  SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
-      |  ^~~~~~~~~~~
-../Core/Src/phases.c: In function 'PhaseVacuum':
-../Core/Src/phases.c:405:17: warning: unused variable 'deltaTime' [-Wunused-variable]
-  405 |  const uint16_t deltaTime = 20;
-      |                 ^~~~~~~~~
-../Core/Src/phases.c:404:14: warning: unused variable 'pressDeltaValue' [-Wunused-variable]
-  404 |  const float pressDeltaValue = 10;
-      |              ^~~~~~~~~~~~~~~
-../Core/Src/phases.c:402:8: warning: unused variable 'pressInit' [-Wunused-variable]
-  402 |  float pressInit = sensors.PressureChamber;
-      |        ^~~~~~~~~
-../Core/Src/phases.c: In function 'PhaseSteril':
-../Core/Src/phases.c:664:12: warning: unused variable 'currTick' [-Wunused-variable]
-  664 |   uint32_t currTick = HAL_GetTick();
-      |            ^~~~~~~~
-../Core/Src/phases.c:549:46: warning: unused variable 'tDelay' [-Wunused-variable]
-  549 |  RTCTimerTime_s tTimeout, tPhase, tInterval, tDelay, tWait;
-      |                                              ^~~~~~
-../Core/Src/phases.c: In function 'PhaseWaterLoad':
-../Core/Src/phases.c:997:31: warning: unused variable 'tPhase' [-Wunused-variable]
-  997 |  RTCTimerTime_s tVac, tWater, tPhase, tTimeout;
-      |                               ^~~~~~
-../Core/Src/phases.c:997:23: warning: unused variable 'tWater' [-Wunused-variable]
-  997 |  RTCTimerTime_s tVac, tWater, tPhase, tTimeout;
-      |                       ^~~~~~
-../Core/Src/phases.c:997:17: warning: unused variable 'tVac' [-Wunused-variable]
-  997 |  RTCTimerTime_s tVac, tWater, tPhase, tTimeout;
-      |                 ^~~~
-../Core/Src/phases.c:996:10: warning: unused variable 'finish' [-Wunused-variable]
-  996 |  uint8_t finish = 0;
-      |          ^~~~~~
-../Core/Src/phases.c: In function 'PhaseVacuumHold':
-../Core/Src/phases.c:1034:8: warning: unused variable 'currPress' [-Wunused-variable]
- 1034 |  float currPress;
-      |        ^~~~~~~~~
-../Core/Src/phases.c:1033:10: warning: unused variable 'cycle' [-Wunused-variable]
- 1033 |  uint8_t cycle = 0;
-      |          ^~~~~
-../Core/Src/phases.c: In function 'PhaseWait':
-../Core/Src/phases.c:1089:8: warning: unused variable 'currPress' [-Wunused-variable]
- 1089 |  float currPress;
-      |        ^~~~~~~~~
-../Core/Src/phases.c:1088:10: warning: unused variable 'cycle' [-Wunused-variable]
- 1088 |  uint8_t cycle = 0;
-      |          ^~~~~
-../Core/Src/phases.c: In function 'PhaseFinish':
-../Core/Src/phases.c:1196:25: warning: statement with no effect [-Wunused-value]
- 1196 |    machineStatus.Status == STATUS_READY;
+../Core/Src/sensors.c: In function 'HAL_GPIO_EXTI_Callback':
+../Core/Src/sensors.c:136:3: warning: implicit declaration of function 'Beep' [-Wimplicit-function-declaration]
+  136 |   Beep(1, 100, 100);
+      |   ^~~~
+../Core/Src/sensors.c:143:4: warning: implicit declaration of function 'ValveDryIntakeSet' [-Wimplicit-function-declaration]
+  143 |    ValveDryIntakeSet(DoorPositionGet());
+      |    ^~~~~~~~~~~~~~~~~
+../Core/Src/sensors.c:144:25: warning: statement with no effect [-Wunused-value]
+  144 |    machineStatus.Status == STATUS_READY;
       |    ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~
-../Core/Src/phases.c: In function 'PhaseTestPID':
-../Core/Src/phases.c:1239:11: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
- 1239 |   sprintf(s,"%f\n", ret);
-      |           ^
-      |           |
-      |           char **
-In file included from ../Core/Inc/phases.h:41,
-                 from ../Core/Src/phases.c:36:
-c:\st\stm32cubeide_1.11.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.200.202301161003\tools\arm-none-eabi\include\stdio.h:244:14: note: expected 'char * restrict' but argument is of type 'char **'
-  244 | int sprintf (char *__restrict, const char *__restrict, ...)
-      |              ^
-../Core/Src/phases.c:1240:40: warning: passing argument 1 of 'strlen' from incompatible pointer type [-Wincompatible-pointer-types]
- 1240 |   HAL_UART_Transmit(&huart1, s, strlen(s), 500);
-      |                                        ^
-      |                                        |
-      |                                        char **
-In file included from ../USB_HOST/Target/usbh_conf.h:31,
-                 from ../Middlewares/ST/STM32_USB_Host_Library/Core/Inc/usbh_core.h:28,
-                 from ../FATFS/Target/ffconf.h:27,
-                 from ../Middlewares/Third_Party/FatFs/src/ff.h:27,
-                 from ../FATFS/App/fatfs.h:26,
-                 from ../Core/Inc/usbkey.h:42,
-                 from ../Core/Src/phases.c:50:
-c:\st\stm32cubeide_1.11.0\stm32cubeide\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.200.202301161003\tools\arm-none-eabi\include\string.h:41:17: note: expected 'const char *' but argument is of type 'char **'
-   41 | size_t  strlen (const char *);
-      |                 ^~~~~~~~~~~~
-../Core/Src/phases.c:1240:30: warning: passing argument 2 of 'HAL_UART_Transmit' from incompatible pointer type [-Wincompatible-pointer-types]
- 1240 |   HAL_UART_Transmit(&huart1, s, strlen(s), 500);
-      |                              ^
-      |                              |
-      |                              char **
-In file included from ../Core/Inc/stm32f1xx_hal_conf.h:338,
-                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:30,
-                 from ../Core/Inc/main.h:30,
-                 from ../Core/Devs/PCF8563.h:41,
-                 from ../Core/Inc/time.h:40,
-                 from ../Core/Inc/phases.h:42,
-                 from ../Core/Src/phases.c:36:
-../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h:725:73: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char **'
-  725 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
-      |                                                                ~~~~~~~~~^~~~~
-../Core/Src/phases.c: In function 'PhaseResume':
-../Core/Src/phases.c:251:1: warning: control reaches end of non-void function [-Wreturn-type]
-  251 | }
-      | ^
-../Core/Src/phases.c: In function 'PhasePreheat':
-../Core/Src/phases.c:257:1: warning: control reaches end of non-void function [-Wreturn-type]
-  257 | }
-      | ^
+../Core/Src/sensors.c:153:44: warning: implicit declaration of function 'PhasePreheat' [-Wimplicit-function-declaration]
+  153 |   if (machineStatus.Status == STATUS_IDLE) PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
+      |                                            ^~~~~~~~~~~~
+../Core/Src/sensors.c: In function 'WaterQualityGet':
+../Core/Src/sensors.c:190:13: warning: implicit declaration of function 'BAT2U_GetTDSValue' [-Wimplicit-function-declaration]
+  190 |    retVal = BAT2U_GetTDSValue(1, 500);
+      |             ^~~~~~~~~~~~~~~~~
+../Core/Src/sensors.c:186:19: warning: unused variable 'dum' [-Wunused-variable]
+  186 |  uint16_t retVal, dum;
+      |                   ^~~
+../Core/Src/sensors.c: In function 'StartSensorsTask':
+../Core/Src/sensors.c:253:49: warning: implicit declaration of function 'ShowReading' [-Wimplicit-function-declaration]
+  253 |   else if (machineStatus.Show == SHOW_READINGS) ShowReading();
+      |                                                 ^~~~~~~~~~~
+../Core/Src/sensors.c: In function 'CurrentGet':
+../Core/Src/sensors.c:367:13: warning: variable 'read' set but not used [-Wunused-but-set-variable]
+  367 |  float val, read[200];
+      |             ^~~~
+../Core/Src/sensors.c:365:17: warning: unused variable 'tTimeout' [-Wunused-variable]
+  365 |  RTCTimerTime_s tTimeout;
+      |                 ^~~~~~~~
+../Core/Src/sensors.c: In function 'ADCToCurrent':
+../Core/Src/sensors.c:550:8: warning: unused variable 'current' [-Wunused-variable]
+  550 |  float current = voltage / FACTOR;
+      |        ^~~~~~~
+../Core/Src/sensors.c:542:8: warning: unused variable 'cutOff' [-Wunused-variable]
+  542 |  float cutOff = FACTOR/cutOffLimit;// convert current cut off to mV
+      |        ^~~~~~
+../Core/Src/sensors.c:488:24: warning: unused variable 'pkPa' [-Wunused-variable]
+  488 |  float readVolt, vRef, pkPa;
+      |                        ^~~~
+At top level:
+../Core/Src/sensors.c:486:7: warning: 'ADCToCurrent' defined but not used [-Wunused-function]
+  486 | float ADCToCurrent(uint16_t adcValue) {
+      |       ^~~~~~~~~~~~
 In file included from ../Core/Src/settings.c:42:
 ../Core/Inc/globals.h:106:1: warning: useless storage class specifier in empty declaration
   106 | };
@@ -157,13 +81,13 @@ arm-none-eabi-size   Board_APP.elf
 arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
 arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
    text	   data	    bss	    dec	    hex	filename
- 154220	   2252	  56228	 212700	  33edc	Board_APP.elf
+ 154204	   2252	  56228	 212684	  33ecc	Board_APP.elf
 arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
 Finished building: default.size.stdout
  
 Finished building: Board_APP.hex
- 
 Finished building: Board_APP.bin
+ 
  
 Finished building: Board_APP.list
  

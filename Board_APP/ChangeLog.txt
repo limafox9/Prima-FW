@@ -4,6 +4,10 @@ PRIMA Board_APP
 
 [2.4.15] - 2023-04-07
   CHANGED
+    - Tolta media mobile per t1 e t2
+
+[2.4.15] - 2023-04-07
+  CHANGED
     - Rimesso controllo errori
     - Rimesso rise ma, target aumentato di 0.3°C
     - Stabilizzazione a 5 sec.
