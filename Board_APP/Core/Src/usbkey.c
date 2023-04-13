@@ -58,6 +58,7 @@ uint8_t state_mount = 0;
 uint8_t state_unmount = 0;
 //
 char currFilename[32];
+char currMonitorFilename[32];
 char USBString[USB_BUFFER_LENGHT];
 uint8_t USBWrite ;
 

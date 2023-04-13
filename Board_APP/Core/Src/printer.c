@@ -292,7 +292,7 @@ void Print(const char* format, ...) {
 void PrintPowerTestHeader() {
 	RTCDateTime_s clockTime;
 	GetDateTime(&clockTime);
-	sprintf(currFilename, "%02d_%02d_%02d-%02d_%02d-PWTEST.txt", clockTime.Year%100, clockTime.Month, clockTime.Day, clockTime.Hour, clockTime.Minute);
+	sprintf(currFilename, "%02d_%02d_%02d-%02d_%02d_%02d-%05d-PWTEST.txt", clockTime.Year%100, clockTime.Month, clockTime.Day, clockTime.Hour, clockTime.Minute, clockTime.Second, settings.CyclesCount);
 
 	Print("\n");
 	Print("******************************************\n");
@@ -313,7 +313,7 @@ void PrintPowerTestHeader() {
 void PrintSettings() {
 	RTCDateTime_s clockTime;
 	GetDateTime(&clockTime);
-	sprintf(currFilename, "%02d_%02d_%02d-%02d_%02d-SETTINGS.txt", clockTime.Year%100, clockTime.Month, clockTime.Day, clockTime.Hour, clockTime.Minute);
+	sprintf(currFilename, "%02d_%02d_%02d-%02d_%02d_%02d-%05d-SETTINGS.txt", clockTime.Year%100, clockTime.Month, clockTime.Day, clockTime.Hour, clockTime.Minute, clockTime.Second, settings.CyclesCount);
 
 	Print("\n");
 	Print("******************************************\n");

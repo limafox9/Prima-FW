@@ -68,14 +68,23 @@ USAGE:
 
 #define ERROR_BEEP_NUMBER			1
 
-#define SAMPLE_RATE					2			// Sample per second (SPS/Hz)
-#define AVERAGE_SAMPLES				5			// N. of samples for the average
+#define SAMPLE_RATE					3			// Sample per second (SPS/Hz)
+#define AVERAGE_SAMPLES				2			// N. of samples for the average
+#define AVERAGE_ADC_SAMPLES			5			// N. of samples for the average
+#define AVERAGE_SAMPLES_PRESS		3			// N. of samples for the average
 #define AVERAGE_SAMPLES_INTERVAL	10			// Interval between samples (milliseconds)
 #define V_REF						3.3			// Power supply
 #define ADC_BITS					12			// ADC resolution (8bit=256, 10bit=1024, 12bit=4096, 16bit=65536
 #define T1_FACTORY_OFFSET			3.0			// Fixed factory offset for T1
 #define T2_FACTORY_OFFSET			0.0			// Fixed factory offset for T2
 #define TDS_THRESHOLD				500
+
+#define SERIAL_SENSOR_DEBUG
+#define SERIAL_SENSOR_DEBUG_INTERVAL	2000
+#define SERIAL_SENSOR_DEBUG_TIME_SEPARATOR '.'
+#define SERIAL_SENSOR_DEBUG_DECIMAL_SEPARATOR ','
+#define SERIAL_SENSOR_DEBUG_DATA_SEPARATOR ';'
+
 //#define PTC_NOMINAL_RESISTANCE	1000	   	// Ω nominal resistance (typical @25°C)
 //#define PTC_NOMINAL_TEMPERATURE	0.0			// temperature of nominal resistance (typical 25°C)
 //#define PTC_BETA				3977		// The beta coefficient or the B value of the thermistor (usually 3000-4000) check the datasheet for the accurate value
@@ -110,10 +119,18 @@ static float ADCToCurrent(uint16_t adcValue);
 
 Sensors_s sensors;
 
+RTCTimerTime_s tSensorsMonitor;
+RTCDateTime_s tLogTime;
+
 float pressAmbientMin;
 float pressAmbientMax;
 
-#define PRESS_BUFFER_SIZE 5 // >= 2
+#define PRESS_BUFFER_SIZE 3 // >= 2
+
+float t1[AVERAGE_SAMPLES];
+float t2[AVERAGE_SAMPLES];
+float p[AVERAGE_SAMPLES];
+
 float pressBuf[PRESS_BUFFER_SIZE];
 float pressAvg;
 
@@ -199,10 +216,19 @@ void StartSensorsTask() {
 	static uint8_t prevCSL = NORMAL;
 	static uint8_t prevCSH = NORMAL;
 	static uint8_t prevTDS = OFF;
+
 	// Fill buffer values
-	for (int i = 0 ; i < (sizeof(pressBuf) / sizeof(float)); i++) {
-		pressBuf[i] = ChamberPressureGet();
+	sensors.T1 = TM7705_GetTemp(1, (float)((float)settings.T1Offset / 10.0) + (float)((double)settings.T1FactoryOffset / 10.0));
+	sensors.T2 = TM7705_GetTemp(2, (float)((float)settings.T2Offset / 10.0) + (float)((double)settings.T1FactoryOffset / 10.0));
+	sensors.PressureChamber = ChamberPressureGet();
+
+	for (int i = 0 ; i < AVERAGE_SAMPLES; i++) {
+		t1[i] = sensors.T1;
+		t2[i] = sensors.T2;
+		p[i] = sensors.PressureChamber;
 	}
+
+	ResetTimer(TIMER_SENSOR_MONITOR);
 
 	sensors.PressureAmbient = (float)100.0;
 
@@ -212,12 +238,15 @@ void StartSensorsTask() {
 		sensors.Solenoid = DoorSolenoidKeyGet();
 		sensors.TemperatureSteamGenerator = SteamGeneratorTempGet();
 		sensors.TemperatureChamberHeater = ChamberHeaterTempGet();
-		sensors.T1 = TM7705_GetTemp(1, (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0));
-		HAL_Delay(50);
-		sensors.T2 = TM7705_GetTemp(2, (float)(settings.T2Offset / 10.0) + (float)(settings.T2FactoryOffset / 10.0));
-		sensors.PressureChamber = BufferAverage(pressBuf, PRESS_BUFFER_SIZE, ChamberPressureGet());
+//		sensors.T1 = BufferAverage(t1, AVERAGE_SAMPLES, TM7705_GetTemp(1, (float)((float)settings.T1Offset / 10.0) + (float)((double)settings.T1FactoryOffset / 10.0)));
+		sensors.T1 = TM7705_GetTemp(1, (float)((float)settings.T1Offset / 10.0) + (float)((double)settings.T1FactoryOffset / 10.0));
+//		HAL_Delay(50);
+//		sensors.T2 = BufferAverage(t2, AVERAGE_SAMPLES, TM7705_GetTemp(2, (float)((float)settings.T2Offset / 10.0) + (float)((double)settings.T2FactoryOffset / 10.0)));
+		sensors.T2 = TM7705_GetTemp(2, (float)((float)settings.T2Offset / 10.0) + (float)((double)settings.T2FactoryOffset / 10.0));
+//		sensors.PressureChamber = BufferAverage(pressBuf, PRESS_BUFFER_SIZE, ChamberPressureGet());
+		sensors.PressureChamber = BufferAverage(p, AVERAGE_SAMPLES, ChamberPressureGet());
 //		sensors.PressureChamber -= (!settings.FunPressureDisplay) ? 0 : 100;
-		sensors.Current = CurrentGet();
+//		sensors.Current = CurrentGet();
 		sensors.WaterDumpLevel = WaterDumpLevelGet();
 		sensors.WaterReservoirLevel = WaterReservoirLevelGet();
 
@@ -305,6 +334,30 @@ void StartSensorsTask() {
 //		} else {
 //			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, DISPLAY_LED_WARNING_LSH, OFF, 0, "");
 //		}
+#ifdef SERIAL_SENSOR_DEBUG
+		GetTimer(TIMER_SENSOR_MONITOR, &tSensorsMonitor);
+		if (tSensorsMonitor.Ticks >= SERIAL_SENSOR_DEBUG_INTERVAL) {
+			GetDateTime(&tLogTime);
+			printf("%02d.%02d.%02d;%0.1f;%0.1f;%0.1f;%0.1f;%0.1f;%0.1f;%04d;%1d;%1d;%1d;%1d;%1d;%1d;%1d\n",
+					tLogTime.Hour, tLogTime.Minute, tLogTime.Second,
+					sensors.T1,
+					sensors.PressureChamber,
+					sensors.T2,
+					sensors.TemperatureChamberHeater,
+					sensors.TemperatureSteamGenerator,
+					sensors.PressureAmbient,
+					sensors.WaterTDS,
+					sensors.Door,
+					sensors.Solenoid,
+					PumpVacuumGet(),
+					ValveVacuumGet(),
+					ValveDryIntakeGet(),
+					ValveDrainSteamGet(),
+					ValveWaterSteamGet()
+					);
+			ResetTimer(TIMER_SENSOR_MONITOR);
+		}
+#endif
 		osSemaphoreRelease(semaphoreSensorsHandle);
 		osDelay(1000 / SAMPLE_RATE);
 	}
@@ -380,15 +433,15 @@ uint16_t CurrentGet() {
 
 float BufferAverage(float* buffer, uint8_t size, float newValue) {
 
-	float retAvg = 0;
+	float retAvg = 0.0;
 
 	// Shift values right
-	for (int i = size - 1; i > 0; i--) {
-		buffer[i] = buffer[i - 1];
+	for (int i = 0; i < size - 1; i++) {
+		buffer[i] = buffer[i + 1];
 	}
 
 	// Leftmost add new read
-	buffer[0] = newValue;
+	buffer[size - 1] = newValue;
 
 	// Calc average
 	for (int i = 0; i < size; i++) {
@@ -397,7 +450,6 @@ float BufferAverage(float* buffer, uint8_t size, float newValue) {
 	retAvg = retAvg / size;
 
 	return retAvg;
-
 }
 
 uint16_t ReadADC(uint32_t channel) {
@@ -413,7 +465,7 @@ uint16_t ReadADC(uint32_t channel) {
 		Error_Handler();
 	}
 
-	for (int i = 0; i < AVERAGE_SAMPLES; i++) {
+	for (int i = 0; i < AVERAGE_ADC_SAMPLES; i++) {
 		HAL_ADC_Start(&hadc1);
 		HAL_ADC_PollForConversion(&hadc1, 5);
 		adcRead = HAL_ADC_GetValue(&hadc1);
@@ -422,9 +474,9 @@ uint16_t ReadADC(uint32_t channel) {
 		osDelay(1);
 	}
 
-	if (averageTotal < 1000) averageTotal = 5000;
+//	if (averageTotal < 1000) averageTotal = 5000;
 
-	return averageTotal / AVERAGE_SAMPLES;
+	return averageTotal / AVERAGE_ADC_SAMPLES;
 
 }
 

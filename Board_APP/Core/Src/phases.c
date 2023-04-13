@@ -72,9 +72,18 @@ uint8_t PhaseBegin(uint8_t timeout) {
 	settings.UserDryTime = GetDryTime(settings.UserDryClass, settings.UserSterilTemp, settings.UserVacuumNumber);
 
 
-	RTCDateTime_s ct;
-	PCF8563_GetDateTime(&ct);
-	sprintf(currFilename, "%02d_%02d_%02d-%02d_%02d-%05d.txt", ct.Year%100, ct.Month, ct.Day, ct.Hour, ct.Minute, settings.CyclesCount);
+	if (currProgram != PROGRAM_RESUME_DRY) {
+		settings.CyclesCount++;
+		EEPROM_Write(EPA_CYCLE_COUNTER, &settings.CyclesCount, 2);
+		machine.ReadOnlyCyclesCount++;
+		EEPROM_Write(EPA_CYCLE_COUNTER_PERMANENT, &machine.ReadOnlyCyclesCount, 2);
+	}
+
+
+//	RTCDateTime_s ct;
+//	PCF8563_GetDateTime(&ct);
+//	sprintf(currFilename, "%02d_%02d_%02d-%02d_%02d-%05d.txt", ct.Year%100, ct.Month, ct.Day, ct.Hour, ct.Minute, settings.CyclesCount);
+////	sprintf(currMonitorFilename, "%02d_%02d_%02d-%02d_%02d-%05d_LOG.txt", ct.Year%100, ct.Month, ct.Day, ct.Hour, ct.Minute, settings.CyclesCount);
 
 	sensors.WaterTDS = WaterQualityGet();
 
@@ -122,6 +131,12 @@ uint8_t PhaseBegin(uint8_t timeout) {
 		Beep(3, 100, 100);
 		retVal = 0;
 	}
+
+
+	RTCDateTime_s ct;
+	PCF8563_GetDateTime(&ct);
+	sprintf(currFilename, "%02d_%02d_%02d-%02d_%02d_%02d-%05d.txt", ct.Year%100, ct.Month, ct.Day, ct.Hour, ct.Minute, ct.Second, settings.CyclesCount);
+
 	if (retVal == 0) {
 		PrintError("\n", &tPhase);
 		return 0;
@@ -172,13 +187,6 @@ uint8_t PhaseBegin(uint8_t timeout) {
 			break;
 		}
 		osDelay(200);
-	}
-
-	if (currProgram != PROGRAM_RESUME_DRY) {
-		settings.CyclesCount++;
-		EEPROM_Write(EPA_CYCLE_COUNTER, &settings.CyclesCount, 2);
-		machine.ReadOnlyCyclesCount++;
-		EEPROM_Write(EPA_CYCLE_COUNTER_PERMANENT, &machine.ReadOnlyCyclesCount, 2);
 	}
 
 	return retVal;
@@ -670,7 +678,7 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 				PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
 				retVal = 0;
 				break;
-//			} else if (fabs(sensors.T1 - sensors.T2) > 0.2) {
+//			} else if (fabs(sensors.T1 - sensors.T2) > 1.0) {
 //				lastError = ERROR_T1T2_MISMATCH;
 //				Print("STER ERROR *** T1 T2 MISMATCH\n");
 //				GetTimer(TIMER_PHASE, &tPhase);
@@ -1063,6 +1071,8 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 	HeaterChamberTempSet(60);
 	HeaterSteamGeneratorTempSet(90);
 
+	ResetTimer(TIMER_FAN);
+
 	if (success) {
 		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "PASS");
 
@@ -1090,7 +1100,6 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 		machineStatus.Status = STATUS_PASS;
 
 	//		FanSet(OFF);
-		ResetTimer(TIMER_FAN);
 
 		osDelay(1000);
 		if (DoorSolenoidSet(UNLOCK) != UNLOCK) {
@@ -1132,30 +1141,31 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 extern UART_HandleTypeDef huart1;
 
 void PhaseTestPID(SterilParam_s* param) {
-	static const float pPID_KP = 0.5;
-	static const float pPID_KI = 0.8;
-	static const float pPID_KD = 0.2;
-	static const float pPID_TAU = 1.0;
-	static const float pPID_LIM_MIN = 0.5;
-	static const float pPID_LIM_MAX = 2.0;
-	static const float pPID_LIM_MIN_INT = -1.5;
-	static const float pPID_LIM_MAX_INT = 1.5;
-	static const float pSAMPLE_TIME_S = 1.0;
+	float pPID_KP, pPID_KI, pPID_KD, pPID_TAU, pPID_LIM_MIN, pPID_LIM_MAX, pPID_LIM_MIN_INT, pPID_LIM_MAX_INT, pSAMPLE_TIME_S;
+
+	pPID_KP = 100.0;
+	pPID_KI = 10.0;
+	pPID_KD = 100.0;
+	pPID_TAU = 50.0;
+	pPID_LIM_MIN = 0.0;
+	pPID_LIM_MAX = 120.0;
+	pPID_LIM_MIN_INT = -5.0;
+	pPID_LIM_MAX_INT = 5.0;
+	pSAMPLE_TIME_S = 1.0;
 
 	PIDController pidSteam = {pPID_KP, pPID_KI, pPID_KD, pPID_TAU, pPID_LIM_MIN, pPID_LIM_MAX, pPID_LIM_MIN_INT, pPID_LIM_MAX_INT, pSAMPLE_TIME_S};
 	PIDController_Init(&pidSteam);
 
 	while (1) {
 		float ret = PIDController_Update(&pidSteam, param->chamberTemp, sensors.T1);
-//		if ((Sensors.T1 < param->chamberTemp) && (Sensors.TemperatureSteamGenerator >= param->steamTempMin)) {
-//			SteamPulse(50);
-//			osDelay(ret);
-//		}
+		if ((sensors.T1 < param->chamberTemp) && (sensors.TemperatureSteamGenerator >= param->steamTempMin)) {
+			SteamPulse(50);
+			osDelay(ret);
+		}
 		char* s[20];
-		sprintf(s,"%f\n", (1/ret)*4000);
+		sprintf(s,"%f\n", ret);
 		HAL_UART_Transmit(&huart1, s, strlen(s), 500);
 
-		osDelay(300);
+		osDelay(1000);
 	}
 }
-

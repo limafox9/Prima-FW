@@ -2,6 +2,25 @@
 PRIMA Board_APP
 -------------------------------------------------------------------------------
 
+[2.5.4] - 2023-04-13
+  CHANGED
+    - corretta numerazione errata scontrino dopo errore
+    - modificato nomefile usb (aggiunti secondi)
+
+[2.5.3] - 2023-04-13
+  CHANGED
+    - velocizzata lettura sensori
+    - media pressione da 5 a 3 sample
+    - conversione algoritmi sensori
+    - (ciclo test sembra ok)
+
+[2.5.2] - 2023-04-13
+  CHANGED
+    - verifica errore t1-t2 mismatch in ster riattivato a 1.0°C
+    - corretto reset timer fan
+    - errore underpressure per cicli 121 portato a 200kPa (DV_STERIL_PRESS_MIN_121)
+    - temp steriil per user 0/0 portato a 134.5°C (aggiunto parametro DV_STERIL_TEMP_134_USER_0)
+
 [2.5.1] - 2023-04-11
   CHANGED
     - Rebuild della versione 0.8.67 ricompilata per bootloader (offset vector

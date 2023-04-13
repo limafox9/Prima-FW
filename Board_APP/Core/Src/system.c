@@ -67,6 +67,8 @@ USAGE:
 #include "usbh_conf.h"
 #include "usb_host.h"
 
+//#define PID_TEST
+
 //#define USE_RTOS_SYSTICK
 
 //#define RTD_A 3.9083e-3
@@ -355,6 +357,13 @@ void SysInit() {
 //		SdcardWriteAction("test99.txt" , "Hello \r\n");
 
 __NOP();
+
+#ifdef PID_TEST
+
+ProgramTestSteril();
+
+#endif
+
 //		ProgressLed(LED_PROGRESS_HEATING);
 //		osDelay(500);
 //		ProgressLed(LED_PROGRESS_1STVACUUM);
