@@ -52,6 +52,8 @@ USAGE:
 
 #define STERIL_STABILIZATION_PERIOD 30
 
+#define T1_T2_STERIL_MAX_TEMP_DIFF 1.0
+
 uint8_t chamberHeaterTempSet;
 uint8_t steamGeneratorTempSet;
 
@@ -339,7 +341,7 @@ uint8_t PhaseRelease(uint8_t nRelease, uint16_t timeout) {
 	HAL_Delay(100);
 
 	while (1) {
-		osSemaphoreWait(semaphoreSensorsHandle, 100);
+		osSemaphoreWait(semaphoreSensorsHandle, SENSOR_SEMAPHORE_TIMEOUT);
 //		if ((sensors.PressureChamber >= sensors.PressureAmbient) && (sensors.PressureChamber <= (pressAmbientMax + 20))) {
 //			ValveDryIntakeSet(ON);
 //		}
@@ -678,13 +680,13 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 				PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
 				retVal = 0;
 				break;
-//			} else if (fabs(sensors.T1 - sensors.T2) > 1.0) {
-//				lastError = ERROR_T1T2_MISMATCH;
-//				Print("STER ERROR *** T1 T2 MISMATCH\n");
-//				GetTimer(TIMER_PHASE, &tPhase);
-//				PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
-//				retVal = 0;
-//				break;
+			} else if (fabs(sensors.T1 - sensors.T2) > T1_T2_STERIL_MAX_TEMP_DIFF) {
+				lastError = ERROR_T1T2_MISMATCH;
+				Print("STER ERROR *** T1 T2 MISMATCH\n");
+				GetTimer(TIMER_PHASE, &tPhase);
+				PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
+				retVal = 0;
+				break;
 			}
 
 			T1Min = (sensors.T1 < T1Min) ? sensors.T1 : T1Min;

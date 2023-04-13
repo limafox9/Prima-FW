@@ -130,7 +130,7 @@ void PWMPower_Stop() {
 void StartChPowerTask() {
 
 	for (;;) {
-		osSemaphoreWait(semaphoreSensorsHandle, 100);
+		osSemaphoreWait(semaphoreSensorsHandle, SENSOR_SEMAPHORE_TIMEOUT);
 		float ret = PIDController_Update(&pidHeaterChamber, (float)heaterChamberTempSet, sensors.TemperatureChamberHeater);
 		osSemaphoreRelease(semaphoreSensorsHandle);
 		// duty cycle %
@@ -147,7 +147,7 @@ void StartChPowerTask() {
 
 void StartSteamPowerTask() {
 	for (;;) {
-		osSemaphoreWait(semaphoreSensorsHandle, 100);
+		osSemaphoreWait(semaphoreSensorsHandle, SENSOR_SEMAPHORE_TIMEOUT);
 		float ret = PIDController_Update(&pidHeaterSteamGenerator, (float)heaterSteamGeneratorTempSet, sensors.TemperatureSteamGenerator);
 		osSemaphoreRelease(semaphoreSensorsHandle);
 		// duty cycle %
@@ -199,7 +199,7 @@ void HeaterSteamGeneratorTempSet(float tempC) {
 
 void PWMHeaterSteamGenerator() {
 
-	osSemaphoreWait(semaphoreSensorsHandle, 100);
+	osSemaphoreWait(semaphoreSensorsHandle, SENSOR_SEMAPHORE_TIMEOUT);
 	float ret = PIDController_Update(&pidHeaterSteamGenerator, (float)heaterSteamGeneratorTempSet, sensors.TemperatureSteamGenerator);
 	osSemaphoreRelease(semaphoreSensorsHandle);
 	// duty cycle %
@@ -281,7 +281,7 @@ void FanSet(e_PowerState status) {
 
 e_LockState DoorSolenoidSet(e_LockState status) {
 	e_LockState check;
-	osSemaphoreWait(semaphoreSensorsHandle, 100);
+	osSemaphoreWait(semaphoreSensorsHandle, SENSOR_SEMAPHORE_TIMEOUT);
 	// All off for safe polarity set
 	HAL_GPIO_WritePin(SOLENOID_V1_GPIO_Port, SOLENOID_V1_Pin, OFF);
 	HAL_GPIO_WritePin(SOLENOID_V2_GPIO_Port, SOLENOID_V2_Pin, OFF);

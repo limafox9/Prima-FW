@@ -7,8 +7,8 @@ programs.c:470:9:ProgramPrion	15
 programs.c:576:9:ProgramGentle	15
 programs.c:679:9:ProgramUser	37
 programs.c:827:9:ProgramHelixTest	16
-programs.c:934:9:ProgramVacuumTest	8
-programs.c:1015:9:PowerTest	1
-programs.c:1156:9:ProgramWash	2
-programs.c:1192:9:ProgramWaterLoad	2
-programs.c:1232:9:ProgramTestSteril	13
+programs.c:935:9:ProgramVacuumTest	8
+programs.c:1016:9:PowerTest	1
+programs.c:1157:9:ProgramWash	2
+programs.c:1193:9:ProgramWaterLoad	2
+programs.c:1233:9:ProgramTestSteril	13

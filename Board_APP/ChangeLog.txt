@@ -2,6 +2,13 @@
 PRIMA Board_APP
 -------------------------------------------------------------------------------
 
+[2.5.5] - 2023-04-13
+  FIXED
+    - stampa DRY e creazione file vuoto in ciclo asciugatura di emergenza
+    - parametrizzato timeout semaforo sensori (SENSOR_SEMAPHORE_TIMEOUT)
+    - ripristinato controllo T1-T2 mismatch (errore 9) a 1.0°C
+    - asciugatura helix test fissata a 2 min.
+
 [2.5.4] - 2023-04-13
   CHANGED
     - corretta numerazione errata scontrino dopo errore
@@ -18,8 +25,10 @@ PRIMA Board_APP
   CHANGED
     - verifica errore t1-t2 mismatch in ster riattivato a 1.0°C
     - corretto reset timer fan
-    - errore underpressure per cicli 121 portato a 200kPa (DV_STERIL_PRESS_MIN_121)
-    - temp steriil per user 0/0 portato a 134.5°C (aggiunto parametro DV_STERIL_TEMP_134_USER_0)
+    - errore underpressure per cicli 121 portato a 200kPa 
+      (DV_STERIL_PRESS_MIN_121)
+    - temp steriil per user 0/0 portato a 134.5°C (aggiunto parametro
+      DV_STERIL_TEMP_134_USER_0)
 
 [2.5.1] - 2023-04-11
   CHANGED

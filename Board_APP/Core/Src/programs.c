@@ -915,7 +915,8 @@ uint8_t ProgramHelixTest() {
 
 	// Dry
 	if (success) {
-		success = PhaseDry(20.0, 50.0, dryTime, dryTime * 1.5);
+//		success = PhaseDry(20.0, 50.0, dryTime, dryTime * 1.5);
+		success = PhaseDry(20.0, 50.0, 120, 180);
 	}
 
 	// End
@@ -1017,7 +1018,7 @@ uint8_t PowerTest() {
 	char val[4];
 	uint8_t tCount = 0;
 
-	osSemaphoreWait(semaphoreSensorsHandle, 100);
+	osSemaphoreWait(semaphoreSensorsHandle, SENSOR_SEMAPHORE_TIMEOUT);
 
 	machineStatus.Show = SHOW_FUNCTIONS;
 	PWMPower_Stop();

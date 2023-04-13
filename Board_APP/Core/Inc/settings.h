@@ -39,6 +39,8 @@ USAGE:
 
 #include <stdio.h>
 
+#define SENSOR_SEMAPHORE_TIMEOUT	1000
+
 #define DEFAULT_LOG_ACTIVE				0		// 1 = true, 0 = false
 #define DEFAULT_LOG_ACTIVE_LEVEL 		0		// Log level 0 = all, 99 = none
 
