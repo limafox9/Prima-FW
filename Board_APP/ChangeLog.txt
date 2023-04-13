@@ -2,6 +2,25 @@
 PRIMA Board_APP
 -------------------------------------------------------------------------------
 
+[2.6.1] - 2023-04-13
+  CHANGED
+    - aumentata temp di steril per l'helix a 135.5 (apparente bassa pressione)
+
+[2.6.1] - 2023-04-13
+  CHANGED
+    - ripristinato controllo T1-T2 mismatch (errore 9) a 1.0°C
+    - errore underpressure per cicli 121 portato a 200kPa 
+      (DV_STERIL_PRESS_MIN_121)
+    - temp steriil per user 0/0 portato a 134.5°C (aggiunto parametro
+      DV_STERIL_TEMP_134_USER_0)
+    - periodo di stabilizzazione rise-steril a 50 sec. per helix test.
+      (aggiunto .stabilizationPeriod a SterilParam_s e
+      STERIL_STABILIZATION_PERIOD_HELIX)
+  FIXED
+    - corretto reset timer fan
+    - corretta numerazione errata scontrino dopo errore
+    - stampa DRY e creazione file vuoto in ciclo asciugatura di emergenza
+
 [2.5.1] - 2023-04-11
   CHANGED
     - Rebuild della versione 0.8.67 ricompilata per bootloader (offset vector

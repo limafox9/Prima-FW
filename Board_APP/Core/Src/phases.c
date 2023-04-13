@@ -50,7 +50,7 @@ USAGE:
 #include "usbkey.h"
 #include "programs.h"
 
-#define STERIL_STABILIZATION_PERIOD 30
+#define T1_T2_STERIL_MAX_TEMP_DIFF 1.0
 
 uint8_t chamberHeaterTempSet;
 uint8_t steamGeneratorTempSet;
@@ -70,6 +70,14 @@ uint8_t PhaseBegin(uint8_t timeout) {
 	sprintf(currPhase, "Init");
 
 	settings.UserDryTime = GetDryTime(settings.UserDryClass, settings.UserSterilTemp, settings.UserVacuumNumber);
+
+
+	if (currProgram != PROGRAM_RESUME_DRY) {
+		settings.CyclesCount++;
+		EEPROM_Write(EPA_CYCLE_COUNTER, &settings.CyclesCount, 2);
+		machine.ReadOnlyCyclesCount++;
+		EEPROM_Write(EPA_CYCLE_COUNTER_PERMANENT, &machine.ReadOnlyCyclesCount, 2);
+	}
 
 
 	RTCDateTime_s ct;
@@ -172,13 +180,6 @@ uint8_t PhaseBegin(uint8_t timeout) {
 			break;
 		}
 		osDelay(200);
-	}
-
-	if (currProgram != PROGRAM_RESUME_DRY) {
-		settings.CyclesCount++;
-		EEPROM_Write(EPA_CYCLE_COUNTER, &settings.CyclesCount, 2);
-		machine.ReadOnlyCyclesCount++;
-		EEPROM_Write(EPA_CYCLE_COUNTER_PERMANENT, &machine.ReadOnlyCyclesCount, 2);
 	}
 
 	return retVal;
@@ -560,7 +561,7 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 //			if ((sensors.PressureChamber > param->pressMin) && (sensors.PressureChamber < param->pressMax)){
 			if ((sensors.PressureChamber > param->pressMin) && (sensors.PressureChamber < param->pressMax)){
 				GetTimer(TIMER_3, &tWait);
-				if (tWait.Seconds > STERIL_STABILIZATION_PERIOD) {
+				if (tWait.Seconds > param->stabilizationPeriod) {
 					retVal = 1;
 					break;
 				}
@@ -670,13 +671,13 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 				PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
 				retVal = 0;
 				break;
-//			} else if (fabs(sensors.T1 - sensors.T2) > 0.2) {
-//				lastError = ERROR_T1T2_MISMATCH;
-//				Print("STER ERROR *** T1 T2 MISMATCH\n");
-//				GetTimer(TIMER_PHASE, &tPhase);
-//				PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
-//				retVal = 0;
-//				break;
+			} else if (fabs(sensors.T1 - sensors.T2) > T1_T2_STERIL_MAX_TEMP_DIFF) {
+				lastError = ERROR_T1T2_MISMATCH;
+				Print("STER ERROR *** T1 T2 MISMATCH\n");
+				GetTimer(TIMER_PHASE, &tPhase);
+				PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
+				retVal = 0;
+				break;
 			}
 
 			T1Min = (sensors.T1 < T1Min) ? sensors.T1 : T1Min;
@@ -1062,6 +1063,9 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 
 	HeaterChamberTempSet(60);
 	HeaterSteamGeneratorTempSet(90);
+
+	ResetTimer(TIMER_FAN);
+
 
 	if (success) {
 		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "PASS");

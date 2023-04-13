@@ -58,10 +58,11 @@ USAGE:
 #define DV_WATER_LOAD_TIMEOUT	300
 
 #define DV_STERIL_TEMP_134		135.4
+#define DV_STERIL_TEMP_134_USER_0 134.5
 #define DV_STERIL_TEMP_121		123.2
 #define DV_STERIL_PRESS_MIN_134	308.0
 #define DV_STERIL_PRESS_MAX_134	350.0
-#define DV_STERIL_PRESS_MIN_121	208.0
+#define DV_STERIL_PRESS_MIN_121	200.0
 #define DV_STERIL_PRESS_MAX_121	250.0
 
 #define VAC_DVALUE	10
@@ -71,6 +72,10 @@ USAGE:
 
 #define POWER_TEST_ON_TIME 3000
 #define POWER_TEST_PAUSE_TIME 1000
+
+
+#define STERIL_STABILIZATION_PERIOD 30
+#define STERIL_STABILIZATION_PERIOD_HELIX 50
 
 extern osThreadId sensorsTaskHandle;
 
@@ -330,6 +335,7 @@ uint8_t ProgramUnwrapped() {
 				.pressMax = DV_STERIL_PRESS_MAX_134,
 				.steamTemp = DV_STEAM_GEN_TEMP,
 				.steamTempMin = 170.0,
+				.stabilizationPeriod = STERIL_STABILIZATION_PERIOD,
 				.printInterval = 30,
 				.timeout = 800
 		};
@@ -438,6 +444,7 @@ uint8_t ProgramWrapped() {
 				.pressMax = DV_STERIL_PRESS_MAX_134,
 				.steamTemp = DV_STEAM_GEN_TEMP,
 				.steamTempMin = 170.0,
+				.stabilizationPeriod = STERIL_STABILIZATION_PERIOD,
 				.printInterval = 30,
 				.timeout = 800
 		};
@@ -544,6 +551,7 @@ uint8_t ProgramPrion() {
 				.pressMax = DV_STERIL_PRESS_MAX_134,
 				.steamTemp = DV_STEAM_GEN_TEMP,
 				.steamTempMin = 170.0,
+				.stabilizationPeriod = STERIL_STABILIZATION_PERIOD,
 				.printInterval = 120,
 				.timeout = 1500
 		};
@@ -647,6 +655,7 @@ uint8_t ProgramGentle() {
 				.pressMax = DV_STERIL_PRESS_MAX_121,
 				.steamTemp = DV_STEAM_GEN_TEMP,
 				.steamTempMin = 170.0,
+				.stabilizationPeriod = STERIL_STABILIZATION_PERIOD,
 				.printInterval = 120,
 				.timeout = 1800
 		};
@@ -780,6 +789,7 @@ uint8_t ProgramUser() {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
 		SterilParam_s sterilParam = {
 				.chamberTemp = (settings.UserSterilTemp == STERILTEMP_134) ? DV_STERIL_TEMP_134 : DV_STERIL_TEMP_121,
+				.chamberTemp = (settings.UserVacuumNumber == 0 && settings.UserSterilTemp == STERILTEMP_134) ? DV_STERIL_TEMP_134_USER_0 : DV_STERIL_TEMP_134,
 				.chamberTempMin = (settings.UserSterilTemp == STERILTEMP_134) ? 134.0 : 121.0,
 				.chamberTempMax = (settings.UserSterilTemp == STERILTEMP_134) ? 136.0 : 125.0,
 				.sterilTime = sterilTime,
@@ -788,6 +798,7 @@ uint8_t ProgramUser() {
 				.pressMax = (settings.UserSterilTemp == STERILTEMP_134) ? DV_STERIL_PRESS_MAX_134 : DV_STERIL_PRESS_MAX_121,
 				.steamTemp = DV_STEAM_GEN_TEMP,
 				.steamTempMin = 170.0,
+				.stabilizationPeriod = STERIL_STABILIZATION_PERIOD,
 				.printInterval = 30,
 				.timeout = settings.UserSterilTime * 60 * 1.5,
 		};
@@ -892,7 +903,7 @@ uint8_t ProgramHelixTest() {
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
 		SterilParam_s sterilParam = {
-				.chamberTemp = DV_STERIL_TEMP_134,
+				.chamberTemp = 135.5,
 				.chamberTempMin = 134.0,
 				.chamberTempMax = 136.0,
 				.sterilTime = sterilTime, // 210
@@ -901,6 +912,7 @@ uint8_t ProgramHelixTest() {
 				.pressMax = 350.0,
 				.steamTemp = DV_STEAM_GEN_TEMP,
 				.steamTempMin = 170.0,
+				.stabilizationPeriod = STERIL_STABILIZATION_PERIOD_HELIX,
 				.printInterval = 30,
 				.timeout = 600
 		};

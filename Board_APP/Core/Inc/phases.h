@@ -52,6 +52,7 @@ typedef struct SterilParam_s {
 	float steamTemp;
 	float steamTempMin;
 	uint16_t printInterval;
+	uint16_t stabilizationPeriod;
 	uint16_t timeout;
 } SterilParam_s;
 
