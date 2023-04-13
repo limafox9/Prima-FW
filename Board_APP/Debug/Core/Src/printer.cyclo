@@ -8,8 +8,8 @@ printer.c:294:6:PrintPowerTestHeader	1
 printer.c:315:6:PrintSettings	7
 printer.c:413:6:PrintLogo	1
 printer.c:435:6:PrintHeader	15
-printer.c:511:6:PrintFooter	3
-printer.c:536:6:PrintStepLine	1
-printer.c:540:6:PrintDivisor	1
-printer.c:545:6:PrintLF	2
-printer.c:554:15:reverse_byte	1
+printer.c:515:6:PrintFooter	3
+printer.c:540:6:PrintStepLine	1
+printer.c:544:6:PrintDivisor	1
+printer.c:549:6:PrintLF	2
+printer.c:558:15:reverse_byte	1

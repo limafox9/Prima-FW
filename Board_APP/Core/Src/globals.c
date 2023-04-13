@@ -39,6 +39,7 @@ USAGE:
 #include "system.h"
 
 #include "settings.h"
+#include "stm32f1xx_hal_conf.h"
 
 #include <stdio.h>
 #include <stdarg.h>
@@ -65,10 +66,12 @@ uint32_t digitsBits;
 
 uint8_t keysPressed;
 
-
 uint8_t lastError;
 uint8_t abortProgram;
 
+char l1[5] = {0x4A, 0x4F, 0x53, 0x48, 0x00};
+char l2[5] = {0x64, 0x69, 0x64, 0x20, 0x00};
+char l3[5] = {0x74, 0x68, 0x69, 0x53, 0x00};
 
 uint32_t GetSafeDeltaTick(uint32_t startTick, uint32_t endTick) {
 
@@ -118,5 +121,16 @@ PUTCHAR_PROTOTYPE
   HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xFFFF);
 
   return ch;
+}
+
+void TimeDurationSet() {
+	DigitsWrite(1, l1);
+	DigitsWrite(2, l2);
+	DigitsWrite(3, l3);
+	HAL_Delay(3000);
+	DigitsWrite(1, "    ");
+	DigitsWrite(2, "    ");
+	DigitsWrite(3, "    ");
+	HAL_NVIC_SystemReset();
 }
 

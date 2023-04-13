@@ -2,9 +2,11 @@
 PRIMA Board_APP
 -------------------------------------------------------------------------------
 
-[2.6.1] - 2023-04-13
+[2.6.2] - 2023-04-13
   CHANGED
     - aumentata temp di steril per l'helix a 135.5 (apparente bassa pressione)
+  ADDED
+    - Aggiunta scritta GALBIATI REPORT su header stampa
 
 [2.6.1] - 2023-04-13
   CHANGED

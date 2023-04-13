@@ -434,6 +434,10 @@ void PrintLogo() {
 
 void PrintHeader (const char* title, float t1, uint16_t dryTime, uint16_t sterilTime, RTCDateTime_s* time) {
 
+	PrintSize(2, 2);
+	Print("GALBIATI REPORT\n");
+	PrintSize(1, 1);
+
 	Print("\n");
 	Print("******************************************\n");
 //	Print("123456789012345678901234567890123456789012\n");

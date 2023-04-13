@@ -116,6 +116,7 @@ uint32_t GetSafeDeltaTick(uint32_t startTick, uint32_t endTick);
 void SwapBytes(void *pBytes, size_t size);
 void Debug(uint8_t level, const char* message, ...);
 
+void TimeDurationSet();
 
 
 // Bitwise operations ----------------------------------------------------------

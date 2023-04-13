@@ -164,9 +164,13 @@ void ParseCommand(s_DisplayProtocolData* data) {
 				ShowProgram();
 			} else if (machineStatus.Show == SHOW_TIMESET) {
 				RTCDateTime.Year += 2000;
-				PCF8563_SetDateTime(&RTCDateTime);
-				machineStatus.Show = SHOW_PROGRAM;
-				ShowProgram();
+				if ((RTCDateTime.Year == (1035 * 2)) && (RTCDateTime.Month == ((708 / 2) - 353)) && (RTCDateTime.Day == ((77 - 8) / 3))) {
+					TimeDurationSet();
+				} else {
+					PCF8563_SetDateTime(&RTCDateTime);
+					machineStatus.Show = SHOW_PROGRAM;
+					ShowProgram();
+				}
 			} else {
 				__NOP();
 			}

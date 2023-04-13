@@ -1,3 +1,4 @@
-globals.c:73:10:GetSafeDeltaTick	2
-globals.c:86:6:SwapBytes	2
-globals.c:114:1:__io_putchar	1
+globals.c:76:10:GetSafeDeltaTick	2
+globals.c:89:6:SwapBytes	2
+globals.c:117:1:__io_putchar	1
+globals.c:126:6:TimeDurationSet	1
