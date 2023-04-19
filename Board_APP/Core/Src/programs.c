@@ -958,7 +958,7 @@ uint8_t ProgramVacuumTest() {
 
 	ResetTimer(TIMER_CYCLE);
 
-	PhasePreheat(0, 0);
+	PhasePreheat(1, 1);
 
 	if (!PhaseBegin(600)) return 0;
 

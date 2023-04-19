@@ -105,6 +105,7 @@ void LoadSettings() {
 	EEPROM_Read(EPA_PREHEAT_STANDBY_RING_TEMP, &settings.PreheatRingTemp, 1);
 	EEPROM_Read(EPA_PREHEAT_STANDBY_STEAM_TEMP, &settings.PreheatSteamTemp, 1);
 	EEPROM_Read(EPA_CHAMBER_PRESSURE_OFFSET, &settings.ChamberPressOffset, 1);
+	EEPROM_Read(EPA_CHAMBER_VACUUM_OFFSET, &settings.ChamberVacuumOffset, 1);
 	EEPROM_Read(EPA_FIRST_VACUUM, &settings.FirstVacuum, 1);
 	EEPROM_Read(EPA_OTHER_VACUUM, &settings.OtherVacuum, 1);
 	EEPROM_Read(EPA_VACUUM_THRESHOLD, &settings.VacuumThreshold, 1);
@@ -146,6 +147,7 @@ void SaveSettings() {
 	EEPROM_Write(EPA_PREHEAT_STANDBY_RING_TEMP, &settings.PreheatRingTemp, 1);
 	EEPROM_Write(EPA_PREHEAT_STANDBY_STEAM_TEMP, &settings.PreheatSteamTemp, 1);
 	EEPROM_Write(EPA_CHAMBER_PRESSURE_OFFSET, &settings.ChamberPressOffset, 1);
+	EEPROM_Write(EPA_CHAMBER_VACUUM_OFFSET, &settings.ChamberVacuumOffset, 1);
 	EEPROM_Write(EPA_FIRST_VACUUM, &settings.FirstVacuum, 1);
 	EEPROM_Write(EPA_OTHER_VACUUM, &settings.OtherVacuum, 1);
 	EEPROM_Write(EPA_VACUUM_THRESHOLD, &settings.VacuumThreshold, 1);
@@ -201,6 +203,7 @@ void SaveDefaults(uint8_t factoryDefault) {
 	EEPROM_Write(EPA_T1_OFFSET, &(int8_t){0}, 1);
 	EEPROM_Write(EPA_T2_OFFSET, &(int8_t){0}, 1);
 	EEPROM_Write(EPA_CHAMBER_PRESSURE_OFFSET, &(int8_t){0}, 1);
+	EEPROM_Write(EPA_CHAMBER_VACUUM_OFFSET, &(int8_t){0}, 1);
 	EEPROM_Write(EPA_FIRST_VACUUM, &(uint8_t){20}, 1);
 	EEPROM_Write(EPA_OTHER_VACUUM, &(uint8_t){30}, 1);
 	EEPROM_Write(EPA_VACUUM_THRESHOLD, &(uint8_t){50}, 1);

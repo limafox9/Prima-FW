@@ -13,5 +13,5 @@ sensors.c:381:7:BufferAverage	3
 sensors.c:403:10:ReadADC	4
 sensors.c:431:7:ADCToTemp	1
 sensors.c:449:7:ADCToPress	1
-sensors.c:472:7:ADCToCurrent	1
-sensors.c:541:7:GetNormalizedPressure	2
+sensors.c:484:7:ADCToCurrent	1
+sensors.c:553:7:GetNormalizedPressure	2

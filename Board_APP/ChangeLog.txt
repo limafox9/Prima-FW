@@ -2,6 +2,14 @@
 PRIMA Board_APP
 -------------------------------------------------------------------------------
 
+[2.6.6] - 2023-04-19
+  ADDED
+    - Calibrazione a 2 punti per il sensore di pressione. Aggiunto parametro
+      EPA_CHAMBER_VACUUM_OFFSET su EEPROM. Aggiornamento solo da chiavetta.
+  FIXED
+    - Riscaldamento durante test del vuoto (impostato a 1°C perché 0°C venivano 
+      ignorati)
+ 
 [2.6.5] - 2023-04-19
   ADDED
     - Stampa fine fase rise in steril

@@ -462,11 +462,23 @@ float ADCToPress(uint16_t adcValue) {
 	pkPa = pkPa - 0.04;
 	pkPa = pkPa / 0.0012858;
 
-	pkPa += (float)settings.ChamberPressOffset;
+//	pkPa += (float)settings.ChamberPressOffset;
+//
+//	pkPa += (pkPa - 310) * 0.03;
 
-	pkPa += (pkPa - 310) * 0.03;
+	// Press compensation by sensor offsets calibration
+	float in_start, in_end, out_start, out_end, slope, input, output;
 
-	return pkPa;
+	in_start = 20.0; // Press for vacuum offset
+	in_end = 310.0; // Press for steril offset
+	out_start = in_start + (float)settings.ChamberVacuumOffset;
+	out_end = in_end + (float)settings.ChamberPressOffset;
+	input = pkPa;
+
+	slope = (out_end - out_start) / (in_end - in_start);
+	output = out_start + slope * (input - in_start);
+
+	return output;
 }
 
 float ADCToCurrent(uint16_t adcValue) {
