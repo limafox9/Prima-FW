@@ -182,7 +182,7 @@ uint16_t WaterQualityGet() {
 
 	if (settings.FunTDSActive > 0) {
 		for (int i = 0; i < 10; i++) {
-			retVal = BAT2U_GetTDSValue(1, 500);
+			retVal = BAT2U_GetTDSValue(1, 1000);
 			if (retVal < TDS_THRESHOLD) break;
 			osDelay(500);
 			retVal = 0;
@@ -462,7 +462,9 @@ float ADCToPress(uint16_t adcValue) {
 	pkPa = pkPa - 0.04;
 	pkPa = pkPa / 0.0012858;
 
-	pkPa += settings.ChamberPressOffset;
+	pkPa += (float)settings.ChamberPressOffset;
+
+	pkPa += (pkPa - 310) * 0.03;
 
 	return pkPa;
 }

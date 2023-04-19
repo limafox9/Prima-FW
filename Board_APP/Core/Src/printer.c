@@ -310,6 +310,19 @@ void PrintPowerTestHeader() {
 	Print("Date (Y-M-D): %d-%02d-%02d\n", clockTime.Year, clockTime.Month, clockTime.Day);
 	Print("Cycles        %d\n", settings.CyclesCount);
 	Print("\n");
+	Print("----    T1     T2    kPa    TIME\n");
+	Print("      %5.1f  %5.1f  %5.1f %3d:%02d\n", sensors.T1, sensors.T2, GetNormalizedPressure(sensors.PressureChamber), clockTime.Hour, clockTime.Minute);
+	Print("        T3     T4    TDS   DO  LO\n");
+	Print("      %5.1f  %5.1f %5d   %s  %s\n", 	sensors.TemperatureChamberHeater,
+												sensors.TemperatureSteamGenerator,
+												sensors.WaterTDS,
+												(sensors.Door == OPEN) ? "OP" : "CL",
+												(sensors.Solenoid == LOCK) ? "LK" : "UN"
+												);
+	Print("\n");
+	Print("------------------------------------------\n");
+	Print("\n");
+
 }
 
 void PrintSettings() {
@@ -480,7 +493,7 @@ void PrintHeader (const char* title, float t1, uint16_t dryTime, uint16_t steril
 		else if (currTest == TEST_HELIX) vacN = 3;
 		else if (currTest == TEST_WASH) vacN = 0;
 		else vacN = settings.VacNumber;
-		if (currTest == TEST_VACUUM) {
+		if (currTest == TEST_HELIX) {
 			uint8_t minSter = 210 / 60;
 			uint8_t secSter = 210 % 60;
 			uint8_t minDry = 300 / 60;

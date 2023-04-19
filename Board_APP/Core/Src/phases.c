@@ -107,7 +107,7 @@ uint8_t PhaseBegin(uint8_t timeout) {
 		retVal = 0;
 	}
 
-//	sensors.WaterTDS = BAT2U_GetTDSValue(1, 100);
+	sensors.WaterTDS = BAT2U_GetTDSValue(1, 1000);
 	if (settings.FunTDSActive > 0 && sensors.WaterTDS > settings.WaterTDSMin && currProgram != PROGRAM_RESUME_DRY) {
 		lastError = ERROR_NONE;
 //		lastError = ERROR_WATER_HIGH_TDS;
@@ -594,6 +594,9 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 		osDelay(100);
 	}
 
+	GetTimer(TIMER_PHASE, &tPhase);
+	PrintStepLine("RISE ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
+
 	if (retVal) {
 
 		sprintf(currPhase, "StEr");
@@ -744,7 +747,7 @@ uint8_t PhaseDry(float firstVacPress, float otherVacPress, uint16_t time, uint16
 				GetTimer(TIMER_PHASE, &tPhase);
 				currPress = (cycle <= 1) ? firstVacPress : otherVacPress;
 				if (sensors.PressureChamber <= currPress) {
-					PrintStepLine("VACU  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
+//					PrintStepLine("VACU  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
 					retVal = 1;
 					break;
 				}
@@ -776,7 +779,7 @@ uint8_t PhaseDry(float firstVacPress, float otherVacPress, uint16_t time, uint16
 				GetTimer(TIMER_PHASE, &tPhase);
 				if (sensors.PressureChamber >= (pressAmbientMin - 20)) {
 					osDelay(5000);
-					PrintStepLine("INTK  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
+//					PrintStepLine("INTK  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
 					retVal = 1;
 					break;
 				}

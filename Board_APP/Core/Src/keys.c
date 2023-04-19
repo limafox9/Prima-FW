@@ -110,7 +110,8 @@ void ParseCommand(s_DisplayProtocolData* data) {
 			} else {
 				if (progRunning == 1 && currTest == 3) abortProgram = 1;
 				if (machineStatus.Show == SHOW_PROGRAM) {
-					if ((machineStatus.Status == STATUS_READY) || (machineStatus.Status == STATUS_IDLE)) {
+//					if (((machineStatus.Status == STATUS_READY) || (machineStatus.Status == STATUS_IDLE)) && doorOpened == 1) {
+					if (machineStatus.Status == STATUS_READY && doorOpened == 1) {
 						programStart = 1;
 					}
 				} else if (machineStatus.Show == SHOW_PARAMETERS) {
@@ -389,14 +390,17 @@ static void KeysReceived(uint8_t keysCode) {
 	} else if (keysCode == KEY_S2 + KEY_S1 + KEY_LONG_PRESS) {
 		uint16_t dum;
 		BAT2U_TDSCalibration(500);
-		dum = BAT2U_GetTDSValue(2, 200);
-		dum = BAT2U_GetTDSValue(1, 200);
+		dum = BAT2U_GetTDSValue(2, 1000);
+		dum = BAT2U_GetTDSValue(1, 1000);
 		sensors.WaterTDS = dum;
 		Beep(1, 50, 50);
 		__NOP();
 	} else if (keysCode == KEY_S3 + KEY_S2 + KEY_LONG_PRESS) {
 		machine.ReadOnlyCyclesCount = 0;
 		EEPROM_Write(EPA_CYCLE_COUNTER, 0, 2);
+		EEPROM_Write(EPA_CLEAN_CYCLES_INTERVAL, &(uint16_t){50}, 2);
+		EEPROM_Write(EPA_SERVICE_CYCLES_INTERVAL, &(uint16_t){999}, 2);
+
 		Beep(1, 50, 50);
 		__NOP();
 	} else if (keysCode == KEY_S3 + KEY_S1 + KEY_LONG_PRESS) {

@@ -2,6 +2,33 @@
 PRIMA Board_APP
 -------------------------------------------------------------------------------
 
+[2.6.5] - 2023-04-19
+  ADDED
+    - Stampa fine fase rise in steril
+    - Reset dei cicli clean e service quando si resetta il counter (S1+S2+LONG)
+    - Aggiunto status t1, t2, t3, t4 a scontrino power test
+  CHANGED
+    - Tolta stampa delle fasi VACU ed INTK da scontrino durante dry
+    - Tolto sotto vacuum test la riga con 1 vac temp 134 perss 310 time 3:30
+      dry 5 
+    - Tempo asciugatura helix test a 120s (2 min.)
+  FIXED
+    - Risolto avvio ciclo con porta aperta entrava in start program e con prog
+      restava in read
+    - Risolto start durante dry resume ricominciava ciclo
+    - Risolto durante asciugatura non alternava vacuum e intake. Messa press. 
+      minima a 30. Aggiunti parametri DRY_FIRST_VAC e DRY_OTHER_VAC
+
+[2.6.4] - 2023-04-19
+  FIXED
+    - Aggiunto spegnimento riscaldatori durante test del vuoto
+    - Ripristinato controllo TDS
+
+[2.6.3] - 2023-04-14
+  ADDED
+    - Correzione parametrica sensore pressione (funzione ADCToPress in
+      sensors.c)
+
 [2.6.2] - 2023-04-13
   CHANGED
     - aumentata temp di steril per l'helix a 135.5 (apparente bassa pressione)

@@ -68,6 +68,9 @@ USAGE:
 #define VAC_DVALUE	10
 #define VAC_DTIME	20
 
+#define DRY_FIRST_VAC	30.0
+#define DRY_OTHER_VAC	50.0
+
 #define FAN_OFF_DELAY	600
 
 #define POWER_TEST_ON_TIME 3000
@@ -218,7 +221,7 @@ uint8_t ProgramResumeDry() {
 //		osDelay(200);
 //	}
 
-	PhaseDry(20.0, 50.0, 180, 800);
+	PhaseDry(DRY_FIRST_VAC, DRY_OTHER_VAC, 180, 800);
 //	SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_NONE, 0, 0, "");
 
 
@@ -348,7 +351,7 @@ uint8_t ProgramUnwrapped() {
 
 	// Dry
 	if (success) {
-		success = PhaseDry(20.0, 50.0, dryTime, dryTime * 1.5);
+		success = PhaseDry(DRY_FIRST_VAC, DRY_OTHER_VAC, dryTime, dryTime * 1.5);
 	}
 
 	// End
@@ -457,7 +460,7 @@ uint8_t ProgramWrapped() {
 
 	// Dry
 	if (success) {
-		success = PhaseDry(20.0, 50.0, dryTime, dryTime * 1.5);
+		success = PhaseDry(DRY_FIRST_VAC, DRY_OTHER_VAC, dryTime, dryTime * 1.5);
 	}
 
 	// End
@@ -564,7 +567,7 @@ uint8_t ProgramPrion() {
 
 	// Dry
 	if (success) {
-		success = PhaseDry(20.0, 50.0, dryTime, dryTime * 1.5);
+		success = PhaseDry(DRY_FIRST_VAC, DRY_OTHER_VAC, dryTime, dryTime * 1.5);
 	}
 
 	// End
@@ -668,7 +671,7 @@ uint8_t ProgramGentle() {
 
 	// Dry
 	if (success) {
-		success = PhaseDry(20.0, 50.0, dryTime, dryTime * 1.5);
+		success = PhaseDry(DRY_FIRST_VAC, DRY_OTHER_VAC, dryTime, dryTime * 1.5);
 	}
 
 	// End
@@ -813,7 +816,7 @@ uint8_t ProgramUser() {
 	// Dry
 	if (success) {
 		if (dryTime > 0) {
-			success = PhaseDry(20.0, 50.0, dryTime, dryTime * 1.5);
+			success = PhaseDry(DRY_FIRST_VAC, DRY_OTHER_VAC, dryTime, dryTime * 1.5);
 		} else {
 		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 		success = PhaseVacuum(1, 50.0, 0, 300);
@@ -847,6 +850,7 @@ uint8_t ProgramHelixTest() {
 	uint16_t dryTime = 0;
 	sterilTime = 210;
 	dryTime = GetDryTime(settings.FunDryClass, STERILTEMP_134, 3) * 60;
+	dryTime = 120;
 
 	GetDateTime(&clockTime);
 	PrintHeader("HELIX TEST", sensors.T1, dryTime, sterilTime, &clockTime);
@@ -925,7 +929,7 @@ uint8_t ProgramHelixTest() {
 
 	// Dry
 	if (success) {
-		success = PhaseDry(20.0, 50.0, dryTime, dryTime * 1.5);
+		success = PhaseDry(DRY_FIRST_VAC, DRY_OTHER_VAC, dryTime, dryTime * 1.5);
 	}
 
 	// End
@@ -953,6 +957,8 @@ uint8_t ProgramVacuumTest() {
 //	if (!PhaseBegin(600)) return 0;
 
 	ResetTimer(TIMER_CYCLE);
+
+	PhasePreheat(0, 0);
 
 	if (!PhaseBegin(600)) return 0;
 
@@ -1015,6 +1021,8 @@ uint8_t ProgramVacuumTest() {
 	}
 
 	PhaseFinish(success, &clockTime, &tCycle);
+
+	PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 
 	progRunning = 0;
 	osThreadSuspend(displayInfoTaskHandle);
