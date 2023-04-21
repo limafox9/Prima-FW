@@ -534,6 +534,7 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 	ResetTimer(TIMER_PHASE);
 
 	PIDController pidSteril = {pPID_KP, pPID_KI, pPID_KD, pPID_TAU, pPID_LIM_MIN, pPID_LIM_MAX, pPID_LIM_MIN_INT, pPID_LIM_MAX_INT, pSAMPLE_TIME_S};
+	PIDController_Init(&pidSteril);
 
 	ValveDrainSteamSet(ON);
 	osDelay(100);
@@ -619,6 +620,9 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 
 		Beep(1, 100, 100);
 
+		PIDController pidSteril1 = {pPID_KP, pPID_KI, pPID_KD, pPID_TAU, pPID_LIM_MIN, pPID_LIM_MAX, pPID_LIM_MIN_INT, pPID_LIM_MAX_INT, pSAMPLE_TIME_S};
+		PIDController_Init(&pidSteril1);
+
 		while (1) {
 
 			// Exit successful on phase completion
@@ -630,7 +634,7 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 			}
 
 			// PID Calculation and steam generation interval set
-			float ret = PIDController_Update(&pidSteril, param->chamberTemp, sensors.T1);
+			float ret = PIDController_Update(&pidSteril1, param->chamberTemp, sensors.T1);
 //			float ret = PIDController_Update(&pidSteril, param->chamberPress, sensors.PressureChamber);
 			ret = (1/ret)*4000;
 			if ((sensors.T1 <= param->chamberTemp) && (HAL_GetTick() > (currTick + ret))) {

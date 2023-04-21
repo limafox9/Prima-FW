@@ -2,6 +2,10 @@
 PRIMA Board_APP
 -------------------------------------------------------------------------------
 
+[2.6.8] - 2023-04-21
+  CHANGED
+    - Differenziazione PID tra fase rise e steril. Aggiunte funzioni PID_Init
+
 [2.6.7] - 2023-04-21
   FIXED
     - Led sterilizzazione progress bar acceso in rise, modificato in acceso
