@@ -57,7 +57,7 @@ USAGE:
 #define DV_STEAM_GEN_TEMP		200.0
 #define DV_WATER_LOAD_TIMEOUT	300
 
-#define DV_STERIL_TEMP_134		135.4
+#define DV_STERIL_TEMP_134		135.5
 #define DV_STERIL_TEMP_134_USER_0 134.5
 #define DV_STERIL_TEMP_121		123.2
 #define DV_STERIL_PRESS_MIN_134	308.0
@@ -236,7 +236,7 @@ uint8_t ProgramResumeDry() {
 	ValveDryIntakeSet(ON);
 
 	while (1) {
-		if ((sensors.PressureChamber >= pressAmbientMin) && (sensors.PressureChamber <= pressAmbientMax)) {
+		if ((sensors.PressureChamber >= (pressAmbientMin - 10)) && (sensors.PressureChamber <= pressAmbientMax)) {
 			break;
 		}
 		osDelay(200);

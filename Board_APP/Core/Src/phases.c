@@ -107,7 +107,7 @@ uint8_t PhaseBegin(uint8_t timeout) {
 		retVal = 0;
 	}
 
-	sensors.WaterTDS = BAT2U_GetTDSValue(1, 1000);
+	sensors.WaterTDS = WaterQualityGet();
 	if (settings.FunTDSActive > 0 && sensors.WaterTDS > settings.WaterTDSMin && currProgram != PROGRAM_RESUME_DRY) {
 		lastError = ERROR_NONE;
 //		lastError = ERROR_WATER_HIGH_TDS;
@@ -533,9 +533,6 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 	ResetTimer(TIMER_TIMEOUT);
 	ResetTimer(TIMER_PHASE);
 
-	SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_STERILMAINTAIN, 0, 0, "");
-	Print("STER  --------------------------\n");
-
 	PIDController pidSteril = {pPID_KP, pPID_KI, pPID_KD, pPID_TAU, pPID_LIM_MIN, pPID_LIM_MAX, pPID_LIM_MIN_INT, pPID_LIM_MAX_INT, pSAMPLE_TIME_S};
 
 	ValveDrainSteamSet(ON);
@@ -605,6 +602,11 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 		ResetTimer(TIMER_PHASE);
 		ResetTimer(TIMER_1);
 		ResetTimer(TIMER_3);
+
+		SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_STERILMAINTAIN, 0, 0, "");
+		Print("STER  --------------------------\n");
+		GetTimer(TIMER_PHASE, &tPhase);
+		PrintStepLine("     ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
 
 		T1Min = sensors.T1;
 		T1Max = sensors.T1;

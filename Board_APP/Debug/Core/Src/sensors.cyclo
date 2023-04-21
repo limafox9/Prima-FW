@@ -15,3 +15,4 @@ sensors.c:431:7:ADCToTemp	1
 sensors.c:449:7:ADCToPress	1
 sensors.c:484:7:ADCToCurrent	1
 sensors.c:553:7:GetNormalizedPressure	2
+sensors.c:557:7:TestPressNorm	1

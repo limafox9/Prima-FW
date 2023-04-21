@@ -151,7 +151,7 @@ typedef enum {
 typedef struct MachineData_s {
 	uint32_t MCUID[3];
 	uint16_t ReadOnlyCyclesCount;
-	char Serial[12];
+	char Serial[13];
 	uint8_t ProductionYear;
 	uint8_t ProductionWeek;
 	MachineModel_e Model;

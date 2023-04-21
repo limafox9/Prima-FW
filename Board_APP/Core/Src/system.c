@@ -148,7 +148,10 @@ void SysInit() {
 //	  MX_FATFS_Init();
 //	  MX_USB_HOST_Init();
 
-
+//	while (1) {
+//		TestPressNorm();
+//
+//	}
 
 	  osSemaphoreDef(semaphoreSensors);
 	  semaphoreSensorsHandle = osSemaphoreCreate(osSemaphore(semaphoreSensors), 1);

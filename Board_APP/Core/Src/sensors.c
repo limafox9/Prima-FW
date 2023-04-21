@@ -181,7 +181,7 @@ uint16_t WaterQualityGet() {
 	uint16_t retVal, dum;
 
 	if (settings.FunTDSActive > 0) {
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 5; i++) {
 			retVal = BAT2U_GetTDSValue(1, 1000);
 			if (retVal < TDS_THRESHOLD) break;
 			osDelay(500);
@@ -554,3 +554,17 @@ float GetNormalizedPressure(float pressure) {
 	return (settings.FunPressureDisplay == 1) ? pressure : (pressure - 100);
 }
 
+float TestPressNorm() {
+	float in_start, in_end, out_start, out_end, slope, input, output;
+
+	in_start = 20.0; // Press for vacuum offset
+	in_end = 310.0; // Press for steril offset
+	out_start = in_start + 2; //(float)settings.ChamberVacuumOffset;
+	out_end = in_end + 4; //(float)settings.ChamberPressOffset;
+	input = 100;
+
+	slope = (out_end - out_start) / (in_end - in_start);
+	output = out_start + slope * (input - in_start);
+
+	return output;
+}

@@ -91,6 +91,7 @@ void LoadSettings() {
 
 
 	// EEPROM read
+	memset(&machine.Serial, 0, 13);
 	EEPROM_Read(EPA_MACHINE_SERIAL_NUMBER, &machine.Serial, 12);
 
 	EEPROM_Read(EPA_CYCLE_COUNTER_PERMANENT, &machine.ReadOnlyCyclesCount, 2);
@@ -181,7 +182,7 @@ void SaveDefaults(uint8_t factoryDefault) {
 
 		BAT2U_TDSCalibration(500);
 
-		char sn[12] = "GP0000000000";
+		char sn[13] = "GP0000000000\0";
 		EEPROM_Write(EPA_MACHINE_SERIAL_NUMBER, sn, 12);
 		EEPROM_Write(EPA_CYCLE_COUNTER_PERMANENT, &(uint16_t){0}, 2);
 		EEPROM_Write(EPA_CYCLE_COUNTER, &(uint16_t){0}, 2);

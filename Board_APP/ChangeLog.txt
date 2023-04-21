@@ -2,6 +2,23 @@
 PRIMA Board_APP
 -------------------------------------------------------------------------------
 
+[2.6.7] - 2023-04-21
+  FIXED
+    - Led sterilizzazione progress bar acceso in rise, modificato in acceso
+      solo in ster.
+    - Risolto carattere extra in serial number (scontrino e file). Aggiunto 
+      carattere terminatore \0 per settings.Serial -> 13 chars
+  CHANGED
+    - Modificata stampa fase RISE prima della linea STER. Aggiunta linea
+      iniziale di ster al momento 0 (stessi valori di fine rise).
+    - Aggiunto -10 al valore pressAmbientMin nel programma resume dry per
+      facilitare l'apertura della porta anche in caso di ATM 100.0 da porta non
+      aperta.
+    - Corretta lettura del TDS all'avvio dei programmi (PhaseBegin). Sostituita
+      funzione BAT2U_GetTDSValue(...) con WaterQualityGet() -che verifica 
+      valori sotto soglia-
+    - DV_STERIL_TEMP_134 da 134.4 a 135.5
+
 [2.6.6] - 2023-04-19
   ADDED
     - Calibrazione a 2 punti per il sensore di pressione. Aggiunto parametro
