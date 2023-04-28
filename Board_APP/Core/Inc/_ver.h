@@ -4,7 +4,7 @@
 #define INC__VER_H_
 
 #define FW_VERSION_MAJOR 	2
-#define FW_VERSION_MINOR 	6
-#define FW_VERSION_REVISION 11
+#define FW_VERSION_MINOR 	7
+#define FW_VERSION_REVISION 1
 
 #endif /* INC__VER_H_ */

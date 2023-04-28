@@ -68,7 +68,7 @@ USAGE:
 
 #define ERROR_BEEP_NUMBER			1
 
-#define SAMPLE_RATE					3			// Sample per second (SPS/Hz)
+#define SAMPLE_RATE					2			// Sample per second (SPS/Hz)
 #define AVERAGE_SAMPLES				5			// N. of samples for the average
 #define AVERAGE_SAMPLES_INTERVAL	10			// Interval between samples (milliseconds)
 #define V_REF						3.3			// Power supply
@@ -77,7 +77,7 @@ USAGE:
 #define T2_FACTORY_OFFSET			0.0			// Fixed factory offset for T2
 #define TDS_THRESHOLD				500
 
-#define SERIAL_SENSOR_DEBUG
+//#define SERIAL_SENSOR_DEBUG
 #define SERIAL_SENSOR_DEBUG_INTERVAL	2000
 #define SERIAL_SENSOR_DEBUG_TIME_SEPARATOR '.'
 #define SERIAL_SENSOR_DEBUG_DECIMAL_SEPARATOR ','

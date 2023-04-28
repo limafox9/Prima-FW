@@ -1,6 +1,6 @@
 sensors.c:136:6:HAL_GPIO_EXTI_Callback	8
 sensors.c:190:10:WaterQualityGet	4
-sensors.c:206:6:StartSensorsTask	21
+sensors.c:206:6:StartSensorsTask	20
 sensors.c:352:13:DoorSolenoidKeyGet	1
 sensors.c:356:19:DoorPositionGet	1
 sensors.c:362:9:WaterDumpLevelGet	2

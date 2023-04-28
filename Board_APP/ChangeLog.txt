@@ -2,6 +2,12 @@
 PRIMA Board_APP
 -------------------------------------------------------------------------------
 
+[2.7.1] - 2023-04-28
+ CHANGED
+    - Modificato sensors.TemperatureChamberHeater > 200.0 (ex 150.0°C) in
+      seguito alla comparsa di errori 02 ed analizzato il codice Keil.
+    - Rimesso sample rate sensori a 2sps
+
 [2.6.11] - 2023-04-28
   ADDED
     - Serial debug dei valori in tempo reale

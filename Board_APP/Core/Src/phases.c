@@ -294,19 +294,26 @@ uint8_t PhaseHeatUp(float ringTemp, float steamGenTemp, float chamberTemp, float
 uint8_t CheckError() {
 
 	uint8_t retError = ERROR_NONE;
+	static uint8_t err02;
 
 	if (abortProgram == 1) {
 		abortProgram = 0;
 		retError = ERROR_ABNORMAL_EXIT;
 	} else {
 		if (currProgram != PROGRAM_RESUME_DRY) {
+			if (sensors.TemperatureChamberHeater > 200.0) {
+				err02++;
+			} else {
+				err02 = 0;
+			}
+
 			if (sensors.Door == OPEN) {
 				retError = ERROR_OPEN_DOOR;
 			} else if (DoorSolenoidKeyGet() == UNLOCK) {
 				retError = ERROR_PROTECTION_LOCK;
 			} else if (sensors.TemperatureSteamGenerator > 230.0) {
 				retError = ERROR_STEAM_OVERTEMP;
-			} else if (sensors.TemperatureChamberHeater > 150.0) {
+			} else if (err02 > 4) {
 				retError = ERROR_RING_OVERTEMP;
 			} else if ((sensors.T1 > 138.0) || (sensors.T2 > 138.0)) {
 				retError = ERROR_CHAMBER_OVERTEMP;
