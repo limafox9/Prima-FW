@@ -50,7 +50,8 @@ USAGE:
 #include "usbkey.h"
 #include "programs.h"
 
-#define T1_T2_STERIL_MAX_TEMP_DIFF 1.0
+#define T1_T2_STERIL_MAX_TEMP_DIFF_134 1.0
+#define T1_T2_STERIL_MAX_TEMP_DIFF_121 2.0
 
 uint8_t chamberHeaterTempSet;
 uint8_t steamGeneratorTempSet;
@@ -525,9 +526,11 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 	uint8_t retVal = 0;
 	sprintf(currPhase, "rISE");
 
-	float T1Min, T1Max, T2Min, T2Max, pMin, pMax;
+	float T1Min, T1Max, T2Min, T2Max, pMin, pMax, T1T2Diff;
 	uint8_t overPress = 0;
 	uint8_t timerReset = 0;
+
+	T1T2Diff = (param->chamberTemp > 130.0) ? T1_T2_STERIL_MAX_TEMP_DIFF_134 : T1_T2_STERIL_MAX_TEMP_DIFF_121;
 
 	RTCTimerTime_s tTimeout, tPhase, tInterval, tDelay, tWait;
 	ResetTimer(TIMER_TIMEOUT);
@@ -680,7 +683,7 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 				PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
 				retVal = 0;
 				break;
-			} else if (fabs(sensors.T1 - sensors.T2) > T1_T2_STERIL_MAX_TEMP_DIFF) {
+			} else if (fabs(sensors.T1 - sensors.T2) > T1T2Diff) {
 				lastError = ERROR_T1T2_MISMATCH;
 				Print("STER ERROR *** T1 T2 MISMATCH\n");
 				GetTimer(TIMER_PHASE, &tPhase);

@@ -353,6 +353,7 @@ void PrintSettings() {
 	Print("T1_OFFSET                 %0.1f\n", (float)settings.T1Offset / 10.0);
 	Print("T2_OFFSET                 %0.1f\n", (float)settings.T2Offset / 10.0);
 	Print("CHAMBER_PRESSURE_OFFSET   %d\n", settings.ChamberPressOffset);
+	Print("CHAMBER_VACUUM_OFFSET     %d\n", settings.ChamberVacuumOffset);
 	Print("\n");
 	Print("FIRST_VACUUM              %d\n", settings.FirstVacuum);
 	Print("OTHER_VACUUM              %d\n", settings.OtherVacuum);

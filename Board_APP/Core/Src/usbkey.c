@@ -244,6 +244,9 @@ void LoadUSBConfig()  {
 						} else if (strcmp(param.param, "CHAMBER_PRESSURE_OFFSET") == 0) {
 							int8_t bVal = (int8_t)atoi(param.value);
 							WriteSetting(EPA_CHAMBER_PRESSURE_OFFSET, &bVal, 1);
+						} else if (strcmp(param.param, "CHAMBER_VACUUM_OFFSET") == 0) {
+							int8_t bVal = (int8_t)atoi(param.value);
+							WriteSetting(EPA_CHAMBER_VACUUM_OFFSET, &bVal, 1);
 
 
 						} else if (strcmp(param.param, "FIRST_VACUUM") == 0) {

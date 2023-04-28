@@ -2,6 +2,22 @@
 PRIMA Board_APP
 -------------------------------------------------------------------------------
 
+[2.6.9] - 2023-04-27
+  FIXED
+    - Corretto non caricamento del setting EPA_CHAMBER_VACUUM_OFFSET da file
+ 
+[2.6.9] - 2023-04-26
+  CHANGED
+    - Modificato valore press min. (errore underpression) da 200 a 190 kPa per
+      i cicli 121 (parametro DV_STERIL_PRESS_MIN_121)
+    - Modificato parametro T1_T2_STERIL_MAX_TEMP_DIFF in 
+      T1_T2_STERIL_MAX_TEMP_DIFF_134 (1.0°C)
+  ADDED
+    - Aggiunto valore CHAMBER_VACUUM_OFFSET alla stampa dei parametri e al file
+      dei setting
+    - Aggiunto parametro T1_T2_STERIL_MAX_TEMP_DIFF_121 per differenziare la
+      tolleranza per errore t1-t2 mismatch. Impostato a 2.0°C
+
 [2.6.8] - 2023-04-21
   CHANGED
     - Differenziazione PID tra fase rise e steril. Aggiunte funzioni PID_Init
