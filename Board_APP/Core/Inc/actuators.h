@@ -56,6 +56,8 @@ void PWMPower_Init();
 void PWMPower_Start();
 void PWMPower_Stop();
 void PWMHeaterSteamGenerator();
+void ChamberHeater_Start();
+void ChamberHeater_Stop();
 
 void HeaterChamberTempSet(float tempC);
 void HeaterSteamGeneratorTempSet(float tempC);
@@ -71,6 +73,13 @@ void ValveDrainSteamSet(e_PowerState status);
 void ValveWaterSteamSet(e_PowerState status);
 
 void FanSet(e_PowerState status);
+
+e_PowerState PumpVacuumGet();
+e_PowerState ValveVacuumGet();
+e_PowerState ValveDryIntakeGet();
+e_PowerState ValveDrainSteamGet();
+e_PowerState ValveWaterSteamGet();
+e_PowerState FanGet();
 
 e_LockState DoorSolenoidSet(e_LockState status);
 

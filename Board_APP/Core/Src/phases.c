@@ -50,8 +50,14 @@ USAGE:
 #include "usbkey.h"
 #include "programs.h"
 
+#define STERIL_STABILIZATION_PERIOD 5 // 30
+
 #define T1_T2_STERIL_MAX_TEMP_DIFF_134 1.0
-#define T1_T2_STERIL_MAX_TEMP_DIFF_121 2.0
+#define T1_T2_STERIL_MAX_TEMP_DIFF_121 1.0
+
+#define STEAM_PULSE_PRESSURE	100
+#define STEAM_PULSE_RISE		60
+#define STEAM_PULSE_STERIL		40
 
 uint8_t chamberHeaterTempSet;
 uint8_t steamGeneratorTempSet;
@@ -446,15 +452,15 @@ uint8_t PhaseVacuum(uint8_t nVacuum, float press, uint8_t skipThreshold, uint16_
 
 uint8_t PhasePressure(uint8_t nPressure, float press, float steamTemp, float steamTempMin, uint16_t timeout) {
 
-	static const float pPID_KP = 0.5; // 1.0
-	static const float pPID_KI = 1.8; // 1.8
-	static const float pPID_KD = 0.2; // 1.0
-	static const float pPID_TAU = 1.0;
-	static const float pPID_LIM_MIN = 0.5; // 0.8
-	static const float pPID_LIM_MAX = 1.5; // 2.0
-	static const float pPID_LIM_MIN_INT = -1.5; // -1.5
-	static const float pPID_LIM_MAX_INT = 1.5; // 1.5
-	static const float pSAMPLE_TIME_S = 0.5; // 0.1
+	static const float pPID_KP = 100; 			// 100
+	static const float pPID_KI = 60; 			// 60
+	static const float pPID_KD = 40; 			// 40
+	static const float pPID_TAU = 1.0; 			// 1.0
+	static const float pPID_LIM_MIN = 50; 		// 50
+	static const float pPID_LIM_MAX = 150; 		// 150
+	static const float pPID_LIM_MIN_INT = -40; 	// -40
+	static const float pPID_LIM_MAX_INT = 40; 	// 40
+	static const float pSAMPLE_TIME_S = 1.0; 	// 1.0
 
 	uint8_t retVal = 0;
 	RTCTimerTime_s tTimeout, tPhase;
@@ -471,16 +477,18 @@ uint8_t PhasePressure(uint8_t nPressure, float press, float steamTemp, float ste
 
 	PIDController pidSteam = {pPID_KP, pPID_KI, pPID_KD, pPID_TAU, pPID_LIM_MIN, pPID_LIM_MAX, pPID_LIM_MIN_INT, pPID_LIM_MAX_INT, pSAMPLE_TIME_S};
 
+	ChamberHeater_Stop();
+
 	ValveDrainSteamSet(ON);
 	osDelay(120);
 	while (1) {
 		float ret = PIDController_Update(&pidSteam, steamTemp, sensors.TemperatureSteamGenerator);
-		ret = ret*4000;
+//		ret = ret*100;
 //		float ret = PIDController_Update(&pidSteam, steamTemp, 31.0);
 
 		if (sensors.TemperatureSteamGenerator >= steamTempMin) {
-			SteamPulse(50);
-			osDelay(ret);
+			SteamPulse(ret);
+			osDelay(2500);
 //			Beep(1,100,100);
 		}
 
@@ -505,11 +513,78 @@ uint8_t PhasePressure(uint8_t nPressure, float press, float steamTemp, float ste
 		}
 	}
 
+	ChamberHeater_Start();
+
 	osDelay(100);
 	ValveDrainSteamSet(OFF);
 	HeaterSteamGeneratorTempSet(steamTemp);
 
 	return retVal;
+
+//	static const float pPID_KP = 0.5; // 1.0
+//	static const float pPID_KI = 1.8; // 1.8
+//	static const float pPID_KD = 0.2; // 1.0
+//	static const float pPID_TAU = 1.0;
+//	static const float pPID_LIM_MIN = 0.5; // 0.8
+//	static const float pPID_LIM_MAX = 1.5; // 2.0
+//	static const float pPID_LIM_MIN_INT = -1.5; // -1.5
+//	static const float pPID_LIM_MAX_INT = 1.5; // 1.5
+//	static const float pSAMPLE_TIME_S = 0.5; // 0.1
+//
+//	uint8_t retVal = 0;
+//	RTCTimerTime_s tTimeout, tPhase;
+//	char s[8];
+//	sprintf(s, "PrE.%1d", nPressure);
+//	sprintf(currPhase, s);
+//
+//	ResetTimer(TIMER_TIMEOUT);
+//	ResetTimer(TIMER_PHASE);
+//
+//	if (nPressure == 1) SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_1STPRESSURE, 0, 0, "");
+//	else if (nPressure == 2) SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_NPRESSURE, 0, 0, "");
+//	else if (nPressure == 3) SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_STERILPRESSURE, 0, 0, "");
+//
+//	PIDController pidSteam = {pPID_KP, pPID_KI, pPID_KD, pPID_TAU, pPID_LIM_MIN, pPID_LIM_MAX, pPID_LIM_MIN_INT, pPID_LIM_MAX_INT, pSAMPLE_TIME_S};
+//
+//	ValveDrainSteamSet(ON);
+//	osDelay(120);
+//	while (1) {
+//		float ret = PIDController_Update(&pidSteam, steamTemp, sensors.TemperatureSteamGenerator);
+//		ret = ret*4000;
+////		float ret = PIDController_Update(&pidSteam, steamTemp, 31.0);
+//
+//		if (sensors.TemperatureSteamGenerator >= steamTempMin) {
+//			SteamPulse(50);
+//			osDelay(ret);
+////			Beep(1,100,100);
+//		}
+//
+//		GetTimer(TIMER_TIMEOUT, &tTimeout);
+//
+//		if (sensors.PressureChamber >= press) {
+//			GetTimer(TIMER_PHASE, &tPhase);
+//			PrintStepLine("PRES", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
+//			retVal = 1;
+//			break;
+//		} else if (tTimeout.Seconds > timeout) {
+//			lastError = ERROR_PHASE_TIMEOUT;
+//			GetTimer(TIMER_PHASE, &tPhase);
+//			PrintError("PRES ERROR *** TIMEOUT\n", &tPhase);
+//			retVal = 0;
+//			break;
+//		}
+//		lastError = CheckError();
+//		if (lastError > 0) {
+//			retVal = 0;
+//			break;
+//		}
+//	}
+//
+//	osDelay(100);
+//	ValveDrainSteamSet(OFF);
+//	HeaterSteamGeneratorTempSet(steamTemp);
+//
+//	return retVal;
 }
 
 uint8_t PhaseSteril(SterilParam_s* param) {

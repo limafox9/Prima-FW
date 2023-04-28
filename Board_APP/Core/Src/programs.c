@@ -55,6 +55,8 @@ USAGE:
 #define DV_PREHEAT_CHAMBER_TEMP	60.0
 #define DV_HEATING_RING_TEMP	126.0
 #define DV_STEAM_GEN_TEMP		200.0
+#define DV_STEAM_GEN_TEMP_MIN	170.0
+#define DV_STEAM_GEN_TEMP_PRESS	220.0
 #define DV_WATER_LOAD_TIMEOUT	300
 
 #define DV_STERIL_TEMP_134		135.5
@@ -62,7 +64,7 @@ USAGE:
 #define DV_STERIL_TEMP_121		123.2
 #define DV_STERIL_PRESS_MIN_134	308.0
 #define DV_STERIL_PRESS_MAX_134	350.0
-#define DV_STERIL_PRESS_MIN_121	190.0
+#define DV_STERIL_PRESS_MIN_121	200.0
 #define DV_STERIL_PRESS_MAX_121	250.0
 
 #define VAC_DVALUE	10
@@ -307,7 +309,7 @@ uint8_t ProgramUnwrapped() {
 //	if (settings.UserVacuumNumber < 3) {
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-		success = PhasePressure(3, 200.0, DV_STEAM_GEN_TEMP, 170.0, OT_PRESSURE);
+		success = PhasePressure(3, 200.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
 	}
 	if (success) {
 		ValveDrainSteamSet(OFF);
@@ -324,7 +326,7 @@ uint8_t ProgramUnwrapped() {
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-		success = PhasePressure(3, 290.0, DV_STEAM_GEN_TEMP, 180.0, OT_PRESSURE);
+		success = PhasePressure(3, 290.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
@@ -403,7 +405,7 @@ uint8_t ProgramWrapped() {
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-		success = PhasePressure(1, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP, 170.0, OT_PRESSURE);
+		success = PhasePressure(1, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
@@ -418,7 +420,7 @@ uint8_t ProgramWrapped() {
 		}
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-			success = PhasePressure(2, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP, 170.0, OT_PRESSURE);
+			success = PhasePressure(2, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
 		}
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
@@ -433,7 +435,7 @@ uint8_t ProgramWrapped() {
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-		success = PhasePressure(3, 290.0, DV_STEAM_GEN_TEMP, 170.0, OT_PRESSURE);
+		success = PhasePressure(3, 290.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
@@ -511,7 +513,7 @@ uint8_t ProgramPrion() {
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-		success = PhasePressure(1, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP, 180.0, OT_PRESSURE);
+		success = PhasePressure(1, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
@@ -526,7 +528,7 @@ uint8_t ProgramPrion() {
 		}
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-			success = PhasePressure(2, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP, 180.0, OT_PRESSURE);
+			success = PhasePressure(2, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
 		}
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
@@ -540,7 +542,7 @@ uint8_t ProgramPrion() {
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-		success = PhasePressure(3, 290.0, DV_STEAM_GEN_TEMP, 180.0, OT_PRESSURE);
+		success = PhasePressure(3, 290.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
@@ -615,7 +617,7 @@ uint8_t ProgramGentle() {
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-		success = PhasePressure(1, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP, 180.0, OT_PRESSURE);
+		success = PhasePressure(1, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
@@ -630,7 +632,7 @@ uint8_t ProgramGentle() {
 		}
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-			success = PhasePressure(2, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP, 180.0, OT_PRESSURE);
+			success = PhasePressure(2, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
 		}
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
@@ -644,7 +646,7 @@ uint8_t ProgramGentle() {
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-		success = PhasePressure(3, 190.0, DV_STEAM_GEN_TEMP, 180.0, OT_PRESSURE);
+		success = PhasePressure(3, 190.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
@@ -732,7 +734,7 @@ uint8_t ProgramUser() {
 	if (settings.UserVacuumNumber >= 3) {
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-			success = PhasePressure(1, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP, 170.0, OT_PRESSURE);
+			success = PhasePressure(1, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
 		}
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
@@ -749,7 +751,7 @@ uint8_t ProgramUser() {
 			}
 			if (success) {
 				PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-				success = PhasePressure(2, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP, 170.0, OT_PRESSURE);
+				success = PhasePressure(2, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
 			}
 			if (success) {
 				PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
@@ -768,7 +770,7 @@ uint8_t ProgramUser() {
 	if (settings.UserVacuumNumber < 3) {
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-			success = PhasePressure(3, (settings.UserSterilTemp == STERILTEMP_134) ? 200.0 : 180.0, DV_STEAM_GEN_TEMP, 170.0, OT_PRESSURE);
+			success = PhasePressure(3, (settings.UserSterilTemp == STERILTEMP_134) ? 200.0 : 180.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
 		}
 		if (success) {
 			ValveDrainSteamSet(OFF);
@@ -786,7 +788,7 @@ uint8_t ProgramUser() {
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-		success = PhasePressure(3, (settings.UserSterilTemp == STERILTEMP_134) ? 290.0 : 190.0, DV_STEAM_GEN_TEMP, 170.0, OT_PRESSURE);
+		success = PhasePressure(3, (settings.UserSterilTemp == STERILTEMP_134) ? 290.0 : 190.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
@@ -873,7 +875,7 @@ uint8_t ProgramHelixTest() {
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-		success = PhasePressure(1, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP, 180.0, OT_PRESSURE);
+		success = PhasePressure(1, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
@@ -888,7 +890,7 @@ uint8_t ProgramHelixTest() {
 		}
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-			success = PhasePressure(2, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP, 180.0, OT_PRESSURE);
+			success = PhasePressure(2, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
 		}
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
@@ -902,7 +904,7 @@ uint8_t ProgramHelixTest() {
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-		success = PhasePressure(3, 290.0, DV_STEAM_GEN_TEMP, 180.0, OT_PRESSURE);
+		success = PhasePressure(3, 290.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);

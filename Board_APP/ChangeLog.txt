@@ -2,6 +2,22 @@
 PRIMA Board_APP
 -------------------------------------------------------------------------------
 
+[2.6.11] - 2023-04-28
+  ADDED
+    - Serial debug dei valori in tempo reale
+    - Aggiunto DV_STEAM_GEN_TEMP_PRESS per temperatura steam gen solo in fase
+      pressione
+  CHANGED
+    - Modificato PID e algoritmo pressione per velocizzare fase
+    - Modificato sample rate sensori da 2 a 3 sps
+    - Underpressure per ciclo 121 DV_STERIL_PRESS_MIN_121 da 190 a 200kPa
+    - T1_T2_STERIL_MAX_TEMP_DIFF_134 riportato da 2*C a 1*C
+
+[2.6.10] - 2023-04-27
+  CHANGED
+    - Modificato parametro T1_T2_STERIL_MAX_TEMP_DIFF in 
+      T1_T2_STERIL_MAX_TEMP_DIFF_134 (da 1.0°C a 2.0°C)
+ 
 [2.6.9] - 2023-04-27
   FIXED
     - Corretto non caricamento del setting EPA_CHAMBER_VACUUM_OFFSET da file

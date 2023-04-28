@@ -68,7 +68,7 @@ USAGE:
 
 #define ERROR_BEEP_NUMBER			1
 
-#define SAMPLE_RATE					2			// Sample per second (SPS/Hz)
+#define SAMPLE_RATE					3			// Sample per second (SPS/Hz)
 #define AVERAGE_SAMPLES				5			// N. of samples for the average
 #define AVERAGE_SAMPLES_INTERVAL	10			// Interval between samples (milliseconds)
 #define V_REF						3.3			// Power supply
@@ -76,6 +76,13 @@ USAGE:
 #define T1_FACTORY_OFFSET			3.0			// Fixed factory offset for T1
 #define T2_FACTORY_OFFSET			0.0			// Fixed factory offset for T2
 #define TDS_THRESHOLD				500
+
+#define SERIAL_SENSOR_DEBUG
+#define SERIAL_SENSOR_DEBUG_INTERVAL	2000
+#define SERIAL_SENSOR_DEBUG_TIME_SEPARATOR '.'
+#define SERIAL_SENSOR_DEBUG_DECIMAL_SEPARATOR ','
+#define SERIAL_SENSOR_DEBUG_DATA_SEPARATOR ';'
+
 //#define PTC_NOMINAL_RESISTANCE	1000	   	// Ω nominal resistance (typical @25°C)
 //#define PTC_NOMINAL_TEMPERATURE	0.0			// temperature of nominal resistance (typical 25°C)
 //#define PTC_BETA				3977		// The beta coefficient or the B value of the thermistor (usually 3000-4000) check the datasheet for the accurate value
@@ -109,6 +116,9 @@ static float ADCToPress(uint16_t adcValue);
 static float ADCToCurrent(uint16_t adcValue);
 
 Sensors_s sensors;
+
+RTCTimerTime_s tSensorsMonitor;
+RTCDateTime_s tLogTime;
 
 float pressAmbientMin;
 float pressAmbientMax;
@@ -203,6 +213,8 @@ void StartSensorsTask() {
 	for (int i = 0 ; i < (sizeof(pressBuf) / sizeof(float)); i++) {
 		pressBuf[i] = ChamberPressureGet();
 	}
+
+	ResetTimer(TIMER_SENSOR_MONITOR);
 
 	sensors.PressureAmbient = (float)100.0;
 
@@ -306,6 +318,33 @@ void StartSensorsTask() {
 //			SendCommand(DISPLAY_CMD_WRITE_DASHBOARD_LEDS, DISPLAY_LED_WARNING_LSH, OFF, 0, "");
 //		}
 		osSemaphoreRelease(semaphoreSensorsHandle);
+
+#ifdef SERIAL_SENSOR_DEBUG
+		GetTimer(TIMER_SENSOR_MONITOR, &tSensorsMonitor);
+		if (tSensorsMonitor.Ticks >= SERIAL_SENSOR_DEBUG_INTERVAL) {
+			GetDateTime(&tLogTime);
+			printf("%02d.%02d.%02d;%0.1f;%0.1f;%0.1f;%0.1f;%0.1f;%0.1f;%04d;%1d;%1d;%1d;%1d;%1d;%1d;%1d;%1d\n",
+					tLogTime.Hour, tLogTime.Minute, tLogTime.Second,
+					sensors.T1,
+					sensors.PressureChamber,
+					sensors.T2,
+					sensors.TemperatureChamberHeater,
+					sensors.TemperatureSteamGenerator,
+					sensors.PressureAmbient,
+					sensors.WaterTDS,
+					sensors.Door,
+					sensors.Solenoid,
+					PumpVacuumGet(),
+					ValveVacuumGet(),
+					ValveDryIntakeGet(),
+					ValveDrainSteamGet(),
+					ValveWaterSteamGet(),
+					FanGet()
+					);
+			ResetTimer(TIMER_SENSOR_MONITOR);
+		}
+#endif
+
 		osDelay(1000 / SAMPLE_RATE);
 	}
 }

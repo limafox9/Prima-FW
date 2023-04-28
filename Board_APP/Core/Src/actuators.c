@@ -127,6 +127,14 @@ void PWMPower_Stop() {
 	osThreadSuspend(steamPowerTaskHandle);
 }
 
+void ChamberHeater_Start() {
+	osThreadResume(chamberPowerTaskHandle);
+}
+
+void ChamberHeater_Stop() {
+	osThreadSuspend(chamberPowerTaskHandle);
+}
+
 void StartChPowerTask() {
 
 	for (;;) {
@@ -239,6 +247,9 @@ void PumpWaterLoadSet(e_PowerState status) {
 void PumpVacuumSet(e_PowerState status) {
 	HAL_GPIO_WritePin(PUMP_VACUUM_GPIO_Port, PUMP_VACUUM_Pin, status);
 }
+e_PowerState PumpVacuumGet() {
+	return (HAL_GPIO_ReadPin(PUMP_VACUUM_GPIO_Port, PUMP_VACUUM_Pin) == GPIO_PIN_SET) ? ON: OFF;
+}
 
 void PumpSteamGeneratorSet(e_PowerState status) {
 	HAL_GPIO_WritePin(PUMP_STEAM_GEN_GPIO_Port, PUMP_STEAM_GEN_Pin, status);
@@ -247,21 +258,34 @@ void PumpSteamGeneratorSet(e_PowerState status) {
 void ValveVacuumSet(e_PowerState status) { // tre vie
 	HAL_GPIO_WritePin(VAL_VACUUM_GPIO_Port, VAL_VACUUM_Pin, status);
 }
+e_PowerState ValveVacuumGet() {
+	return (HAL_GPIO_ReadPin(VAL_VACUUM_GPIO_Port, VAL_VACUUM_Pin) == GPIO_PIN_SET) ? ON: OFF;
+}
 
 void ValveDryIntakeSet(e_PowerState status) { // aria
 	HAL_GPIO_WritePin(VAL_DRY_AIR_GPIO_Port, VAL_DRY_AIR_Pin, status);
 }
-
+e_PowerState ValveDryIntakeGet() {
+	return (HAL_GPIO_ReadPin(VAL_DRY_AIR_GPIO_Port, VAL_DRY_AIR_Pin) == GPIO_PIN_SET) ? ON: OFF;
+}
 void ValveDrainSteamSet(e_PowerState status) { // scarico
 	HAL_GPIO_WritePin(VAL_DRAIN_STEAM_GPIO_Port, VAL_DRAIN_STEAM_Pin, status);
 }
-
+e_PowerState ValveDrainSteamGet() {
+	return (HAL_GPIO_ReadPin(VAL_DRAIN_STEAM_GPIO_Port, VAL_DRAIN_STEAM_Pin) == GPIO_PIN_SET) ? ON: OFF;
+}
 void ValveWaterSteamSet(e_PowerState status) { // acqua
 	HAL_GPIO_WritePin(VAL_WATER_STEAM_GPIO_Port, VAL_WATER_STEAM_Pin, status);
+}
+e_PowerState ValveWaterSteamGet() {
+	return (HAL_GPIO_ReadPin(VAL_WATER_STEAM_GPIO_Port, VAL_WATER_STEAM_Pin) == GPIO_PIN_SET) ? ON: OFF;
 }
 
 void FanSet(e_PowerState status) {
 	HAL_GPIO_WritePin(FAN_GPIO_Port, FAN_Pin, status);
+}
+e_PowerState FanGet() {
+	return (HAL_GPIO_ReadPin(FAN_GPIO_Port, FAN_Pin) == GPIO_PIN_SET) ? ON: OFF;
 }
 
 e_LockState DoorSolenoidSet(e_LockState status) {

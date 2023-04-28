@@ -1,23 +1,33 @@
-12:13:47 **** Incremental Build of configuration Debug for project DB_Protocol ****
+20:18:14 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j4 all 
 make: Nothing to be done for 'all'.
-12:13:48 **** Incremental Build of configuration Debug for project DB_Protocol ****
+20:18:15 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j4 all 
 make: Nothing to be done for 'all'.
-12:13:49 **** Incremental Build of configuration Debug for project Board_APP ****
+20:18:15 **** Incremental Build of configuration Debug for project Board_APP ****
 make -j4 all 
 arm-none-eabi-size   Board_APP.elf 
    text	   data	    bss	    dec	    hex	filename
- 153908	   2276	  56188	 212372	  33d94	Board_APP.elf
+ 154644	   2276	  56220	 213140	  34094	Board_APP.elf
 Finished building: default.size.stdout
  
-12:13:57 **** Incremental Build of configuration Debug for project DB_Protocol ****
+20:18:20 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j4 all 
 make: Nothing to be done for 'all'.
-12:13:57 **** Incremental Build of configuration Debug for project Board_APP ****
+20:18:21 **** Incremental Build of configuration Debug for project Board_APP ****
 make -j4 all 
 arm-none-eabi-size   Board_APP.elf 
    text	   data	    bss	    dec	    hex	filename
- 153908	   2276	  56188	 212372	  33d94	Board_APP.elf
+ 154644	   2276	  56220	 213140	  34094	Board_APP.elf
+Finished building: default.size.stdout
+ 
+20:19:05 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j4 all 
+make: Nothing to be done for 'all'.
+20:19:05 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j4 all 
+arm-none-eabi-size   Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+ 154644	   2276	  56220	 213140	  34094	Board_APP.elf
 Finished building: default.size.stdout
  
