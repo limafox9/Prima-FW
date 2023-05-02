@@ -301,7 +301,7 @@ uint8_t CheckError() {
 		retError = ERROR_ABNORMAL_EXIT;
 	} else {
 		if (currProgram != PROGRAM_RESUME_DRY) {
-			if (sensors.TemperatureChamberHeater > 200.0) {
+			if (sensors.TemperatureChamberHeater > 230.0) {
 				err02++;
 			} else {
 				err02 = 0;
@@ -612,6 +612,8 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 	uint8_t overPress = 0;
 	uint8_t timerReset = 0;
 
+	uint8_t err09 = 0;
+
 	T1T2Diff = (param->chamberTemp > 130.0) ? T1_T2_STERIL_MAX_TEMP_DIFF_134 : T1_T2_STERIL_MAX_TEMP_DIFF_121;
 
 	RTCTimerTime_s tTimeout, tPhase, tInterval, tDelay, tWait;
@@ -765,7 +767,15 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 				PrintStepLine("----  ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
 				retVal = 0;
 				break;
-			} else if (fabs(sensors.T1 - sensors.T2) > T1T2Diff) {
+			}
+
+			if (fabs(sensors.T1 - sensors.T2) > T1T2Diff) {
+				err09++;
+			} else {
+				err09 = 0;
+			}
+
+			if (err09 >= 4) {
 				lastError = ERROR_T1T2_MISMATCH;
 				Print("STER ERROR *** T1 T2 MISMATCH\n");
 				GetTimer(TIMER_PHASE, &tPhase);

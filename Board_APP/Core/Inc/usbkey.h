@@ -95,6 +95,7 @@ typedef struct {
 	char value[20];
 } s_ConfigParameter;
 
+
 extern char currFilename[];
 extern char USBString[];
 extern uint8_t USBWrite ;

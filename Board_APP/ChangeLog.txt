@@ -2,8 +2,31 @@
 PRIMA Board_APP
 -------------------------------------------------------------------------------
 
+[2.7.5] - 2023-05-02
+  ADDED
+     - Aggiunto controllo errore 09 (t1-t2 mismatch) in steril che viene
+       rilevato solo con 4 letture errate consecutive 
+
+[2.7.4] - 2023-05-02
+  CHANGED
+     - Modificata temperatura di steril per il ciclo user 0 vuoti da 135.5 a 
+      135.0*C (v2.7.2)     
+
+[2.7.3] - 2023-05-02
+  CHANGED
+     - Modificato DV_HEATING_RING_TEMP per riscaldamento fascia da 100 a 110°C
+       (v2.7.2)     
+
+[2.7.2] - 2023-05-02
+  CHANGED
+    - Modificata temperatura di steril per il ciclo user 0 vuoti da 134.5 a 
+      135.5*C come per tutti gli altri cicli
+    - Modificato sensors.TemperatureChamberHeater > 230.0 (ex 200.0°C) 
+    - Modificato DV_HEATING_RING_TEMP per riscaldamento fascia da 126 a 100°C
+      (v2.7.1)
+ 
 [2.7.1] - 2023-04-28
- CHANGED
+  CHANGED
     - Modificato sensors.TemperatureChamberHeater > 200.0 (ex 150.0°C) in
       seguito alla comparsa di errori 02 ed analizzato il codice Keil.
     - Rimesso sample rate sensori a 2sps

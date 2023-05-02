@@ -77,7 +77,7 @@ USAGE:
 #define T2_FACTORY_OFFSET			0.0			// Fixed factory offset for T2
 #define TDS_THRESHOLD				500
 
-//#define SERIAL_SENSOR_DEBUG
+#define SERIAL_SENSOR_DEBUG
 #define SERIAL_SENSOR_DEBUG_INTERVAL	2000
 #define SERIAL_SENSOR_DEBUG_TIME_SEPARATOR '.'
 #define SERIAL_SENSOR_DEBUG_DECIMAL_SEPARATOR ','
@@ -209,6 +209,9 @@ void StartSensorsTask() {
 	static uint8_t prevCSL = NORMAL;
 	static uint8_t prevCSH = NORMAL;
 	static uint8_t prevTDS = OFF;
+
+	uint8_t ringPower, steamPower;
+
 	// Fill buffer values
 	for (int i = 0 ; i < (sizeof(pressBuf) / sizeof(float)); i++) {
 		pressBuf[i] = ChamberPressureGet();
@@ -322,6 +325,8 @@ void StartSensorsTask() {
 #ifdef SERIAL_SENSOR_DEBUG
 		GetTimer(TIMER_SENSOR_MONITOR, &tSensorsMonitor);
 		if (tSensorsMonitor.Ticks >= SERIAL_SENSOR_DEBUG_INTERVAL) {
+			ringPower = (HAL_GPIO_ReadPin(HEATER_RING_GPIO_Port, HEATER_RING_Pin) == ON) ? ON : OFF;
+			steamPower = (HAL_GPIO_ReadPin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin) == ON) ? ON : OFF;
 			GetDateTime(&tLogTime);
 			printf("%02d.%02d.%02d;%0.1f;%0.1f;%0.1f;%0.1f;%0.1f;%0.1f;%04d;%1d;%1d;%1d;%1d;%1d;%1d;%1d;%1d\n",
 					tLogTime.Hour, tLogTime.Minute, tLogTime.Second,
@@ -339,6 +344,8 @@ void StartSensorsTask() {
 					ValveDryIntakeGet(),
 					ValveDrainSteamGet(),
 					ValveWaterSteamGet(),
+					ringPower,
+					steamPower,
 					FanGet()
 					);
 			ResetTimer(TIMER_SENSOR_MONITOR);

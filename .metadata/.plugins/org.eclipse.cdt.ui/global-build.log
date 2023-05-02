@@ -1,13 +1,103 @@
-00:58:25 **** Incremental Build of configuration Debug for project DB_Protocol ****
+16:29:32 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j4 all 
 make: Nothing to be done for 'all'.
-00:58:25 **** Incremental Build of configuration Debug for project DB_Protocol ****
+16:29:33 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j4 all 
 make: Nothing to be done for 'all'.
-00:58:26 **** Incremental Build of configuration Debug for project Board_APP ****
+16:29:34 **** Incremental Build of configuration Debug for project Board_APP ****
 make -j4 all 
+arm-none-eabi-gcc "../Core/Src/sensors.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/sensors.d" -MT"Core/Src/sensors.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/sensors.o"
+In file included from ../Core/Inc/sensors.h:39,
+                 from ../Core/Src/sensors.c:36:
+../Core/Inc/globals.h:105:1: warning: useless storage class specifier in empty declaration
+  105 | };
+      | ^
+../Core/Src/sensors.c: In function 'HAL_GPIO_EXTI_Callback':
+../Core/Src/sensors.c:141:3: warning: implicit declaration of function 'Beep' [-Wimplicit-function-declaration]
+  141 |   Beep(1, 100, 100);
+      |   ^~~~
+../Core/Src/sensors.c:148:4: warning: implicit declaration of function 'ValveDryIntakeSet' [-Wimplicit-function-declaration]
+  148 |    ValveDryIntakeSet(DoorPositionGet());
+      |    ^~~~~~~~~~~~~~~~~
+../Core/Src/sensors.c:149:25: warning: statement with no effect [-Wunused-value]
+  149 |    machineStatus.Status == STATUS_READY;
+      |    ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~
+../Core/Src/sensors.c:158:44: warning: implicit declaration of function 'PhasePreheat' [-Wimplicit-function-declaration]
+  158 |   if (machineStatus.Status == STATUS_IDLE) PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
+      |                                            ^~~~~~~~~~~~
+../Core/Src/sensors.c: In function 'WaterQualityGet':
+../Core/Src/sensors.c:195:13: warning: implicit declaration of function 'BAT2U_GetTDSValue' [-Wimplicit-function-declaration]
+  195 |    retVal = BAT2U_GetTDSValue(1, 1000);
+      |             ^~~~~~~~~~~~~~~~~
+../Core/Src/sensors.c:191:19: warning: unused variable 'dum' [-Wunused-variable]
+  191 |  uint16_t retVal, dum;
+      |                   ^~~
+../Core/Src/sensors.c: In function 'StartSensorsTask':
+../Core/Src/sensors.c:254:49: warning: implicit declaration of function 'ShowReading' [-Wimplicit-function-declaration]
+  254 |   else if (machineStatus.Show == SHOW_READINGS) ShowReading();
+      |                                                 ^~~~~~~~~~~
+../Core/Src/sensors.c:328:74: warning: comparison between 'GPIO_PinState' and 'enum <anonymous>' [-Wenum-compare]
+  328 |    ringPower = (HAL_GPIO_ReadPin(HEATER_RING_GPIO_Port, HEATER_RING_Pin) == ON) ? ON : OFF;
+      |                                                                          ^~
+../Core/Src/sensors.c:329:85: warning: comparison between 'GPIO_PinState' and 'enum <anonymous>' [-Wenum-compare]
+  329 |    steamPower = (HAL_GPIO_ReadPin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin) == ON) ? ON : OFF;
+      |                                                                                     ^~
+../Core/Src/sensors.c:342:6: warning: implicit declaration of function 'PumpVacuumGet' [-Wimplicit-function-declaration]
+  342 |      PumpVacuumGet(),
+      |      ^~~~~~~~~~~~~
+../Core/Src/sensors.c:343:6: warning: implicit declaration of function 'ValveVacuumGet' [-Wimplicit-function-declaration]
+  343 |      ValveVacuumGet(),
+      |      ^~~~~~~~~~~~~~
+../Core/Src/sensors.c:344:6: warning: implicit declaration of function 'ValveDryIntakeGet' [-Wimplicit-function-declaration]
+  344 |      ValveDryIntakeGet(),
+      |      ^~~~~~~~~~~~~~~~~
+../Core/Src/sensors.c:345:6: warning: implicit declaration of function 'ValveDrainSteamGet' [-Wimplicit-function-declaration]
+  345 |      ValveDrainSteamGet(),
+      |      ^~~~~~~~~~~~~~~~~~
+../Core/Src/sensors.c:346:6: warning: implicit declaration of function 'ValveWaterSteamGet' [-Wimplicit-function-declaration]
+  346 |      ValveWaterSteamGet(),
+      |      ^~~~~~~~~~~~~~~~~~
+../Core/Src/sensors.c:349:6: warning: implicit declaration of function 'FanGet' [-Wimplicit-function-declaration]
+  349 |      FanGet()
+      |      ^~~~~~
+../Core/Src/sensors.c:331:11: warning: too many arguments for format [-Wformat-extra-args]
+  331 |    printf("%02d.%02d.%02d;%0.1f;%0.1f;%0.1f;%0.1f;%0.1f;%0.1f;%04d;%1d;%1d;%1d;%1d;%1d;%1d;%1d;%1d\n",
+      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/sensors.c: In function 'CurrentGet':
+../Core/Src/sensors.c:399:13: warning: variable 'read' set but not used [-Wunused-but-set-variable]
+  399 |  float val, read[200];
+      |             ^~~~
+../Core/Src/sensors.c:397:17: warning: unused variable 'tTimeout' [-Wunused-variable]
+  397 |  RTCTimerTime_s tTimeout;
+      |                 ^~~~~~~~
+../Core/Src/sensors.c: In function 'ADCToCurrent':
+../Core/Src/sensors.c:594:8: warning: unused variable 'current' [-Wunused-variable]
+  594 |  float current = voltage / FACTOR;
+      |        ^~~~~~~
+../Core/Src/sensors.c:586:8: warning: unused variable 'cutOff' [-Wunused-variable]
+  586 |  float cutOff = FACTOR/cutOffLimit;// convert current cut off to mV
+      |        ^~~~~~
+../Core/Src/sensors.c:532:24: warning: unused variable 'pkPa' [-Wunused-variable]
+  532 |  float readVolt, vRef, pkPa;
+      |                        ^~~~
+At top level:
+../Core/Src/sensors.c:530:7: warning: 'ADCToCurrent' defined but not used [-Wunused-function]
+  530 | float ADCToCurrent(uint16_t adcValue) {
+      |       ^~~~~~~~~~~~
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima-FW\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Board_APP.elf
+ 
 arm-none-eabi-size   Board_APP.elf 
+arm-none-eabi-objdump -h -S  Board_APP.elf  > "Board_APP.list"
+arm-none-eabi-objcopy  -O ihex  Board_APP.elf  "Board_APP.hex"
    text	   data	    bss	    dec	    hex	filename
- 153972	   2276	  56188	 212436	  33dd4	Board_APP.elf
+ 154772	   2276	  56220	 213268	  34114	Board_APP.elf
+arm-none-eabi-objcopy  -O binary  Board_APP.elf  "Board_APP.bin"
 Finished building: default.size.stdout
+ 
+Finished building: Board_APP.hex
+Finished building: Board_APP.bin
+ 
+ 
+Finished building: Board_APP.list
  
