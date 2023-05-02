@@ -2,20 +2,35 @@
 PRIMA Board_APP
 -------------------------------------------------------------------------------
 
+[2.7.6] - 2023-05-02
+  ADDED
+    - Aggiunto parametro T1T2_CHECK_ERROR_INTERVAL in secondi per stabilire
+      l'intervallo di controllo di T1-T2 Mismatch durante steril. (impostato 
+      a 1) 
+    - Aggiunto parametro T1T2_MAX_ERR_READINGS per impostare quante letture 
+      errate consecutive devono essere rilevate prima di lanciare errore 09 
+      (impostato a 5)
+    - Aggiunto timer TIMER_CHECK_ERROR
+  CHANGED
+    - Modificato rilascio semafori nelle funzioni di stop dei task PWM per 
+      fascia e steam gen e solo fascia per evitare il rischio di sospensione 
+      dei task durante un SemaphoreWait 
+    - Attivato output log su seriale 
+
 [2.7.5] - 2023-05-02
   ADDED
-     - Aggiunto controllo errore 09 (t1-t2 mismatch) in steril che viene
-       rilevato solo con 4 letture errate consecutive 
+    - Aggiunto controllo errore 09 (t1-t2 mismatch) in steril che viene
+      rilevato solo con 4 letture errate consecutive 
 
 [2.7.4] - 2023-05-02
   CHANGED
-     - Modificata temperatura di steril per il ciclo user 0 vuoti da 135.5 a 
-      135.0*C (v2.7.2)     
+    - Modificata temperatura di steril per il ciclo user 0 vuoti da 135.5 a 
+      135.0*C (v2.7.2) 
 
 [2.7.3] - 2023-05-02
   CHANGED
-     - Modificato DV_HEATING_RING_TEMP per riscaldamento fascia da 100 a 110°C
-       (v2.7.2)     
+    - Modificato DV_HEATING_RING_TEMP per riscaldamento fascia da 100 a 110°C
+      (v2.7.2) 
 
 [2.7.2] - 2023-05-02
   CHANGED

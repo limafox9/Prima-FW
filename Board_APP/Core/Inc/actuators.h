@@ -85,5 +85,8 @@ e_LockState DoorSolenoidSet(e_LockState status);
 
 void ActuatorsSafeStatus();
 
+extern uint8_t chamberHeaterStatus;
+extern uint8_t steamHeaterStatus;
+
 
 #endif /* INC_ACTUATORS_H_ */

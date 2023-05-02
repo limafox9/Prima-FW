@@ -70,6 +70,10 @@ PIDController pidHeaterSteamGenerator = {PID_KP, PID_KI, PID_KD, PID_TAU, PID_LI
 void StartChPowerTask();
 void StartSteamPowerTask();
 
+uint8_t chamberHeaterStatus = OFF;
+uint8_t steamHeaterStatus = OFF;
+
+
 void Beep(uint8_t hits, uint16_t onDelay, uint16_t offDelay) {
 
 	uint32_t tick;
@@ -125,6 +129,11 @@ void PWMPower_Start() {
 void PWMPower_Stop() {
 	osThreadSuspend(chamberPowerTaskHandle);
 	osThreadSuspend(steamPowerTaskHandle);
+	HAL_GPIO_WritePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin, OFF);
+	HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, OFF);
+	osSemaphoreRelease(semaphorePowerHandle);
+	osSemaphoreRelease(semaphoreSensorsHandle);
+
 }
 
 void ChamberHeater_Start() {
@@ -133,6 +142,9 @@ void ChamberHeater_Start() {
 
 void ChamberHeater_Stop() {
 	osThreadSuspend(chamberPowerTaskHandle);
+	HAL_GPIO_WritePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin, OFF);
+	osSemaphoreRelease(semaphorePowerHandle);
+	osSemaphoreRelease(semaphoreSensorsHandle);
 }
 
 void StartChPowerTask() {

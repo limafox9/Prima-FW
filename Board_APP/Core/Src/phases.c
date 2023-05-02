@@ -59,10 +59,15 @@ USAGE:
 #define STEAM_PULSE_RISE		60
 #define STEAM_PULSE_STERIL		40
 
+#define T1T2_CHECK_ERROR_INTERVAL 1
+#define T1T2_MAX_ERR_READINGS 5
+
 uint8_t chamberHeaterTempSet;
 uint8_t steamGeneratorTempSet;
 
 char currPhase[8];
+
+RTCTimerTime_s tCheckError;
 
 
 //extern s_Sensors Sensors;
@@ -709,6 +714,7 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 
 		PIDController pidSteril1 = {pPID_KP, pPID_KI, pPID_KD, pPID_TAU, pPID_LIM_MIN, pPID_LIM_MAX, pPID_LIM_MIN_INT, pPID_LIM_MAX_INT, pSAMPLE_TIME_S};
 		PIDController_Init(&pidSteril1);
+		ResetTimer(TIMER_CHECK_ERROR);
 
 		while (1) {
 
@@ -769,13 +775,17 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 				break;
 			}
 
-			if (fabs(sensors.T1 - sensors.T2) > T1T2Diff) {
-				err09++;
-			} else {
-				err09 = 0;
+			GetTimer(TIMER_PHASE, &tCheckError);
+			if (tCheckError.Seconds >= T1T2_CHECK_ERROR_INTERVAL) {
+				if (fabs(sensors.T1 - sensors.T2) > T1T2Diff) {
+					err09++;
+				} else {
+					err09 = 0;
+				}
+
 			}
 
-			if (err09 >= 4) {
+			if (err09 >= T1T2_MAX_ERR_READINGS) {
 				lastError = ERROR_T1T2_MISMATCH;
 				Print("STER ERROR *** T1 T2 MISMATCH\n");
 				GetTimer(TIMER_PHASE, &tPhase);

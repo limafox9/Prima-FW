@@ -1,0 +1,1 @@
+Hour;T1;P1;T2;RingHeaterTemp;SteamHeaterTemp;ATM;TDS;Door;Solenoid;VacuPump;VacuValve;DryValve;DrainValve;WaterSteamValve;RingPower;SteamPower;Fan

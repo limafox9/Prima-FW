@@ -95,6 +95,11 @@ typedef struct {
 	char value[20];
 } s_ConfigParameter;
 
+//typedef struct {
+//	char filename[32];
+//	char data[128];
+//
+//} s_USBOutput;
 
 extern char currFilename[];
 extern char USBString[];
