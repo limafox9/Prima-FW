@@ -2,6 +2,11 @@
 PRIMA Board_APP
 -------------------------------------------------------------------------------
 
+[2.7.7] - 2023-05-02
+  FIXED
+    - Corretto ciclo user 121 con 0 vuoti
+    - Corretta stampa versione firmware su scontrino
+
 [2.7.6] - 2023-05-02
   ADDED
     - Aggiunto parametro T1T2_CHECK_ERROR_INTERVAL in secondi per stabilire

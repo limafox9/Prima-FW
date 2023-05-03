@@ -166,7 +166,7 @@ volatile FRESULT fr;
 
 	for (;;) {
 //		MX_USB_HOST_Process();
-		if (xQueueReceive(usbQueue, USBString, portMAX_DELAY) == pdTRUE)	{
+		if (xQueueReceive(usbQueue, USBString, portMAX_DELAY) == pdTRUE) {
 			if(f_mount(&USBHFatFS, "", 1) == FR_OK)	{
 				if (f_open(&USBHFile, currFilename, FA_WRITE | FA_OPEN_ALWAYS) == FR_OK) {
 					f_lseek(&USBHFile,USBHFile.fsize);

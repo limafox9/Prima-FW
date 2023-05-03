@@ -5,9 +5,9 @@ programs.c:274:9:ProgramUnwrapped	13
 programs.c:372:9:ProgramWrapped	16
 programs.c:481:9:ProgramPrion	15
 programs.c:588:9:ProgramGentle	15
-programs.c:692:9:ProgramUser	37
-programs.c:841:9:ProgramHelixTest	16
-programs.c:950:9:ProgramVacuumTest	8
-programs.c:1035:9:PowerTest	1
-programs.c:1176:9:ProgramWash	2
-programs.c:1212:9:ProgramWaterLoad	2
+programs.c:692:9:ProgramUser	38
+programs.c:845:9:ProgramHelixTest	16
+programs.c:954:9:ProgramVacuumTest	8
+programs.c:1039:9:PowerTest	1
+programs.c:1180:9:ProgramWash	2
+programs.c:1216:9:ProgramWaterLoad	2

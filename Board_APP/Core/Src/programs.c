@@ -707,6 +707,11 @@ uint8_t ProgramUser() {
 	GetDateTime(&clockTime);
 	PrintHeader("USER", sensors.T1, dryTime, sterilTime, &clockTime);
 
+	float cTemp;
+	cTemp = (settings.UserSterilTemp == STERILTEMP_134) ? DV_STERIL_TEMP_134 : DV_STERIL_TEMP_121;
+	cTemp = (settings.UserVacuumNumber == 0 && settings.UserSterilTemp == STERILTEMP_134) ? DV_STERIL_TEMP_134_USER_0 : cTemp;
+
+
 	// Heat up
 	if (success) {
 		success = PhaseHeatUp(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP, DV_PREHEAT_CHAMBER_TEMP, 100.0, OT_HEAT);
@@ -793,8 +798,7 @@ uint8_t ProgramUser() {
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
 		SterilParam_s sterilParam = {
-				.chamberTemp = (settings.UserSterilTemp == STERILTEMP_134) ? DV_STERIL_TEMP_134 : DV_STERIL_TEMP_121,
-				.chamberTemp = (settings.UserVacuumNumber == 0 && settings.UserSterilTemp == STERILTEMP_134) ? DV_STERIL_TEMP_134_USER_0 : DV_STERIL_TEMP_134,
+				.chamberTemp = cTemp,
 				.chamberTempMin = (settings.UserSterilTemp == STERILTEMP_134) ? 134.0 : 121.0,
 				.chamberTempMax = (settings.UserSterilTemp == STERILTEMP_134) ? 136.0 : 125.0,
 				.sterilTime = sterilTime,

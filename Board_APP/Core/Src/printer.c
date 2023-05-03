@@ -305,7 +305,7 @@ void PrintPowerTestHeader() {
 	Print("\n");
 	Print("S/N:          %s\n", machine.Serial);
 	Print("UID:          %08X %08X %08X\n", machine.MCUID[2], machine.MCUID[1], machine.MCUID[0]);
-	Print("Firmware:     v.%d.%02d.%1d (%d.%02d.%1d)\n", machine.FWVersionMajor, machine.FWVersionMinor, machine.FWVersionRevision, machine.DisplayFWVersionMajor, machine.DisplayFWVersionMinor, machine.DisplayFWVersionRevision);
+	Print("Firmware:     v.%d.%d.%02d (%d.%d.%02d)\n", machine.FWVersionMajor, machine.FWVersionMinor, machine.FWVersionRevision, machine.DisplayFWVersionMajor, machine.DisplayFWVersionMinor, machine.DisplayFWVersionRevision);
 	Print("\n");
 	Print("Date (Y-M-D): %d-%02d-%02d\n", clockTime.Year, clockTime.Month, clockTime.Day);
 	Print("Cycles        %d\n", settings.CyclesCount);
@@ -339,7 +339,7 @@ void PrintSettings() {
 	Print("\n");
 	Print("S/N:          %s\n", machine.Serial);
 	Print("UID:          %08X %08X %08X\n", machine.MCUID[2], machine.MCUID[1], machine.MCUID[0]);
-	Print("Firmware:     v.%d.%02d.%1d (%d.%02d.%1d)\n", machine.FWVersionMajor, machine.FWVersionMinor, machine.FWVersionRevision, machine.DisplayFWVersionMajor, machine.DisplayFWVersionMinor, machine.DisplayFWVersionRevision);
+	Print("Firmware:     v.%d.%d.%02d (%d.%d.%02d)\n", machine.FWVersionMajor, machine.FWVersionMinor, machine.FWVersionRevision, machine.DisplayFWVersionMajor, machine.DisplayFWVersionMinor, machine.DisplayFWVersionRevision);
 	Print("Prod.         %d %d\n", machine.ProductionYear, machine.ProductionWeek);
 	Print("\n");
 	Print("Date (Y-M-D): %d-%02d-%02d\n", clockTime.Year, clockTime.Month, clockTime.Day);
@@ -509,7 +509,7 @@ void PrintHeader (const char* title, float t1, uint16_t dryTime, uint16_t steril
 	Print("\n");
 	Print("S/N:          %s\n", machine.Serial);
 	Print("UID:          %08X %08X %08X\n", machine.MCUID[2], machine.MCUID[1], machine.MCUID[0]);
-	Print("Firmware:     v.%d.%02d.%1d (%d.%02d.%1d)\n", machine.FWVersionMajor, machine.FWVersionMinor, machine.FWVersionRevision, machine.DisplayFWVersionMajor, machine.DisplayFWVersionMinor, machine.DisplayFWVersionRevision);
+	Print("Firmware:     v.%d.%d.%02d (%d.%d.%02d)\n", machine.FWVersionMajor, machine.FWVersionMinor, machine.FWVersionRevision, machine.DisplayFWVersionMajor, machine.DisplayFWVersionMinor, machine.DisplayFWVersionRevision);
 	Print("\n");
 	Print("Date (Y-M-D): %d-%02d-%02d\n", time->Year, time->Month, time->Day);
 	Print("CYCLE N.      %d\n", settings.CyclesCount);
