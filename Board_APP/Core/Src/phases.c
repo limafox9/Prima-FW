@@ -1042,9 +1042,9 @@ uint8_t PhaseWaterLoad(uint16_t timeout) {
 	ValveVacuumSet(OFF);
 
 
-	if ((WaterReservoirLevelGet() & FULL) != FULL) {
+	if (WaterReservoirLevelGet() != FULL) {
 		PumpWaterLoadSet(ON);
-		while ((WaterReservoirLevelGet() & FULL) != FULL) {
+		while (WaterReservoirLevelGet() != FULL) {
 			GetTimer(TIMER_TIMEOUT, &tTimeout);
 			if (tTimeout.Seconds > timeout) break;
 			lastError = CheckError();
