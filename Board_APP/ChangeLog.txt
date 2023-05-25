@@ -2,9 +2,11 @@
 PRIMA Board_APP
 -------------------------------------------------------------------------------
 
-[2.7.8] - 2023-05-23
+[2.8.1] - 2023-05-23
   FIXED
     - Corretto programma caricamento acqua
+    - Estesa tolleranza errore T1-T2 mismatch a 5.0°C
+    - Esteso errore T1-T2 overtemp a 140°C
 
 [2.7.7] - 2023-05-02
   FIXED
