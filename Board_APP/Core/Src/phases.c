@@ -52,8 +52,15 @@ USAGE:
 
 #define STERIL_STABILIZATION_PERIOD 5 // 30
 
-#define T1_T2_STERIL_MAX_TEMP_DIFF_134 1.0
-#define T1_T2_STERIL_MAX_TEMP_DIFF_121 1.0
+#define T1_T2_STERIL_MAX_TEMP_DIFF_134 5.0
+#define T1_T2_STERIL_MAX_TEMP_DIFF_121 5.0
+
+#define T1_OVERTEMP 140.0
+#define T2_OVERTEMP 140.0
+#define STEAM_OVERTEMP 230.0
+#define HEAT_RING_OVERTEMP 230.0
+#define CHAMBER_OVERPRESS 345.0
+
 
 #define STEAM_PULSE_PRESSURE	100
 #define STEAM_PULSE_RISE		60
@@ -306,7 +313,7 @@ uint8_t CheckError() {
 		retError = ERROR_ABNORMAL_EXIT;
 	} else {
 		if (currProgram != PROGRAM_RESUME_DRY) {
-			if (sensors.TemperatureChamberHeater > 230.0) {
+			if (sensors.TemperatureChamberHeater > HEAT_RING_OVERTEMP) {
 				err02++;
 			} else {
 				err02 = 0;
@@ -316,13 +323,13 @@ uint8_t CheckError() {
 				retError = ERROR_OPEN_DOOR;
 			} else if (DoorSolenoidKeyGet() == UNLOCK) {
 				retError = ERROR_PROTECTION_LOCK;
-			} else if (sensors.TemperatureSteamGenerator > 230.0) {
+			} else if (sensors.TemperatureSteamGenerator > STEAM_OVERTEMP) {
 				retError = ERROR_STEAM_OVERTEMP;
 			} else if (err02 > 4) {
 				retError = ERROR_RING_OVERTEMP;
-			} else if ((sensors.T1 > 138.0) || (sensors.T2 > 138.0)) {
+			} else if ((sensors.T1 > T1_OVERTEMP) || (sensors.T2 > T2_OVERTEMP)) {
 				retError = ERROR_CHAMBER_OVERTEMP;
-			} else if (sensors.PressureChamber > 345.0) {
+			} else if (sensors.PressureChamber > CHAMBER_OVERPRESS) {
 				retError = ERROR_OVERPRESSURE;
 			}
 		}

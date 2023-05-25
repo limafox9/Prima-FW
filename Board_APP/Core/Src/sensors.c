@@ -49,6 +49,7 @@ USAGE:
 #include "7705.h"
 #include "time.h"
 #include "programs.h"
+#include "printer.h"
 
 
 //==============================================================================
@@ -68,7 +69,7 @@ USAGE:
 
 #define ERROR_BEEP_NUMBER			1
 
-#define SAMPLE_RATE					2			// Sample per second (SPS/Hz)
+#define SAMPLE_RATE					4			// Sample per second (SPS/Hz)
 #define AVERAGE_SAMPLES				5			// N. of samples for the average
 #define AVERAGE_SAMPLES_INTERVAL	10			// Interval between samples (milliseconds)
 #define V_REF						3.3			// Power supply
@@ -76,6 +77,10 @@ USAGE:
 #define T1_FACTORY_OFFSET			3.0			// Fixed factory offset for T1
 #define T2_FACTORY_OFFSET			0.0			// Fixed factory offset for T2
 #define TDS_THRESHOLD				500
+
+#define T_DELTA_ARRAY_SIZE			5
+#define T1_DELTA_SAMPLE_MAX			1.0
+#define T2_DELTA_SAMPLE_MAX			1.0
 
 #define SERIAL_SENSOR_DEBUG
 #define SERIAL_SENSOR_DEBUG_INTERVAL	2000
@@ -210,6 +215,11 @@ void StartSensorsTask() {
 	static uint8_t prevCSH = NORMAL;
 	static uint8_t prevTDS = OFF;
 
+	static float prevT1;
+	static float prevT2;
+	float currT1;
+	float currT2;
+
 	uint8_t ringPower, steamPower;
 
 	// Fill buffer values
@@ -221,15 +231,36 @@ void StartSensorsTask() {
 
 	sensors.PressureAmbient = (float)100.0;
 
+	prevT1 = TM7705_GetTemp(1, (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0));
+	HAL_Delay(100);
+	prevT2 = TM7705_GetTemp(2, (float)(settings.T2Offset / 10.0) + (float)(settings.T2FactoryOffset / 10.0));
+
 	for (;;) {
 		osSemaphoreWait(semaphoreSensorsHandle, 100);
 		sensors.Door = DoorPositionGet();
 		sensors.Solenoid = DoorSolenoidKeyGet();
 		sensors.TemperatureSteamGenerator = SteamGeneratorTempGet();
 		sensors.TemperatureChamberHeater = ChamberHeaterTempGet();
-		sensors.T1 = TM7705_GetTemp(1, (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0));
-		//HAL_Delay(50);
-		sensors.T2 = TM7705_GetTemp(2, (float)(settings.T2Offset / 10.0) + (float)(settings.T2FactoryOffset / 10.0));
+		currT1 = TM7705_GetTemp(1, (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0));
+		HAL_Delay(200);
+		currT2 = TM7705_GetTemp(2, (float)(settings.T2Offset / 10.0) + (float)(settings.T2FactoryOffset / 10.0));
+
+		// To avoid spurious spike readings
+		if (fabs(currT1 - prevT1) > T1_DELTA_SAMPLE_MAX) {
+			sensors.T1 = prevT1;
+			Print("*T1 %0.1f %0.1f\n", prevT1, currT1);
+		} else {
+			sensors.T1 = currT1;
+			prevT1 = currT1;
+		}
+		if (fabs(currT2 - prevT2) > T2_DELTA_SAMPLE_MAX) {
+			sensors.T2 = prevT2;
+			Print("*T2 %0.1f %0.1f\n", prevT2, currT2);
+		} else {
+			sensors.T2 = currT2;
+			prevT2 = currT2;
+		}
+
 		sensors.PressureChamber = BufferAverage(pressBuf, PRESS_BUFFER_SIZE, ChamberPressureGet());
 //		sensors.PressureChamber -= (!settings.FunPressureDisplay) ? 0 : 100;
 		sensors.Current = CurrentGet();
