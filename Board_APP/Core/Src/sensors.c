@@ -49,6 +49,7 @@ USAGE:
 #include "7705.h"
 #include "time.h"
 #include "programs.h"
+#include "phases.h"
 
 
 //==============================================================================
@@ -76,6 +77,11 @@ USAGE:
 #define T1_FACTORY_OFFSET			3.0			// Fixed factory offset for T1
 #define T2_FACTORY_OFFSET			0.0			// Fixed factory offset for T2
 #define TDS_THRESHOLD				500
+
+#define T_DELTA_ARRAY_SIZE			5
+#define T_DELTA_ERRORS_MAX			5
+#define T1_DELTA_MAX			0.5
+#define T2_DELTA_MAX			0.5
 
 #define SERIAL_SENSOR_DEBUG
 #define SERIAL_SENSOR_DEBUG_INTERVAL	2000
@@ -122,6 +128,9 @@ RTCDateTime_s tLogTime;
 
 float pressAmbientMin;
 float pressAmbientMax;
+
+float prevT1;
+float prevT2;
 
 #define PRESS_BUFFER_SIZE 5 // >= 2
 float pressBuf[PRESS_BUFFER_SIZE];
@@ -203,6 +212,15 @@ uint16_t WaterQualityGet() {
 	return retVal;
 }
 
+float GetT1() {
+	return TM7705_GetTemp(1, (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0));
+}
+
+float GetT2() {
+	return TM7705_GetTemp(2, (float)(settings.T2Offset / 10.0) + (float)(settings.T2FactoryOffset / 10.0));
+
+}
+
 void StartSensorsTask() {
 
 	static uint8_t prevLSH = NORMAL;
@@ -210,7 +228,14 @@ void StartSensorsTask() {
 	static uint8_t prevCSH = NORMAL;
 	static uint8_t prevTDS = OFF;
 
+	float currT1;
+	float currT2;
+	float deltaT1;
+	float deltaT2;
+
 	uint8_t ringPower, steamPower;
+
+	uint8_t deltaErrorsT1, deltaErrorsT2 = 0;
 
 	// Fill buffer values
 	for (int i = 0 ; i < (sizeof(pressBuf) / sizeof(float)); i++) {
@@ -227,9 +252,49 @@ void StartSensorsTask() {
 		sensors.Solenoid = DoorSolenoidKeyGet();
 		sensors.TemperatureSteamGenerator = SteamGeneratorTempGet();
 		sensors.TemperatureChamberHeater = ChamberHeaterTempGet();
-		sensors.T1 = TM7705_GetTemp(1, (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0));
-		//HAL_Delay(50);
-		sensors.T2 = TM7705_GetTemp(2, (float)(settings.T2Offset / 10.0) + (float)(settings.T2FactoryOffset / 10.0));
+		currT1 = GetT1();
+		HAL_Delay(100);
+		currT2 = GetT2();
+
+		// To avoid spurious spike readings
+
+		if (sterilRunning) {
+			deltaT1 = fabs(currT1 - prevT1);
+			deltaT2 = fabs(currT2 - prevT2);
+			if (deltaT1 > T1_DELTA_MAX) {
+				deltaErrorsT1++;
+				sensors.T1 = prevT1;
+				Print("*** T1 D:%0.1f P:%0.1f C:%0.1f\n", deltaT1, prevT1, currT1);
+			} else {
+				sensors.T1 = currT1;
+				prevT1 = currT1;
+			}
+			if (deltaErrorsT1 > T_DELTA_ERRORS_MAX) {
+				sensors.T1 = currT1;
+				prevT1 = currT1;
+				deltaErrorsT1 = 0;
+			}
+
+			if (deltaT2 > T2_DELTA_MAX) {
+				deltaErrorsT2++;
+				sensors.T2 = prevT2;
+				Print("*** T2 D:%0.1f P:%0.1f C:%0.1f\n", deltaT2, prevT2, currT2);
+			} else {
+				sensors.T2 = currT2;
+				prevT2 = currT2;
+			}
+			if (deltaErrorsT2 > T_DELTA_ERRORS_MAX) {
+				sensors.T2 = currT2;
+				prevT2 = currT2;
+				deltaErrorsT2 = 0;
+			}
+		} else {
+			sensors.T1 = currT1;
+			prevT1 = currT1;
+			sensors.T2 = currT2;
+			prevT2 = currT2;
+		}
+
 		sensors.PressureChamber = BufferAverage(pressBuf, PRESS_BUFFER_SIZE, ChamberPressureGet());
 //		sensors.PressureChamber -= (!settings.FunPressureDisplay) ? 0 : 100;
 		sensors.Current = CurrentGet();

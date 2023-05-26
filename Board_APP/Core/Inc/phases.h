@@ -57,6 +57,7 @@ typedef struct SterilParam_s {
 } SterilParam_s;
 
 extern char currPhase[8];
+extern uint8_t sterilRunning;
 
 uint8_t PhaseBegin(uint8_t timeout);
 uint8_t PhaseResume();

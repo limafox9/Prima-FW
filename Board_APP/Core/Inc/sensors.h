@@ -81,4 +81,8 @@ extern uint8_t doorOpened;
 extern float pressAmbientMin;
 extern float pressAmbientMax;
 
+extern float prevT1;
+extern float prevT2;
+
+
 #endif /* INC_SENSORS_H_ */

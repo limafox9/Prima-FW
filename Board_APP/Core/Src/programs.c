@@ -115,6 +115,7 @@ void StartProgramTask() {
 
 		if (programStart){
 			programStart = 0;
+			sterilRunning = 0;
 			if (currProgram == PROGRAM_RESUME_DRY) {
 				ProgramResumeDry();
 			} else {
@@ -157,6 +158,7 @@ void StartProgramTask() {
 				}
 			}
 		}
+		sterilRunning = 0;
 		osDelay(300);
 	}
 }

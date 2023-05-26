@@ -71,6 +71,8 @@ USAGE:
 uint8_t chamberHeaterTempSet;
 uint8_t steamGeneratorTempSet;
 
+uint8_t sterilRunning = 0;
+
 char currPhase[8];
 
 RTCTimerTime_s tCheckError;
@@ -696,6 +698,13 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 	if (retVal) {
 
 		sprintf(currPhase, "StEr");
+//		osSemaphoreWait(semaphoreSensorsHandle, 100);
+//		prevT1 = GetT1();
+//		HAL_Delay(100);
+//		prevT2 = GetT2();
+//		osSemaphoreRelease(semaphoreSensorsHandle);
+		sterilRunning = 1;
+
 
 		ResetTimer(TIMER_TIMEOUT);
 		ResetTimer(TIMER_PHASE);
@@ -821,6 +830,7 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 			osDelay(200);
 		}
 	}
+	sterilRunning = 0;
 
 	osDelay(100);
 	ValveDrainSteamSet(OFF);
@@ -839,6 +849,7 @@ uint8_t PhaseDry(float firstVacPress, float otherVacPress, uint16_t time, uint16
 	uint8_t cycle = 0;
 	float currPress;
 	RTCTimerTime_s tTimeout, tPhase;
+	sterilRunning = 0;
 	sprintf(currPhase, " dry");
 
 	ResetTimer(TIMER_TIMEOUT);

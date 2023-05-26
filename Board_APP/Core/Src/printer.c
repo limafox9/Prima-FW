@@ -214,6 +214,7 @@ void PrinterInit() {
 //	Print("%c%c", ESC, 0x54); // Upside-down print
 //	Print("%c%c%c", ESC, 0x57, 1); // Font size
 	PrintSend("%c%c%c", ESC, '!', 0b00000101);
+	PrintSend("%c%c%c", ESC, 'M', 12);
 //	Print("%c%c%c", ESC, '3', 10); // Line spacing (n*0.125mm, def. 30)
 //	Print("%c%c%c", ESC, 'a', 0); // Justify (0 = left, 1 = center, 2 = right)
 //	Print("%c%c%c",  GS, '!', 0x00);
@@ -352,6 +353,10 @@ void PrintSettings() {
 	Print("\n");
 	Print("T1_OFFSET                 %0.1f\n", (float)settings.T1Offset / 10.0);
 	Print("T2_OFFSET                 %0.1f\n", (float)settings.T2Offset / 10.0);
+	Print("\n");
+	Print("T1_FACTORY_OFFSET         %0.1f\n", (float)settings.T1FactoryOffset / 10.0);
+	Print("T2_FACTORY_OFFSET         %0.1f\n", (float)settings.T2FactoryOffset / 10.0);
+	Print("\n");
 	Print("CHAMBER_PRESSURE_OFFSET   %d\n", settings.ChamberPressOffset);
 	Print("CHAMBER_VACUUM_OFFSET     %d\n", settings.ChamberVacuumOffset);
 	Print("\n");

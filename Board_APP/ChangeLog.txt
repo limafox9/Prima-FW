@@ -2,11 +2,24 @@
 PRIMA Board_APP
 -------------------------------------------------------------------------------
 
-[2.8.1] - 2023-05-23
-  FIXED
-    - Corretto programma caricamento acqua
+[2.8.2 Test] - 2023-05-26
+  ADDED
+    - Tolleranza per picchi di temperatura per T1 e T2. In steril se lettura 
+      successiva > 0.5°C viene ignorata per max 5 volte consecutive.
+    - (in versione test aggiunta stampa non bloccante in caso di picco anomalo
+      con indicazione di delta, temp precedente e temp corrente)
+    - (in versione test T1-T1 mismatch T1_T2_STERIL_MAX_TEMP_DIFF_134 e 
+      T1_T2_STERIL_MAX_TEMP_DIFF_121 aumentati a 5.0°C)
+    - (in versione test T1-T2 overtemp T1_OVERTEMP e T2_OVERTEMP aumentati a
+      140.0°C)
+    - Aggiunti i factory offset a stampa parametri
+
+[2.8.1] - 2023-05-25
+  CHANGED
     - Estesa tolleranza errore T1-T2 mismatch a 5.0°C
     - Esteso errore T1-T2 overtemp a 140°C
+  FIXED
+    - Corretto programma caricamento acqua
 
 [2.7.7] - 2023-05-02
   FIXED
