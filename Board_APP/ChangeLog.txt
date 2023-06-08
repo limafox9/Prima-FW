@@ -2,6 +2,25 @@
 PRIMA Board_APP
 -------------------------------------------------------------------------------
 
+[2.8.6 Test] - 2023-06-08
+  CHANGED
+    - Modificata temperatura steril per ciclo 134 USER 0 da 134.5 a 134.7°C
+
+[2.8.5] - 2023-06-06
+  CHANGED
+    - Eliminata stampa diagnostica dei picchi anomali per T1 e T2 durante
+      lettura sensori (task in sensors.c)
+ 
+[2.8.4 Test] - 2023-05-31
+  CHANGED
+    - Aumentato tempo di rilascio in pressione durante user con < 3 vuoti da 20
+      a 25s
+    - Modificata durata impulso steam per fase rise da 50 a 100ms
+
+[2.8.3 Test] - 2023-05-31
+  CHANGED
+    - Modificata temperatura steril per il ciclo user 0 da 135.0 a 134.5°C 
+
 [2.8.2 Test] - 2023-05-26
   ADDED
     - Tolleranza per picchi di temperatura per T1 e T2. In steril se lettura 
