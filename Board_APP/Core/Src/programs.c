@@ -60,7 +60,7 @@ USAGE:
 #define DV_WATER_LOAD_TIMEOUT	300
 
 #define DV_STERIL_TEMP_134		135.5
-#define DV_STERIL_TEMP_134_USER_0 135.0
+#define DV_STERIL_TEMP_134_USER_0 134.7
 #define DV_STERIL_TEMP_121		123.2
 #define DV_STERIL_PRESS_MIN_134	308.0
 #define DV_STERIL_PRESS_MAX_134	350.0
@@ -789,7 +789,7 @@ uint8_t ProgramUser() {
 					break;
 				}
 				osDelay(200);
-			} while (tWait.Seconds < 20);
+			} while (tWait.Seconds < 25);
 			ValveDrainSteamSet(ON);
 		}
 	}

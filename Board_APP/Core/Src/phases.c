@@ -648,7 +648,7 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 		ret = (1/ret)*4000;
 //		if ((Sensors.T1 < param->chamberTemp) && (Sensors.TemperatureSteamGenerator >= param->steamTempMin)) {
 		if ((sensors.TemperatureSteamGenerator >= param->steamTempMin) && (sensors.T1 < param->chamberTemp)) {
-			SteamPulse(50);
+			SteamPulse(100);
 			osDelay(ret);
 		}
 		if ((sensors.T1 >= param->chamberTemp) && (sensors.T1 < param->chamberTempMax)) {

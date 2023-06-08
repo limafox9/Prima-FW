@@ -264,7 +264,7 @@ void StartSensorsTask() {
 			if (deltaT1 > T1_DELTA_MAX) {
 				deltaErrorsT1++;
 				sensors.T1 = prevT1;
-				Print("*** T1 D:%0.1f P:%0.1f C:%0.1f\n", deltaT1, prevT1, currT1);
+				//Print("*** T1 D:%0.1f P:%0.1f C:%0.1f\n", deltaT1, prevT1, currT1);
 			} else {
 				sensors.T1 = currT1;
 				prevT1 = currT1;
@@ -278,7 +278,7 @@ void StartSensorsTask() {
 			if (deltaT2 > T2_DELTA_MAX) {
 				deltaErrorsT2++;
 				sensors.T2 = prevT2;
-				Print("*** T2 D:%0.1f P:%0.1f C:%0.1f\n", deltaT2, prevT2, currT2);
+				//Print("*** T2 D:%0.1f P:%0.1f C:%0.1f\n", deltaT2, prevT2, currT2);
 			} else {
 				sensors.T2 = currT2;
 				prevT2 = currT2;
