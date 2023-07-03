@@ -2,6 +2,15 @@
 PRIMA Board_APP
 -------------------------------------------------------------------------------
 
+[2.8.7 Test] - 2023-07-03
+  CHANGED
+    - Modificata temperatura steril per ciclo 134 USER 0 da 134.5 a 134.7°C
+  FIXED
+    - Corretta accensione primo led vacuum durante breve vuoto in fase di
+      asciugatura del ciclo user 0-0. Ora accende led fase dry.
+    - Errato conteggio cicli se errori dopo start. Spostato contatore cicli da
+      inizio a fine fase begin.
+
 [2.8.6 Test] - 2023-06-08
   CHANGED
     - Modificata temperatura steril per ciclo 134 USER 0 da 134.5 a 134.7°C

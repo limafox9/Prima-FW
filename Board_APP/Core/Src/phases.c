@@ -92,13 +92,6 @@ uint8_t PhaseBegin(uint8_t timeout) {
 	settings.UserDryTime = GetDryTime(settings.UserDryClass, settings.UserSterilTemp, settings.UserVacuumNumber);
 
 
-	if (currProgram != PROGRAM_RESUME_DRY) {
-		settings.CyclesCount++;
-		EEPROM_Write(EPA_CYCLE_COUNTER, &settings.CyclesCount, 2);
-		machine.ReadOnlyCyclesCount++;
-		EEPROM_Write(EPA_CYCLE_COUNTER_PERMANENT, &machine.ReadOnlyCyclesCount, 2);
-	}
-
 
 	RTCDateTime_s ct;
 	PCF8563_GetDateTime(&ct);
@@ -200,6 +193,13 @@ uint8_t PhaseBegin(uint8_t timeout) {
 			break;
 		}
 		osDelay(200);
+	}
+
+	if (currProgram != PROGRAM_RESUME_DRY && retVal != 0) {
+		settings.CyclesCount++;
+		EEPROM_Write(EPA_CYCLE_COUNTER, &settings.CyclesCount, 2);
+		machine.ReadOnlyCyclesCount++;
+		EEPROM_Write(EPA_CYCLE_COUNTER_PERMANENT, &machine.ReadOnlyCyclesCount, 2);
 	}
 
 	return retVal;
@@ -408,7 +408,8 @@ uint8_t PhaseVacuum(uint8_t nVacuum, float press, uint8_t skipThreshold, uint16_
 	ResetTimer(TIMER_PHASE);
 	ResetTimer(TIMER_3);
 
-	if (nVacuum == 1) SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_1STVACUUM, 0, 0, "");
+	if (nVacuum == 0) SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_DRY, 0, 0, "");
+	else if (nVacuum == 1) SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_1STVACUUM, 0, 0, "");
 	else if (nVacuum == 2) SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_NVACUUM, 0, 0, "");
 	else if (nVacuum == 3) SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_STERILVACUUM, 0, 0, "");
 
