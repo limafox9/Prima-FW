@@ -827,7 +827,7 @@ uint8_t ProgramUser() {
 			success = PhaseDry(DRY_FIRST_VAC, DRY_OTHER_VAC, dryTime, dryTime * 1.5);
 		} else {
 		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
-		success = PhaseVacuum(1, 50.0, 0, 300);
+		success = PhaseVacuum(0, 50.0, 0, 300);
 		}
 	}
 
