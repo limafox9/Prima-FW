@@ -2,6 +2,15 @@
 PRIMA Board_APP
 -------------------------------------------------------------------------------
 
+[2.8.8 Test] - 2023-07-14
+  CHANGED
+    - Modificato comportamento fase rise e resa uguale a press (logica
+      immissione vapore e PID)
+    - Eliminato controllo durante stabilizzazione.
+    - Modificato tempo di stabilizzazione pre-steril a 5 sec. Solo per helix
+      test lasciato a 30 sec.
+    - Modificata tolleranza t1t2 mismatch da 5°C a 0.5°C
+
 [2.8.7 Test] - 2023-07-03
   CHANGED
     - Modificata temperatura steril per ciclo 134 USER 0 da 134.5 a 134.7°C
