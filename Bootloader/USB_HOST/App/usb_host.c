@@ -116,6 +116,7 @@ static void USBH_UserProcess  (USBH_HandleTypeDef *phost, uint8_t id)
 
   case HOST_USER_CLASS_ACTIVE:
   Appli_state = APPLICATION_READY;
+  Beep(1, 50, 50);
   CheckUpdate();
   break;
 

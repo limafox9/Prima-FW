@@ -36,73 +36,134 @@ USAGE:
 #include "flash.h"
 
 #include "Inc/DB_Protocol.h"
-
+#include "bootloader.h"
+#include "settings.h"
 
 uint8_t dispString[32];
-uint8_t readBuf[256];
+uint8_t readBuf[PACKET_SIZE];
 uint32_t readNum;
+uint8_t retval;
 
 //FATFS USBHFatFS;    /* File system object for USBH logical drive */
 //FIL USBHFile;       /* File object for USBH */
 
-uint8_t iap_usb(FIL *fil)
-{
+uint8_t iap_usb(FIL *fil) {
 	uint32_t size;
+	uint8_t sizef;
 	uint16_t packetNum;
-	uint32_t programAddr = 0x0800E000;
+	uint32_t programAddr = PROGRAM_ADDRESS;
+	char s[8];
 
-	size = f_size(fil);
+	FRESULT fr;
 
-	eraseFlash(0x0800E000, 99);//
+	fr = f_open(&USBHFile, UPDATE_FILENAME, FA_READ);
 
-	if((size % 256) == 0 )
-	  packetNum = size / 256;
-	else
-	  packetNum = size / 256 + 1;
+	if (fr == FR_OK) {
 
-	uint16_t i = 0;
-	uint8_t tmp;
+		size = f_size(fil);
+		sizef = size / 1024;
 
-	uint8_t d = 0;
+		#if (CPU_TYPE == 1)
+			eraseFlash(PROGRAM_ADDRESS, 99);//
+		#elif (CPU_TYPE == 2)
+			eraseFlash(PROGRAM_ADDRESS, 102);//
+		#endif
 
-	while(i < packetNum)
-	{
-		memset(readBuf, 0 , 256);
-		if(f_read(fil,readBuf, 256, &readNum) != 0)
-		{
-			HAL_NVIC_SystemReset();
+		if((size % PACKET_SIZE) == 0 )
+		  packetNum = size / PACKET_SIZE;
+		else
+		  packetNum = size / PACKET_SIZE + 1;
+
+//		sprintf(s, "P%03d", sizef);
+//		SendCommand(DISPLAY_CMD_WRITE_DIGITS,1,0,0,s);
+//		SendCommand(DISPLAY_CMD_WRITE_DIGITS,2,0,0,"    ");
+//		SendCommand(DISPLAY_CMD_WRITE_DIGITS,3,0,0,"    ");
+//		HAL_Delay(3000);
+
+		uint16_t i = 0;
+		uint8_t tmp;
+
+		uint8_t d = 0;
+		uint8_t p = 0;
+
+		uint32_t pos = 0;
+
+		while(1) {
+	//		while(i < packetNum) {
+			sprintf(s, "P%03d", i);
+			SendCommand(DISPLAY_CMD_WRITE_DIGITS,1,0,0,s);
+
+			memset(readBuf, 0 , PACKET_SIZE);
+			retval = f_read(fil, readBuf, PACKET_SIZE, &readNum);
+
+			if(retval != FR_OK) {
+				sprintf(s, "Fr%02d", retval);
+				SendCommand(DISPLAY_CMD_WRITE_DIGITS,1,0,0,s);
+				HAL_Delay(3000);
+
+				f_close(fil);
+
+//				SendCommand(DISPLAY_CMD_WRITE_DIGITS,1,0,0,"    ");
+//				SendCommand(DISPLAY_CMD_WRITE_DIGITS,2,0,0,"    ");
+//				SendCommand(DISPLAY_CMD_WRITE_DIGITS,3,0,0,"    ");
+//				HAL_Delay(3000);
+
+				HAL_NVIC_SystemReset();
+			}
+
+			//tmp = program256B(programAddr, readBuf);
+
+
+	//		if(tmp == 0) {
+	//			HAL_Delay(200);
+	//			break;
+	//		}
+
+			if (readNum < PACKET_SIZE) break;
+
+			i++;
+			programAddr += PACKET_SIZE;
+
+			if (i > 30) {
+				i = 0;
+				pos = f_tell(fil);
+				f_close(fil);
+				f_open(fil, UPDATE_FILENAME, FA_READ);
+				f_lseek(fil, pos);
+			}
+
+	//		if (d > 200) d = 0;
+	//
+	//		switch (d) {
+	//		case 0:
+			//			SendCommand(DISPLAY_CMD_WRITE_DIGITS,1,0,0,"o   ");
+	//			break;
+	//		case 50:
+	//			SendCommand(DISPLAY_CMD_WRITE_DIGITS,1,0,0," o  ");
+	//			break;
+	//		case 100:
+	//			SendCommand(DISPLAY_CMD_WRITE_DIGITS,1,0,0,"  o ");
+	//			break;
+	//		case 150:
+	//			SendCommand(DISPLAY_CMD_WRITE_DIGITS,1,0,0,"   o");
+	//			break;
+	//		}
+	//		d++;
+
+
 		}
-		tmp = program256B(programAddr, readBuf);
-		if(tmp == 0)
-		{
-			HAL_Delay(200);
-			break;
-		}
-		i++;
-		programAddr += 256;
 
-		if (d > 200) d = 0;
-
-		switch (d) {
-		case 0:
-			SendCommand(DISPLAY_CMD_WRITE_DIGITS,1,0,0,"o   ");
-			break;
-		case 50:
-			SendCommand(DISPLAY_CMD_WRITE_DIGITS,1,0,0," o  ");
-			break;
-		case 100:
-			SendCommand(DISPLAY_CMD_WRITE_DIGITS,1,0,0,"  o ");
-			break;
-		case 150:
-			SendCommand(DISPLAY_CMD_WRITE_DIGITS,1,0,0,"   o");
-			break;
-		}
-		d++;
+	} else {
+		sprintf(s, "Hr%02d", fr);
+		SendCommand(DISPLAY_CMD_WRITE_DIGITS,1,0,0,s);
+		HAL_Delay(3000);
+		HAL_NVIC_SystemReset();
 
 	}
-	f_close(fil);
+//	f_close(fil);
 
-	HAL_Delay(200);
+	HAL_Delay(3000);
+
 	return 0;
 }
 
@@ -125,19 +186,21 @@ void  eraseFlash(uint32_t startAddr, uint8_t pageNum)
 
 uint8_t program256B(uint32_t startAddr, uint8_t *Buf)
 {
-	uint8_t readBackBuf[256];
+	uint8_t readBackBuf[PACKET_SIZE];
 
 	HAL_FLASH_Unlock();
-	for(uint16_t i = 0; i < 256 ; i += 4)
+	for(uint16_t i = 0; i < PACKET_SIZE ; i += 4)
 	{
 		uint32_t tmp = (Buf[i + 3] << 24) + (Buf[i + 2] << 16) + (Buf[i + 1] << 8) + Buf[i];
 		HAL_FLASH_Program(TYPEPROGRAM_WORD, startAddr + i, tmp);
 	}
 	HAL_FLASH_Lock();
 
+
 	return 1;
-	memcpy(readBackBuf,(uint8_t *)startAddr,256);
-	uint8_t tmp = memcmp(readBackBuf,Buf,256);
+
+	memcpy(readBackBuf,(uint8_t *)startAddr,PACKET_SIZE);
+	uint8_t tmp = memcmp(readBackBuf,Buf,PACKET_SIZE);
 	if(tmp == 0)
 		return 1;
 	else

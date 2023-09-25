@@ -69,6 +69,7 @@ USAGE:
 
 typedef enum {
 	DISPLAY_CMD_OK 							= 0x0100,	// message received ok. param1..4 depend on command
+	DISPLAY_CMD_KEYS_OK 		  			= 0x0107,   // keys ok
 	DISPLAY_CMD_ERROR 						= 0x0110,	// message error (fail or incomplete receive). param1..4 depend on command
 	DISPLAY_CMD_BEEP 						= 0x00DB,	// beeps buzzer on display board. param1: n. of beeps; param2: on time(ms); param3: off time(ms)
 	DISPLAY_CMD_KEYS_PRESSED 				= 0x6666, 	// keys pressed on display board
@@ -81,6 +82,7 @@ typedef enum {
 	DISPLAY_CMD_READY 						= 0x0043, 	// display (re)booted and ready
 	DISPLAY_CMD_CHECK 						= 0x0032,	// display check. All leds and segments ON + BEEP. Param1: ON time (ms); param2 n. of beeps (100ms ON, 100ms OFF)
 	DISPLAY_CMD_FW_VER 						= 0x0012, 	// get firmware version
+	DISPLAY_CMD_GET_KEYS					= 0x0116, 	// get keys
 } e_DisplayProtocolCommand;
 
 typedef enum {

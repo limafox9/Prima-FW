@@ -404,6 +404,9 @@ void SdcardWriteAction(char *file_name , char *data) {
 //		_closefile(&fil);
 //		_unmountSdcard();
 }
+
+
+
 //void clearBuffer(void)
 //{
 //	 for(int s = 0; s <= MAX_BUFFER; s++)

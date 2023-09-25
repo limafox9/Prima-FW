@@ -38,8 +38,9 @@ USAGE:
 #ifndef INC_BOOTLOADER_H_
 #define INC_BOOTLOADER_H_
 
-#define APP1_START (0x0800C000)			//Origin + Bootloader size (20kB)
-#define APP2_START (0x0800A800)			//Origin + Bootloader size (20kB) + App1 Bank (22kB)
+//#define APP1_START (0x0800C000)			//Origin + Bootloader size (20kB)
+//#define APP2_START (0x0800A800)			//Origin + Bootloader size (20kB) + App1 Bank (22kB)
+//#define PROGRAM_ADDRESS 0x0800E000
 #define FLASH_BANK_SIZE (0X5800)		//22kB
 #define FLASH_PAGE_SIZE_USER (0x400)	//1kB
 

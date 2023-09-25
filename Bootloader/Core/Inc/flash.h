@@ -40,7 +40,8 @@ USAGE:
 
 #include "fatfs.h"
 
-uint8_t iap_usb(FIL *fil);
+//uint8_t iap_usb(FIL *fil);
+uint8_t iap_usb();
 void  eraseFlash(uint32_t startAddr, uint8_t pageNum);
 uint8_t program256B(uint32_t startAddr, uint8_t *Buf);
 
