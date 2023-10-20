@@ -608,7 +608,7 @@ uint8_t PhasePressure(uint8_t nPressure, float press, float steamTemp, float ste
 //	return retVal;
 }
 
-uint8_t PhaseSteril(SterilParam_s* param) {
+uint8_t PhaseSteril(SterilParam_s* param, SterilPID_s* pPID) {
 //	static const float pPID_KP = 0.6;  // >0.8
 //	static const float pPID_KI = 0.3;	// >0.4
 //	static const float pPID_KD = 0.2;
@@ -619,9 +619,9 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 //	static const float pPID_LIM_MAX_INT = 1.0; // 1.0
 //	static const float pSAMPLE_TIME_S = 1.0;
 
-	static const float pPID_KP = 100; 			// 100
+	static const float pPID_KP = 40; 			// 100
 	static const float pPID_KI = 60; 			// 60
-	static const float pPID_KD = 40; 			// 40
+	static const float pPID_KD = 10; 			// 40
 	static const float pPID_TAU = 1.0; 			// 1.0
 	static const float pPID_LIM_MIN = 50; 		// 50
 	static const float pPID_LIM_MAX = 150; 		// 150
@@ -644,7 +644,7 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 	ResetTimer(TIMER_TIMEOUT);
 	ResetTimer(TIMER_PHASE);
 
-	PIDController pidSteril = {pPID_KP, pPID_KI, pPID_KD, pPID_TAU, pPID_LIM_MIN, pPID_LIM_MAX, pPID_LIM_MIN_INT, pPID_LIM_MAX_INT, pSAMPLE_TIME_S};
+	PIDController pidSteril = {pPID->PID_KP, pPID->PID_KI, pPID->PID_KD, pPID->PID_TAU, pPID->PID_LIM_MIN, pPID->PID_LIM_MAX, pPID->PID_LIM_MIN_INT, pPID->PID_LIM_MAX_INT, pPID->SAMPLE_TIME_S};
 	PIDController_Init(&pidSteril);
 
 	ValveDrainSteamSet(ON);
@@ -783,10 +783,10 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 
 
 			// Delay before counting phase (steril) time. Wait to settle temp.
-//			GetTimer(TIMER_3, &tDelay);
-//			if (tDelay.Seconds < 20) {
-//				ResetTimer(TIMER_PHASE);
-//			}
+			GetTimer(TIMER_3, &tDelay);
+			if (tDelay.Seconds < param->settleTime) {
+				ResetTimer(TIMER_PHASE);
+			}
 
 			// Check for errors
 			GetTimer(TIMER_TIMEOUT, &tTimeout);
