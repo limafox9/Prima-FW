@@ -342,11 +342,25 @@ uint8_t ProgramUnwrapped() {
 				.pressMax = DV_STERIL_PRESS_MAX_134,
 				.steamTemp = DV_STEAM_GEN_TEMP,
 				.steamTempMin = 170.0,
+				.settleTime = 5,
 				.stabilizationPeriod = STERIL_STABILIZATION_PERIOD,
 				.printInterval = 30,
 				.timeout = 800
 		};
-		success = PhaseSteril(&sterilParam);
+		SterilPID_s PIDParam = {
+				.PID_KP = 100, 			// 100
+				.PID_KI = 60, 			// 60
+				.PID_KD = 40, 			// 40
+				.PID_TAU = 1.0, 		// 1.0
+				.PID_LIM_MIN = 50, 		// 50
+				.PID_LIM_MAX = 150, 	// 150
+				.PID_LIM_MIN_INT = -40, // -40
+				.PID_LIM_MAX_INT = 40, 	// 40
+				.SAMPLE_TIME_S = 1.0, 	// 1.0
+		};
+
+		success = PhaseSteril(&sterilParam, &PIDParam);
+
 	}
 	if (success) {
 		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
@@ -451,11 +465,25 @@ uint8_t ProgramWrapped() {
 				.pressMax = DV_STERIL_PRESS_MAX_134,
 				.steamTemp = DV_STEAM_GEN_TEMP,
 				.steamTempMin = 170.0,
+				.settleTime = 5,
 				.stabilizationPeriod = STERIL_STABILIZATION_PERIOD,
 				.printInterval = 30,
 				.timeout = 800
 		};
-		success = PhaseSteril(&sterilParam);
+		SterilPID_s PIDParam = {
+				.PID_KP = 100, 			// 100
+				.PID_KI = 60, 			// 60
+				.PID_KD = 40, 			// 40
+				.PID_TAU = 1.0, 		// 1.0
+				.PID_LIM_MIN = 50, 		// 50
+				.PID_LIM_MAX = 150, 	// 150
+				.PID_LIM_MIN_INT = -40, // -40
+				.PID_LIM_MAX_INT = 40, 	// 40
+				.SAMPLE_TIME_S = 1.0, 	// 1.0
+		};
+
+		success = PhaseSteril(&sterilParam, &PIDParam);
+
 	}
 	if (success) {
 		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
@@ -558,11 +586,25 @@ uint8_t ProgramPrion() {
 				.pressMax = DV_STERIL_PRESS_MAX_134,
 				.steamTemp = DV_STEAM_GEN_TEMP,
 				.steamTempMin = 170.0,
+				.settleTime = 5,
 				.stabilizationPeriod = STERIL_STABILIZATION_PERIOD,
 				.printInterval = 120,
 				.timeout = 1500
 		};
-		success = PhaseSteril(&sterilParam);
+		SterilPID_s PIDParam = {
+				.PID_KP = 100, 			// 100
+				.PID_KI = 60, 			// 60
+				.PID_KD = 40, 			// 40
+				.PID_TAU = 1.0, 		// 1.0
+				.PID_LIM_MIN = 50, 		// 50
+				.PID_LIM_MAX = 150, 	// 150
+				.PID_LIM_MIN_INT = -40, // -40
+				.PID_LIM_MAX_INT = 40, 	// 40
+				.SAMPLE_TIME_S = 1.0, 	// 1.0
+		};
+
+		success = PhaseSteril(&sterilParam, &PIDParam);
+
 	}
 	if (success) {
 		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
@@ -662,11 +704,23 @@ uint8_t ProgramGentle() {
 				.pressMax = DV_STERIL_PRESS_MAX_121,
 				.steamTemp = DV_STEAM_GEN_TEMP,
 				.steamTempMin = 170.0,
+				.settleTime = 5,
 				.stabilizationPeriod = STERIL_STABILIZATION_PERIOD,
 				.printInterval = 120,
 				.timeout = 1800
 		};
-		success = PhaseSteril(&sterilParam);
+		SterilPID_s PIDParam = {
+				.PID_KP = 40, 			// 100
+				.PID_KI = 60, 			// 60
+				.PID_KD = 10, 			// 40
+				.PID_TAU = 1.0, 		// 1.0
+				.PID_LIM_MIN = 50, 		// 50
+				.PID_LIM_MAX = 150, 	// 150
+				.PID_LIM_MIN_INT = -40, // -40
+				.PID_LIM_MAX_INT = 40, 	// 40
+				.SAMPLE_TIME_S = 1.0, 	// 1.0
+		};
+		success = PhaseSteril(&sterilParam, &PIDParam);
 	}
 	if (success) {
 		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
@@ -809,12 +863,25 @@ uint8_t ProgramUser() {
 				.pressMax = (settings.UserSterilTemp == STERILTEMP_134) ? DV_STERIL_PRESS_MAX_134 : DV_STERIL_PRESS_MAX_121,
 				.steamTemp = DV_STEAM_GEN_TEMP,
 				.steamTempMin = 170.0,
+				.settleTime = 5,
 				.stabilizationPeriod = STERIL_STABILIZATION_PERIOD,
 				.printInterval = 30,
 				.timeout = settings.UserSterilTime * 60 * 1.5,
 		};
+		SterilPID_s PIDParam = {
+				.PID_KP = (settings.UserSterilTemp == STERILTEMP_134) ? 50.0 : 30.0, 			// 100
+				.PID_KI = (settings.UserSterilTemp == STERILTEMP_134) ? 60.0 : 80.0, 			// 60
+				.PID_KD = (settings.UserSterilTemp == STERILTEMP_134) ? 10.0 : 5.0, 			// 40
+				.PID_TAU = 1.0, 		// 1.0
+				.PID_LIM_MIN = 50, 		// 50
+				.PID_LIM_MAX = 150, 	// 150
+				.PID_LIM_MIN_INT = -40, // -40
+				.PID_LIM_MAX_INT = 40, 	// 40
+				.SAMPLE_TIME_S = 1.0, 	// 1.0
+		};
 
-		success = PhaseSteril(&sterilParam);
+		success = PhaseSteril(&sterilParam, &PIDParam);
+
 	}
 	if (success) {
 		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
@@ -924,11 +991,25 @@ uint8_t ProgramHelixTest() {
 				.pressMax = 350.0,
 				.steamTemp = DV_STEAM_GEN_TEMP,
 				.steamTempMin = 170.0,
+				.settleTime = 25,
 				.stabilizationPeriod = STERIL_STABILIZATION_PERIOD_HELIX,
 				.printInterval = 30,
 				.timeout = 600
 		};
-		success = PhaseSteril(&sterilParam);
+		SterilPID_s PIDParam = {
+				.PID_KP = 100, 			// 100
+				.PID_KI = 60, 			// 60
+				.PID_KD = 40, 			// 40
+				.PID_TAU = 1.0, 		// 1.0
+				.PID_LIM_MIN = 50, 		// 50
+				.PID_LIM_MAX = 150, 	// 150
+				.PID_LIM_MIN_INT = -40, // -40
+				.PID_LIM_MAX_INT = 40, 	// 40
+				.SAMPLE_TIME_S = 1.0, 	// 1.0
+		};
+
+		success = PhaseSteril(&sterilParam, &PIDParam);
+
 	}
 	if (success) {
 		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
