@@ -39,7 +39,10 @@ USAGE:
 #define INC_KEYS_H_
 
 #include <stdio.h>
+#include <stdint.h>
+
 
 void KeysTask();
+uint8_t GetPressedKeys();
 
 #endif /* INC_KEYS_H_ */

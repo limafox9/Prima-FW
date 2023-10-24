@@ -38,6 +38,10 @@ USAGE:
 #ifndef INC_BOOTLOADER_H_
 #define INC_BOOTLOADER_H_
 
+#include "main.h"
+#include <string.h>
+#include <stdint.h>
+
 #define APP1_START (0x0800C000)			//Origin + Bootloader size (20kB)
 #define APP2_START (0x0800A800)			//Origin + Bootloader size (20kB) + App1 Bank (22kB)
 #define FLASH_BANK_SIZE (0X5800)		//22kB
@@ -47,9 +51,6 @@ USAGE:
 #define FLASHING_START "#$FLASH_START"
 #define FLASHING_FINISH "#$FLASH_FINISH"
 #define FLASHING_ABORT "#$FLASH_ABORT"
-
-#include "main.h"
-#include <string.h>
 
 typedef enum
 {

@@ -38,6 +38,7 @@ USAGE:
 #ifndef INC_KEYS_H_
 #define INC_KEYS_H_
 
+#include <stdint.h>
 //#include "globals.h"
 #include "Inc/DB_Protocol.h"
 

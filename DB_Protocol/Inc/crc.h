@@ -37,6 +37,7 @@ USAGE:
 #define INC_CRC16_H_
 
 #include <stdio.h>
+#include <stdint.h>
 
 uint8_t CRC8(uint8_t* data, uint16_t size);
 uint16_t CRC16_Modbus(uint8_t* data, uint16_t size);

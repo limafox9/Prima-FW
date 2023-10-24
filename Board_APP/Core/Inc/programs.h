@@ -39,6 +39,7 @@ USAGE:
 #define INC_PROGRAMS_H_
 
 #include <stdio.h>
+#include <stdint.h>
 
 #define PROGRAMS_N 5
 #define TESTS_N 4
