@@ -2,6 +2,15 @@
 PRIMA Board_APP
 -------------------------------------------------------------------------------
 
+[3.0.1] - 2023-11-16
+	CHANGED
+		- Modificata routine di line feed ricorsiva per scontrino e file USB
+		  PrintLF()
+		- Aumentate righe vuote di stampa in coda scontrino per gli errori da 10
+		  a 20 - PrintError()
+	FIXED
+		- Rilevamento e mantenimento protection lock error (ERR 11) all'avvio SysInit()
+
 [3.0.0] - 2023-11-16
 	ADDED
 		- Aggiunto parametro DRY_VALVE_TIMER e aumentato da 10 a 15s il

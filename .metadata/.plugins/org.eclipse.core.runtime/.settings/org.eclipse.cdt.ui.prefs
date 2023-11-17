@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 asm_directive=221,40,103
 asm_label=217,232,247
 buildConsoleBackgroundColor=47,47,47
@@ -104,7 +105,9 @@ semanticHighlighting.typedef.bold=true
 semanticHighlighting.typedef.color=18,144,195
 semanticHighlighting.typedef.enabled=true
 sourceHoverBackgroundColor=47,47,47
+=======
+eclipse.preferences.version=1
+>>>>>>> Stashed changes
 spelling_locale_initialized=true
-spelling_user_dictionary_encoding=Cp1252
 useAnnotationsPrefPage=true
 useQuickDiffPrefPage=true

@@ -248,7 +248,7 @@ void PrintError(const char* errorString, RTCTimerTime_s* tTime) {
 												(sensors.Door == OPEN) ? "OP" : "CL",
 												(sensors.Solenoid == LOCK) ? "LK" : "UN"
 												);
-	PrintLF(10);
+	PrintLF(20);
 }
 
 void PrintSend(const char* format, ...) {
@@ -563,12 +563,9 @@ void PrintDivisor() {
 }
 
 void PrintLF(uint8_t lines) {
-	char data[lines + 1];
 	for (int i = 0; i < lines; i++) {
-		data[i] = 0x1b;
+		Print("\n");
 	}
-	data[lines] = 0x0;
-	Print(data);
 }
 
 unsigned char reverse_byte(unsigned char x) {

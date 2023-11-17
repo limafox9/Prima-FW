@@ -12,4 +12,4 @@
 ../Core/Src/printer.c:556:6:PrintStepLine	1
 ../Core/Src/printer.c:560:6:PrintDivisor	1
 ../Core/Src/printer.c:565:6:PrintLF	2
-../Core/Src/printer.c:574:15:reverse_byte	1
+../Core/Src/printer.c:571:15:reverse_byte	1
