@@ -52,13 +52,13 @@ USAGE:
 
 #define STERIL_STABILIZATION_PERIOD 5 // 30
 
-#define T1_T2_STERIL_MAX_TEMP_DIFF_134 5.0
-#define T1_T2_STERIL_MAX_TEMP_DIFF_121 5.0
+#define T1_T2_STERIL_MAX_TEMP_DIFF_134 0.5
+#define T1_T2_STERIL_MAX_TEMP_DIFF_121 0.5
 
 #define T1_OVERTEMP 140.0
 #define T2_OVERTEMP 140.0
 #define STEAM_OVERTEMP 230.0
-#define HEAT_RING_OVERTEMP 230.0
+#define HEAT_RING_OVERTEMP 160.0
 #define CHAMBER_OVERPRESS 345.0
 
 #define STEAM_PULSE_PRESSURE	100
@@ -95,7 +95,6 @@ uint8_t PhaseBegin(uint8_t timeout) {
 
 	RTCDateTime_s ct;
 	PCF8563_GetDateTime(&ct);
-	sprintf(currFilename, "%02d_%02d_%02d-%02d_%02d-%05d.txt", ct.Year%100, ct.Month, ct.Day, ct.Hour, ct.Minute, settings.CyclesCount);
 
 	sensors.WaterTDS = WaterQualityGet();
 
@@ -197,6 +196,7 @@ uint8_t PhaseBegin(uint8_t timeout) {
 
 	if (currProgram != PROGRAM_RESUME_DRY && retVal != 0) {
 		settings.CyclesCount++;
+		sprintf(currFilename, "%02d_%02d_%02d-%02d_%02d-%05d.txt", ct.Year%100, ct.Month, ct.Day, ct.Hour, ct.Minute, settings.CyclesCount);
 		EEPROM_Write(EPA_CYCLE_COUNTER, &settings.CyclesCount, 2);
 		machine.ReadOnlyCyclesCount++;
 		EEPROM_Write(EPA_CYCLE_COUNTER_PERMANENT, &machine.ReadOnlyCyclesCount, 2);
@@ -205,7 +205,7 @@ uint8_t PhaseBegin(uint8_t timeout) {
 	return retVal;
 }
 
-uint8_t PhaseResume() {
+uint8_t PhaseResume(uint16_t timeout) {
 
 	uint8_t retVal = 1;
 	RTCTimerTime_s tTimeout, tPhase;
@@ -217,6 +217,7 @@ uint8_t PhaseResume() {
 	ValveDryIntakeSet(ON);
 	ValveDrainSteamSet(ON);
 
+	ResetTimer(TIMER_TIMEOUT);
 	while (1) {
 		if ((sensors.PressureChamber >= pressAmbientMin) && (sensors.PressureChamber <= pressAmbientMax)) {
 			break;
@@ -224,6 +225,10 @@ uint8_t PhaseResume() {
 		lastError = CheckError();
 		if (lastError > 0) {
 			retVal = 0;
+			break;
+		}
+		GetTimer(TIMER_TIMEOUT, &tTimeout);
+		if (tTimeout.Seconds > timeout) {
 			break;
 		}
 		osDelay(200);
@@ -958,11 +963,11 @@ uint8_t PhaseDry(float firstVacPress, float otherVacPress, uint16_t time, uint16
 	return retVal;
 }
 
-uint8_t PhaseClean() {
+uint8_t PhaseClean(uint16_t timeout) {
 
 	uint8_t retVal = 1;
 	uint8_t finish = 0;
-	RTCTimerTime_s tVac, tWater, tPhase;
+	RTCTimerTime_s tVac, tWater, tPhase, tTimeout;
 	sprintf(currPhase, "UASH");
 
 	ResetTimer(TIMER_PHASE);
@@ -1026,10 +1031,16 @@ uint8_t PhaseClean() {
 	ValveDrainSteamSet(ON);
 	ValveDryIntakeSet(ON);
 
+	ResetTimer(TIMER_TIMEOUT);
 	while (1) {
 		if ((sensors.PressureChamber >= pressAmbientMin) && (sensors.PressureChamber <= pressAmbientMax)) {
 			break;
 		}
+		GetTimer(TIMER_TIMEOUT, &tTimeout);
+		if (tTimeout.Seconds > timeout) {
+			break;
+		}
+
 		osDelay(200);
 	}
 
@@ -1181,9 +1192,10 @@ uint8_t PhaseWait(float vacPress, uint8_t tolerance, uint16_t time) {
 	return retVal;
 }
 
-uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer) {
+uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer, uint16_t timeout) {
 
 	uint8_t retVal = 1;
+	RTCTimerTime_s tTimeout;
 	sprintf(currPhase, "FIn.");
 
 	ValveVacuumSet(OFF);
@@ -1200,8 +1212,6 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 
 
 	if (success) {
-		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "PASS");
-
 		PrintFooter("PASS", time, timer);
 
 //		uint8_t err = ERROR_NONE;
@@ -1211,12 +1221,18 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 		ValveDryIntakeSet(ON);
 		ValveDrainSteamSet(ON);
 
+		ResetTimer(TIMER_TIMEOUT);
 		while (1) {
 			if ((sensors.PressureChamber >= pressAmbientMin) && (sensors.PressureChamber <= pressAmbientMax)) {
 				break;
 			}
 			lastError = CheckError();
 			if (lastError > 0) {
+				retVal = 0;
+				break;
+			}
+			GetTimer(TIMER_TIMEOUT, &tTimeout);
+			if (tTimeout.Seconds > timeout) {
 				retVal = 0;
 				break;
 			}
@@ -1234,7 +1250,9 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer)
 			return 0;
 		}
 
+		osDelay(3000);
 		Beep(3, 100, 100);
+		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "PASS");
 
 	} else {
 		char s[8];

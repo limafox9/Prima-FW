@@ -162,7 +162,7 @@ void SysInit() {
 	  osSemaphoreRelease(semaphoreSerialHandle);
 
 
-	  usbQueue = xQueueCreate(10, USB_BUFFER_LENGHT);
+	  usbQueue = xQueueCreate(50, USB_BUFFER_LENGHT);
 	  serialQueue = xQueueCreate(5, sizeof(struct __s_DisplayProtocolData));
 
 
@@ -335,7 +335,12 @@ void SysInit() {
 		}
 
 		sensors.Solenoid == DoorSolenoidKeyGet();
-		if (lastError == ERROR_NONE && sensors.Solenoid == LOCK) DoorSolenoidSet(UNLOCK);
+		if (lastError == ERROR_NONE && sensors.Solenoid == LOCK) {
+			if (DoorSolenoidSet(UNLOCK) != UNLOCK) {
+				DigitsWrite(3, "Er.11");
+				Beep(1, 1000, 100);
+			}
+		}
 //		if (sensors.Door == CLOSED) DigitsWrite(3, "OPEn");
 
 		osThreadDef(usbTask, StartUSBTask, osPriorityNormal, 1, 2048);

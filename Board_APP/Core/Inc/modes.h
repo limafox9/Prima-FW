@@ -34,6 +34,7 @@ USAGE:
 ==============================================================================*/
 
 #include <stdio.h>
+#include <stdint.h>
 
 #ifndef INC_MODES_H_
 #define INC_MODES_H_

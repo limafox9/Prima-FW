@@ -64,7 +64,7 @@ USAGE:
 #define DV_STERIL_TEMP_121		123.2
 #define DV_STERIL_PRESS_MIN_134	308.0
 #define DV_STERIL_PRESS_MAX_134	350.0
-#define DV_STERIL_PRESS_MIN_121	200.0
+#define DV_STERIL_PRESS_MIN_121	208.0
 #define DV_STERIL_PRESS_MAX_121	250.0
 
 #define VAC_DVALUE	10
@@ -82,6 +82,8 @@ USAGE:
 #define STERIL_STABILIZATION_PERIOD 30
 #define STERIL_STABILIZATION_PERIOD_HELIX 50
 
+#define DRY_VALVE_TIMER 15
+
 extern osThreadId sensorsTaskHandle;
 
 extern Sensors_s sensors;
@@ -95,7 +97,7 @@ void StartProgramTask() {
 	for (;;) {
 
 		GetTimer(TIMER_DOOR, &timerDoor);
-		if ((doorStatus == OPEN) && (timerDoor.Seconds > 10)) {
+		if ((doorStatus == OPEN) && (timerDoor.Seconds > DRY_VALVE_TIMER)) {
 			ValveDryIntakeSet(OFF);
 		}
 
@@ -362,7 +364,7 @@ uint8_t ProgramUnwrapped() {
 	PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 	GetTimer(TIMER_CYCLE, &tCycle);
 	GetDateTime(&clockTime);
-	PhaseFinish(success, &clockTime, &tCycle);
+	PhaseFinish(success, &clockTime, &tCycle, 120);
 
 	progRunning = 0;
 	osThreadSuspend(displayInfoTaskHandle);
@@ -471,7 +473,7 @@ uint8_t ProgramWrapped() {
 	PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 	GetTimer(TIMER_CYCLE, &tCycle);
 	GetDateTime(&clockTime);
-	PhaseFinish(success, &clockTime, &tCycle);
+	PhaseFinish(success, &clockTime, &tCycle, 120);
 
 	progRunning = 0;
 	osThreadSuspend(displayInfoTaskHandle);
@@ -578,7 +580,7 @@ uint8_t ProgramPrion() {
 	PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 	GetTimer(TIMER_CYCLE, &tCycle);
 	GetDateTime(&clockTime);
-	PhaseFinish(success, &clockTime, &tCycle);
+	PhaseFinish(success, &clockTime, &tCycle, 120);
 
 	progRunning = 0;
 	osThreadSuspend(displayInfoTaskHandle);
@@ -682,7 +684,7 @@ uint8_t ProgramGentle() {
 	PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 	GetTimer(TIMER_CYCLE, &tCycle);
 	GetDateTime(&clockTime);
-	PhaseFinish(success, &clockTime, &tCycle);
+	PhaseFinish(success, &clockTime, &tCycle, 120);
 
 	progRunning = 0;
 	osThreadSuspend(displayInfoTaskHandle);
@@ -835,7 +837,7 @@ uint8_t ProgramUser() {
 	PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 	GetTimer(TIMER_CYCLE, &tCycle);
 	GetDateTime(&clockTime);
-	PhaseFinish(success, &clockTime, &tCycle);
+	PhaseFinish(success, &clockTime, &tCycle, 120);
 
 	progRunning = 0;
 	osThreadSuspend(displayInfoTaskHandle);
@@ -944,7 +946,7 @@ uint8_t ProgramHelixTest() {
 	PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 	GetTimer(TIMER_CYCLE, &tCycle);
 	GetDateTime(&clockTime);
-	PhaseFinish(success, &clockTime, &tCycle);
+	PhaseFinish(success, &clockTime, &tCycle, 120);
 
 	progRunning = 0;
 	osThreadSuspend(displayInfoTaskHandle);
@@ -1028,13 +1030,15 @@ uint8_t ProgramVacuumTest() {
 
 	}
 
-	PhaseFinish(success, &clockTime, &tCycle);
+	PhaseFinish(success, &clockTime, &tCycle, 120);
 
 	PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 
 	progRunning = 0;
 	osThreadSuspend(displayInfoTaskHandle);
 	progStop = 0;
+
+	return 0;
 
 }
 
@@ -1200,7 +1204,7 @@ uint8_t ProgramWash() {
 	// End
 	GetTimer(TIMER_CYCLE, &tCycle);
 	GetDateTime(&clockTime);
-	PhaseFinish(success, &clockTime, &tCycle);
+	PhaseFinish(success, &clockTime, &tCycle, 120);
 
 	machineStatus.Status = STATUS_READY;
 

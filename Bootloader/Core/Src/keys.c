@@ -39,6 +39,7 @@ USAGE:
 #include "serial.h"
 #include "bootloader.h"
 #include "Inc/DB_protocol.h"
+#include <stdint.h>
 
 #define KEY_LONG_PRESS_MS 3000
 

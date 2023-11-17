@@ -38,6 +38,7 @@ USAGE:
 #define INC_GLOBALS_H_
 
 #include "main.h"
+#include <stdint.h>
 
 typedef enum {
 	UINT8,

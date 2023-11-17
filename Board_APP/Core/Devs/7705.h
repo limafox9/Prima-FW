@@ -39,6 +39,7 @@ USAGE:
 #define DEVS_7705_H_
 
 #include <stdio.h>
+#include <stdint.h>
 
 void TM7705_Init();
 float TM7705_GetTemp(uint8_t channel, float offset);

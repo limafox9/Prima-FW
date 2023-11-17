@@ -60,7 +60,7 @@ extern char currPhase[8];
 extern uint8_t sterilRunning;
 
 uint8_t PhaseBegin(uint8_t timeout);
-uint8_t PhaseResume();
+uint8_t PhaseResume(uint16_t timeout);
 uint8_t PhasePreheat(float chamberTemp, float steamGenTemp);
 uint8_t PhaseHeatUp(float ringTemp, float steamGenTemp, float chamberTemp, float chamberPress, uint16_t timeout);
 uint8_t PhaseVacuum(uint8_t nVacuum, float press, uint8_t skipThreshold, uint16_t timeout);
@@ -69,7 +69,7 @@ uint8_t PhasePressure(uint8_t nPressure, float press, float steamTemp, float ste
 uint8_t PhaseRelease(uint8_t nRelease, uint16_t timeout);
 uint8_t PhaseSteril(SterilParam_s* param);
 uint8_t PhaseDry(float firstVacPress, float otherVacPress, uint16_t time, uint16_t timeout);
-uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer);
+uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer, uint16_t timeout);
 uint8_t PhaseWait(float vacPress, uint8_t tolerance, uint16_t time);
 uint8_t PhaseWaterLoad(uint16_t timeout);
 void PhaseTestPID(SterilParam_s* param);

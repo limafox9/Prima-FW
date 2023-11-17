@@ -9,6 +9,7 @@
 #define INC_DIGITS_H_
 
 #include <stdio.h>
+#include <stdint.h>
 
 #define DIGITS_ROWS 3
 #define DIGITS_COLUMNS 4

@@ -14,6 +14,7 @@
 #include "DB_Protocol.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdint.h>
 
 static const char activeProtocolHead[] = {'<', '~'};
 static const char activeProtocolTail[] =  {'~', '>'};

@@ -41,6 +41,7 @@ USAGE:
 #include "_ver.h"
 #include "keys.h"
 #include "serial.h"
+#include <stdint.h>
 
 uint8_t DisplayFWVersionMajor;
 uint8_t DisplayFWVersionMinor;
