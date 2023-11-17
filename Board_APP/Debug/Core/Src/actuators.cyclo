@@ -26,5 +26,5 @@
 ../Core/Src/actuators.c:296:6:FanSet	1
 ../Core/Src/actuators.c:299:14:FanGet	1
 ../Core/Src/actuators.c:303:13:DoorSolenoidSet	3
-../Core/Src/actuators.c:330:6:DoorSolenoidDisconnect	1
-../Core/Src/actuators.c:336:6:ActuatorsSafeStatus	1
+../Core/Src/actuators.c:329:6:DoorSolenoidDisconnect	1
+../Core/Src/actuators.c:335:6:ActuatorsSafeStatus	1

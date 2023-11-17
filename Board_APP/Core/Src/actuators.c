@@ -320,10 +320,9 @@ e_LockState DoorSolenoidSet(e_LockState status) {
 	HAL_GPIO_WritePin(SOLENOID_V1_GPIO_Port, SOLENOID_V1_Pin, OFF);
 	HAL_GPIO_WritePin(SOLENOID_V2_GPIO_Port, SOLENOID_V2_Pin, OFF);
 	osDelay(500);
-	check = DoorSolenoidKeyGet();
 	osSemaphoreRelease(semaphoreSensorsHandle);
 	// Return solenoid switch status for position confirmation
-	return check;
+	return (HAL_GPIO_ReadPin(SW_SOLENOID_GPIO_Port, SW_SOLENOID_Pin) == GPIO_PIN_SET) ? UNLOCK : LOCK;
 
 }
 

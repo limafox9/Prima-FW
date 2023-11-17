@@ -2,7 +2,15 @@
 PRIMA Board_APP
 -------------------------------------------------------------------------------
 
-[3.0.1] - 2023-11-16
+[3.0.2] - 2023-11-17
+	CHANGED
+		- Modificata grandezza caratteri stampa errori in PhaseBegin()
+		- Modificato controllo posizione solenoide in DoorSolenoidSet()
+	ADDED
+		- Aggiunto error status PrintError() per errore LOCK ERROR in
+		  PhaseBegin()
+
+[3.0.1] - 2023-11-17
 	CHANGED
 		- Modificata routine di line feed ricorsiva per scontrino e file USB
 		  PrintLF()
@@ -11,7 +19,7 @@ PRIMA Board_APP
 	FIXED
 		- Rilevamento e mantenimento protection lock error (ERR 11) all'avvio SysInit()
 
-[3.0.0] - 2023-11-16
+[3.0.0] - 2023-11-17
 	ADDED
 		- Aggiunto parametro DRY_VALVE_TIMER e aumentato da 10 a 15s il
 		  rilascio della valvola ad apertura porta
