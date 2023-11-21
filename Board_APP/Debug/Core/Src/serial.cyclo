@@ -1,4 +1,4 @@
-../Core/Src/serial.c:69:6:SerialInit	1
-../Core/Src/serial.c:78:6:SendCommand	1
-../Core/Src/serial.c:102:6:HAL_UARTEx_RxEventCallback	7
-../Core/Src/serial.c:195:6:StartSerialTask	2
+serial.c:69:6:SerialInit	1
+serial.c:78:6:SendCommand	1
+serial.c:102:6:HAL_UARTEx_RxEventCallback	7
+serial.c:195:6:StartSerialTask	2

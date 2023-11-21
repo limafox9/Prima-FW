@@ -248,7 +248,7 @@ void PrintError(const char* errorString, RTCTimerTime_s* tTime) {
 												(sensors.Door == OPEN) ? "OP" : "CL",
 												(sensors.Solenoid == LOCK) ? "LK" : "UN"
 												);
-	PrintLF(20);
+	PrintLF(10);
 }
 
 void PrintSend(const char* format, ...) {

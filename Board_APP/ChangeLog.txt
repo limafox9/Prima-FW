@@ -2,7 +2,22 @@
 PRIMA Board_APP
 -------------------------------------------------------------------------------
 
-[3.0.2] - 2023-11-17
+[3.0.3] 2023-11-21
+	FIXED
+		- Estesa lettura status pin switch solenoide da registro CSTAT della
+		  CPU. File system.c, sensors.Solenoid = DoorSolenoidKeyGet();
+		- Errore 11 inserito nella catena di errori bloccanti, ma non viene
+		  registrato in EEPROM. Aggiunto
+		  	lastError = ERROR_PROTECTION_LOCK;
+			machineStatus.Status = STATUS_ERROR;
+		  ad ogni check del solenoide dopo comando di lock/unlock.
+		- programStart = 0 all'inizio di PhaseFinish() per evitare l'avvio di
+		  un nuovo ciclo per pressione multipla di START all'avvio
+	CHANGED
+		- Testo a capo nella stampa delle intestazioni degli errori
+		- Line feed stampa errori da 20 a 10 righe
+
+[3.0.2] 2023-11-17
 	CHANGED
 		- Modificata grandezza caratteri stampa errori in PhaseBegin()
 		- Modificato controllo posizione solenoide in DoorSolenoidSet()
@@ -19,7 +34,7 @@ PRIMA Board_APP
 	FIXED
 		- Rilevamento e mantenimento protection lock error (ERR 11) all'avvio SysInit()
 
-[3.0.0] - 2023-11-17
+[3.0.0] 2023-11-17
 	ADDED
 		- Aggiunto parametro DRY_VALVE_TIMER e aumentato da 10 a 15s il
 		  rilascio della valvola ad apertura porta
@@ -41,7 +56,7 @@ PRIMA Board_APP
 		- Spostata attribuzione del numero sequenziale del file log USB per
 		  coincidere con il numero del ciclo sullo scontrino - PhaseBegin()
 
-[2.8.7 Test] - 2023-07-03
+[2.8.7 Test] 2023-07-03
 	CHANGED
 		- Modificata temperatura steril per ciclo 134 USER 0 da 134.5 a 134.7°C
 	FIXED

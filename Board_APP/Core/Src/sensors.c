@@ -422,7 +422,10 @@ void StartSensorsTask() {
 }
 
 e_LockState DoorSolenoidKeyGet() {
-	return (HAL_GPIO_ReadPin(SW_SOLENOID_GPIO_Port, SW_SOLENOID_Pin) == GPIO_PIN_SET) ? UNLOCK : LOCK;
+	int8_t pos;
+	pos = HAL_GPIO_ReadPin(SW_SOLENOID_GPIO_Port, SW_SOLENOID_Pin);
+	return (pos == GPIO_PIN_SET) ? UNLOCK : LOCK;
+	__NOP();
 }
 
 e_OpenClosedState DoorPositionGet() {

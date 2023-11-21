@@ -256,8 +256,11 @@ uint8_t ProgramResumeDry() {
 
 	osDelay(1000);
 	if (DoorSolenoidSet(UNLOCK) != UNLOCK) {
-		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "Er.11");
-		return 0;
+//		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "Er.11");
+//		return 11;
+		lastError = ERROR_PROTECTION_LOCK;
+		machineStatus.Status = STATUS_ERROR;
+		return lastError;
 	}
 
 	machineStatus.Status = STATUS_READY;

@@ -1,8 +1,8 @@
-../Core/Devs/24Cxx.c:62:6:EEPROM_Read	3
-../Core/Devs/24Cxx.c:85:7:EEPROM_Read_Float	1
-../Core/Devs/24Cxx.c:91:6:EEPROM_Write	3
-../Core/Devs/24Cxx.c:117:6:EEPROM_Write_Float	1
-../Core/Devs/24Cxx.c:124:17:BytesToWrite	2
-../Core/Devs/24Cxx.c:130:13:Float2Bytes	2
-../Core/Devs/24Cxx.c:143:14:Bytes2Float	2
-../Core/Devs/24Cxx.c:157:6:EEPROM_EraseAll	2
+24Cxx.c:62:6:EEPROM_Read	3
+24Cxx.c:85:7:EEPROM_Read_Float	1
+24Cxx.c:91:6:EEPROM_Write	3
+24Cxx.c:117:6:EEPROM_Write_Float	1
+24Cxx.c:124:17:BytesToWrite	2
+24Cxx.c:130:13:Float2Bytes	2
+24Cxx.c:143:14:Bytes2Float	2
+24Cxx.c:157:6:EEPROM_EraseAll	2

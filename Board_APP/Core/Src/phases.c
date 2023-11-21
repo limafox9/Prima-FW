@@ -101,13 +101,14 @@ uint8_t PhaseBegin(uint8_t timeout) {
 	ResetTimer(TIMER_PHASE);
 
 //	osDelay(1000);
+	sprintf(currFilename, "%02d_%02d_%02d-%02d_%02d-%05d.txt", ct.Year%100, ct.Month, ct.Day, ct.Hour, ct.Minute, settings.CyclesCount);
 
 	GetTimer(TIMER_PHASE, &tPhase);
 
 	if (doorOpened == 0 && currProgram != PROGRAM_RESUME_DRY) {
 		lastError = ERROR_NONE;
 		PrintSize(2, 2);
-		Print("DOOR ERROR *** DOOR NOT OPEN\n");
+		Print("DOOR ERROR ***\n DOOR NOT OPEN\n");
 		PrintSize(1, 1);
 		Beep(3, 100, 100);
 		retVal = 0;
@@ -117,7 +118,7 @@ uint8_t PhaseBegin(uint8_t timeout) {
 	if (sensors.Door == OPEN && currProgram != PROGRAM_RESUME_DRY) {
 		lastError = ERROR_NONE;
 		PrintSize(2, 2);
-		Print("DOOR ERROR *** DOOR OPEN\n");
+		Print("DOOR ERROR ***\n DOOR OPEN\n");
 		PrintSize(1, 1);
 		Beep(3, 100, 100);
 		retVal = 0;
@@ -128,7 +129,7 @@ uint8_t PhaseBegin(uint8_t timeout) {
 		lastError = ERROR_NONE;
 //		lastError = ERROR_WATER_HIGH_TDS;
 		PrintSize(2, 2);
-		Print("WTDS ERROR *** WATER QUALITY\n");
+		Print("WTDS ERROR ***\n WATER QUALITY\n");
 		PrintSize(1, 1);
 		Beep(3, 100, 100);
 		retVal = 0;
@@ -138,7 +139,7 @@ uint8_t PhaseBegin(uint8_t timeout) {
 		lastError = ERROR_NONE;
 //		lastError = ERROR_WATER_LOW;
 		PrintSize(2, 2);
-		Print("WATR ERROR *** WATER LEVEL\n");
+		Print("WATR ERROR ***\n WATER LEVEL\n");
 		PrintSize(1, 1);
 		Beep(3, 100, 100);
 		retVal = 0;
@@ -147,23 +148,25 @@ uint8_t PhaseBegin(uint8_t timeout) {
 		lastError = ERROR_NONE;
 //		lastError = ERROR_WATER_DUMP_HIGH;
 		PrintSize(2, 2);
-		Print("DUMP ERROR *** WATER DUMP LEVEL\n");
+		Print("DUMP ERROR ***\n WATER DUMP LEVEL\n");
 		PrintSize(1, 1);
 		Beep(3, 100, 100);
 		retVal = 0;
 	}
 	if (retVal == 0) {
 		PrintError("\n", &tPhase);
+		progRunning = 0;
 		return 0;
 	} else {
 		if (DoorSolenoidSet(LOCK) != LOCK) {
 			lastError = ERROR_PROTECTION_LOCK;
 			PrintSize(2, 2);
-			Print("LOCK ERROR *** NO CONFIRMATION\n");
+			Print("LOCK ERROR ***\n NO CONFIRMATION\n");
 			PrintSize(1, 1);
 			PrintError("\n", &tPhase);
 			Beep(1, 1000, 100);
-			return 0;
+			lastError = ERROR_PROTECTION_LOCK;
+			machineStatus.Status = STATUS_ERROR;
 		}
 	}
 
@@ -254,8 +257,9 @@ uint8_t PhaseResume(uint16_t timeout) {
 
 	osDelay(1000);
 	if (DoorSolenoidSet(UNLOCK) != UNLOCK) {
-		DigitsWrite(3, "Er.11");
-		return 0;
+		lastError = ERROR_PROTECTION_LOCK;
+//		EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
+		return lastError;
 	}
 
 	doorOpened = 0;
@@ -1223,6 +1227,7 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer,
 
 	ResetTimer(TIMER_FAN);
 
+	programStart = 0;
 
 	if (success) {
 		PrintFooter("PASS", time, timer);
@@ -1252,16 +1257,19 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer,
 			osDelay(200);
 		}
 
-		machineStatus.Status = STATUS_PASS;
 
 	//		FanSet(OFF);
 		ResetTimer(TIMER_FAN);
 
 		osDelay(1000);
 		if (DoorSolenoidSet(UNLOCK) != UNLOCK) {
-//			DigitsWrite(3, "Er.11");
-			return 11;
+			lastError = ERROR_PROTECTION_LOCK;
+			machineStatus.Status = STATUS_ERROR;
+	//		EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
+			return lastError;
 		}
+
+		machineStatus.Status = STATUS_PASS;
 
 		osDelay(3000);
 		Beep(3, 100, 100);

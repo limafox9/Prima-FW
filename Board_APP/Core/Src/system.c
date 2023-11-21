@@ -327,12 +327,17 @@ void SysInit() {
 //		lastDoorStatus = sensors.Door;
 		doorOpened = (sensors.Door == CLOSED) ? 0 : 1;
 
-		sensors.Solenoid == DoorSolenoidKeyGet();
+		sensors.Solenoid = DoorSolenoidKeyGet();
 		if (lastError == ERROR_NONE && sensors.Solenoid == LOCK) {
 			if (DoorSolenoidSet(UNLOCK) != UNLOCK) {
 				lastError = ERROR_PROTECTION_LOCK;
+				machineStatus.Status = STATUS_ERROR;
 			}
 		}
+
+//		while (1) {
+//			sensors.Solenoid = DoorSolenoidKeyGet();
+//		}
 
 		if (lastError == ERROR_NONE) {
 			Beep(3, 100, 100);

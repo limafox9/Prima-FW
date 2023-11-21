@@ -1,2 +1,2 @@
-../Core/Src/pid.c:38:6:PIDController_Init	1
-../Core/Src/pid.c:51:7:PIDController_Update	5
+pid.c:38:6:PIDController_Init	1
+pid.c:51:7:PIDController_Update	5
