@@ -78,9 +78,11 @@ USAGE:
 #define POWER_TEST_ON_TIME 3000
 #define POWER_TEST_PAUSE_TIME 1000
 
-
 #define STERIL_STABILIZATION_PERIOD 30
 #define STERIL_STABILIZATION_PERIOD_HELIX 50
+
+#define T1_T2_STERIL_MAX_TEMP_DIFF_134 0.5
+#define T1_T2_STERIL_MAX_TEMP_DIFF_121 0.5
 
 #define DRY_VALVE_TIMER 15
 
@@ -347,12 +349,28 @@ uint8_t ProgramUnwrapped() {
 				.pressMax = DV_STERIL_PRESS_MAX_134,
 				.steamTemp = DV_STEAM_GEN_TEMP,
 				.steamTempMin = 170.0,
+				.T1T2MaxDiff = T1_T2_STERIL_MAX_TEMP_DIFF_134,
+				.settleTime = 5,
 				.stabilizationPeriod = STERIL_STABILIZATION_PERIOD,
 				.printInterval = 30,
 				.timeout = 800
 		};
-		success = PhaseSteril(&sterilParam);
+
+		SterilPID_s PIDParam = {
+						.PID_KP = 40, 			// 100
+						.PID_KI = 80, 			// 60
+						.PID_KD = 60, 			// 40
+						.PID_TAU = 1.0, 		// 1.0
+						.PID_LIM_MIN = 50, 		// 50
+						.PID_LIM_MAX = 150, 	// 150
+						.PID_LIM_MIN_INT = -60, // -40
+						.PID_LIM_MAX_INT = 60, 	// 40
+						.SAMPLE_TIME_S = 1.0, 	// 1.0
+				};
+
+		success = PhaseSteril(&sterilParam, &PIDParam);
 	}
+
 	if (success) {
 		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 		success = PhaseRelease(3, OT_RELEASE);
@@ -447,20 +465,34 @@ uint8_t ProgramWrapped() {
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
 		SterilParam_s sterilParam = {
-				.chamberTemp = DV_STERIL_TEMP_134,
-				.chamberTempMin = 134.0,
-				.chamberTempMax = 136.0,
-				.sterilTime = sterilTime,
-				.chamberPress = 320,
-				.pressMin = DV_STERIL_PRESS_MIN_134,
-				.pressMax = DV_STERIL_PRESS_MAX_134,
-				.steamTemp = DV_STEAM_GEN_TEMP,
-				.steamTempMin = 170.0,
-				.stabilizationPeriod = STERIL_STABILIZATION_PERIOD,
-				.printInterval = 30,
-				.timeout = 800
-		};
-		success = PhaseSteril(&sterilParam);
+						.chamberTemp = DV_STERIL_TEMP_134,
+						.chamberTempMin = 134.0,
+						.chamberTempMax = 136.0,
+						.sterilTime = sterilTime,
+						.chamberPress = 320,
+						.pressMin = DV_STERIL_PRESS_MIN_134,
+						.pressMax = DV_STERIL_PRESS_MAX_134,
+						.steamTemp = DV_STEAM_GEN_TEMP,
+						.steamTempMin = 170.0,
+						.T1T2MaxDiff = T1_T2_STERIL_MAX_TEMP_DIFF_134,
+						.settleTime = 5,
+						.stabilizationPeriod = STERIL_STABILIZATION_PERIOD,
+						.printInterval = 30,
+						.timeout = 800
+				};
+				SterilPID_s PIDParam = {
+						.PID_KP = 100, 			// 100
+						.PID_KI = 60, 			// 60
+						.PID_KD = 40, 			// 40
+						.PID_TAU = 1.0, 		// 1.0
+						.PID_LIM_MIN = 50, 		// 50
+						.PID_LIM_MAX = 150, 	// 150
+						.PID_LIM_MIN_INT = -40, // -40
+						.PID_LIM_MAX_INT = 40, 	// 40
+						.SAMPLE_TIME_S = 1.0, 	// 1.0
+				};
+
+				success = PhaseSteril(&sterilParam, &PIDParam);
 	}
 	if (success) {
 		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
@@ -553,21 +585,36 @@ uint8_t ProgramPrion() {
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-		SterilParam_s sterilParam = {
-				.chamberTemp = DV_STERIL_TEMP_134,
-				.chamberTempMin = 134.0,
-				.chamberTempMax = 136.0,
-				.sterilTime = sterilTime,
-				.chamberPress = 320,
-				.pressMin = DV_STERIL_PRESS_MIN_134,
-				.pressMax = DV_STERIL_PRESS_MAX_134,
-				.steamTemp = DV_STEAM_GEN_TEMP,
-				.steamTempMin = 170.0,
-				.stabilizationPeriod = STERIL_STABILIZATION_PERIOD,
-				.printInterval = 120,
-				.timeout = 1500
-		};
-		success = PhaseSteril(&sterilParam);
+				SterilParam_s sterilParam = {
+						.chamberTemp = DV_STERIL_TEMP_134,
+						.chamberTempMin = 134.0,
+						.chamberTempMax = 136.0,
+						.sterilTime = sterilTime,
+						.chamberPress = 320,
+						.pressMin = DV_STERIL_PRESS_MIN_134,
+						.pressMax = DV_STERIL_PRESS_MAX_134,
+						.steamTemp = DV_STEAM_GEN_TEMP,
+						.steamTempMin = 170.0,
+						.T1T2MaxDiff = T1_T2_STERIL_MAX_TEMP_DIFF_134,
+						.settleTime = 5,
+						.stabilizationPeriod = STERIL_STABILIZATION_PERIOD,
+						.printInterval = 120,
+						.timeout = 1500
+				};
+				SterilPID_s PIDParam = {
+						.PID_KP = 100, 			// 100
+						.PID_KI = 60, 			// 60
+						.PID_KD = 40, 			// 40
+						.PID_TAU = 1.0, 		// 1.0
+						.PID_LIM_MIN = 50, 		// 50
+						.PID_LIM_MAX = 150, 	// 150
+						.PID_LIM_MIN_INT = -40, // -40
+						.PID_LIM_MAX_INT = 40, 	// 40
+						.SAMPLE_TIME_S = 1.0, 	// 1.0
+				};
+
+				success = PhaseSteril(&sterilParam, &PIDParam);
+
 	}
 	if (success) {
 		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
@@ -657,21 +704,34 @@ uint8_t ProgramGentle() {
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-		SterilParam_s sterilParam = {
-				.chamberTemp = DV_STERIL_TEMP_121,
-				.chamberTempMin = 121.0,
-				.chamberTempMax = 125.0,
-				.sterilTime = sterilTime,
-				.chamberPress = 220,
-				.pressMin = DV_STERIL_PRESS_MIN_121,
-				.pressMax = DV_STERIL_PRESS_MAX_121,
-				.steamTemp = DV_STEAM_GEN_TEMP,
-				.steamTempMin = 170.0,
-				.stabilizationPeriod = STERIL_STABILIZATION_PERIOD,
-				.printInterval = 120,
-				.timeout = 1800
-		};
-		success = PhaseSteril(&sterilParam);
+				SterilParam_s sterilParam = {
+						.chamberTemp = DV_STERIL_TEMP_121,
+						.chamberTempMin = 121.0,
+						.chamberTempMax = 125.0,
+						.sterilTime = sterilTime,
+						.chamberPress = 220,
+						.pressMin = DV_STERIL_PRESS_MIN_121,
+						.pressMax = DV_STERIL_PRESS_MAX_121,
+						.steamTemp = DV_STEAM_GEN_TEMP,
+						.steamTempMin = 170.0,
+						.T1T2MaxDiff = T1_T2_STERIL_MAX_TEMP_DIFF_121,
+						.settleTime = 5,
+						.stabilizationPeriod = STERIL_STABILIZATION_PERIOD,
+						.printInterval = 120,
+						.timeout = 1800
+				};
+				SterilPID_s PIDParam = {
+						.PID_KP = 40, 			// 100
+						.PID_KI = 60, 			// 60
+						.PID_KD = 10, 			// 40
+						.PID_TAU = 1.0, 		// 1.0
+						.PID_LIM_MIN = 50, 		// 50
+						.PID_LIM_MAX = 150, 	// 150
+						.PID_LIM_MIN_INT = -40, // -40
+						.PID_LIM_MAX_INT = 40, 	// 40
+						.SAMPLE_TIME_S = 1.0, 	// 1.0
+				};
+				success = PhaseSteril(&sterilParam, &PIDParam);
 	}
 	if (success) {
 		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
@@ -804,22 +864,36 @@ uint8_t ProgramUser() {
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-		SterilParam_s sterilParam = {
-				.chamberTemp = cTemp,
-				.chamberTempMin = (settings.UserSterilTemp == STERILTEMP_134) ? 134.0 : 121.0,
-				.chamberTempMax = (settings.UserSterilTemp == STERILTEMP_134) ? 136.0 : 125.0,
-				.sterilTime = sterilTime,
-				.chamberPress = (settings.UserSterilTemp == STERILTEMP_134) ? 320.0 : 220.0,
-				.pressMin = (settings.UserSterilTemp == STERILTEMP_134) ? DV_STERIL_PRESS_MIN_134 : DV_STERIL_PRESS_MIN_121,
-				.pressMax = (settings.UserSterilTemp == STERILTEMP_134) ? DV_STERIL_PRESS_MAX_134 : DV_STERIL_PRESS_MAX_121,
-				.steamTemp = DV_STEAM_GEN_TEMP,
-				.steamTempMin = 170.0,
-				.stabilizationPeriod = STERIL_STABILIZATION_PERIOD,
-				.printInterval = 30,
-				.timeout = settings.UserSterilTime * 60 * 1.5,
-		};
+				SterilParam_s sterilParam = {
+						.chamberTemp = cTemp,
+						.chamberTempMin = (settings.UserSterilTemp == STERILTEMP_134) ? 134.0 : 121.0,
+						.chamberTempMax = (settings.UserSterilTemp == STERILTEMP_134) ? 136.0 : 125.0,
+						.sterilTime = sterilTime,
+						.chamberPress = (settings.UserSterilTemp == STERILTEMP_134) ? 320.0 : 220.0,
+						.pressMin = (settings.UserSterilTemp == STERILTEMP_134) ? DV_STERIL_PRESS_MIN_134 : DV_STERIL_PRESS_MIN_121,
+						.pressMax = (settings.UserSterilTemp == STERILTEMP_134) ? DV_STERIL_PRESS_MAX_134 : DV_STERIL_PRESS_MAX_121,
+						.steamTemp = DV_STEAM_GEN_TEMP,
+						.steamTempMin = 170.0,
+						.T1T2MaxDiff = (settings.UserSterilTemp == STERILTEMP_134) ? T1_T2_STERIL_MAX_TEMP_DIFF_134 : T1_T2_STERIL_MAX_TEMP_DIFF_121,
+						.settleTime = 5,
+						.stabilizationPeriod = STERIL_STABILIZATION_PERIOD,
+						.printInterval = 30,
+						.timeout = settings.UserSterilTime * 60 * 1.5,
+				};
+				SterilPID_s PIDParam = {
+						.PID_KP = (settings.UserSterilTemp == STERILTEMP_134) ? 50.0 : 30.0, 			// 100
+						.PID_KI = (settings.UserSterilTemp == STERILTEMP_134) ? 60.0 : 80.0, 			// 60
+						.PID_KD = (settings.UserSterilTemp == STERILTEMP_134) ? 10.0 : 5.0, 			// 40
+						.PID_TAU = 1.0, 		// 1.0
+						.PID_LIM_MIN = 50, 		// 50
+						.PID_LIM_MAX = 150, 	// 150
+						.PID_LIM_MIN_INT = -40, // -40
+						.PID_LIM_MAX_INT = 40, 	// 40
+						.SAMPLE_TIME_S = 1.0, 	// 1.0
+				};
 
-		success = PhaseSteril(&sterilParam);
+				success = PhaseSteril(&sterilParam, &PIDParam);
+
 	}
 	if (success) {
 		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
@@ -919,21 +993,35 @@ uint8_t ProgramHelixTest() {
 	}
 	if (success) {
 		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-		SterilParam_s sterilParam = {
-				.chamberTemp = 135.5,
-				.chamberTempMin = 134.0,
-				.chamberTempMax = 136.0,
-				.sterilTime = sterilTime, // 210
-				.chamberPress = 320,
-				.pressMin = 290.0,
-				.pressMax = 350.0,
-				.steamTemp = DV_STEAM_GEN_TEMP,
-				.steamTempMin = 170.0,
-				.stabilizationPeriod = STERIL_STABILIZATION_PERIOD_HELIX,
-				.printInterval = 30,
-				.timeout = 600
-		};
-		success = PhaseSteril(&sterilParam);
+				SterilParam_s sterilParam = {
+						.chamberTemp = 135.5,
+						.chamberTempMin = 134.0,
+						.chamberTempMax = 136.0,
+						.sterilTime = sterilTime, // 210
+						.chamberPress = 320,
+						.pressMin = 290.0,
+						.pressMax = 350.0,
+						.steamTemp = DV_STEAM_GEN_TEMP,
+						.steamTempMin = 170.0,
+						.T1T2MaxDiff = T1_T2_STERIL_MAX_TEMP_DIFF_134,
+						.settleTime = 25,
+						.stabilizationPeriod = STERIL_STABILIZATION_PERIOD_HELIX,
+						.printInterval = 30,
+						.timeout = 600
+				};
+				SterilPID_s PIDParam = {
+						.PID_KP = 100, 			// 100
+						.PID_KI = 60, 			// 60
+						.PID_KD = 40, 			// 40
+						.PID_TAU = 1.0, 		// 1.0
+						.PID_LIM_MIN = 50, 		// 50
+						.PID_LIM_MAX = 150, 	// 150
+						.PID_LIM_MIN_INT = -40, // -40
+						.PID_LIM_MAX_INT = 40, 	// 40
+						.SAMPLE_TIME_S = 1.0, 	// 1.0
+				};
+
+				success = PhaseSteril(&sterilParam, &PIDParam);
 	}
 	if (success) {
 		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);

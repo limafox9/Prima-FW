@@ -41,6 +41,18 @@ USAGE:
 #include <stdio.h>
 #include "time.h"
 
+typedef struct SterilPID_s {
+	float PID_KP;
+	float PID_KI;
+	float PID_KD;
+	float PID_TAU;
+	float PID_LIM_MIN;
+	float PID_LIM_MAX;
+	float PID_LIM_MIN_INT;
+	float PID_LIM_MAX_INT;
+	float SAMPLE_TIME_S;
+} SterilPID_s;
+
 typedef struct SterilParam_s {
 	float chamberTemp;
 	float chamberTempMin;
@@ -51,6 +63,8 @@ typedef struct SterilParam_s {
 	float pressMax;
 	float steamTemp;
 	float steamTempMin;
+	float T1T2MaxDiff;
+	uint16_t settleTime;
 	uint16_t printInterval;
 	uint16_t stabilizationPeriod;
 	uint16_t timeout;
@@ -67,7 +81,7 @@ uint8_t PhaseVacuum(uint8_t nVacuum, float press, uint8_t skipThreshold, uint16_
 uint8_t PhaseVacuumHold(float vacPress, uint8_t tolerance, uint16_t time, uint16_t timeout);
 uint8_t PhasePressure(uint8_t nPressure, float press, float steamTemp, float steamTempMin, uint16_t timeout);
 uint8_t PhaseRelease(uint8_t nRelease, uint16_t timeout);
-uint8_t PhaseSteril(SterilParam_s* param);
+uint8_t PhaseSteril(SterilParam_s* param, SterilPID_s* pPID);
 uint8_t PhaseDry(float firstVacPress, float otherVacPress, uint16_t time, uint16_t timeout);
 uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer, uint16_t timeout);
 uint8_t PhaseWait(float vacPress, uint8_t tolerance, uint16_t time);

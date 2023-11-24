@@ -92,7 +92,7 @@ float PIDController_Update(PIDController *pid, float setpoint, float measurement
 	/*
 	* Compute output and apply limits
 	*/
-    pid->out = proportional + pid->integrator; + pid->differentiator;
+    pid->out = proportional + pid->integrator + pid->differentiator;
 
     if (pid->out > pid->limMax) {
 
@@ -104,9 +104,12 @@ float PIDController_Update(PIDController *pid, float setpoint, float measurement
 
     }
 
+//    printf("PID: %0.1f, %0.1f, %0.1f, %0.1f, %0.1f\n", measurement, error, proportional, pid->integrator, pid->differentiator);
+
 	/* Store error and measurement for later use */
     pid->prevError       = error;
     pid->prevMeasurement = measurement;
+
 
 	/* Return controller output */
     return pid->out;

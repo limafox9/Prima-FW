@@ -52,9 +52,6 @@ USAGE:
 
 #define STERIL_STABILIZATION_PERIOD 5 // 30
 
-#define T1_T2_STERIL_MAX_TEMP_DIFF_134 0.5
-#define T1_T2_STERIL_MAX_TEMP_DIFF_121 0.5
-
 #define T1_OVERTEMP 140.0
 #define T2_OVERTEMP 140.0
 #define STEAM_OVERTEMP 230.0
@@ -630,16 +627,26 @@ uint8_t PhasePressure(uint8_t nPressure, float press, float steamTemp, float ste
 //	return retVal;
 }
 
-uint8_t PhaseSteril(SterilParam_s* param) {
-	static const float pPID_KP = 0.6;  // >0.8
-	static const float pPID_KI = 0.3;	// >0.4
-	static const float pPID_KD = 0.2;
-	static const float pPID_TAU = 1.0;
-	static const float pPID_LIM_MIN = 0.8; // >1.0
-	static const float pPID_LIM_MAX = 1.3; // 2.0
-	static const float pPID_LIM_MIN_INT = -1.0; // -1.0
-	static const float pPID_LIM_MAX_INT = 1.0; // 1.0
-	static const float pSAMPLE_TIME_S = 1.0;
+uint8_t PhaseSteril(SterilParam_s* param, SterilPID_s* pPID) {
+//	static const float pPID_KP = 0.6;  // >0.8
+//	static const float pPID_KI = 0.3;	// >0.4
+//	static const float pPID_KD = 0.2;
+//	static const float pPID_TAU = 1.0;
+//	static const float pPID_LIM_MIN = 0.8; // >1.0
+//	static const float pPID_LIM_MAX = 1.3; // 2.0
+//	static const float pPID_LIM_MIN_INT = -1.0; // -1.0
+//	static const float pPID_LIM_MAX_INT = 1.0; // 1.0
+//	static const float pSAMPLE_TIME_S = 1.0;
+
+	static const float pPID_KP = 40; 			// 100
+	static const float pPID_KI = 60; 			// 60
+	static const float pPID_KD = 10; 			// 40
+	static const float pPID_TAU = 1.0; 			// 1.0
+	static const float pPID_LIM_MIN = 50; 		// 50
+	static const float pPID_LIM_MAX = 150; 		// 150
+	static const float pPID_LIM_MIN_INT = -40; 	// -40
+	static const float pPID_LIM_MAX_INT = 40; 	// 40
+	static const float pSAMPLE_TIME_S = 1.0; 	// 1.0
 
 	uint8_t retVal = 0;
 	sprintf(currPhase, "rISE");
@@ -650,13 +657,14 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 
 	uint8_t err09 = 0;
 
-	T1T2Diff = (param->chamberTemp > 130.0) ? T1_T2_STERIL_MAX_TEMP_DIFF_134 : T1_T2_STERIL_MAX_TEMP_DIFF_121;
+//	T1T2Diff = (param->chamberTemp > 130.0) ? T1_T2_STERIL_MAX_TEMP_DIFF_134 : T1_T2_STERIL_MAX_TEMP_DIFF_121;
+	T1T2Diff = param->T1T2MaxDiff;
 
 	RTCTimerTime_s tTimeout, tPhase, tInterval, tDelay, tWait;
 	ResetTimer(TIMER_TIMEOUT);
 	ResetTimer(TIMER_PHASE);
 
-	PIDController pidSteril = {pPID_KP, pPID_KI, pPID_KD, pPID_TAU, pPID_LIM_MIN, pPID_LIM_MAX, pPID_LIM_MIN_INT, pPID_LIM_MAX_INT, pSAMPLE_TIME_S};
+	PIDController pidSteril = {pPID->PID_KP, pPID->PID_KI, pPID->PID_KD, pPID->PID_TAU, pPID->PID_LIM_MIN, pPID->PID_LIM_MAX, pPID->PID_LIM_MIN_INT, pPID->PID_LIM_MAX_INT, pPID->SAMPLE_TIME_S};
 	PIDController_Init(&pidSteril);
 
 	ValveDrainSteamSet(ON);
@@ -665,15 +673,26 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 	ResetTimer(TIMER_1);
 
 	while (1) {
+////		float ret = PIDController_Update(&pidSteril, param->chamberTemp, sensors.T1);
 //		float ret = PIDController_Update(&pidSteril, param->chamberTemp, sensors.T1);
+////		float ret = PIDController_Update(&pidSteril, param->chamberPress, sensors.PressureChamber);
+//		ret = (1/ret)*4000;
+////		if ((Sensors.T1 < param->chamberTemp) && (Sensors.TemperatureSteamGenerator >= param->steamTempMin)) {
+//		if ((sensors.TemperatureSteamGenerator >= param->steamTempMin) && (sensors.T1 < param->chamberTemp)) {
+//			SteamPulse(100);
+//			osDelay(ret);
+//		}
+
 		float ret = PIDController_Update(&pidSteril, param->chamberTemp, sensors.T1);
-//		float ret = PIDController_Update(&pidSteril, param->chamberPress, sensors.PressureChamber);
-		ret = (1/ret)*4000;
-//		if ((Sensors.T1 < param->chamberTemp) && (Sensors.TemperatureSteamGenerator >= param->steamTempMin)) {
+//		ret = ret*100;
+//		float ret = PIDController_Update(&pidSteam, steamTemp, 31.0);
+
 		if ((sensors.TemperatureSteamGenerator >= param->steamTempMin) && (sensors.T1 < param->chamberTemp)) {
-			SteamPulse(100);
-			osDelay(ret);
+			SteamPulse(ret);
+			osDelay(2500);
+//			Beep(1,100,100);
 		}
+
 		if ((sensors.T1 >= param->chamberTemp) && (sensors.T1 < param->chamberTempMax)) {
 			if (timerReset == 0) {
 				timerReset = 1;
@@ -767,19 +786,27 @@ uint8_t PhaseSteril(SterilParam_s* param) {
 			// PID Calculation and steam generation interval set
 			float ret = PIDController_Update(&pidSteril1, param->chamberTemp, sensors.T1);
 //			float ret = PIDController_Update(&pidSteril, param->chamberPress, sensors.PressureChamber);
-			ret = (1/ret)*4000;
-			if ((sensors.T1 <= param->chamberTemp) && (HAL_GetTick() > (currTick + ret))) {
-				if (sensors.TemperatureSteamGenerator >= param->steamTempMin) {
-					SteamPulse(30);
-					currTick = HAL_GetTick();
-				}
+//			ret = (1/ret)*4000;
+//			if ((sensors.T1 <= param->chamberTemp) && (HAL_GetTick() > (currTick + ret))) {
+//				if (sensors.TemperatureSteamGenerator >= param->steamTempMin) {
+//					SteamPulse(30);
+//					currTick = HAL_GetTick();
+//				}
+//			}
+
+
+			if ((sensors.TemperatureSteamGenerator >= param->steamTempMin) && (sensors.T1 < param->chamberTemp)) {
+				SteamPulse(ret);
+				osDelay(2500);
+	//			Beep(1,100,100);
 			}
 
+
 			// Delay before counting phase (steril) time. Wait to settle temp.
-//			GetTimer(TIMER_3, &tDelay);
-//			if (tDelay.Seconds < 20) {
-//				ResetTimer(TIMER_PHASE);
-//			}
+			GetTimer(TIMER_3, &tDelay);
+			if (tDelay.Seconds < param->settleTime) {
+				ResetTimer(TIMER_PHASE);
+			}
 
 			// Check for errors
 			GetTimer(TIMER_TIMEOUT, &tTimeout);
