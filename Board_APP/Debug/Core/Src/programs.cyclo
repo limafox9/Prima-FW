@@ -5,7 +5,7 @@ programs.c:283:9:ProgramUnwrapped	13
 programs.c:397:9:ProgramWrapped	16
 programs.c:520:9:ProgramPrion	15
 programs.c:642:9:ProgramGentle	15
-programs.c:759:9:ProgramUser	41
+programs.c:759:9:ProgramUser	40
 programs.c:926:9:ProgramHelixTest	16
 programs.c:1049:9:ProgramVacuumTest	8
 programs.c:1136:9:PowerTest	1

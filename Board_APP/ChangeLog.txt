@@ -1,0 +1,111 @@
+-------------------------------------------------------------------------------
+PRIMA Board_APP
+-------------------------------------------------------------------------------
+
+[3.1.4] 2023-12-06
+  CHANGED
+  - Tutti i vuoti dell'Helix Test con stesso valore del primo vuoto
+    (.OtherVacuum > .FirstVacuum in programs.c)
+
+[3.1.3] 2023-11-24
+  CHANGED
+  - Steril temp per cicli 121 abbassata a 122.4
+
+[3.1.2] 2023-11-24
+  ADDED
+  - Estesi parametri a tutti i programmi e impostazioni iniziali per
+    cicli 121 e user.
+  *****
+    [2.9.2] - 2023-10-25
+      ADDED
+        - Aggiunto membro .T1T2MaxDiff alla struttura SterilParam_s per passare il
+          valore invece di impostarlo all'interno di PhaseSteril(). Questo per 
+          impostare un valore diverso per il ciclo USER/0.
+      CHANGED
+        - Heating ring overtemp 230.0 -> 160.0 °C
+        - Steril temp per cicli 134 135.5 -> 135.2 °C
+        - Spostati i define T1-T2 mismatch (T1_T2_STERIL_MAX_TEMP_DIFF_) da
+          phases.c a programs.c perché ora passati come parametri dai programmi
+      
+    [2.9.1] - 2023-10-20
+      ADDED
+        - Aggiunto membro .settleTime alla struttura SterilParam_s per consentire
+          di introdurre un ritardo dal raggiungimento del target di steril (ex
+          attesa stabilizzazione curva). Questo per lasciare un tempo iniziale per
+          il test Helix.
+      CHANGED
+        - Aggiunta nuova struttura dati SterilPID_s che contiene i parametri PID.
+        - Aggiunto parametro SterilPID_s alla funzione PhaseSteril(). I parametri
+          PID così non sono più costanti. Necessario per il ciclo Gentle che con
+          temperatura steril più bassa necessita di parametri diversi per non
+          andare in overshoot.
+  *****
+
+[3.1.0] 2023-11-24
+  ADDED
+    - Importata gestione PID per sterilizzazione da v.2.9.x (nuovo
+      algoritmo) su programma unwrapped per test.
+    - Impostazione parametri PID iniziali
+
+[3.0.3] 2023-11-21
+  FIXED
+    - Estesa lettura status pin switch solenoide da registro CSTAT della
+      CPU. File system.c, sensors.Solenoid = DoorSolenoidKeyGet();
+    - Errore 11 inserito nella catena di errori bloccanti, ma non viene
+      registrato in EEPROM. Aggiunto
+      lastError = ERROR_PROTECTION_LOCK;
+	  machineStatus.Status = STATUS_ERROR;
+      ad ogni check del solenoide dopo comando di lock/unlock.
+    - programStart = 0 all'inizio di PhaseFinish() per evitare l'avvio di
+      un nuovo ciclo per pressione multipla di START all'avvio
+  CHANGED
+    - Testo a capo nella stampa delle intestazioni degli errori
+    - Line feed stampa errori da 20 a 10 righe
+
+[3.0.2] 2023-11-17
+  CHANGED
+    - Modificata grandezza caratteri stampa errori in PhaseBegin()
+    - Modificato controllo posizione solenoide in DoorSolenoidSet()
+  ADDED
+    - Aggiunto error status PrintError() per errore LOCK ERROR in
+      PhaseBegin()
+
+[3.0.1] - 2023-11-17
+  CHANGED
+    - Modificata routine di line feed ricorsiva per scontrino e file USB
+      PrintLF()
+    - Aumentate righe vuote di stampa in coda scontrino per gli errori da 10
+      a 20 - PrintError()
+  FIXED
+    - Rilevamento e mantenimento protection lock error (ERR 11) all'avvio SysInit()
+
+[3.0.0] 2023-11-17
+  ADDED
+    - Aggiunto parametro DRY_VALVE_TIMER e aumentato da 10 a 15s il
+      rilascio della valvola ad apertura porta
+    - All'avvio aggiunto controllo per solenoide non unlock (in seguito a
+      comando di unlock)
+    - Aggiunto timeout alle fasi PhaseResume(), PhaseClean()e PhaseFinish().
+      Tutti i casi riguardano l'attesa di equilibratura della pressione a
+      quella atmosferica. Nessun errore prodotto. Semplicemente esce dalla
+      funzione. Impostato tutto a 120s.
+  CHANGED
+    - Aumentate righe vuote di stampa in coda scontrino per gli errori da 4
+      a 10 - PrintError()
+    - Aggiornati parametri in programs.c e phases.c
+    - Spostato "PASS" dopo 3s dalla verifica di chiusura solenoide
+    - Modificata profondità coda di stampa su USB da 10 a 50 elementi
+    - Spostato mount del filesystem per usb da ciclo task usb a evento
+      APPLICATION_READY (inserimento chiavetta) di usb_host.c
+  FIXED
+    - Spostata attribuzione del numero sequenziale del file log USB per
+      coincidere con il numero del ciclo sullo scontrino - PhaseBegin()
+
+[2.8.7 Test] 2023-07-03
+  CHANGED
+    - Modificata temperatura steril per ciclo 134 USER 0 da 134.5 a 134.7°C
+  FIXED
+    - Corretta accensione primo led vacuum durante breve vuoto in fase di
+      asciugatura del ciclo user 0-0. Ora accende led fase dry.
+    - Errato conteggio cicli se errori dopo start. Spostato contatore cicli
+      da inizio a fine fase begin.

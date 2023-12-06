@@ -105,7 +105,7 @@ uint8_t PhaseBegin(uint8_t timeout) {
 	if (doorOpened == 0 && currProgram != PROGRAM_RESUME_DRY) {
 		lastError = ERROR_NONE;
 		PrintSize(2, 2);
-		Print("DOOR ERROR ***\n DOOR NOT OPEN\n");
+		Print("DOOR ERROR *** \nDOOR NOT OPEN\n");
 		PrintSize(1, 1);
 		Beep(3, 100, 100);
 		retVal = 0;
@@ -115,7 +115,7 @@ uint8_t PhaseBegin(uint8_t timeout) {
 	if (sensors.Door == OPEN && currProgram != PROGRAM_RESUME_DRY) {
 		lastError = ERROR_NONE;
 		PrintSize(2, 2);
-		Print("DOOR ERROR ***\n DOOR OPEN\n");
+		Print("DOOR ERROR *** \nDOOR OPEN\n");
 		PrintSize(1, 1);
 		Beep(3, 100, 100);
 		retVal = 0;
@@ -126,7 +126,7 @@ uint8_t PhaseBegin(uint8_t timeout) {
 		lastError = ERROR_NONE;
 //		lastError = ERROR_WATER_HIGH_TDS;
 		PrintSize(2, 2);
-		Print("WTDS ERROR ***\n WATER QUALITY\n");
+		Print("WTDS ERROR *** \nWATER QUALITY\n");
 		PrintSize(1, 1);
 		Beep(3, 100, 100);
 		retVal = 0;
@@ -136,7 +136,7 @@ uint8_t PhaseBegin(uint8_t timeout) {
 		lastError = ERROR_NONE;
 //		lastError = ERROR_WATER_LOW;
 		PrintSize(2, 2);
-		Print("WATR ERROR ***\n WATER LEVEL\n");
+		Print("WATR ERROR *** \nWATER LEVEL\n");
 		PrintSize(1, 1);
 		Beep(3, 100, 100);
 		retVal = 0;
@@ -145,7 +145,7 @@ uint8_t PhaseBegin(uint8_t timeout) {
 		lastError = ERROR_NONE;
 //		lastError = ERROR_WATER_DUMP_HIGH;
 		PrintSize(2, 2);
-		Print("DUMP ERROR ***\n WATER DUMP LEVEL\n");
+		Print("DUMP ERROR *** \nWATER DUMP LEVEL\n");
 		PrintSize(1, 1);
 		Beep(3, 100, 100);
 		retVal = 0;
@@ -158,7 +158,7 @@ uint8_t PhaseBegin(uint8_t timeout) {
 		if (DoorSolenoidSet(LOCK) != LOCK) {
 			lastError = ERROR_PROTECTION_LOCK;
 			PrintSize(2, 2);
-			Print("LOCK ERROR ***\n NO CONFIRMATION\n");
+			Print("LOCK ERROR *** \nNO CONFIRMATION\n");
 			PrintSize(1, 1);
 			PrintError("\n", &tPhase);
 			Beep(1, 1000, 100);
