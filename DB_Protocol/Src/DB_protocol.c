@@ -12,7 +12,7 @@
 
 #include <crc.h>
 #include "DB_Protocol.h"
-#include <stdio.h>
+
 #include <string.h>
 
 static const char activeProtocolHead[] = {'<', '~'};

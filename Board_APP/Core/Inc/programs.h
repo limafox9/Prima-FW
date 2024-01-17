@@ -38,6 +38,7 @@ USAGE:
 #ifndef INC_PROGRAMS_H_
 #define INC_PROGRAMS_H_
 
+#include <stdint.h>
 #include <stdio.h>
 
 #define PROGRAMS_N 5

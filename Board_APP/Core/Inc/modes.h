@@ -38,6 +38,9 @@ USAGE:
 #ifndef INC_MODES_H_
 #define INC_MODES_H_
 
+#include <stdint.h>
+#include <stdio.h>
+
 typedef enum {
 	STATUS_IDLE = 1,
 	STATUS_READY = 2,

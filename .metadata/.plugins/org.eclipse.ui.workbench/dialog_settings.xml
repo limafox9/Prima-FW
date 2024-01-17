@@ -13,10 +13,9 @@
 	<section name="EditorSelectionDialog">
 	</section>
 	<section name="PreferencesExportWizard">
-		<item key="" value="P:\Il mio Drive\Common\STM32CubeIDE_Settings.epf"/>
+		<item key="" value="F:\Prima.epf"/>
 		<item key="WizardPreferencesExportPage1.STORE_OVERWRITE_EXISTING_FILES_ID" value="false"/>
 		<item key="WizardPreferencesExportPage1.EXPORT_ALL_PREFERENCES_ID" value="true"/>
-		<item key="" value="F:\Prima.epf"/>
 		<list key="WizardPreferencesExportPage1.STORE_DESTINATION_NAMES_ID">
 			<item value="F:\Prima.epf"/>
 			<item value="P:\Il mio Drive\Common\STM32CubeIDE_Settings.epf"/>

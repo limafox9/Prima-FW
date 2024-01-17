@@ -38,6 +38,7 @@ USAGE:
 #ifndef DB_PROTOCOL_H_
 #define DB_PROTOCOL_H_
 
+#include <stdint.h>
 #include <stdio.h>
 
 #define POS_HEAD 		0

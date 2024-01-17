@@ -37,6 +37,7 @@ USAGE:
 #ifndef INC_SETTINGS_H_
 #define INC_SETTINGS_H_
 
+#include <stdint.h>
 #include <stdio.h>
 
 #define DEFAULT_LOG_ACTIVE				0		// 1 = true, 0 = false

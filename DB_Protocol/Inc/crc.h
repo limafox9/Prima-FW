@@ -36,6 +36,7 @@ USAGE:
 #ifndef INC_CRC16_H_
 #define INC_CRC16_H_
 
+#include <stdint.h>
 #include <stdio.h>
 
 uint8_t CRC8(uint8_t* data, uint16_t size);

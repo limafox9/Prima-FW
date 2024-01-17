@@ -38,6 +38,7 @@ USAGE:
 #ifndef DEVS_7705_H_
 #define DEVS_7705_H_
 
+#include <stdint.h>
 #include <stdio.h>
 
 void TM7705_Init();

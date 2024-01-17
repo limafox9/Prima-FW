@@ -2,6 +2,14 @@
 PRIMA Board_APP
 -------------------------------------------------------------------------------
 
+[2.8.71 China] - 2024-01-17
+  NOTES
+    Versione per Cina. Aumentata tolleranza T1-T2 mismatch per consentirgli i
+    test senza sonde con sensori temp fuori tolleranza dei settings
+  CHANGED
+    - Modificato T1_T2_STERIL_MAX_TEMP_DIFF_134 > 3.0
+    - Modificato T1_T2_STERIL_MAX_TEMP_DIFF_121 > 3.0
+
 [2.8.7 Test] - 2023-07-03
   CHANGED
     - Modificata temperatura steril per ciclo 134 USER 0 da 134.5 a 134.7°C

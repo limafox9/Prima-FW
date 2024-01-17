@@ -39,6 +39,9 @@ USAGE:
 
 #include "main.h"
 
+#include <stdint.h>
+#include <stdio.h>
+
 typedef enum {
 	UINT8,
 	UINT16,
