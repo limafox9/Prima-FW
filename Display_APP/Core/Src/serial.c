@@ -39,6 +39,7 @@ USAGE:
 #include <dashboard.h>
 #include <string.h>
 #include <stdio.h>
+#include <stdint.h>
 
 #include "serial.h"
 #include "digits.h"
@@ -47,6 +48,7 @@ USAGE:
 #include "globals.h"
 #include "Inc/DB_protocol.h"
 #include "_ver.h"
+#include "keys.h"
 
 
 extern UART_HandleTypeDef huart1;
@@ -253,6 +255,9 @@ static void ParseCommand(s_DisplayProtocolData* data) {
 		case DISPLAY_CMD_FW_VER:
 			SendCommand(DISPLAY_CMD_OK, FW_VERSION_MAJOR, FW_VERSION_MINOR, FW_VERSION_REVISION, "");
 			break;
+		case DISPLAY_CMD_GET_KEYS:
+			SendCommand(DISPLAY_CMD_KEYS_OK, 1, GetPressedKeys(), 0, "");
+			break;
 		case DISPLAY_CMD_CHECK:
 //			duration = ((uint16_t)data->Param1 >= 500) && ((uint16_t)data->Param1 <= 10000) ? (uint16_t)data->Param1 : 3000;
 //			beeps = (uint8_t)data->Param2 <= 10 ? (uint8_t)data->Param2 : 10;
@@ -268,4 +273,3 @@ static void ParseCommand(s_DisplayProtocolData* data) {
 			break;
 	}
 }
-

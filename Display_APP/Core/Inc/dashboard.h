@@ -9,6 +9,7 @@
 #define INC_DASHBOARD_H_
 
 #include <stdio.h>
+#include <stdint.h>
 
 void DashboardWrite(uint16_t leds, uint8_t onoff);
 void DashboardSetAll();

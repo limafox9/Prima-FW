@@ -29,23 +29,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
  12 .comment      00000043  00000000  00000000  00040909  2**0
                   CONTENTS, READONLY
- 13 .debug_info   0003d1d9  00000000  00000000  0004094c  2**0
+ 13 .debug_info   0003d249  00000000  00000000  0004094c  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_abbrev 00009f53  00000000  00000000  0007db25  2**0
+ 14 .debug_abbrev 00009f53  00000000  00000000  0007db95  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_aranges 00002ba8  00000000  00000000  00087a78  2**3
+ 15 .debug_aranges 00002ba8  00000000  00000000  00087ae8  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_rnglists 00002301  00000000  00000000  0008a620  2**0
+ 16 .debug_rnglists 00002301  00000000  00000000  0008a690  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_macro  0002e9aa  00000000  00000000  0008c921  2**0
+ 17 .debug_macro  0002e9aa  00000000  00000000  0008c991  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_line   00043540  00000000  00000000  000bb2cb  2**0
+ 18 .debug_line   00043540  00000000  00000000  000bb33b  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_str    000d2974  00000000  00000000  000fe80b  2**0
+ 19 .debug_str    000d299d  00000000  00000000  000fe87b  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .debug_frame  0000cb18  00000000  00000000  001d1180  2**2
+ 20 .debug_frame  0000cb18  00000000  00000000  001d1218  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 0000004d  00000000  00000000  001ddc98  2**0
+ 21 .debug_line_str 0000004d  00000000  00000000  001ddd30  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -23066,7 +23066,7 @@ void LoadSettings() {
  8018f46:	77da      	strb	r2, [r3, #31]
 	machine.FWVersionRevision = FW_VERSION_REVISION;
  8018f48:	4b61      	ldr	r3, [pc, #388]	; (80190d0 <LoadSettings+0x1b0>)
- 8018f4a:	2247      	movs	r2, #71	; 0x47
+ 8018f4a:	2248      	movs	r2, #72	; 0x48
  8018f4c:	f883 2020 	strb.w	r2, [r3, #32]
 //		SaveDefaults();
 //	}

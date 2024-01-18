@@ -2,13 +2,14 @@
 PRIMA Board_APP
 -------------------------------------------------------------------------------
 
-[2.8.71 China] - 2024-01-17
+[2.8.72 China] - 2024-01-18
   NOTES
     Versione per Cina. Aumentata tolleranza T1-T2 mismatch per consentirgli i
     test senza sonde con sensori temp fuori tolleranza dei settings
   CHANGED
     - Modificato T1_T2_STERIL_MAX_TEMP_DIFF_134 > 3.0
     - Modificato T1_T2_STERIL_MAX_TEMP_DIFF_121 > 3.0
+    - DB_Protocol OK
 
 [2.8.7 Test] - 2023-07-03
   CHANGED

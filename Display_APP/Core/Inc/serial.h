@@ -36,6 +36,8 @@ USAGE:
 #ifndef INC_SERIAL_H_
 #define INC_SERIAL_H_
 
+#include <stdint.h>
+
 #define DISPLAY_UART_HANDLE				huart1
 
 #define DISPLAY_DIGIT_ROWS 				3

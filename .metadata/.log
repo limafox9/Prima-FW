@@ -9304,3 +9304,18 @@ java.util.ConcurrentModificationException
 
 !ENTRY org.eclipse.cdt.core 1 0 2024-01-17 17:47:17.078
 !MESSAGE Indexed 'Bootloader' (43 sources, 138 headers) in 1.58 sec: 11,592 declarations; 53,170 references; 2 unresolved inclusions; 36 syntax errors; 190 unresolved names (0.29%)
+!SESSION 2024-01-18 12:47:18.735 -----------------------------------------------
+eclipse.buildId=Version 1.13.2
+java.version=17.0.6
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=it_IT
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2024-01-18 12:47:42.321
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2024-01-18 12:47:42.327
+!MESSAGE Log4j2 initialized with config file D:\Galbiati\Prima-FW\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2024-01-18 12:47:59.152
+!MESSAGE Started RMI Server, listening on port 41337

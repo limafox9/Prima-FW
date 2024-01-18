@@ -45,7 +45,7 @@ USAGE:
 extern uint16_t SET_KeysLongPressDuration;
 extern bool SET_KeysBeep;
 
-static uint8_t GetPressedKeys();
+
 static void KeysReceived(uint8_t keysCode);
 
 // ==============================================================
@@ -78,7 +78,7 @@ void KeysTask() {
 	}
 }
 
-static uint8_t GetPressedKeys() {
+uint8_t GetPressedKeys() {
 
 	uint8_t pressKeys = 0;
 	// Keys active low
@@ -123,6 +123,3 @@ static void KeysReceived(uint8_t keysCode) {
 		// Default code here
 	}
 }
-
-
-
