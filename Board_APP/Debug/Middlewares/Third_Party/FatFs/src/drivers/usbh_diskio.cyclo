@@ -1,5 +1,5 @@
-usbh_diskio.c:93:9:USBH_initialize	1
-usbh_diskio.c:103:9:USBH_status	2
-usbh_diskio.c:127:9:USBH_read	7
-usbh_diskio.c:192:9:USBH_write	9
-usbh_diskio.c:260:9:USBH_ioctl	8
+../Middlewares/Third_Party/FatFs/src/drivers/usbh_diskio.c:93:9:USBH_initialize	1
+../Middlewares/Third_Party/FatFs/src/drivers/usbh_diskio.c:103:9:USBH_status	2
+../Middlewares/Third_Party/FatFs/src/drivers/usbh_diskio.c:127:9:USBH_read	7
+../Middlewares/Third_Party/FatFs/src/drivers/usbh_diskio.c:192:9:USBH_write	9
+../Middlewares/Third_Party/FatFs/src/drivers/usbh_diskio.c:260:9:USBH_ioctl	8

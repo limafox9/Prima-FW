@@ -46,7 +46,6 @@ USAGE:
 #include "Inc/DB_protocol.h"
 #include "modes.h"
 #include "display.h"
-#include "7705.h"
 #include "time.h"
 #include "programs.h"
 #include "phases.h"
@@ -73,6 +72,7 @@ USAGE:
 #define AVERAGE_SAMPLES				5			// N. of samples for the average
 #define AVERAGE_SAMPLES_INTERVAL	10			// Interval between samples (milliseconds)
 #define V_REF						3.3			// Power supply
+#define VT_FACTOR					1.222
 #define ADC_BITS					12			// ADC resolution (8bit=256, 10bit=1024, 12bit=4096, 16bit=65536
 #define T1_FACTORY_OFFSET			3.0			// Fixed factory offset for T1
 #define T2_FACTORY_OFFSET			0.0			// Fixed factory offset for T2
@@ -213,12 +213,13 @@ uint16_t WaterQualityGet() {
 }
 
 float GetT1() {
-	return TM7705_GetTemp(1, (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0));
+//	return TM7705_GetTemp(1, (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0));
+	return 25;
 }
 
 float GetT2() {
-	return TM7705_GetTemp(2, (float)(settings.T2Offset / 10.0) + (float)(settings.T2FactoryOffset / 10.0));
-
+//	return TM7705_GetTemp(2, (float)(settings.T2Offset / 10.0) + (float)(settings.T2FactoryOffset / 10.0));
+	return 25;
 }
 
 void StartSensorsTask() {
@@ -550,12 +551,13 @@ float ADCToTemp(uint16_t adcValue) {
 	rRef = (float)R_REF;
 
 	readVolt = (vRef / (float)(pow(2, ADC_BITS) - 1) * (float)adcValue); 	// Voltage read
-	Rt = ((vRef - readVolt) * rRef / readVolt); // PTC ohm
 
-	tCelsius = Z2 + (Z3 * Rt);
-	tCelsius = (sqrt(tCelsius) + Z1) / Z4;
+//	Rt = ((vRef - readVolt) * rRef / readVolt); // PTC ohm
+//
+//	tCelsius = Z2 + (Z3 * Rt);
+//	tCelsius = (sqrt(tCelsius) + Z1) / Z4;
 
-//	tCelsius += (settings.T1Offset / 10.0);
+	tCelsius = (((readVolt * 100) / VT_FACTOR) + 0);
 
 	return tCelsius;
 }

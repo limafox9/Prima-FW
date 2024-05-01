@@ -1,2 +1,2 @@
-ccsbcs.c:501:7:ff_convert	6
-ccsbcs.c:528:7:ff_wtoupper	4
+../Middlewares/Third_Party/FatFs/src/option/ccsbcs.c:501:7:ff_convert	6
+../Middlewares/Third_Party/FatFs/src/option/ccsbcs.c:528:7:ff_wtoupper	4

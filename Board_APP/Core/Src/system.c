@@ -198,41 +198,41 @@ void SysInit() {
 
 	LoadSettings();
 
-	ClockInit(&hi2c1);
-	PWMPower_Init();
-	PrinterInit();
-
-//	PrintLogo();
-//	return;
-
+//	ClockInit(&hi2c1);
+//	PWMPower_Init();
+//	PrinterInit();
 //
-	HAL_ADCEx_Calibration_Start(&hadc1);
-
-//	TM7705_Init(&hspi1);
-	TM7705_Init();
-	TM7705_SytemCalibFull(1);
-	TM7705_SytemCalibZero(1);
-	TM7705_CalibSelf(1);		// this takes about 180ms
-	HAL_Delay(200);
-	TM7705_SytemCalibFull(2);
-	TM7705_SytemCalibZero(2);
-	TM7705_CalibSelf(2);		// this takes about 180ms
-	HAL_Delay(200);
-
-//	while (1) {
-//		TM7705_GetTemp(1, 0.0);
-//		TM7705_GetTemp(2, 0.0);
-////		TM7705_ReadAdc(1);
-////		TM7705_ReadAdc(2);
-////		AD7705_GetTemp(CHANNEL_0, 0.0);
-////		AD7705_GetTemp(CHANNEL_1, 0.0);
-//		osDelay(100);
-//	}
-
-
-
-	BAT2U_Init(&huart2);
-	sensors.WaterTDS = WaterQualityGet();
+////	PrintLogo();
+////	return;
+//
+////
+//	HAL_ADCEx_Calibration_Start(&hadc1);
+//
+////	TM7705_Init(&hspi1);
+//	TM7705_Init();
+//	TM7705_SytemCalibFull(1);
+//	TM7705_SytemCalibZero(1);
+//	TM7705_CalibSelf(1);		// this takes about 180ms
+//	HAL_Delay(200);
+//	TM7705_SytemCalibFull(2);
+//	TM7705_SytemCalibZero(2);
+//	TM7705_CalibSelf(2);		// this takes about 180ms
+//	HAL_Delay(200);
+//
+////	while (1) {
+////		TM7705_GetTemp(1, 0.0);
+////		TM7705_GetTemp(2, 0.0);
+//////		TM7705_ReadAdc(1);
+//////		TM7705_ReadAdc(2);
+//////		AD7705_GetTemp(CHANNEL_0, 0.0);
+//////		AD7705_GetTemp(CHANNEL_1, 0.0);
+////		osDelay(100);
+////	}
+//
+//
+//
+//	BAT2U_Init(&huart2);
+//	sensors.WaterTDS = WaterQualityGet();
 
 
 
@@ -273,6 +273,7 @@ void SysInit() {
 		Beep(3, 1000, 100);
 	}
 
+
 	HAL_Delay(2000);
 
 	RTCDateTime_s RTCDateTime;
@@ -281,6 +282,74 @@ void SysInit() {
 //		settings.T1Offset = 0;
 //		settings.ChamberPressOffset = 0;
 //		SaveSettings();
+
+
+
+	// TEST BEGIN ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+	DigitsWrite(1, "CIAO");
+
+
+	uint8_t TestDelay = 200;
+	float temp3;
+
+	for (;;) {
+
+//		temp3 = ChamberHeaterTempGet();
+		temp3 = SteamGeneratorTempGet();
+		sprintf(s,"%5.1f", temp3);
+		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, s);
+
+		HAL_GPIO_WritePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin, ON);
+		osDelay(TestDelay);
+		HAL_GPIO_WritePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin, OFF);
+		HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, ON);
+		osDelay(TestDelay);
+		HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, OFF);
+
+
+		PumpVacuumSet(ON);
+		osDelay(TestDelay);
+		PumpVacuumSet(OFF);
+		PumpWaterLoadSet(ON);
+		osDelay(TestDelay);
+		PumpWaterLoadSet(OFF);
+		PumpSteamGeneratorSet(ON);
+		osDelay(TestDelay);
+		PumpSteamGeneratorSet(OFF);
+		FanSet(ON);
+		osDelay(TestDelay);
+		FanSet(OFF);
+
+		ValveVacuumSet(ON);
+		osDelay(TestDelay);
+		ValveVacuumSet(OFF);
+		ValveWaterSteamSet(ON);
+		osDelay(TestDelay);
+		ValveWaterSteamSet(OFF);
+		ValveDrainSteamSet(ON);
+		osDelay(TestDelay);
+		ValveDrainSteamSet(OFF);
+		ValveDryIntakeSet(ON);
+		osDelay(TestDelay);
+		ValveDryIntakeSet(OFF);
+
+//		if (DoorSolenoidKeyGet()==LOCK) Beep(1,100,100);
+//		if (DoorPositionGet()==CLOSED) Beep(1,100,100);
+//		if (WaterDumpLevelGet()==FULL) Beep(1,100,100);
+//		if (WaterReservoirLevelGet()== EMPTY) Beep(1,100,100);
+//		if (WaterReservoirLevelGet()== FULL) Beep(2,100,100);
+	}
+
+
+	return;
+
+// TEST END ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
 
 	osThreadDef(keysTask, StartKeysTask, osPriorityAboveNormal, 1, 512);
 	keysTaskHandle = osThreadCreate(osThread(keysTask), NULL);

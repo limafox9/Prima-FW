@@ -50,6 +50,7 @@ ADC_HandleTypeDef hadc1;
 
 I2C_HandleTypeDef hi2c1;
 
+SPI_HandleTypeDef hspi1;
 SPI_HandleTypeDef hspi2;
 
 TIM_HandleTypeDef htim2;
@@ -57,7 +58,6 @@ TIM_HandleTypeDef htim3;
 
 UART_HandleTypeDef huart4;
 UART_HandleTypeDef huart1;
-UART_HandleTypeDef huart2;
 UART_HandleTypeDef huart3;
 DMA_HandleTypeDef hdma_usart1_rx;
 DMA_HandleTypeDef hdma_usart3_rx;
@@ -79,9 +79,9 @@ static void MX_SPI2_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_UART4_Init(void);
 static void MX_ADC1_Init(void);
-static void MX_USART2_UART_Init(void);
 static void MX_TIM2_Init(void);
 static void MX_TIM3_Init(void);
+static void MX_SPI1_Init(void);
 void StartTaskAlive(void const * argument);
 
 /* USER CODE BEGIN PFP */
@@ -106,7 +106,7 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-HAL_Init();
+  HAL_Init();
 
   /* USER CODE BEGIN Init */
 
@@ -128,10 +128,10 @@ HAL_Init();
   MX_USART1_UART_Init();
   MX_UART4_Init();
   MX_ADC1_Init();
-  MX_USART2_UART_Init();
   MX_TIM2_Init();
   MX_TIM3_Init();
   MX_FATFS_Init();
+  MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -159,7 +159,7 @@ HAL_Init();
 
   /* Create the thread(s) */
   /* definition and creation of taskAlive */
-  osThreadDef(taskAlive, StartTaskAlive, osPriorityLow, 0, 512);
+  osThreadDef(taskAlive, StartTaskAlive, osPriorityLow, 0, 2048);
   taskAliveHandle = osThreadCreate(osThread(taskAlive), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
@@ -169,6 +169,7 @@ HAL_Init();
 
   /* Start scheduler */
   osKernelStart();
+
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -312,6 +313,44 @@ static void MX_I2C1_Init(void)
   /* USER CODE BEGIN I2C1_Init 2 */
 
   /* USER CODE END I2C1_Init 2 */
+
+}
+
+/**
+  * @brief SPI1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_SPI1_Init(void)
+{
+
+  /* USER CODE BEGIN SPI1_Init 0 */
+
+  /* USER CODE END SPI1_Init 0 */
+
+  /* USER CODE BEGIN SPI1_Init 1 */
+
+  /* USER CODE END SPI1_Init 1 */
+  /* SPI1 parameter configuration*/
+  hspi1.Instance = SPI1;
+  hspi1.Init.Mode = SPI_MODE_MASTER;
+  hspi1.Init.Direction = SPI_DIRECTION_2LINES;
+  hspi1.Init.DataSize = SPI_DATASIZE_8BIT;
+  hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
+  hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
+  hspi1.Init.NSS = SPI_NSS_SOFT;
+  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_32;
+  hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
+  hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
+  hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+  hspi1.Init.CRCPolynomial = 10;
+  if (HAL_SPI_Init(&hspi1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN SPI1_Init 2 */
+
+  /* USER CODE END SPI1_Init 2 */
 
 }
 
@@ -510,39 +549,6 @@ static void MX_USART1_UART_Init(void)
 }
 
 /**
-  * @brief USART2 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_USART2_UART_Init(void)
-{
-
-  /* USER CODE BEGIN USART2_Init 0 */
-
-  /* USER CODE END USART2_Init 0 */
-
-  /* USER CODE BEGIN USART2_Init 1 */
-
-  /* USER CODE END USART2_Init 1 */
-  huart2.Instance = USART2;
-  huart2.Init.BaudRate = 2400;
-  huart2.Init.WordLength = UART_WORDLENGTH_8B;
-  huart2.Init.StopBits = UART_STOPBITS_1;
-  huart2.Init.Parity = UART_PARITY_NONE;
-  huart2.Init.Mode = UART_MODE_TX_RX;
-  huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  huart2.Init.OverSampling = UART_OVERSAMPLING_16;
-  if (HAL_UART_Init(&huart2) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN USART2_Init 2 */
-
-  /* USER CODE END USART2_Init 2 */
-
-}
-
-/**
   * @brief USART3 Initialization Function
   * @param None
   * @retval None
@@ -616,25 +622,31 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, LED_HEART_Pin|FAN_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, I2C2_SW_SDA_Pin|I2C2_SW_SCL_Pin|SPI2_CS_Pin|ADC_CLOCK_Pin
-                          |ADC_MOSI_Pin|ADC_RESET_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, LED_HEART_Pin|FAN_Pin|nTDS_EN_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOE, SOLENOID_V1_Pin|SOLENOID_V2_Pin|VAL_VACUUM_Pin|VAL_WATER_STEAM_Pin
                           |VAL_DRY_AIR_Pin|VAL_DRAIN_STEAM_Pin|USART3_CTS_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOD, HEATER_RING_Pin|HEATER_STEAM_GEN_Pin|PUMP_WATER_LOAD_Pin|PUMP_VACUUM_Pin
-                          |PUMP_STEAM_GEN_Pin|BEEP_Pin|V_BUS_Pin|ADC_CS_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, SPI2_CS_Pin|ETH_nRST_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : SW_CSH_Pin SW_CSL_Pin SW_LSH_Pin SW_DOOR_Pin */
-  GPIO_InitStruct.Pin = SW_CSH_Pin|SW_CSL_Pin|SW_LSH_Pin|SW_DOOR_Pin;
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOD, HEATER_RING_Pin|HEATER_STEAM_GEN_Pin|PUMP_WATER_LOAD_Pin|PUMP_VACUUM_Pin
+                          |PUMP_STEAM_GEN_Pin|BEEP_Pin|ETH_PMODE0_Pin|ETH_PMODE1_Pin
+                          |ETH_PMODE2_Pin|V_BUS_Pin|ETH_SPI1_nCS_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pins : SW_CSH_Pin SW_CSL_Pin SW_LSH_Pin */
+  GPIO_InitStruct.Pin = SW_CSH_Pin|SW_CSL_Pin|SW_LSH_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : SW_DOOR_Pin */
+  GPIO_InitStruct.Pin = SW_DOOR_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(SW_DOOR_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : SW_SOLENOID_Pin */
   GPIO_InitStruct.Pin = SW_SOLENOID_Pin;
@@ -642,21 +654,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(SW_SOLENOID_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : LED_HEART_Pin FAN_Pin */
-  GPIO_InitStruct.Pin = LED_HEART_Pin|FAN_Pin;
+  /*Configure GPIO pins : LED_HEART_Pin FAN_Pin nTDS_EN_Pin */
+  GPIO_InitStruct.Pin = LED_HEART_Pin|FAN_Pin|nTDS_EN_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : I2C2_SW_SDA_Pin I2C2_SW_SCL_Pin SPI2_CS_Pin ADC_CLOCK_Pin
-                           ADC_MOSI_Pin ADC_RESET_Pin */
-  GPIO_InitStruct.Pin = I2C2_SW_SDA_Pin|I2C2_SW_SCL_Pin|SPI2_CS_Pin|ADC_CLOCK_Pin
-                          |ADC_MOSI_Pin|ADC_RESET_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /*Configure GPIO pins : SOLENOID_V1_Pin SOLENOID_V2_Pin VAL_VACUUM_Pin VAL_WATER_STEAM_Pin
                            VAL_DRY_AIR_Pin VAL_DRAIN_STEAM_Pin USART3_CTS_Pin */
@@ -667,10 +670,19 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
+  /*Configure GPIO pins : SPI2_CS_Pin ETH_nRST_Pin */
+  GPIO_InitStruct.Pin = SPI2_CS_Pin|ETH_nRST_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
   /*Configure GPIO pins : HEATER_RING_Pin HEATER_STEAM_GEN_Pin PUMP_WATER_LOAD_Pin PUMP_VACUUM_Pin
-                           PUMP_STEAM_GEN_Pin BEEP_Pin V_BUS_Pin ADC_CS_Pin */
+                           PUMP_STEAM_GEN_Pin BEEP_Pin ETH_PMODE0_Pin ETH_PMODE1_Pin
+                           ETH_PMODE2_Pin V_BUS_Pin ETH_SPI1_nCS_Pin */
   GPIO_InitStruct.Pin = HEATER_RING_Pin|HEATER_STEAM_GEN_Pin|PUMP_WATER_LOAD_Pin|PUMP_VACUUM_Pin
-                          |PUMP_STEAM_GEN_Pin|BEEP_Pin|V_BUS_Pin|ADC_CS_Pin;
+                          |PUMP_STEAM_GEN_Pin|BEEP_Pin|ETH_PMODE0_Pin|ETH_PMODE1_Pin
+                          |ETH_PMODE2_Pin|V_BUS_Pin|ETH_SPI1_nCS_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -682,11 +694,11 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : ADC_MISO_Pin ADC_DATA_READY_Pin */
-  GPIO_InitStruct.Pin = ADC_MISO_Pin|ADC_DATA_READY_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  /*Configure GPIO pin : ETH_nINT_Pin */
+  GPIO_InitStruct.Pin = ETH_nINT_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+  HAL_GPIO_Init(ETH_nINT_GPIO_Port, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI3_IRQn, 5, 0);
@@ -694,9 +706,6 @@ static void MX_GPIO_Init(void)
 
   HAL_NVIC_SetPriority(EXTI4_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(EXTI4_IRQn);
-
-  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 5, 0);
-  HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */

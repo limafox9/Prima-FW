@@ -1,6 +1,7 @@
 "./Core/Devs/24Cxx.o"
 "./Core/Devs/7705.o"
 "./Core/Devs/AD7705.o"
+"./Core/Devs/ADS1115.o"
 "./Core/Devs/BAT2U.o"
 "./Core/Devs/BMP280.o"
 "./Core/Devs/PCF8563.o"
