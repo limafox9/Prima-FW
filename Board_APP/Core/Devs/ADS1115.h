@@ -131,7 +131,20 @@ typedef struct{
 
 typedef struct ADS1115_Config_Tag ADS1115_Handle_t;
 
-void ADS1115_Init();
+float ADS1115_GetRawData();
+float ADS1115_GetVoltage(uint8_t channel);
 
+ADS1115_Handle_t* ADS1115_init(I2C_HandleTypeDef *hi2c, uint16_t Addr, ADS1115_Config_t config);
+void ADS1115_deinit();
+void ADS1115_updateConfig(ADS1115_Handle_t *pConfig, ADS1115_Config_t config);
+void ADS1115_updateI2Chandler(ADS1115_Handle_t *pConfig, I2C_HandleTypeDef *hi2c);
+void ADS1115_updateAddress(ADS1115_Handle_t *pConfig, uint16_t address);
+uint16_t ADS1115_oneShotMeasure();
+uint16_t ADS1115_getData();
+void ADS1115_setThresholds(ADS1115_Handle_t *pConfig, int16_t lowValue, int16_t highValue);
+void ADS1115_flushData(ADS1115_Handle_t* pConfig);
+void ADS1115_setConversionReadyPin(ADS1115_Handle_t* pConfig);
+void ADS1115_startContinousMode(ADS1115_Handle_t* pConfig);
+void ADS1115_stopContinousMode(ADS1115_Handle_t* pConfig);
 
 #endif /* LIBS_ADS1115_ADS1115_H_ */

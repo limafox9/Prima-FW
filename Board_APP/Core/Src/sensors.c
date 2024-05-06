@@ -40,6 +40,7 @@ USAGE:
 #include "globals.h"
 #include "cmsis_os.h"
 #include "TM7705.h"
+#include "ADS1115.h"
 #include "system.h"
 #include "serial.h"
 #include "settings.h"
@@ -119,6 +120,7 @@ const float Z4 = 2 * RTD_B;
 static uint16_t ReadADC(uint32_t channel);
 static float ADCToTemp(uint16_t adcValue);
 static float ADCToPress(uint16_t adcValue);
+static float GetChamberPress();
 static float ADCToCurrent(uint16_t adcValue);
 
 Sensors_s sensors;

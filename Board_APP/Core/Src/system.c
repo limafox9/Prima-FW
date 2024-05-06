@@ -66,6 +66,7 @@ USAGE:
 #include "usbkey.h"
 #include "usbh_conf.h"
 #include "usb_host.h"
+#include "ADS1115.h"
 
 //#define USE_RTOS_SYSTICK
 
@@ -291,14 +292,47 @@ void SysInit() {
 
 
 	uint8_t TestDelay = 200;
-	float temp3;
+	uint16_t temp3;
+	float rawData1, volt, kPa, temperature, pressure, humidity;
+
+
+	ADS1115_Config_t configReg;
+	ADS1115_Handle_t *pADS;
+
+	configReg.channel = CHANNEL_AIN3_GND;
+	configReg.pgaConfig = PGA_6_144;
+	configReg.operatingMode = MODE_SINGLE_SHOT;
+	configReg.dataRate = DRATE_128;
+	configReg.compareMode = COMP_HYSTERESIS;
+	configReg.polarityMode = POLARITY_ACTIVE_LOW;
+	configReg.latchingMode = LATCHING_NONE;
+	configReg.queueComparator = QUEUE_DISABLE;
+
+	pADS = ADS1115_init(&hi2c1, ADS1115_ADDRESS, configReg);
+	ADS1115_updateConfig(pADS, configReg);
+
+	BMP280_HandleTypedef bmp280;
+	bmp280_init_default_params(&bmp280.params);
+	bmp280.addr = BMP280_I2C_ADDRESS_0;
+	bmp280.i2c = &hi2c1;
+	bmp280_init(&bmp280, &bmp280.params);
 
 	for (;;) {
 
 //		temp3 = ChamberHeaterTempGet();
-		temp3 = SteamGeneratorTempGet();
-		sprintf(s,"%5.1f", temp3);
+//		configReg.channel = CHANNEL_AIN2_GND;
+//		ADS1115_updateConfig(pADS, configReg);
+
+		bmp280_read_float(&bmp280, &temperature, &pressure, &humidity);
+		sprintf(s,"%5.1f", pressure / 1000);
+		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 2, 0, 0, s);
+		sprintf(s,"%5.1f", temperature);
 		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, s);
+
+		volt = ADS1115_GetVoltage(3);
+		kPa = ((volt / 5.0) - 0.04) / 0.0012858;
+		sprintf(s,"%5.1f", kPa);
+		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, s);
 
 		HAL_GPIO_WritePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin, ON);
 		osDelay(TestDelay);
