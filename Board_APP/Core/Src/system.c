@@ -199,9 +199,10 @@ void SysInit() {
 
 	LoadSettings();
 
-//	ClockInit(&hi2c1);
-//	PWMPower_Init();
-//	PrinterInit();
+	ClockInit(&hi2c1);
+	PWMPower_Init();
+	PrinterInit();
+
 //
 ////	PrintLogo();
 ////	return;
@@ -288,97 +289,123 @@ void SysInit() {
 
 	// TEST BEGIN ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-	DigitsWrite(1, "CIAO");
-
-
-	uint8_t TestDelay = 200;
-	uint16_t temp3;
-	float rawData1, volt, kPa, temperature, pressure, humidity;
-
-
-	ADS1115_Config_t configReg;
-	ADS1115_Handle_t *pADS;
-
-	configReg.channel = CHANNEL_AIN3_GND;
-	configReg.pgaConfig = PGA_6_144;
-	configReg.operatingMode = MODE_SINGLE_SHOT;
-	configReg.dataRate = DRATE_128;
-	configReg.compareMode = COMP_HYSTERESIS;
-	configReg.polarityMode = POLARITY_ACTIVE_LOW;
-	configReg.latchingMode = LATCHING_NONE;
-	configReg.queueComparator = QUEUE_DISABLE;
-
-	pADS = ADS1115_init(&hi2c1, ADS1115_ADDRESS, configReg);
-	ADS1115_updateConfig(pADS, configReg);
-
-	BMP280_HandleTypedef bmp280;
-	bmp280_init_default_params(&bmp280.params);
-	bmp280.addr = BMP280_I2C_ADDRESS_0;
-	bmp280.i2c = &hi2c1;
-	bmp280_init(&bmp280, &bmp280.params);
-
-	for (;;) {
-
-//		temp3 = ChamberHeaterTempGet();
-//		configReg.channel = CHANNEL_AIN2_GND;
-//		ADS1115_updateConfig(pADS, configReg);
-
-		bmp280_read_float(&bmp280, &temperature, &pressure, &humidity);
-		sprintf(s,"%5.1f", pressure / 1000);
-		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 2, 0, 0, s);
-		sprintf(s,"%5.1f", temperature);
-		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, s);
-
-		volt = ADS1115_GetVoltage(3);
-		kPa = ((volt / 5.0) - 0.04) / 0.0012858;
-		sprintf(s,"%5.1f", kPa);
-		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, s);
-
-		HAL_GPIO_WritePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin, ON);
-		osDelay(TestDelay);
-		HAL_GPIO_WritePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin, OFF);
-		HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, ON);
-		osDelay(TestDelay);
-		HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, OFF);
-
-
-		PumpVacuumSet(ON);
-		osDelay(TestDelay);
-		PumpVacuumSet(OFF);
-		PumpWaterLoadSet(ON);
-		osDelay(TestDelay);
-		PumpWaterLoadSet(OFF);
-		PumpSteamGeneratorSet(ON);
-		osDelay(TestDelay);
-		PumpSteamGeneratorSet(OFF);
-		FanSet(ON);
-		osDelay(TestDelay);
-		FanSet(OFF);
-
-		ValveVacuumSet(ON);
-		osDelay(TestDelay);
-		ValveVacuumSet(OFF);
-		ValveWaterSteamSet(ON);
-		osDelay(TestDelay);
-		ValveWaterSteamSet(OFF);
-		ValveDrainSteamSet(ON);
-		osDelay(TestDelay);
-		ValveDrainSteamSet(OFF);
-		ValveDryIntakeSet(ON);
-		osDelay(TestDelay);
-		ValveDryIntakeSet(OFF);
-
-//		if (DoorSolenoidKeyGet()==LOCK) Beep(1,100,100);
-//		if (DoorPositionGet()==CLOSED) Beep(1,100,100);
-//		if (WaterDumpLevelGet()==FULL) Beep(1,100,100);
-//		if (WaterReservoirLevelGet()== EMPTY) Beep(1,100,100);
-//		if (WaterReservoirLevelGet()== FULL) Beep(2,100,100);
-	}
-
-
-	return;
-
-// TEST END ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//	sprintf(s,"%d", RTCDateTime.Minute);
+//	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, s);
+//
+//
+//	PrinterInit();
+//	PrintTestPage();
+//	Print("\n");
+//	Print("******************************************\n");
+//	PrintSize(2, 2);
+//	Print("POWER TEST\n");
+//	PrintSize(1, 1);
+//	Print("------------------------------------------\n");
+//
+//	uint8_t TestDelay = 200;
+//	uint16_t temp3;
+//	float rawData1, volt, kPa, temperature, pressure, humidity;
+//
+//
+//	ADS1115_Config_t configReg;
+//	ADS1115_Handle_t *pADS;
+//
+//	configReg.channel = CHANNEL_AIN3_GND;
+//	configReg.pgaConfig = PGA_6_144;
+//	configReg.operatingMode = MODE_SINGLE_SHOT;
+//	configReg.dataRate = DRATE_128;
+//	configReg.compareMode = COMP_HYSTERESIS;
+//	configReg.polarityMode = POLARITY_ACTIVE_LOW;
+//	configReg.latchingMode = LATCHING_NONE;
+//	configReg.queueComparator = QUEUE_DISABLE;
+//
+//	pADS = ADS1115_init(&hi2c1, ADS1115_ADDRESS, configReg);
+//	ADS1115_updateConfig(pADS, configReg);
+//
+//	BMP280_HandleTypedef bmp280;
+//	bmp280_init_default_params(&bmp280.params);
+//	bmp280.addr = BMP280_I2C_ADDRESS_0;
+//	bmp280.i2c = &hi2c1;
+//	bmp280_init(&bmp280, &bmp280.params);
+//
+//	DoorSolenoidSet(LOCK);
+//	HAL_Delay(500);
+//	DoorSolenoidSet(UNLOCK);
+//
+//	for (;;) {
+//
+////		temp3 = ChamberHeaterTempGet();
+////		configReg.channel = CHANNEL_AIN2_GND;
+////		ADS1115_updateConfig(pADS, configReg);
+//
+//		bmp280_read_float(&bmp280, &temperature, &pressure, &humidity);
+//		sprintf(s,"%5.1f", pressure / 1000);
+//		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 2, 0, 0, s);
+//		temperature = GetT2();
+//		sprintf(s,"%5.1f", temperature);
+//		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, s);
+////		ChamberHeaterTempGet
+////		SteamGeneratorTempGet
+//
+//		volt = ADS1115_GetVoltage(3);
+//		kPa = ((volt / 5.0) - 0.04) / 0.0012858;
+//		sprintf(s,"%5.1f", kPa);
+//		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, s);
+//
+//		HAL_GPIO_WritePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin, ON);
+//		osDelay(TestDelay);
+//		HAL_GPIO_WritePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin, OFF);
+//		HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, ON);
+//		osDelay(TestDelay);
+//		HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, OFF);
+//
+//
+//		PumpVacuumSet(ON);
+//		osDelay(TestDelay);
+//		PumpVacuumSet(OFF);
+//		PumpWaterLoadSet(ON);
+//		osDelay(TestDelay);
+//		PumpWaterLoadSet(OFF);
+//		PumpSteamGeneratorSet(ON);
+//		osDelay(TestDelay);
+//		PumpSteamGeneratorSet(OFF);
+//		FanSet(ON);
+//		osDelay(TestDelay);
+//		FanSet(OFF);
+//
+////		ValveVacuumSet(ON);
+////		osDelay(TestDelay);
+////		ValveVacuumSet(OFF);
+////		ValveWaterSteamSet(ON);
+////		osDelay(TestDelay);
+////		ValveWaterSteamSet(OFF);
+////		ValveDrainSteamSet(ON);
+////		osDelay(TestDelay);
+////		ValveDrainSteamSet(OFF);
+////		ValveDryIntakeSet(ON);
+////		osDelay(TestDelay);
+////		ValveDryIntakeSet(OFF);
+//
+//
+////		HAL_GPIO_WritePin(nTDS_EN_GPIO_Port, nTDS_EN_Pin, ON);
+////		HAL_Delay(100);
+////		volt = ADS1115_GetVoltage(4);
+////		kPa = ((volt / 5.0) - 0.04) / 0.0012858;
+////		sprintf(s,"%5.3f", volt);
+////		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, s);
+////		HAL_GPIO_WritePin(nTDS_EN_GPIO_Port, nTDS_EN_Pin, OFF);
+//
+////		if (DoorSolenoidKeyGet()==LOCK) Beep(1,100,100);
+////		if (DoorPositionGet()==CLOSED) Beep(1,100,100);
+////		if (WaterDumpLevelGet()==FULL) Beep(1,100,100);
+////		if (WaterReservoirLevelGet()== EMPTY) Beep(1,100,100);
+////		if (WaterReservoirLevelGet()== FULL) Beep(2,100,100);
+//	}
+//
+//
+//	return;
+//
+//// TEST END ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
 
@@ -437,7 +464,7 @@ void SysInit() {
 				machineStatus.Status = STATUS_ERROR;
 			}
 		}
-
+// NVIC_
 //		while (1) {
 //			sensors.Solenoid = DoorSolenoidKeyGet();
 //		}

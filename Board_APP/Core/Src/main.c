@@ -99,6 +99,7 @@ void StartTaskAlive(void const * argument);
   */
 int main(void)
 {
+
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
@@ -171,6 +172,7 @@ int main(void)
   osKernelStart();
 
   /* We should never get here as control is now taken by the scheduler */
+
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
@@ -625,8 +627,8 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOA, LED_HEART_Pin|FAN_Pin|nTDS_EN_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOE, SOLENOID_V1_Pin|SOLENOID_V2_Pin|VAL_VACUUM_Pin|VAL_WATER_STEAM_Pin
-                          |VAL_DRY_AIR_Pin|VAL_DRAIN_STEAM_Pin|USART3_CTS_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOE, SOLENOID_V1_Pin|SOLENOID_V2_Pin|VAL_DRAIN_STEAM_Pin|VAL_VACUUM_Pin
+                          |VAL_DRY_AIR_Pin|VAL_WATER_STEAM_Pin|USART3_CTS_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, SPI2_CS_Pin|ETH_nRST_Pin, GPIO_PIN_RESET);
@@ -661,10 +663,10 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : SOLENOID_V1_Pin SOLENOID_V2_Pin VAL_VACUUM_Pin VAL_WATER_STEAM_Pin
-                           VAL_DRY_AIR_Pin VAL_DRAIN_STEAM_Pin USART3_CTS_Pin */
-  GPIO_InitStruct.Pin = SOLENOID_V1_Pin|SOLENOID_V2_Pin|VAL_VACUUM_Pin|VAL_WATER_STEAM_Pin
-                          |VAL_DRY_AIR_Pin|VAL_DRAIN_STEAM_Pin|USART3_CTS_Pin;
+  /*Configure GPIO pins : SOLENOID_V1_Pin SOLENOID_V2_Pin VAL_DRAIN_STEAM_Pin VAL_VACUUM_Pin
+                           VAL_DRY_AIR_Pin VAL_WATER_STEAM_Pin USART3_CTS_Pin */
+  GPIO_InitStruct.Pin = SOLENOID_V1_Pin|SOLENOID_V2_Pin|VAL_DRAIN_STEAM_Pin|VAL_VACUUM_Pin
+                          |VAL_DRY_AIR_Pin|VAL_WATER_STEAM_Pin|USART3_CTS_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -701,11 +703,17 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(ETH_nINT_GPIO_Port, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI2_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(EXTI2_IRQn);
+
   HAL_NVIC_SetPriority(EXTI3_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(EXTI3_IRQn);
 
   HAL_NVIC_SetPriority(EXTI4_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(EXTI4_IRQn);
+
+  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */

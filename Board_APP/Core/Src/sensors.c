@@ -73,7 +73,7 @@ USAGE:
 #define AVERAGE_SAMPLES				5			// N. of samples for the average
 #define AVERAGE_SAMPLES_INTERVAL	10			// Interval between samples (milliseconds)
 #define V_REF						3.3			// Power supply
-#define VT_FACTOR					1.222
+#define VT_FACTOR					1.14
 #define ADC_BITS					12			// ADC resolution (8bit=256, 10bit=1024, 12bit=4096, 16bit=65536
 #define T1_FACTORY_OFFSET			3.0			// Fixed factory offset for T1
 #define T2_FACTORY_OFFSET			0.0			// Fixed factory offset for T2
@@ -139,6 +139,7 @@ float pressBuf[PRESS_BUFFER_SIZE];
 float pressAvg;
 
 float BufferAverage(float* buffer, uint8_t size, float newValue);
+float GetCalTemp(uint16_t value, float offset);
 
 //==============================================================================
 // DECLARATIONS
@@ -200,14 +201,21 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 
 uint16_t WaterQualityGet() {
 	uint16_t retVal, dum;
+	float volt;
 
 	if (settings.FunTDSActive > 0) {
-		for (int i = 0; i < 5; i++) {
-			retVal = BAT2U_GetTDSValue(1, 1000);
-			if (retVal < TDS_THRESHOLD) break;
-			osDelay(500);
-			retVal = 0;
-		}
+//		for (int i = 0; i < 5; i++) {
+//			retVal = BAT2U_GetTDSValue(1, 1000);
+//			if (retVal < TDS_THRESHOLD) break;
+//			osDelay(500);
+//			retVal = 0;
+//		}
+		HAL_GPIO_WritePin(nTDS_EN_GPIO_Port, nTDS_EN_Pin, ON);
+		HAL_Delay(200);
+		volt = ADS1115_GetVoltage(4);
+		retVal = (uint16_t)(volt * 4000.0);
+		HAL_GPIO_WritePin(nTDS_EN_GPIO_Port, nTDS_EN_Pin, OFF);
+
 	} else {
 		retVal = 0;
 	}
@@ -216,12 +224,40 @@ uint16_t WaterQualityGet() {
 
 float GetT1() {
 //	return TM7705_GetTemp(1, (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0));
-	return 25;
+//	float volt, temp;
+//	volt = ADS1115_GetVoltage(2);
+//	temp = ((((volt - 0.33)* 100) / VT_FACTOR) + 0);
+//	temp = temp + (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0);
+//	return temp;
+
+	return GetCalTemp(ADS1115_GetValue(2), (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0));
 }
 
 float GetT2() {
 //	return TM7705_GetTemp(2, (float)(settings.T2Offset / 10.0) + (float)(settings.T2FactoryOffset / 10.0));
-	return 25;
+//	ADS1115_GetValue
+//	float volt, temp;
+//	volt = ADS1115_GetVoltage(1);
+//	temp = ((((volt - 0.33)* 100) / VT_FACTOR) + 0);
+//	temp = temp + (float)(settings.T2Offset / 10.0) + (float)(settings.T2FactoryOffset / 10.0);
+//	return temp;
+
+	return GetCalTemp(ADS1115_GetValue(2), (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0));
+}
+
+float GetCalTemp(uint16_t value, float offset) {
+		float Z1, Z2, Z3, Z4, temp;
+
+		Z1 = -RTD_A;
+		Z2 = RTD_A * RTD_A - (4 * RTD_B);
+		Z3 = (4 * RTD_B) / 1000;
+		Z4 = 2 * RTD_B;
+
+		temp = Z2 + (Z3 * value);
+		temp = (sqrt(temp) + Z1) / Z4;
+
+		temp += offset;
+		return temp;
 }
 
 void StartSensorsTask() {
@@ -460,7 +496,23 @@ float ChamberHeaterTempGet() {
 }
 
 float ChamberPressureGet() {
-	return ADCToPress(ReadADC(SENSOR_PRESS_CHAMBER_ADC_CHANNEL));
+//	return ADCToPress(ReadADC(SENSOR_PRESS_CHAMBER_ADC_CHANNEL));
+	float volt, kPa;
+	volt = ADS1115_GetVoltage(3);
+	kPa = ((volt / 5.0) - 0.04) / 0.0012858;
+
+	float in_start, in_end, out_start, out_end, slope, input, output;
+
+	in_start = 20.0; // Press for vacuum offset
+	in_end = 310.0; // Press for steril offset
+	out_start = in_start + (float)settings.ChamberVacuumOffset;
+	out_end = in_end + (float)settings.ChamberPressOffset;
+	input = kPa;
+
+	slope = (out_end - out_start) / (in_end - in_start);
+	output = out_start + slope * (input - in_start);
+
+	return output;
 }
 
 uint16_t CurrentGet() {
@@ -559,7 +611,8 @@ float ADCToTemp(uint16_t adcValue) {
 //	tCelsius = Z2 + (Z3 * Rt);
 //	tCelsius = (sqrt(tCelsius) + Z1) / Z4;
 
-	tCelsius = (((readVolt * 100) / VT_FACTOR) + 0);
+//	tCelsius = (((readVolt * 100) / VT_FACTOR) + 0);
+	tCelsius = ((((readVolt - 0.33)* 100) / VT_FACTOR) + 0);
 
 	return tCelsius;
 }

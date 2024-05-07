@@ -59,6 +59,7 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define SW_CSH_Pin GPIO_PIN_2
 #define SW_CSH_GPIO_Port GPIOE
+#define SW_CSH_EXTI_IRQn EXTI2_IRQn
 #define SW_CSL_Pin GPIO_PIN_3
 #define SW_CSL_GPIO_Port GPIOE
 #define SW_CSL_EXTI_IRQn EXTI3_IRQn
@@ -67,6 +68,7 @@ void Error_Handler(void);
 #define SW_LSH_EXTI_IRQn EXTI4_IRQn
 #define SW_DOOR_Pin GPIO_PIN_5
 #define SW_DOOR_GPIO_Port GPIOE
+#define SW_DOOR_EXTI_IRQn EXTI9_5_IRQn
 #define SW_SOLENOID_Pin GPIO_PIN_1
 #define SW_SOLENOID_GPIO_Port GPIOC
 #define TEMP_STEAM_GEN_Pin GPIO_PIN_0
@@ -83,14 +85,14 @@ void Error_Handler(void);
 #define SOLENOID_V1_GPIO_Port GPIOE
 #define SOLENOID_V2_Pin GPIO_PIN_8
 #define SOLENOID_V2_GPIO_Port GPIOE
-#define VAL_VACUUM_Pin GPIO_PIN_9
+#define VAL_DRAIN_STEAM_Pin GPIO_PIN_9
+#define VAL_DRAIN_STEAM_GPIO_Port GPIOE
+#define VAL_VACUUM_Pin GPIO_PIN_10
 #define VAL_VACUUM_GPIO_Port GPIOE
-#define VAL_WATER_STEAM_Pin GPIO_PIN_10
-#define VAL_WATER_STEAM_GPIO_Port GPIOE
 #define VAL_DRY_AIR_Pin GPIO_PIN_11
 #define VAL_DRY_AIR_GPIO_Port GPIOE
-#define VAL_DRAIN_STEAM_Pin GPIO_PIN_13
-#define VAL_DRAIN_STEAM_GPIO_Port GPIOE
+#define VAL_WATER_STEAM_Pin GPIO_PIN_13
+#define VAL_WATER_STEAM_GPIO_Port GPIOE
 #define USART3_CTS_Pin GPIO_PIN_15
 #define USART3_CTS_GPIO_Port GPIOE
 #define SPI2_CS_Pin GPIO_PIN_12
@@ -139,6 +141,7 @@ void Error_Handler(void);
 #define ETH_SPI1_MOSI_GPIO_Port GPIOB
 #define ETH_nINT_Pin GPIO_PIN_8
 #define ETH_nINT_GPIO_Port GPIOB
+#define ETH_nINT_EXTI_IRQn EXTI9_5_IRQn
 #define ETH_nRST_Pin GPIO_PIN_9
 #define ETH_nRST_GPIO_Port GPIOB
 

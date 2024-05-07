@@ -72,6 +72,45 @@ float ADS1115_GetRawData() {
 
 }
 
+uint16_t ADS1115_GetValue(uint8_t channel) {
+	unsigned char ADSwrite[6];
+	uint16_t reading;
+
+	ADSwrite[0] = 0x01;
+
+	switch (channel) {
+	case 1:
+		ADSwrite[1] = 0xC3;
+		break;
+	case 2:
+		ADSwrite[1] = 0xD3;
+		break;
+	case 3:
+		ADSwrite[1] = 0xE3;
+		break;
+	case 4:
+		ADSwrite[1] = 0xF3;
+		break;
+	default:
+		ADSwrite[1] = 0xC3;
+		break;
+	}
+
+	ADSwrite[2] = 0x83; //10000011 LSB
+
+	HAL_I2C_Master_Transmit(&hi2c1, ADS1115_ADDRESS << 1, ADSwrite, 3, 100);
+	ADSwrite[0] = 0x00;
+	HAL_I2C_Master_Transmit(&hi2c1, ADS1115_ADDRESS << 1 , ADSwrite, 1 ,100);
+	HAL_Delay(20);
+
+	HAL_I2C_Master_Receive(&hi2c1, ADS1115_ADDRESS <<1, ADSwrite, 2, 100);
+
+	reading = (ADSwrite[0] << 8 | ADSwrite[1] );
+
+	return reading;
+
+}
+
 float ADS1115_GetVoltage(uint8_t channel) {
 	unsigned char ADSwrite[6];
 	uint16_t reading;

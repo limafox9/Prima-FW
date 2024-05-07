@@ -6,8 +6,9 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="if (!PhaseBegin(600)) return 0;"/>
+		<item key="selection" value=""/>
 		<list key="findhistory">
+			<item value="NVIC_"/>
 			<item value="success = PhaseBegin(600);"/>
 			<item value="lastError"/>
 			<item value="Er. 7"/>

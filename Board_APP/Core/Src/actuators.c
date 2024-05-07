@@ -309,9 +309,9 @@ e_LockState DoorSolenoidSet(e_LockState status) {
 
 	// Reverse polarity for LOCK/UNLOCK
 	if (status == LOCK) {
-		HAL_GPIO_WritePin(SOLENOID_V2_GPIO_Port, SOLENOID_V2_Pin, ON);
-	} else if (status == UNLOCK) {
 		HAL_GPIO_WritePin(SOLENOID_V1_GPIO_Port, SOLENOID_V1_Pin, ON);
+	} else if (status == UNLOCK) {
+		HAL_GPIO_WritePin(SOLENOID_V2_GPIO_Port, SOLENOID_V2_Pin, ON);
 	}
 
 	HAL_Delay(DOOR_SOLENOID_IMPULSE);

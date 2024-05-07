@@ -356,9 +356,9 @@ static uint8_t GetPressedKeys() {
 	uint8_t pressKeys = 0;
 
 	// Keys active low
-	pressKeys = !(HAL_GPIO_ReadPin(KEY_S1_GPIO_Port, KEY_S1_Pin)); // bit 1
-	pressKeys += !(HAL_GPIO_ReadPin(KEY_S2_GPIO_Port, KEY_S2_Pin)) << 1; // bit 2
-	pressKeys += !(HAL_GPIO_ReadPin(KEY_S3_GPIO_Port, KEY_S3_Pin)) << 2; // bit 3
+	pressKeys = HAL_GPIO_ReadPin(KEY_S1_GPIO_Port, KEY_S1_Pin); // bit 1
+	pressKeys += HAL_GPIO_ReadPin(KEY_S2_GPIO_Port, KEY_S2_Pin) << 1; // bit 2
+	pressKeys += HAL_GPIO_ReadPin(KEY_S3_GPIO_Port, KEY_S3_Pin) << 2; // bit 3
 
 	return pressKeys;
 }
