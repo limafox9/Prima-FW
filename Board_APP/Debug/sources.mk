@@ -25,6 +25,8 @@ OBJCOPY_BIN :=
 # Every subdirectory with source files must be described here
 SUBDIRS := \
 Core/Devs \
+Core/Devs/W5500/W5500 \
+Core/Devs/W5500 \
 Core/Src \
 Core/Startup \
 Drivers/STM32F1xx_HAL_Driver/Src \

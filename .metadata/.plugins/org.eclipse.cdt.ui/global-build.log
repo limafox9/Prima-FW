@@ -1,28 +1,96 @@
-19:01:45 **** Incremental Build of configuration Debug for project DB_Protocol ****
+22:41:25 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j24 all 
 make: Nothing to be done for 'all'.
-19:01:45 **** Incremental Build of configuration Debug for project DB_Protocol ****
+22:41:25 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j24 all 
 make: Nothing to be done for 'all'.
-19:01:45 **** Incremental Build of configuration Debug for project Board_APP ****
+22:41:25 **** Incremental Build of configuration Debug for project Board_APP ****
 make -j24 all 
-arm-none-eabi-gcc "../Core/Src/settings.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/settings.d" -MT"Core/Src/settings.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/settings.o"
-In file included from ../Core/Src/settings.c:42:
+arm-none-eabi-gcc "../Core/Src/sensors.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500" -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500/W5500" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/sensors.d" -MT"Core/Src/sensors.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/sensors.o"
+In file included from ../Core/Inc/sensors.h:39,
+                 from ../Core/Src/sensors.c:36:
 ../Core/Inc/globals.h:106:1: warning: useless storage class specifier in empty declaration
   106 | };
       | ^
-../Core/Src/settings.c: In function 'ReadSetting':
-../Core/Src/settings.c:73:9: warning: implicit declaration of function 'EEPROM_Read' [-Wimplicit-function-declaration]
-   73 |         EEPROM_Read(address, data, size);
-      |         ^~~~~~~~~~~
-../Core/Src/settings.c: In function 'WriteSetting':
-../Core/Src/settings.c:139:9: warning: implicit declaration of function 'EEPROM_Write' [-Wimplicit-function-declaration]
-  139 |         EEPROM_Write(address, data, size);
-      |         ^~~~~~~~~~~~
-../Core/Src/settings.c: In function 'SaveDefaults':
-../Core/Src/settings.c:183:17: warning: implicit declaration of function 'BAT2U_TDSCalibration' [-Wimplicit-function-declaration]
-  183 |                 BAT2U_TDSCalibration(500);
-      |                 ^~~~~~~~~~~~~~~~~~~~
+../Core/Src/sensors.c: In function 'HAL_GPIO_EXTI_Callback':
+../Core/Src/sensors.c:157:17: warning: implicit declaration of function 'Beep' [-Wimplicit-function-declaration]
+  157 |                 Beep(1, 100, 100);
+      |                 ^~~~
+../Core/Src/sensors.c:164:25: warning: implicit declaration of function 'ValveDryIntakeSet' [-Wimplicit-function-declaration]
+  164 |                         ValveDryIntakeSet(DoorPositionGet());
+      |                         ^~~~~~~~~~~~~~~~~
+../Core/Src/sensors.c:165:46: warning: statement with no effect [-Wunused-value]
+  165 |                         machineStatus.Status == STATUS_READY;
+      |                         ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~
+../Core/Src/sensors.c: In function 'WaterQualityGet':
+../Core/Src/sensors.c:207:26: warning: unused variable 'dum' [-Wunused-variable]
+  207 |         uint16_t retVal, dum;
+      |                          ^~~
+../Core/Src/sensors.c: In function 'StartSensorsTask':
+../Core/Src/sensors.c:372:63: warning: implicit declaration of function 'ShowReading' [-Wimplicit-function-declaration]
+  372 |                 else if (machineStatus.Show == SHOW_READINGS) ShowReading();
+      |                                                               ^~~~~~~~~~~
+../Core/Src/sensors.c:446:95: warning: comparison between 'GPIO_PinState' and 'enum <anonymous>' [-Wenum-compare]
+  446 |                         ringPower = (HAL_GPIO_ReadPin(HEATER_RING_GPIO_Port, HEATER_RING_Pin) == ON) ? ON : OFF;
+      |                                                                                               ^~
+../Core/Src/sensors.c:447:106: warning: comparison between 'GPIO_PinState' and 'enum <anonymous>' [-Wenum-compare]
+  447 |                         steamPower = (HAL_GPIO_ReadPin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin) == ON) ? ON : OFF;
+      |                                                                                                          ^~
+../Core/Src/sensors.c:460:41: warning: implicit declaration of function 'PumpVacuumGet' [-Wimplicit-function-declaration]
+  460 |                                         PumpVacuumGet(),
+      |                                         ^~~~~~~~~~~~~
+../Core/Src/sensors.c:461:41: warning: implicit declaration of function 'ValveVacuumGet' [-Wimplicit-function-declaration]
+  461 |                                         ValveVacuumGet(),
+      |                                         ^~~~~~~~~~~~~~
+../Core/Src/sensors.c:462:41: warning: implicit declaration of function 'ValveDryIntakeGet' [-Wimplicit-function-declaration]
+  462 |                                         ValveDryIntakeGet(),
+      |                                         ^~~~~~~~~~~~~~~~~
+../Core/Src/sensors.c:463:41: warning: implicit declaration of function 'ValveDrainSteamGet' [-Wimplicit-function-declaration]
+  463 |                                         ValveDrainSteamGet(),
+      |                                         ^~~~~~~~~~~~~~~~~~
+../Core/Src/sensors.c:464:41: warning: implicit declaration of function 'ValveWaterSteamGet' [-Wimplicit-function-declaration]
+  464 |                                         ValveWaterSteamGet(),
+      |                                         ^~~~~~~~~~~~~~~~~~
+../Core/Src/sensors.c:467:41: warning: implicit declaration of function 'FanGet' [-Wimplicit-function-declaration]
+  467 |                                         FanGet()
+      |                                         ^~~~~~
+../Core/Src/sensors.c:449:32: warning: too many arguments for format [-Wformat-extra-args]
+  449 |                         printf("%02d.%02d.%02d;%0.1f;%0.1f;%0.1f;%0.1f;%0.1f;%0.1f;%04d;%1d;%1d;%1d;%1d;%1d;%1d;%1d;%1d\n",
+      |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/sensors.c: In function 'CurrentGet':
+../Core/Src/sensors.c:536:20: warning: variable 'read' set but not used [-Wunused-but-set-variable]
+  536 |         float val, read[200];
+      |                    ^~~~
+../Core/Src/sensors.c:534:24: warning: unused variable 'tTimeout' [-Wunused-variable]
+  534 |         RTCTimerTime_s tTimeout;
+      |                        ^~~~~~~~
+../Core/Src/sensors.c: In function 'ADCToTemp':
+../Core/Src/sensors.c:616:29: warning: variable 'rRef' set but not used [-Wunused-but-set-variable]
+  616 |         float readVolt, Rt, rRef, vRef, tCelsius;
+      |                             ^~~~
+../Core/Src/sensors.c:616:25: warning: unused variable 'Rt' [-Wunused-variable]
+  616 |         float readVolt, Rt, rRef, vRef, tCelsius;
+      |                         ^~
+../Core/Src/sensors.c: In function 'ADCToCurrent':
+../Core/Src/sensors.c:733:15: warning: unused variable 'current' [-Wunused-variable]
+  733 |         float current = voltage / FACTOR;
+      |               ^~~~~~~
+../Core/Src/sensors.c:725:15: warning: unused variable 'cutOff' [-Wunused-variable]
+  725 |         float cutOff = FACTOR/cutOffLimit;// convert current cut off to mV
+      |               ^~~~~~
+../Core/Src/sensors.c:671:31: warning: unused variable 'pkPa' [-Wunused-variable]
+  671 |         float readVolt, vRef, pkPa;
+      |                               ^~~~
+../Core/Src/sensors.c: At top level:
+../Core/Src/sensors.c:127:14: warning: 'GetChamberPress' declared 'static' but never defined [-Wunused-function]
+  127 | static float GetChamberPress();
+      |              ^~~~~~~~~~~~~~~
+../Core/Src/sensors.c:669:7: warning: 'ADCToCurrent' defined but not used [-Wunused-function]
+  669 | float ADCToCurrent(uint16_t adcValue) {
+      |       ^~~~~~~~~~~~
+../Core/Src/sensors.c:634:7: warning: 'ADCToPress' defined but not used [-Wunused-function]
+  634 | float ADCToPress(uint16_t adcValue) {
+      |       ^~~~~~~~~~
 arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima-FW\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
 C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: warning: Board_APP.elf has a LOAD segment with RWX permissions
 Finished building target: Board_APP.elf
@@ -31,7 +99,53 @@ arm-none-eabi-size  Board_APP.elf
 arm-none-eabi-objdump -h -S Board_APP.elf  > "Board_APP.list"
 arm-none-eabi-objcopy  -O ihex Board_APP.elf  "Board_APP.hex"
    text	   data	    bss	    dec	    hex	filename
- 160648	   2264	  56648	 219560	  359a8	Board_APP.elf
+ 167576	   2312	  56688	 226576	  37510	Board_APP.elf
+arm-none-eabi-objcopy  -O binary Board_APP.elf  "Board_APP.bin"
+Finished building: default.size.stdout
+ 
+Finished building: Board_APP.hex
+Finished building: Board_APP.bin
+ 
+ 
+Finished building: Board_APP.list
+ 
+22:41:31 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j24 all 
+make: Nothing to be done for 'all'.
+22:41:31 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j24 all 
+arm-none-eabi-size  Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+ 167576	   2312	  56688	 226576	  37510	Board_APP.elf
+Finished building: default.size.stdout
+ 
+22:42:41 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j24 all 
+make: Nothing to be done for 'all'.
+22:42:41 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/webServer.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500" -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500/W5500" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/webServer.d" -MT"Core/Src/webServer.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/webServer.o"
+In file included from ../Core/Src/webServer.c:38:
+../Core/Inc/globals.h:106:1: warning: useless storage class specifier in empty declaration
+  106 | };
+      | ^
+../Core/Src/webServer.c: In function 'webInit':
+../Core/Src/webServer.c:58:9: warning: implicit declaration of function 'W5500_Init' [-Wimplicit-function-declaration]
+   58 |         W5500_Init();
+      |         ^~~~~~~~~~
+../Core/Src/webServer.c: In function 'StartWebServerTask':
+../Core/Src/webServer.c:64:17: warning: variable 'stat1' set but not used [-Wunused-but-set-variable]
+   64 |         uint8_t stat1;
+      |                 ^~~~~
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima-FW\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: warning: Board_APP.elf has a LOAD segment with RWX permissions
+Finished building target: Board_APP.elf
+ 
+arm-none-eabi-size  Board_APP.elf 
+arm-none-eabi-objdump -h -S Board_APP.elf  > "Board_APP.list"
+arm-none-eabi-objcopy  -O ihex Board_APP.elf  "Board_APP.hex"
+   text	   data	    bss	    dec	    hex	filename
+ 167632	   2312	  56688	 226632	  37548	Board_APP.elf
 arm-none-eabi-objcopy  -O binary Board_APP.elf  "Board_APP.bin"
 Finished building: default.size.stdout
  

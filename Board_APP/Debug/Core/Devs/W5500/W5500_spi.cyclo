@@ -1,0 +1,5 @@
+../Core/Devs/W5500/W5500_spi.c:59:6:W5500_Select	1
+../Core/Devs/W5500/W5500_spi.c:63:6:W5500_Unselect	1
+../Core/Devs/W5500/W5500_spi.c:67:9:W5500_ReadByte	1
+../Core/Devs/W5500/W5500_spi.c:73:6:W5500_WriteByte	1
+../Core/Devs/W5500/W5500_spi.c:82:6:W5500_Init	1

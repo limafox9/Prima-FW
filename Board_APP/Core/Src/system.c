@@ -67,6 +67,7 @@ USAGE:
 #include "usbh_conf.h"
 #include "usb_host.h"
 #include "ADS1115.h"
+#include "webServer.h"
 
 //#define USE_RTOS_SYSTICK
 
@@ -98,6 +99,7 @@ osThreadId serialTaskHandle;
 osThreadId sensorsTaskHandle;
 osThreadId programTaskHandle;
 osThreadId displayInfoTaskHandle;
+osThreadId webServerTaskHandle;
 
 osThreadId usbTaskHandle;
 
@@ -280,6 +282,9 @@ void SysInit() {
 
 	RTCDateTime_s RTCDateTime;
 	GetDateTime(&RTCDateTime);
+
+	webInit();
+
 //
 //		settings.T1Offset = 0;
 //		settings.ChamberPressOffset = 0;
@@ -415,6 +420,9 @@ void SysInit() {
 
 	osThreadDef(programTask, StartProgramTask, osPriorityNormal, 1, 1024);
 	programTaskHandle = osThreadCreate(osThread(programTask), NULL);
+
+	osThreadDef(webServerTask, StartWebServerTask, osPriorityNormal, 1, 512);
+	webServerTaskHandle = osThreadCreate(osThread(webServerTask), NULL);
 
 	osThreadDef(displayInfoTask, StartDisplayInfoTask, osPriorityNormal, 1, 512);
 	displayInfoTaskHandle = osThreadCreate(osThread(displayInfoTask), NULL);
