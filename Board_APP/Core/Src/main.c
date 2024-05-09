@@ -741,9 +741,15 @@ void StartTaskAlive(void const * argument)
 
 //	  MX_IWDG_Init();
 	for(;;)	{
-		HAL_GPIO_TogglePin(LED_HEART_GPIO_Port, LED_HEART_Pin);
+		HAL_GPIO_WritePin(LED_HEART_GPIO_Port, LED_HEART_Pin, SET);
+		osDelay(20);
+		HAL_GPIO_WritePin(LED_HEART_GPIO_Port, LED_HEART_Pin, RESET);
+		osDelay(100);
+		HAL_GPIO_WritePin(LED_HEART_GPIO_Port, LED_HEART_Pin, SET);
+		osDelay(20);
+		HAL_GPIO_WritePin(LED_HEART_GPIO_Port, LED_HEART_Pin, RESET);
+		osDelay(480);
 //		HAL_IWDG_Refresh(&hiwdg);
-		osDelay(200);
 	}
   /* USER CODE END 5 */
 }

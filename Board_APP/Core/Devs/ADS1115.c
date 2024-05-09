@@ -79,16 +79,16 @@ uint16_t ADS1115_GetValue(uint8_t channel) {
 	ADSwrite[0] = 0x01;
 
 	switch (channel) {
+	case 0:
+		ADSwrite[1] = 0xC5;
+		break;
 	case 1:
-		ADSwrite[1] = 0xC3;
+		ADSwrite[1] = 0xD5;
 		break;
 	case 2:
-		ADSwrite[1] = 0xD3;
-		break;
-	case 3:
 		ADSwrite[1] = 0xE3;
 		break;
-	case 4:
+	case 3:
 		ADSwrite[1] = 0xF3;
 		break;
 	default:
@@ -115,22 +115,22 @@ float ADS1115_GetVoltage(uint8_t channel) {
 	unsigned char ADSwrite[6];
 	uint16_t reading;
 	float voltage[4];
-	const float voltageConv = 4.096 / 32768.0;
+	const float voltageConv = 2.048 / 32768.0;
 
 	ADSwrite[0] = 0x01;
 
 	switch (channel) {
+	case 0:
+		ADSwrite[1] = 0xC5;
+		break;
 	case 1:
-		ADSwrite[1] = 0xC3;
+		ADSwrite[1] = 0xD5;
 		break;
 	case 2:
-		ADSwrite[1] = 0xD3;
+		ADSwrite[1] = 0xE5;
 		break;
 	case 3:
-		ADSwrite[1] = 0xE3;
-		break;
-	case 4:
-		ADSwrite[1] = 0xF3;
+		ADSwrite[1] = 0xF5;
 		break;
 	default:
 		ADSwrite[1] = 0xC3;

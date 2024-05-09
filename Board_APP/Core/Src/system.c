@@ -322,11 +322,6 @@ void SysInit() {
 //	pADS = ADS1115_init(&hi2c1, ADS1115_ADDRESS, configReg);
 //	ADS1115_updateConfig(pADS, configReg);
 //
-//	BMP280_HandleTypedef bmp280;
-//	bmp280_init_default_params(&bmp280.params);
-//	bmp280.addr = BMP280_I2C_ADDRESS_0;
-//	bmp280.i2c = &hi2c1;
-//	bmp280_init(&bmp280, &bmp280.params);
 //
 //	DoorSolenoidSet(LOCK);
 //	HAL_Delay(500);

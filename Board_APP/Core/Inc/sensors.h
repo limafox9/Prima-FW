@@ -69,6 +69,7 @@ typedef struct s_Sensors{
 	float T2;
 	float PressureChamber;
 	float PressureAmbient;
+	float PressureATM;
 	float Current;
 	uint16_t WaterTDS;
 	e_Level WaterDumpLevel;

@@ -1,0 +1,11 @@
+../Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_ctlreq.c:528:21:USBH_GetNextDesc	1
+../Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_ctlreq.c:550:20:USBH_CtlReq	32
+../Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_ctlreq.c:193:20:USBH_GetDescriptor	2
+../Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_ctlreq.c:103:20:USBH_Get_DevDesc	3
+../Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_ctlreq.c:130:20:USBH_Get_CfgDesc	9
+../Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_ctlreq.c:163:20:USBH_Get_StringDesc	4
+../Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_ctlreq.c:227:20:USBH_SetAddress	2
+../Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_ctlreq.c:253:20:USBH_SetCfg	2
+../Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_ctlreq.c:277:20:USBH_SetInterface	2
+../Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_ctlreq.c:302:20:USBH_SetFeature	2
+../Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_ctlreq.c:327:20:USBH_ClrFeature	2

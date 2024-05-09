@@ -50,6 +50,7 @@ USAGE:
 #include "time.h"
 #include "programs.h"
 #include "phases.h"
+#include "BMP280.h"
 
 
 //==============================================================================
@@ -57,12 +58,14 @@ USAGE:
 //==============================================================================
 
 #define SENSOR_TEMP_STEAM_GENERATOR_ADC_CHANNEL	0 // Internal ADC
-#define SENSOR_TEMPL_CHAMBER_HEATER_ADC_CHANNE	1 // Internal ADC
+#define SENSOR_TEMPL_CHAMBER_HEATER_ADC_CHANNEL	1 // Internal ADC
 #define SENSOR_PRESS_CHAMBER_ADC_CHANNEL		2 // Internal ADC
 #define SENSOR_CURRENT_ADC_CHANNEL				3 // Internal ADC
 
-#define SENSOR_TEMP_T1_ADC_CHANNEL 				0 // External 16bit ADC
-#define SENSOR_TEMP_T2_ADC_CHANNEL 				1 // External 16bit ADC
+#define SENSOR_TEMP_T1_ADC_CHANNEL 				1 // External 16bit ADC
+#define SENSOR_TEMP_T2_ADC_CHANNEL 				0 // External 16bit ADC
+#define SENSOR_PRESS_ADC_CHANNEL 				2 // External 16bit ADC
+#define SENSOR_TDS_ADC_CHANNEL 					3 // External 16bit ADC
 
 #define AMBIENT_PRESSURE_TOLERANCE_MIN			5	// +/- kPa to consider chamber pressure = ambient pressure
 #define AMBIENT_PRESSURE_TOLERANCE_MAX 			20	// +/- kPa to consider chamber pressure = ambient pressure
@@ -101,6 +104,7 @@ USAGE:
 // VARS
 //==============================================================================
 
+extern I2C_HandleTypeDef hi2c1;
 extern ADC_HandleTypeDef hadc1;
 extern SPI_HandleTypeDef hspi1;
 extern UART_HandleTypeDef huart2;
@@ -212,7 +216,7 @@ uint16_t WaterQualityGet() {
 //		}
 		HAL_GPIO_WritePin(nTDS_EN_GPIO_Port, nTDS_EN_Pin, ON);
 		HAL_Delay(200);
-		volt = ADS1115_GetVoltage(4);
+		volt = ADS1115_GetVoltage(SENSOR_TDS_ADC_CHANNEL);
 		retVal = (uint16_t)(volt * 4000.0);
 		HAL_GPIO_WritePin(nTDS_EN_GPIO_Port, nTDS_EN_Pin, OFF);
 
@@ -224,25 +228,25 @@ uint16_t WaterQualityGet() {
 
 float GetT1() {
 //	return TM7705_GetTemp(1, (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0));
-//	float volt, temp;
-//	volt = ADS1115_GetVoltage(2);
-//	temp = ((((volt - 0.33)* 100) / VT_FACTOR) + 0);
-//	temp = temp + (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0);
-//	return temp;
+	float volt, temp;
+	volt = ADS1115_GetVoltage(SENSOR_TEMP_T1_ADC_CHANNEL);
+	temp = ((((volt - 0.3)* 100) / VT_FACTOR) + 0);
+	temp = temp + (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0);
+	return temp;
 
-	return GetCalTemp(ADS1115_GetValue(2), (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0));
+//	return GetCalTemp(ADS1115_GetValue(SENSOR_TEMP_T1_ADC_CHANNEL), (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0));
 }
 
 float GetT2() {
 //	return TM7705_GetTemp(2, (float)(settings.T2Offset / 10.0) + (float)(settings.T2FactoryOffset / 10.0));
 //	ADS1115_GetValue
-//	float volt, temp;
-//	volt = ADS1115_GetVoltage(1);
-//	temp = ((((volt - 0.33)* 100) / VT_FACTOR) + 0);
-//	temp = temp + (float)(settings.T2Offset / 10.0) + (float)(settings.T2FactoryOffset / 10.0);
-//	return temp;
+	float volt, temp;
+	volt = ADS1115_GetVoltage(SENSOR_TEMP_T2_ADC_CHANNEL);
+	temp = ((((volt - 0.3)* 100) / VT_FACTOR) + 0);
+	temp = temp + (float)(settings.T2Offset / 10.0) + (float)(settings.T2FactoryOffset / 10.0);
+	return temp;
 
-	return GetCalTemp(ADS1115_GetValue(2), (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0));
+//	return GetCalTemp(ADS1115_GetValue(SENSOR_TEMP_T2_ADC_CHANNEL), (float)(settings.T2Offset / 10.0) + (float)(settings.T2FactoryOffset / 10.0));
 }
 
 float GetCalTemp(uint16_t value, float offset) {
@@ -272,9 +276,17 @@ void StartSensorsTask() {
 	float deltaT1;
 	float deltaT2;
 
+	float BMP280Press, BMP280Temp, BMP280Hum;
+
 	uint8_t ringPower, steamPower;
 
 	uint8_t deltaErrorsT1, deltaErrorsT2 = 0;
+
+	BMP280_HandleTypedef bmp280;
+	bmp280_init_default_params(&bmp280.params);
+	bmp280.addr = BMP280_I2C_ADDRESS_0;
+	bmp280.i2c = &hi2c1;
+	bmp280_init(&bmp280, &bmp280.params);
 
 	// Fill buffer values
 	for (int i = 0 ; i < (sizeof(pressBuf) / sizeof(float)); i++) {
@@ -283,7 +295,8 @@ void StartSensorsTask() {
 
 	ResetTimer(TIMER_SENSOR_MONITOR);
 
-	sensors.PressureAmbient = (float)100.0;
+	bmp280_read_float(&bmp280, &BMP280Temp, &BMP280Press, &BMP280Hum);
+	sensors.PressureAmbient = BMP280Press;
 
 	for (;;) {
 		osSemaphoreWait(semaphoreSensorsHandle, 100);
@@ -348,7 +361,8 @@ void StartSensorsTask() {
 //		if ((machineStatus.Status == STATUS_READY) || (machineStatus.Status == STATUS_IDLE)) machineStatus.Status = (sensors.Door == CLOSED) ? STATUS_READY : STATUS_IDLE;
 
 		if (sensors.Door == OPEN) {
-			sensors.PressureAmbient = sensors.PressureChamber;
+			bmp280_read_float(&bmp280, &BMP280Temp, &BMP280Press, &BMP280Hum);
+			sensors.PressureAmbient = BMP280Press;
 		}
 
 		pressAmbientMin = sensors.PressureAmbient - (float)AMBIENT_PRESSURE_TOLERANCE_MIN;
@@ -492,13 +506,13 @@ float SteamGeneratorTempGet() {
 }
 
 float ChamberHeaterTempGet() {
-	return ADCToTemp(ReadADC(SENSOR_TEMPL_CHAMBER_HEATER_ADC_CHANNE));
+	return ADCToTemp(ReadADC(SENSOR_TEMPL_CHAMBER_HEATER_ADC_CHANNEL));
 }
 
 float ChamberPressureGet() {
 //	return ADCToPress(ReadADC(SENSOR_PRESS_CHAMBER_ADC_CHANNEL));
 	float volt, kPa;
-	volt = ADS1115_GetVoltage(3);
+	volt = ADS1115_GetVoltage(SENSOR_PRESS_ADC_CHANNEL);
 	kPa = ((volt / 5.0) - 0.04) / 0.0012858;
 
 	float in_start, in_end, out_start, out_end, slope, input, output;
