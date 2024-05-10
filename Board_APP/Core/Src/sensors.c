@@ -68,7 +68,7 @@ USAGE:
 #define SENSOR_TDS_ADC_CHANNEL 					3 // External 16bit ADC
 
 #define AMBIENT_PRESSURE_TOLERANCE_MIN			5	// +/- kPa to consider chamber pressure = ambient pressure
-#define AMBIENT_PRESSURE_TOLERANCE_MAX 			20	// +/- kPa to consider chamber pressure = ambient pressure
+#define AMBIENT_PRESSURE_TOLERANCE_MAX 			10	// +/- kPa to consider chamber pressure = ambient pressure
 
 #define ERROR_BEEP_NUMBER			1
 
@@ -121,7 +121,7 @@ const float Z2 = RTD_A * RTD_A - (4 * RTD_B);
 const float Z3 = (4 * RTD_B) / 1000;
 const float Z4 = 2 * RTD_B;
 
-static uint16_t ReadADC(uint32_t channel);
+//static uint16_t ReadADC(uint32_t channel);
 static float ADCToTemp(uint16_t adcValue);
 static float ADCToPress(uint16_t adcValue);
 static float GetChamberPress();
@@ -140,7 +140,15 @@ float prevT2;
 
 #define PRESS_BUFFER_SIZE 5 // >= 2
 float pressBuf[PRESS_BUFFER_SIZE];
-float pressAvg;
+//float pressAvg;
+
+#define T1_BUFFER_SIZE 5 // >= 2
+float t1Buf[T1_BUFFER_SIZE];
+//float t1Avg;
+
+#define T2_BUFFER_SIZE 5 // >= 2
+float t2Buf[T2_BUFFER_SIZE];
+//float t2Avg;
 
 float BufferAverage(float* buffer, uint8_t size, float newValue);
 float GetCalTemp(uint16_t value, float offset);
@@ -216,7 +224,7 @@ uint16_t WaterQualityGet() {
 //		}
 		HAL_GPIO_WritePin(nTDS_EN_GPIO_Port, nTDS_EN_Pin, ON);
 		HAL_Delay(200);
-		volt = ADS1115_GetVoltage(SENSOR_TDS_ADC_CHANNEL);
+		volt = ADS1115_GetVoltage4(SENSOR_TDS_ADC_CHANNEL);
 		retVal = (uint16_t)(volt * 4000.0);
 		HAL_GPIO_WritePin(nTDS_EN_GPIO_Port, nTDS_EN_Pin, OFF);
 
@@ -229,7 +237,8 @@ uint16_t WaterQualityGet() {
 float GetT1() {
 //	return TM7705_GetTemp(1, (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0));
 	float volt, temp;
-	volt = ADS1115_GetVoltage(SENSOR_TEMP_T1_ADC_CHANNEL);
+	volt = BufferAverage(t1Buf, T1_BUFFER_SIZE, ADS1115_GetVoltage2(SENSOR_TEMP_T1_ADC_CHANNEL));
+//	volt = ADS1115_GetVoltage2(SENSOR_TEMP_T1_ADC_CHANNEL);
 	temp = ((((volt - 0.3)* 100) / VT_FACTOR) + 0);
 	temp = temp + (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0);
 	return temp;
@@ -241,7 +250,8 @@ float GetT2() {
 //	return TM7705_GetTemp(2, (float)(settings.T2Offset / 10.0) + (float)(settings.T2FactoryOffset / 10.0));
 //	ADS1115_GetValue
 	float volt, temp;
-	volt = ADS1115_GetVoltage(SENSOR_TEMP_T2_ADC_CHANNEL);
+	volt = BufferAverage(t2Buf, T2_BUFFER_SIZE, ADS1115_GetVoltage2(SENSOR_TEMP_T2_ADC_CHANNEL));
+//	volt = ADS1115_GetVoltage2(SENSOR_TEMP_T2_ADC_CHANNEL);
 	temp = ((((volt - 0.3)* 100) / VT_FACTOR) + 0);
 	temp = temp + (float)(settings.T2Offset / 10.0) + (float)(settings.T2FactoryOffset / 10.0);
 	return temp;
@@ -293,10 +303,18 @@ void StartSensorsTask() {
 		pressBuf[i] = ChamberPressureGet();
 	}
 
+	for (int i = 0 ; i < (sizeof(t1Buf) / sizeof(float)); i++) {
+		t1Buf[i] = GetT1();
+	}
+
+	for (int i = 0 ; i < (sizeof(t2Buf) / sizeof(float)); i++) {
+		t2Buf[i] = GetT2();
+	}
+
 	ResetTimer(TIMER_SENSOR_MONITOR);
 
 	bmp280_read_float(&bmp280, &BMP280Temp, &BMP280Press, &BMP280Hum);
-	sensors.PressureAmbient = BMP280Press;
+	sensors.PressureAmbient = BMP280Press / 1000;
 
 	for (;;) {
 		osSemaphoreWait(semaphoreSensorsHandle, 100);
@@ -347,7 +365,8 @@ void StartSensorsTask() {
 			prevT2 = currT2;
 		}
 
-		sensors.PressureChamber = BufferAverage(pressBuf, PRESS_BUFFER_SIZE, ChamberPressureGet());
+//		sensors.PressureChamber = BufferAverage(pressBuf, PRESS_BUFFER_SIZE, ChamberPressureGet());
+		sensors.PressureChamber = ChamberPressureGet();
 //		sensors.PressureChamber -= (!settings.FunPressureDisplay) ? 0 : 100;
 		sensors.Current = CurrentGet();
 		sensors.WaterDumpLevel = WaterDumpLevelGet();
@@ -362,7 +381,7 @@ void StartSensorsTask() {
 
 		if (sensors.Door == OPEN) {
 			bmp280_read_float(&bmp280, &BMP280Temp, &BMP280Press, &BMP280Hum);
-			sensors.PressureAmbient = BMP280Press;
+			sensors.PressureAmbient = BMP280Press / 1000;
 		}
 
 		pressAmbientMin = sensors.PressureAmbient - (float)AMBIENT_PRESSURE_TOLERANCE_MIN;
@@ -512,7 +531,7 @@ float ChamberHeaterTempGet() {
 float ChamberPressureGet() {
 //	return ADCToPress(ReadADC(SENSOR_PRESS_CHAMBER_ADC_CHANNEL));
 	float volt, kPa;
-	volt = ADS1115_GetVoltage(SENSOR_PRESS_ADC_CHANNEL);
+	volt = ADS1115_GetVoltage4(SENSOR_PRESS_ADC_CHANNEL);
 	kPa = ((volt / 5.0) - 0.04) / 0.0012858;
 
 	float in_start, in_end, out_start, out_end, slope, input, output;
@@ -586,7 +605,7 @@ float BufferAverage(float* buffer, uint8_t size, float newValue) {
 uint16_t ReadADC(uint32_t channel) {
 
 	uint16_t adcRead = 0;
-	float averageTotal = 0;
+	uint16_t averageTotal = 0;
 
 	ADC_ChannelConfTypeDef sConfig = {0};
 	sConfig.Channel = channel;
@@ -605,9 +624,33 @@ uint16_t ReadADC(uint32_t channel) {
 		osDelay(1);
 	}
 
-	if (averageTotal < 1000) averageTotal = 5000;
+//	if (averageTotal < 1000) averageTotal = 5000;
 
 	return averageTotal / AVERAGE_SAMPLES;
+
+}
+
+uint16_t ReadADCSingle(uint32_t channel) {
+
+	uint16_t adcRead = 0;
+
+	ADC_ChannelConfTypeDef sConfig = {0};
+	sConfig.Channel = channel;
+	sConfig.Rank = 1;
+	sConfig.SamplingTime = ADC_SAMPLETIME_28CYCLES_5; // Maximum sampling time (239.5 cycles) divided by ADCClock (Mhz)
+	if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK) {
+		Error_Handler();
+	}
+
+		HAL_ADC_Start(&hadc1);
+		HAL_ADC_PollForConversion(&hadc1, 5);
+		adcRead = HAL_ADC_GetValue(&hadc1);
+		HAL_ADC_Stop(&hadc1);
+		osDelay(10);
+
+//	if (averageTotal < 1000) averageTotal = 5000;
+
+	return adcRead;
 
 }
 

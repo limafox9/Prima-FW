@@ -35,6 +35,9 @@ USAGE:
 
 #include "ADS1115.h"
 
+#define AVG_SAMPLES 5
+#define AVG_INTERVAL 20
+
 struct ADS1115_Config_Tag{
 	I2C_HandleTypeDef 	*hi2c;
 	uint16_t 			address;
@@ -111,7 +114,7 @@ uint16_t ADS1115_GetValue(uint8_t channel) {
 
 }
 
-float ADS1115_GetVoltage(uint8_t channel) {
+float ADS1115_GetVoltage2(uint8_t channel) {
 	unsigned char ADSwrite[6];
 	uint16_t reading;
 	float voltage[4];
@@ -131,6 +134,59 @@ float ADS1115_GetVoltage(uint8_t channel) {
 		break;
 	case 3:
 		ADSwrite[1] = 0xF5;
+		break;
+	default:
+		ADSwrite[1] = 0xC5;
+		break;
+	}
+
+	ADSwrite[2] = 0x83; //10000011 LSB
+
+	uint32_t averageTotal = 0;
+
+	for (int i = 0; i < AVG_SAMPLES; i++) {
+		HAL_I2C_Master_Transmit(&hi2c1, ADS1115_ADDRESS << 1, ADSwrite, 3, 100);
+		ADSwrite[0] = 0x00;
+		HAL_I2C_Master_Transmit(&hi2c1, ADS1115_ADDRESS << 1 , ADSwrite, 1 ,100);
+		HAL_Delay(10);
+
+		HAL_I2C_Master_Receive(&hi2c1, ADS1115_ADDRESS <<1, ADSwrite, 2, 100);
+
+		reading = (ADSwrite[0] << 8 | ADSwrite[1] );
+
+		averageTotal += reading;
+
+		osDelay(AVG_INTERVAL);
+	}
+
+	if (averageTotal < 1000) averageTotal = 5000;
+
+	reading = averageTotal / AVG_SAMPLES;
+
+	return (float)reading * voltageConv;
+
+}
+
+float ADS1115_GetVoltage4(uint8_t channel) {
+	unsigned char ADSwrite[6];
+	uint16_t reading;
+	float voltage[4];
+	const float voltageConv = 4.096 / 32768.0;
+
+	ADSwrite[0] = 0x01;
+
+	switch (channel) {
+	case 0:
+		ADSwrite[1] = 0xC3;
+		break;
+	case 1:
+		ADSwrite[1] = 0xD3;
+		break;
+	case 2:
+		ADSwrite[1] = 0xE3;
+		break;
+	case 3:
+		ADSwrite[1] = 0xF3;
 		break;
 	default:
 		ADSwrite[1] = 0xC3;

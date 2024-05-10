@@ -373,7 +373,35 @@ void SysInit() {
 //		osDelay(TestDelay);
 //		FanSet(OFF);
 //
-////		ValveVacuumSet(ON);
+	float temp3;
+	uint16_t i3;
+
+
+//	temp3 = ((float)ReadADC(4)*3.3/4096.0);
+	ValveVacuumSet(ON);
+	temp3 = ((float)ReadADC(4)*3.3/4096.0)/3;
+	sprintf(s,"%5.3f", temp3);
+	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, s);
+	HAL_Delay(2000);
+
+	ValveVacuumSet(OFF);
+	temp3 = ((float)ReadADC(4)*3.3/4096.0)/3;
+	sprintf(s,"%5.3f", temp3);
+	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, s);
+	HAL_Delay(2000);
+
+	ValveWaterSteamSet(ON);
+	temp3 = ((float)ReadADC(4)*3.3/4096.0)/3;
+	sprintf(s,"%5.3f", temp3);
+	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, s);
+	HAL_Delay(2000);
+
+	ValveWaterSteamSet(OFF);
+	temp3 = ((float)ReadADC(4)*3.3/4096.0)/3;
+	sprintf(s,"%5.3f", temp3);
+	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, s);
+	HAL_Delay(2000);
+
 ////		osDelay(TestDelay);
 ////		ValveVacuumSet(OFF);
 ////		ValveWaterSteamSet(ON);
@@ -385,6 +413,7 @@ void SysInit() {
 ////		ValveDryIntakeSet(ON);
 ////		osDelay(TestDelay);
 ////		ValveDryIntakeSet(OFF);
+return;
 //
 //
 ////		HAL_GPIO_WritePin(nTDS_EN_GPIO_Port, nTDS_EN_Pin, ON);
@@ -421,7 +450,7 @@ void SysInit() {
 	osThreadDef(programTask, StartProgramTask, osPriorityNormal, 1, 1024);
 	programTaskHandle = osThreadCreate(osThread(programTask), NULL);
 
-	osThreadDef(webServerTask, StartWebServerTask, osPriorityNormal, 1, 512);
+	osThreadDef(webServerTask, StartWebServerTask, osPriorityNormal, 1, 256);
 	webServerTaskHandle = osThreadCreate(osThread(webServerTask), NULL);
 
 	osThreadDef(displayInfoTask, StartDisplayInfoTask, osPriorityNormal, 1, 512);

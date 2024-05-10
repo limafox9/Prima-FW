@@ -132,7 +132,8 @@ typedef struct{
 typedef struct ADS1115_Config_Tag ADS1115_Handle_t;
 
 float ADS1115_GetRawData();
-float ADS1115_GetVoltage(uint8_t channel);
+float ADS1115_GetVoltage2(uint8_t channel);
+float ADS1115_GetVoltage4(uint8_t channel);
 uint16_t ADS1115_GetValue(uint8_t channel);
 
 ADS1115_Handle_t* ADS1115_init(I2C_HandleTypeDef *hi2c, uint16_t Addr, ADS1115_Config_t config);

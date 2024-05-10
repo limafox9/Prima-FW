@@ -77,7 +77,13 @@ void StartWebServerTask() {
 		send(0, (uint8_t*)Message, strlen(Message));
 		sprintf(Message, "T2: %.1f\n\r", sensors.T2);
 		send(0, (uint8_t*)Message, strlen(Message));
+		sprintf(Message, "T3: %.1f\n\r", sensors.TemperatureChamberHeater);
+		send(0, (uint8_t*)Message, strlen(Message));
+		sprintf(Message, "T4: %.1f\n\r", sensors.TemperatureSteamGenerator);
+		send(0, (uint8_t*)Message, strlen(Message));
 		sprintf(Message, "P1: %.1f\n\r", sensors.PressureChamber);
+		send(0, (uint8_t*)Message, strlen(Message));
+		sprintf(Message, "PA: %.1f\n\r", sensors.PressureAmbient);
 		send(0, (uint8_t*)Message, strlen(Message));
 
 		//		Beep(2, 100, 100);
