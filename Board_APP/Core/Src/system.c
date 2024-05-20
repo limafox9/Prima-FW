@@ -177,7 +177,7 @@ void SysInit() {
 
 
 
-	  osThreadDef(serialTask, StartSerialTask, osPriorityHigh, 1, 1024);
+	  osThreadDef(serialTask, StartSerialTask, osPriorityHigh, 1, 768);
 		serialTaskHandle = osThreadCreate(osThread(serialTask), NULL);
 
 	machine.DisplayFWVersionMajor = 0;
@@ -373,47 +373,47 @@ void SysInit() {
 //		osDelay(TestDelay);
 //		FanSet(OFF);
 //
-	float temp3;
-	uint16_t i3;
-
-
-//	temp3 = ((float)ReadADC(4)*3.3/4096.0);
-	ValveVacuumSet(ON);
-	temp3 = ((float)ReadADC(4)*3.3/4096.0)/3;
-	sprintf(s,"%5.3f", temp3);
-	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, s);
-	HAL_Delay(2000);
-
-	ValveVacuumSet(OFF);
-	temp3 = ((float)ReadADC(4)*3.3/4096.0)/3;
-	sprintf(s,"%5.3f", temp3);
-	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, s);
-	HAL_Delay(2000);
-
-	ValveWaterSteamSet(ON);
-	temp3 = ((float)ReadADC(4)*3.3/4096.0)/3;
-	sprintf(s,"%5.3f", temp3);
-	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, s);
-	HAL_Delay(2000);
-
-	ValveWaterSteamSet(OFF);
-	temp3 = ((float)ReadADC(4)*3.3/4096.0)/3;
-	sprintf(s,"%5.3f", temp3);
-	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, s);
-	HAL_Delay(2000);
-
-////		osDelay(TestDelay);
-////		ValveVacuumSet(OFF);
-////		ValveWaterSteamSet(ON);
-////		osDelay(TestDelay);
-////		ValveWaterSteamSet(OFF);
-////		ValveDrainSteamSet(ON);
-////		osDelay(TestDelay);
-////		ValveDrainSteamSet(OFF);
-////		ValveDryIntakeSet(ON);
-////		osDelay(TestDelay);
-////		ValveDryIntakeSet(OFF);
-return;
+//	float temp3;
+//	uint16_t i3;
+//
+//
+////	temp3 = ((float)ReadADC(4)*3.3/4096.0);
+//	ValveVacuumSet(ON);
+//	temp3 = ((float)ReadADC(4)*3.3/4096.0)/3;
+//	sprintf(s,"%5.3f", temp3);
+//	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, s);
+//	HAL_Delay(2000);
+//
+//	ValveVacuumSet(OFF);
+//	temp3 = ((float)ReadADC(4)*3.3/4096.0)/3;
+//	sprintf(s,"%5.3f", temp3);
+//	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, s);
+//	HAL_Delay(2000);
+//
+//	ValveWaterSteamSet(ON);
+//	temp3 = ((float)ReadADC(4)*3.3/4096.0)/3;
+//	sprintf(s,"%5.3f", temp3);
+//	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, s);
+//	HAL_Delay(2000);
+//
+//	ValveWaterSteamSet(OFF);
+//	temp3 = ((float)ReadADC(4)*3.3/4096.0)/3;
+//	sprintf(s,"%5.3f", temp3);
+//	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, s);
+//	HAL_Delay(2000);
+//
+//////		osDelay(TestDelay);
+//////		ValveVacuumSet(OFF);
+//////		ValveWaterSteamSet(ON);
+//////		osDelay(TestDelay);
+//////		ValveWaterSteamSet(OFF);
+//////		ValveDrainSteamSet(ON);
+//////		osDelay(TestDelay);
+//////		ValveDrainSteamSet(OFF);
+//////		ValveDryIntakeSet(ON);
+//////		osDelay(TestDelay);
+//////		ValveDryIntakeSet(OFF);
+//return;
 //
 //
 ////		HAL_GPIO_WritePin(nTDS_EN_GPIO_Port, nTDS_EN_Pin, ON);

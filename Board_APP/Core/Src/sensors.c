@@ -76,7 +76,7 @@ USAGE:
 #define AVERAGE_SAMPLES				5			// N. of samples for the average
 #define AVERAGE_SAMPLES_INTERVAL	10			// Interval between samples (milliseconds)
 #define V_REF						3.3			// Power supply
-#define VT_FACTOR					1.14
+#define VT_FACTOR					1.23
 #define ADC_BITS					12			// ADC resolution (8bit=256, 10bit=1024, 12bit=4096, 16bit=65536
 #define T1_FACTORY_OFFSET			3.0			// Fixed factory offset for T1
 #define T2_FACTORY_OFFSET			0.0			// Fixed factory offset for T2
@@ -237,8 +237,8 @@ uint16_t WaterQualityGet() {
 float GetT1() {
 //	return TM7705_GetTemp(1, (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0));
 	float volt, temp;
-	volt = BufferAverage(t1Buf, T1_BUFFER_SIZE, ADS1115_GetVoltage2(SENSOR_TEMP_T1_ADC_CHANNEL));
-//	volt = ADS1115_GetVoltage2(SENSOR_TEMP_T1_ADC_CHANNEL);
+//	volt = BufferAverage(t1Buf, T1_BUFFER_SIZE, ADS1115_GetVoltage2(SENSOR_TEMP_T1_ADC_CHANNEL));
+	volt = ADS1115_GetVoltage2(SENSOR_TEMP_T1_ADC_CHANNEL);
 	temp = ((((volt - 0.3)* 100) / VT_FACTOR) + 0);
 	temp = temp + (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0);
 	return temp;

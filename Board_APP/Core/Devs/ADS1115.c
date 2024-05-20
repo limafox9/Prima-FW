@@ -36,7 +36,10 @@ USAGE:
 #include "ADS1115.h"
 
 #define AVG_SAMPLES 5
-#define AVG_INTERVAL 20
+#define AVG_INTERVAL 10
+
+#define ADS1115_CONVER_REG 0x0
+#define ADS1115_CONFIG_REG 0x1
 
 struct ADS1115_Config_Tag{
 	I2C_HandleTypeDef 	*hi2c;
@@ -116,97 +119,206 @@ uint16_t ADS1115_GetValue(uint8_t channel) {
 
 float ADS1115_GetVoltage2(uint8_t channel) {
 	unsigned char ADSwrite[6];
-	uint16_t reading;
-	float voltage[4];
+	int16_t reading;
+	float voltage[4], ret;
 	const float voltageConv = 2.048 / 32768.0;
+
+	uint8_t ADS1115_config[2];
+	uint8_t ADS1115_rawValue[2];
 
 	ADSwrite[0] = 0x01;
 
 	switch (channel) {
 	case 0:
-		ADSwrite[1] = 0xC5;
+		ADS1115_config[0] = 0xC5;
 		break;
 	case 1:
-		ADSwrite[1] = 0xD5;
+		ADS1115_config[0] = 0xD5;
 		break;
 	case 2:
-		ADSwrite[1] = 0xE5;
+		ADS1115_config[0] = 0xE5;
 		break;
 	case 3:
-		ADSwrite[1] = 0xF5;
+		ADS1115_config[0] = 0xF5;
 		break;
 	default:
-		ADSwrite[1] = 0xC5;
+		ADS1115_config[0] = 0xC5;
 		break;
 	}
 
-	ADSwrite[2] = 0x83; //10000011 LSB
+	//	ADSwrite[2] = 0x83; //10000011 LSB
+	ADS1115_config[1] = 0x83; //10000011 LSB
 
-	uint32_t averageTotal = 0;
+	int32_t averageTotal = 0;
 
 	for (int i = 0; i < AVG_SAMPLES; i++) {
-		HAL_I2C_Master_Transmit(&hi2c1, ADS1115_ADDRESS << 1, ADSwrite, 3, 100);
-		ADSwrite[0] = 0x00;
-		HAL_I2C_Master_Transmit(&hi2c1, ADS1115_ADDRESS << 1 , ADSwrite, 1 ,100);
-		HAL_Delay(10);
 
-		HAL_I2C_Master_Receive(&hi2c1, ADS1115_ADDRESS <<1, ADSwrite, 2, 100);
+		HAL_I2C_Mem_Write(&hi2c1, ADS1115_ADDRESS << 1, ADS1115_CONFIG_REG, 1, ADS1115_config, 2, 1000);
+HAL_Delay(10);
+		HAL_I2C_Mem_Read(&hi2c1, (ADS1115_ADDRESS << 1) | 0x1, ADS1115_CONVER_REG, 1, ADS1115_rawValue, 2, 1000);
 
-		reading = (ADSwrite[0] << 8 | ADSwrite[1] );
+//		*voltage = (float) (((int16_t) (ADS1115_rawValue[0] << 8) | ADS1115_rawValue[1]) * ADS1115_voltCoef);
+
+
+//		HAL_I2C_Master_Transmit(&hi2c1, ADS1115_ADDRESS << 1, ADSwrite, 3, 1000);
+//		ADSwrite[0] = 0x00;
+//		HAL_I2C_Master_Transmit(&hi2c1, ADS1115_ADDRESS << 1 , ADSwrite, 1 ,1000);
+//		HAL_Delay(20);
+//
+//		HAL_I2C_Master_Receive(&hi2c1, ADS1115_ADDRESS <<1, ADSwrite, 2, 1000);
+
+		reading = (ADS1115_rawValue[0] << 8 | ADS1115_rawValue[1] );
 
 		averageTotal += reading;
 
 		osDelay(AVG_INTERVAL);
 	}
 
-	if (averageTotal < 1000) averageTotal = 5000;
+//	if (averageTotal < 1000) averageTotal = 5000;
 
 	reading = averageTotal / AVG_SAMPLES;
 
-	return (float)reading * voltageConv;
+	ret = (float)reading * voltageConv;
+
+	return ret;
 
 }
 
 float ADS1115_GetVoltage4(uint8_t channel) {
 	unsigned char ADSwrite[6];
-	uint16_t reading;
-	float voltage[4];
+	int16_t reading;
+	float voltage[4], ret;
 	const float voltageConv = 4.096 / 32768.0;
+
+	uint8_t ADS1115_config[2];
+	uint8_t ADS1115_rawValue[2];
 
 	ADSwrite[0] = 0x01;
 
 	switch (channel) {
 	case 0:
-		ADSwrite[1] = 0xC3;
+		ADS1115_config[0] = 0xC3;
 		break;
 	case 1:
-		ADSwrite[1] = 0xD3;
+		ADS1115_config[0] = 0xD3;
 		break;
 	case 2:
-		ADSwrite[1] = 0xE3;
+		ADS1115_config[0] = 0xE3;
 		break;
 	case 3:
-		ADSwrite[1] = 0xF3;
+		ADS1115_config[0] = 0xF3;
 		break;
 	default:
-		ADSwrite[1] = 0xC3;
+		ADS1115_config[0] = 0xC3;
 		break;
 	}
 
-	ADSwrite[2] = 0x83; //10000011 LSB
+	//	ADSwrite[2] = 0x83; //10000011 LSB
+	ADS1115_config[1] = 0xE3; //10000011 LSB
 
-	HAL_I2C_Master_Transmit(&hi2c1, ADS1115_ADDRESS << 1, ADSwrite, 3, 100);
-	ADSwrite[0] = 0x00;
-	HAL_I2C_Master_Transmit(&hi2c1, ADS1115_ADDRESS << 1 , ADSwrite, 1 ,100);
-	HAL_Delay(20);
+	int32_t averageTotal = 0;
 
-	HAL_I2C_Master_Receive(&hi2c1, ADS1115_ADDRESS <<1, ADSwrite, 2, 100);
+	for (int i = 0; i < AVG_SAMPLES; i++) {
 
-	reading = (ADSwrite[0] << 8 | ADSwrite[1] );
+		HAL_I2C_Mem_Write(&hi2c1, ADS1115_ADDRESS << 1, ADS1115_CONFIG_REG, 1, ADS1115_config, 2, 1000);
+		HAL_Delay(10);
+		HAL_I2C_Mem_Read(&hi2c1, (ADS1115_ADDRESS << 1) | 0x1, ADS1115_CONVER_REG, 1, ADS1115_rawValue, 2, 1000);
 
-	return (float)reading * voltageConv;
+//		*voltage = (float) (((int16_t) (ADS1115_rawValue[0] << 8) | ADS1115_rawValue[1]) * ADS1115_voltCoef);
+
+
+//		HAL_I2C_Master_Transmit(&hi2c1, ADS1115_ADDRESS << 1, ADSwrite, 3, 1000);
+//		ADSwrite[0] = 0x00;
+//		HAL_I2C_Master_Transmit(&hi2c1, ADS1115_ADDRESS << 1 , ADSwrite, 1 ,1000);
+//		HAL_Delay(20);
+//
+//		HAL_I2C_Master_Receive(&hi2c1, ADS1115_ADDRESS <<1, ADSwrite, 2, 1000);
+
+		reading = (ADS1115_rawValue[0] << 8 | ADS1115_rawValue[1] );
+
+		averageTotal += reading;
+
+		osDelay(AVG_INTERVAL);
+	}
+
+//	if (averageTotal < 1000) averageTotal = 5000;
+
+	reading = averageTotal / AVG_SAMPLES;
+
+	ret = (float)reading * voltageConv;
+
+	return ret;
 
 }
+
+//float ADS1115_GetVoltage4(uint8_t channel) {
+//	unsigned char ADSwrite[6];
+//	int16_t reading;
+//	float voltage[4], ret;
+//	const float voltageConv = 4.096 / 32768.0;
+//
+//	ADSwrite[0] = 0x01;
+//
+//	switch (channel) {
+//	case 0:
+//		ADSwrite[1] = 0xC3;
+//		break;
+//	case 1:
+//		ADSwrite[1] = 0xD3;
+//		break;
+//	case 2:
+//		ADSwrite[1] = 0xE3;
+//		break;
+//	case 3:
+//		ADSwrite[1] = 0xF3;
+//		break;
+//	default:
+//		ADSwrite[1] = 0xC3;
+//		break;
+//	}
+//
+//	//	ADSwrite[2] = 0x83; //10000011 LSB
+//		ADSwrite[2] = 0x83; //10000011 LSB
+////
+////	HAL_I2C_Master_Transmit(&hi2c1, ADS1115_ADDRESS << 1, ADSwrite, 3, 100);
+////	ADSwrite[0] = 0x00;
+////	HAL_I2C_Master_Transmit(&hi2c1, ADS1115_ADDRESS << 1 , ADSwrite, 1 ,100);
+////	HAL_Delay(20);
+////
+////	HAL_I2C_Master_Receive(&hi2c1, ADS1115_ADDRESS <<1, ADSwrite, 2, 100);
+////
+////	reading = (ADSwrite[0] << 8 | ADSwrite[1] );
+////
+////	return (float)reading * voltageConv;
+//
+//		return 0.6;
+//
+//		int32_t averageTotal = 0;
+//
+//		for (int i = 0; i < AVG_SAMPLES; i++) {
+//			HAL_I2C_Master_Transmit(&hi2c1, ADS1115_ADDRESS << 1, ADSwrite, 3, 1000);
+//			ADSwrite[0] = 0x00;
+//			HAL_I2C_Master_Transmit(&hi2c1, ADS1115_ADDRESS << 1 , ADSwrite, 1 ,1000);
+//			HAL_Delay(20);
+//
+//			HAL_I2C_Master_Receive(&hi2c1, ADS1115_ADDRESS <<1, ADSwrite, 2, 1000);
+//
+//			reading = (ADSwrite[0] << 8 | ADSwrite[1] );
+//
+//			averageTotal += reading;
+//
+//			osDelay(AVG_INTERVAL);
+//		}
+//
+//	//	if (averageTotal < 1000) averageTotal = 5000;
+//
+//		reading = averageTotal / AVG_SAMPLES;
+//
+//		ret = (float)reading * voltageConv;
+//
+//		return ret;
+//
+//}
 
 
 
