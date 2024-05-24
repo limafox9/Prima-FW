@@ -138,15 +138,15 @@ float pressAmbientMax;
 float prevT1;
 float prevT2;
 
-#define PRESS_BUFFER_SIZE 5 // >= 2
+#define PRESS_BUFFER_SIZE 2 // >= 2
 float pressBuf[PRESS_BUFFER_SIZE];
 //float pressAvg;
 
-#define T1_BUFFER_SIZE 5 // >= 2
+#define T1_BUFFER_SIZE 2 // >= 2
 float t1Buf[T1_BUFFER_SIZE];
 //float t1Avg;
 
-#define T2_BUFFER_SIZE 5 // >= 2
+#define T2_BUFFER_SIZE 2 // >= 2
 float t2Buf[T2_BUFFER_SIZE];
 //float t2Avg;
 
@@ -222,11 +222,11 @@ uint16_t WaterQualityGet() {
 //			osDelay(500);
 //			retVal = 0;
 //		}
-		HAL_GPIO_WritePin(nTDS_EN_GPIO_Port, nTDS_EN_Pin, ON);
-		HAL_Delay(200);
-		volt = ADS1115_GetVoltage4(SENSOR_TDS_ADC_CHANNEL);
-		retVal = (uint16_t)(volt * 4000.0);
 		HAL_GPIO_WritePin(nTDS_EN_GPIO_Port, nTDS_EN_Pin, OFF);
+		HAL_Delay(500);
+		volt = ADS1115_GetVoltage1(SENSOR_TDS_ADC_CHANNEL);
+		retVal = volt * 603.0;
+		HAL_GPIO_WritePin(nTDS_EN_GPIO_Port, nTDS_EN_Pin, ON);
 
 	} else {
 		retVal = 0;
@@ -237,8 +237,8 @@ uint16_t WaterQualityGet() {
 float GetT1() {
 //	return TM7705_GetTemp(1, (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0));
 	float volt, temp;
-//	volt = BufferAverage(t1Buf, T1_BUFFER_SIZE, ADS1115_GetVoltage2(SENSOR_TEMP_T1_ADC_CHANNEL));
-	volt = ADS1115_GetVoltage2(SENSOR_TEMP_T1_ADC_CHANNEL);
+	volt = BufferAverage(t1Buf, T1_BUFFER_SIZE, ADS1115_GetVoltage2(SENSOR_TEMP_T1_ADC_CHANNEL));
+//	volt = ADS1115_GetVoltage2(SENSOR_TEMP_T1_ADC_CHANNEL);
 	temp = ((((volt - 0.3)* 100) / VT_FACTOR) + 0);
 	temp = temp + (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0);
 	return temp;
@@ -528,6 +528,21 @@ float ChamberHeaterTempGet() {
 	return ADCToTemp(ReadADC(SENSOR_TEMPL_CHAMBER_HEATER_ADC_CHANNEL));
 }
 
+float GetACPower() {
+	uint16_t n = 256;
+	uint16_t read[n];
+//	HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, GPIO_PIN_SET);
+	for (uint16_t i = 0; i < n; i++) {
+		read[n] = ReadADCOnce(SENSOR_PRESS_ADC_CHANNEL);
+	}
+	HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, GPIO_PIN_RESET);
+	__NOP();
+}
+
+float GetDCPower() {
+
+}
+
 float ChamberPressureGet() {
 //	return ADCToPress(ReadADC(SENSOR_PRESS_CHAMBER_ADC_CHANNEL));
 	float volt, kPa;
@@ -599,6 +614,30 @@ float BufferAverage(float* buffer, uint8_t size, float newValue) {
 	retAvg = retAvg / size;
 
 	return retAvg;
+
+}
+
+uint16_t ReadADCOnce(uint32_t channel) {
+
+	uint16_t adcRead = 0;
+	uint16_t averageTotal = 0;
+
+	ADC_ChannelConfTypeDef sConfig = {0};
+	sConfig.Channel = channel;
+	sConfig.Rank = 1;
+	sConfig.SamplingTime = ADC_SAMPLETIME_28CYCLES_5; // Maximum sampling time (239.5 cycles) divided by ADCClock (Mhz)
+	if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK) {
+		Error_Handler();
+	}
+
+		HAL_ADC_Start(&hadc1);
+		HAL_ADC_PollForConversion(&hadc1, 100);
+		adcRead = HAL_ADC_GetValue(&hadc1);
+		HAL_ADC_Stop(&hadc1);
+
+//	if (averageTotal < 1000) averageTotal = 5000;
+
+	return adcRead;
 
 }
 

@@ -49,6 +49,7 @@ float SteamGeneratorTempGet();
 float ChamberHeaterTempGet();
 float ChamberTempT1Get();
 
+uint16_t ReadADCOnce(uint32_t channel);
 uint16_t ReadADC(uint32_t channel);
 uint16_t ReadADCSingle(uint32_t channel);
 
@@ -60,6 +61,8 @@ uint16_t ReadADCSingle(uint32_t channel);
 float AmbientPressureGet();
 float ChamberPressureGet();
 float GetNormalizedPressure(float pressure);
+float GetACPower();
+float GetDCPower();
 float TestPressNorm();
 uint16_t CurrentGet();
 uint16_t WaterQualityGet();

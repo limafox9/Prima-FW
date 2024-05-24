@@ -213,8 +213,11 @@ void PrinterInit() {
 //	Print("%c%c", FS, '.'); // Disable Chinese Print Mode
 //	Print("%c%c", ESC, 0x54); // Upside-down print
 //	Print("%c%c%c", ESC, 0x57, 1); // Font size
+
 	PrintSend("%c%c%c", ESC, '!', 0b00000101);
 	PrintSend("%c%c%c", ESC, 'M', 12);
+	PrintSend("%c%c%c", ESC, 't', 0);
+
 //	Print("%c%c%c", ESC, '3', 10); // Line spacing (n*0.125mm, def. 30)
 //	Print("%c%c%c", ESC, 'a', 0); // Justify (0 = left, 1 = center, 2 = right)
 //	Print("%c%c%c",  GS, '!', 0x00);
@@ -225,7 +228,7 @@ void PrinterInit() {
 
 void PrintSize(uint8_t width, uint8_t height) {
 	PrintSend("%c%c%c", ESC, 'U', width); // Font width
-//	Print("%c%c%c", ESC, 'W', size); // Font size
+//	Print("%c%c%c", ESC, 'W', 4); // Font size
 	PrintSend("%c%c%c", ESC, 'V', height); // Font height
 }
 

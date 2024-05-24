@@ -236,8 +236,15 @@ void SysInit() {
 //
 //
 //	BAT2U_Init(&huart2);
-//	sensors.WaterTDS = WaterQualityGet();
 
+
+	sensors.WaterTDS = WaterQualityGet();
+
+
+//	for (;;) {
+//		GetACPower();
+//		HAL_Delay(200);
+//	}
 
 
 	DigitsWrite(1, "");

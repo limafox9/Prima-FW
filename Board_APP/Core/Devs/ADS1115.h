@@ -132,6 +132,7 @@ typedef struct{
 typedef struct ADS1115_Config_Tag ADS1115_Handle_t;
 
 float ADS1115_GetRawData();
+float ADS1115_GetVoltage1(uint8_t channel);
 float ADS1115_GetVoltage2(uint8_t channel);
 float ADS1115_GetVoltage4(uint8_t channel);
 uint16_t ADS1115_GetValue(uint8_t channel);
