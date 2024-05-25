@@ -354,8 +354,10 @@ void PrintSettings() {
 	Print("T1_OFFSET                 %0.1f\n", (float)settings.T1Offset / 10.0);
 	Print("T2_OFFSET                 %0.1f\n", (float)settings.T2Offset / 10.0);
 	Print("\n");
-	Print("T1_FACTORY_OFFSET         %0.1f\n", (float)settings.T1FactoryOffset / 10.0);
-	Print("T2_FACTORY_OFFSET         %0.1f\n", (float)settings.T2FactoryOffset / 10.0);
+	Print("T1_FACTORY_OFFSET_100     %0.1f\n", (float)settings.T1FactoryOffset100 / 10.0);
+	Print("T1_FACTORY_OFFSET_140     %0.1f\n", (float)settings.T1FactoryOffset140 / 10.0);
+	Print("T2_FACTORY_OFFSET_100     %0.1f\n", (float)settings.T2FactoryOffset100 / 10.0);
+	Print("T2_FACTORY_OFFSET_140     %0.1f\n", (float)settings.T2FactoryOffset140 / 10.0);
 	Print("\n");
 	Print("CHAMBER_PRESSURE_OFFSET   %d\n", settings.ChamberPressOffset);
 	Print("CHAMBER_VACUUM_OFFSET     %d\n", settings.ChamberVacuumOffset);

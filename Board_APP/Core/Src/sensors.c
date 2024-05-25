@@ -240,8 +240,18 @@ float GetT1() {
 	volt = BufferAverage(t1Buf, T1_BUFFER_SIZE, ADS1115_GetVoltage2(SENSOR_TEMP_T1_ADC_CHANNEL));
 //	volt = ADS1115_GetVoltage2(SENSOR_TEMP_T1_ADC_CHANNEL);
 	temp = ((((volt - 0.3)* 100) / VT_FACTOR) + 0);
-	temp = temp + (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0);
-	return temp;
+//	temp = temp + (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0);
+
+	float x1, x2, y1, y2, a, b, c, d, slope, input, output;
+
+	a = 100;
+	b = 140.0 - a;
+	c = 100.0 + ((float)settings.T1FactoryOffset100 / 10.0);
+	d = (140 + ((float)settings.T1FactoryOffset140 / 10.0)) - c;
+
+	output = ((d / b) * temp) + (((b * c) - (d * a)) / b);
+
+	return output + (float)(settings.T1Offset / 10.0);
 
 //	return GetCalTemp(ADS1115_GetValue(SENSOR_TEMP_T1_ADC_CHANNEL), (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0));
 }
@@ -253,8 +263,19 @@ float GetT2() {
 	volt = BufferAverage(t2Buf, T2_BUFFER_SIZE, ADS1115_GetVoltage2(SENSOR_TEMP_T2_ADC_CHANNEL));
 //	volt = ADS1115_GetVoltage2(SENSOR_TEMP_T2_ADC_CHANNEL);
 	temp = ((((volt - 0.3)* 100) / VT_FACTOR) + 0);
-	temp = temp + (float)(settings.T2Offset / 10.0) + (float)(settings.T2FactoryOffset / 10.0);
-	return temp;
+//	temp = temp + (float)(settings.T2Offset / 10.0) + (float)(settings.T2FactoryOffset / 10.0);
+
+
+	float x1, x2, y1, y2, a, b, c, d, slope, input, output;
+
+	a = 100;
+	b = 140.0 - a;
+	c = 100.0 + ((float)settings.T2FactoryOffset100 / 10.0);
+	d = (140 + ((float)settings.T2FactoryOffset140 / 10.0)) - c;
+
+	output = ((d / b) * temp) + (((b * c) - (d * a)) / b);
+
+	return output + (float)(settings.T2Offset / 10.0);
 
 //	return GetCalTemp(ADS1115_GetValue(SENSOR_TEMP_T2_ADC_CHANNEL), (float)(settings.T2Offset / 10.0) + (float)(settings.T2FactoryOffset / 10.0));
 }

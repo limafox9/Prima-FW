@@ -101,8 +101,10 @@ void LoadSettings() {
 
 	EEPROM_Read(EPA_T1_OFFSET, &settings.T1Offset, 1);
 	EEPROM_Read(EPA_T2_OFFSET, &settings.T2Offset, 1);
-	EEPROM_Read(EPA_T1_FACTORY_OFFSET, &settings.T1FactoryOffset, 1);
-	EEPROM_Read(EPA_T2_FACTORY_OFFSET, &settings.T2FactoryOffset, 1);
+	EEPROM_Read(EPA_T1_FACTORY_OFFSET_100, &settings.T1FactoryOffset100, 1);
+	EEPROM_Read(EPA_T1_FACTORY_OFFSET_140, &settings.T1FactoryOffset140, 1);
+	EEPROM_Read(EPA_T2_FACTORY_OFFSET_100, &settings.T2FactoryOffset100, 1);
+	EEPROM_Read(EPA_T2_FACTORY_OFFSET_140, &settings.T2FactoryOffset140, 1);
 	EEPROM_Read(EPA_PREHEAT_STANDBY_RING_TEMP, &settings.PreheatRingTemp, 1);
 	EEPROM_Read(EPA_PREHEAT_STANDBY_STEAM_TEMP, &settings.PreheatSteamTemp, 1);
 	EEPROM_Read(EPA_CHAMBER_PRESSURE_OFFSET, &settings.ChamberPressOffset, 1);
@@ -143,8 +145,10 @@ void SaveSettings() {
 
 	EEPROM_Write(EPA_T1_OFFSET, &settings.T1Offset, 1);
 	EEPROM_Write(EPA_T2_OFFSET, &settings.T2Offset, 1);
-	EEPROM_Write(EPA_T1_FACTORY_OFFSET, &settings.T1FactoryOffset, 1);
-	EEPROM_Write(EPA_T2_FACTORY_OFFSET, &settings.T2FactoryOffset, 1);
+	EEPROM_Write(EPA_T1_FACTORY_OFFSET_100, &settings.T1FactoryOffset100, 1);
+	EEPROM_Write(EPA_T1_FACTORY_OFFSET_140, &settings.T1FactoryOffset140, 1);
+	EEPROM_Write(EPA_T2_FACTORY_OFFSET_100, &settings.T2FactoryOffset100, 1);
+	EEPROM_Write(EPA_T2_FACTORY_OFFSET_140, &settings.T2FactoryOffset140, 1);
 	EEPROM_Write(EPA_PREHEAT_STANDBY_RING_TEMP, &settings.PreheatRingTemp, 1);
 	EEPROM_Write(EPA_PREHEAT_STANDBY_STEAM_TEMP, &settings.PreheatSteamTemp, 1);
 	EEPROM_Write(EPA_CHAMBER_PRESSURE_OFFSET, &settings.ChamberPressOffset, 1);
@@ -187,8 +191,10 @@ void SaveDefaults(uint8_t factoryDefault) {
 		EEPROM_Write(EPA_CYCLE_COUNTER_PERMANENT, &(uint16_t){0}, 2);
 		EEPROM_Write(EPA_CYCLE_COUNTER, &(uint16_t){0}, 2);
 
-		EEPROM_Write(EPA_T1_FACTORY_OFFSET, &(int8_t){30}, 1);
-		EEPROM_Write(EPA_T2_FACTORY_OFFSET, &(int8_t){0}, 1);
+		EEPROM_Write(EPA_T1_FACTORY_OFFSET_100, &(int8_t){0}, 1);
+		EEPROM_Write(EPA_T1_FACTORY_OFFSET_140, &(int8_t){0}, 1);
+		EEPROM_Write(EPA_T2_FACTORY_OFFSET_100, &(int8_t){0}, 1);
+		EEPROM_Write(EPA_T2_FACTORY_OFFSET_140, &(int8_t){0}, 1);
 		EEPROM_Write(EPA_PREHEAT_STANDBY_RING_TEMP, &(uint8_t){60}, 1);
 		EEPROM_Write(EPA_PREHEAT_STANDBY_STEAM_TEMP, &(uint8_t){90}, 1);
 		EEPROM_Write(EPA_CLEAN_CYCLES_INTERVAL, &(uint16_t){50}, 2);

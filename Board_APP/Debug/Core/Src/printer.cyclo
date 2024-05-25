@@ -6,10 +6,10 @@
 ../Core/Src/printer.c:273:6:Print	4
 ../Core/Src/printer.c:295:6:PrintPowerTestHeader	3
 ../Core/Src/printer.c:329:6:PrintSettings	7
-../Core/Src/printer.c:432:6:PrintLogo	1
-../Core/Src/printer.c:454:6:PrintHeader	15
-../Core/Src/printer.c:534:6:PrintFooter	3
-../Core/Src/printer.c:559:6:PrintStepLine	1
-../Core/Src/printer.c:563:6:PrintDivisor	1
-../Core/Src/printer.c:568:6:PrintLF	2
-../Core/Src/printer.c:574:15:reverse_byte	1
+../Core/Src/printer.c:434:6:PrintLogo	1
+../Core/Src/printer.c:456:6:PrintHeader	15
+../Core/Src/printer.c:536:6:PrintFooter	3
+../Core/Src/printer.c:561:6:PrintStepLine	1
+../Core/Src/printer.c:565:6:PrintDivisor	1
+../Core/Src/printer.c:570:6:PrintLF	2
+../Core/Src/printer.c:576:15:reverse_byte	1

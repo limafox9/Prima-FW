@@ -71,8 +71,10 @@ USAGE:
 #define EPA_CYCLE_COUNTER 				0x1E	// 2 bytes - Cycle counter resettable
 #define EPA_T1_OFFSET 					0x20	// 1 byte +/- 127 in 0.1 steps
 #define EPA_T2_OFFSET 					0x21	// 1 byte +/- 127 in 0.1 steps
-#define EPA_T1_FACTORY_OFFSET 			0x60	// 2 byte +/- 1000 in 0.1 steps
-#define EPA_T2_FACTORY_OFFSET 			0x62	// 2 byte +/- 1000 in 0.1 steps
+#define EPA_T1_FACTORY_OFFSET_100		0x60	// 2 byte +/- 1000 in 0.1 steps
+#define EPA_T1_FACTORY_OFFSET_140		0x61	// 2 byte +/- 1000 in 0.1 steps
+#define EPA_T2_FACTORY_OFFSET_100		0x62	// 2 byte +/- 1000 in 0.1 steps
+#define EPA_T2_FACTORY_OFFSET_140		0x63	// 2 byte +/- 1000 in 0.1 steps
 #define EPA_CHAMBER_PRESSURE_OFFSET 	0x22	// 1 byte +/- 127 in 1 steps
 #define EPA_CHAMBER_VACUUM_OFFSET 		0x29	// 1 byte +/- 127 in 1 steps
 #define EPA_PREHEAT_STANDBY_RING_TEMP	0x65	// 1 byte 0-255 in 1 steps
@@ -114,8 +116,10 @@ typedef struct Settings_s {
 	int8_t T2Offset;				// -2..2 step 1 (0.1)
 	int8_t ChamberPressOffset;		// -15..15 step 1
 	int8_t ChamberVacuumOffset;		// -15..15 step 1
-	int8_t T1FactoryOffset;		// -100..100 step 1 (0.1)
-	int8_t T2FactoryOffset;		// -100..100 step 1 (0.1)
+	int8_t T1FactoryOffset100;		// -100..100 step 1 (0.1)
+	int8_t T1FactoryOffset140;		// -100..100 step 1 (0.1)
+	int8_t T2FactoryOffset100;		// -100..100 step 1 (0.1)
+	int8_t T2FactoryOffset140;		// -100..100 step 1 (0.1)
 	uint8_t PreheatRingTemp;		// 0..255 step 1
 	uint8_t PreheatSteamTemp;		// 0..255 step 1
 	uint8_t WaterTDSMin;				// 5..70 step 1

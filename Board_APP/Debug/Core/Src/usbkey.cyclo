@@ -5,5 +5,5 @@
 ../Core/Src/usbkey.c:94:13:getfield	4
 ../Core/Src/usbkey.c:103:9:GetParam	2
 ../Core/Src/usbkey.c:144:6:StartUSBTask	3
-../Core/Src/usbkey.c:182:6:LoadUSBConfig	42
-../Core/Src/usbkey.c:367:6:SdcardWriteAction	1
+../Core/Src/usbkey.c:182:6:LoadUSBConfig	44
+../Core/Src/usbkey.c:375:6:SdcardWriteAction	1
