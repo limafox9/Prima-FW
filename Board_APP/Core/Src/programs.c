@@ -1137,6 +1137,8 @@ uint8_t PowerTest() {
 
 	char val[4];
 	uint8_t tCount = 0;
+	float pwr = 0;
+	float pwrNoLoad = 0;
 
 	osSemaphoreWait(semaphoreSensorsHandle, 100);
 
@@ -1146,122 +1148,140 @@ uint8_t PowerTest() {
 
 	PrintPowerTestHeader();
 
+	HAL_Delay(POWER_TEST_ON_TIME);
+	pwr = GetACPower();
+	pwrNoLoad = pwr;
 	tCount++;
-	Print("%2d - NO LOAD\n", tCount);
+	Print("%2d - NO LOAD AC:\t\t\t %4.1f W\n", tCount, fabs(pwr));
+	HAL_Delay(POWER_TEST_PAUSE_TIME);
 
-	DigitsWrite(2, "FAn");
-	FanSet(ON);
-	osDelay(POWER_TEST_ON_TIME);
-//	osDelay(500);
-//	sprintf(val,"%d", CurrentGet());
-//	DigitsWrite(1, val);
-	FanSet(OFF);
-	osDelay(POWER_TEST_PAUSE_TIME);
-	tCount++;
-	Print("%2d - FAN\n", tCount);
 
 	DigitsWrite(2, "H St");
 	HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, ON);
-	osDelay(POWER_TEST_ON_TIME);
-//	osDelay(500);
-//	sprintf(val,"%d", CurrentGet());
-//	DigitsWrite(1, val);
+	HAL_Delay(POWER_TEST_ON_TIME);
+	pwr = GetACPower() - pwrNoLoad;
 	HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, OFF);
-	osDelay(POWER_TEST_PAUSE_TIME);
+	HAL_Delay(POWER_TEST_PAUSE_TIME);
 	tCount++;
-	Print("%2d - STEAM GENERATOR\n", tCount);
+	Print("%2d - STEAM GENERATOR:\t\t\t %4.1f W\n", tCount, fabs(pwr));
 
 	DigitsWrite(2, "H rI");
 	HAL_GPIO_WritePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin, ON);
-	osDelay(POWER_TEST_ON_TIME);
-//	osDelay(500);
-//	sprintf(val,"%d", CurrentGet());
-//	DigitsWrite(1, val);
+	HAL_Delay(POWER_TEST_ON_TIME);
+	pwr = GetACPower() - pwrNoLoad;
 	HAL_GPIO_WritePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin, OFF);
-	osDelay(POWER_TEST_PAUSE_TIME);
+	HAL_Delay(POWER_TEST_PAUSE_TIME);
 	tCount++;
-	Print("%2d - HEATING RING\n", tCount);
-
-	DigitsWrite(2, "U UA");
-	ValveVacuumSet(ON);
-	osDelay(POWER_TEST_ON_TIME);
-//	osDelay(500);
-//	sprintf(val,"%d", CurrentGet());
-//	DigitsWrite(1, val);
-	ValveVacuumSet(OFF);
-	osDelay(POWER_TEST_PAUSE_TIME);
-	tCount++;
-	Print("%2d - VACUUM VALVE\n", tCount);
-
-	DigitsWrite(2, "U dr");
-	ValveDrainSteamSet(ON);
-	osDelay(POWER_TEST_ON_TIME);
-	ValveDrainSteamSet(OFF);
-	osDelay(POWER_TEST_PAUSE_TIME);
-	tCount++;
-	Print("%2d - DRAIN STEAM VALVE\n", tCount);
-
-	DigitsWrite(2, "U Ut");
-	ValveWaterSteamSet(ON);
-	osDelay(POWER_TEST_ON_TIME);
-	ValveWaterSteamSet(OFF);
-	osDelay(POWER_TEST_PAUSE_TIME);
-	tCount++;
-	Print("%2d - WATER STEAM VALVE\n", tCount);
-
-	DigitsWrite(2, "U In");
-	ValveDryIntakeSet(ON);
-	osDelay(POWER_TEST_ON_TIME);
-	ValveDryIntakeSet(OFF);
-	osDelay(POWER_TEST_PAUSE_TIME);
-	tCount++;
-	Print("%2d - INTAKE FRONT VALVE\n", tCount);
+	Print("%2d - HEATING RING:\t\t\t %4.1f W\n", tCount, fabs(pwr));
 
 	DigitsWrite(2, "P Ut");
 	PumpWaterLoadSet(ON);
-	osDelay(POWER_TEST_ON_TIME);
+	HAL_Delay(POWER_TEST_ON_TIME);
+	pwr = GetACPower() - pwrNoLoad;
 	PumpWaterLoadSet(OFF);
-	osDelay(POWER_TEST_PAUSE_TIME);
+	HAL_Delay(POWER_TEST_PAUSE_TIME);
 	tCount++;
-	Print("%2d - WATER LOAD PUMP\n", tCount);
+	Print("%2d - WATER LOAD PUMP:\t\t\t %4.1f W\n", tCount, fabs(pwr));
 
 	DigitsWrite(2, "P UA");
 	ValveVacuumSet(ON);
 	PumpVacuumSet(ON);
-	osDelay(POWER_TEST_ON_TIME);
+	HAL_Delay(POWER_TEST_ON_TIME);
+	pwr = GetACPower() - pwrNoLoad;
 	PumpVacuumSet(OFF);
 	ValveVacuumSet(OFF);
-	osDelay(POWER_TEST_PAUSE_TIME);
+	HAL_Delay(POWER_TEST_PAUSE_TIME);
 	tCount++;
-	Print("%2d - VACUUM VALVE\n", tCount);
+	Print("%2d - VACUUM PUMP:\t\t\t %4.1f W\n", tCount, fabs(pwr));
 
 	DigitsWrite(2, "P St");
 	ValveWaterSteamSet(ON);
 	PumpSteamGeneratorSet(ON);
-	osDelay(POWER_TEST_ON_TIME);
+	HAL_Delay(POWER_TEST_ON_TIME);
+	pwr = GetACPower() - pwrNoLoad;
 	PumpSteamGeneratorSet(OFF);
 	ValveWaterSteamSet(OFF);
-	osDelay(POWER_TEST_PAUSE_TIME);
+	HAL_Delay(POWER_TEST_PAUSE_TIME);
 	tCount++;
-	Print("%2d - WATER STEAM VALVE\n", tCount);
+	Print("%2d - STEAM GEN. PUMP:\t\t\t %4.1f W\n", tCount, fabs(pwr));
+
+	DigitsWrite(2, "FAn");
+	FanSet(ON);
+	HAL_Delay(POWER_TEST_ON_TIME);
+	pwr = GetACPower() - pwrNoLoad;
+	FanSet(OFF);
+	HAL_Delay(POWER_TEST_PAUSE_TIME);
+	tCount++;
+	Print("%2d - FAN:\t\t\t %4.1f W\n", tCount, fabs(pwr));
+
+
+	HAL_Delay(POWER_TEST_ON_TIME);
+	pwr = GetDCPower();
+	pwrNoLoad = 20;
+	tCount++;
+	Print("%2d - NO LOAD DC:\t\t\t %4.1f W\n", tCount, fabs(pwr));
+	HAL_Delay(POWER_TEST_PAUSE_TIME);
+
+// Valves
+	DigitsWrite(2, "U UA");
+	ValveVacuumSet(ON);
+	HAL_Delay(POWER_TEST_ON_TIME);
+	pwr = GetDCPower() - pwrNoLoad;
+	ValveVacuumSet(OFF);
+	HAL_Delay(POWER_TEST_PAUSE_TIME);
+	tCount++;
+	Print("%2d - VACUUM VALVE:\t\t\t %4.1f W\n", tCount, fabs(pwr));
+
+	DigitsWrite(2, "U dr");
+	ValveDrainSteamSet(ON);
+	HAL_Delay(POWER_TEST_ON_TIME);
+	pwr = GetDCPower() - pwrNoLoad;
+	ValveDrainSteamSet(OFF);
+	HAL_Delay(POWER_TEST_PAUSE_TIME);
+	tCount++;
+	Print("%2d - DRAIN STEAM VALVE:\t\t\t %4.1f W\n", tCount, fabs(pwr));
+
+	DigitsWrite(2, "U Ut");
+	ValveWaterSteamSet(ON);
+	HAL_Delay(POWER_TEST_ON_TIME);
+	pwr = GetDCPower() - pwrNoLoad;
+	ValveWaterSteamSet(OFF);
+	HAL_Delay(POWER_TEST_PAUSE_TIME);
+	tCount++;
+	Print("%2d - WATER STEAM VALVE:\t\t\t %4.1f W\n", tCount, fabs(pwr));
+
+	DigitsWrite(2, "U In");
+	ValveDryIntakeSet(ON);
+	HAL_Delay(POWER_TEST_ON_TIME);
+	pwr = GetDCPower() - pwrNoLoad;
+	ValveDryIntakeSet(OFF);
+	HAL_Delay(POWER_TEST_PAUSE_TIME);
+	tCount++;
+	Print("%2d - INTAKE FRONT VALVE:\t\t\t %4.1f W\n", tCount, fabs(pwr));
 
 	DigitsWrite(2, "SOLE");
 	HAL_GPIO_WritePin(SOLENOID_V1_GPIO_Port, SOLENOID_V1_Pin, OFF);
 	HAL_GPIO_WritePin(SOLENOID_V2_GPIO_Port, SOLENOID_V2_Pin, OFF);
 	// LOCK
-	HAL_GPIO_WritePin(SOLENOID_V2_GPIO_Port, SOLENOID_V2_Pin, ON);
-	osDelay(POWER_TEST_ON_TIME);
+	HAL_GPIO_WritePin(SOLENOID_V1_GPIO_Port, SOLENOID_V1_Pin, ON);
+	HAL_Delay(1000);
+	pwr = GetDCPower() - pwrNoLoad;
+	tCount++;
+	Print("%2d - SOLENOID LOCK:\t\t\t %4.1f W\n", tCount, fabs(pwr));
 
 	HAL_GPIO_WritePin(SOLENOID_V1_GPIO_Port, SOLENOID_V1_Pin, OFF);
 	HAL_GPIO_WritePin(SOLENOID_V2_GPIO_Port, SOLENOID_V2_Pin, OFF);
+	HAL_Delay(POWER_TEST_PAUSE_TIME);
 	// UNLOCK
-	HAL_GPIO_WritePin(SOLENOID_V1_GPIO_Port, SOLENOID_V1_Pin, ON);
-	osDelay(POWER_TEST_ON_TIME);
+	HAL_GPIO_WritePin(SOLENOID_V2_GPIO_Port, SOLENOID_V2_Pin, ON);
+	osDelay(1000);
+	pwr = GetDCPower() - pwrNoLoad;
 	// All off afetr LOCK/UNLOCK impulse
 	HAL_GPIO_WritePin(SOLENOID_V1_GPIO_Port, SOLENOID_V1_Pin, OFF);
 	HAL_GPIO_WritePin(SOLENOID_V2_GPIO_Port, SOLENOID_V2_Pin, OFF);
+	HAL_Delay(POWER_TEST_PAUSE_TIME);
 	tCount++;
-	Print("%2d - LOCK/UNLOCK SOLENOID\n", tCount);
+	Print("%2d - SOLENOID UNLOCK:\t\t\t %4.1f W\n", tCount, fabs(pwr));
 
 	DigitsWrite(2, "----");
 	PWMPower_Start();
@@ -1270,7 +1290,7 @@ uint8_t PowerTest() {
 
 	Print("\n");
 	Print("******************************************\n");
-	Print("\n\n\n\n\n");
+	Print("\n\n\n\n\n\n");
 
 }
 

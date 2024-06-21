@@ -205,6 +205,24 @@ void SysInit() {
 	PWMPower_Init();
 	PrinterInit();
 
+	//	uint16_t dcCurrent;
+//
+//	for (;;) {
+//		dcCurrent = GetACPower();
+//		HAL_Delay(1000);
+////		dcCurrent = GetDCPower();
+////		ValveVacuumSet(ON);
+////		HAL_Delay(1000);
+////		dcCurrent = GetDCPower();
+////		ValveVacuumSet(OFF);
+////		ValveDryIntakeSet(ON);
+////		HAL_Delay(1000);
+////		dcCurrent = GetDCPower();
+////		ValveDryIntakeSet(OFF);
+////		HAL_Delay(1000);
+////		dcCurrent = GetDCPower();
+//	}
+
 //
 ////	PrintLogo();
 ////	return;

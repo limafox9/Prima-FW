@@ -208,6 +208,7 @@ const unsigned char logo[] = {
 void PrinterInit() {
 	char d[10];
 
+
 	PrintSend("%c%c", ESC, '@'); // Reset
 //	Print("%c%c", ESC, '5'); // Charset 2
 //	Print("%c%c", FS, '.'); // Disable Chinese Print Mode
@@ -215,6 +216,7 @@ void PrinterInit() {
 //	Print("%c%c%c", ESC, 0x57, 1); // Font size
 
 	PrintSend("%c%c%c", ESC, '!', 0b00000101);
+
 	PrintSend("%c%c%c", ESC, 'M', 12);
 	PrintSend("%c%c%c", ESC, 't', 0);
 
@@ -227,6 +229,7 @@ void PrinterInit() {
 }
 
 void PrintSize(uint8_t width, uint8_t height) {
+
 	PrintSend("%c%c%c", ESC, 'U', width); // Font width
 //	Print("%c%c%c", ESC, 'W', 4); // Font size
 	PrintSend("%c%c%c", ESC, 'V', height); // Font height
@@ -237,6 +240,7 @@ void PrintSize(uint8_t width, uint8_t height) {
 //}
 
 void PrintTestPage() {
+
 	PrintSend("%c%c", DC2, 'T'); // Reset
 }
 

@@ -87,6 +87,8 @@ USAGE:
 #define T1_DELTA_MAX			0.5
 #define T2_DELTA_MAX			0.5
 
+#define DC_VOLTAGE				24
+
 #define SERIAL_SENSOR_DEBUG
 #define SERIAL_SENSOR_DEBUG_INTERVAL	2000
 #define SERIAL_SENSOR_DEBUG_TIME_SEPARATOR '.'
@@ -550,17 +552,34 @@ float ChamberHeaterTempGet() {
 }
 
 float GetACPower() {
-	uint16_t n = 256;
-	uint16_t read[n];
-//	HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, GPIO_PIN_SET);
-	for (uint16_t i = 0; i < n; i++) {
-		read[n] = ReadADCOnce(SENSOR_PRESS_ADC_CHANNEL);
-	}
-	HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, GPIO_PIN_RESET);
+//	uint16_t n = 256;
+	float retVal;
+//	uint16_t read[n];
+
+	retVal = ReadADCContinuous(2, 256);
+//	HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, GPIO_PIN_RESET);
+//	for (uint16_t i = 0; i < n; i++) {
+//		read[n] = ADS1115_GetValue(SENSOR_PRESS_ADC_CHANNEL);
+//	}
+//
+//	HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, GPIO_PIN_RESET);
+	return retVal;
+
 	__NOP();
 }
 
 float GetDCPower() {
+
+	uint16_t read;
+	float ic = 3.3 / 4096.0;
+	float i, p;
+
+	read = ReadADC(4);
+	i = (float)read * ic;
+	p = i * 28;
+
+	return p;
+	__NOP();
 
 }
 
@@ -659,6 +678,59 @@ uint16_t ReadADCOnce(uint32_t channel) {
 //	if (averageTotal < 1000) averageTotal = 5000;
 
 	return adcRead;
+
+}
+
+float ReadADCContinuous(uint32_t channel, uint16_t samples) {
+
+	uint16_t adcRead = 0;
+	uint16_t averageTotal = 0;
+
+	int16_t read[samples];
+
+	ADC_ChannelConfTypeDef sConfig = {0};
+	sConfig.Channel = channel;
+	sConfig.Rank = 1;
+	sConfig.SamplingTime = ADC_SAMPLETIME_28CYCLES_5; // Maximum sampling time (239.5 cycles) divided by ADCClock (Mhz)
+	if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK) {
+		Error_Handler();
+	}
+//	PWMPower_Stop();
+
+//	HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, GPIO_PIN_SET);
+//	FanSet(OFF);
+//	HAL_Delay(5000);
+for (uint16_t i = 0; i < samples; i++) {
+
+	HAL_Delay(1);
+		HAL_ADC_Start(&hadc1);
+		HAL_ADC_PollForConversion(&hadc1, 100);
+		adcRead = HAL_ADC_GetValue(&hadc1);
+		HAL_ADC_Stop(&hadc1);
+		read[i] = adcRead - 3000;
+}
+//FanSet(OFF);
+//HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, GPIO_PIN_RESET);
+
+
+uint32_t sum = 0;
+float amperes, power;
+for (uint16_t i = 0; i < samples; i++) {
+	sum = sum + (read[i] * read[i]);
+}
+
+sum = sum / samples;
+sum = sqrt(sum);
+
+amperes = sum * 3.3/4096 / 0.04;
+power = amperes * 230;
+
+//PWMPower_Start();
+
+HAL_Delay(1000);
+//	if (averageTotal < 1000) averageTotal = 5000;
+
+	return power;
 
 }
 
