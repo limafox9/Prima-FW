@@ -144,11 +144,11 @@ float prevT2;
 float pressBuf[PRESS_BUFFER_SIZE];
 //float pressAvg;
 
-#define T1_BUFFER_SIZE 2 // >= 2
+#define T1_BUFFER_SIZE 3 // >= 2
 float t1Buf[T1_BUFFER_SIZE];
 //float t1Avg;
 
-#define T2_BUFFER_SIZE 2 // >= 2
+#define T2_BUFFER_SIZE 3 // >= 2
 float t2Buf[T2_BUFFER_SIZE];
 //float t2Avg;
 
@@ -229,6 +229,7 @@ uint16_t WaterQualityGet() {
 		volt = ADS1115_GetVoltage1(SENSOR_TDS_ADC_CHANNEL);
 		retVal = volt * 603.0;
 		HAL_GPIO_WritePin(nTDS_EN_GPIO_Port, nTDS_EN_Pin, ON);
+		HAL_Delay(500);
 
 	} else {
 		retVal = 0;

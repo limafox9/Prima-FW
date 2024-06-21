@@ -65,6 +65,7 @@ void SelectTest();
 void StartProgramTask();
 
 uint8_t ProgramUnwrapped();
+uint8_t ProgramPIDTest();
 uint8_t ProgramWrapped();
 uint8_t ProgramPrion();
 uint8_t ProgramGentle();

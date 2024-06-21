@@ -48,6 +48,35 @@ void PIDController_Init(PIDController *pid) {
 
 }
 
+float PIDController_Update1(PIDController *pid, float setpoint, float measurement) {
+
+	/*
+	* Error signal
+	*/
+    float error = setpoint - measurement;
+
+
+	/*
+	* Proportional
+	*/
+    float proportional = pid->Kp * error;
+//pid->integrator += error * pid->T;
+    float derivative = pid->Kd * ((error - pid->prevError) / pid->T);
+    float output = proportional + derivative;
+//    float output = (pid->Kp * error) + (pid->Ki * pid->integrator) + (pid->Kd * derivative);
+    pid->prevError = error;
+
+    if (output < 0) {
+    	output = 0;
+    } else {
+        if (output > pid->limMax) output = pid->limMax;
+        if (output < pid->limMin) output = pid->limMin;
+    }
+	/* Return controller output */
+    return output;
+
+}
+
 float PIDController_Update(PIDController *pid, float setpoint, float measurement) {
 
 	/*

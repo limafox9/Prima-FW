@@ -1,28 +1,16 @@
-16:59:55 **** Build of configuration Debug for project DB_Protocol ****
+16:57:06 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j4 all 
 make: Nothing to be done for 'all'.
-16:59:55 **** Incremental Build of configuration Debug for project DB_Protocol ****
+16:57:07 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j4 all 
 make: Nothing to be done for 'all'.
-16:59:56 **** Incremental Build of configuration Debug for project Board_APP ****
+16:57:07 **** Incremental Build of configuration Debug for project Board_APP ****
 make -j4 all 
-arm-none-eabi-gcc "../Core/Src/settings.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500" -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500/W5500" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/settings.d" -MT"Core/Src/settings.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/settings.o"
-In file included from ../Core/Src/settings.c:42:
-../Core/Inc/globals.h:106:1: warning: useless storage class specifier in empty declaration
-  106 | };
-      | ^
-../Core/Src/settings.c: In function 'ReadSetting':
-../Core/Src/settings.c:73:9: warning: implicit declaration of function 'EEPROM_Read' [-Wimplicit-function-declaration]
-   73 |         EEPROM_Read(address, data, size);
-      |         ^~~~~~~~~~~
-../Core/Src/settings.c: In function 'WriteSetting':
-../Core/Src/settings.c:141:9: warning: implicit declaration of function 'EEPROM_Write' [-Wimplicit-function-declaration]
-  141 |         EEPROM_Write(address, data, size);
-      |         ^~~~~~~~~~~~
-../Core/Src/settings.c: In function 'SaveDefaults':
-../Core/Src/settings.c:187:17: warning: implicit declaration of function 'BAT2U_TDSCalibration' [-Wimplicit-function-declaration]
-  187 |                 BAT2U_TDSCalibration(500);
-      |                 ^~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc "../Core/Src/pid.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500" -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500/W5500" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/pid.d" -MT"Core/Src/pid.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/pid.o"
+../Core/Src/pid.c: In function 'PIDController_Update':
+../Core/Src/pid.c:62:11: warning: unused variable 'proportional' [-Wunused-variable]
+   62 |     float proportional = pid->Kp * error;
+      |           ^~~~~~~~~~~~
 arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima-FW\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
 C:/ST/STM32CubeIDE_1.15.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: warning: Board_APP.elf has a LOAD segment with RWX permissions
 Finished building target: Board_APP.elf
@@ -31,7 +19,45 @@ arm-none-eabi-size  Board_APP.elf
 arm-none-eabi-objdump -h -S Board_APP.elf  > "Board_APP.list"
 arm-none-eabi-objcopy  -O ihex Board_APP.elf  "Board_APP.hex"
    text	   data	    bss	    dec	    hex	filename
- 169588	   2328	  56688	 228604	  37cfc	Board_APP.elf
+ 169308	   2328	  56696	 228332	  37bec	Board_APP.elf
+arm-none-eabi-objcopy  -O binary Board_APP.elf  "Board_APP.bin"
+Finished building: default.size.stdout
+ 
+Finished building: Board_APP.bin
+Finished building: Board_APP.hex
+ 
+ 
+Finished building: Board_APP.list
+ 
+16:57:12 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j4 all 
+make: Nothing to be done for 'all'.
+16:57:12 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j4 all 
+arm-none-eabi-size  Board_APP.elf 
+   text	   data	    bss	    dec	    hex	filename
+ 169308	   2328	  56696	 228332	  37bec	Board_APP.elf
+Finished building: default.size.stdout
+ 
+17:03:53 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j4 all 
+make: Nothing to be done for 'all'.
+17:03:53 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/pid.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500" -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500/W5500" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/pid.d" -MT"Core/Src/pid.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/pid.o"
+../Core/Src/pid.c: In function 'PIDController_Update':
+../Core/Src/pid.c:62:11: warning: unused variable 'proportional' [-Wunused-variable]
+   62 |     float proportional = pid->Kp * error;
+      |           ^~~~~~~~~~~~
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima-FW\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.15.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: warning: Board_APP.elf has a LOAD segment with RWX permissions
+Finished building target: Board_APP.elf
+ 
+arm-none-eabi-size  Board_APP.elf 
+arm-none-eabi-objdump -h -S Board_APP.elf  > "Board_APP.list"
+arm-none-eabi-objcopy  -O ihex Board_APP.elf  "Board_APP.hex"
+   text	   data	    bss	    dec	    hex	filename
+ 169308	   2328	  56696	 228332	  37bec	Board_APP.elf
 arm-none-eabi-objcopy  -O binary Board_APP.elf  "Board_APP.bin"
 Finished building: default.size.stdout
  
@@ -41,13 +67,2107 @@ Finished building: Board_APP.bin
  
 Finished building: Board_APP.list
  
-16:59:59 **** Incremental Build of configuration Debug for project DB_Protocol ****
+17:06:13 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j4 all 
 make: Nothing to be done for 'all'.
-17:00:00 **** Incremental Build of configuration Debug for project Board_APP ****
+17:06:13 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/phases.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500" -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500/W5500" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/phases.d" -MT"Core/Src/phases.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/phases.o"
+arm-none-eabi-gcc "../Core/Src/pid.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500" -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500/W5500" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/pid.d" -MT"Core/Src/pid.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/pid.o"
+../Core/Src/pid.c: In function 'PIDController_Update1':
+../Core/Src/pid.c:62:11: warning: unused variable 'proportional' [-Wunused-variable]
+   62 |     float proportional = pid->Kp * error;
+      |           ^~~~~~~~~~~~
+In file included from ../Core/Inc/sensors.h:39,
+                 from ../Core/Src/phases.c:38:
+../Core/Inc/globals.h:106:1: warning: useless storage class specifier in empty declaration
+  106 | };
+      | ^
+../Core/Src/phases.c: In function 'PhaseBegin':
+../Core/Src/phases.c:154:17: warning: implicit declaration of function 'PrintError' [-Wimplicit-function-declaration]
+  154 |                 PrintError("\n", &tPhase);
+      |                 ^~~~~~~~~~
+../Core/Src/phases.c:188:9: warning: implicit declaration of function 'EEPROM_Write' [-Wimplicit-function-declaration]
+  188 |         EEPROM_Write(EPA_LAST_ERROR, &err, 1);
+      |         ^~~~~~~~~~~~
+../Core/Src/phases.c: In function 'PhaseResume':
+../Core/Src/phases.c:224:34: warning: unused variable 'tPhase' [-Wunused-variable]
+  224 |         RTCTimerTime_s tTimeout, tPhase;
+      |                                  ^~~~~~
+../Core/Src/phases.c:223:17: warning: variable 'retVal' set but not used [-Wunused-but-set-variable]
+  223 |         uint8_t retVal = 1;
+      |                 ^~~~~~
+../Core/Src/phases.c: In function 'PhaseHeatUp':
+../Core/Src/phases.c:281:9: warning: implicit declaration of function 'SendCommand' [-Wimplicit-function-declaration]
+  281 |         SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
+      |         ^~~~~~~~~~~
+../Core/Src/phases.c: In function 'PhaseVacuum':
+../Core/Src/phases.c:424:24: warning: unused variable 'deltaTime' [-Wunused-variable]
+  424 |         const uint16_t deltaTime = 20;
+      |                        ^~~~~~~~~
+../Core/Src/phases.c:423:21: warning: unused variable 'pressDeltaValue' [-Wunused-variable]
+  423 |         const float pressDeltaValue = 10;
+      |                     ^~~~~~~~~~~~~~~
+../Core/Src/phases.c:421:15: warning: unused variable 'pressInit' [-Wunused-variable]
+  421 |         float pressInit = sensors.PressureChamber;
+      |               ^~~~~~~~~
+../Core/Src/phases.c: In function 'PhaseSteril':
+../Core/Src/phases.c:769:26: warning: unused variable 'currTick' [-Wunused-variable]
+  769 |                 uint32_t currTick = HAL_GetTick();
+      |                          ^~~~~~~~
+../Core/Src/phases.c: In function 'PhaseWaterLoad':
+../Core/Src/phases.c:1108:38: warning: unused variable 'tPhase' [-Wunused-variable]
+ 1108 |         RTCTimerTime_s tVac, tWater, tPhase, tTimeout;
+      |                                      ^~~~~~
+../Core/Src/phases.c:1108:30: warning: unused variable 'tWater' [-Wunused-variable]
+ 1108 |         RTCTimerTime_s tVac, tWater, tPhase, tTimeout;
+      |                              ^~~~~~
+../Core/Src/phases.c:1108:24: warning: unused variable 'tVac' [-Wunused-variable]
+ 1108 |         RTCTimerTime_s tVac, tWater, tPhase, tTimeout;
+      |                        ^~~~
+../Core/Src/phases.c:1107:17: warning: unused variable 'finish' [-Wunused-variable]
+ 1107 |         uint8_t finish = 0;
+      |                 ^~~~~~
+../Core/Src/phases.c: In function 'PhaseVacuumHold':
+../Core/Src/phases.c:1145:15: warning: unused variable 'currPress' [-Wunused-variable]
+ 1145 |         float currPress;
+      |               ^~~~~~~~~
+../Core/Src/phases.c:1144:17: warning: unused variable 'cycle' [-Wunused-variable]
+ 1144 |         uint8_t cycle = 0;
+      |                 ^~~~~
+../Core/Src/phases.c: In function 'PhaseWait':
+../Core/Src/phases.c:1200:15: warning: unused variable 'currPress' [-Wunused-variable]
+ 1200 |         float currPress;
+      |               ^~~~~~~~~
+../Core/Src/phases.c:1199:17: warning: unused variable 'cycle' [-Wunused-variable]
+ 1199 |         uint8_t cycle = 0;
+      |                 ^~~~~
+../Core/Src/phases.c: In function 'PhaseFinish':
+../Core/Src/phases.c:1318:46: warning: statement with no effect [-Wunused-value]
+ 1318 |                         machineStatus.Status == STATUS_READY;
+      |                         ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~
+../Core/Src/phases.c: In function 'PhaseTestPID':
+../Core/Src/phases.c:1359:25: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+ 1359 |                 sprintf(s,"%f\n", (1/ret)*4000);
+      |                         ^
+      |                         |
+      |                         char **
+In file included from ../Core/Inc/phases.h:41,
+                 from ../Core/Src/phases.c:36:
+C:\ST\STM32CubeIDE_1.15.1\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256\tools\bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/include/stdio.h:250:18: note: expected 'char * restrict' but argument is of type 'char **'
+  250 | int     sprintf (char *__restrict, const char *__restrict, ...)
+      |                  ^
+../Core/Src/phases.c:1360:54: warning: passing argument 1 of 'strlen' from incompatible pointer type [-Wincompatible-pointer-types]
+ 1360 |                 HAL_UART_Transmit(&huart1, s, strlen(s), 500);
+      |                                                      ^
+      |                                                      |
+      |                                                      char **
+In file included from ../USB_HOST/Target/usbh_conf.h:31,
+                 from ../Middlewares/ST/STM32_USB_Host_Library/Core/Inc/usbh_core.h:28,
+                 from ../FATFS/Target/ffconf.h:27,
+                 from ../Middlewares/Third_Party/FatFs/src/ff.h:27,
+                 from ../FATFS/App/fatfs.h:26,
+                 from ../Core/Inc/usbkey.h:42,
+                 from ../Core/Src/phases.c:50:
+C:\ST\STM32CubeIDE_1.15.1\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256\tools\bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/include/string.h:41:18: note: expected 'const char *' but argument is of type 'char **'
+   41 | size_t   strlen (const char *);
+      |                  ^~~~~~~~~~~~
+../Core/Src/phases.c:1360:44: warning: passing argument 2 of 'HAL_UART_Transmit' from incompatible pointer type [-Wincompatible-pointer-types]
+ 1360 |                 HAL_UART_Transmit(&huart1, s, strlen(s), 500);
+      |                                            ^
+      |                                            |
+      |                                            char **
+In file included from ../Core/Inc/stm32f1xx_hal_conf.h:338,
+                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Devs/PCF8563.h:41,
+                 from ../Core/Inc/time.h:40,
+                 from ../Core/Inc/phases.h:42:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h:749:79: note: expected 'const uint8_t *' {aka 'const unsigned char *'} but argument is of type 'char **'
+  749 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size, uint32_t Timeout);
+      |                                                                ~~~~~~~~~~~~~~~^~~~~
+../Core/Src/phases.c: In function 'PhaseResume':
+../Core/Src/phases.c:263:1: warning: control reaches end of non-void function [-Wreturn-type]
+  263 | }
+      | ^
+../Core/Src/phases.c: In function 'PhasePreheat':
+../Core/Src/phases.c:269:1: warning: control reaches end of non-void function [-Wreturn-type]
+  269 | }
+      | ^
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima-FW\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.15.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: warning: Board_APP.elf has a LOAD segment with RWX permissions
+Finished building target: Board_APP.elf
+ 
+arm-none-eabi-size  Board_APP.elf 
+arm-none-eabi-objdump -h -S Board_APP.elf  > "Board_APP.list"
+arm-none-eabi-objcopy  -O ihex Board_APP.elf  "Board_APP.hex"
+   text	   data	    bss	    dec	    hex	filename
+ 169756	   2328	  56696	 228780	  37dac	Board_APP.elf
+arm-none-eabi-objcopy  -O binary Board_APP.elf  "Board_APP.bin"
+Finished building: default.size.stdout
+ 
+Finished building: Board_APP.hex
+Finished building: Board_APP.bin
+ 
+ 
+Finished building: Board_APP.list
+ 
+17:13:28 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j4 all 
+make: Nothing to be done for 'all'.
+17:13:29 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/pid.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500" -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500/W5500" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/pid.d" -MT"Core/Src/pid.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/pid.o"
+../Core/Src/pid.c: In function 'PIDController_Update1':
+../Core/Src/pid.c:62:11: warning: unused variable 'proportional' [-Wunused-variable]
+   62 |     float proportional = pid->Kp * error;
+      |           ^~~~~~~~~~~~
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima-FW\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.15.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: warning: Board_APP.elf has a LOAD segment with RWX permissions
+Finished building target: Board_APP.elf
+ 
+arm-none-eabi-size  Board_APP.elf 
+arm-none-eabi-objdump -h -S Board_APP.elf  > "Board_APP.list"
+arm-none-eabi-objcopy  -O ihex Board_APP.elf  "Board_APP.hex"
+   text	   data	    bss	    dec	    hex	filename
+ 169804	   2328	  56696	 228828	  37ddc	Board_APP.elf
+arm-none-eabi-objcopy  -O binary Board_APP.elf  "Board_APP.bin"
+Finished building: default.size.stdout
+ 
+Finished building: Board_APP.bin
+Finished building: Board_APP.hex
+ 
+ 
+Finished building: Board_APP.list
+ 
+17:31:27 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j4 all 
+make: Nothing to be done for 'all'.
+17:31:28 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/pid.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500" -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500/W5500" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/pid.d" -MT"Core/Src/pid.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/pid.o"
+arm-none-eabi-gcc "../Core/Src/programs.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500" -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500/W5500" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/programs.d" -MT"Core/Src/programs.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/programs.o"
+../Core/Src/pid.c: In function 'PIDController_Update1':
+../Core/Src/pid.c:62:11: warning: unused variable 'proportional' [-Wunused-variable]
+   62 |     float proportional = pid->Kp * error;
+      |           ^~~~~~~~~~~~
+In file included from ../Core/Src/programs.c:39:
+../Core/Inc/globals.h:106:1: warning: useless storage class specifier in empty declaration
+  106 | };
+      | ^
+../Core/Src/programs.c: In function 'StartProgramTask':
+../Core/Src/programs.c:103:25: warning: implicit declaration of function 'ValveDryIntakeSet' [-Wimplicit-function-declaration]
+  103 |                         ValveDryIntakeSet(OFF);
+      |                         ^~~~~~~~~~~~~~~~~
+../Core/Src/programs.c:108:25: warning: implicit declaration of function 'FanSet' [-Wimplicit-function-declaration]
+  108 |                         FanSet(OFF);
+      |                         ^~~~~~
+../Core/Src/programs.c: In function 'ProgramResumeDry':
+../Core/Src/programs.c:182:9: warning: implicit declaration of function 'ProgressLedsOff' [-Wimplicit-function-declaration]
+  182 |         ProgressLedsOff();
+      |         ^~~~~~~~~~~~~~~
+../Core/Src/programs.c:183:9: warning: implicit declaration of function 'DigitsWrite' [-Wimplicit-function-declaration]
+  183 |         DigitsWrite(3,"----");
+      |         ^~~~~~~~~~~
+../Core/Src/programs.c:192:9: warning: implicit declaration of function 'ValveDrainSteamSet' [-Wimplicit-function-declaration]
+  192 |         ValveDrainSteamSet(OFF);
+      |         ^~~~~~~~~~~~~~~~~~
+../Core/Src/programs.c:194:9: warning: implicit declaration of function 'ValveVacuumSet' [-Wimplicit-function-declaration]
+  194 |         ValveVacuumSet(OFF);
+      |         ^~~~~~~~~~~~~~
+../Core/Src/programs.c:195:9: warning: implicit declaration of function 'ValveWaterSteamSet' [-Wimplicit-function-declaration]
+  195 |         ValveWaterSteamSet(OFF);
+      |         ^~~~~~~~~~~~~~~~~~
+../Core/Src/programs.c:197:9: warning: implicit declaration of function 'PumpSteamGeneratorSet' [-Wimplicit-function-declaration]
+  197 |         PumpSteamGeneratorSet(OFF);
+      |         ^~~~~~~~~~~~~~~~~~~~~
+../Core/Src/programs.c:198:9: warning: implicit declaration of function 'PumpVacuumSet' [-Wimplicit-function-declaration]
+  198 |         PumpVacuumSet(OFF);
+      |         ^~~~~~~~~~~~~
+../Core/Src/programs.c:199:9: warning: implicit declaration of function 'PumpWaterLoadSet' [-Wimplicit-function-declaration]
+  199 |         PumpWaterLoadSet(OFF);
+      |         ^~~~~~~~~~~~~~~~
+../Core/Src/programs.c:260:13: warning: implicit declaration of function 'DoorSolenoidSet'; did you mean 'DoorSolenoidKeyGet'? [-Wimplicit-function-declaration]
+  260 |         if (DoorSolenoidSet(UNLOCK) != UNLOCK) {
+      |             ^~~~~~~~~~~~~~~
+      |             DoorSolenoidKeyGet
+../Core/Src/programs.c:271:9: warning: implicit declaration of function 'EEPROM_Write' [-Wimplicit-function-declaration]
+  271 |         EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
+      |         ^~~~~~~~~~~~
+../Core/Src/programs.c:178:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  178 |         RTCTimerTime_s tCycle, tPhase, tTimeout;
+      |                                ^~~~~~
+../Core/Src/programs.c:178:24: warning: unused variable 'tCycle' [-Wunused-variable]
+  178 |         RTCTimerTime_s tCycle, tPhase, tTimeout;
+      |                        ^~~~~~
+../Core/Src/programs.c:177:23: warning: unused variable 'clockTime' [-Wunused-variable]
+  177 |         RTCDateTime_s clockTime;
+      |                       ^~~~~~~~~
+../Core/Src/programs.c:176:17: warning: variable 'success' set but not used [-Wunused-but-set-variable]
+  176 |         uint8_t success = 1;
+      |                 ^~~~~~~
+../Core/Src/programs.c: In function 'ProgramUnwrapped':
+../Core/Src/programs.c:286:9: warning: 'return' with no value, in function returning non-void [-Wreturn-type]
+  286 |         return;
+      |         ^~~~~~
+../Core/Src/programs.c:283:9: note: declared here
+  283 | uint8_t ProgramUnwrapped() {
+      |         ^~~~~~~~~~~~~~~~
+../Core/Src/programs.c:295:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  295 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:331:37: warning: implicit declaration of function 'CheckError' [-Wimplicit-function-declaration]
+  331 |                         lastError = CheckError();
+      |                                     ^~~~~~~~~~
+../Core/Src/programs.c:290:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  290 |         RTCTimerTime_s tCycle, tPhase, tWait;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramPIDTest':
+../Core/Src/programs.c:409:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  409 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:404:40: warning: unused variable 'tWait' [-Wunused-variable]
+  404 |         RTCTimerTime_s tCycle, tPhase, tWait;
+      |                                        ^~~~~
+../Core/Src/programs.c:404:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  404 |         RTCTimerTime_s tCycle, tPhase, tWait;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramWrapped':
+../Core/Src/programs.c:522:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  522 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:517:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  517 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramPrion':
+../Core/Src/programs.c:646:9: warning: implicit declaration of function 'SendCommand' [-Wimplicit-function-declaration]
+  646 |         SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
+      |         ^~~~~~~~~~~
+../Core/Src/programs.c:648:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  648 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:640:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  640 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramGentle':
+../Core/Src/programs.c:767:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  767 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:762:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  762 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramUser':
+../Core/Src/programs.c:884:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  884 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:879:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  879 |         RTCTimerTime_s tCycle, tPhase, tWait;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramHelixTest':
+../Core/Src/programs.c:1051:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+ 1051 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:1046:32: warning: unused variable 'tPhase' [-Wunused-variable]
+ 1046 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramVacuumTest':
+../Core/Src/programs.c:1181:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+ 1181 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:1237:17: warning: implicit declaration of function 'Beep' [-Wimplicit-function-declaration]
+ 1237 |                 Beep(1, 1000, 100);
+      |                 ^~~~
+../Core/Src/programs.c:1170:32: warning: unused variable 'tPhase' [-Wunused-variable]
+ 1170 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'PowerTest':
+../Core/Src/programs.c:1263:9: warning: implicit declaration of function 'PWMPower_Stop' [-Wimplicit-function-declaration]
+ 1263 |         PWMPower_Stop();
+      |         ^~~~~~~~~~~~~
+../Core/Src/programs.c:1272:60: warning: implicit declaration of function 'fabs' [-Wimplicit-function-declaration]
+ 1272 |         Print("%2d - NO LOAD AC:\t\t\t %4.1f W\n", tCount, fabs(pwr));
+      |                                                            ^~~~
+../Core/Src/programs.c:49:1: note: include '<math.h>' or provide a declaration of 'fabs'
+   48 | #include "system.h"
+  +++ |+#include <math.h>
+   49 | 
+../Core/Src/programs.c:1272:60: warning: incompatible implicit declaration of built-in function 'fabs' [-Wbuiltin-declaration-mismatch]
+ 1272 |         Print("%2d - NO LOAD AC:\t\t\t %4.1f W\n", tCount, fabs(pwr));
+      |                                                            ^~~~
+../Core/Src/programs.c:1272:60: note: include '<math.h>' or provide a declaration of 'fabs'
+../Core/Src/programs.c:1404:9: warning: implicit declaration of function 'PWMPower_Start' [-Wimplicit-function-declaration]
+ 1404 |         PWMPower_Start();
+      |         ^~~~~~~~~~~~~~
+../Core/Src/programs.c:1255:14: warning: unused variable 'val' [-Wunused-variable]
+ 1255 |         char val[4];
+      |              ^~~
+../Core/Src/programs.c: In function 'ProgramWash':
+../Core/Src/programs.c:1425:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+ 1425 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:1430:9: warning: implicit declaration of function 'PhaseClean'; did you mean 'PhaseRelease'? [-Wimplicit-function-declaration]
+ 1430 |         PhaseClean();
+      |         ^~~~~~~~~~
+      |         PhaseRelease
+../Core/Src/programs.c:1418:32: warning: unused variable 'tPhase' [-Wunused-variable]
+ 1418 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramWaterLoad':
+../Core/Src/programs.c:1458:17: warning: 'return' with no value, in function returning non-void [-Wreturn-type]
+ 1458 |                 return;
+      |                 ^~~~~~
+../Core/Src/programs.c:1450:9: note: declared here
+ 1450 | uint8_t ProgramWaterLoad() {
+      |         ^~~~~~~~~~~~~~~~
+../Core/Src/programs.c:1454:32: warning: unused variable 'tPhase' [-Wunused-variable]
+ 1454 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c:1452:17: warning: unused variable 'success' [-Wunused-variable]
+ 1452 |         uint8_t success = 1;
+      |                 ^~~~~~~
+../Core/Src/programs.c: In function 'ProgramResumeDry':
+../Core/Src/programs.c:281:1: warning: control reaches end of non-void function [-Wreturn-type]
+  281 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramPIDTest':
+../Core/Src/programs.c:512:1: warning: control reaches end of non-void function [-Wreturn-type]
+  512 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramWrapped':
+../Core/Src/programs.c:635:1: warning: control reaches end of non-void function [-Wreturn-type]
+  635 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramPrion':
+../Core/Src/programs.c:757:1: warning: control reaches end of non-void function [-Wreturn-type]
+  757 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramGentle':
+../Core/Src/programs.c:874:1: warning: control reaches end of non-void function [-Wreturn-type]
+  874 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramUser':
+../Core/Src/programs.c:1041:1: warning: control reaches end of non-void function [-Wreturn-type]
+ 1041 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramHelixTest':
+../Core/Src/programs.c:1164:1: warning: control reaches end of non-void function [-Wreturn-type]
+ 1164 | }
+      | ^
+../Core/Src/programs.c: In function 'PowerTest':
+../Core/Src/programs.c:1412:1: warning: control reaches end of non-void function [-Wreturn-type]
+ 1412 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramWash':
+../Core/Src/programs.c:1448:1: warning: control reaches end of non-void function [-Wreturn-type]
+ 1448 | }
+      | ^
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima-FW\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.15.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: warning: Board_APP.elf has a LOAD segment with RWX permissions
+Finished building target: Board_APP.elf
+ 
+arm-none-eabi-size  Board_APP.elf 
+arm-none-eabi-objdump -h -S Board_APP.elf  > "Board_APP.list"
+arm-none-eabi-objcopy  -O ihex Board_APP.elf  "Board_APP.hex"
+   text	   data	    bss	    dec	    hex	filename
+ 169836	   2328	  56696	 228860	  37dfc	Board_APP.elf
+arm-none-eabi-objcopy  -O binary Board_APP.elf  "Board_APP.bin"
+Finished building: default.size.stdout
+ 
+Finished building: Board_APP.hex
+Finished building: Board_APP.bin
+ 
+ 
+Finished building: Board_APP.list
+ 
+17:31:59 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j4 all 
+make: Nothing to be done for 'all'.
+17:32:00 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/programs.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500" -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500/W5500" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/programs.d" -MT"Core/Src/programs.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/programs.o"
+In file included from ../Core/Src/programs.c:39:
+../Core/Inc/globals.h:106:1: warning: useless storage class specifier in empty declaration
+  106 | };
+      | ^
+../Core/Src/programs.c: In function 'StartProgramTask':
+../Core/Src/programs.c:103:25: warning: implicit declaration of function 'ValveDryIntakeSet' [-Wimplicit-function-declaration]
+  103 |                         ValveDryIntakeSet(OFF);
+      |                         ^~~~~~~~~~~~~~~~~
+../Core/Src/programs.c:108:25: warning: implicit declaration of function 'FanSet' [-Wimplicit-function-declaration]
+  108 |                         FanSet(OFF);
+      |                         ^~~~~~
+../Core/Src/programs.c: In function 'ProgramResumeDry':
+../Core/Src/programs.c:182:9: warning: implicit declaration of function 'ProgressLedsOff' [-Wimplicit-function-declaration]
+  182 |         ProgressLedsOff();
+      |         ^~~~~~~~~~~~~~~
+../Core/Src/programs.c:183:9: warning: implicit declaration of function 'DigitsWrite' [-Wimplicit-function-declaration]
+  183 |         DigitsWrite(3,"----");
+      |         ^~~~~~~~~~~
+../Core/Src/programs.c:192:9: warning: implicit declaration of function 'ValveDrainSteamSet' [-Wimplicit-function-declaration]
+  192 |         ValveDrainSteamSet(OFF);
+      |         ^~~~~~~~~~~~~~~~~~
+../Core/Src/programs.c:194:9: warning: implicit declaration of function 'ValveVacuumSet' [-Wimplicit-function-declaration]
+  194 |         ValveVacuumSet(OFF);
+      |         ^~~~~~~~~~~~~~
+../Core/Src/programs.c:195:9: warning: implicit declaration of function 'ValveWaterSteamSet' [-Wimplicit-function-declaration]
+  195 |         ValveWaterSteamSet(OFF);
+      |         ^~~~~~~~~~~~~~~~~~
+../Core/Src/programs.c:197:9: warning: implicit declaration of function 'PumpSteamGeneratorSet' [-Wimplicit-function-declaration]
+  197 |         PumpSteamGeneratorSet(OFF);
+      |         ^~~~~~~~~~~~~~~~~~~~~
+../Core/Src/programs.c:198:9: warning: implicit declaration of function 'PumpVacuumSet' [-Wimplicit-function-declaration]
+  198 |         PumpVacuumSet(OFF);
+      |         ^~~~~~~~~~~~~
+../Core/Src/programs.c:199:9: warning: implicit declaration of function 'PumpWaterLoadSet' [-Wimplicit-function-declaration]
+  199 |         PumpWaterLoadSet(OFF);
+      |         ^~~~~~~~~~~~~~~~
+../Core/Src/programs.c:260:13: warning: implicit declaration of function 'DoorSolenoidSet'; did you mean 'DoorSolenoidKeyGet'? [-Wimplicit-function-declaration]
+  260 |         if (DoorSolenoidSet(UNLOCK) != UNLOCK) {
+      |             ^~~~~~~~~~~~~~~
+      |             DoorSolenoidKeyGet
+../Core/Src/programs.c:271:9: warning: implicit declaration of function 'EEPROM_Write' [-Wimplicit-function-declaration]
+  271 |         EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
+      |         ^~~~~~~~~~~~
+../Core/Src/programs.c:178:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  178 |         RTCTimerTime_s tCycle, tPhase, tTimeout;
+      |                                ^~~~~~
+../Core/Src/programs.c:178:24: warning: unused variable 'tCycle' [-Wunused-variable]
+  178 |         RTCTimerTime_s tCycle, tPhase, tTimeout;
+      |                        ^~~~~~
+../Core/Src/programs.c:177:23: warning: unused variable 'clockTime' [-Wunused-variable]
+  177 |         RTCDateTime_s clockTime;
+      |                       ^~~~~~~~~
+../Core/Src/programs.c:176:17: warning: variable 'success' set but not used [-Wunused-but-set-variable]
+  176 |         uint8_t success = 1;
+      |                 ^~~~~~~
+../Core/Src/programs.c: In function 'ProgramUnwrapped':
+../Core/Src/programs.c:286:9: warning: 'return' with no value, in function returning non-void [-Wreturn-type]
+  286 |         return;
+      |         ^~~~~~
+../Core/Src/programs.c:283:9: note: declared here
+  283 | uint8_t ProgramUnwrapped() {
+      |         ^~~~~~~~~~~~~~~~
+../Core/Src/programs.c:295:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  295 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:331:37: warning: implicit declaration of function 'CheckError' [-Wimplicit-function-declaration]
+  331 |                         lastError = CheckError();
+      |                                     ^~~~~~~~~~
+../Core/Src/programs.c:290:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  290 |         RTCTimerTime_s tCycle, tPhase, tWait;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramPIDTest':
+../Core/Src/programs.c:409:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  409 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:404:40: warning: unused variable 'tWait' [-Wunused-variable]
+  404 |         RTCTimerTime_s tCycle, tPhase, tWait;
+      |                                        ^~~~~
+../Core/Src/programs.c:404:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  404 |         RTCTimerTime_s tCycle, tPhase, tWait;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramWrapped':
+../Core/Src/programs.c:522:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  522 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:517:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  517 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramPrion':
+../Core/Src/programs.c:646:9: warning: implicit declaration of function 'SendCommand' [-Wimplicit-function-declaration]
+  646 |         SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
+      |         ^~~~~~~~~~~
+../Core/Src/programs.c:648:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  648 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:640:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  640 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramGentle':
+../Core/Src/programs.c:767:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  767 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:762:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  762 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramUser':
+../Core/Src/programs.c:884:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  884 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:879:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  879 |         RTCTimerTime_s tCycle, tPhase, tWait;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramHelixTest':
+../Core/Src/programs.c:1051:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+ 1051 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:1046:32: warning: unused variable 'tPhase' [-Wunused-variable]
+ 1046 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramVacuumTest':
+../Core/Src/programs.c:1181:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+ 1181 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:1237:17: warning: implicit declaration of function 'Beep' [-Wimplicit-function-declaration]
+ 1237 |                 Beep(1, 1000, 100);
+      |                 ^~~~
+../Core/Src/programs.c:1170:32: warning: unused variable 'tPhase' [-Wunused-variable]
+ 1170 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'PowerTest':
+../Core/Src/programs.c:1263:9: warning: implicit declaration of function 'PWMPower_Stop' [-Wimplicit-function-declaration]
+ 1263 |         PWMPower_Stop();
+      |         ^~~~~~~~~~~~~
+../Core/Src/programs.c:1272:60: warning: implicit declaration of function 'fabs' [-Wimplicit-function-declaration]
+ 1272 |         Print("%2d - NO LOAD AC:\t\t\t %4.1f W\n", tCount, fabs(pwr));
+      |                                                            ^~~~
+../Core/Src/programs.c:49:1: note: include '<math.h>' or provide a declaration of 'fabs'
+   48 | #include "system.h"
+  +++ |+#include <math.h>
+   49 | 
+../Core/Src/programs.c:1272:60: warning: incompatible implicit declaration of built-in function 'fabs' [-Wbuiltin-declaration-mismatch]
+ 1272 |         Print("%2d - NO LOAD AC:\t\t\t %4.1f W\n", tCount, fabs(pwr));
+      |                                                            ^~~~
+../Core/Src/programs.c:1272:60: note: include '<math.h>' or provide a declaration of 'fabs'
+../Core/Src/programs.c:1404:9: warning: implicit declaration of function 'PWMPower_Start' [-Wimplicit-function-declaration]
+ 1404 |         PWMPower_Start();
+      |         ^~~~~~~~~~~~~~
+../Core/Src/programs.c:1255:14: warning: unused variable 'val' [-Wunused-variable]
+ 1255 |         char val[4];
+      |              ^~~
+../Core/Src/programs.c: In function 'ProgramWash':
+../Core/Src/programs.c:1425:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+ 1425 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:1430:9: warning: implicit declaration of function 'PhaseClean'; did you mean 'PhaseRelease'? [-Wimplicit-function-declaration]
+ 1430 |         PhaseClean();
+      |         ^~~~~~~~~~
+      |         PhaseRelease
+../Core/Src/programs.c:1418:32: warning: unused variable 'tPhase' [-Wunused-variable]
+ 1418 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramWaterLoad':
+../Core/Src/programs.c:1458:17: warning: 'return' with no value, in function returning non-void [-Wreturn-type]
+ 1458 |                 return;
+      |                 ^~~~~~
+../Core/Src/programs.c:1450:9: note: declared here
+ 1450 | uint8_t ProgramWaterLoad() {
+      |         ^~~~~~~~~~~~~~~~
+../Core/Src/programs.c:1454:32: warning: unused variable 'tPhase' [-Wunused-variable]
+ 1454 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c:1452:17: warning: unused variable 'success' [-Wunused-variable]
+ 1452 |         uint8_t success = 1;
+      |                 ^~~~~~~
+../Core/Src/programs.c: In function 'ProgramResumeDry':
+../Core/Src/programs.c:281:1: warning: control reaches end of non-void function [-Wreturn-type]
+  281 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramPIDTest':
+../Core/Src/programs.c:512:1: warning: control reaches end of non-void function [-Wreturn-type]
+  512 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramWrapped':
+../Core/Src/programs.c:635:1: warning: control reaches end of non-void function [-Wreturn-type]
+  635 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramPrion':
+../Core/Src/programs.c:757:1: warning: control reaches end of non-void function [-Wreturn-type]
+  757 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramGentle':
+../Core/Src/programs.c:874:1: warning: control reaches end of non-void function [-Wreturn-type]
+  874 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramUser':
+../Core/Src/programs.c:1041:1: warning: control reaches end of non-void function [-Wreturn-type]
+ 1041 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramHelixTest':
+../Core/Src/programs.c:1164:1: warning: control reaches end of non-void function [-Wreturn-type]
+ 1164 | }
+      | ^
+../Core/Src/programs.c: In function 'PowerTest':
+../Core/Src/programs.c:1412:1: warning: control reaches end of non-void function [-Wreturn-type]
+ 1412 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramWash':
+../Core/Src/programs.c:1448:1: warning: control reaches end of non-void function [-Wreturn-type]
+ 1448 | }
+      | ^
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima-FW\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.15.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: warning: Board_APP.elf has a LOAD segment with RWX permissions
+Finished building target: Board_APP.elf
+ 
+arm-none-eabi-size  Board_APP.elf 
+arm-none-eabi-objdump -h -S Board_APP.elf  > "Board_APP.list"
+arm-none-eabi-objcopy  -O ihex Board_APP.elf  "Board_APP.hex"
+   text	   data	    bss	    dec	    hex	filename
+ 169836	   2328	  56696	 228860	  37dfc	Board_APP.elf
+arm-none-eabi-objcopy  -O binary Board_APP.elf  "Board_APP.bin"
+Finished building: default.size.stdout
+ 
+Finished building: Board_APP.bin
+Finished building: Board_APP.hex
+ 
+ 
+Finished building: Board_APP.list
+ 
+17:39:19 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j4 all 
+make: Nothing to be done for 'all'.
+17:39:19 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/programs.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500" -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500/W5500" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/programs.d" -MT"Core/Src/programs.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/programs.o"
+In file included from ../Core/Src/programs.c:39:
+../Core/Inc/globals.h:106:1: warning: useless storage class specifier in empty declaration
+  106 | };
+      | ^
+../Core/Src/programs.c: In function 'StartProgramTask':
+../Core/Src/programs.c:103:25: warning: implicit declaration of function 'ValveDryIntakeSet' [-Wimplicit-function-declaration]
+  103 |                         ValveDryIntakeSet(OFF);
+      |                         ^~~~~~~~~~~~~~~~~
+../Core/Src/programs.c:108:25: warning: implicit declaration of function 'FanSet' [-Wimplicit-function-declaration]
+  108 |                         FanSet(OFF);
+      |                         ^~~~~~
+../Core/Src/programs.c: In function 'ProgramResumeDry':
+../Core/Src/programs.c:182:9: warning: implicit declaration of function 'ProgressLedsOff' [-Wimplicit-function-declaration]
+  182 |         ProgressLedsOff();
+      |         ^~~~~~~~~~~~~~~
+../Core/Src/programs.c:183:9: warning: implicit declaration of function 'DigitsWrite' [-Wimplicit-function-declaration]
+  183 |         DigitsWrite(3,"----");
+      |         ^~~~~~~~~~~
+../Core/Src/programs.c:192:9: warning: implicit declaration of function 'ValveDrainSteamSet' [-Wimplicit-function-declaration]
+  192 |         ValveDrainSteamSet(OFF);
+      |         ^~~~~~~~~~~~~~~~~~
+../Core/Src/programs.c:194:9: warning: implicit declaration of function 'ValveVacuumSet' [-Wimplicit-function-declaration]
+  194 |         ValveVacuumSet(OFF);
+      |         ^~~~~~~~~~~~~~
+../Core/Src/programs.c:195:9: warning: implicit declaration of function 'ValveWaterSteamSet' [-Wimplicit-function-declaration]
+  195 |         ValveWaterSteamSet(OFF);
+      |         ^~~~~~~~~~~~~~~~~~
+../Core/Src/programs.c:197:9: warning: implicit declaration of function 'PumpSteamGeneratorSet' [-Wimplicit-function-declaration]
+  197 |         PumpSteamGeneratorSet(OFF);
+      |         ^~~~~~~~~~~~~~~~~~~~~
+../Core/Src/programs.c:198:9: warning: implicit declaration of function 'PumpVacuumSet' [-Wimplicit-function-declaration]
+  198 |         PumpVacuumSet(OFF);
+      |         ^~~~~~~~~~~~~
+../Core/Src/programs.c:199:9: warning: implicit declaration of function 'PumpWaterLoadSet' [-Wimplicit-function-declaration]
+  199 |         PumpWaterLoadSet(OFF);
+      |         ^~~~~~~~~~~~~~~~
+../Core/Src/programs.c:260:13: warning: implicit declaration of function 'DoorSolenoidSet'; did you mean 'DoorSolenoidKeyGet'? [-Wimplicit-function-declaration]
+  260 |         if (DoorSolenoidSet(UNLOCK) != UNLOCK) {
+      |             ^~~~~~~~~~~~~~~
+      |             DoorSolenoidKeyGet
+../Core/Src/programs.c:271:9: warning: implicit declaration of function 'EEPROM_Write' [-Wimplicit-function-declaration]
+  271 |         EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
+      |         ^~~~~~~~~~~~
+../Core/Src/programs.c:178:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  178 |         RTCTimerTime_s tCycle, tPhase, tTimeout;
+      |                                ^~~~~~
+../Core/Src/programs.c:178:24: warning: unused variable 'tCycle' [-Wunused-variable]
+  178 |         RTCTimerTime_s tCycle, tPhase, tTimeout;
+      |                        ^~~~~~
+../Core/Src/programs.c:177:23: warning: unused variable 'clockTime' [-Wunused-variable]
+  177 |         RTCDateTime_s clockTime;
+      |                       ^~~~~~~~~
+../Core/Src/programs.c:176:17: warning: variable 'success' set but not used [-Wunused-but-set-variable]
+  176 |         uint8_t success = 1;
+      |                 ^~~~~~~
+../Core/Src/programs.c: In function 'ProgramUnwrapped':
+../Core/Src/programs.c:286:9: warning: 'return' with no value, in function returning non-void [-Wreturn-type]
+  286 |         return;
+      |         ^~~~~~
+../Core/Src/programs.c:283:9: note: declared here
+  283 | uint8_t ProgramUnwrapped() {
+      |         ^~~~~~~~~~~~~~~~
+../Core/Src/programs.c:295:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  295 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:331:37: warning: implicit declaration of function 'CheckError' [-Wimplicit-function-declaration]
+  331 |                         lastError = CheckError();
+      |                                     ^~~~~~~~~~
+../Core/Src/programs.c:290:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  290 |         RTCTimerTime_s tCycle, tPhase, tWait;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramPIDTest':
+../Core/Src/programs.c:409:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  409 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:404:40: warning: unused variable 'tWait' [-Wunused-variable]
+  404 |         RTCTimerTime_s tCycle, tPhase, tWait;
+      |                                        ^~~~~
+../Core/Src/programs.c:404:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  404 |         RTCTimerTime_s tCycle, tPhase, tWait;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramWrapped':
+../Core/Src/programs.c:522:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  522 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:517:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  517 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramPrion':
+../Core/Src/programs.c:646:9: warning: implicit declaration of function 'SendCommand' [-Wimplicit-function-declaration]
+  646 |         SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
+      |         ^~~~~~~~~~~
+../Core/Src/programs.c:648:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  648 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:640:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  640 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramGentle':
+../Core/Src/programs.c:767:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  767 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:762:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  762 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramUser':
+../Core/Src/programs.c:884:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  884 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:879:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  879 |         RTCTimerTime_s tCycle, tPhase, tWait;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramHelixTest':
+../Core/Src/programs.c:1051:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+ 1051 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:1046:32: warning: unused variable 'tPhase' [-Wunused-variable]
+ 1046 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramVacuumTest':
+../Core/Src/programs.c:1181:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+ 1181 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:1237:17: warning: implicit declaration of function 'Beep' [-Wimplicit-function-declaration]
+ 1237 |                 Beep(1, 1000, 100);
+      |                 ^~~~
+../Core/Src/programs.c:1170:32: warning: unused variable 'tPhase' [-Wunused-variable]
+ 1170 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'PowerTest':
+../Core/Src/programs.c:1263:9: warning: implicit declaration of function 'PWMPower_Stop' [-Wimplicit-function-declaration]
+ 1263 |         PWMPower_Stop();
+      |         ^~~~~~~~~~~~~
+../Core/Src/programs.c:1272:60: warning: implicit declaration of function 'fabs' [-Wimplicit-function-declaration]
+ 1272 |         Print("%2d - NO LOAD AC:\t\t\t %4.1f W\n", tCount, fabs(pwr));
+      |                                                            ^~~~
+../Core/Src/programs.c:49:1: note: include '<math.h>' or provide a declaration of 'fabs'
+   48 | #include "system.h"
+  +++ |+#include <math.h>
+   49 | 
+../Core/Src/programs.c:1272:60: warning: incompatible implicit declaration of built-in function 'fabs' [-Wbuiltin-declaration-mismatch]
+ 1272 |         Print("%2d - NO LOAD AC:\t\t\t %4.1f W\n", tCount, fabs(pwr));
+      |                                                            ^~~~
+../Core/Src/programs.c:1272:60: note: include '<math.h>' or provide a declaration of 'fabs'
+../Core/Src/programs.c:1404:9: warning: implicit declaration of function 'PWMPower_Start' [-Wimplicit-function-declaration]
+ 1404 |         PWMPower_Start();
+      |         ^~~~~~~~~~~~~~
+../Core/Src/programs.c:1255:14: warning: unused variable 'val' [-Wunused-variable]
+ 1255 |         char val[4];
+      |              ^~~
+../Core/Src/programs.c: In function 'ProgramWash':
+../Core/Src/programs.c:1425:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+ 1425 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:1430:9: warning: implicit declaration of function 'PhaseClean'; did you mean 'PhaseRelease'? [-Wimplicit-function-declaration]
+ 1430 |         PhaseClean();
+      |         ^~~~~~~~~~
+      |         PhaseRelease
+../Core/Src/programs.c:1418:32: warning: unused variable 'tPhase' [-Wunused-variable]
+ 1418 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramWaterLoad':
+../Core/Src/programs.c:1458:17: warning: 'return' with no value, in function returning non-void [-Wreturn-type]
+ 1458 |                 return;
+      |                 ^~~~~~
+../Core/Src/programs.c:1450:9: note: declared here
+ 1450 | uint8_t ProgramWaterLoad() {
+      |         ^~~~~~~~~~~~~~~~
+../Core/Src/programs.c:1454:32: warning: unused variable 'tPhase' [-Wunused-variable]
+ 1454 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c:1452:17: warning: unused variable 'success' [-Wunused-variable]
+ 1452 |         uint8_t success = 1;
+      |                 ^~~~~~~
+../Core/Src/programs.c: In function 'ProgramResumeDry':
+../Core/Src/programs.c:281:1: warning: control reaches end of non-void function [-Wreturn-type]
+  281 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramPIDTest':
+../Core/Src/programs.c:512:1: warning: control reaches end of non-void function [-Wreturn-type]
+  512 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramWrapped':
+../Core/Src/programs.c:635:1: warning: control reaches end of non-void function [-Wreturn-type]
+  635 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramPrion':
+../Core/Src/programs.c:757:1: warning: control reaches end of non-void function [-Wreturn-type]
+  757 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramGentle':
+../Core/Src/programs.c:874:1: warning: control reaches end of non-void function [-Wreturn-type]
+  874 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramUser':
+../Core/Src/programs.c:1041:1: warning: control reaches end of non-void function [-Wreturn-type]
+ 1041 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramHelixTest':
+../Core/Src/programs.c:1164:1: warning: control reaches end of non-void function [-Wreturn-type]
+ 1164 | }
+      | ^
+../Core/Src/programs.c: In function 'PowerTest':
+../Core/Src/programs.c:1412:1: warning: control reaches end of non-void function [-Wreturn-type]
+ 1412 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramWash':
+../Core/Src/programs.c:1448:1: warning: control reaches end of non-void function [-Wreturn-type]
+ 1448 | }
+      | ^
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima-FW\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.15.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: warning: Board_APP.elf has a LOAD segment with RWX permissions
+Finished building target: Board_APP.elf
+ 
+arm-none-eabi-size  Board_APP.elf 
+arm-none-eabi-objdump -h -S Board_APP.elf  > "Board_APP.list"
+arm-none-eabi-objcopy  -O ihex Board_APP.elf  "Board_APP.hex"
+   text	   data	    bss	    dec	    hex	filename
+ 169836	   2328	  56696	 228860	  37dfc	Board_APP.elf
+arm-none-eabi-objcopy  -O binary Board_APP.elf  "Board_APP.bin"
+Finished building: default.size.stdout
+ 
+Finished building: Board_APP.hex
+Finished building: Board_APP.bin
+ 
+ 
+Finished building: Board_APP.list
+ 
+17:45:26 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j4 all 
+make: Nothing to be done for 'all'.
+17:45:27 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/pid.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500" -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500/W5500" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/pid.d" -MT"Core/Src/pid.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/pid.o"
+../Core/Src/pid.c: In function 'PIDController_Update1':
+../Core/Src/pid.c:68:9: error: 'output' undeclared (first use in this function)
+   68 |     if (output < 0) {
+      |         ^~~~~~
+../Core/Src/pid.c:68:9: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/pid.c:62:11: warning: unused variable 'proportional' [-Wunused-variable]
+   62 |     float proportional = pid->Kp * error;
+      |           ^~~~~~~~~~~~
+../Core/Src/pid.c:77:1: warning: control reaches end of non-void function [-Wreturn-type]
+   77 | }
+      | ^
+make: *** [Core/Src/subdir.mk:91: Core/Src/pid.o] Error 1
+"make -j4 all" terminated with exit code 2. Build might be incomplete.
+17:46:16 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j4 all 
+make: Nothing to be done for 'all'.
+17:46:17 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/pid.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500" -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500/W5500" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/pid.d" -MT"Core/Src/pid.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/pid.o"
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima-FW\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.15.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: warning: Board_APP.elf has a LOAD segment with RWX permissions
+Finished building target: Board_APP.elf
+ 
+arm-none-eabi-size  Board_APP.elf 
+arm-none-eabi-objdump -h -S Board_APP.elf  > "Board_APP.list"
+arm-none-eabi-objcopy  -O ihex Board_APP.elf  "Board_APP.hex"
+   text	   data	    bss	    dec	    hex	filename
+ 169692	   2328	  56696	 228716	  37d6c	Board_APP.elf
+arm-none-eabi-objcopy  -O binary Board_APP.elf  "Board_APP.bin"
+Finished building: default.size.stdout
+ 
+Finished building: Board_APP.hex
+Finished building: Board_APP.bin
+ 
+ 
+Finished building: Board_APP.list
+ 
+17:53:47 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j4 all 
+make: Nothing to be done for 'all'.
+17:53:48 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/phases.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500" -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500/W5500" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/phases.d" -MT"Core/Src/phases.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/phases.o"
+arm-none-eabi-gcc "../Core/Src/programs.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500" -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500/W5500" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/programs.d" -MT"Core/Src/programs.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/programs.o"
+In file included from ../Core/Inc/sensors.h:39,
+                 from ../Core/Src/phases.c:38:
+../Core/Inc/globals.h:106:1: warning: useless storage class specifier in empty declaration
+  106 | };
+      | ^
+In file included from ../Core/Src/programs.c:39:
+../Core/Inc/globals.h:106:1: warning: useless storage class specifier in empty declaration
+  106 | };
+      | ^
+../Core/Src/programs.c: In function 'StartProgramTask':
+../Core/Src/programs.c:103:25: warning: implicit declaration of function 'ValveDryIntakeSet' [-Wimplicit-function-declaration]
+  103 |                         ValveDryIntakeSet(OFF);
+      |                         ^~~~~~~~~~~~~~~~~
+../Core/Src/programs.c:108:25: warning: implicit declaration of function 'FanSet' [-Wimplicit-function-declaration]
+  108 |                         FanSet(OFF);
+      |                         ^~~~~~
+../Core/Src/phases.c: In function 'PhaseBegin':
+../Core/Src/phases.c:154:17: warning: implicit declaration of function 'PrintError' [-Wimplicit-function-declaration]
+  154 |                 PrintError("\n", &tPhase);
+      |                 ^~~~~~~~~~
+../Core/Src/programs.c: In function 'ProgramResumeDry':
+../Core/Src/programs.c:182:9: warning: implicit declaration of function 'ProgressLedsOff' [-Wimplicit-function-declaration]
+  182 |         ProgressLedsOff();
+      |         ^~~~~~~~~~~~~~~
+../Core/Src/phases.c:188:9: warning: implicit declaration of function 'EEPROM_Write' [-Wimplicit-function-declaration]
+  188 |         EEPROM_Write(EPA_LAST_ERROR, &err, 1);
+      |         ^~~~~~~~~~~~
+../Core/Src/phases.c: In function 'PhaseResume':
+../Core/Src/phases.c:224:34: warning: unused variable 'tPhase' [-Wunused-variable]
+  224 |         RTCTimerTime_s tTimeout, tPhase;
+      |                                  ^~~~~~
+../Core/Src/phases.c:223:17: warning: variable 'retVal' set but not used [-Wunused-but-set-variable]
+  223 |         uint8_t retVal = 1;
+      |                 ^~~~~~
+../Core/Src/programs.c:183:9: warning: implicit declaration of function 'DigitsWrite' [-Wimplicit-function-declaration]
+  183 |         DigitsWrite(3,"----");
+      |         ^~~~~~~~~~~
+../Core/Src/phases.c: In function 'PhaseHeatUp':
+../Core/Src/phases.c:281:9: warning: implicit declaration of function 'SendCommand' [-Wimplicit-function-declaration]
+  281 |         SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
+      |         ^~~~~~~~~~~
+../Core/Src/phases.c: In function 'PhaseVacuum':
+../Core/Src/phases.c:424:24: warning: unused variable 'deltaTime' [-Wunused-variable]
+  424 |         const uint16_t deltaTime = 20;
+      |                        ^~~~~~~~~
+../Core/Src/phases.c:423:21: warning: unused variable 'pressDeltaValue' [-Wunused-variable]
+  423 |         const float pressDeltaValue = 10;
+      |                     ^~~~~~~~~~~~~~~
+../Core/Src/phases.c:421:15: warning: unused variable 'pressInit' [-Wunused-variable]
+  421 |         float pressInit = sensors.PressureChamber;
+      |               ^~~~~~~~~
+../Core/Src/phases.c: In function 'PhaseSteril':
+../Core/Src/phases.c:769:26: warning: unused variable 'currTick' [-Wunused-variable]
+  769 |                 uint32_t currTick = HAL_GetTick();
+      |                          ^~~~~~~~
+../Core/Src/phases.c: In function 'PhaseWaterLoad':
+../Core/Src/phases.c:1108:38: warning: unused variable 'tPhase' [-Wunused-variable]
+ 1108 |         RTCTimerTime_s tVac, tWater, tPhase, tTimeout;
+      |                                      ^~~~~~
+../Core/Src/phases.c:1108:30: warning: unused variable 'tWater' [-Wunused-variable]
+ 1108 |         RTCTimerTime_s tVac, tWater, tPhase, tTimeout;
+      |                              ^~~~~~
+../Core/Src/phases.c:1108:24: warning: unused variable 'tVac' [-Wunused-variable]
+ 1108 |         RTCTimerTime_s tVac, tWater, tPhase, tTimeout;
+      |                        ^~~~
+../Core/Src/phases.c:1107:17: warning: unused variable 'finish' [-Wunused-variable]
+ 1107 |         uint8_t finish = 0;
+      |                 ^~~~~~
+../Core/Src/phases.c: In function 'PhaseVacuumHold':
+../Core/Src/phases.c:1145:15: warning: unused variable 'currPress' [-Wunused-variable]
+ 1145 |         float currPress;
+      |               ^~~~~~~~~
+../Core/Src/phases.c:1144:17: warning: unused variable 'cycle' [-Wunused-variable]
+ 1144 |         uint8_t cycle = 0;
+      |                 ^~~~~
+../Core/Src/phases.c: In function 'PhaseWait':
+../Core/Src/phases.c:1200:15: warning: unused variable 'currPress' [-Wunused-variable]
+ 1200 |         float currPress;
+      |               ^~~~~~~~~
+../Core/Src/phases.c:1199:17: warning: unused variable 'cycle' [-Wunused-variable]
+ 1199 |         uint8_t cycle = 0;
+      |                 ^~~~~
+../Core/Src/phases.c: In function 'PhaseFinish':
+../Core/Src/phases.c:1318:46: warning: statement with no effect [-Wunused-value]
+ 1318 |                         machineStatus.Status == STATUS_READY;
+      |                         ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~
+../Core/Src/phases.c: In function 'PhaseTestPID':
+../Core/Src/phases.c:1359:25: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+ 1359 |                 sprintf(s,"%f\n", (1/ret)*4000);
+      |                         ^
+      |                         |
+      |                         char **
+In file included from ../Core/Inc/phases.h:41,
+                 from ../Core/Src/phases.c:36:
+C:\ST\STM32CubeIDE_1.15.1\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256\tools\bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/include/stdio.h:250:18: note: expected 'char * restrict' but argument is of type 'char **'
+  250 | int     sprintf (char *__restrict, const char *__restrict, ...)
+      |                  ^
+../Core/Src/phases.c:1360:54: warning: passing argument 1 of 'strlen' from incompatible pointer type [-Wincompatible-pointer-types]
+ 1360 |                 HAL_UART_Transmit(&huart1, s, strlen(s), 500);
+      |                                                      ^
+      |                                                      |
+      |                                                      char **
+In file included from ../USB_HOST/Target/usbh_conf.h:31,
+                 from ../Middlewares/ST/STM32_USB_Host_Library/Core/Inc/usbh_core.h:28,
+                 from ../FATFS/Target/ffconf.h:27,
+                 from ../Middlewares/Third_Party/FatFs/src/ff.h:27,
+                 from ../FATFS/App/fatfs.h:26,
+                 from ../Core/Inc/usbkey.h:42,
+                 from ../Core/Src/phases.c:50:
+C:\ST\STM32CubeIDE_1.15.1\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256\tools\bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/include/string.h:41:18: note: expected 'const char *' but argument is of type 'char **'
+   41 | size_t   strlen (const char *);
+      |                  ^~~~~~~~~~~~
+../Core/Src/phases.c:1360:44: warning: passing argument 2 of 'HAL_UART_Transmit' from incompatible pointer type [-Wincompatible-pointer-types]
+ 1360 |                 HAL_UART_Transmit(&huart1, s, strlen(s), 500);
+      |                                            ^
+      |                                            |
+      |                                            char **
+In file included from ../Core/Inc/stm32f1xx_hal_conf.h:338,
+                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Devs/PCF8563.h:41,
+                 from ../Core/Inc/time.h:40,
+                 from ../Core/Inc/phases.h:42:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h:749:79: note: expected 'const uint8_t *' {aka 'const unsigned char *'} but argument is of type 'char **'
+  749 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size, uint32_t Timeout);
+      |                                                                ~~~~~~~~~~~~~~~^~~~~
+../Core/Src/phases.c: In function 'PhaseResume':
+../Core/Src/phases.c:263:1: warning: control reaches end of non-void function [-Wreturn-type]
+  263 | }
+      | ^
+../Core/Src/phases.c: In function 'PhasePreheat':
+../Core/Src/phases.c:269:1: warning: control reaches end of non-void function [-Wreturn-type]
+  269 | }
+      | ^
+../Core/Src/programs.c:192:9: warning: implicit declaration of function 'ValveDrainSteamSet' [-Wimplicit-function-declaration]
+  192 |         ValveDrainSteamSet(OFF);
+      |         ^~~~~~~~~~~~~~~~~~
+../Core/Src/programs.c:194:9: warning: implicit declaration of function 'ValveVacuumSet' [-Wimplicit-function-declaration]
+  194 |         ValveVacuumSet(OFF);
+      |         ^~~~~~~~~~~~~~
+../Core/Src/programs.c:195:9: warning: implicit declaration of function 'ValveWaterSteamSet' [-Wimplicit-function-declaration]
+  195 |         ValveWaterSteamSet(OFF);
+      |         ^~~~~~~~~~~~~~~~~~
+../Core/Src/programs.c:197:9: warning: implicit declaration of function 'PumpSteamGeneratorSet' [-Wimplicit-function-declaration]
+  197 |         PumpSteamGeneratorSet(OFF);
+      |         ^~~~~~~~~~~~~~~~~~~~~
+../Core/Src/programs.c:198:9: warning: implicit declaration of function 'PumpVacuumSet' [-Wimplicit-function-declaration]
+  198 |         PumpVacuumSet(OFF);
+      |         ^~~~~~~~~~~~~
+../Core/Src/programs.c:199:9: warning: implicit declaration of function 'PumpWaterLoadSet' [-Wimplicit-function-declaration]
+  199 |         PumpWaterLoadSet(OFF);
+      |         ^~~~~~~~~~~~~~~~
+../Core/Src/programs.c:260:13: warning: implicit declaration of function 'DoorSolenoidSet'; did you mean 'DoorSolenoidKeyGet'? [-Wimplicit-function-declaration]
+  260 |         if (DoorSolenoidSet(UNLOCK) != UNLOCK) {
+      |             ^~~~~~~~~~~~~~~
+      |             DoorSolenoidKeyGet
+../Core/Src/programs.c:271:9: warning: implicit declaration of function 'EEPROM_Write' [-Wimplicit-function-declaration]
+  271 |         EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
+      |         ^~~~~~~~~~~~
+../Core/Src/programs.c:178:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  178 |         RTCTimerTime_s tCycle, tPhase, tTimeout;
+      |                                ^~~~~~
+../Core/Src/programs.c:178:24: warning: unused variable 'tCycle' [-Wunused-variable]
+  178 |         RTCTimerTime_s tCycle, tPhase, tTimeout;
+      |                        ^~~~~~
+../Core/Src/programs.c:177:23: warning: unused variable 'clockTime' [-Wunused-variable]
+  177 |         RTCDateTime_s clockTime;
+      |                       ^~~~~~~~~
+../Core/Src/programs.c:176:17: warning: variable 'success' set but not used [-Wunused-but-set-variable]
+  176 |         uint8_t success = 1;
+      |                 ^~~~~~~
+../Core/Src/programs.c: In function 'ProgramUnwrapped':
+../Core/Src/programs.c:286:9: warning: 'return' with no value, in function returning non-void [-Wreturn-type]
+  286 |         return;
+      |         ^~~~~~
+../Core/Src/programs.c:283:9: note: declared here
+  283 | uint8_t ProgramUnwrapped() {
+      |         ^~~~~~~~~~~~~~~~
+../Core/Src/programs.c:295:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  295 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:331:37: warning: implicit declaration of function 'CheckError' [-Wimplicit-function-declaration]
+  331 |                         lastError = CheckError();
+      |                                     ^~~~~~~~~~
+../Core/Src/programs.c:290:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  290 |         RTCTimerTime_s tCycle, tPhase, tWait;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramPIDTest':
+../Core/Src/programs.c:409:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  409 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:404:40: warning: unused variable 'tWait' [-Wunused-variable]
+  404 |         RTCTimerTime_s tCycle, tPhase, tWait;
+      |                                        ^~~~~
+../Core/Src/programs.c:404:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  404 |         RTCTimerTime_s tCycle, tPhase, tWait;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramWrapped':
+../Core/Src/programs.c:522:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  522 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:517:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  517 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramPrion':
+../Core/Src/programs.c:646:9: warning: implicit declaration of function 'SendCommand' [-Wimplicit-function-declaration]
+  646 |         SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
+      |         ^~~~~~~~~~~
+../Core/Src/programs.c:648:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  648 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:640:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  640 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramGentle':
+../Core/Src/programs.c:767:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  767 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:762:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  762 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramUser':
+../Core/Src/programs.c:884:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  884 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:879:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  879 |         RTCTimerTime_s tCycle, tPhase, tWait;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramHelixTest':
+../Core/Src/programs.c:1051:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+ 1051 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:1046:32: warning: unused variable 'tPhase' [-Wunused-variable]
+ 1046 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramVacuumTest':
+../Core/Src/programs.c:1181:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+ 1181 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:1237:17: warning: implicit declaration of function 'Beep' [-Wimplicit-function-declaration]
+ 1237 |                 Beep(1, 1000, 100);
+      |                 ^~~~
+../Core/Src/programs.c:1170:32: warning: unused variable 'tPhase' [-Wunused-variable]
+ 1170 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'PowerTest':
+../Core/Src/programs.c:1263:9: warning: implicit declaration of function 'PWMPower_Stop' [-Wimplicit-function-declaration]
+ 1263 |         PWMPower_Stop();
+      |         ^~~~~~~~~~~~~
+../Core/Src/programs.c:1272:60: warning: implicit declaration of function 'fabs' [-Wimplicit-function-declaration]
+ 1272 |         Print("%2d - NO LOAD AC:\t\t\t %4.1f W\n", tCount, fabs(pwr));
+      |                                                            ^~~~
+../Core/Src/programs.c:49:1: note: include '<math.h>' or provide a declaration of 'fabs'
+   48 | #include "system.h"
+  +++ |+#include <math.h>
+   49 | 
+../Core/Src/programs.c:1272:60: warning: incompatible implicit declaration of built-in function 'fabs' [-Wbuiltin-declaration-mismatch]
+ 1272 |         Print("%2d - NO LOAD AC:\t\t\t %4.1f W\n", tCount, fabs(pwr));
+      |                                                            ^~~~
+../Core/Src/programs.c:1272:60: note: include '<math.h>' or provide a declaration of 'fabs'
+../Core/Src/programs.c:1404:9: warning: implicit declaration of function 'PWMPower_Start' [-Wimplicit-function-declaration]
+ 1404 |         PWMPower_Start();
+      |         ^~~~~~~~~~~~~~
+../Core/Src/programs.c:1255:14: warning: unused variable 'val' [-Wunused-variable]
+ 1255 |         char val[4];
+      |              ^~~
+../Core/Src/programs.c: In function 'ProgramWash':
+../Core/Src/programs.c:1425:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+ 1425 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:1430:9: warning: implicit declaration of function 'PhaseClean'; did you mean 'PhaseRelease'? [-Wimplicit-function-declaration]
+ 1430 |         PhaseClean();
+      |         ^~~~~~~~~~
+      |         PhaseRelease
+../Core/Src/programs.c:1418:32: warning: unused variable 'tPhase' [-Wunused-variable]
+ 1418 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramWaterLoad':
+../Core/Src/programs.c:1458:17: warning: 'return' with no value, in function returning non-void [-Wreturn-type]
+ 1458 |                 return;
+      |                 ^~~~~~
+../Core/Src/programs.c:1450:9: note: declared here
+ 1450 | uint8_t ProgramWaterLoad() {
+      |         ^~~~~~~~~~~~~~~~
+../Core/Src/programs.c:1454:32: warning: unused variable 'tPhase' [-Wunused-variable]
+ 1454 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c:1452:17: warning: unused variable 'success' [-Wunused-variable]
+ 1452 |         uint8_t success = 1;
+      |                 ^~~~~~~
+../Core/Src/programs.c: In function 'ProgramResumeDry':
+../Core/Src/programs.c:281:1: warning: control reaches end of non-void function [-Wreturn-type]
+  281 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramPIDTest':
+../Core/Src/programs.c:512:1: warning: control reaches end of non-void function [-Wreturn-type]
+  512 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramWrapped':
+../Core/Src/programs.c:635:1: warning: control reaches end of non-void function [-Wreturn-type]
+  635 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramPrion':
+../Core/Src/programs.c:757:1: warning: control reaches end of non-void function [-Wreturn-type]
+  757 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramGentle':
+../Core/Src/programs.c:874:1: warning: control reaches end of non-void function [-Wreturn-type]
+  874 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramUser':
+../Core/Src/programs.c:1041:1: warning: control reaches end of non-void function [-Wreturn-type]
+ 1041 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramHelixTest':
+../Core/Src/programs.c:1164:1: warning: control reaches end of non-void function [-Wreturn-type]
+ 1164 | }
+      | ^
+../Core/Src/programs.c: In function 'PowerTest':
+../Core/Src/programs.c:1412:1: warning: control reaches end of non-void function [-Wreturn-type]
+ 1412 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramWash':
+../Core/Src/programs.c:1448:1: warning: control reaches end of non-void function [-Wreturn-type]
+ 1448 | }
+      | ^
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima-FW\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.15.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: warning: Board_APP.elf has a LOAD segment with RWX permissions
+Finished building target: Board_APP.elf
+ 
+arm-none-eabi-size  Board_APP.elf 
+arm-none-eabi-objdump -h -S Board_APP.elf  > "Board_APP.list"
+arm-none-eabi-objcopy  -O ihex Board_APP.elf  "Board_APP.hex"
+   text	   data	    bss	    dec	    hex	filename
+ 169692	   2328	  56696	 228716	  37d6c	Board_APP.elf
+arm-none-eabi-objcopy  -O binary Board_APP.elf  "Board_APP.bin"
+Finished building: default.size.stdout
+ 
+Finished building: Board_APP.hex
+Finished building: Board_APP.bin
+ 
+ 
+Finished building: Board_APP.list
+ 
+18:00:56 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j4 all 
+make: Nothing to be done for 'all'.
+18:00:57 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/pid.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500" -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500/W5500" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/pid.d" -MT"Core/Src/pid.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/pid.o"
+arm-none-eabi-gcc "../Core/Src/programs.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500" -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500/W5500" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/programs.d" -MT"Core/Src/programs.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/programs.o"
+In file included from ../Core/Src/programs.c:39:
+../Core/Inc/globals.h:106:1: warning: useless storage class specifier in empty declaration
+  106 | };
+      | ^
+../Core/Src/programs.c: In function 'StartProgramTask':
+../Core/Src/programs.c:103:25: warning: implicit declaration of function 'ValveDryIntakeSet' [-Wimplicit-function-declaration]
+  103 |                         ValveDryIntakeSet(OFF);
+      |                         ^~~~~~~~~~~~~~~~~
+../Core/Src/programs.c:108:25: warning: implicit declaration of function 'FanSet' [-Wimplicit-function-declaration]
+  108 |                         FanSet(OFF);
+      |                         ^~~~~~
+../Core/Src/programs.c: In function 'ProgramResumeDry':
+../Core/Src/programs.c:182:9: warning: implicit declaration of function 'ProgressLedsOff' [-Wimplicit-function-declaration]
+  182 |         ProgressLedsOff();
+      |         ^~~~~~~~~~~~~~~
+../Core/Src/programs.c:183:9: warning: implicit declaration of function 'DigitsWrite' [-Wimplicit-function-declaration]
+  183 |         DigitsWrite(3,"----");
+      |         ^~~~~~~~~~~
+../Core/Src/programs.c:192:9: warning: implicit declaration of function 'ValveDrainSteamSet' [-Wimplicit-function-declaration]
+  192 |         ValveDrainSteamSet(OFF);
+      |         ^~~~~~~~~~~~~~~~~~
+../Core/Src/programs.c:194:9: warning: implicit declaration of function 'ValveVacuumSet' [-Wimplicit-function-declaration]
+  194 |         ValveVacuumSet(OFF);
+      |         ^~~~~~~~~~~~~~
+../Core/Src/programs.c:195:9: warning: implicit declaration of function 'ValveWaterSteamSet' [-Wimplicit-function-declaration]
+  195 |         ValveWaterSteamSet(OFF);
+      |         ^~~~~~~~~~~~~~~~~~
+../Core/Src/programs.c:197:9: warning: implicit declaration of function 'PumpSteamGeneratorSet' [-Wimplicit-function-declaration]
+  197 |         PumpSteamGeneratorSet(OFF);
+      |         ^~~~~~~~~~~~~~~~~~~~~
+../Core/Src/programs.c:198:9: warning: implicit declaration of function 'PumpVacuumSet' [-Wimplicit-function-declaration]
+  198 |         PumpVacuumSet(OFF);
+      |         ^~~~~~~~~~~~~
+../Core/Src/programs.c:199:9: warning: implicit declaration of function 'PumpWaterLoadSet' [-Wimplicit-function-declaration]
+  199 |         PumpWaterLoadSet(OFF);
+      |         ^~~~~~~~~~~~~~~~
+../Core/Src/programs.c:260:13: warning: implicit declaration of function 'DoorSolenoidSet'; did you mean 'DoorSolenoidKeyGet'? [-Wimplicit-function-declaration]
+  260 |         if (DoorSolenoidSet(UNLOCK) != UNLOCK) {
+      |             ^~~~~~~~~~~~~~~
+      |             DoorSolenoidKeyGet
+../Core/Src/programs.c:271:9: warning: implicit declaration of function 'EEPROM_Write' [-Wimplicit-function-declaration]
+  271 |         EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
+      |         ^~~~~~~~~~~~
+../Core/Src/programs.c:178:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  178 |         RTCTimerTime_s tCycle, tPhase, tTimeout;
+      |                                ^~~~~~
+../Core/Src/programs.c:178:24: warning: unused variable 'tCycle' [-Wunused-variable]
+  178 |         RTCTimerTime_s tCycle, tPhase, tTimeout;
+      |                        ^~~~~~
+../Core/Src/programs.c:177:23: warning: unused variable 'clockTime' [-Wunused-variable]
+  177 |         RTCDateTime_s clockTime;
+      |                       ^~~~~~~~~
+../Core/Src/programs.c:176:17: warning: variable 'success' set but not used [-Wunused-but-set-variable]
+  176 |         uint8_t success = 1;
+      |                 ^~~~~~~
+../Core/Src/programs.c: In function 'ProgramUnwrapped':
+../Core/Src/programs.c:286:9: warning: 'return' with no value, in function returning non-void [-Wreturn-type]
+  286 |         return;
+      |         ^~~~~~
+../Core/Src/programs.c:283:9: note: declared here
+  283 | uint8_t ProgramUnwrapped() {
+      |         ^~~~~~~~~~~~~~~~
+../Core/Src/programs.c:295:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  295 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:331:37: warning: implicit declaration of function 'CheckError' [-Wimplicit-function-declaration]
+  331 |                         lastError = CheckError();
+      |                                     ^~~~~~~~~~
+../Core/Src/programs.c:290:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  290 |         RTCTimerTime_s tCycle, tPhase, tWait;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramPIDTest':
+../Core/Src/programs.c:409:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  409 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:404:40: warning: unused variable 'tWait' [-Wunused-variable]
+  404 |         RTCTimerTime_s tCycle, tPhase, tWait;
+      |                                        ^~~~~
+../Core/Src/programs.c:404:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  404 |         RTCTimerTime_s tCycle, tPhase, tWait;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramWrapped':
+../Core/Src/programs.c:522:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  522 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:517:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  517 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramPrion':
+../Core/Src/programs.c:646:9: warning: implicit declaration of function 'SendCommand' [-Wimplicit-function-declaration]
+  646 |         SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
+      |         ^~~~~~~~~~~
+../Core/Src/programs.c:648:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  648 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:640:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  640 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramGentle':
+../Core/Src/programs.c:767:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  767 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:762:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  762 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramUser':
+../Core/Src/programs.c:884:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  884 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:879:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  879 |         RTCTimerTime_s tCycle, tPhase, tWait;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramHelixTest':
+../Core/Src/programs.c:1051:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+ 1051 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:1046:32: warning: unused variable 'tPhase' [-Wunused-variable]
+ 1046 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramVacuumTest':
+../Core/Src/programs.c:1181:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+ 1181 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:1237:17: warning: implicit declaration of function 'Beep' [-Wimplicit-function-declaration]
+ 1237 |                 Beep(1, 1000, 100);
+      |                 ^~~~
+../Core/Src/programs.c:1170:32: warning: unused variable 'tPhase' [-Wunused-variable]
+ 1170 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'PowerTest':
+../Core/Src/programs.c:1263:9: warning: implicit declaration of function 'PWMPower_Stop' [-Wimplicit-function-declaration]
+ 1263 |         PWMPower_Stop();
+      |         ^~~~~~~~~~~~~
+../Core/Src/programs.c:1272:60: warning: implicit declaration of function 'fabs' [-Wimplicit-function-declaration]
+ 1272 |         Print("%2d - NO LOAD AC:\t\t\t %4.1f W\n", tCount, fabs(pwr));
+      |                                                            ^~~~
+../Core/Src/programs.c:49:1: note: include '<math.h>' or provide a declaration of 'fabs'
+   48 | #include "system.h"
+  +++ |+#include <math.h>
+   49 | 
+../Core/Src/programs.c:1272:60: warning: incompatible implicit declaration of built-in function 'fabs' [-Wbuiltin-declaration-mismatch]
+ 1272 |         Print("%2d - NO LOAD AC:\t\t\t %4.1f W\n", tCount, fabs(pwr));
+      |                                                            ^~~~
+../Core/Src/programs.c:1272:60: note: include '<math.h>' or provide a declaration of 'fabs'
+../Core/Src/programs.c:1404:9: warning: implicit declaration of function 'PWMPower_Start' [-Wimplicit-function-declaration]
+ 1404 |         PWMPower_Start();
+      |         ^~~~~~~~~~~~~~
+../Core/Src/programs.c:1255:14: warning: unused variable 'val' [-Wunused-variable]
+ 1255 |         char val[4];
+      |              ^~~
+../Core/Src/programs.c: In function 'ProgramWash':
+../Core/Src/programs.c:1425:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+ 1425 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:1430:9: warning: implicit declaration of function 'PhaseClean'; did you mean 'PhaseRelease'? [-Wimplicit-function-declaration]
+ 1430 |         PhaseClean();
+      |         ^~~~~~~~~~
+      |         PhaseRelease
+../Core/Src/programs.c:1418:32: warning: unused variable 'tPhase' [-Wunused-variable]
+ 1418 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramWaterLoad':
+../Core/Src/programs.c:1458:17: warning: 'return' with no value, in function returning non-void [-Wreturn-type]
+ 1458 |                 return;
+      |                 ^~~~~~
+../Core/Src/programs.c:1450:9: note: declared here
+ 1450 | uint8_t ProgramWaterLoad() {
+      |         ^~~~~~~~~~~~~~~~
+../Core/Src/programs.c:1454:32: warning: unused variable 'tPhase' [-Wunused-variable]
+ 1454 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c:1452:17: warning: unused variable 'success' [-Wunused-variable]
+ 1452 |         uint8_t success = 1;
+      |                 ^~~~~~~
+../Core/Src/programs.c: In function 'ProgramResumeDry':
+../Core/Src/programs.c:281:1: warning: control reaches end of non-void function [-Wreturn-type]
+  281 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramPIDTest':
+../Core/Src/programs.c:512:1: warning: control reaches end of non-void function [-Wreturn-type]
+  512 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramWrapped':
+../Core/Src/programs.c:635:1: warning: control reaches end of non-void function [-Wreturn-type]
+  635 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramPrion':
+../Core/Src/programs.c:757:1: warning: control reaches end of non-void function [-Wreturn-type]
+  757 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramGentle':
+../Core/Src/programs.c:874:1: warning: control reaches end of non-void function [-Wreturn-type]
+  874 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramUser':
+../Core/Src/programs.c:1041:1: warning: control reaches end of non-void function [-Wreturn-type]
+ 1041 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramHelixTest':
+../Core/Src/programs.c:1164:1: warning: control reaches end of non-void function [-Wreturn-type]
+ 1164 | }
+      | ^
+../Core/Src/programs.c: In function 'PowerTest':
+../Core/Src/programs.c:1412:1: warning: control reaches end of non-void function [-Wreturn-type]
+ 1412 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramWash':
+../Core/Src/programs.c:1448:1: warning: control reaches end of non-void function [-Wreturn-type]
+ 1448 | }
+      | ^
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima-FW\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.15.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: warning: Board_APP.elf has a LOAD segment with RWX permissions
+Finished building target: Board_APP.elf
+ 
+arm-none-eabi-size  Board_APP.elf 
+arm-none-eabi-objdump -h -S Board_APP.elf  > "Board_APP.list"
+arm-none-eabi-objcopy  -O ihex Board_APP.elf  "Board_APP.hex"
+   text	   data	    bss	    dec	    hex	filename
+ 169756	   2328	  56696	 228780	  37dac	Board_APP.elf
+arm-none-eabi-objcopy  -O binary Board_APP.elf  "Board_APP.bin"
+Finished building: default.size.stdout
+ 
+Finished building: Board_APP.hex
+Finished building: Board_APP.bin
+ 
+ 
+Finished building: Board_APP.list
+ 
+18:08:22 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j4 all 
+make: Nothing to be done for 'all'.
+18:08:22 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/phases.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500" -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500/W5500" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/phases.d" -MT"Core/Src/phases.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/phases.o"
+arm-none-eabi-gcc "../Core/Src/programs.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500" -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500/W5500" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/programs.d" -MT"Core/Src/programs.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/programs.o"
+In file included from ../Core/Inc/sensors.h:39,
+                 from ../Core/Src/phases.c:38:
+../Core/Inc/globals.h:106:1: warning: useless storage class specifier in empty declaration
+  106 | };
+      | ^
+In file included from ../Core/Src/programs.c:39:
+../Core/Inc/globals.h:106:1: warning: useless storage class specifier in empty declaration
+  106 | };
+      | ^
+../Core/Src/programs.c: In function 'StartProgramTask':
+../Core/Src/programs.c:103:25: warning: implicit declaration of function 'ValveDryIntakeSet' [-Wimplicit-function-declaration]
+  103 |                         ValveDryIntakeSet(OFF);
+      |                         ^~~~~~~~~~~~~~~~~
+../Core/Src/programs.c:108:25: warning: implicit declaration of function 'FanSet' [-Wimplicit-function-declaration]
+  108 |                         FanSet(OFF);
+      |                         ^~~~~~
+../Core/Src/phases.c: In function 'PhaseBegin':
+../Core/Src/phases.c:154:17: warning: implicit declaration of function 'PrintError' [-Wimplicit-function-declaration]
+  154 |                 PrintError("\n", &tPhase);
+      |                 ^~~~~~~~~~
+../Core/Src/phases.c:188:9: warning: implicit declaration of function 'EEPROM_Write' [-Wimplicit-function-declaration]
+  188 |         EEPROM_Write(EPA_LAST_ERROR, &err, 1);
+      |         ^~~~~~~~~~~~
+../Core/Src/phases.c: In function 'PhaseResume':
+../Core/Src/phases.c:224:34: warning: unused variable 'tPhase' [-Wunused-variable]
+  224 |         RTCTimerTime_s tTimeout, tPhase;
+      |                                  ^~~~~~
+../Core/Src/phases.c:223:17: warning: variable 'retVal' set but not used [-Wunused-but-set-variable]
+  223 |         uint8_t retVal = 1;
+      |                 ^~~~~~
+../Core/Src/programs.c: In function 'ProgramResumeDry':
+../Core/Src/programs.c:182:9: warning: implicit declaration of function 'ProgressLedsOff' [-Wimplicit-function-declaration]
+  182 |         ProgressLedsOff();
+      |         ^~~~~~~~~~~~~~~
+../Core/Src/programs.c:183:9: warning: implicit declaration of function 'DigitsWrite' [-Wimplicit-function-declaration]
+  183 |         DigitsWrite(3,"----");
+      |         ^~~~~~~~~~~
+../Core/Src/phases.c: In function 'PhaseHeatUp':
+../Core/Src/phases.c:281:9: warning: implicit declaration of function 'SendCommand' [-Wimplicit-function-declaration]
+  281 |         SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
+      |         ^~~~~~~~~~~
+../Core/Src/phases.c: In function 'PhaseVacuum':
+../Core/Src/phases.c:424:24: warning: unused variable 'deltaTime' [-Wunused-variable]
+  424 |         const uint16_t deltaTime = 20;
+      |                        ^~~~~~~~~
+../Core/Src/phases.c:423:21: warning: unused variable 'pressDeltaValue' [-Wunused-variable]
+  423 |         const float pressDeltaValue = 10;
+      |                     ^~~~~~~~~~~~~~~
+../Core/Src/phases.c:421:15: warning: unused variable 'pressInit' [-Wunused-variable]
+  421 |         float pressInit = sensors.PressureChamber;
+      |               ^~~~~~~~~
+../Core/Src/phases.c: In function 'PhaseSteril':
+../Core/Src/phases.c:769:26: warning: unused variable 'currTick' [-Wunused-variable]
+  769 |                 uint32_t currTick = HAL_GetTick();
+      |                          ^~~~~~~~
+../Core/Src/phases.c: In function 'PhaseWaterLoad':
+../Core/Src/phases.c:1108:38: warning: unused variable 'tPhase' [-Wunused-variable]
+ 1108 |         RTCTimerTime_s tVac, tWater, tPhase, tTimeout;
+      |                                      ^~~~~~
+../Core/Src/phases.c:1108:30: warning: unused variable 'tWater' [-Wunused-variable]
+ 1108 |         RTCTimerTime_s tVac, tWater, tPhase, tTimeout;
+      |                              ^~~~~~
+../Core/Src/phases.c:1108:24: warning: unused variable 'tVac' [-Wunused-variable]
+ 1108 |         RTCTimerTime_s tVac, tWater, tPhase, tTimeout;
+      |                        ^~~~
+../Core/Src/phases.c:1107:17: warning: unused variable 'finish' [-Wunused-variable]
+ 1107 |         uint8_t finish = 0;
+      |                 ^~~~~~
+../Core/Src/phases.c: In function 'PhaseVacuumHold':
+../Core/Src/phases.c:1145:15: warning: unused variable 'currPress' [-Wunused-variable]
+ 1145 |         float currPress;
+      |               ^~~~~~~~~
+../Core/Src/phases.c:1144:17: warning: unused variable 'cycle' [-Wunused-variable]
+ 1144 |         uint8_t cycle = 0;
+      |                 ^~~~~
+../Core/Src/phases.c: In function 'PhaseWait':
+../Core/Src/phases.c:1200:15: warning: unused variable 'currPress' [-Wunused-variable]
+ 1200 |         float currPress;
+      |               ^~~~~~~~~
+../Core/Src/phases.c:1199:17: warning: unused variable 'cycle' [-Wunused-variable]
+ 1199 |         uint8_t cycle = 0;
+      |                 ^~~~~
+../Core/Src/phases.c: In function 'PhaseFinish':
+../Core/Src/phases.c:1318:46: warning: statement with no effect [-Wunused-value]
+ 1318 |                         machineStatus.Status == STATUS_READY;
+      |                         ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~
+../Core/Src/phases.c: In function 'PhaseTestPID':
+../Core/Src/phases.c:1359:25: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+ 1359 |                 sprintf(s,"%f\n", (1/ret)*4000);
+      |                         ^
+      |                         |
+      |                         char **
+In file included from ../Core/Inc/phases.h:41,
+                 from ../Core/Src/phases.c:36:
+C:\ST\STM32CubeIDE_1.15.1\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256\tools\bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/include/stdio.h:250:18: note: expected 'char * restrict' but argument is of type 'char **'
+  250 | int     sprintf (char *__restrict, const char *__restrict, ...)
+      |                  ^
+../Core/Src/phases.c:1360:54: warning: passing argument 1 of 'strlen' from incompatible pointer type [-Wincompatible-pointer-types]
+ 1360 |                 HAL_UART_Transmit(&huart1, s, strlen(s), 500);
+      |                                                      ^
+      |                                                      |
+      |                                                      char **
+In file included from ../USB_HOST/Target/usbh_conf.h:31,
+                 from ../Middlewares/ST/STM32_USB_Host_Library/Core/Inc/usbh_core.h:28,
+                 from ../FATFS/Target/ffconf.h:27,
+                 from ../Middlewares/Third_Party/FatFs/src/ff.h:27,
+                 from ../FATFS/App/fatfs.h:26,
+                 from ../Core/Inc/usbkey.h:42,
+                 from ../Core/Src/phases.c:50:
+C:\ST\STM32CubeIDE_1.15.1\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256\tools\bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/include/string.h:41:18: note: expected 'const char *' but argument is of type 'char **'
+   41 | size_t   strlen (const char *);
+      |                  ^~~~~~~~~~~~
+../Core/Src/phases.c:1360:44: warning: passing argument 2 of 'HAL_UART_Transmit' from incompatible pointer type [-Wincompatible-pointer-types]
+ 1360 |                 HAL_UART_Transmit(&huart1, s, strlen(s), 500);
+      |                                            ^
+      |                                            |
+      |                                            char **
+In file included from ../Core/Inc/stm32f1xx_hal_conf.h:338,
+                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Devs/PCF8563.h:41,
+                 from ../Core/Inc/time.h:40,
+                 from ../Core/Inc/phases.h:42:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h:749:79: note: expected 'const uint8_t *' {aka 'const unsigned char *'} but argument is of type 'char **'
+  749 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size, uint32_t Timeout);
+      |                                                                ~~~~~~~~~~~~~~~^~~~~
+../Core/Src/phases.c: In function 'PhaseResume':
+../Core/Src/phases.c:263:1: warning: control reaches end of non-void function [-Wreturn-type]
+  263 | }
+      | ^
+../Core/Src/phases.c: In function 'PhasePreheat':
+../Core/Src/phases.c:269:1: warning: control reaches end of non-void function [-Wreturn-type]
+  269 | }
+      | ^
+../Core/Src/programs.c:192:9: warning: implicit declaration of function 'ValveDrainSteamSet' [-Wimplicit-function-declaration]
+  192 |         ValveDrainSteamSet(OFF);
+      |         ^~~~~~~~~~~~~~~~~~
+../Core/Src/programs.c:194:9: warning: implicit declaration of function 'ValveVacuumSet' [-Wimplicit-function-declaration]
+  194 |         ValveVacuumSet(OFF);
+      |         ^~~~~~~~~~~~~~
+../Core/Src/programs.c:195:9: warning: implicit declaration of function 'ValveWaterSteamSet' [-Wimplicit-function-declaration]
+  195 |         ValveWaterSteamSet(OFF);
+      |         ^~~~~~~~~~~~~~~~~~
+../Core/Src/programs.c:197:9: warning: implicit declaration of function 'PumpSteamGeneratorSet' [-Wimplicit-function-declaration]
+  197 |         PumpSteamGeneratorSet(OFF);
+      |         ^~~~~~~~~~~~~~~~~~~~~
+../Core/Src/programs.c:198:9: warning: implicit declaration of function 'PumpVacuumSet' [-Wimplicit-function-declaration]
+  198 |         PumpVacuumSet(OFF);
+      |         ^~~~~~~~~~~~~
+../Core/Src/programs.c:199:9: warning: implicit declaration of function 'PumpWaterLoadSet' [-Wimplicit-function-declaration]
+  199 |         PumpWaterLoadSet(OFF);
+      |         ^~~~~~~~~~~~~~~~
+../Core/Src/programs.c:260:13: warning: implicit declaration of function 'DoorSolenoidSet'; did you mean 'DoorSolenoidKeyGet'? [-Wimplicit-function-declaration]
+  260 |         if (DoorSolenoidSet(UNLOCK) != UNLOCK) {
+      |             ^~~~~~~~~~~~~~~
+      |             DoorSolenoidKeyGet
+../Core/Src/programs.c:271:9: warning: implicit declaration of function 'EEPROM_Write' [-Wimplicit-function-declaration]
+  271 |         EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
+      |         ^~~~~~~~~~~~
+../Core/Src/programs.c:178:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  178 |         RTCTimerTime_s tCycle, tPhase, tTimeout;
+      |                                ^~~~~~
+../Core/Src/programs.c:178:24: warning: unused variable 'tCycle' [-Wunused-variable]
+  178 |         RTCTimerTime_s tCycle, tPhase, tTimeout;
+      |                        ^~~~~~
+../Core/Src/programs.c:177:23: warning: unused variable 'clockTime' [-Wunused-variable]
+  177 |         RTCDateTime_s clockTime;
+      |                       ^~~~~~~~~
+../Core/Src/programs.c:176:17: warning: variable 'success' set but not used [-Wunused-but-set-variable]
+  176 |         uint8_t success = 1;
+      |                 ^~~~~~~
+../Core/Src/programs.c: In function 'ProgramUnwrapped':
+../Core/Src/programs.c:286:9: warning: 'return' with no value, in function returning non-void [-Wreturn-type]
+  286 |         return;
+      |         ^~~~~~
+../Core/Src/programs.c:283:9: note: declared here
+  283 | uint8_t ProgramUnwrapped() {
+      |         ^~~~~~~~~~~~~~~~
+../Core/Src/programs.c:295:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  295 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:331:37: warning: implicit declaration of function 'CheckError' [-Wimplicit-function-declaration]
+  331 |                         lastError = CheckError();
+      |                                     ^~~~~~~~~~
+../Core/Src/programs.c:290:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  290 |         RTCTimerTime_s tCycle, tPhase, tWait;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramPIDTest':
+../Core/Src/programs.c:409:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  409 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:404:40: warning: unused variable 'tWait' [-Wunused-variable]
+  404 |         RTCTimerTime_s tCycle, tPhase, tWait;
+      |                                        ^~~~~
+../Core/Src/programs.c:404:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  404 |         RTCTimerTime_s tCycle, tPhase, tWait;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramWrapped':
+../Core/Src/programs.c:522:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  522 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:517:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  517 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramPrion':
+../Core/Src/programs.c:646:9: warning: implicit declaration of function 'SendCommand' [-Wimplicit-function-declaration]
+  646 |         SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
+      |         ^~~~~~~~~~~
+../Core/Src/programs.c:648:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  648 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:640:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  640 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramGentle':
+../Core/Src/programs.c:767:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  767 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:762:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  762 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramUser':
+../Core/Src/programs.c:884:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  884 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:879:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  879 |         RTCTimerTime_s tCycle, tPhase, tWait;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramHelixTest':
+../Core/Src/programs.c:1051:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+ 1051 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:1046:32: warning: unused variable 'tPhase' [-Wunused-variable]
+ 1046 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramVacuumTest':
+../Core/Src/programs.c:1181:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+ 1181 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:1237:17: warning: implicit declaration of function 'Beep' [-Wimplicit-function-declaration]
+ 1237 |                 Beep(1, 1000, 100);
+      |                 ^~~~
+../Core/Src/programs.c:1170:32: warning: unused variable 'tPhase' [-Wunused-variable]
+ 1170 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'PowerTest':
+../Core/Src/programs.c:1263:9: warning: implicit declaration of function 'PWMPower_Stop' [-Wimplicit-function-declaration]
+ 1263 |         PWMPower_Stop();
+      |         ^~~~~~~~~~~~~
+../Core/Src/programs.c:1272:60: warning: implicit declaration of function 'fabs' [-Wimplicit-function-declaration]
+ 1272 |         Print("%2d - NO LOAD AC:\t\t\t %4.1f W\n", tCount, fabs(pwr));
+      |                                                            ^~~~
+../Core/Src/programs.c:49:1: note: include '<math.h>' or provide a declaration of 'fabs'
+   48 | #include "system.h"
+  +++ |+#include <math.h>
+   49 | 
+../Core/Src/programs.c:1272:60: warning: incompatible implicit declaration of built-in function 'fabs' [-Wbuiltin-declaration-mismatch]
+ 1272 |         Print("%2d - NO LOAD AC:\t\t\t %4.1f W\n", tCount, fabs(pwr));
+      |                                                            ^~~~
+../Core/Src/programs.c:1272:60: note: include '<math.h>' or provide a declaration of 'fabs'
+../Core/Src/programs.c:1404:9: warning: implicit declaration of function 'PWMPower_Start' [-Wimplicit-function-declaration]
+ 1404 |         PWMPower_Start();
+      |         ^~~~~~~~~~~~~~
+../Core/Src/programs.c:1255:14: warning: unused variable 'val' [-Wunused-variable]
+ 1255 |         char val[4];
+      |              ^~~
+../Core/Src/programs.c: In function 'ProgramWash':
+../Core/Src/programs.c:1425:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+ 1425 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:1430:9: warning: implicit declaration of function 'PhaseClean'; did you mean 'PhaseRelease'? [-Wimplicit-function-declaration]
+ 1430 |         PhaseClean();
+      |         ^~~~~~~~~~
+      |         PhaseRelease
+../Core/Src/programs.c:1418:32: warning: unused variable 'tPhase' [-Wunused-variable]
+ 1418 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramWaterLoad':
+../Core/Src/programs.c:1458:17: warning: 'return' with no value, in function returning non-void [-Wreturn-type]
+ 1458 |                 return;
+      |                 ^~~~~~
+../Core/Src/programs.c:1450:9: note: declared here
+ 1450 | uint8_t ProgramWaterLoad() {
+      |         ^~~~~~~~~~~~~~~~
+../Core/Src/programs.c:1454:32: warning: unused variable 'tPhase' [-Wunused-variable]
+ 1454 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c:1452:17: warning: unused variable 'success' [-Wunused-variable]
+ 1452 |         uint8_t success = 1;
+      |                 ^~~~~~~
+../Core/Src/programs.c: In function 'ProgramResumeDry':
+../Core/Src/programs.c:281:1: warning: control reaches end of non-void function [-Wreturn-type]
+  281 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramPIDTest':
+../Core/Src/programs.c:512:1: warning: control reaches end of non-void function [-Wreturn-type]
+  512 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramWrapped':
+../Core/Src/programs.c:635:1: warning: control reaches end of non-void function [-Wreturn-type]
+  635 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramPrion':
+../Core/Src/programs.c:757:1: warning: control reaches end of non-void function [-Wreturn-type]
+  757 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramGentle':
+../Core/Src/programs.c:874:1: warning: control reaches end of non-void function [-Wreturn-type]
+  874 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramUser':
+../Core/Src/programs.c:1041:1: warning: control reaches end of non-void function [-Wreturn-type]
+ 1041 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramHelixTest':
+../Core/Src/programs.c:1164:1: warning: control reaches end of non-void function [-Wreturn-type]
+ 1164 | }
+      | ^
+../Core/Src/programs.c: In function 'PowerTest':
+../Core/Src/programs.c:1412:1: warning: control reaches end of non-void function [-Wreturn-type]
+ 1412 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramWash':
+../Core/Src/programs.c:1448:1: warning: control reaches end of non-void function [-Wreturn-type]
+ 1448 | }
+      | ^
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima-FW\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.15.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: warning: Board_APP.elf has a LOAD segment with RWX permissions
+Finished building target: Board_APP.elf
+ 
+arm-none-eabi-size  Board_APP.elf 
+arm-none-eabi-objdump -h -S Board_APP.elf  > "Board_APP.list"
+arm-none-eabi-objcopy  -O ihex Board_APP.elf  "Board_APP.hex"
+   text	   data	    bss	    dec	    hex	filename
+ 169756	   2328	  56696	 228780	  37dac	Board_APP.elf
+arm-none-eabi-objcopy  -O binary Board_APP.elf  "Board_APP.bin"
+Finished building: default.size.stdout
+ 
+Finished building: Board_APP.hex
+Finished building: Board_APP.bin
+ 
+ 
+Finished building: Board_APP.list
+ 
+18:28:18 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j4 all 
+make: Nothing to be done for 'all'.
+18:28:19 **** Incremental Build of configuration Debug for project Board_APP ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/programs.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500" -I"D:/Galbiati/Prima-FW/Board_APP/Core/Devs/W5500/W5500" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/programs.d" -MT"Core/Src/programs.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/programs.o"
+In file included from ../Core/Src/programs.c:39:
+../Core/Inc/globals.h:106:1: warning: useless storage class specifier in empty declaration
+  106 | };
+      | ^
+../Core/Src/programs.c: In function 'StartProgramTask':
+../Core/Src/programs.c:103:25: warning: implicit declaration of function 'ValveDryIntakeSet' [-Wimplicit-function-declaration]
+  103 |                         ValveDryIntakeSet(OFF);
+      |                         ^~~~~~~~~~~~~~~~~
+../Core/Src/programs.c:108:25: warning: implicit declaration of function 'FanSet' [-Wimplicit-function-declaration]
+  108 |                         FanSet(OFF);
+      |                         ^~~~~~
+../Core/Src/programs.c: In function 'ProgramResumeDry':
+../Core/Src/programs.c:182:9: warning: implicit declaration of function 'ProgressLedsOff' [-Wimplicit-function-declaration]
+  182 |         ProgressLedsOff();
+      |         ^~~~~~~~~~~~~~~
+../Core/Src/programs.c:183:9: warning: implicit declaration of function 'DigitsWrite' [-Wimplicit-function-declaration]
+  183 |         DigitsWrite(3,"----");
+      |         ^~~~~~~~~~~
+../Core/Src/programs.c:192:9: warning: implicit declaration of function 'ValveDrainSteamSet' [-Wimplicit-function-declaration]
+  192 |         ValveDrainSteamSet(OFF);
+      |         ^~~~~~~~~~~~~~~~~~
+../Core/Src/programs.c:194:9: warning: implicit declaration of function 'ValveVacuumSet' [-Wimplicit-function-declaration]
+  194 |         ValveVacuumSet(OFF);
+      |         ^~~~~~~~~~~~~~
+../Core/Src/programs.c:195:9: warning: implicit declaration of function 'ValveWaterSteamSet' [-Wimplicit-function-declaration]
+  195 |         ValveWaterSteamSet(OFF);
+      |         ^~~~~~~~~~~~~~~~~~
+../Core/Src/programs.c:197:9: warning: implicit declaration of function 'PumpSteamGeneratorSet' [-Wimplicit-function-declaration]
+  197 |         PumpSteamGeneratorSet(OFF);
+      |         ^~~~~~~~~~~~~~~~~~~~~
+../Core/Src/programs.c:198:9: warning: implicit declaration of function 'PumpVacuumSet' [-Wimplicit-function-declaration]
+  198 |         PumpVacuumSet(OFF);
+      |         ^~~~~~~~~~~~~
+../Core/Src/programs.c:199:9: warning: implicit declaration of function 'PumpWaterLoadSet' [-Wimplicit-function-declaration]
+  199 |         PumpWaterLoadSet(OFF);
+      |         ^~~~~~~~~~~~~~~~
+../Core/Src/programs.c:260:13: warning: implicit declaration of function 'DoorSolenoidSet'; did you mean 'DoorSolenoidKeyGet'? [-Wimplicit-function-declaration]
+  260 |         if (DoorSolenoidSet(UNLOCK) != UNLOCK) {
+      |             ^~~~~~~~~~~~~~~
+      |             DoorSolenoidKeyGet
+../Core/Src/programs.c:271:9: warning: implicit declaration of function 'EEPROM_Write' [-Wimplicit-function-declaration]
+  271 |         EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
+      |         ^~~~~~~~~~~~
+../Core/Src/programs.c:178:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  178 |         RTCTimerTime_s tCycle, tPhase, tTimeout;
+      |                                ^~~~~~
+../Core/Src/programs.c:178:24: warning: unused variable 'tCycle' [-Wunused-variable]
+  178 |         RTCTimerTime_s tCycle, tPhase, tTimeout;
+      |                        ^~~~~~
+../Core/Src/programs.c:177:23: warning: unused variable 'clockTime' [-Wunused-variable]
+  177 |         RTCDateTime_s clockTime;
+      |                       ^~~~~~~~~
+../Core/Src/programs.c:176:17: warning: variable 'success' set but not used [-Wunused-but-set-variable]
+  176 |         uint8_t success = 1;
+      |                 ^~~~~~~
+../Core/Src/programs.c: In function 'ProgramUnwrapped':
+../Core/Src/programs.c:286:9: warning: 'return' with no value, in function returning non-void [-Wreturn-type]
+  286 |         return;
+      |         ^~~~~~
+../Core/Src/programs.c:283:9: note: declared here
+  283 | uint8_t ProgramUnwrapped() {
+      |         ^~~~~~~~~~~~~~~~
+../Core/Src/programs.c:295:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  295 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:331:37: warning: implicit declaration of function 'CheckError' [-Wimplicit-function-declaration]
+  331 |                         lastError = CheckError();
+      |                                     ^~~~~~~~~~
+../Core/Src/programs.c:290:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  290 |         RTCTimerTime_s tCycle, tPhase, tWait;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramPIDTest':
+../Core/Src/programs.c:409:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  409 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:404:40: warning: unused variable 'tWait' [-Wunused-variable]
+  404 |         RTCTimerTime_s tCycle, tPhase, tWait;
+      |                                        ^~~~~
+../Core/Src/programs.c:404:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  404 |         RTCTimerTime_s tCycle, tPhase, tWait;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramWrapped':
+../Core/Src/programs.c:522:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  522 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:517:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  517 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramPrion':
+../Core/Src/programs.c:646:9: warning: implicit declaration of function 'SendCommand' [-Wimplicit-function-declaration]
+  646 |         SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
+      |         ^~~~~~~~~~~
+../Core/Src/programs.c:648:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  648 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:640:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  640 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramGentle':
+../Core/Src/programs.c:767:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  767 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:762:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  762 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramUser':
+../Core/Src/programs.c:884:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  884 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:879:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  879 |         RTCTimerTime_s tCycle, tPhase, tWait;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramHelixTest':
+../Core/Src/programs.c:1051:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+ 1051 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:1046:32: warning: unused variable 'tPhase' [-Wunused-variable]
+ 1046 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramVacuumTest':
+../Core/Src/programs.c:1181:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+ 1181 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:1237:17: warning: implicit declaration of function 'Beep' [-Wimplicit-function-declaration]
+ 1237 |                 Beep(1, 1000, 100);
+      |                 ^~~~
+../Core/Src/programs.c:1170:32: warning: unused variable 'tPhase' [-Wunused-variable]
+ 1170 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'PowerTest':
+../Core/Src/programs.c:1263:9: warning: implicit declaration of function 'PWMPower_Stop' [-Wimplicit-function-declaration]
+ 1263 |         PWMPower_Stop();
+      |         ^~~~~~~~~~~~~
+../Core/Src/programs.c:1272:60: warning: implicit declaration of function 'fabs' [-Wimplicit-function-declaration]
+ 1272 |         Print("%2d - NO LOAD AC:\t\t\t %4.1f W\n", tCount, fabs(pwr));
+      |                                                            ^~~~
+../Core/Src/programs.c:49:1: note: include '<math.h>' or provide a declaration of 'fabs'
+   48 | #include "system.h"
+  +++ |+#include <math.h>
+   49 | 
+../Core/Src/programs.c:1272:60: warning: incompatible implicit declaration of built-in function 'fabs' [-Wbuiltin-declaration-mismatch]
+ 1272 |         Print("%2d - NO LOAD AC:\t\t\t %4.1f W\n", tCount, fabs(pwr));
+      |                                                            ^~~~
+../Core/Src/programs.c:1272:60: note: include '<math.h>' or provide a declaration of 'fabs'
+../Core/Src/programs.c:1404:9: warning: implicit declaration of function 'PWMPower_Start' [-Wimplicit-function-declaration]
+ 1404 |         PWMPower_Start();
+      |         ^~~~~~~~~~~~~~
+../Core/Src/programs.c:1255:14: warning: unused variable 'val' [-Wunused-variable]
+ 1255 |         char val[4];
+      |              ^~~
+../Core/Src/programs.c: In function 'ProgramWash':
+../Core/Src/programs.c:1425:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+ 1425 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:1430:9: warning: implicit declaration of function 'PhaseClean'; did you mean 'PhaseRelease'? [-Wimplicit-function-declaration]
+ 1430 |         PhaseClean();
+      |         ^~~~~~~~~~
+      |         PhaseRelease
+../Core/Src/programs.c:1418:32: warning: unused variable 'tPhase' [-Wunused-variable]
+ 1418 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramWaterLoad':
+../Core/Src/programs.c:1458:17: warning: 'return' with no value, in function returning non-void [-Wreturn-type]
+ 1458 |                 return;
+      |                 ^~~~~~
+../Core/Src/programs.c:1450:9: note: declared here
+ 1450 | uint8_t ProgramWaterLoad() {
+      |         ^~~~~~~~~~~~~~~~
+../Core/Src/programs.c:1454:32: warning: unused variable 'tPhase' [-Wunused-variable]
+ 1454 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c:1452:17: warning: unused variable 'success' [-Wunused-variable]
+ 1452 |         uint8_t success = 1;
+      |                 ^~~~~~~
+../Core/Src/programs.c: In function 'ProgramResumeDry':
+../Core/Src/programs.c:281:1: warning: control reaches end of non-void function [-Wreturn-type]
+  281 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramPIDTest':
+../Core/Src/programs.c:512:1: warning: control reaches end of non-void function [-Wreturn-type]
+  512 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramWrapped':
+../Core/Src/programs.c:635:1: warning: control reaches end of non-void function [-Wreturn-type]
+  635 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramPrion':
+../Core/Src/programs.c:757:1: warning: control reaches end of non-void function [-Wreturn-type]
+  757 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramGentle':
+../Core/Src/programs.c:874:1: warning: control reaches end of non-void function [-Wreturn-type]
+  874 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramUser':
+../Core/Src/programs.c:1041:1: warning: control reaches end of non-void function [-Wreturn-type]
+ 1041 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramHelixTest':
+../Core/Src/programs.c:1164:1: warning: control reaches end of non-void function [-Wreturn-type]
+ 1164 | }
+      | ^
+../Core/Src/programs.c: In function 'PowerTest':
+../Core/Src/programs.c:1412:1: warning: control reaches end of non-void function [-Wreturn-type]
+ 1412 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramWash':
+../Core/Src/programs.c:1448:1: warning: control reaches end of non-void function [-Wreturn-type]
+ 1448 | }
+      | ^
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima-FW\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.15.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: warning: Board_APP.elf has a LOAD segment with RWX permissions
+Finished building target: Board_APP.elf
+ 
+arm-none-eabi-size  Board_APP.elf 
+arm-none-eabi-objdump -h -S Board_APP.elf  > "Board_APP.list"
+arm-none-eabi-objcopy  -O ihex Board_APP.elf  "Board_APP.hex"
+   text	   data	    bss	    dec	    hex	filename
+ 169756	   2328	  56696	 228780	  37dac	Board_APP.elf
+arm-none-eabi-objcopy  -O binary Board_APP.elf  "Board_APP.bin"
+Finished building: default.size.stdout
+ 
+Finished building: Board_APP.hex
+Finished building: Board_APP.bin
+ 
+ 
+Finished building: Board_APP.list
+ 
+18:33:21 **** Incremental Build of configuration Debug for project DB_Protocol ****
+make -j4 all 
+make: Nothing to be done for 'all'.
+18:33:21 **** Incremental Build of configuration Debug for project Board_APP ****
 make -j4 all 
 arm-none-eabi-size  Board_APP.elf 
    text	   data	    bss	    dec	    hex	filename
- 169588	   2328	  56688	 228604	  37cfc	Board_APP.elf
+ 169756	   2328	  56696	 228780	  37dac	Board_APP.elf
 Finished building: default.size.stdout
  

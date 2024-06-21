@@ -72,6 +72,7 @@ typedef struct {
 
 void  PIDController_Init(PIDController *pid);
 float PIDController_Update(PIDController *pid, float setpoint, float measurement);
+float PIDController_Update1(PIDController *pid, float setpoint, float measurement);
 
 
 #endif /* INC_PID_H_ */

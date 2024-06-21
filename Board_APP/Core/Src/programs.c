@@ -282,6 +282,9 @@ uint8_t ProgramResumeDry() {
 
 uint8_t ProgramUnwrapped() {
 
+	ProgramPIDTest();
+	return;
+
 	uint8_t success = 1;
 	RTCDateTime_s clockTime;
 	RTCTimerTime_s tCycle, tPhase, tWait;
@@ -357,15 +360,129 @@ uint8_t ProgramUnwrapped() {
 		};
 
 		SterilPID_s PIDParam = {
-						.PID_KP = 40, 			// 100
-						.PID_KI = 80, 			// 60
-						.PID_KD = 60, 			// 40
+						.PID_KP = 60, 			// 100
+						.PID_KI = 60, 			// 60
+						.PID_KD = 100, 			// 40
 						.PID_TAU = 1.0, 		// 1.0
-						.PID_LIM_MIN = 50, 		// 50
+						.PID_LIM_MIN = 10, 		// 50
 						.PID_LIM_MAX = 150, 	// 150
 						.PID_LIM_MIN_INT = -60, // -40
 						.PID_LIM_MAX_INT = 60, 	// 40
 						.SAMPLE_TIME_S = 1.0, 	// 1.0
+				};
+
+		success = PhaseSteril(&sterilParam, &PIDParam);
+	}
+
+	if (success) {
+		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
+		success = PhaseRelease(3, OT_RELEASE);
+	}
+
+	// Dry
+	if (success) {
+		success = PhaseDry(DRY_FIRST_VAC, DRY_OTHER_VAC, dryTime, dryTime * 1.5);
+	}
+
+	// End
+	PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
+	GetTimer(TIMER_CYCLE, &tCycle);
+	GetDateTime(&clockTime);
+	PhaseFinish(success, &clockTime, &tCycle, 120);
+
+	progRunning = 0;
+	osThreadSuspend(displayInfoTaskHandle);
+
+	progStop = 0;
+
+}
+
+uint8_t ProgramPIDTest() {
+
+	uint8_t success = 1;
+	RTCDateTime_s clockTime;
+	RTCTimerTime_s tCycle, tPhase, tWait;
+
+	progRunning = 1;
+	progStop = 0;
+
+	if (!PhaseBegin(600)) return 0;
+
+	uint16_t sterilTime = 0;
+	uint16_t dryTime = 0;
+	sterilTime = 240;
+	dryTime = GetDryTime(settings.FunDryClass, STERILTEMP_134, 1) * 60;
+
+	GetDateTime(&clockTime);
+	PrintHeader("UNWRAPPED", sensors.T1, dryTime, sterilTime, &clockTime);
+
+	// Heat up
+	if (success) {
+		success = PhaseHeatUp(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP, DV_PREHEAT_CHAMBER_TEMP, 160.0, OT_HEAT);
+	}
+	if (success) {
+		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
+		success = PhaseRelease(1, OT_RELEASE);
+	}
+
+	ResetTimer(TIMER_CYCLE);
+
+//	 Sterilization
+	if (success) {
+		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
+		success = PhaseVacuum(1, 30.0f, 0, OT_VACUUM);
+	}
+////	if (settings.UserVacuumNumber < 3) {
+//	if (success) {
+//		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
+//		success = PhasePressure(3, 200.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
+//	}
+//	if (success) {
+//		ValveDrainSteamSet(OFF);
+//		ResetTimer(TIMER_5);
+//		do {
+//			GetTimer(TIMER_5, &tWait);
+//			lastError = CheckError();
+//			if (lastError > 0) {
+//				break;
+//			}
+//			osDelay(200);
+//		} while (tWait.Seconds < 20);
+//		ValveDrainSteamSet(ON);
+//	}
+	if (success) {
+		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
+		success = PhasePressure(3, 290.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
+	}
+	if (success) {
+		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
+		SterilParam_s sterilParam = {
+				.chamberTemp = DV_STERIL_TEMP_134,
+				.chamberTempMin = 134.0,
+				.chamberTempMax = 136.0,
+				.sterilTime = sterilTime,
+				.chamberPress = 320,
+				.pressMin = DV_STERIL_PRESS_MIN_134,
+				.pressMax = DV_STERIL_PRESS_MAX_134,
+				.steamTemp = DV_STEAM_GEN_TEMP,
+				.steamTempMin = 170.0,
+				.T1T2MaxDiff = T1_T2_STERIL_MAX_TEMP_DIFF_134,
+				.settleTime = 5,
+				.stabilizationPeriod = STERIL_STABILIZATION_PERIOD,
+				.printInterval = 30,
+				.timeout = 800
+		};
+
+		SterilPID_s PIDParam = {
+						.PID_KP = 100, 			// 100
+						.PID_KI = 50, 			// 60
+						.PID_KD = 100, 			// 40
+						.PID_TAU = 1.0, 		// 1.0
+						.PID_LIM_MIN = 1, 		// 50
+						.PID_LIM_MAX = 100, 	// 150
+						.PID_LIM_MIN_INT = -60, // -40
+						.PID_LIM_MAX_INT = 60, 	// 40
+						.SAMPLE_TIME_S = 1, 	// 1.0
 				};
 
 		success = PhaseSteril(&sterilParam, &PIDParam);
