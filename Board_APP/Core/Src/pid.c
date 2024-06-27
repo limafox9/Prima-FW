@@ -66,12 +66,12 @@ float PIDController_Update1(PIDController *pid, float setpoint, float measuremen
 //    float output = (pid->Kp * error) + (pid->Ki * pid->integrator) + (pid->Kd * derivative);
     pid->prevError = error;
 
-    if (output < 0) {
-    	output = 0;
-    } else {
+//    if (output < 0) {
+//    	output = 0;
+//    } else {
         if (output > pid->limMax) output = pid->limMax;
         if (output < pid->limMin) output = pid->limMin;
-    }
+//    }
 	/* Return controller output */
     return output;
 

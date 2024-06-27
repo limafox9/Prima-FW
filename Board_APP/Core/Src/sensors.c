@@ -140,7 +140,7 @@ float pressAmbientMax;
 float prevT1;
 float prevT2;
 
-#define PRESS_BUFFER_SIZE 2 // >= 2
+#define PRESS_BUFFER_SIZE 3 // >= 2
 float pressBuf[PRESS_BUFFER_SIZE];
 //float pressAvg;
 
@@ -259,6 +259,28 @@ float GetT1() {
 //	return GetCalTemp(ADS1115_GetValue(SENSOR_TEMP_T1_ADC_CHANNEL), (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0));
 }
 
+float GetT1Raw() {
+//	return TM7705_GetTemp(1, (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0));
+	float volt, temp;
+	volt = ADS1115_GetVoltage2(SENSOR_TEMP_T1_ADC_CHANNEL);
+//	volt = ADS1115_GetVoltage2(SENSOR_TEMP_T1_ADC_CHANNEL);
+	temp = ((((volt - 0.3)* 100) / VT_FACTOR) + 0);
+//	temp = temp + (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0);
+
+	float x1, x2, y1, y2, a, b, c, d, slope, input, output;
+
+	a = 100;
+	b = 140.0 - a;
+	c = 100.0 + ((float)settings.T1FactoryOffset100 / 10.0);
+	d = (140 + ((float)settings.T1FactoryOffset140 / 10.0)) - c;
+
+	output = ((d / b) * temp) + (((b * c) - (d * a)) / b);
+
+	return output + (float)(settings.T1Offset / 10.0);
+
+//	return GetCalTemp(ADS1115_GetValue(SENSOR_TEMP_T1_ADC_CHANNEL), (float)(settings.T1Offset / 10.0) + (float)(settings.T1FactoryOffset / 10.0));
+}
+
 float GetT2() {
 //	return TM7705_GetTemp(2, (float)(settings.T2Offset / 10.0) + (float)(settings.T2FactoryOffset / 10.0));
 //	ADS1115_GetValue
@@ -347,7 +369,7 @@ void StartSensorsTask() {
 		sensors.TemperatureSteamGenerator = SteamGeneratorTempGet();
 		sensors.TemperatureChamberHeater = ChamberHeaterTempGet();
 		currT1 = GetT1();
-		HAL_Delay(100);
+		HAL_Delay(10);
 		currT2 = GetT2();
 
 		// To avoid spurious spike readings

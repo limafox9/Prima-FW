@@ -67,6 +67,7 @@ float GetDCPower();
 float TestPressNorm();
 uint16_t CurrentGet();
 uint16_t WaterQualityGet();
+float GetT1Raw();
 
 typedef struct s_Sensors{
 	e_OpenClosedState Door;

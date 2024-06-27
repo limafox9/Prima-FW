@@ -53,14 +53,14 @@ USAGE:
 #define OT_RELEASE	120
 
 #define DV_PREHEAT_CHAMBER_TEMP	60.0
-#define DV_HEATING_RING_TEMP	110.0
+#define DV_HEATING_RING_TEMP	120.0
 #define DV_STEAM_GEN_TEMP		200.0
 #define DV_STEAM_GEN_TEMP_MIN	170.0
 #define DV_STEAM_GEN_TEMP_PRESS	220.0
 #define DV_WATER_LOAD_TIMEOUT	300
 
-#define DV_STERIL_TEMP_134		135.5
-#define DV_STERIL_TEMP_134_USER_0 134.7
+#define DV_STERIL_TEMP_134		135.0
+#define DV_STERIL_TEMP_134_USER_0 134.5
 #define DV_STERIL_TEMP_121		122.4
 #define DV_STERIL_PRESS_MIN_134	308.0
 #define DV_STERIL_PRESS_MAX_134	350.0
@@ -282,8 +282,8 @@ uint8_t ProgramResumeDry() {
 
 uint8_t ProgramUnwrapped() {
 
-	ProgramPIDTest();
-	return;
+//	ProgramPIDTest();
+//	return;
 
 	uint8_t success = 1;
 	RTCDateTime_s clockTime;
@@ -360,15 +360,25 @@ uint8_t ProgramUnwrapped() {
 		};
 
 		SterilPID_s PIDParam = {
-						.PID_KP = 60, 			// 100
-						.PID_KI = 60, 			// 60
-						.PID_KD = 100, 			// 40
-						.PID_TAU = 1.0, 		// 1.0
-						.PID_LIM_MIN = 10, 		// 50
-						.PID_LIM_MAX = 150, 	// 150
-						.PID_LIM_MIN_INT = -60, // -40
-						.PID_LIM_MAX_INT = 60, 	// 40
-						.SAMPLE_TIME_S = 1.0, 	// 1.0
+//						.PID_KP = 60, 			// 100
+//						.PID_KI = 60, 			// 60
+//						.PID_KD = 100, 			// 40
+//						.PID_TAU = 1.0, 		// 1.0
+//						.PID_LIM_MIN = 10, 		// 50
+//						.PID_LIM_MAX = 150, 	// 150
+//						.PID_LIM_MIN_INT = -60, // -40
+//						.PID_LIM_MAX_INT = 60, 	// 40
+//						.SAMPLE_TIME_S = 1.0, 	// 1.0
+				.PID_KP = 30.0, 			// 100
+				.PID_KI = 5.0, 			// 60
+				.PID_KD = 45.0, 			// 40
+				.PID_TAU = 1.0, 		// 1.0
+				.PID_LIM_MIN = -70.0, 		// 50
+				.PID_LIM_MAX = 70.0, 	// 150
+				.PID_LIM_MIN_INT = -20.0, // -40
+				.PID_LIM_MAX_INT = 20.0, 	// 40
+				.SAMPLE_TIME_S = 1.5, 	// 1.0
+
 				};
 
 		success = PhaseSteril(&sterilParam, &PIDParam);
@@ -474,15 +484,15 @@ uint8_t ProgramPIDTest() {
 		};
 
 		SterilPID_s PIDParam = {
-						.PID_KP = 100, 			// 100
-						.PID_KI = 50, 			// 60
-						.PID_KD = 100, 			// 40
-						.PID_TAU = 1.0, 		// 1.0
-						.PID_LIM_MIN = 1, 		// 50
-						.PID_LIM_MAX = 100, 	// 150
-						.PID_LIM_MIN_INT = -60, // -40
-						.PID_LIM_MAX_INT = 60, 	// 40
-						.SAMPLE_TIME_S = 1, 	// 1.0
+					.PID_KP = 30.0, 			// 100
+					.PID_KI = 5.0, 			// 60
+					.PID_KD = 45.0, 			// 40
+					.PID_TAU = 1.0, 		// 1.0
+					.PID_LIM_MIN = -70.0, 		// 50
+					.PID_LIM_MAX = 70.0, 	// 150
+					.PID_LIM_MIN_INT = -20.0, // -40
+					.PID_LIM_MAX_INT = 20.0, 	// 40
+					.SAMPLE_TIME_S = 1.5, 	// 1.0
 				};
 
 		success = PhaseSteril(&sterilParam, &PIDParam);
@@ -598,15 +608,25 @@ uint8_t ProgramWrapped() {
 						.timeout = 800
 				};
 		SterilPID_s PIDParam = {
-						.PID_KP = 40, 			// 100
-						.PID_KI = 80, 			// 60
-						.PID_KD = 60, 			// 40
-						.PID_TAU = 1.0, 		// 1.0
-						.PID_LIM_MIN = 50, 		// 50
-						.PID_LIM_MAX = 150, 	// 150
-						.PID_LIM_MIN_INT = -60, // -40
-						.PID_LIM_MAX_INT = 60, 	// 40
-						.SAMPLE_TIME_S = 1.0, 	// 1.0
+//						.PID_KP = 40, 			// 100
+//						.PID_KI = 80, 			// 60
+//						.PID_KD = 60, 			// 40
+//						.PID_TAU = 1.0, 		// 1.0
+//						.PID_LIM_MIN = 50, 		// 50
+//						.PID_LIM_MAX = 150, 	// 150
+//						.PID_LIM_MIN_INT = -60, // -40
+//						.PID_LIM_MAX_INT = 60, 	// 40
+//						.SAMPLE_TIME_S = 1.0, 	// 1.0
+				.PID_KP = 30.0, 			// 100
+				.PID_KI = 5.0, 			// 60
+				.PID_KD = 45.0, 			// 40
+				.PID_TAU = 1.0, 		// 1.0
+				.PID_LIM_MIN = -70.0, 		// 50
+				.PID_LIM_MAX = 70.0, 	// 150
+				.PID_LIM_MIN_INT = -20.0, // -40
+				.PID_LIM_MAX_INT = 20.0, 	// 40
+				.SAMPLE_TIME_S = 1.5, 	// 1.0
+
 				};
 
 				success = PhaseSteril(&sterilParam, &PIDParam);
@@ -838,15 +858,25 @@ uint8_t ProgramGentle() {
 						.timeout = 1800
 				};
 				SterilPID_s PIDParam = {
-						.PID_KP = 40, 			// 100
-						.PID_KI = 60, 			// 60
-						.PID_KD = 10, 			// 40
+//						.PID_KP = 40, 			// 100
+//						.PID_KI = 60, 			// 60
+//						.PID_KD = 10, 			// 40
+//						.PID_TAU = 1.0, 		// 1.0
+//						.PID_LIM_MIN = 50, 		// 50
+//						.PID_LIM_MAX = 150, 	// 150
+//						.PID_LIM_MIN_INT = -50, // -40
+//						.PID_LIM_MAX_INT = 50, 	// 40
+//						.SAMPLE_TIME_S = 1.0, 	// 1.0
+						.PID_KP = 30.0, 			// 100
+						.PID_KI = 5.0, 			// 60
+						.PID_KD = 45.0, 			// 40
 						.PID_TAU = 1.0, 		// 1.0
-						.PID_LIM_MIN = 50, 		// 50
-						.PID_LIM_MAX = 150, 	// 150
-						.PID_LIM_MIN_INT = -50, // -40
-						.PID_LIM_MAX_INT = 50, 	// 40
-						.SAMPLE_TIME_S = 1.0, 	// 1.0
+						.PID_LIM_MIN = -70.0, 		// 50
+						.PID_LIM_MAX = 70.0, 	// 150
+						.PID_LIM_MIN_INT = -20.0, // -40
+						.PID_LIM_MAX_INT = 20.0, 	// 40
+						.SAMPLE_TIME_S = 1.5, 	// 1.0
+
 				};
 				success = PhaseSteril(&sterilParam, &PIDParam);
 	}
