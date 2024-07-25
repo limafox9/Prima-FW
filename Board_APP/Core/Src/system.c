@@ -472,7 +472,7 @@ void SysInit() {
 	osThreadDef(sensorsTask, StartSensorsTask, osPriorityNormal, 1, 512);
 	sensorsTaskHandle = osThreadCreate(osThread(sensorsTask), NULL);
 
-	osThreadDef(programTask, StartProgramTask, osPriorityNormal, 1, 1024);
+	osThreadDef(programTask, StartProgramTask, osPriorityNormal, 1, 512);
 	programTaskHandle = osThreadCreate(osThread(programTask), NULL);
 
 	osThreadDef(webServerTask, StartWebServerTask, osPriorityNormal, 1, 256);
@@ -481,9 +481,6 @@ void SysInit() {
 	osThreadDef(displayInfoTask, StartDisplayInfoTask, osPriorityNormal, 1, 512);
 	displayInfoTaskHandle = osThreadCreate(osThread(displayInfoTask), NULL);
 	osThreadSuspend(displayInfoTaskHandle);
-
-//	osThreadDef(usbTask, StartUSBTask, osPriorityNormal, 1, 4096);
-//	usbTaskHandle = osThreadCreate(osThread(usbTask), NULL);
 
 
 
@@ -534,8 +531,8 @@ void SysInit() {
 		}
 //		if (sensors.Door == CLOSED) DigitsWrite(3, "OPEn");
 
-		osThreadDef(usbTask, StartUSBTask, osPriorityNormal, 1, 2048);
-		usbTaskHandle = osThreadCreate(osThread(usbTask), NULL);
+//		osThreadDef(usbTask, StartUSBTask, osPriorityNormal, 1, 1024);
+//		usbTaskHandle = osThreadCreate(osThread(usbTask), NULL);
 
 		if (settings.PreheatRingTemp > 120) settings.PreheatRingTemp = 120;
 		if (settings.PreheatSteamTemp > 180) settings.PreheatSteamTemp = 180;

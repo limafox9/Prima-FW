@@ -651,7 +651,7 @@ uint8_t PhaseSteril(SterilParam_s* param, SterilPID_s* pPID) {
 	uint8_t retVal = 0;
 	sprintf(currPhase, "rISE");
 
-	float T1Min, T1Max, T2Min, T2Max, pMin, pMax, T1T2Diff;
+	float T1Min, T1Max, T2Min, T2Max, pMin, pMax, T1T2Diff, ret;
 	uint8_t overPress = 0;
 	uint8_t timerReset = 0;
 
@@ -683,8 +683,8 @@ uint8_t PhaseSteril(SterilParam_s* param, SterilPID_s* pPID) {
 //			osDelay(ret);
 //		}
 
-//		float ret = PIDController_Update1(&pidSteril, param->chamberTemp, sensors.T1);
-		float ret = PIDController_Update1(&pidSteril, param->chamberTemp, GetT1Raw());
+		ret = PIDController_Update1(&pidSteril, param->chamberTemp, sensors.T1);
+//		float ret = PIDController_Update1(&pidSteril, param->chamberTemp, GetT1Raw());
 //		ret = ret*100;
 //		float ret = PIDController_Update(&pidSteam, steamTemp, 31.0);
 
@@ -693,9 +693,9 @@ uint8_t PhaseSteril(SterilParam_s* param, SterilPID_s* pPID) {
 				if (ret > 0) {
 					SteamPulse((uint16_t)ret);
 				} else if (ret < 0) {
-					ValveVacuumSet(ON);
-					HAL_Delay(-ret);
-					ValveVacuumSet(OFF);
+//					ValveVacuumSet(ON);
+//					HAL_Delay(-ret);
+//					ValveVacuumSet(OFF);
 				}
 				printf("ret: %f\n", ret);
 				osDelay(1500);
@@ -794,7 +794,7 @@ uint8_t PhaseSteril(SterilParam_s* param, SterilPID_s* pPID) {
 
 			// PID Calculation and steam generation interval set
 //			float ret = PIDController_Update1(&pidSteril1, param->chamberTemp, sensors.T1);
-			float ret = PIDController_Update1(&pidSteril, param->chamberTemp, sensors.T1);
+			ret = PIDController_Update1(&pidSteril, param->chamberTemp, sensors.T1);
 //			float ret = PIDController_Update(&pidSteril, param->chamberPress, sensors.PressureChamber);
 //			ret = (1/ret)*4000;
 //			if ((sensors.T1 <= param->chamberTemp) && (HAL_GetTick() > (currTick + ret))) {
@@ -810,9 +810,9 @@ uint8_t PhaseSteril(SterilParam_s* param, SterilPID_s* pPID) {
 				if (ret > 0) {
 					SteamPulse((uint16_t)ret);
 				} else if (ret < 0) {
-					ValveVacuumSet(ON);
-					HAL_Delay(-ret);
-					ValveVacuumSet(OFF);
+//					ValveVacuumSet(ON);
+//					HAL_Delay(-ret);
+//					ValveVacuumSet(OFF);
 				}
 				printf("ret: %f\n", ret);
 				osDelay(2000);

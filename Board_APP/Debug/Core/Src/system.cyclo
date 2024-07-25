@@ -1,3 +1,3 @@
 ../Core/Src/system.c:125:6:SysInit	13
-../Core/Src/system.c:867:6:EmergencyStop	1
-../Core/Src/system.c:882:6:Log	7
+../Core/Src/system.c:864:6:EmergencyStop	1
+../Core/Src/system.c:879:6:Log	7
