@@ -5,10 +5,10 @@
 ../Core/Src/programs.c:410:9:ProgramPIDTest	9
 ../Core/Src/programs.c:524:9:ProgramWrapped	16
 ../Core/Src/programs.c:657:9:ProgramPrion	15
-../Core/Src/programs.c:779:9:ProgramGentle	15
-../Core/Src/programs.c:906:9:ProgramUser	40
-../Core/Src/programs.c:1073:9:ProgramHelixTest	16
-../Core/Src/programs.c:1196:9:ProgramVacuumTest	8
-../Core/Src/programs.c:1283:9:PowerTest	1
-../Core/Src/programs.c:1444:9:ProgramWash	2
-../Core/Src/programs.c:1480:9:ProgramWaterLoad	2
+../Core/Src/programs.c:789:9:ProgramGentle	15
+../Core/Src/programs.c:916:9:ProgramUser	40
+../Core/Src/programs.c:1094:9:ProgramHelixTest	16
+../Core/Src/programs.c:1227:9:ProgramVacuumTest	8
+../Core/Src/programs.c:1314:9:PowerTest	1
+../Core/Src/programs.c:1475:9:ProgramWash	2
+../Core/Src/programs.c:1511:9:ProgramWaterLoad	2

@@ -7,10 +7,10 @@
 ../Core/Src/phases.c:413:9:PhaseVacuum	10
 ../Core/Src/phases.c:493:9:PhasePressure	8
 ../Core/Src/phases.c:630:9:PhaseSteril	29
-../Core/Src/phases.c:914:9:PhaseDry	15
-../Core/Src/phases.c:1028:9:PhaseClean	11
-../Core/Src/phases.c:1120:9:PhaseWaterLoad	5
-../Core/Src/phases.c:1157:9:PhaseVacuumHold	5
-../Core/Src/phases.c:1212:9:PhaseWait	4
-../Core/Src/phases.c:1257:9:PhaseFinish	8
-../Core/Src/phases.c:1354:6:PhaseTestPID	1
+../Core/Src/phases.c:916:9:PhaseDry	15
+../Core/Src/phases.c:1030:9:PhaseClean	11
+../Core/Src/phases.c:1122:9:PhaseWaterLoad	5
+../Core/Src/phases.c:1159:9:PhaseVacuumHold	5
+../Core/Src/phases.c:1214:9:PhaseWait	4
+../Core/Src/phases.c:1259:9:PhaseFinish	8
+../Core/Src/phases.c:1356:6:PhaseTestPID	1

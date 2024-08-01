@@ -59,7 +59,7 @@ USAGE:
 #define DV_STEAM_GEN_TEMP_PRESS	220.0
 #define DV_WATER_LOAD_TIMEOUT	300
 
-#define DV_STERIL_TEMP_134		135.0
+#define DV_STERIL_TEMP_134		135.5
 #define DV_STERIL_TEMP_134_USER_0 134.5
 #define DV_STERIL_TEMP_121		122.4
 #define DV_STERIL_PRESS_MIN_134	308.0
@@ -78,7 +78,7 @@ USAGE:
 #define POWER_TEST_ON_TIME 3000
 #define POWER_TEST_PAUSE_TIME 1000
 
-#define STERIL_STABILIZATION_PERIOD 10
+#define STERIL_STABILIZATION_PERIOD 5
 #define STERIL_STABILIZATION_PERIOD_HELIX 30
 
 #define T1_T2_STERIL_MAX_TEMP_DIFF_134 0.5
@@ -739,15 +739,25 @@ uint8_t ProgramPrion() {
 						.timeout = 1500
 				};
 				SterilPID_s PIDParam = {
-								.PID_KP = 40, 			// 100
-								.PID_KI = 80, 			// 60
-								.PID_KD = 60, 			// 40
+//								.PID_KP = 40, 			// 100
+//								.PID_KI = 80, 			// 60
+//								.PID_KD = 60, 			// 40
+//								.PID_TAU = 1.0, 		// 1.0
+//								.PID_LIM_MIN = 50, 		// 50
+//								.PID_LIM_MAX = 150, 	// 150
+//								.PID_LIM_MIN_INT = -60, // -40
+//								.PID_LIM_MAX_INT = 60, 	// 40
+//								.SAMPLE_TIME_S = 1.0, 	// 1.0
+								.PID_KP = 30.0, 			// 100
+								.PID_KI = 5.0, 			// 60
+								.PID_KD = 45.0, 			// 40
 								.PID_TAU = 1.0, 		// 1.0
-								.PID_LIM_MIN = 50, 		// 50
-								.PID_LIM_MAX = 150, 	// 150
-								.PID_LIM_MIN_INT = -60, // -40
-								.PID_LIM_MAX_INT = 60, 	// 40
-								.SAMPLE_TIME_S = 1.0, 	// 1.0
+								.PID_LIM_MIN = -70.0, 		// 50
+								.PID_LIM_MAX = 70.0, 	// 150
+								.PID_LIM_MIN_INT = -20.0, // -40
+								.PID_LIM_MAX_INT = 20.0, 	// 40
+								.SAMPLE_TIME_S = 1.5, 	// 1.0
+
 				};
 
 				success = PhaseSteril(&sterilParam, &PIDParam);
@@ -1028,15 +1038,26 @@ uint8_t ProgramUser() {
 						.timeout = settings.UserSterilTime * 60 * 1.5,
 				};
 				SterilPID_s PIDParam = {
-						.PID_KP = (settings.UserSterilTemp == STERILTEMP_134) ? 50.0 : 30.0, 			// 100
-						.PID_KI = (settings.UserSterilTemp == STERILTEMP_134) ? 60.0 : 80.0, 			// 60
-						.PID_KD = (settings.UserSterilTemp == STERILTEMP_134) ? 10.0 : 10.0, 			// 40
+//						.PID_KP = (settings.UserSterilTemp == STERILTEMP_134) ? 50.0 : 30.0, 			// 100
+//						.PID_KI = (settings.UserSterilTemp == STERILTEMP_134) ? 60.0 : 80.0, 			// 60
+//						.PID_KD = (settings.UserSterilTemp == STERILTEMP_134) ? 10.0 : 10.0, 			// 40
+//						.PID_TAU = 1.0, 		// 1.0
+//						.PID_LIM_MIN = 50, 		// 50
+//						.PID_LIM_MAX = 150, 	// 150
+//						.PID_LIM_MIN_INT = -50, // -40
+//						.PID_LIM_MAX_INT = 50, 	// 40
+//						.SAMPLE_TIME_S = 1.0, 	// 1.0
+
+						.PID_KP = (settings.UserSterilTemp == STERILTEMP_134) ? 30.0 : 20.0, 			// 100
+						.PID_KI = (settings.UserSterilTemp == STERILTEMP_134) ? 5.0 : 10.0, 			// 60
+						.PID_KD = (settings.UserSterilTemp == STERILTEMP_134) ? 45.0 : 45.0, 			// 40
 						.PID_TAU = 1.0, 		// 1.0
-						.PID_LIM_MIN = 50, 		// 50
-						.PID_LIM_MAX = 150, 	// 150
-						.PID_LIM_MIN_INT = -50, // -40
-						.PID_LIM_MAX_INT = 50, 	// 40
-						.SAMPLE_TIME_S = 1.0, 	// 1.0
+						.PID_LIM_MIN = -70.0, 		// 50
+						.PID_LIM_MAX = 70.0, 	// 150
+						.PID_LIM_MIN_INT = -20.0, // -40
+						.PID_LIM_MAX_INT = 20.0, 	// 40
+						.SAMPLE_TIME_S = 1.5, 	// 1.0
+
 				};
 
 				success = PhaseSteril(&sterilParam, &PIDParam);
@@ -1157,15 +1178,25 @@ uint8_t ProgramHelixTest() {
 						.timeout = 600
 				};
 				SterilPID_s PIDParam = {
-								.PID_KP = 40, 			// 100
-								.PID_KI = 80, 			// 60
-								.PID_KD = 60, 			// 40
+//								.PID_KP = 40, 			// 100
+//								.PID_KI = 80, 			// 60
+//								.PID_KD = 60, 			// 40
+//								.PID_TAU = 1.0, 		// 1.0
+//								.PID_LIM_MIN = 50, 		// 50
+//								.PID_LIM_MAX = 150, 	// 150
+//								.PID_LIM_MIN_INT = -60, // -40
+//								.PID_LIM_MAX_INT = 60, 	// 40
+//								.SAMPLE_TIME_S = 1.0, 	// 1.0
+								.PID_KP = 30.0, 			// 100
+								.PID_KI = 5.0, 			// 60
+								.PID_KD = 45.0, 			// 40
 								.PID_TAU = 1.0, 		// 1.0
-								.PID_LIM_MIN = 50, 		// 50
-								.PID_LIM_MAX = 150, 	// 150
-								.PID_LIM_MIN_INT = -60, // -40
-								.PID_LIM_MAX_INT = 60, 	// 40
-								.SAMPLE_TIME_S = 1.0, 	// 1.0
+								.PID_LIM_MIN = -70.0, 		// 50
+								.PID_LIM_MAX = 70.0, 	// 150
+								.PID_LIM_MIN_INT = -20.0, // -40
+								.PID_LIM_MAX_INT = 20.0, 	// 40
+								.SAMPLE_TIME_S = 1.5, 	// 1.0
+
 				};
 
 				success = PhaseSteril(&sterilParam, &PIDParam);

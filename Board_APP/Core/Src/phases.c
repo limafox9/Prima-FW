@@ -877,17 +877,19 @@ uint8_t PhaseSteril(SterilParam_s* param, SterilPID_s* pPID) {
 				break;
 			}
 
-			T1Min = (sensors.T1 < T1Min) ? sensors.T1 : T1Min;
-			T1Max = (sensors.T1 > T1Max) ? sensors.T1 : T1Max;
-			T2Min = (sensors.T2 < T2Min) ? sensors.T2 : T2Min;
-			T2Max = (sensors.T2 > T2Max) ? sensors.T2 : T2Max;
-			pMin = (sensors.PressureChamber < pMin) ? sensors.PressureChamber : pMin;
-			pMax = (sensors.PressureChamber > pMax) ? sensors.PressureChamber : pMax;
-
 			GetTimer(TIMER_1, &tInterval);
 			if (tInterval.Seconds >= param->printInterval) {
+
+				T1Min = (sensors.T1 < T1Min) ? sensors.T1 : T1Min;
+				T1Max = (sensors.T1 > T1Max) ? sensors.T1 : T1Max;
+				T2Min = (sensors.T2 < T2Min) ? sensors.T2 : T2Min;
+				T2Max = (sensors.T2 > T2Max) ? sensors.T2 : T2Max;
+				pMin = (sensors.PressureChamber < pMin) ? sensors.PressureChamber : pMin;
+				pMax = (sensors.PressureChamber > pMax) ? sensors.PressureChamber : pMax;
+
 				PrintStepLine("     ", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
 				ResetTimer(TIMER_1);
+
 			}
 
 			lastError = CheckError();

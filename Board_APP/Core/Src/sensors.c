@@ -214,7 +214,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 }
 
 uint16_t WaterQualityGet() {
-	uint16_t retVal, dum;
+	uint16_t retVal, dum, count;
 	float volt;
 
 	if (settings.FunTDSActive > 0) {
@@ -224,12 +224,20 @@ uint16_t WaterQualityGet() {
 //			osDelay(500);
 //			retVal = 0;
 //		}
-		HAL_GPIO_WritePin(nTDS_EN_GPIO_Port, nTDS_EN_Pin, OFF);
-		HAL_Delay(500);
-		volt = ADS1115_GetVoltage1(SENSOR_TDS_ADC_CHANNEL);
-		retVal = volt * 603.0;
-		HAL_GPIO_WritePin(nTDS_EN_GPIO_Port, nTDS_EN_Pin, ON);
-		HAL_Delay(500);
+
+		retVal = 1000;
+		count = 0;
+
+		// Reads max 3 times if bad TDS
+		while ((retVal > 35) && (count < 3)) {
+			HAL_GPIO_WritePin(nTDS_EN_GPIO_Port, nTDS_EN_Pin, OFF);
+			HAL_Delay(500);
+			volt = ADS1115_GetVoltage1(SENSOR_TDS_ADC_CHANNEL);
+			retVal = volt * 603.0;
+			HAL_GPIO_WritePin(nTDS_EN_GPIO_Port, nTDS_EN_Pin, ON);
+			HAL_Delay(500);
+			count++;
+		}
 
 	} else {
 		retVal = 0;
