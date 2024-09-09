@@ -2,6 +2,25 @@
 PRIMA Board_APP
 -------------------------------------------------------------------------------
 
+[3.2.0] 2024-09-09
+  CHANGED
+  - STERIL_STABILIZATION_PERIOD portato da 30 a 5 sec.
+  - Timeout fase rise per tutti i programmi tranne helix e user portato da 800
+    a 60 sec. (membro .timeout della struttura sterilParam su programs.c)
+  - La valvola intake si apre per 60 sec. (modificato da 15) anche alla
+    chiusura della porta e non solo all'apertura
+  - AMBIENT_PRESSURE_TOLERANCE_MIN modificato da 5 a 10 sec.
+  - Impostazione di pressAmbientMin e pressAmbientMax spostate dal ciclo di
+    aggiornamento dei sensori (sensors.c) alla condizione di porta aperta
+  
+  FIXED
+  - Corretta errata stampa del TIME nella stampa dei parametri in seguito a
+    errore
+    
+  ADDED
+  - Dopo errore e fino a resume vengono spenti i riscaldatori (preheat)
+    
+    
 [3.1.4] 2023-12-06
   CHANGED
   - Tutti i vuoti dell'Helix Test con stesso valore del primo vuoto

@@ -538,7 +538,7 @@ void PrintFooter (const char* result, RTCDateTime_s* time, RTCTimerTime_s* timer
 	else Print("%s Err.%0d\n", result, lastError);
 	PrintSize(1, 1);
 	Print("\n");
-	if (lastError != 0) PrintError("", time);
+	if (lastError != 0) PrintError("", timer);
 	Print("\n");
 	Print("\n");
 	Print("INDICATOR STRIP: PASS [] FAIL []\n");

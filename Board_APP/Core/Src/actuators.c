@@ -124,6 +124,10 @@ void PWMPower_Init() {
 void PWMPower_Start() {
 	osThreadResume(chamberPowerTaskHandle);
 	osThreadResume(steamPowerTaskHandle);
+	HAL_GPIO_WritePin(HEATER_RING_GPIO_Port, HEATER_RING_Pin, ON);
+	HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, ON);
+	osSemaphoreRelease(semaphorePowerHandle);
+	osSemaphoreRelease(semaphoreSensorsHandle);
 }
 
 void PWMPower_Stop() {

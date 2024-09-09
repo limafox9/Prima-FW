@@ -1,6 +1,6 @@
 ################################################################################
 # Automatically-generated file. Do not edit!
-# Toolchain: GNU Tools for STM32 (10.3-2021.10)
+# Toolchain: GNU Tools for STM32 (12.3.rel1)
 ################################################################################
 
 -include ../makefile.init
@@ -79,11 +79,11 @@ all: main-build
 main-build: Board_APP.elf secondary-outputs
 
 dependents:
-	-cd D:/Galbiati/Prima_FW/DB_Protocol/Debug && $(MAKE) all
+	-cd D:/Galbiati/Prima-FW/DB_Protocol/Debug && $(MAKE) all
 
 # Tool invocations
-Board_APP.elf Board_APP.map: $(OBJS) $(USER_OBJS) D:/Galbiati/Prima_FW/DB_Protocol/Debug/libDB_Protocol.a D:\Galbiati\Prima_FW\Board_APP\STM32F105VCTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"D:\Galbiati\Prima_FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima_FW\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Board_APP.elf Board_APP.map: $(OBJS) $(USER_OBJS) D:/Galbiati/Prima-FW/DB_Protocol/Debug/libDB_Protocol.a D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima-FW\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -122,6 +122,6 @@ warn-no-linker-script-specified:
 	@echo 'Warning: No linker script specified. Check the linker settings in the build configuration.'
 
 .PHONY: all clean dependents main-build fail-specified-linker-script-missing warn-no-linker-script-specified
-D:/Galbiati/Prima_FW/DB_Protocol/Debug/libDB_Protocol.a:
+D:/Galbiati/Prima-FW/DB_Protocol/Debug/libDB_Protocol.a:
 
 -include ../makefile.targets

@@ -78,13 +78,13 @@ USAGE:
 #define POWER_TEST_ON_TIME 3000
 #define POWER_TEST_PAUSE_TIME 1000
 
-#define STERIL_STABILIZATION_PERIOD 30
+#define STERIL_STABILIZATION_PERIOD 5
 #define STERIL_STABILIZATION_PERIOD_HELIX 50
 
 #define T1_T2_STERIL_MAX_TEMP_DIFF_134 0.5
 #define T1_T2_STERIL_MAX_TEMP_DIFF_121 0.5
 
-#define DRY_VALVE_TIMER 15
+#define DRY_VALVE_TIMER 60
 
 extern osThreadId sensorsTaskHandle;
 
@@ -99,7 +99,8 @@ void StartProgramTask() {
 	for (;;) {
 
 		GetTimer(TIMER_DOOR, &timerDoor);
-		if ((doorStatus == OPEN) && (timerDoor.Seconds > DRY_VALVE_TIMER)) {
+//		if ((doorStatus == OPEN) && (timerDoor.Seconds > DRY_VALVE_TIMER)) {
+		if (timerDoor.Seconds > DRY_VALVE_TIMER) {
 			ValveDryIntakeSet(OFF);
 		}
 
@@ -229,7 +230,7 @@ uint8_t ProgramResumeDry() {
 //		osDelay(200);
 //	}
 
-	PhaseDry(DRY_FIRST_VAC, DRY_OTHER_VAC, 180, 800);
+	PhaseDry(DRY_FIRST_VAC, DRY_OTHER_VAC, 180, 360);
 //	SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_NONE, 0, 0, "");
 
 
@@ -240,8 +241,10 @@ uint8_t ProgramResumeDry() {
 	PumpVacuumSet(OFF);
 	PumpWaterLoadSet(OFF);
 
+
 	ValveDrainSteamSet(ON);
 	ValveDryIntakeSet(ON);
+
 
 	while (1) {
 		if ((sensors.PressureChamber >= (pressAmbientMin - 10)) && (sensors.PressureChamber <= pressAmbientMax)) {
@@ -257,6 +260,7 @@ uint8_t ProgramResumeDry() {
 	ResetTimer(TIMER_FAN);
 
 	osDelay(1000);
+
 	if (DoorSolenoidSet(UNLOCK) != UNLOCK) {
 //		SendCommand(DISPLAY_CMD_WRITE_DIGITS, 3, 0, 0, "Er.11");
 //		return 11;
@@ -278,6 +282,7 @@ uint8_t ProgramResumeDry() {
 	PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 	osThreadSuspend(displayInfoTaskHandle);
 
+	PWMPower_Start();
 }
 
 uint8_t ProgramUnwrapped() {
@@ -295,6 +300,7 @@ uint8_t ProgramUnwrapped() {
 	uint16_t dryTime = 0;
 	sterilTime = 240;
 	dryTime = GetDryTime(settings.FunDryClass, STERILTEMP_134, 1) * 60;
+
 
 	GetDateTime(&clockTime);
 	PrintHeader("UNWRAPPED", sensors.T1, dryTime, sterilTime, &clockTime);
@@ -353,7 +359,7 @@ uint8_t ProgramUnwrapped() {
 				.settleTime = 5,
 				.stabilizationPeriod = STERIL_STABILIZATION_PERIOD,
 				.printInterval = 30,
-				.timeout = 800
+				.timeout = 60
 		};
 
 		SterilPID_s PIDParam = {
@@ -478,7 +484,7 @@ uint8_t ProgramWrapped() {
 						.settleTime = 5,
 						.stabilizationPeriod = STERIL_STABILIZATION_PERIOD,
 						.printInterval = 30,
-						.timeout = 800
+						.timeout = 60
 				};
 		SterilPID_s PIDParam = {
 						.PID_KP = 40, 			// 100
@@ -599,7 +605,7 @@ uint8_t ProgramPrion() {
 						.settleTime = 5,
 						.stabilizationPeriod = STERIL_STABILIZATION_PERIOD,
 						.printInterval = 120,
-						.timeout = 1500
+						.timeout = 60
 				};
 				SterilPID_s PIDParam = {
 								.PID_KP = 40, 			// 100
@@ -718,7 +724,7 @@ uint8_t ProgramGentle() {
 						.settleTime = 5,
 						.stabilizationPeriod = STERIL_STABILIZATION_PERIOD,
 						.printInterval = 120,
-						.timeout = 1800
+						.timeout = 60
 				};
 				SterilPID_s PIDParam = {
 						.PID_KP = 40, 			// 100
