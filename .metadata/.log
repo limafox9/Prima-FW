@@ -9760,3 +9760,36 @@ java.lang.Exception: Remote communication error.  Target disconnected.: (undocum
 
 !ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2024-09-09 21:50:39.861
 !MESSAGE Existing sessions are:
+!SESSION 2024-09-11 15:24:13.367 -----------------------------------------------
+eclipse.buildId=Version 1.15.1
+java.version=17.0.8.1
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=it_IT
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY org.eclipse.core.resources 2 10035 2024-09-11 15:24:28.263
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2024-09-11 15:24:51.888
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2024-09-11 15:24:51.904
+!MESSAGE Log4j2 initialized with config file D:\Galbiati\Prima-FW\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2024-09-11 15:25:10.369
+!MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2024-09-25 08:52:20.864 -----------------------------------------------
+eclipse.buildId=Version 1.15.1
+java.version=17.0.8.1
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=it_IT
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2024-09-25 08:53:02.575
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2024-09-25 08:53:02.592
+!MESSAGE Log4j2 initialized with config file D:\Galbiati\Prima-FW\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2024-09-25 08:53:25.523
+!MESSAGE Started RMI Server, listening on port 41337

@@ -294,97 +294,100 @@ uint8_t ProgramUnwrapped() {
 	progRunning = 1;
 	progStop = 0;
 
-	if (!PhaseBegin(600)) return 0;
+	success = PhaseBegin(60);
 
-	uint16_t sterilTime = 0;
-	uint16_t dryTime = 0;
-	sterilTime = 240;
-	dryTime = GetDryTime(settings.FunDryClass, STERILTEMP_134, 1) * 60;
+	if (success == 1) {
+
+		uint16_t sterilTime = 0;
+		uint16_t dryTime = 0;
+		sterilTime = 240;
+		dryTime = GetDryTime(settings.FunDryClass, STERILTEMP_134, 1) * 60;
 
 
-	GetDateTime(&clockTime);
-	PrintHeader("UNWRAPPED", sensors.T1, dryTime, sterilTime, &clockTime);
+		GetDateTime(&clockTime);
+		PrintHeader("UNWRAPPED", sensors.T1, dryTime, sterilTime, &clockTime);
 
-	// Heat up
-	if (success) {
-		success = PhaseHeatUp(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP, DV_PREHEAT_CHAMBER_TEMP, 160.0, OT_HEAT);
-	}
-	if (success) {
-		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-		success = PhaseRelease(1, OT_RELEASE);
-	}
+		// Heat up
+		if (success) {
+			success = PhaseHeatUp(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP, DV_PREHEAT_CHAMBER_TEMP, 160.0, OT_HEAT);
+		}
+		if (success) {
+			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
+			success = PhaseRelease(1, OT_RELEASE);
+		}
 
-	ResetTimer(TIMER_CYCLE);
+		ResetTimer(TIMER_CYCLE);
 
-	// Sterilization
-	if (success) {
-		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-		success = PhaseVacuum(1, (float)settings.FirstVacuum, 0, OT_VACUUM);
-	}
-//	if (settings.UserVacuumNumber < 3) {
-	if (success) {
-		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-		success = PhasePressure(3, 200.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
-	}
-	if (success) {
-		ValveDrainSteamSet(OFF);
-		ResetTimer(TIMER_5);
-		do {
-			GetTimer(TIMER_5, &tWait);
-			lastError = CheckError();
-			if (lastError > 0) {
-				break;
-			}
-			osDelay(200);
-		} while (tWait.Seconds < 20);
-		ValveDrainSteamSet(ON);
-	}
-	if (success) {
-		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-		success = PhasePressure(3, 290.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
-	}
-	if (success) {
-		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-		SterilParam_s sterilParam = {
-				.chamberTemp = DV_STERIL_TEMP_134,
-				.chamberTempMin = 134.0,
-				.chamberTempMax = 136.0,
-				.sterilTime = sterilTime,
-				.chamberPress = 320,
-				.pressMin = DV_STERIL_PRESS_MIN_134,
-				.pressMax = DV_STERIL_PRESS_MAX_134,
-				.steamTemp = DV_STEAM_GEN_TEMP,
-				.steamTempMin = 170.0,
-				.T1T2MaxDiff = T1_T2_STERIL_MAX_TEMP_DIFF_134,
-				.settleTime = 5,
-				.stabilizationPeriod = STERIL_STABILIZATION_PERIOD,
-				.printInterval = 30,
-				.timeout = 60
-		};
+		// Sterilization
+		if (success) {
+			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
+			success = PhaseVacuum(1, (float)settings.FirstVacuum, 0, OT_VACUUM);
+		}
+	//	if (settings.UserVacuumNumber < 3) {
+		if (success) {
+			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
+			success = PhasePressure(3, 200.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
+		}
+		if (success) {
+			ValveDrainSteamSet(OFF);
+			ResetTimer(TIMER_5);
+			do {
+				GetTimer(TIMER_5, &tWait);
+				lastError = CheckError();
+				if (lastError > 0) {
+					break;
+				}
+				osDelay(200);
+			} while (tWait.Seconds < 20);
+			ValveDrainSteamSet(ON);
+		}
+		if (success) {
+			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
+			success = PhasePressure(3, 290.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
+		}
+		if (success) {
+			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
+			SterilParam_s sterilParam = {
+					.chamberTemp = DV_STERIL_TEMP_134,
+					.chamberTempMin = 134.0,
+					.chamberTempMax = 136.0,
+					.sterilTime = sterilTime,
+					.chamberPress = 320,
+					.pressMin = DV_STERIL_PRESS_MIN_134,
+					.pressMax = DV_STERIL_PRESS_MAX_134,
+					.steamTemp = DV_STEAM_GEN_TEMP,
+					.steamTempMin = 170.0,
+					.T1T2MaxDiff = T1_T2_STERIL_MAX_TEMP_DIFF_134,
+					.settleTime = 5,
+					.stabilizationPeriod = STERIL_STABILIZATION_PERIOD,
+					.printInterval = 30,
+					.timeout = 800
+			};
 
-		SterilPID_s PIDParam = {
-						.PID_KP = 40, 			// 100
-						.PID_KI = 80, 			// 60
-						.PID_KD = 60, 			// 40
-						.PID_TAU = 1.0, 		// 1.0
-						.PID_LIM_MIN = 50, 		// 50
-						.PID_LIM_MAX = 150, 	// 150
-						.PID_LIM_MIN_INT = -60, // -40
-						.PID_LIM_MAX_INT = 60, 	// 40
-						.SAMPLE_TIME_S = 1.0, 	// 1.0
-				};
+			SterilPID_s PIDParam = {
+							.PID_KP = 40, 			// 100
+							.PID_KI = 80, 			// 60
+							.PID_KD = 60, 			// 40
+							.PID_TAU = 1.0, 		// 1.0
+							.PID_LIM_MIN = 50, 		// 50
+							.PID_LIM_MAX = 150, 	// 150
+							.PID_LIM_MIN_INT = -60, // -40
+							.PID_LIM_MAX_INT = 60, 	// 40
+							.SAMPLE_TIME_S = 1.0, 	// 1.0
+					};
 
-		success = PhaseSteril(&sterilParam, &PIDParam);
-	}
+			success = PhaseSteril(&sterilParam, &PIDParam);
+		}
 
-	if (success) {
-		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
-		success = PhaseRelease(3, OT_RELEASE);
-	}
+		if (success) {
+			PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
+			success = PhaseRelease(3, OT_RELEASE);
+		}
 
-	// Dry
-	if (success) {
-		success = PhaseDry(DRY_FIRST_VAC, DRY_OTHER_VAC, dryTime, dryTime * 1.5);
+		// Dry
+		if (success) {
+			success = PhaseDry(DRY_FIRST_VAC, DRY_OTHER_VAC, dryTime, dryTime * 1.5);
+		}
 	}
 
 	// End
@@ -408,108 +411,110 @@ uint8_t ProgramWrapped() {
 	progRunning = 1;
 	progStop = 0;
 
-	if (!PhaseBegin(600)) return 0;
+	success = PhaseBegin(60);
 
-	uint16_t sterilTime = 0;
-	uint16_t dryTime = 0;
-	sterilTime = 300;
-	dryTime = GetDryTime(settings.FunDryClass, STERILTEMP_134, settings.VacNumber) * 60;
-
-	GetDateTime(&clockTime);
-	PrintHeader("WRAPPED", sensors.T1, dryTime, sterilTime, &clockTime);
-
-	// Heat up
 	if (success) {
-		success = PhaseHeatUp(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP, DV_PREHEAT_CHAMBER_TEMP, 100.0, OT_HEAT);
-	}
-	if (success) {
-		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-		success = PhaseRelease(1, OT_RELEASE);
-	}
 
-	ResetTimer(TIMER_CYCLE);
+		uint16_t sterilTime = 0;
+		uint16_t dryTime = 0;
+		sterilTime = 300;
+		dryTime = GetDryTime(settings.FunDryClass, STERILTEMP_134, settings.VacNumber) * 60;
 
-	// First vacuum
-	if (success) {
-		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-		success = PhaseVacuum(1, (float)settings.FirstVacuum, 0, OT_VACUUM);
-	}
-	if (success) {
-		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-		success = PhasePressure(1, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
-	}
-	if (success) {
-		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-		success = PhaseRelease(1, OT_RELEASE);
-	}
+		GetDateTime(&clockTime);
+		PrintHeader("WRAPPED", sensors.T1, dryTime, sterilTime, &clockTime);
 
-	// Other vacuum
-	for (int i = 0; i < (settings.VacNumber - 2); i++) {  // -2 for 1st cycle and steril cycle
+		// Heat up
+		if (success) {
+			success = PhaseHeatUp(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP, DV_PREHEAT_CHAMBER_TEMP, 100.0, OT_HEAT);
+		}
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-			success = PhaseVacuum(2, (float)settings.OtherVacuum, 0, OT_VACUUM);
+			success = PhaseRelease(1, OT_RELEASE);
+		}
+
+		ResetTimer(TIMER_CYCLE);
+
+		// First vacuum
+		if (success) {
+			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
+			success = PhaseVacuum(1, (float)settings.FirstVacuum, 0, OT_VACUUM);
 		}
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-			success = PhasePressure(2, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
+			success = PhasePressure(1, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
 		}
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-			success = PhaseRelease(2, OT_RELEASE);
+			success = PhaseRelease(1, OT_RELEASE);
+		}
+
+		// Other vacuum
+		for (int i = 0; i < (settings.VacNumber - 2); i++) {  // -2 for 1st cycle and steril cycle
+			if (success) {
+				PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
+				success = PhaseVacuum(2, (float)settings.OtherVacuum, 0, OT_VACUUM);
+			}
+			if (success) {
+				PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
+				success = PhasePressure(2, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
+			}
+			if (success) {
+				PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
+				success = PhaseRelease(2, OT_RELEASE);
+			}
+		}
+
+		// Sterilization
+		if (success) {
+			PhasePreheat(DV_HEATING_RING_TEMP, 210.0);
+			success = PhaseVacuum(3, (float)settings.OtherVacuum, 0, OT_VACUUM);
+		}
+		if (success) {
+			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
+			success = PhasePressure(3, 290.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
+		}
+		if (success) {
+			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
+			SterilParam_s sterilParam = {
+							.chamberTemp = DV_STERIL_TEMP_134,
+							.chamberTempMin = 134.0,
+							.chamberTempMax = 136.0,
+							.sterilTime = sterilTime,
+							.chamberPress = 320,
+							.pressMin = DV_STERIL_PRESS_MIN_134,
+							.pressMax = DV_STERIL_PRESS_MAX_134,
+							.steamTemp = DV_STEAM_GEN_TEMP,
+							.steamTempMin = 170.0,
+							.T1T2MaxDiff = T1_T2_STERIL_MAX_TEMP_DIFF_134,
+							.settleTime = 5,
+							.stabilizationPeriod = STERIL_STABILIZATION_PERIOD,
+							.printInterval = 30,
+							.timeout = 800
+					};
+			SterilPID_s PIDParam = {
+							.PID_KP = 40, 			// 100
+							.PID_KI = 80, 			// 60
+							.PID_KD = 60, 			// 40
+							.PID_TAU = 1.0, 		// 1.0
+							.PID_LIM_MIN = 50, 		// 50
+							.PID_LIM_MAX = 150, 	// 150
+							.PID_LIM_MIN_INT = -60, // -40
+							.PID_LIM_MAX_INT = 60, 	// 40
+							.SAMPLE_TIME_S = 1.0, 	// 1.0
+					};
+
+					success = PhaseSteril(&sterilParam, &PIDParam);
+		}
+		if (success) {
+			PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
+			success = PhaseRelease(3, OT_RELEASE);
+		}
+
+		// Dry
+		if (success) {
+			success = PhaseDry(DRY_FIRST_VAC, DRY_OTHER_VAC, dryTime, dryTime * 1.5);
 		}
 	}
-
-	// Sterilization
-	if (success) {
-		PhasePreheat(DV_HEATING_RING_TEMP, 210.0);
-		success = PhaseVacuum(3, (float)settings.OtherVacuum, 0, OT_VACUUM);
-	}
-	if (success) {
-		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-		success = PhasePressure(3, 290.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
-	}
-	if (success) {
-		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-		SterilParam_s sterilParam = {
-						.chamberTemp = DV_STERIL_TEMP_134,
-						.chamberTempMin = 134.0,
-						.chamberTempMax = 136.0,
-						.sterilTime = sterilTime,
-						.chamberPress = 320,
-						.pressMin = DV_STERIL_PRESS_MIN_134,
-						.pressMax = DV_STERIL_PRESS_MAX_134,
-						.steamTemp = DV_STEAM_GEN_TEMP,
-						.steamTempMin = 170.0,
-						.T1T2MaxDiff = T1_T2_STERIL_MAX_TEMP_DIFF_134,
-						.settleTime = 5,
-						.stabilizationPeriod = STERIL_STABILIZATION_PERIOD,
-						.printInterval = 30,
-						.timeout = 60
-				};
-		SterilPID_s PIDParam = {
-						.PID_KP = 40, 			// 100
-						.PID_KI = 80, 			// 60
-						.PID_KD = 60, 			// 40
-						.PID_TAU = 1.0, 		// 1.0
-						.PID_LIM_MIN = 50, 		// 50
-						.PID_LIM_MAX = 150, 	// 150
-						.PID_LIM_MIN_INT = -60, // -40
-						.PID_LIM_MAX_INT = 60, 	// 40
-						.SAMPLE_TIME_S = 1.0, 	// 1.0
-				};
-
-				success = PhaseSteril(&sterilParam, &PIDParam);
-	}
-	if (success) {
-		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
-		success = PhaseRelease(3, OT_RELEASE);
-	}
-
-	// Dry
-	if (success) {
-		success = PhaseDry(DRY_FIRST_VAC, DRY_OTHER_VAC, dryTime, dryTime * 1.5);
-	}
-
 	// End
 	PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 	GetTimer(TIMER_CYCLE, &tCycle);
@@ -534,102 +539,105 @@ uint8_t ProgramPrion() {
 	FanSet(ON);
 	SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
 
-	if (!PhaseBegin(600)) return 0;
+	success = PhaseBegin(60);
 
-	uint16_t sterilTime = 0;
-	uint16_t dryTime = 0;
-	sterilTime = 1080;
-	dryTime = GetDryTime(settings.FunDryClass, STERILTEMP_134, settings.VacNumber) * 60;
-
-	GetDateTime(&clockTime);
-	PrintHeader("PRION", sensors.T1, dryTime, sterilTime, &clockTime);
-
-	// Heat up
 	if (success) {
-		success = PhaseHeatUp(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP, DV_PREHEAT_CHAMBER_TEMP, 160.0, OT_HEAT);
-	}
 
-	ResetTimer(TIMER_CYCLE);
+		uint16_t sterilTime = 0;
+		uint16_t dryTime = 0;
+		sterilTime = 1080;
+		dryTime = GetDryTime(settings.FunDryClass, STERILTEMP_134, settings.VacNumber) * 60;
 
-	// First vacuum
-	if (success) {
-		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-		success = PhaseVacuum(1, (float)settings.FirstVacuum, 0, OT_VACUUM);
-	}
-	if (success) {
-		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-		success = PhasePressure(1, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
-	}
-	if (success) {
-		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-		success = PhaseRelease(1, OT_RELEASE);
-	}
+		GetDateTime(&clockTime);
+		PrintHeader("PRION", sensors.T1, dryTime, sterilTime, &clockTime);
 
-	// Other vacuum
-	for (int i = 0; i < (settings.VacNumber - 2); i++) {  // -2 for 1st cycle and steril cycle
+		// Heat up
+		if (success) {
+			success = PhaseHeatUp(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP, DV_PREHEAT_CHAMBER_TEMP, 160.0, OT_HEAT);
+		}
+
+		ResetTimer(TIMER_CYCLE);
+
+		// First vacuum
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-			success = PhaseVacuum(2, (float)settings.OtherVacuum, 0, OT_VACUUM);
+			success = PhaseVacuum(1, (float)settings.FirstVacuum, 0, OT_VACUUM);
 		}
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-			success = PhasePressure(2, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
+			success = PhasePressure(1, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
 		}
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-			success = PhaseRelease(2, OT_RELEASE);
+			success = PhaseRelease(1, OT_RELEASE);
 		}
-	}
 
-	// Sterilization
-	if (success) {
-		success = PhaseVacuum(3, (float)settings.OtherVacuum, 0, OT_VACUUM);
-	}
-	if (success) {
-		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-		success = PhasePressure(3, 290.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
-	}
-	if (success) {
-		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-				SterilParam_s sterilParam = {
-						.chamberTemp = DV_STERIL_TEMP_134,
-						.chamberTempMin = 134.0,
-						.chamberTempMax = 136.0,
-						.sterilTime = sterilTime,
-						.chamberPress = 320,
-						.pressMin = DV_STERIL_PRESS_MIN_134,
-						.pressMax = DV_STERIL_PRESS_MAX_134,
-						.steamTemp = DV_STEAM_GEN_TEMP,
-						.steamTempMin = 170.0,
-						.T1T2MaxDiff = T1_T2_STERIL_MAX_TEMP_DIFF_134,
-						.settleTime = 5,
-						.stabilizationPeriod = STERIL_STABILIZATION_PERIOD,
-						.printInterval = 120,
-						.timeout = 60
-				};
-				SterilPID_s PIDParam = {
-								.PID_KP = 40, 			// 100
-								.PID_KI = 80, 			// 60
-								.PID_KD = 60, 			// 40
-								.PID_TAU = 1.0, 		// 1.0
-								.PID_LIM_MIN = 50, 		// 50
-								.PID_LIM_MAX = 150, 	// 150
-								.PID_LIM_MIN_INT = -60, // -40
-								.PID_LIM_MAX_INT = 60, 	// 40
-								.SAMPLE_TIME_S = 1.0, 	// 1.0
-				};
+		// Other vacuum
+		for (int i = 0; i < (settings.VacNumber - 2); i++) {  // -2 for 1st cycle and steril cycle
+			if (success) {
+				PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
+				success = PhaseVacuum(2, (float)settings.OtherVacuum, 0, OT_VACUUM);
+			}
+			if (success) {
+				PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
+				success = PhasePressure(2, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
+			}
+			if (success) {
+				PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
+				success = PhaseRelease(2, OT_RELEASE);
+			}
+		}
 
-				success = PhaseSteril(&sterilParam, &PIDParam);
+		// Sterilization
+		if (success) {
+			success = PhaseVacuum(3, (float)settings.OtherVacuum, 0, OT_VACUUM);
+		}
+		if (success) {
+			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
+			success = PhasePressure(3, 290.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
+		}
+		if (success) {
+			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
+					SterilParam_s sterilParam = {
+							.chamberTemp = DV_STERIL_TEMP_134,
+							.chamberTempMin = 134.0,
+							.chamberTempMax = 136.0,
+							.sterilTime = sterilTime,
+							.chamberPress = 320,
+							.pressMin = DV_STERIL_PRESS_MIN_134,
+							.pressMax = DV_STERIL_PRESS_MAX_134,
+							.steamTemp = DV_STEAM_GEN_TEMP,
+							.steamTempMin = 170.0,
+							.T1T2MaxDiff = T1_T2_STERIL_MAX_TEMP_DIFF_134,
+							.settleTime = 5,
+							.stabilizationPeriod = STERIL_STABILIZATION_PERIOD,
+							.printInterval = 120,
+							.timeout = 800
+					};
+					SterilPID_s PIDParam = {
+									.PID_KP = 40, 			// 100
+									.PID_KI = 80, 			// 60
+									.PID_KD = 60, 			// 40
+									.PID_TAU = 1.0, 		// 1.0
+									.PID_LIM_MIN = 50, 		// 50
+									.PID_LIM_MAX = 150, 	// 150
+									.PID_LIM_MIN_INT = -60, // -40
+									.PID_LIM_MAX_INT = 60, 	// 40
+									.SAMPLE_TIME_S = 1.0, 	// 1.0
+					};
 
-	}
-	if (success) {
-		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
-		success = PhaseRelease(3, OT_RELEASE);
-	}
+					success = PhaseSteril(&sterilParam, &PIDParam);
 
-	// Dry
-	if (success) {
-		success = PhaseDry(DRY_FIRST_VAC, DRY_OTHER_VAC, dryTime, dryTime * 1.5);
+		}
+		if (success) {
+			PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
+			success = PhaseRelease(3, OT_RELEASE);
+		}
+
+		// Dry
+		if (success) {
+			success = PhaseDry(DRY_FIRST_VAC, DRY_OTHER_VAC, dryTime, dryTime * 1.5);
+		}
 	}
 
 	// End
@@ -653,102 +661,104 @@ uint8_t ProgramGentle() {
 	progRunning = 1;
 	progStop = 0;
 
-	if (!PhaseBegin(600)) return 0;
+	success = PhaseBegin(60);
 
-	uint16_t sterilTime = 0;
-	uint16_t dryTime = 0;
-	sterilTime = 1200;
-	dryTime = GetDryTime(settings.FunDryClass, STERILTEMP_121, settings.VacNumber) * 60;
-
-	GetDateTime(&clockTime);
-	PrintHeader("GENTLE", sensors.T1, dryTime, sterilTime, &clockTime);
-
-	// Heat up
 	if (success) {
-		success = PhaseHeatUp(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP, DV_PREHEAT_CHAMBER_TEMP, 160.0, OT_HEAT);
-	}
 
-	ResetTimer(TIMER_CYCLE);
+		uint16_t sterilTime = 0;
+		uint16_t dryTime = 0;
+		sterilTime = 1200;
+		dryTime = GetDryTime(settings.FunDryClass, STERILTEMP_121, settings.VacNumber) * 60;
 
-	// First vacuum
-	if (success) {
-		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-		success = PhaseVacuum(1, (float)settings.FirstVacuum, 0, OT_VACUUM);
-	}
-	if (success) {
-		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-		success = PhasePressure(1, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
-	}
-	if (success) {
-		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-		success = PhaseRelease(1, OT_RELEASE);
-	}
+		GetDateTime(&clockTime);
+		PrintHeader("GENTLE", sensors.T1, dryTime, sterilTime, &clockTime);
 
-	// Other vacuum
-	for (int i = 0; i < (settings.VacNumber - 2); i++) {  // -2 for 1st cycle and steril cycle
+		// Heat up
+		if (success) {
+			success = PhaseHeatUp(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP, DV_PREHEAT_CHAMBER_TEMP, 160.0, OT_HEAT);
+		}
+
+		ResetTimer(TIMER_CYCLE);
+
+		// First vacuum
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-			success = PhaseVacuum(2, (float)settings.OtherVacuum, 0, OT_VACUUM);
+			success = PhaseVacuum(1, (float)settings.FirstVacuum, 0, OT_VACUUM);
 		}
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-			success = PhasePressure(2, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
+			success = PhasePressure(1, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
 		}
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-			success = PhaseRelease(2, OT_RELEASE);
+			success = PhaseRelease(1, OT_RELEASE);
+		}
+
+		// Other vacuum
+		for (int i = 0; i < (settings.VacNumber - 2); i++) {  // -2 for 1st cycle and steril cycle
+			if (success) {
+				PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
+				success = PhaseVacuum(2, (float)settings.OtherVacuum, 0, OT_VACUUM);
+			}
+			if (success) {
+				PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
+				success = PhasePressure(2, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
+			}
+			if (success) {
+				PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
+				success = PhaseRelease(2, OT_RELEASE);
+			}
+		}
+
+		// Sterilization
+		if (success) {
+			success = PhaseVacuum(3, (float)settings.OtherVacuum, 0, OT_VACUUM);
+		}
+		if (success) {
+			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
+			success = PhasePressure(3, 190.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
+		}
+		if (success) {
+			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
+					SterilParam_s sterilParam = {
+							.chamberTemp = DV_STERIL_TEMP_121,
+							.chamberTempMin = 121.0,
+							.chamberTempMax = 125.0,
+							.sterilTime = sterilTime,
+							.chamberPress = 220,
+							.pressMin = DV_STERIL_PRESS_MIN_121,
+							.pressMax = DV_STERIL_PRESS_MAX_121,
+							.steamTemp = DV_STEAM_GEN_TEMP,
+							.steamTempMin = 170.0,
+							.T1T2MaxDiff = T1_T2_STERIL_MAX_TEMP_DIFF_121,
+							.settleTime = 5,
+							.stabilizationPeriod = STERIL_STABILIZATION_PERIOD,
+							.printInterval = 120,
+							.timeout = 800
+					};
+					SterilPID_s PIDParam = {
+							.PID_KP = 40, 			// 100
+							.PID_KI = 60, 			// 60
+							.PID_KD = 10, 			// 40
+							.PID_TAU = 1.0, 		// 1.0
+							.PID_LIM_MIN = 50, 		// 50
+							.PID_LIM_MAX = 150, 	// 150
+							.PID_LIM_MIN_INT = -50, // -40
+							.PID_LIM_MAX_INT = 50, 	// 40
+							.SAMPLE_TIME_S = 1.0, 	// 1.0
+					};
+					success = PhaseSteril(&sterilParam, &PIDParam);
+		}
+		if (success) {
+			PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
+			success = PhaseRelease(3,  OT_RELEASE);
+		}
+
+		// Dry
+		if (success) {
+			success = PhaseDry(DRY_FIRST_VAC, DRY_OTHER_VAC, dryTime, dryTime * 1.5);
 		}
 	}
-
-	// Sterilization
-	if (success) {
-		success = PhaseVacuum(3, (float)settings.OtherVacuum, 0, OT_VACUUM);
-	}
-	if (success) {
-		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-		success = PhasePressure(3, 190.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
-	}
-	if (success) {
-		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-				SterilParam_s sterilParam = {
-						.chamberTemp = DV_STERIL_TEMP_121,
-						.chamberTempMin = 121.0,
-						.chamberTempMax = 125.0,
-						.sterilTime = sterilTime,
-						.chamberPress = 220,
-						.pressMin = DV_STERIL_PRESS_MIN_121,
-						.pressMax = DV_STERIL_PRESS_MAX_121,
-						.steamTemp = DV_STEAM_GEN_TEMP,
-						.steamTempMin = 170.0,
-						.T1T2MaxDiff = T1_T2_STERIL_MAX_TEMP_DIFF_121,
-						.settleTime = 5,
-						.stabilizationPeriod = STERIL_STABILIZATION_PERIOD,
-						.printInterval = 120,
-						.timeout = 60
-				};
-				SterilPID_s PIDParam = {
-						.PID_KP = 40, 			// 100
-						.PID_KI = 60, 			// 60
-						.PID_KD = 10, 			// 40
-						.PID_TAU = 1.0, 		// 1.0
-						.PID_LIM_MIN = 50, 		// 50
-						.PID_LIM_MAX = 150, 	// 150
-						.PID_LIM_MIN_INT = -50, // -40
-						.PID_LIM_MAX_INT = 50, 	// 40
-						.SAMPLE_TIME_S = 1.0, 	// 1.0
-				};
-				success = PhaseSteril(&sterilParam, &PIDParam);
-	}
-	if (success) {
-		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
-		success = PhaseRelease(3,  OT_RELEASE);
-	}
-
-	// Dry
-	if (success) {
-		success = PhaseDry(DRY_FIRST_VAC, DRY_OTHER_VAC, dryTime, dryTime * 1.5);
-	}
-
 	// End
 	PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 	GetTimer(TIMER_CYCLE, &tCycle);
@@ -770,152 +780,154 @@ uint8_t ProgramUser() {
 	progRunning = 1;
 	progStop = 0;
 
-	if (!PhaseBegin(600)) return 0;
+	success = PhaseBegin(60);
 
-	uint16_t sterilTime = 0;
-	uint16_t dryTime = 0;
-	sterilTime = settings.UserSterilTime * 60;
-	dryTime = GetDryTime(settings.UserDryClass, settings.UserSterilTemp, settings.UserVacuumNumber) * 60;
-
-	GetDateTime(&clockTime);
-	PrintHeader("USER", sensors.T1, dryTime, sterilTime, &clockTime);
-
-	float cTemp;
-	cTemp = (settings.UserSterilTemp == STERILTEMP_134) ? DV_STERIL_TEMP_134 : DV_STERIL_TEMP_121;
-	cTemp = (settings.UserVacuumNumber == 0 && settings.UserSterilTemp == STERILTEMP_134) ? DV_STERIL_TEMP_134_USER_0 : cTemp;
-
-
-	// Heat up
 	if (success) {
-		success = PhaseHeatUp(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP, DV_PREHEAT_CHAMBER_TEMP, 100.0, OT_HEAT);
-	}
-	if (success) {
-		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-		success = PhaseRelease(1, OT_RELEASE);
-	}
 
-	ResetTimer(TIMER_CYCLE);
+		uint16_t sterilTime = 0;
+		uint16_t dryTime = 0;
+		sterilTime = settings.UserSterilTime * 60;
+		dryTime = GetDryTime(settings.UserDryClass, settings.UserSterilTemp, settings.UserVacuumNumber) * 60;
 
-	// First vacuum
-	if (settings.UserVacuumNumber == 0) {
+		GetDateTime(&clockTime);
+		PrintHeader("USER", sensors.T1, dryTime, sterilTime, &clockTime);
+
+		float cTemp;
+		cTemp = (settings.UserSterilTemp == STERILTEMP_134) ? DV_STERIL_TEMP_134 : DV_STERIL_TEMP_121;
+		cTemp = (settings.UserVacuumNumber == 0 && settings.UserSterilTemp == STERILTEMP_134) ? DV_STERIL_TEMP_134_USER_0 : cTemp;
+
+
+		// Heat up
 		if (success) {
-			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-			success = PhaseVacuum(1, 50.0, 0, OT_VACUUM);
-		}
-	}
-	if (settings.UserVacuumNumber > 0) {
-		if (success) {
-			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-			success = PhaseVacuum(1, (float)settings.FirstVacuum, 0, OT_VACUUM);
-		}
-	}
-	if (settings.UserVacuumNumber >= 3) {
-		if (success) {
-			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-			success = PhasePressure(1, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
+			success = PhaseHeatUp(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP, DV_PREHEAT_CHAMBER_TEMP, 100.0, OT_HEAT);
 		}
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
 			success = PhaseRelease(1, OT_RELEASE);
 		}
-	}
 
-	// Other vacuum
-	if (settings.UserVacuumNumber >= 3) {
-		for (int i = 0; i < (settings.UserVacuumNumber - 2); i++) {  // -2 for 1st cycle and steril cycle
+		ResetTimer(TIMER_CYCLE);
+
+		// First vacuum
+		if (settings.UserVacuumNumber == 0) {
 			if (success) {
 				PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-				success = PhaseVacuum(2, (float)settings.OtherVacuum, 0, OT_VACUUM);
+				success = PhaseVacuum(1, 50.0, 0, OT_VACUUM);
 			}
+		}
+		if (settings.UserVacuumNumber > 0) {
+			if (success) {
+				PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
+				success = PhaseVacuum(1, (float)settings.FirstVacuum, 0, OT_VACUUM);
+			}
+		}
+		if (settings.UserVacuumNumber >= 3) {
 			if (success) {
 				PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-				success = PhasePressure(2, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
+				success = PhasePressure(1, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
 			}
 			if (success) {
 				PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-				success = PhaseRelease(2, OT_RELEASE);
+				success = PhaseRelease(1, OT_RELEASE);
+			}
+		}
+
+		// Other vacuum
+		if (settings.UserVacuumNumber >= 3) {
+			for (int i = 0; i < (settings.UserVacuumNumber - 2); i++) {  // -2 for 1st cycle and steril cycle
+				if (success) {
+					PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
+					success = PhaseVacuum(2, (float)settings.OtherVacuum, 0, OT_VACUUM);
+				}
+				if (success) {
+					PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
+					success = PhasePressure(2, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
+				}
+				if (success) {
+					PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
+					success = PhaseRelease(2, OT_RELEASE);
+				}
+			}
+		}
+
+		// Sterilization
+		if (settings.UserVacuumNumber >= 3) {
+			if (success) {
+				PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
+				success = PhaseVacuum(3, (float)settings.OtherVacuum, 0, OT_VACUUM);
+			}
+		}
+		if (settings.UserVacuumNumber < 3) {
+			if (success) {
+				PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
+				success = PhasePressure(3, (settings.UserSterilTemp == STERILTEMP_134) ? 200.0 : 180.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
+			}
+			if (success) {
+				ValveDrainSteamSet(OFF);
+				ResetTimer(TIMER_5);
+				do {
+					GetTimer(TIMER_5, &tWait);
+					lastError = CheckError();
+					if (lastError > 0) {
+						break;
+					}
+					osDelay(200);
+				} while (tWait.Seconds < 25);
+				ValveDrainSteamSet(ON);
+			}
+		}
+		if (success) {
+			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
+			success = PhasePressure(3, (settings.UserSterilTemp == STERILTEMP_134) ? 290.0 : 190.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
+		}
+		if (success) {
+			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
+					SterilParam_s sterilParam = {
+							.chamberTemp = cTemp,
+							.chamberTempMin = (settings.UserSterilTemp == STERILTEMP_134) ? 134.0 : 121.0,
+							.chamberTempMax = (settings.UserSterilTemp == STERILTEMP_134) ? 136.0 : 125.0,
+							.sterilTime = sterilTime,
+							.chamberPress = (settings.UserSterilTemp == STERILTEMP_134) ? 320.0 : 220.0,
+							.pressMin = (settings.UserSterilTemp == STERILTEMP_134) ? DV_STERIL_PRESS_MIN_134 : DV_STERIL_PRESS_MIN_121,
+							.pressMax = (settings.UserSterilTemp == STERILTEMP_134) ? DV_STERIL_PRESS_MAX_134 : DV_STERIL_PRESS_MAX_121,
+							.steamTemp = DV_STEAM_GEN_TEMP,
+							.steamTempMin = 170.0,
+							.T1T2MaxDiff = (settings.UserSterilTemp == STERILTEMP_134) ? T1_T2_STERIL_MAX_TEMP_DIFF_134 : T1_T2_STERIL_MAX_TEMP_DIFF_121,
+							.settleTime = 5,
+							.stabilizationPeriod = STERIL_STABILIZATION_PERIOD,
+							.printInterval = 30,
+							.timeout = settings.UserSterilTime * 60 * 1.5,
+					};
+					SterilPID_s PIDParam = {
+							.PID_KP = (settings.UserSterilTemp == STERILTEMP_134) ? 50.0 : 30.0, 			// 100
+							.PID_KI = (settings.UserSterilTemp == STERILTEMP_134) ? 60.0 : 80.0, 			// 60
+							.PID_KD = (settings.UserSterilTemp == STERILTEMP_134) ? 10.0 : 10.0, 			// 40
+							.PID_TAU = 1.0, 		// 1.0
+							.PID_LIM_MIN = 50, 		// 50
+							.PID_LIM_MAX = 150, 	// 150
+							.PID_LIM_MIN_INT = -50, // -40
+							.PID_LIM_MAX_INT = 50, 	// 40
+							.SAMPLE_TIME_S = 1.0, 	// 1.0
+					};
+
+					success = PhaseSteril(&sterilParam, &PIDParam);
+
+		}
+		if (success) {
+			PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
+			success = PhaseRelease(3, OT_RELEASE);
+		}
+
+		// Dry
+		if (success) {
+			if (dryTime > 0) {
+				success = PhaseDry(DRY_FIRST_VAC, DRY_OTHER_VAC, dryTime, dryTime * 1.5);
+			} else {
+			PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
+			success = PhaseVacuum(0, 50.0, 0, 300);
 			}
 		}
 	}
-
-	// Sterilization
-	if (settings.UserVacuumNumber >= 3) {
-		if (success) {
-			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-			success = PhaseVacuum(3, (float)settings.OtherVacuum, 0, OT_VACUUM);
-		}
-	}
-	if (settings.UserVacuumNumber < 3) {
-		if (success) {
-			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-			success = PhasePressure(3, (settings.UserSterilTemp == STERILTEMP_134) ? 200.0 : 180.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
-		}
-		if (success) {
-			ValveDrainSteamSet(OFF);
-			ResetTimer(TIMER_5);
-			do {
-				GetTimer(TIMER_5, &tWait);
-				lastError = CheckError();
-				if (lastError > 0) {
-					break;
-				}
-				osDelay(200);
-			} while (tWait.Seconds < 25);
-			ValveDrainSteamSet(ON);
-		}
-	}
-	if (success) {
-		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-		success = PhasePressure(3, (settings.UserSterilTemp == STERILTEMP_134) ? 290.0 : 190.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
-	}
-	if (success) {
-		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-				SterilParam_s sterilParam = {
-						.chamberTemp = cTemp,
-						.chamberTempMin = (settings.UserSterilTemp == STERILTEMP_134) ? 134.0 : 121.0,
-						.chamberTempMax = (settings.UserSterilTemp == STERILTEMP_134) ? 136.0 : 125.0,
-						.sterilTime = sterilTime,
-						.chamberPress = (settings.UserSterilTemp == STERILTEMP_134) ? 320.0 : 220.0,
-						.pressMin = (settings.UserSterilTemp == STERILTEMP_134) ? DV_STERIL_PRESS_MIN_134 : DV_STERIL_PRESS_MIN_121,
-						.pressMax = (settings.UserSterilTemp == STERILTEMP_134) ? DV_STERIL_PRESS_MAX_134 : DV_STERIL_PRESS_MAX_121,
-						.steamTemp = DV_STEAM_GEN_TEMP,
-						.steamTempMin = 170.0,
-						.T1T2MaxDiff = (settings.UserSterilTemp == STERILTEMP_134) ? T1_T2_STERIL_MAX_TEMP_DIFF_134 : T1_T2_STERIL_MAX_TEMP_DIFF_121,
-						.settleTime = 5,
-						.stabilizationPeriod = STERIL_STABILIZATION_PERIOD,
-						.printInterval = 30,
-						.timeout = settings.UserSterilTime * 60 * 1.5,
-				};
-				SterilPID_s PIDParam = {
-						.PID_KP = (settings.UserSterilTemp == STERILTEMP_134) ? 50.0 : 30.0, 			// 100
-						.PID_KI = (settings.UserSterilTemp == STERILTEMP_134) ? 60.0 : 80.0, 			// 60
-						.PID_KD = (settings.UserSterilTemp == STERILTEMP_134) ? 10.0 : 10.0, 			// 40
-						.PID_TAU = 1.0, 		// 1.0
-						.PID_LIM_MIN = 50, 		// 50
-						.PID_LIM_MAX = 150, 	// 150
-						.PID_LIM_MIN_INT = -50, // -40
-						.PID_LIM_MAX_INT = 50, 	// 40
-						.SAMPLE_TIME_S = 1.0, 	// 1.0
-				};
-
-				success = PhaseSteril(&sterilParam, &PIDParam);
-
-	}
-	if (success) {
-		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
-		success = PhaseRelease(3, OT_RELEASE);
-	}
-
-	// Dry
-	if (success) {
-		if (dryTime > 0) {
-			success = PhaseDry(DRY_FIRST_VAC, DRY_OTHER_VAC, dryTime, dryTime * 1.5);
-		} else {
-		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
-		success = PhaseVacuum(0, 50.0, 0, 300);
-		}
-	}
-
 	// End
 	PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 	GetTimer(TIMER_CYCLE, &tCycle);
@@ -937,108 +949,110 @@ uint8_t ProgramHelixTest() {
 	progRunning = 1;
 	progStop = 0;
 
-	if (!PhaseBegin(600)) return 0;
+	success = PhaseBegin(60);
 
-	uint16_t sterilTime = 0;
-	uint16_t dryTime = 0;
-	sterilTime = 210;
-	dryTime = GetDryTime(settings.FunDryClass, STERILTEMP_134, 3) * 60;
-	dryTime = 120;
-
-	GetDateTime(&clockTime);
-	PrintHeader("HELIX TEST", sensors.T1, dryTime, sterilTime, &clockTime);
-
-	// Heat up
 	if (success) {
-		success = PhaseHeatUp(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP, DV_PREHEAT_CHAMBER_TEMP, 160.0, OT_HEAT);
-	}
-	if (success) {
-		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-		success = PhaseRelease(1, OT_RELEASE);
-	}
 
-	ResetTimer(TIMER_CYCLE);
+		uint16_t sterilTime = 0;
+		uint16_t dryTime = 0;
+		sterilTime = 210;
+		dryTime = GetDryTime(settings.FunDryClass, STERILTEMP_134, 3) * 60;
+		dryTime = 120;
 
-	// First vacuum
-	if (success) {
-		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-		success = PhaseVacuum(1, (float)settings.FirstVacuum, 0, OT_VACUUM);
-	}
-	if (success) {
-		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-		success = PhasePressure(1, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
-	}
-	if (success) {
-		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-		success = PhaseRelease(1, OT_RELEASE);
-	}
+		GetDateTime(&clockTime);
+		PrintHeader("HELIX TEST", sensors.T1, dryTime, sterilTime, &clockTime);
 
-	// Other vacuum
-	for (int i = 0; i < 1; i++) {
+		// Heat up
+		if (success) {
+			success = PhaseHeatUp(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP, DV_PREHEAT_CHAMBER_TEMP, 160.0, OT_HEAT);
+		}
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-			success = PhaseVacuum(2, (float)settings.FirstVacuum, 0, OT_VACUUM); // ex .OtherVacuum
+			success = PhaseRelease(1, OT_RELEASE);
+		}
+
+		ResetTimer(TIMER_CYCLE);
+
+		// First vacuum
+		if (success) {
+			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
+			success = PhaseVacuum(1, (float)settings.FirstVacuum, 0, OT_VACUUM);
 		}
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-			success = PhasePressure(2, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
+			success = PhasePressure(1, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
 		}
 		if (success) {
 			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
-			success = PhaseRelease(2, OT_RELEASE);
+			success = PhaseRelease(1, OT_RELEASE);
+		}
+
+		// Other vacuum
+		for (int i = 0; i < 1; i++) {
+			if (success) {
+				PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
+				success = PhaseVacuum(2, (float)settings.FirstVacuum, 0, OT_VACUUM); // ex .OtherVacuum
+			}
+			if (success) {
+				PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
+				success = PhasePressure(2, (float)settings.OtherPressure * 10.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
+			}
+			if (success) {
+				PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
+				success = PhaseRelease(2, OT_RELEASE);
+			}
+		}
+
+		// Sterilization
+		if (success) {
+			success = PhaseVacuum(3, (float)settings.FirstVacuum, 0, OT_VACUUM); // ex .OtherVacuum
+		}
+		if (success) {
+			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
+			success = PhasePressure(3, 290.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
+		}
+		if (success) {
+			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
+					SterilParam_s sterilParam = {
+							.chamberTemp = 135.5,
+							.chamberTempMin = 134.0,
+							.chamberTempMax = 136.0,
+							.sterilTime = sterilTime, // 210
+							.chamberPress = 320,
+							.pressMin = 290.0,
+							.pressMax = 350.0,
+							.steamTemp = DV_STEAM_GEN_TEMP,
+							.steamTempMin = 170.0,
+							.T1T2MaxDiff = T1_T2_STERIL_MAX_TEMP_DIFF_134,
+							.settleTime = 25,
+							.stabilizationPeriod = STERIL_STABILIZATION_PERIOD_HELIX,
+							.printInterval = 30,
+							.timeout = 600
+					};
+					SterilPID_s PIDParam = {
+									.PID_KP = 40, 			// 100
+									.PID_KI = 80, 			// 60
+									.PID_KD = 60, 			// 40
+									.PID_TAU = 1.0, 		// 1.0
+									.PID_LIM_MIN = 50, 		// 50
+									.PID_LIM_MAX = 150, 	// 150
+									.PID_LIM_MIN_INT = -60, // -40
+									.PID_LIM_MAX_INT = 60, 	// 40
+									.SAMPLE_TIME_S = 1.0, 	// 1.0
+					};
+
+					success = PhaseSteril(&sterilParam, &PIDParam);
+		}
+		if (success) {
+			PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
+			success = PhaseRelease(3, OT_RELEASE);
+		}
+
+		// Dry
+		if (success) {
+			success = PhaseDry(DRY_FIRST_VAC, DRY_OTHER_VAC, dryTime, dryTime * 1.5);
 		}
 	}
-
-	// Sterilization
-	if (success) {
-		success = PhaseVacuum(3, (float)settings.FirstVacuum, 0, OT_VACUUM); // ex .OtherVacuum
-	}
-	if (success) {
-		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-		success = PhasePressure(3, 290.0, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
-	}
-	if (success) {
-		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
-				SterilParam_s sterilParam = {
-						.chamberTemp = 135.5,
-						.chamberTempMin = 134.0,
-						.chamberTempMax = 136.0,
-						.sterilTime = sterilTime, // 210
-						.chamberPress = 320,
-						.pressMin = 290.0,
-						.pressMax = 350.0,
-						.steamTemp = DV_STEAM_GEN_TEMP,
-						.steamTempMin = 170.0,
-						.T1T2MaxDiff = T1_T2_STERIL_MAX_TEMP_DIFF_134,
-						.settleTime = 25,
-						.stabilizationPeriod = STERIL_STABILIZATION_PERIOD_HELIX,
-						.printInterval = 30,
-						.timeout = 600
-				};
-				SterilPID_s PIDParam = {
-								.PID_KP = 40, 			// 100
-								.PID_KI = 80, 			// 60
-								.PID_KD = 60, 			// 40
-								.PID_TAU = 1.0, 		// 1.0
-								.PID_LIM_MIN = 50, 		// 50
-								.PID_LIM_MAX = 150, 	// 150
-								.PID_LIM_MIN_INT = -60, // -40
-								.PID_LIM_MAX_INT = 60, 	// 40
-								.SAMPLE_TIME_S = 1.0, 	// 1.0
-				};
-
-				success = PhaseSteril(&sterilParam, &PIDParam);
-	}
-	if (success) {
-		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
-		success = PhaseRelease(3, OT_RELEASE);
-	}
-
-	// Dry
-	if (success) {
-		success = PhaseDry(DRY_FIRST_VAC, DRY_OTHER_VAC, dryTime, dryTime * 1.5);
-	}
-
 	// End
 	PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 	GetTimer(TIMER_CYCLE, &tCycle);
@@ -1067,64 +1081,67 @@ uint8_t ProgramVacuumTest() {
 
 	PhasePreheat(1, 1);
 
-	if (!PhaseBegin(600)) return 0;
-
-	GetDateTime(&clockTime);
-	PrintHeader("VACUUM TEST", sensors.T1, 0, 0, &clockTime);
+	success = PhaseBegin(60);
 
 	if (success) {
-		success = PhaseVacuum(1, 20.0, 1, OT_VACUUM);
-	}
-	if (success) {
-		success = PhaseWait(sensors.PressureChamber, 5.0, 240);
-	}
-	if (success) {
-		success = PhaseVacuumHold(sensors.PressureChamber, 2.0, 240, 600);
-	}
-//	if (success) {
-//		success = PhaseRelease(1, OT_RELEASE);
-//	}
-//	machineStatus.Status = STATUS_READY;
 
-	ResetTimer(TIMER_FAN);
+		GetDateTime(&clockTime);
+		PrintHeader("VACUUM TEST", sensors.T1, 0, 0, &clockTime);
 
-	// End
-	GetTimer(TIMER_CYCLE, &tCycle);
-	GetDateTime(&clockTime);
-
-//	if (!success) PrintFooter("FAIL", &clockTime, &tCycle);
-
-//		uint8_t err = ERROR_NONE;
-//	lastError = ERROR_NONE;
-//
-//	EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
-
-	if (lastError == ERROR_VACUUM_TEST_FAILED) {
-
-		ValveDryIntakeSet(ON);
-		ValveDrainSteamSet(ON);
-
-		while (1) {
-			if ((sensors.PressureChamber >= pressAmbientMin) && (sensors.PressureChamber <= pressAmbientMax)) {
-				break;
-			}
-//			lastError = CheckError();
-//			if (lastError > 0) {
-//				success = 0;
-//				break;
-//			}
-			osDelay(200);
+		if (success) {
+			success = PhaseVacuum(1, 20.0, 1, OT_VACUUM);
 		}
+		if (success) {
+			success = PhaseWait(sensors.PressureChamber, 5.0, 240);
+		}
+		if (success) {
+			success = PhaseVacuumHold(sensors.PressureChamber, 2.0, 240, 600);
+		}
+	//	if (success) {
+	//		success = PhaseRelease(1, OT_RELEASE);
+	//	}
+	//	machineStatus.Status = STATUS_READY;
+
 		ResetTimer(TIMER_FAN);
 
-//		osDelay(1000);
-//		if (DoorSolenoidSet(UNLOCK) != UNLOCK) {
-//			DigitsWrite(3, "Er.11");
-//			return 0;
-//		}
+		// End
+		GetTimer(TIMER_CYCLE, &tCycle);
+		GetDateTime(&clockTime);
 
-		Beep(1, 1000, 100);
+	//	if (!success) PrintFooter("FAIL", &clockTime, &tCycle);
 
+	//		uint8_t err = ERROR_NONE;
+	//	lastError = ERROR_NONE;
+	//
+	//	EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
+
+		if (lastError == ERROR_VACUUM_TEST_FAILED) {
+
+			ValveDryIntakeSet(ON);
+			ValveDrainSteamSet(ON);
+
+			while (1) {
+				if ((sensors.PressureChamber >= pressAmbientMin) && (sensors.PressureChamber <= pressAmbientMax)) {
+					break;
+				}
+	//			lastError = CheckError();
+	//			if (lastError > 0) {
+	//				success = 0;
+	//				break;
+	//			}
+				osDelay(200);
+			}
+			ResetTimer(TIMER_FAN);
+
+	//		osDelay(1000);
+	//		if (DoorSolenoidSet(UNLOCK) != UNLOCK) {
+	//			DigitsWrite(3, "Er.11");
+	//			return 0;
+	//		}
+
+			Beep(1, 1000, 100);
+
+		}
 	}
 
 	PhaseFinish(success, &clockTime, &tCycle, 120);
@@ -1144,7 +1161,7 @@ uint8_t PowerTest() {
 	char val[4];
 	uint8_t tCount = 0;
 
-	osSemaphoreWait(semaphoreSensorsHandle, 100);
+	osSemaphoreWait(semaphoreSensorsHandle, 1000);
 
 	machineStatus.Show = SHOW_FUNCTIONS;
 	PWMPower_Stop();
@@ -1291,13 +1308,15 @@ uint8_t ProgramWash() {
 
 	ResetTimer(TIMER_CYCLE);
 
-	if (!PhaseBegin(600)) return 0;
+	success = PhaseBegin(60);
 
-	GetDateTime(&clockTime);
-	PrintHeader("CLEANING PROGRAM", sensors.T1, 0, 0, &clockTime);
+	if (success) {
 
-	PhaseClean();
+		GetDateTime(&clockTime);
+		PrintHeader("CLEANING PROGRAM", sensors.T1, 0, 0, &clockTime);
 
+		PhaseClean();
+	}
 	// End
 	GetTimer(TIMER_CYCLE, &tCycle);
 	GetDateTime(&clockTime);

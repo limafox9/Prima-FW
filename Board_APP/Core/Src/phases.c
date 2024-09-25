@@ -150,12 +150,15 @@ uint8_t PhaseBegin(uint8_t timeout) {
 		Beep(3, 100, 100);
 		retVal = 0;
 	}
+
 	if (retVal == 0) {
 		GetTimer(TIMER_PHASE, &tPhase);
 		PrintError("\n", &tPhase);
 		progRunning = 0;
-		return 0;
+		return 2;
+
 	} else {
+
 		if (DoorSolenoidSet(LOCK) != LOCK) {
 			lastError = ERROR_PROTECTION_LOCK;
 			PrintSize(2, 2);
@@ -380,7 +383,7 @@ uint8_t PhaseRelease(uint8_t nRelease, uint16_t timeout) {
 	HAL_Delay(100);
 
 	while (1) {
-		osSemaphoreWait(semaphoreSensorsHandle, 100);
+		osSemaphoreWait(semaphoreSensorsHandle, 1000);
 //		if ((sensors.PressureChamber >= sensors.PressureAmbient) && (sensors.PressureChamber <= (pressAmbientMax + 20))) {
 //			ValveDryIntakeSet(ON);
 //		}
@@ -1258,7 +1261,7 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer,
 
 	programStart = 0;
 
-	if (success) {
+	if (success == 1) {
 		PrintFooter("PASS", time, timer);
 
 //		uint8_t err = ERROR_NONE;
@@ -1322,6 +1325,7 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer,
 
 		PWMPower_Stop();
 	}
+
 	osThreadSuspend(displayInfoTaskHandle);
 
 	ValveDrainSteamSet(OFF);

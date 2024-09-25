@@ -148,7 +148,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 
 	if(GPIO_Pin == SW_DOOR_Pin) {
 		Beep(1, 100, 100);
-		osSemaphoreWait(semaphoreSensorsHandle, 100);
+		osSemaphoreWait(semaphoreSensorsHandle, 1000);
 		sensors.Door = DoorPositionGet();
 		if (sensors.Door == OPEN) {
 			doorOpened = 1;
@@ -248,7 +248,7 @@ void StartSensorsTask() {
 	sensors.PressureAmbient = (float)100.0;
 
 	for (;;) {
-		osSemaphoreWait(semaphoreSensorsHandle, 100);
+		osSemaphoreWait(semaphoreSensorsHandle, 1000);
 		sensors.Door = DoorPositionGet();
 		sensors.Solenoid = DoorSolenoidKeyGet();
 		sensors.TemperatureSteamGenerator = SteamGeneratorTempGet();
@@ -317,7 +317,7 @@ void StartSensorsTask() {
 
 		}
 
-		if (machineStatus.Show == SHOW_PROGRAM) ShowProgram();
+		if (machineStatus.Show == SHOW_PROGRAM && machineStatus.Status != STATUS_RUNNING) ShowProgram();
 		else if (machineStatus.Show == SHOW_READINGS) ShowReading();
 		else if (machineStatus.Show == SHOW_PARAMETERS) ShowParameter();
 

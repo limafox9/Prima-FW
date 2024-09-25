@@ -238,7 +238,7 @@ void ShowProgram() {
 
 	lastProgType = currProgType;
 
-	osSemaphoreWait(semaphoreSensorsHandle, 100);
+	osSemaphoreWait(semaphoreSensorsHandle, 1000);
 	char s[8];
 	sprintf(s,"%5.1f", sensors.T1);
 	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, s);
@@ -250,7 +250,7 @@ void ShowProgram() {
 }
 
 void ShowParameter() {
-	osSemaphoreWait(semaphoreSensorsHandle, 100);
+	osSemaphoreWait(semaphoreSensorsHandle, 1000);
 	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, &parameters[currParameter].DigitsName);
 	char s[8];
 	if (parameters[currParameter].Increment < 1) {
@@ -279,7 +279,7 @@ void ChangeParameter(int8_t increment) {
 }
 
 void ShowReading() {
-	osSemaphoreWait(semaphoreSensorsHandle, 100);
+	osSemaphoreWait(semaphoreSensorsHandle, 1000);
 	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, &readings[currReading].DigitsName);
 	char s[8];
 	if (currReading == 6) {
@@ -301,7 +301,7 @@ void SelectReading() {
 }
 
 void ShowUserSetting() {
-	osSemaphoreWait(semaphoreSensorsHandle, 100);
+	osSemaphoreWait(semaphoreSensorsHandle, 1000);
 	SendCommand(DISPLAY_CMD_WRITE_DIGITS, 1, 0, 0, &user[currUser].DigitsName);
 	char s[8];
 	if (currUser == 0) {
