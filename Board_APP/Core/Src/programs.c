@@ -78,13 +78,13 @@ USAGE:
 #define POWER_TEST_ON_TIME 3000
 #define POWER_TEST_PAUSE_TIME 1000
 
-#define STERIL_STABILIZATION_PERIOD 30
+#define STERIL_STABILIZATION_PERIOD 5
 #define STERIL_STABILIZATION_PERIOD_HELIX 50
 
 #define T1_T2_STERIL_MAX_TEMP_DIFF_134 0.5
 #define T1_T2_STERIL_MAX_TEMP_DIFF_121 0.5
 
-#define DRY_VALVE_TIMER 15
+#define DRY_VALVE_TIMER 60
 
 extern osThreadId sensorsTaskHandle;
 
@@ -99,7 +99,8 @@ void StartProgramTask() {
 	for (;;) {
 
 		GetTimer(TIMER_DOOR, &timerDoor);
-		if ((doorStatus == OPEN) && (timerDoor.Seconds > DRY_VALVE_TIMER)) {
+//		if ((doorStatus == OPEN) && (timerDoor.Seconds > DRY_VALVE_TIMER)) {
+		if (timerDoor.Seconds > DRY_VALVE_TIMER) {
 			ValveDryIntakeSet(OFF);
 		}
 
@@ -229,7 +230,7 @@ uint8_t ProgramResumeDry() {
 //		osDelay(200);
 //	}
 
-	PhaseDry(DRY_FIRST_VAC, DRY_OTHER_VAC, 180, 800);
+	PhaseDry(DRY_FIRST_VAC, DRY_OTHER_VAC, 180, 360);
 //	SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_NONE, 0, 0, "");
 
 
@@ -278,6 +279,7 @@ uint8_t ProgramResumeDry() {
 	PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 	osThreadSuspend(displayInfoTaskHandle);
 
+	PWMPower_Start();
 }
 
 uint8_t ProgramUnwrapped() {

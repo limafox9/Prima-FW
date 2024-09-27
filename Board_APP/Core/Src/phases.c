@@ -151,6 +151,7 @@ uint8_t PhaseBegin(uint8_t timeout) {
 		retVal = 0;
 	}
 	if (retVal == 0) {
+		GetTimer(TIMER_PHASE, &tPhase);
 		PrintError("\n", &tPhase);
 		progRunning = 0;
 		return 0;
@@ -160,6 +161,7 @@ uint8_t PhaseBegin(uint8_t timeout) {
 			PrintSize(2, 2);
 			Print("LOCK ERROR *** \nNO CONFIRMATION\n");
 			PrintSize(1, 1);
+			GetTimer(TIMER_PHASE, &tPhase);
 			PrintError("\n", &tPhase);
 			Beep(1, 1000, 100);
 			lastError = ERROR_PROTECTION_LOCK;
@@ -1317,6 +1319,7 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer,
 			machineStatus.Show = SHOW_PROGRAM;
 			programStart = 1;
 		}
+		PWMPower_Stop();
 	}
 	osThreadSuspend(displayInfoTaskHandle);
 
