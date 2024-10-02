@@ -6,8 +6,8 @@
 ../Core/Src/programs.c:522:9:ProgramPrion	15
 ../Core/Src/programs.c:644:9:ProgramGentle	15
 ../Core/Src/programs.c:761:9:ProgramUser	40
-../Core/Src/programs.c:928:9:ProgramHelixTest	16
-../Core/Src/programs.c:1051:9:ProgramVacuumTest	8
-../Core/Src/programs.c:1138:9:PowerTest	1
-../Core/Src/programs.c:1279:9:ProgramWash	2
-../Core/Src/programs.c:1315:9:ProgramWaterLoad	2
+../Core/Src/programs.c:938:9:ProgramHelixTest	16
+../Core/Src/programs.c:1062:9:ProgramVacuumTest	8
+../Core/Src/programs.c:1149:9:PowerTest	1
+../Core/Src/programs.c:1290:9:ProgramWash	2
+../Core/Src/programs.c:1326:9:ProgramWaterLoad	2

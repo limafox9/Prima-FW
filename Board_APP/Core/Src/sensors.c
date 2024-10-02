@@ -311,12 +311,12 @@ void StartSensorsTask() {
 
 		if (sensors.Door == OPEN) {
 			sensors.PressureAmbient = sensors.PressureChamber;
+			pressAmbientMin = sensors.PressureAmbient - (float)AMBIENT_PRESSURE_TOLERANCE_MIN;
+			pressAmbientMax = sensors.PressureAmbient + (float)AMBIENT_PRESSURE_TOLERANCE_MAX;
 		}
 
-		pressAmbientMin = sensors.PressureAmbient - (float)AMBIENT_PRESSURE_TOLERANCE_MIN;
-		pressAmbientMax = sensors.PressureAmbient + (float)AMBIENT_PRESSURE_TOLERANCE_MAX;
 
-		if (machineStatus.Show == SHOW_PROGRAM) ShowProgram();
+		if (machineStatus.Show == SHOW_PROGRAM && machineStatus.Status != STATUS_RUNNING) ShowProgram();
 		else if (machineStatus.Show == SHOW_READINGS) ShowReading();
 		else if (machineStatus.Show == SHOW_PARAMETERS) ShowParameter();
 

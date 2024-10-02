@@ -2,7 +2,7 @@
 ../Core/Src/sensors.c:200:10:WaterQualityGet	4
 ../Core/Src/sensors.c:216:7:GetT1	1
 ../Core/Src/sensors.c:220:7:GetT2	1
-../Core/Src/sensors.c:225:6:StartSensorsTask	26
+../Core/Src/sensors.c:225:6:StartSensorsTask	27
 ../Core/Src/sensors.c:425:13:DoorSolenoidKeyGet	1
 ../Core/Src/sensors.c:432:19:DoorPositionGet	1
 ../Core/Src/sensors.c:438:9:WaterDumpLevelGet	2

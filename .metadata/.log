@@ -9691,3 +9691,18 @@ org.eclipse.core.runtime.CoreException: Cannot determine URI for '/Board_APP/Cha
 
 !ENTRY org.eclipse.cdt.core 1 0 2024-09-27 09:03:57.537
 !MESSAGE Indexed 'Bootloader' (43 sources, 138 headers) in 1.55 sec: 11,594 declarations; 53,176 references; 2 unresolved inclusions; 36 syntax errors; 188 unresolved names (0.29%)
+!SESSION 2024-10-01 14:27:32.793 -----------------------------------------------
+eclipse.buildId=Version 1.16.0
+java.version=17.0.11
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=it_IT
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2024-10-01 14:28:03.629
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2024-10-01 14:28:03.645
+!MESSAGE Log4j2 initialized with config file D:\Galbiati\Prima-FW\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2024-10-01 14:28:22.579
+!MESSAGE Started RMI Server, listening on port 41337
