@@ -316,7 +316,7 @@ void StartSensorsTask() {
 		}
 
 
-		if (machineStatus.Show == SHOW_PROGRAM && machineStatus.Status != STATUS_RUNNING) ShowProgram();
+		if (machineStatus.Show == SHOW_PROGRAM) ShowProgram();
 		else if (machineStatus.Show == SHOW_READINGS) ShowReading();
 		else if (machineStatus.Show == SHOW_PARAMETERS) ShowParameter();
 

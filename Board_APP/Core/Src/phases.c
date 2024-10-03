@@ -189,25 +189,25 @@ uint8_t PhaseBegin(uint8_t timeout) {
 	uint8_t err = ERROR_POWER_OFF;
 	EEPROM_Write(EPA_LAST_ERROR, &err, 1);
 
-	while (1) {
-		GetTimer(TIMER_TIMEOUT, &tTimeout);
-		if ((sensors.PressureChamber >= pressAmbientMin) && (sensors.PressureChamber <= pressAmbientMax)) {
-			retVal = 1;
-			break;
-		}
-		if (tTimeout.Seconds > timeout) {
-			lastError = ERROR_PHASE_TIMEOUT;
-			retVal = 0;
-			break;
-		}
-		if (abortProgram) {
-			abortProgram = 0;
-			lastError = ERROR_ABNORMAL_EXIT;
-			retVal = 0;
-			break;
-		}
-		osDelay(200);
-	}
+//	while (1) {
+//		GetTimer(TIMER_TIMEOUT, &tTimeout);
+//		if ((sensors.PressureChamber >= pressAmbientMin) && (sensors.PressureChamber <= pressAmbientMax)) {
+//			retVal = 1;
+//			break;
+//		}
+//		if (tTimeout.Seconds > timeout) {
+//			lastError = ERROR_PHASE_TIMEOUT;
+//			retVal = 0;
+//			break;
+//		}
+//		if (abortProgram) {
+//			abortProgram = 0;
+//			lastError = ERROR_ABNORMAL_EXIT;
+//			retVal = 0;
+//			break;
+//		}
+//		osDelay(200);
+//	}
 
 	if (currProgram != PROGRAM_RESUME_DRY && retVal != 0) {
 		settings.CyclesCount++;

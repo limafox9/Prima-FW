@@ -1,4 +1,4 @@
-../Core/Src/phases.c:83:9:PhaseBegin	20
+../Core/Src/phases.c:83:9:PhaseBegin	16
 ../Core/Src/phases.c:223:9:PhaseResume	6
 ../Core/Src/phases.c:267:9:PhasePreheat	1
 ../Core/Src/phases.c:273:9:PhaseHeatUp	9
