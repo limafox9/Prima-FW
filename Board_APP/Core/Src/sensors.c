@@ -246,6 +246,8 @@ void StartSensorsTask() {
 	ResetTimer(TIMER_SENSOR_MONITOR);
 
 	sensors.PressureAmbient = (float)100.0;
+	pressAmbientMin = sensors.PressureAmbient - (float)AMBIENT_PRESSURE_TOLERANCE_MIN;
+	pressAmbientMax = sensors.PressureAmbient + (float)AMBIENT_PRESSURE_TOLERANCE_MAX;
 
 	for (;;) {
 		osSemaphoreWait(semaphoreSensorsHandle, 100);
