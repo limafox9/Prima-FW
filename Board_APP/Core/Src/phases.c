@@ -665,7 +665,7 @@ uint8_t PhaseSteril(SterilParam_s* param, SterilPID_s* pPID) {
 	ResetTimer(TIMER_PHASE);
 
 	PIDController pidSteril = {pPID->PID_KP, pPID->PID_KI, pPID->PID_KD, pPID->PID_TAU, pPID->PID_LIM_MIN, pPID->PID_LIM_MAX, pPID->PID_LIM_MIN_INT, pPID->PID_LIM_MAX_INT, pPID->SAMPLE_TIME_S};
-	PIDController_Init(&pidSteril);
+	PIDController_Init(&pidSteril, 1);
 
 	ValveDrainSteamSet(ON);
 	osDelay(100);
@@ -1365,7 +1365,7 @@ void PhaseTestPID(SterilParam_s* param) {
 	static const float pSAMPLE_TIME_S = 1.0;
 
 	PIDController pidSteam = {pPID_KP, pPID_KI, pPID_KD, pPID_TAU, pPID_LIM_MIN, pPID_LIM_MAX, pPID_LIM_MIN_INT, pPID_LIM_MAX_INT, pSAMPLE_TIME_S};
-	PIDController_Init(&pidSteam);
+	PIDController_Init(&pidSteam, 0);
 
 	while (1) {
 		float ret = PIDController_Update(&pidSteam, param->chamberTemp, sensors.T1);

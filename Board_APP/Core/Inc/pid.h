@@ -38,6 +38,8 @@ USAGE:
 #ifndef INC_PID_H_
 #define INC_PID_H_
 
+#include "stdint.h"
+
 typedef struct {
 
 	/* Controller gains */
@@ -70,7 +72,7 @@ typedef struct {
 
 } PIDController;
 
-void  PIDController_Init(PIDController *pid);
+void PIDController_Init(PIDController *pid, uint8_t isSerialDebug);
 float PIDController_Update(PIDController *pid, float setpoint, float measurement);
 float PIDController_Update1(PIDController *pid, float setpoint, float measurement);
 

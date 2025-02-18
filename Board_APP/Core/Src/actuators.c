@@ -103,7 +103,7 @@ void HeaterChamberTempSet(float tempC) {
 	heaterChamberTempSet = tempC;
 
 	if (tempC > 0.0) {
-		PIDController_Init(&pidHeaterChamber);
+		PIDController_Init(&pidHeaterChamber, 0);
 		PWM_TIMER_HEATER_CHAMBER.Instance->ARR = 7200;
 		HAL_TIM_Base_Start_IT(&PWM_TIMER_HEATER_CHAMBER);
 	} else {
@@ -206,7 +206,7 @@ void StartSteamPowerTask() {
 void HeaterSteamGeneratorTempSet(float tempC) {
 
 	if (tempC > 0.0) {
-		PIDController_Init(&pidHeaterSteamGenerator);
+		PIDController_Init(&pidHeaterSteamGenerator, 0);
 		heaterSteamGeneratorTempSet = tempC;
 		PWM_TIMER_STEAM_GENERATOR.Instance->ARR = 7200;
 		HAL_GPIO_WritePin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin, GPIO_PIN_RESET);

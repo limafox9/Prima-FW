@@ -35,7 +35,15 @@ USAGE:
 
 #include "PID.h"
 
-void PIDController_Init(PIDController *pid) {
+#include "globals.h"
+#include "time.h"
+
+uint8_t _isSerialDebug;
+RTCDateTime_s _logTime;
+
+void PIDController_Init(PIDController *pid, uint8_t isSerialDebug) {
+
+	_isSerialDebug = isSerialDebug;
 
 	/* Clear controller variables */
 	pid->integrator = 0.0f;
@@ -50,6 +58,9 @@ void PIDController_Init(PIDController *pid) {
 
 float PIDController_Update1(PIDController *pid, float setpoint, float measurement) {
 
+
+	float exIntegrator;
+	float exOutput;
 	/*
 	* Error signal
 	*/
@@ -60,19 +71,41 @@ float PIDController_Update1(PIDController *pid, float setpoint, float measuremen
 	* Proportional
 	*/
     float proportional = pid->Kp * error;
-//pid->integrator += error * pid->T;
-    float derivative = pid->Kd * ((error - pid->prevError) / pid->T);
-    float output = proportional + derivative;
-//    float output = (pid->Kp * error) + (pid->Ki * pid->integrator) + (pid->Kd * derivative);
+
+    pid->integrator += error * pid->T;
+    exIntegrator = pid->integrator;
+
+    if (pid->integrator > pid->limMaxInt) {
+		pid->integrator = pid->limMaxInt;
+	} else if (pid->integrator < pid->limMinInt) {
+		pid->integrator = pid->limMinInt;
+	}
+
+    //    float derivative = pid->Kd * ((error - pid->prevError) / pid->T);
+    float derivative = (error - pid->prevError) / pid->T;
+
+    float output = (pid->Kp * error) + (pid->Ki * pid->integrator) + (pid->Kd * derivative);
+    exOutput = output;
+
+    if (output > pid->limMax) output = pid->limMax;
+	if (output < pid->limMin) output = pid->limMin;
+
     pid->prevError = error;
 
-//    if (output < 0) {
-//    	output = 0;
-//    } else {
-        if (output > pid->limMax) output = pid->limMax;
-        if (output < pid->limMin) output = pid->limMin;
-//    }
-	/* Return controller output */
+    if (_isSerialDebug == 1) {
+    	GetDateTime(&_logTime);
+    	printf("PID;%02d.%02d.%02d;%0.2f;%0.2f;%0.2f;%0.2f;%0.2f;%0.2f;%0.2f;%0.2f;",
+    			_logTime.Hour, _logTime.Minute, _logTime.Second,
+    			setpoint,
+				measurement,
+				proportional,
+				exIntegrator,
+				pid->integrator,
+				derivative,
+				exOutput,
+				output);
+    }
+
     return output;
 
 }

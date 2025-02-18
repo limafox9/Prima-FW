@@ -617,11 +617,22 @@ uint8_t ProgramWrapped() {
 //						.PID_LIM_MIN_INT = -60, // -40
 //						.PID_LIM_MAX_INT = 60, 	// 40
 //						.SAMPLE_TIME_S = 1.0, 	// 1.0
-				.PID_KP = 30.0, 			// 100
-				.PID_KI = 5.0, 			// 60
-				.PID_KD = 45.0, 			// 40
+
+//				.PID_KP = 30.0, 			// 100
+//				.PID_KI = 5.0, 			// 60
+//				.PID_KD = 45.0, 			// 40
+//				.PID_TAU = 1.0, 		// 1.0
+//				.PID_LIM_MIN = -70.0, 		// 50
+//				.PID_LIM_MAX = 70.0, 	// 150
+//				.PID_LIM_MIN_INT = -20.0, // -40
+//				.PID_LIM_MAX_INT = 20.0, 	// 40
+//				.SAMPLE_TIME_S = 1.5, 	// 1.0
+
+				.PID_KP = 6, 			// 100
+				.PID_KI = 0.6, 			// 60
+				.PID_KD = 42.5, 			// 40
 				.PID_TAU = 1.0, 		// 1.0
-				.PID_LIM_MIN = -70.0, 		// 50
+				.PID_LIM_MIN = 0.0, 		// 50
 				.PID_LIM_MAX = 70.0, 	// 150
 				.PID_LIM_MIN_INT = -20.0, // -40
 				.PID_LIM_MAX_INT = 20.0, 	// 40
