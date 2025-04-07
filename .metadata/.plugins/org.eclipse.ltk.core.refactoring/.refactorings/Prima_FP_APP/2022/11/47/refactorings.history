@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename resource &apos;Prima_FP_APP/Core/Src/Buzzer.c&apos; to &apos;buzzer.c&apos;" description="Rename resource &apos;Buzzer.c&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="Core/Src/Buzzer.c" name="buzzer.c" stamp="1669468624012" updateReferences="true"/>
-</session>

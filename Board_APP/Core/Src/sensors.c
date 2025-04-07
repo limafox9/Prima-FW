@@ -153,7 +153,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 		if (sensors.Door == OPEN) {
 			doorOpened = 1;
 		}
-		if (machineStatus.Status == STATUS_READY || machineStatus.Status == STATUS_PASS) {
+		if (sensors.Solenoid == UNLOCK && (machineStatus.Status == STATUS_READY || machineStatus.Status == STATUS_PASS)) {
 //			ValveDryIntakeSet(DoorPositionGet());
 			ValveDryIntakeSet(ON);
 			machineStatus.Status == STATUS_READY;

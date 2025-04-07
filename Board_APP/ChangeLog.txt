@@ -2,6 +2,11 @@
 PRIMA Board_APP
 -------------------------------------------------------------------------------
 
+[3.2.9] 2025-04-07
+  CHANGED
+  - Valvola intake si attiva solo se solenoide UNLOCK.
+    (if(GPIO_Pin == SW_DOOR_Pin) in sensors.c)
+
 [3.1.4] 2023-12-06
   CHANGED
   - Tutti i vuoti dell'Helix Test con stesso valore del primo vuoto

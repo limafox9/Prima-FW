@@ -436,6 +436,7 @@ uint8_t PhaseVacuum(uint8_t nVacuum, float press, uint8_t skipThreshold, uint16_
 
 	// Valves
 	ValveDrainSteamSet(OFF);
+//	ValveDryIntakeSet(ON);
 	ValveDryIntakeSet(OFF);
 	ValveWaterSteamSet(OFF);
 	ValveVacuumSet(ON);

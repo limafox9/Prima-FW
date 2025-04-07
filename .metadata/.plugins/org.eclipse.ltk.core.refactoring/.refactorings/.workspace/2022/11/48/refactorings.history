@@ -1,3 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;Prima_Display&apos; to &apos;Prima_FP_APP&apos;" description="Rename resource &apos;Prima_Display&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="/Prima_Display" name="Prima_FP_APP" stamp="1669423912705" updateReferences="true"/>&#x0A;<refactoring comment="Delete resource &apos;Prima_FP_APP&apos;" deleteContents="false" description="Delete resource &apos;Prima_FP_APP&apos;" element1="/Prima_FP_APP" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1669423976762"/>
-</session>
