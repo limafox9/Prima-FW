@@ -529,7 +529,13 @@ void PrintHeader (const char* title, float t1, uint16_t dryTime, uint16_t steril
 }
 
 void PrintFooter (const char* result, RTCDateTime_s* time, RTCTimerTime_s* timer) {
-	Print("FINISH                  %02d:%02d:%02d\n", time->Hour, time->Minute, time->Second);
+
+	RTCDateTime_s time2;
+
+	GetDateTime(&time2);
+
+//	Print("FINISH                  %02d:%02d:%02d\n", time->Hour, time->Minute, time->Second);
+	Print("FINISH                  %02d:%02d:%02d\n", time2.Hour, time2.Minute, time2.Second);
 	Print("------------------------------------------\n");
 	Print("TOTAL TIME                 %2d:%02d\n", timer->Minutes, timer->TimeSecond);
 	Print("\n");

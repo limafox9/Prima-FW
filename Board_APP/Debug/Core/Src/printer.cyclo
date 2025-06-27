@@ -9,7 +9,7 @@
 ../Core/Src/printer.c:429:6:PrintLogo	1
 ../Core/Src/printer.c:451:6:PrintHeader	15
 ../Core/Src/printer.c:531:6:PrintFooter	3
-../Core/Src/printer.c:556:6:PrintStepLine	1
-../Core/Src/printer.c:560:6:PrintDivisor	1
-../Core/Src/printer.c:565:6:PrintLF	2
-../Core/Src/printer.c:571:15:reverse_byte	1
+../Core/Src/printer.c:562:6:PrintStepLine	1
+../Core/Src/printer.c:566:6:PrintDivisor	1
+../Core/Src/printer.c:571:6:PrintLF	2
+../Core/Src/printer.c:577:15:reverse_byte	1
