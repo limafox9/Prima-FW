@@ -23446,7 +23446,7 @@ void LoadSettings() {
  8019256:	77da      	strb	r2, [r3, #31]
 	machine.FWVersionRevision = FW_VERSION_REVISION;
  8019258:	4b61      	ldr	r3, [pc, #388]	@ (80193e0 <LoadSettings+0x1b0>)
- 801925a:	2204      	movs	r2, #4
+ 801925a:	2205      	movs	r2, #5
  801925c:	f883 2020 	strb.w	r2, [r3, #32]
 //		SaveDefaults();
 //	}
