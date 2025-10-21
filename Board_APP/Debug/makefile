@@ -1,6 +1,6 @@
 ################################################################################
 # Automatically-generated file. Do not edit!
-# Toolchain: GNU Tools for STM32 (12.3.rel1)
+# Toolchain: GNU Tools for STM32 (13.3.rel1)
 ################################################################################
 
 -include ../makefile.init
@@ -79,7 +79,7 @@ all: main-build
 main-build: Board_APP.elf secondary-outputs
 
 dependents:
-	-cd D:/Galbiati/Prima-FW/DB_Protocol/Debug && $(MAKE) clean all
+	-cd D:/Galbiati/Prima-FW/DB_Protocol/Debug && $(MAKE) all
 
 # Tool invocations
 Board_APP.elf Board_APP.map: $(OBJS) $(USER_OBJS) D:/Galbiati/Prima-FW/DB_Protocol/Debug/libDB_Protocol.a D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)

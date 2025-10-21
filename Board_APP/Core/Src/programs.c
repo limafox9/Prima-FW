@@ -723,15 +723,15 @@ uint8_t ProgramGentle() {
 						.timeout = 1800
 				};
 				SterilPID_s PIDParam = {
-						.PID_KP = 30.0, 			// 40
-						.PID_KI = 5.0, 			// 80
-						.PID_KD = 45.0, 			// 60
+						.PID_KP = 40.0, 			// 30.0
+						.PID_KI = 10.0, 			// 5.0
+						.PID_KD = 100.0, 			// 45.0
 						.PID_TAU = 1.0, 		// 1.0
-						.PID_LIM_MIN = -70.0, 		// 50
-						.PID_LIM_MAX = 70.0, 	// 150
-						.PID_LIM_MIN_INT = -20.0, // -60
-						.PID_LIM_MAX_INT = 20.0, 	// 60
-						.SAMPLE_TIME_S = 1.5, 	// 1.0
+						.PID_LIM_MIN = -70.0, 		// -70.0
+						.PID_LIM_MAX = 70.0, 	// 70.0
+						.PID_LIM_MIN_INT = -20.0, // -20.0
+						.PID_LIM_MAX_INT = 20.0, 	// 20.0
+						.SAMPLE_TIME_S = 1.0, 	// 1.0
 				};
 				success = PhaseSteril(&sterilParam, &PIDParam);
 	}

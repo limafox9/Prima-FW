@@ -1,98 +1,197 @@
-15:39:11 **** Build of configuration Debug for project DB_Protocol ****
+18:10:17 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j24 all 
 make: Nothing to be done for 'all'.
-15:39:11 **** Incremental Build of configuration Debug for project DB_Protocol ****
+18:10:17 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j24 all 
 make: Nothing to be done for 'all'.
-15:39:12 **** Build of configuration Debug for project Board_APP ****
+18:10:17 **** Incremental Build of configuration Debug for project Board_APP ****
 make -j24 all 
-arm-none-eabi-gcc "../Core/Src/printer.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/printer.d" -MT"Core/Src/printer.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/printer.o"
-arm-none-eabi-gcc "../Core/Src/settings.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/settings.d" -MT"Core/Src/settings.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/settings.o"
-In file included from ../Core/Src/settings.c:42:
+arm-none-eabi-gcc "../Core/Src/programs.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F105xC -c -I../Core/Inc -I../Core/Devs -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I"D:/Galbiati/Prima-FW/DB_Protocol" -I../FATFS/Target -I../FATFS/App -I../USB_HOST/App -I../USB_HOST/Target -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/Third_Party/FatFs/src/drivers -I../Middlewares/ST/STM32_USB_Host_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/programs.d" -MT"Core/Src/programs.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/programs.o"
+In file included from ../Core/Src/programs.c:39:
 ../Core/Inc/globals.h:106:1: warning: useless storage class specifier in empty declaration
   106 | };
       | ^
-In file included from ../Core/Src/printer.c:43:
-../Core/Inc/globals.h:106:1: warning: useless storage class specifier in empty declaration
-  106 | };
-      | ^
-../Core/Src/settings.c: In function 'ReadSetting':
-../Core/Src/settings.c:73:9: warning: implicit declaration of function 'EEPROM_Read' [-Wimplicit-function-declaration]
-   73 |         EEPROM_Read(address, data, size);
+../Core/Src/programs.c: In function 'StartProgramTask':
+../Core/Src/programs.c:104:25: warning: implicit declaration of function 'ValveDryIntakeSet' [-Wimplicit-function-declaration]
+  104 |                         ValveDryIntakeSet(OFF);
+      |                         ^~~~~~~~~~~~~~~~~
+../Core/Src/programs.c:109:25: warning: implicit declaration of function 'FanSet' [-Wimplicit-function-declaration]
+  109 |                         FanSet(OFF);
+      |                         ^~~~~~
+../Core/Src/programs.c: In function 'ProgramResumeDry':
+../Core/Src/programs.c:183:9: warning: implicit declaration of function 'ProgressLedsOff' [-Wimplicit-function-declaration]
+  183 |         ProgressLedsOff();
+      |         ^~~~~~~~~~~~~~~
+../Core/Src/programs.c:184:9: warning: implicit declaration of function 'DigitsWrite' [-Wimplicit-function-declaration]
+  184 |         DigitsWrite(3,"----");
       |         ^~~~~~~~~~~
-../Core/Src/settings.c: In function 'WriteSetting':
-../Core/Src/settings.c:139:9: warning: implicit declaration of function 'EEPROM_Write' [-Wimplicit-function-declaration]
-  139 |         EEPROM_Write(address, data, size);
+../Core/Src/programs.c:193:9: warning: implicit declaration of function 'ValveDrainSteamSet' [-Wimplicit-function-declaration]
+  193 |         ValveDrainSteamSet(OFF);
+      |         ^~~~~~~~~~~~~~~~~~
+../Core/Src/programs.c:195:9: warning: implicit declaration of function 'ValveVacuumSet' [-Wimplicit-function-declaration]
+  195 |         ValveVacuumSet(OFF);
+      |         ^~~~~~~~~~~~~~
+../Core/Src/programs.c:196:9: warning: implicit declaration of function 'ValveWaterSteamSet' [-Wimplicit-function-declaration]
+  196 |         ValveWaterSteamSet(OFF);
+      |         ^~~~~~~~~~~~~~~~~~
+../Core/Src/programs.c:198:9: warning: implicit declaration of function 'PumpSteamGeneratorSet' [-Wimplicit-function-declaration]
+  198 |         PumpSteamGeneratorSet(OFF);
+      |         ^~~~~~~~~~~~~~~~~~~~~
+../Core/Src/programs.c:199:9: warning: implicit declaration of function 'PumpVacuumSet' [-Wimplicit-function-declaration]
+  199 |         PumpVacuumSet(OFF);
+      |         ^~~~~~~~~~~~~
+../Core/Src/programs.c:200:9: warning: implicit declaration of function 'PumpWaterLoadSet' [-Wimplicit-function-declaration]
+  200 |         PumpWaterLoadSet(OFF);
+      |         ^~~~~~~~~~~~~~~~
+../Core/Src/programs.c:261:13: warning: implicit declaration of function 'DoorSolenoidSet'; did you mean 'DoorSolenoidKeyGet'? [-Wimplicit-function-declaration]
+  261 |         if (DoorSolenoidSet(UNLOCK) != UNLOCK) {
+      |             ^~~~~~~~~~~~~~~
+      |             DoorSolenoidKeyGet
+../Core/Src/programs.c:272:9: warning: implicit declaration of function 'EEPROM_Write' [-Wimplicit-function-declaration]
+  272 |         EEPROM_Write(EPA_LAST_ERROR, &lastError, 1);
       |         ^~~~~~~~~~~~
-../Core/Src/settings.c: In function 'SaveDefaults':
-../Core/Src/settings.c:183:17: warning: implicit declaration of function 'BAT2U_TDSCalibration' [-Wimplicit-function-declaration]
-  183 |                 BAT2U_TDSCalibration(500);
-      |                 ^~~~~~~~~~~~~~~~~~~~
-../Core/Src/printer.c: In function 'PrinterInit':
-../Core/Src/printer.c:209:14: warning: unused variable 'd' [-Wunused-variable]
-  209 |         char d[10];
-      |              ^
-../Core/Src/printer.c: In function 'PrintSend':
-../Core/Src/printer.c:259:28: warning: passing argument 1 of 'vsprintf' from incompatible pointer type [-Wincompatible-pointer-types]
-  259 |                   vsprintf(buf, format, args);
-      |                            ^~~
-      |                            |
-      |                            char **
-In file included from ../Core/Src/printer.c:37:
-C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130\tools\bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/include/stdio.h:216:19: note: expected 'char * restrict' but argument is of type 'char **'
-  216 | int     vsprintf (char *__restrict, const char *__restrict, __VALIST)
-      |                   ^
-../Core/Src/printer.c:264:72: warning: passing argument 1 of 'strlen' from incompatible pointer type [-Wincompatible-pointer-types]
-  264 |                           HAL_UART_Transmit(&UART_PRINTER, buf, strlen(buf), 1000);
-      |                                                                        ^~~
-      |                                                                        |
-      |                                                                        char **
-In file included from ../Core/Src/printer.c:36:
-C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130\tools\bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/include/string.h:41:18: note: expected 'const char *' but argument is of type 'char **'
-   41 | size_t   strlen (const char *);
-      |                  ^~~~~~~~~~~~
-../Core/Src/printer.c:264:60: warning: passing argument 2 of 'HAL_UART_Transmit' from incompatible pointer type [-Wincompatible-pointer-types]
-  264 |                           HAL_UART_Transmit(&UART_PRINTER, buf, strlen(buf), 1000);
-      |                                                            ^~~
-      |                                                            |
-      |                                                            char **
-In file included from ../Core/Inc/stm32f1xx_hal_conf.h:338,
-                 from ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:30,
-                 from ../Core/Inc/main.h:30,
-                 from ../Core/Devs/PCF8563.h:41,
-                 from ../Core/Inc/time.h:40,
-                 from ../Core/Inc/printer.h:41,
-                 from ../Core/Src/printer.c:40:
-../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h:725:73: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char **'
-  725 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
-      |                                                                ~~~~~~~~~^~~~~
-../Core/Src/printer.c: In function 'Print':
-../Core/Src/printer.c:275:28: warning: passing argument 1 of 'vsprintf' from incompatible pointer type [-Wincompatible-pointer-types]
-  275 |                   vsprintf(buf, format, args);
-      |                            ^~~
-      |                            |
-      |                            char **
-C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130\tools\bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/include/stdio.h:216:19: note: expected 'char * restrict' but argument is of type 'char **'
-  216 | int     vsprintf (char *__restrict, const char *__restrict, __VALIST)
-      |                   ^
-../Core/Src/printer.c:281:80: warning: passing argument 1 of 'strlen' from incompatible pointer type [-Wincompatible-pointer-types]
-  281 |                                   HAL_UART_Transmit(&UART_PRINTER, buf, strlen(buf), 1000);
-      |                                                                                ^~~
-      |                                                                                |
-      |                                                                                char **
-C:\ST\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130\tools\bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/include/string.h:41:18: note: expected 'const char *' but argument is of type 'char **'
-   41 | size_t   strlen (const char *);
-      |                  ^~~~~~~~~~~~
-../Core/Src/printer.c:281:68: warning: passing argument 2 of 'HAL_UART_Transmit' from incompatible pointer type [-Wincompatible-pointer-types]
-  281 |                                   HAL_UART_Transmit(&UART_PRINTER, buf, strlen(buf), 1000);
-      |                                                                    ^~~
-      |                                                                    |
-      |                                                                    char **
-../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h:725:73: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char **'
-  725 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
-      |                                                                ~~~~~~~~~^~~~~
+../Core/Src/programs.c:282:9: warning: implicit declaration of function 'PWMPower_Start' [-Wimplicit-function-declaration]
+  282 |         PWMPower_Start();
+      |         ^~~~~~~~~~~~~~
+../Core/Src/programs.c:179:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  179 |         RTCTimerTime_s tCycle, tPhase, tTimeout;
+      |                                ^~~~~~
+../Core/Src/programs.c:179:24: warning: unused variable 'tCycle' [-Wunused-variable]
+  179 |         RTCTimerTime_s tCycle, tPhase, tTimeout;
+      |                        ^~~~~~
+../Core/Src/programs.c:178:23: warning: unused variable 'clockTime' [-Wunused-variable]
+  178 |         RTCDateTime_s clockTime;
+      |                       ^~~~~~~~~
+../Core/Src/programs.c:177:17: warning: variable 'success' set but not used [-Wunused-but-set-variable]
+  177 |         uint8_t success = 1;
+      |                 ^~~~~~~
+../Core/Src/programs.c: In function 'ProgramUnwrapped':
+../Core/Src/programs.c:294:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  294 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:330:37: warning: implicit declaration of function 'CheckError' [-Wimplicit-function-declaration]
+  330 |                         lastError = CheckError();
+      |                                     ^~~~~~~~~~
+../Core/Src/programs.c:289:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  289 |         RTCTimerTime_s tCycle, tPhase, tWait;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramWrapped':
+../Core/Src/programs.c:407:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  407 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:402:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  402 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramPrion':
+../Core/Src/programs.c:531:9: warning: implicit declaration of function 'SendCommand' [-Wimplicit-function-declaration]
+  531 |         SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_HEATING, 0, 0, "");
+      |         ^~~~~~~~~~~
+../Core/Src/programs.c:533:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  533 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:525:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  525 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramGentle':
+../Core/Src/programs.c:652:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  652 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:647:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  647 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramUser':
+../Core/Src/programs.c:769:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  769 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:764:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  764 |         RTCTimerTime_s tCycle, tPhase, tWait;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramHelixTest':
+../Core/Src/programs.c:946:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+  946 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:941:32: warning: unused variable 'tPhase' [-Wunused-variable]
+  941 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramVacuumTest':
+../Core/Src/programs.c:1077:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+ 1077 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:1133:17: warning: implicit declaration of function 'Beep' [-Wimplicit-function-declaration]
+ 1133 |                 Beep(1, 1000, 100);
+      |                 ^~~~
+../Core/Src/programs.c:1066:32: warning: unused variable 'tPhase' [-Wunused-variable]
+ 1066 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'PowerTest':
+../Core/Src/programs.c:1157:9: warning: implicit declaration of function 'PWMPower_Stop' [-Wimplicit-function-declaration]
+ 1157 |         PWMPower_Stop();
+      |         ^~~~~~~~~~~~~
+../Core/Src/programs.c:1151:14: warning: unused variable 'val' [-Wunused-variable]
+ 1151 |         char val[4];
+      |              ^~~
+../Core/Src/programs.c: In function 'ProgramWash':
+../Core/Src/programs.c:1301:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '600' to '88' [-Woverflow]
+ 1301 |         if (!PhaseBegin(600)) return 0;
+      |                         ^~~
+../Core/Src/programs.c:1306:9: warning: implicit declaration of function 'PhaseClean'; did you mean 'PhaseRelease'? [-Wimplicit-function-declaration]
+ 1306 |         PhaseClean();
+      |         ^~~~~~~~~~
+      |         PhaseRelease
+../Core/Src/programs.c:1294:32: warning: unused variable 'tPhase' [-Wunused-variable]
+ 1294 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c: In function 'ProgramWaterLoad':
+../Core/Src/programs.c:1334:17: warning: 'return' with no value, in function returning non-void [-Wreturn-type]
+ 1334 |                 return;
+      |                 ^~~~~~
+../Core/Src/programs.c:1326:9: note: declared here
+ 1326 | uint8_t ProgramWaterLoad() {
+      |         ^~~~~~~~~~~~~~~~
+../Core/Src/programs.c:1330:32: warning: unused variable 'tPhase' [-Wunused-variable]
+ 1330 |         RTCTimerTime_s tCycle, tPhase;
+      |                                ^~~~~~
+../Core/Src/programs.c:1328:17: warning: unused variable 'success' [-Wunused-variable]
+ 1328 |         uint8_t success = 1;
+      |                 ^~~~~~~
+../Core/Src/programs.c: In function 'ProgramResumeDry':
+../Core/Src/programs.c:283:1: warning: control reaches end of non-void function [-Wreturn-type]
+  283 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramUnwrapped':
+../Core/Src/programs.c:397:1: warning: control reaches end of non-void function [-Wreturn-type]
+  397 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramWrapped':
+../Core/Src/programs.c:520:1: warning: control reaches end of non-void function [-Wreturn-type]
+  520 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramPrion':
+../Core/Src/programs.c:642:1: warning: control reaches end of non-void function [-Wreturn-type]
+  642 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramGentle':
+../Core/Src/programs.c:759:1: warning: control reaches end of non-void function [-Wreturn-type]
+  759 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramUser':
+../Core/Src/programs.c:936:1: warning: control reaches end of non-void function [-Wreturn-type]
+  936 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramHelixTest':
+../Core/Src/programs.c:1060:1: warning: control reaches end of non-void function [-Wreturn-type]
+ 1060 | }
+      | ^
+../Core/Src/programs.c: In function 'PowerTest':
+../Core/Src/programs.c:1288:1: warning: control reaches end of non-void function [-Wreturn-type]
+ 1288 | }
+      | ^
+../Core/Src/programs.c: In function 'ProgramWash':
+../Core/Src/programs.c:1324:1: warning: control reaches end of non-void function [-Wreturn-type]
+ 1324 | }
+      | ^
 arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima-FW\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
-C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: warning: Board_APP.elf has a LOAD segment with RWX permissions
+C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/bin/ld.exe: warning: Board_APP.elf has a LOAD segment with RWX permissions
 Finished building target: Board_APP.elf
  
 arm-none-eabi-size  Board_APP.elf 
@@ -100,7 +199,7 @@ arm-none-eabi-objdump -h -S Board_APP.elf  > "Board_APP.list"
 arm-none-eabi-objcopy  -O ihex Board_APP.elf  "Board_APP.hex"
 arm-none-eabi-objcopy  -O binary Board_APP.elf  "Board_APP.bin"
    text	   data	    bss	    dec	    hex	filename
- 155732	   2280	  56544	 214556	  3461c	Board_APP.elf
+ 155856	   2264	  56544	 214664	  34688	Board_APP.elf
 Finished building: default.size.stdout
  
 Finished building: Board_APP.hex
