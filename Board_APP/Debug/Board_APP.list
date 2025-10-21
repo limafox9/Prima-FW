@@ -19022,7 +19022,7 @@ uint8_t ProgramGentle() {
  8017128:	42f4cccd 	.word	0x42f4cccd
  801712c:	42f20000 	.word	0x42f20000
  8017130:	42fa0000 	.word	0x42fa0000
- 8017134:	43500000 	.word	0x43500000
+ 8017134:	434f0000 	.word	0x434f0000
  8017138:	437a0000 	.word	0x437a0000
  801713c:	08032cb8 	.word	0x08032cb8
  8017140:	3ff80000 	.word	0x3ff80000
@@ -19807,7 +19807,7 @@ uint8_t ProgramUser() {
  801775c:	42fa0000 	.word	0x42fa0000
  8017760:	43a00000 	.word	0x43a00000
  8017764:	439a0000 	.word	0x439a0000
- 8017768:	43500000 	.word	0x43500000
+ 8017768:	434f0000 	.word	0x434f0000
  801776c:	43af0000 	.word	0x43af0000
  8017770:	437a0000 	.word	0x437a0000
  8017774:	43480000 	.word	0x43480000
@@ -23446,7 +23446,7 @@ void LoadSettings() {
  8019256:	77da      	strb	r2, [r3, #31]
 	machine.FWVersionRevision = FW_VERSION_REVISION;
  8019258:	4b61      	ldr	r3, [pc, #388]	@ (80193e0 <LoadSettings+0x1b0>)
- 801925a:	2202      	movs	r2, #2
+ 801925a:	2204      	movs	r2, #4
  801925c:	f883 2020 	strb.w	r2, [r3, #32]
 //		SaveDefaults();
 //	}
