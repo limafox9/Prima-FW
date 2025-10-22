@@ -893,15 +893,29 @@ uint8_t ProgramUser() {
 //						.PID_LIM_MAX_INT = 50, 	// 40
 //						.SAMPLE_TIME_S = 1.0, 	// 1.0
 
-						.PID_KP = (settings.UserSterilTemp == STERILTEMP_134) ? 30.0 : 20.0, 			// 100
-						.PID_KI = (settings.UserSterilTemp == STERILTEMP_134) ? 5.0 : 10.0, 			// 60
-						.PID_KD = (settings.UserSterilTemp == STERILTEMP_134) ? 45.0 : 45.0, 			// 40
+//						.PID_KP = (settings.UserSterilTemp == STERILTEMP_134) ? 30.0 : 20.0, 			// 100
+//						.PID_KI = (settings.UserSterilTemp == STERILTEMP_134) ? 5.0 : 10.0, 			// 60
+//						.PID_KD = (settings.UserSterilTemp == STERILTEMP_134) ? 45.0 : 45.0, 			// 40
+//						.PID_TAU = 1.0, 		// 1.0
+//						.PID_LIM_MIN = -70.0, 		// 50
+//						.PID_LIM_MAX = 70.0, 	// 150
+//						.PID_LIM_MIN_INT = -20.0, // -40
+//						.PID_LIM_MAX_INT = 20.0, 	// 40
+//						.SAMPLE_TIME_S = 1.5, 	// 1.0
+
+						.PID_KP = (settings.UserSterilTemp == STERILTEMP_134) ? 30.0 : 50.0, 			// 100
+						.PID_KI = (settings.UserSterilTemp == STERILTEMP_134) ? 5.0 : 15.0, 			// 60
+						.PID_KD = (settings.UserSterilTemp == STERILTEMP_134) ? 45.0 : 150.0, 			// 40
+//						.PID_KP = 50.0, 			// 30.0
+//						.PID_KI = 15.0, 			// 5.0
+//						.PID_KD = 150.0, 			// 45.0
 						.PID_TAU = 1.0, 		// 1.0
-						.PID_LIM_MIN = -70.0, 		// 50
-						.PID_LIM_MAX = 70.0, 	// 150
-						.PID_LIM_MIN_INT = -20.0, // -40
-						.PID_LIM_MAX_INT = 20.0, 	// 40
-						.SAMPLE_TIME_S = 1.5, 	// 1.0
+						.PID_LIM_MIN = -70.0, 		// -70.0
+						.PID_LIM_MAX = 70.0, 	// 70.0
+						.PID_LIM_MIN_INT = -20.0, // -20.0
+						.PID_LIM_MAX_INT = 20.0, 	// 20.0
+						.SAMPLE_TIME_S = 1.0, 	// 1.0
+
 				};
 
 				success = PhaseSteril(&sterilParam, &PIDParam);

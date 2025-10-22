@@ -1,13 +1,39 @@
-17:44:56 **** Incremental Build of configuration Debug for project DB_Protocol ****
+../Core/Src/settings.c: In function 'WriteSetting':
+../Core/Src/settings.c:139:9: warning: implicit declaration of function 'EEPROM_Write' [-Wimplicit-function-declaration]
+  139 |         EEPROM_Write(address, data, size);
+      |         ^~~~~~~~~~~~
+../Core/Src/settings.c: In function 'SaveDefaults':
+../Core/Src/settings.c:183:17: warning: implicit declaration of function 'BAT2U_TDSCalibration' [-Wimplicit-function-declaration]
+  183 |                 BAT2U_TDSCalibration(500);
+      |                 ^~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "Board_APP.elf" @"objects.list"  -lDB_Protocol -mcpu=cortex-m3 -T"D:\Galbiati\Prima-FW\Board_APP\STM32F105VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Board_APP.map" -Wl,--gc-sections -static -L"D:\Galbiati\Prima-FW\DB_Protocol\Debug" --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/bin/ld.exe: warning: Board_APP.elf has a LOAD segment with RWX permissions
+Finished building target: Board_APP.elf
+ 
+arm-none-eabi-size  Board_APP.elf 
+arm-none-eabi-objdump -h -S Board_APP.elf  > "Board_APP.list"
+arm-none-eabi-objcopy  -O ihex Board_APP.elf  "Board_APP.hex"
+arm-none-eabi-objcopy  -O binary Board_APP.elf  "Board_APP.bin"
+   text	   data	    bss	    dec	    hex	filename
+ 155872	   2264	  56544	 214680	  34698	Board_APP.elf
+Finished building: default.size.stdout
+Finished building: Board_APP.hex
+Finished building: Board_APP.bin
+ 
+ 
+ 
+Finished building: Board_APP.list
+ 
+14:42:04 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j24 all 
 make: Nothing to be done for 'all'.
-17:44:56 **** Incremental Build of configuration Debug for project DB_Protocol ****
+14:42:04 **** Incremental Build of configuration Debug for project DB_Protocol ****
 make -j24 all 
 make: Nothing to be done for 'all'.
-17:44:57 **** Incremental Build of configuration Debug for project Board_APP ****
+14:42:05 **** Incremental Build of configuration Debug for project Board_APP ****
 make -j24 all 
 arm-none-eabi-size  Board_APP.elf 
    text	   data	    bss	    dec	    hex	filename
- 155856	   2264	  56544	 214664	  34688	Board_APP.elf
+ 155872	   2264	  56544	 214680	  34698	Board_APP.elf
 Finished building: default.size.stdout
  

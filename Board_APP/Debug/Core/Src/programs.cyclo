@@ -5,9 +5,9 @@
 ../Core/Src/programs.c:399:9:ProgramWrapped	16
 ../Core/Src/programs.c:522:9:ProgramPrion	15
 ../Core/Src/programs.c:644:9:ProgramGentle	15
-../Core/Src/programs.c:761:9:ProgramUser	40
-../Core/Src/programs.c:938:9:ProgramHelixTest	16
-../Core/Src/programs.c:1062:9:ProgramVacuumTest	8
-../Core/Src/programs.c:1149:9:PowerTest	1
-../Core/Src/programs.c:1290:9:ProgramWash	2
-../Core/Src/programs.c:1326:9:ProgramWaterLoad	2
+../Core/Src/programs.c:761:9:ProgramUser	41
+../Core/Src/programs.c:952:9:ProgramHelixTest	16
+../Core/Src/programs.c:1076:9:ProgramVacuumTest	8
+../Core/Src/programs.c:1163:9:PowerTest	1
+../Core/Src/programs.c:1304:9:ProgramWash	2
+../Core/Src/programs.c:1340:9:ProgramWaterLoad	2
