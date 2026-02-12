@@ -317,6 +317,10 @@ void ParseCommand(s_DisplayProtocolData* data) {
 			}
 
 		} else if (data->Param1 == KEY_START + KEY_TEST + KEY_PROG + KEY_LONG_PRESS) {
+			if (machineStatus.Status == STATUS_IDLE && currTest == TEST_VACUUM) {
+				currTest = 4;
+				programStart = 1;
+			}
 			__NOP();
 		} else {
 			__NOP();

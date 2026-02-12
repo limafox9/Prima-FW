@@ -151,13 +151,17 @@ void StartProgramTask() {
 						ProgramHelixTest();
 						break;
 					case 1:
-						ProgramVacuumTest();
+//						ProgramVacuumTest();
+						ProgramPressureTest();
 						break;
 					case 2:
 						ProgramWash();
 						break;
 					case 3:
 						ProgramWaterLoad();
+						break;
+					case 4:
+						ProgramPressureTest();
 						break;
 					}
 				}
@@ -950,6 +954,7 @@ uint8_t ProgramUser() {
 }
 
 uint8_t ProgramHelixTest() {
+
 	uint8_t success = 1;
 	RTCDateTime_s clockTime;
 	RTCTimerTime_s tCycle, tPhase;
@@ -1158,6 +1163,61 @@ uint8_t ProgramVacuumTest() {
 
 	return 0;
 
+}
+
+uint8_t ProgramPressureTest() {
+
+	uint8_t success = 1;
+	RTCDateTime_s clockTime;
+	RTCTimerTime_s tCycle, tPhase;
+
+	progRunning = 1;
+	progStop = 0;
+
+	if (!PhaseBegin(600)) return 0;
+
+	GetDateTime(&clockTime);
+	PrintHeader("PRESS TEST", sensors.T1, 0, 0, &clockTime);
+
+	// Heat up
+	if (success) {
+		success = PhaseHeatUp(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP, DV_PREHEAT_CHAMBER_TEMP, 160.0, OT_HEAT);
+	}
+	if (success) {
+		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
+		success = PhaseRelease(1, OT_RELEASE);
+	}
+
+	ResetTimer(TIMER_CYCLE);
+
+	// First vacuum
+	if (success) {
+		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
+		success = PhaseVacuum(1, (float)settings.FirstVacuum, 0, OT_VACUUM);
+	}
+
+	// Pressure Test
+	if (success) {
+		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
+		success = PhasePressureTest(DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN);
+	}
+
+	if (lastError == ERROR_OVERPRESSURE) {
+		Beep(1, 1000, 100);
+	}
+
+	PhaseRelease(99, 300);
+
+	// End
+	PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
+	GetTimer(TIMER_CYCLE, &tCycle);
+	GetDateTime(&clockTime);
+	PhaseFinish(success, &clockTime, &tCycle, 120);
+
+	progRunning = 0;
+	osThreadSuspend(displayInfoTaskHandle);
+
+	progStop = 0;
 }
 
 uint8_t PowerTest() {

@@ -58,6 +58,12 @@ USAGE:
 #define HEAT_RING_OVERTEMP 160.0
 #define CHAMBER_OVERPRESS 345.0
 
+#define CHAMBER_OVERPRESS_TEST 400.0
+#define CHAMBER_OVERPRESS_TEST_THRESHOLD 340.0
+#define CHAMBER_OVERPRESS_TEST_T1_OVERTEMP 145.0
+#define CHAMBER_OVERPRESS_TEST_T2_OVERTEMP 145.0
+#define CHAMBER_OVERPRESS_TEST_TIMEOUT 180
+
 #define STEAM_PULSE_PRESSURE	100
 #define STEAM_PULSE_RISE		60
 #define STEAM_PULSE_STERIL		40
@@ -78,7 +84,7 @@ RTCTimerTime_s tCheckError;
 //extern s_Sensors Sensors;
 
 
-uint8_t CheckError();
+uint8_t CheckError(float maxPressure, float maxT1Temp, float maxT2Temp, float maxRingTemp, float maxSteamTemp);
 
 uint8_t PhaseBegin(uint8_t timeout) {
 
@@ -237,7 +243,7 @@ uint8_t PhaseResume(uint16_t timeout) {
 		if ((sensors.PressureChamber >= pressAmbientMin) && (sensors.PressureChamber <= pressAmbientMax)) {
 			break;
 		}
-		lastError = CheckError();
+		lastError = CheckError((float)CHAMBER_OVERPRESS, (float)T1_OVERTEMP, (float)T2_OVERTEMP, (float)HEAT_RING_OVERTEMP, (float)STEAM_OVERTEMP);
 		if (lastError > 0) {
 			retVal = 0;
 			break;
@@ -312,7 +318,7 @@ uint8_t PhaseHeatUp(float ringTemp, float steamGenTemp, float chamberTemp, float
 			retVal = 0;
 			break;
 		}
-		lastError = CheckError();
+		lastError = CheckError((float)CHAMBER_OVERPRESS, (float)T1_OVERTEMP, (float)T2_OVERTEMP, (float)HEAT_RING_OVERTEMP, (float)STEAM_OVERTEMP);
 		if (lastError > 0) {
 			retVal = 0;
 			break;
@@ -325,7 +331,7 @@ uint8_t PhaseHeatUp(float ringTemp, float steamGenTemp, float chamberTemp, float
 	return retVal;
 }
 
-uint8_t CheckError() {
+uint8_t CheckError(float maxPressure, float maxT1Temp, float maxT2Temp, float maxRingTemp, float maxSteamTemp) {
 
 	uint8_t retError = ERROR_NONE;
 	static uint8_t err02;
@@ -335,7 +341,7 @@ uint8_t CheckError() {
 		retError = ERROR_ABNORMAL_EXIT;
 	} else {
 		if (currProgram != PROGRAM_RESUME_DRY) {
-			if (sensors.TemperatureChamberHeater > HEAT_RING_OVERTEMP) {
+			if (sensors.TemperatureChamberHeater > maxRingTemp) {
 				err02++;
 			} else {
 				err02 = 0;
@@ -345,13 +351,13 @@ uint8_t CheckError() {
 				retError = ERROR_OPEN_DOOR;
 			} else if (DoorSolenoidKeyGet() == UNLOCK) {
 				retError = ERROR_PROTECTION_LOCK;
-			} else if (sensors.TemperatureSteamGenerator > STEAM_OVERTEMP) {
+			} else if (sensors.TemperatureSteamGenerator > maxSteamTemp) {
 				retError = ERROR_STEAM_OVERTEMP;
 			} else if (err02 > 4) {
 				retError = ERROR_RING_OVERTEMP;
-			} else if ((sensors.T1 > T1_OVERTEMP) || (sensors.T2 > T2_OVERTEMP)) {
+			} else if ((sensors.T1 > maxT1Temp) || (sensors.T2 > maxT2Temp)) {
 				retError = ERROR_CHAMBER_OVERTEMP;
-			} else if (sensors.PressureChamber > CHAMBER_OVERPRESS) {
+			} else if (sensors.PressureChamber > maxPressure) {
 				retError = ERROR_OVERPRESSURE;
 			}
 		}
@@ -400,10 +406,12 @@ uint8_t PhaseRelease(uint8_t nRelease, uint16_t timeout) {
 			retVal = 0;
 			break;
 		}
-		lastError = CheckError();
-		if (lastError > 0) {
-			retVal = 0;
-			break;
+		if (nRelease <99) {
+			lastError = CheckError((float)CHAMBER_OVERPRESS, (float)T1_OVERTEMP, (float)T2_OVERTEMP, (float)HEAT_RING_OVERTEMP, (float)STEAM_OVERTEMP);
+			if (lastError > 0) {
+				retVal = 0;
+				break;
+			}
 		}
 		osSemaphoreRelease(semaphoreSensorsHandle);
 		osDelay(200);
@@ -478,7 +486,7 @@ uint8_t PhaseVacuum(uint8_t nVacuum, float press, uint8_t skipThreshold, uint16_
 				}
 			break;
 		}
-		lastError = CheckError();
+		lastError = CheckError((float)CHAMBER_OVERPRESS, (float)T1_OVERTEMP, (float)T2_OVERTEMP, (float)HEAT_RING_OVERTEMP, (float)STEAM_OVERTEMP);
 		if (lastError > 0) {
 			retVal = 0;
 			break;
@@ -489,6 +497,98 @@ uint8_t PhaseVacuum(uint8_t nVacuum, float press, uint8_t skipThreshold, uint16_
 	PumpVacuumSet(OFF);
 	osDelay(100);
 	ValveVacuumSet(OFF);
+
+	return retVal;
+}
+
+uint8_t PhasePressureTest(float steamTemp, float steamTempMin) {
+
+	static const float pPID_KP = 100; 			// 100
+	static const float pPID_KI = 60; 			// 60
+	static const float pPID_KD = 40; 			// 40
+	static const float pPID_TAU = 1.0; 			// 1.0
+	static const float pPID_LIM_MIN = 50; 		// 50
+	static const float pPID_LIM_MAX = 150; 		// 150
+	static const float pPID_LIM_MIN_INT = -40; 	// -40
+	static const float pPID_LIM_MAX_INT = 40; 	// 40
+	static const float pSAMPLE_TIME_S = 1.0; 	// 1.0
+
+	uint8_t retVal = 0;
+	RTCTimerTime_s tTimeout, tPhase;
+	char s[8];
+
+	uint8_t nPressure = 1;
+
+	sprintf(s, "PrE.%1d", nPressure);
+	sprintf(currPhase, s);
+
+	ResetTimer(TIMER_TIMEOUT);
+	ResetTimer(TIMER_PHASE);
+
+	if (nPressure == 1) SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_1STPRESSURE, 0, 0, "");
+	else if (nPressure == 2) SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_NPRESSURE, 0, 0, "");
+	else if (nPressure == 3) SendCommand(DISPLAY_CMD_WRITE_PROGRESS_LEDS, LED_PROGRESS_STERILPRESSURE, 0, 0, "");
+
+	PIDController pidSteam = {pPID_KP, pPID_KI, pPID_KD, pPID_TAU, pPID_LIM_MIN, pPID_LIM_MAX, pPID_LIM_MIN_INT, pPID_LIM_MAX_INT, pSAMPLE_TIME_S};
+
+	ChamberHeater_Stop();
+
+	ValveDrainSteamSet(ON);
+	osDelay(120);
+
+	while (1) {
+		float ret = PIDController_Update(&pidSteam, steamTemp, sensors.TemperatureSteamGenerator);
+		if (sensors.TemperatureSteamGenerator >= steamTempMin) {
+			SteamPulse(ret);
+			osDelay(2500);
+		}
+
+		GetTimer(TIMER_TIMEOUT, &tTimeout);
+
+		if (sensors.PressureChamber >= CHAMBER_OVERPRESS_TEST_THRESHOLD) {
+			ResetTimer(TIMER_TIMEOUT);
+			break;
+		} else if (tTimeout.Seconds > 900) {
+			lastError = ERROR_PHASE_TIMEOUT;
+			GetTimer(TIMER_PHASE, &tPhase);
+			PrintError("PRES ERROR *** TIMEOUT\n", &tPhase);
+			retVal = 0;
+			break;
+		}
+		lastError = CheckError((float)CHAMBER_OVERPRESS_TEST, (float)CHAMBER_OVERPRESS_TEST_T1_OVERTEMP, (float)CHAMBER_OVERPRESS_TEST_T2_OVERTEMP, (float)HEAT_RING_OVERTEMP, (float)STEAM_OVERTEMP);
+		if (lastError > 0) {
+			retVal = 0;
+			break;
+		}
+	}
+
+	while (1) {
+		float ret = PIDController_Update(&pidSteam, steamTemp, sensors.TemperatureSteamGenerator);
+		if (sensors.TemperatureSteamGenerator >= steamTempMin) {
+			SteamPulse(ret);
+			osDelay(2500);
+		}
+
+		GetTimer(TIMER_TIMEOUT, &tTimeout);
+
+		if (tTimeout.Seconds > CHAMBER_OVERPRESS_TEST_TIMEOUT) {
+			GetTimer(TIMER_PHASE, &tPhase);
+			PrintStepLine("PRES", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
+			retVal = 1;
+			break;
+		}
+		lastError = CheckError((float)CHAMBER_OVERPRESS_TEST, (float)CHAMBER_OVERPRESS_TEST_T1_OVERTEMP, (float)CHAMBER_OVERPRESS_TEST_T2_OVERTEMP, (float)HEAT_RING_OVERTEMP, (float)STEAM_OVERTEMP);
+		if (lastError > 0) {
+			retVal = 0;
+			break;
+		}
+	}
+
+	ChamberHeater_Start();
+
+	osDelay(100);
+	ValveDrainSteamSet(OFF);
+	HeaterSteamGeneratorTempSet(steamTemp);
 
 	return retVal;
 }
@@ -508,6 +608,7 @@ uint8_t PhasePressure(uint8_t nPressure, float press, float steamTemp, float ste
 	uint8_t retVal = 0;
 	RTCTimerTime_s tTimeout, tPhase;
 	char s[8];
+
 	sprintf(s, "PrE.%1d", nPressure);
 	sprintf(currPhase, s);
 
@@ -542,6 +643,12 @@ uint8_t PhasePressure(uint8_t nPressure, float press, float steamTemp, float ste
 			PrintStepLine("PRES", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
 			retVal = 1;
 			break;
+//		} else if (sensors.PressureChamber > CHAMBER_OVERPRESS) {
+//			lastError = ERROR_OVERPRESSURE;
+//			GetTimer(TIMER_PHASE, &tPhase);
+//			PrintError("PRES ERROR *** OVERPRESS\n", &tPhase);
+//			retVal = 0;
+//			break;
 		} else if (tTimeout.Seconds > timeout) {
 			lastError = ERROR_PHASE_TIMEOUT;
 			GetTimer(TIMER_PHASE, &tPhase);
@@ -549,7 +656,7 @@ uint8_t PhasePressure(uint8_t nPressure, float press, float steamTemp, float ste
 			retVal = 0;
 			break;
 		}
-		lastError = CheckError();
+		lastError = CheckError((float)CHAMBER_OVERPRESS, (float)T1_OVERTEMP, (float)T2_OVERTEMP, (float)HEAT_RING_OVERTEMP, (float)STEAM_OVERTEMP);
 		if (lastError > 0) {
 			retVal = 0;
 			break;
@@ -729,7 +836,7 @@ uint8_t PhaseSteril(SterilParam_s* param, SterilPID_s* pPID) {
 			retVal = 0;
 			break;
 		}
-		lastError = CheckError();
+		lastError = CheckError((float)CHAMBER_OVERPRESS, (float)T1_OVERTEMP, (float)T2_OVERTEMP, (float)HEAT_RING_OVERTEMP, (float)STEAM_OVERTEMP);
 		if (lastError > 0) {
 			retVal = 0;
 			break;
@@ -875,7 +982,7 @@ uint8_t PhaseSteril(SterilParam_s* param, SterilPID_s* pPID) {
 				ResetTimer(TIMER_1);
 			}
 
-			lastError = CheckError();
+			lastError = CheckError((float)CHAMBER_OVERPRESS, (float)T1_OVERTEMP, (float)T2_OVERTEMP, (float)HEAT_RING_OVERTEMP, (float)STEAM_OVERTEMP);
 			if (lastError > 0) {
 				retVal = 0;
 				break;
@@ -944,7 +1051,7 @@ uint8_t PhaseDry(float firstVacPress, float otherVacPress, uint16_t time, uint16
 					retVal = 1;
 					break;
 				}
-				lastError = CheckError();
+				lastError = CheckError((float)CHAMBER_OVERPRESS, (float)T1_OVERTEMP, (float)T2_OVERTEMP, (float)HEAT_RING_OVERTEMP, (float)STEAM_OVERTEMP);
 				if (lastError > 0) {
 					retVal = 0;
 					break;
@@ -976,7 +1083,7 @@ uint8_t PhaseDry(float firstVacPress, float otherVacPress, uint16_t time, uint16
 					retVal = 1;
 					break;
 				}
-				lastError = CheckError();
+				lastError = CheckError((float)CHAMBER_OVERPRESS, (float)T1_OVERTEMP, (float)T2_OVERTEMP, (float)HEAT_RING_OVERTEMP, (float)STEAM_OVERTEMP);
 				if (lastError > 0) {
 					retVal = 0;
 					break;
@@ -1066,7 +1173,7 @@ uint8_t PhaseClean(uint16_t timeout) {
 		}
 		GetTimer(TIMER_3, &tVac);
 		if (tVac.Seconds > 230) break;
-		lastError = CheckError();
+		lastError = CheckError((float)CHAMBER_OVERPRESS, (float)T1_OVERTEMP, (float)T2_OVERTEMP, (float)HEAT_RING_OVERTEMP, (float)STEAM_OVERTEMP);
 		if (lastError > 0 && lastError != ERROR_ABNORMAL_EXIT) {
 			retVal = 0;
 			break;
@@ -1123,7 +1230,7 @@ uint8_t PhaseWaterLoad(uint16_t timeout) {
 		while (WaterReservoirLevelGet() != FULL) {
 			GetTimer(TIMER_TIMEOUT, &tTimeout);
 			if (tTimeout.Seconds > timeout) break;
-			lastError = CheckError();
+			lastError = CheckError((float)CHAMBER_OVERPRESS, (float)T1_OVERTEMP, (float)T2_OVERTEMP, (float)HEAT_RING_OVERTEMP, (float)STEAM_OVERTEMP);
 			if (lastError == ERROR_ABNORMAL_EXIT) {
 				lastError = ERROR_NONE;
 				break;
@@ -1180,7 +1287,7 @@ uint8_t PhaseVacuumHold(float vacPress, uint8_t tolerance, uint16_t time, uint16
 			retVal = 1;
 			break;
 		}
-		lastError = CheckError();
+		lastError = CheckError((float)CHAMBER_OVERPRESS, (float)T1_OVERTEMP, (float)T2_OVERTEMP, (float)HEAT_RING_OVERTEMP, (float)STEAM_OVERTEMP);
 		if (lastError > 0) {
 			retVal = 0;
 			break;
@@ -1225,7 +1332,7 @@ uint8_t PhaseWait(float vacPress, uint8_t tolerance, uint16_t time) {
 			retVal = 0;
 			break;
 		}
-		lastError = CheckError();
+		lastError = CheckError((float)CHAMBER_OVERPRESS, (float)T1_OVERTEMP, (float)T2_OVERTEMP, (float)HEAT_RING_OVERTEMP, (float)STEAM_OVERTEMP);
 		if (lastError > 0) {
 			retVal = 0;
 			break;
@@ -1274,7 +1381,7 @@ uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer,
 			if ((sensors.PressureChamber >= pressAmbientMin) && (sensors.PressureChamber <= pressAmbientMax)) {
 				break;
 			}
-			lastError = CheckError();
+			lastError = CheckError((float)CHAMBER_OVERPRESS, (float)T1_OVERTEMP, (float)T2_OVERTEMP, (float)HEAT_RING_OVERTEMP, (float)STEAM_OVERTEMP);
 			if (lastError > 0) {
 				retVal = 0;
 				break;

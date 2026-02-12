@@ -71,6 +71,7 @@ uint8_t ProgramGentle();
 uint8_t ProgramUser();
 uint8_t ProgramHelixTest();
 uint8_t ProgramVacuumTest();
+uint8_t ProgramPressureTest();
 uint8_t ProgramTestSteril();
 uint8_t ProgramCalibration();
 uint8_t ProgramResumeDry();

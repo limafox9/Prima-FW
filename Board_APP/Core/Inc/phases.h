@@ -80,6 +80,7 @@ uint8_t PhaseHeatUp(float ringTemp, float steamGenTemp, float chamberTemp, float
 uint8_t PhaseVacuum(uint8_t nVacuum, float press, uint8_t skipThreshold, uint16_t timeout);
 uint8_t PhaseVacuumHold(float vacPress, uint8_t tolerance, uint16_t time, uint16_t timeout);
 uint8_t PhasePressure(uint8_t nPressure, float press, float steamTemp, float steamTempMin, uint16_t timeout);
+uint8_t PhasePressureTest(float steamTemp, float steamTempMin);
 uint8_t PhaseRelease(uint8_t nRelease, uint16_t timeout);
 uint8_t PhaseSteril(SterilParam_s* param, SterilPID_s* pPID);
 uint8_t PhaseDry(float firstVacPress, float otherVacPress, uint16_t time, uint16_t timeout);
