@@ -151,8 +151,7 @@ void StartProgramTask() {
 						ProgramHelixTest();
 						break;
 					case 1:
-//						ProgramVacuumTest();
-						ProgramPressureTest();
+						ProgramVacuumTest();
 						break;
 					case 2:
 						ProgramWash();
@@ -1202,11 +1201,26 @@ uint8_t ProgramPressureTest() {
 		success = PhasePressureTest(DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN);
 	}
 
+	if (success) {
+		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
+		success = PhaseRelease(99, 300);
+	}
+
+	// Dry
+	if (success) {
+		success = PhaseDry(DRY_FIRST_VAC, DRY_OTHER_VAC, 180, 300);
+	}
+
+//	// Dry
+//	if (success) {
+//		success = PhaseDry(DRY_FIRST_VAC, DRY_OTHER_VAC, 180, 300);
+//	}
+
 	if (lastError == ERROR_OVERPRESSURE) {
 		Beep(1, 1000, 100);
 	}
 
-	PhaseRelease(99, 300);
+//	PhaseRelease(99, 300);
 
 	// End
 	PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);

@@ -80,6 +80,7 @@ typedef enum {
 	TEST_VACUUM,
 	TEST_WASH,
 	TEST_WATER_LOAD,
+	TEST_PRESSURE_TEST,
 } e_Test;
 
 typedef enum {

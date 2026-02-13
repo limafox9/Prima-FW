@@ -119,8 +119,9 @@ Functions_s functions[] = {
 	{9, "USB Import parameters", 	"LoAd", 0, 0, 0, 0, 0},
 	{10, "Power test", 		"tESt", 0, 0, 0, 0, 0},
 //	{11, "Print user parameters", 	"PUPA", 0, 0, 0, 0, 0},
-	{12, "Print tech parameters", 	"PtPA", 0, 0, 0, 0, 0},
-//	{13, "Print last ticket", 		"PLtI", 0, 0, 0, 0, 0},
+	{12, "Pressure Test", 			"PtSt", 0, 0, 0, 0, 0},
+	{13, "Print tech parameters", 	"PtPA", 0, 0, 0, 0, 0},
+//	{14, "Print last ticket", 		"PLtI", 0, 0, 0, 0, 0},
 };
 
 

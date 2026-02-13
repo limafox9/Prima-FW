@@ -1,4 +1,4 @@
-../Core/Src/keys.c:59:6:ParseCommand	87
-../Core/Src/keys.c:335:6:StartKeysTask	4
-../Core/Src/keys.c:358:16:GetPressedKeys	3
-../Core/Src/keys.c:370:13:KeysReceived	15
+../Core/Src/keys.c:59:6:ParseCommand	88
+../Core/Src/keys.c:339:6:StartKeysTask	4
+../Core/Src/keys.c:362:16:GetPressedKeys	3
+../Core/Src/keys.c:374:13:KeysReceived	15

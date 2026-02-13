@@ -62,7 +62,7 @@ USAGE:
 #define CHAMBER_OVERPRESS_TEST_THRESHOLD 340.0
 #define CHAMBER_OVERPRESS_TEST_T1_OVERTEMP 145.0
 #define CHAMBER_OVERPRESS_TEST_T2_OVERTEMP 145.0
-#define CHAMBER_OVERPRESS_TEST_TIMEOUT 180
+#define CHAMBER_OVERPRESS_TEST_TIMEOUT 120
 
 #define STEAM_PULSE_PRESSURE	100
 #define STEAM_PULSE_RISE		60
@@ -574,6 +574,7 @@ uint8_t PhasePressureTest(float steamTemp, float steamTempMin) {
 		if (tTimeout.Seconds > CHAMBER_OVERPRESS_TEST_TIMEOUT) {
 			GetTimer(TIMER_PHASE, &tPhase);
 			PrintStepLine("PRES", sensors.T1, sensors.T2, sensors.PressureChamber, &tPhase);
+			PrintStepLine("TEST", 0, 0, 0, &tPhase);
 			retVal = 1;
 			break;
 		}

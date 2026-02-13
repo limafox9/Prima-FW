@@ -250,6 +250,10 @@ void ParseCommand(s_DisplayProtocolData* data) {
 						} else if (functions[currFunction].ParamNumber == 10) {
 							PowerTest();
 						} else if (functions[currFunction].ParamNumber == 12) {
+							currProgType = PROGTYPE_TEST;
+							currTest = TEST_PRESSURE_TEST;
+							programStart = 1;
+						} else if (functions[currFunction].ParamNumber == 13) {
 							PrintSettings();
 						} else {
 							__NOP();
