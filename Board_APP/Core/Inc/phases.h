@@ -41,6 +41,19 @@ USAGE:
 #include <stdio.h>
 #include "time.h"
 
+
+#define T1_OVERTEMP 140.0
+#define T2_OVERTEMP 140.0
+#define STEAM_OVERTEMP 230.0
+#define HEAT_RING_OVERTEMP 160.0
+#define CHAMBER_OVERPRESS 345.0
+
+#define CHAMBER_OVERPRESS_TEST 400.0
+#define CHAMBER_OVERPRESS_TEST_THRESHOLD 340.0
+#define CHAMBER_OVERPRESS_TEST_T1_OVERTEMP 145.0
+#define CHAMBER_OVERPRESS_TEST_T2_OVERTEMP 145.0
+#define CHAMBER_OVERPRESS_TEST_TIMEOUT 120
+
 typedef struct SterilPID_s {
 	float PID_KP;
 	float PID_KI;
@@ -87,6 +100,7 @@ uint8_t PhaseDry(float firstVacPress, float otherVacPress, uint16_t time, uint16
 uint8_t PhaseFinish(uint8_t success, RTCDateTime_s* time, RTCTimerTime_s* timer, uint16_t timeout);
 uint8_t PhaseWait(float vacPress, uint8_t tolerance, uint16_t time);
 uint8_t PhaseWaterLoad(uint16_t timeout);
+uint8_t CheckError(float maxPressure, float maxT1Temp, float maxT2Temp, float maxRingTemp, float maxSteamTemp);
 void PhaseTestPID(SterilParam_s* param);
 
 #endif /* INC_PHASES_H_ */

@@ -330,7 +330,7 @@ uint8_t ProgramUnwrapped() {
 		ResetTimer(TIMER_5);
 		do {
 			GetTimer(TIMER_5, &tWait);
-			lastError = CheckError();
+			lastError = CheckError((float)CHAMBER_OVERPRESS, (float)T1_OVERTEMP, (float)T2_OVERTEMP, (float)HEAT_RING_OVERTEMP, (float)STEAM_OVERTEMP);
 			if (lastError > 0) {
 				break;
 			}
@@ -854,7 +854,7 @@ uint8_t ProgramUser() {
 			ResetTimer(TIMER_5);
 			do {
 				GetTimer(TIMER_5, &tWait);
-				lastError = CheckError();
+				lastError = CheckError((float)CHAMBER_OVERPRESS, (float)T1_OVERTEMP, (float)T2_OVERTEMP, (float)HEAT_RING_OVERTEMP, (float)STEAM_OVERTEMP);
 				if (lastError > 0) {
 					break;
 				}

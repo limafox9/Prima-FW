@@ -52,18 +52,6 @@ USAGE:
 
 #define STERIL_STABILIZATION_PERIOD 5 // 30
 
-#define T1_OVERTEMP 140.0
-#define T2_OVERTEMP 140.0
-#define STEAM_OVERTEMP 230.0
-#define HEAT_RING_OVERTEMP 160.0
-#define CHAMBER_OVERPRESS 345.0
-
-#define CHAMBER_OVERPRESS_TEST 400.0
-#define CHAMBER_OVERPRESS_TEST_THRESHOLD 340.0
-#define CHAMBER_OVERPRESS_TEST_T1_OVERTEMP 145.0
-#define CHAMBER_OVERPRESS_TEST_T2_OVERTEMP 145.0
-#define CHAMBER_OVERPRESS_TEST_TIMEOUT 120
-
 #define STEAM_PULSE_PRESSURE	100
 #define STEAM_PULSE_RISE		60
 #define STEAM_PULSE_STERIL		40
@@ -84,7 +72,7 @@ RTCTimerTime_s tCheckError;
 //extern s_Sensors Sensors;
 
 
-uint8_t CheckError(float maxPressure, float maxT1Temp, float maxT2Temp, float maxRingTemp, float maxSteamTemp);
+//uint8_t CheckError(float maxPressure, float maxT1Temp, float maxT2Temp, float maxRingTemp, float maxSteamTemp);
 
 uint8_t PhaseBegin(uint8_t timeout) {
 
