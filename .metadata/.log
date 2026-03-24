@@ -3811,3 +3811,168 @@ Command-line arguments:  -os win32 -ws win32 -arch x86_64
 
 !ENTRY org.eclipse.lsp4e 1 0 2026-02-16 19:23:12.891
 !MESSAGE [Info]	[streamChoices] solution 0 returned. finish reason: [stop]
+!SESSION 2026-02-17 11:23:05.827 -----------------------------------------------
+eclipse.buildId=Version 1.18.1
+java.version=21.0.3
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=it_IT
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY org.eclipse.core.resources 2 10035 2026-02-17 11:23:14.194
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2026-02-17 11:23:29.406
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2026-02-17 11:23:29.407
+!MESSAGE Log4j2 initialized with config file D:\Galbiati\Prima-FW\.metadata\.log4j2.xml
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-02-17 11:23:34.951
+!MESSAGE [Info] Starting language server with binary lsp agent.
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-02-17 11:23:34.963
+!MESSAGE [Info] Found native binary in fragment bundle: com.microsoft.copilot.eclipse.core.agent.win32
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-02-17 11:23:35.143
+!MESSAGE [Info] Binary agent started successfully.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-02-17 11:23:38.457
+!MESSAGE [Info]	[lsp] GitHub Copilot Language Server 1.412.0 initialized
+
+!ENTRY org.eclipse.lsp4e 2 0 2026-02-17 11:23:38.575
+!MESSAGE [Warning]	[McpAutoApproveService] Invalid McpAutoApproveService config, resetting to empty undefined
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-02-17 11:23:38.576
+!MESSAGE [Info]	[certificates] Removed 12 expired certificates
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-02-17 11:23:38.597
+!MESSAGE [Info]	[default] Policy watcher started for GitHub Copilot Plugin
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-02-17 11:23:38.959
+!MESSAGE [Info]	[GithubAvailableEmbeddingTypes] Got embeddings. Primary: metis-1024-I16-Binary. Deprecated: 
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-02-17 11:23:39.381
+!MESSAGE [Info]	[AutoModelService] Auto model cache cleared due to token update
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-02-17 11:23:39.382
+!MESSAGE [Info]	[CopilotMCP] MCP state changed from false to true
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-02-17 11:23:39.382
+!MESSAGE [Info]	[Semantic Search] Semantic search is disabled { reason: 'watchedFiles capability is not available' }
+
+!ENTRY com.microsoft.copilot.eclipse.terminal.api 2 0 2026-02-17 11:23:39.649
+!MESSAGE Terminal dependencies not available. User needs to install them manually.
+
+!ENTRY org.eclipse.lsp4e 2 0 2026-02-17 11:23:39.765
+!MESSAGE [Warning]	[McpAutoApproveService] Invalid McpAutoApproveService config, resetting to empty undefined
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2026-02-17 11:23:43.629
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-02-17 11:25:34.878
+!MESSAGE [Info]	[fetchCompletions] Request 39bfcee4-c205-4811-b6f4-b299ce02fed6 at <https://proxy.individual.githubcopilot.com/v1/engines/gpt-41-copilot/completions> finished with 200 status after 385.33540000001085ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-02-17 11:25:34.948
+!MESSAGE [Info]	[streamChoices] solution 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-02-17 11:25:35.171
+!MESSAGE [Info]	[fetchCompletions] Request e821a31a-6303-4b41-b470-de10177f8ec1 at <https://proxy.individual.githubcopilot.com/v1/engines/gpt-41-copilot/completions> finished with 200 status after 166.234300000011ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-02-17 11:25:35.233
+!MESSAGE [Info]	[streamChoices] solution 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-02-17 11:25:59.626
+!MESSAGE [Info]	[fetchCompletions] Request 514136b7-6e3b-4dad-8a94-bdc6ccc5bf25 at <https://proxy.individual.githubcopilot.com/v1/engines/gpt-41-copilot/completions> finished with 200 status after 231.19210000001476ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-02-17 11:25:59.692
+!MESSAGE [Info]	[streamChoices] solution 0 returned. finish reason: [stop]
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-03-07 12:11:19.788
+!MESSAGE [Info] Document is null for editor: programs.c
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-03-07 12:11:19.793
+!MESSAGE [Info] Completion handler is refreshed for the document: file:///D:/Galbiati/Prima-FW/Board_APP/Core/Src/programs.c
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-03-07 12:11:20.036
+!MESSAGE [Info] Document is null for editor: _ver.h
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-03-07 12:11:20.038
+!MESSAGE [Info] Completion handler is refreshed for the document: file:///D:/Galbiati/Prima-FW/Board_APP/Core/Inc/_ver.h
+!SESSION 2026-03-09 10:45:47.677 -----------------------------------------------
+eclipse.buildId=Version 1.18.1
+java.version=21.0.3
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=it_IT
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2026-03-09 10:46:20.811
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2026-03-09 10:46:20.812
+!MESSAGE Log4j2 initialized with config file D:\Galbiati\Prima-FW\.metadata\.log4j2.xml
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-03-09 10:46:32.423
+!MESSAGE [Info] Starting language server with binary lsp agent.
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-03-09 10:46:32.426
+!MESSAGE [Info] Found native binary in fragment bundle: com.microsoft.copilot.eclipse.core.agent.win32
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-03-09 10:46:32.668
+!MESSAGE [Info] Binary agent started successfully.
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-03-09 10:46:37.119
+!MESSAGE [Info]	[lsp] GitHub Copilot Language Server 1.412.0 initialized
+
+!ENTRY org.eclipse.lsp4e 2 0 2026-03-09 10:46:37.261
+!MESSAGE [Warning]	[McpAutoApproveService] Invalid McpAutoApproveService config, resetting to empty undefined
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-03-09 10:46:37.262
+!MESSAGE [Info]	[certificates] Removed 12 expired certificates
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-03-09 10:46:37.286
+!MESSAGE [Info]	[default] Policy watcher started for GitHub Copilot Plugin
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-03-09 10:46:37.506
+!MESSAGE [Info]	[GithubAvailableEmbeddingTypes] Got embeddings. Primary: metis-1024-I16-Binary. Deprecated: 
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-03-09 10:46:37.907
+!MESSAGE [Info]	[AutoModelService] Auto model cache cleared due to token update
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-03-09 10:46:37.908
+!MESSAGE [Info]	[Semantic Search] Semantic search is disabled { reason: 'watchedFiles capability is not available' }
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-03-09 10:46:37.908
+!MESSAGE [Info]	[CopilotMCP] MCP state changed from false to true
+
+!ENTRY com.microsoft.copilot.eclipse.terminal.api 2 0 2026-03-09 10:46:41.619
+!MESSAGE Terminal dependencies not available. User needs to install them manually.
+
+!ENTRY org.eclipse.lsp4e 2 0 2026-03-09 10:46:42.131
+!MESSAGE [Warning]	[McpAutoApproveService] Invalid McpAutoApproveService config, resetting to empty undefined
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2026-03-09 10:46:44.027
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-03-10 08:05:32.261
+!MESSAGE [Info] Document is null for editor: _ver.h
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-03-10 08:05:32.267
+!MESSAGE [Info] Completion handler is refreshed for the document: file:///D:/Galbiati/Prima-FW/Board_APP/Core/Inc/_ver.h
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-03-10 08:05:32.315
+!MESSAGE [Info] Document is null for editor: time.c
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-03-10 08:05:32.316
+!MESSAGE [Info] Completion handler is refreshed for the document: file:///D:/Galbiati/Prima-FW/Board_APP/Core/Src/time.c
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-03-10 08:05:32.353
+!MESSAGE [Info] Document is null for editor: time.h
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-03-10 08:05:32.354
+!MESSAGE [Info] Completion handler is refreshed for the document: file:///D:/Galbiati/Prima-FW/Board_APP/Core/Inc/time.h
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-03-10 08:05:32.459
+!MESSAGE [Info] Document is null for editor: phases.c
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-03-10 08:05:32.461
+!MESSAGE [Info] Completion handler is refreshed for the document: file:///D:/Galbiati/Prima-FW/Board_APP/Core/Src/phases.c

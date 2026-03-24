@@ -20032,9 +20032,9 @@ uint8_t ProgramUser() {
 				osDelay(200);
  8017970:	20c8      	movs	r0, #200	@ 0xc8
  8017972:	f012 fdae 	bl	802a4d2 <osDelay>
-			} while (tWait.Seconds < 25);
+			} while (tWait.Seconds < 30);
  8017976:	6dfb      	ldr	r3, [r7, #92]	@ 0x5c
- 8017978:	2b18      	cmp	r3, #24
+ 8017978:	2b1d      	cmp	r3, #29
  801797a:	d9e3      	bls.n	8017944 <ProgramUser+0x33c>
  801797c:	e000      	b.n	8017980 <ProgramUser+0x378>
 					break;
@@ -24277,7 +24277,7 @@ void LoadSettings() {
  801991e:	77da      	strb	r2, [r3, #31]
 	machine.FWVersionRevision = FW_VERSION_REVISION;
  8019920:	4b61      	ldr	r3, [pc, #388]	@ (8019aa8 <LoadSettings+0x1b0>)
- 8019922:	2210      	movs	r2, #16
+ 8019922:	2211      	movs	r2, #17
  8019924:	f883 2020 	strb.w	r2, [r3, #32]
 //		SaveDefaults();
 //	}

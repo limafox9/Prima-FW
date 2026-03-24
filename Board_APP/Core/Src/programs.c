@@ -859,7 +859,7 @@ uint8_t ProgramUser() {
 					break;
 				}
 				osDelay(200);
-			} while (tWait.Seconds < 25);
+			} while (tWait.Seconds < 30);
 			ValveDrainSteamSet(ON);
 		}
 	}
