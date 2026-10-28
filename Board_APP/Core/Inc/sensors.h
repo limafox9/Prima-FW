@@ -67,6 +67,8 @@ typedef struct s_Sensors{
 	float TemperatureChamberHeater;
 	float T1;
 	float T2;
+	float currT1;
+	float currT2;
 	float PressureChamber;
 	float PressureAmbient;
 	float Current;

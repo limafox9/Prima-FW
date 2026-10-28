@@ -57,7 +57,7 @@ USAGE:
 #define STEAM_PULSE_STERIL		40
 
 #define T1T2_CHECK_ERROR_INTERVAL 1
-#define T1T2_MAX_ERR_READINGS 5
+#define T1T2_MAX_ERR_READINGS 10
 
 uint8_t chamberHeaterTempSet;
 uint8_t steamGeneratorTempSet;
@@ -946,7 +946,7 @@ uint8_t PhaseSteril(SterilParam_s* param, SterilPID_s* pPID) {
 				} else {
 					err09 = 0;
 				}
-
+				tCheckError.Seconds = 0;
 			}
 
 			if (err09 >= T1T2_MAX_ERR_READINGS) {

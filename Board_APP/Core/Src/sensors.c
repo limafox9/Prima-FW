@@ -147,14 +147,16 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 //	osSemaphoreWait(semaphoreSensorsHandle, 100);
 
 	if(GPIO_Pin == SW_DOOR_Pin) {
-		Beep(1, 100, 100);
+//		Beep(1, 100, 100);
 		osSemaphoreWait(semaphoreSensorsHandle, 100);
 		sensors.Door = DoorPositionGet();
 		if (sensors.Door == OPEN) {
+			Beep(1, 100, 100);
 			doorOpened = 1;
 		}
 		if (sensors.Solenoid == UNLOCK && (machineStatus.Status == STATUS_READY || machineStatus.Status == STATUS_PASS)) {
 //			ValveDryIntakeSet(DoorPositionGet());
+//			Beep(1, 100, 100);
 			ValveDryIntakeSet(ON);
 			machineStatus.Status == STATUS_READY;
 		}
@@ -256,12 +258,19 @@ void StartSensorsTask() {
 		sensors.TemperatureSteamGenerator = SteamGeneratorTempGet();
 		sensors.TemperatureChamberHeater = ChamberHeaterTempGet();
 		currT1 = GetT1();
+		sensors.currT1 = currT1;
 		HAL_Delay(100);
+		sensors.currT2 = currT2;
 		currT2 = GetT2();
 
 		// To avoid spurious spike readings
 
 		if (sterilRunning) {
+
+			if (abs(currT1 - currT2) > 0.5) {
+				__NOP();
+			}
+
 			deltaT1 = fabs(currT1 - prevT1);
 			deltaT2 = fabs(currT2 - prevT2);
 			if (deltaT1 > T1_DELTA_MAX) {
