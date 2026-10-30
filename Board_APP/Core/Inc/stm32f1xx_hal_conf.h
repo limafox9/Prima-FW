@@ -30,7 +30,7 @@
 
 /* ########################## Module Selection ############################## */
 /**
-  * @brief This is the list of modules to be used in the HAL driver
+  * @brief This is the list of modules to be used in the HAL driver HPRT0
   */
 
 #define HAL_MODULE_ENABLED

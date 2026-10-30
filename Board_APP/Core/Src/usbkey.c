@@ -41,7 +41,18 @@ USAGE:
 #include <string.h>
 #include <stdio.h>
 #include "settings.h"
+#include "usb_host.h"
+#include "ff.h"
+#include "FreeRTOS.h"
+#include "task.h"
+#include "queue.h"
+#include "ff.h"
+#include "printer.h"
 
+// Registro HPRT della periferica USB OTG FS (offset 0x440 dalla base)
+#define USB_HPRT        (*(volatile uint32_t *)(USB_OTG_FS_PERIPH_BASE + 0x440U))
+// Bit PCSTS = Port Connect Status (bit 0 di HPRT)
+#define USB_HPRT_PCSTS  (1U << 0)
 
 #define usbCS0 HAL_GPIO_WritePin(GPIOD, GPIO_PIN_3, GPIO_PIN_RESET)
 #define usbCS1 HAL_GPIO_WritePin(GPIOD, GPIO_PIN_3, GPIO_PIN_SET)
@@ -60,6 +71,18 @@ uint8_t state_unmount = 0;
 char currFilename[32];
 char USBString[USB_BUFFER_LENGHT];
 uint8_t USBWrite ;
+
+volatile uint32_t dbg_loop = 0;
+volatile uint32_t dbg_drop = 0;
+uint32_t dbg_usb_irq_count = 0;
+
+extern ApplicationTypeDef Appli_state;
+extern USBH_HandleTypeDef hUsbHostFS;
+
+extern FATFS       USBHFatFS;
+extern FIL         USBHFile;
+extern char        currFilename[];
+extern QueueHandle_t usbQueue;
 
 
 #define MAX_BUFFER 32
@@ -141,42 +164,190 @@ uint8_t GetParam(char* sRow, s_ConfigParameter* param) {
 //	return retVal;
 }
 
-void StartUSBTask() {
-//	SdcardWriteAction("CIAO.txt" , "Hello\n");
-volatile FRESULT fr;
+void StartUSBTask(void *argument)
+{
+    FRESULT  fr;
+    uint32_t hprt;
+    uint8_t  pcsts        = 0;
+    char     usbString[80];
 
-//HAL_GPIO_WritePin(GPIOD, GPIO_PIN_3, GPIO_PIN_RESET);
+    for (;;)
+    {
+        // ----------------------------------------------------------------
+        // 1. Lettura dello stato di connessione della porta USB
+        // ----------------------------------------------------------------
+        dbg_loop++;
 
-//MX_FATFS_Init();
-//MX_USB_HOST_Init();
+        hprt  = USB_HPRT;
+        pcsts = (hprt & USB_HPRT_PCSTS) ? 1U : 0U;
 
+        // ----------------------------------------------------------------
+        // 2. Gestione del mount: RITENTA finché non è montato
+        //    (non più solo sulla transizione 0->1, così il sistema
+        //    si riprende da solo dopo un recovery o un errore)
+        // ----------------------------------------------------------------
+        if (pcsts && !usb_mounted && !usb_recovering)
+        {
+            // Verifica che il driver USB Host abbia completato
+            // l'enumerazione e che l'unità MSC sia pronta.
+            if (hUsbHostFS.gState == HOST_CLASS &&
+                USBH_MSC_IsReady(&hUsbHostFS) == 1 &&
+                USBH_MSC_UnitIsReady(&hUsbHostFS, 0) == 1)
+            {
+                // Mount immediato (terzo parametro = 1):
+                // accede davvero al disco e fallisce subito se il driver
+                // non risponde, invece di rimandare il problema alla
+                // prima f_open (dove il task si bloccava in osMessagePut).
+                if (f_mount(&USBHFatFS, "", 1) == FR_OK)
+                {
+                    usb_mounted = 1;
+                    Appli_state = APPLICATION_READY;
+                    Beep(1, 50, 50);
+                }
+                // se fallisce, usb_mounted resta 0 → riprova al prossimo ciclo
+            }
+            // se gState != HOST_CLASS, il driver non è ancora pronto:
+            // riproverà tra 100 ms
+        }
+        else if (!pcsts && usb_mounted)
+        {
+            // Chiavetta rimossa: smonta il volume
+            f_mount(NULL, "", 0);
+            usb_mounted = 0;
+            Appli_state = APPLICATION_DISCONNECT;
+            Beep(1, 50, 50);
+        }
 
-//int i = 0;
+        // ----------------------------------------------------------------
+        // 3. Prelievo di un messaggio dalla coda (timeout corto)
+        // ----------------------------------------------------------------
+        if (xQueueReceive(usbQueue, usbString, pdMS_TO_TICKS(100)) == pdTRUE)
+        {
+            // Scrivi solo se: volume montato, chiavetta presente,
+            // non c'è un recovery in corso, e il filename è valido.
+            if (usb_mounted && pcsts && !usb_recovering &&
+                currFilename[0] != '\0')
+            {
+                fr = f_open(&USBHFile, currFilename, FA_WRITE | FA_OPEN_ALWAYS);
+                if (fr == FR_OK)
+                {
+                    f_lseek(&USBHFile, USBHFile.fsize);
+
+                    fr = f_printf(&USBHFile, usbString);
+                    if (fr < 0)
+                    {
+                        // Errore di scrittura: chiudi e forza re-mount
+                        f_close(&USBHFile);
+                        f_mount(NULL, "", 0);
+                        usb_mounted = 0;
+                        Appli_state = APPLICATION_DISCONNECT;
+                    }
+                    else
+                    {
+                        fr = f_close(&USBHFile);
+                        if (fr != FR_OK)
+                        {
+                            f_mount(NULL, "", 0);
+                            usb_mounted = 0;
+                            Appli_state = APPLICATION_DISCONNECT;
+                        }
+                    }
+                }
+                else if (fr == FR_INVALID_NAME || fr == FR_NO_PATH)
+                {
+                    // Problema di nome file: NON smontare il volume,
+                    // scarta solo questo messaggio. Il volume resta
+                    // montato e i messaggi successivi (con filename
+                    // valido) verranno scritti.
+                    dbg_drop++;
+                }
+                else
+                {
+                    // Errore del volume (DISK_ERR, NOT_READY, ecc.):
+                    // smonta e lascia che il retry rimonti.
+                    f_mount(NULL, "", 0);
+                    usb_mounted = 0;
+                    Appli_state = APPLICATION_DISCONNECT;
+                }
+            }
+            else
+            {
+                // Messaggio ricevuto ma chiavetta non pronta (o
+                // recovery in corso): scartato.
+                // Per non perdere righe, implementare un ring buffer
+                // in RAM scritto da Print() e drenato qui quando
+                // usb_mounted == 1.
+                dbg_drop++;
+            }
+        }
+    }
+
+//	volatile FRESULT fr;
 //
-//while(i < 1000)
-//{
-//	MX_USB_HOST_Process();
-//	HAL_Delay(1);
-//	i++;
-//}
-//HAL_GPIO_WritePin(GPIOD, GPIO_PIN_3, GPIO_PIN_SET);
-//osDelay(1000);
-//HAL_GPIO_WritePin(GPIOD, GPIO_PIN_3, GPIO_PIN_RESET);
-//osDelay(1000);
-
-	for (;;) {
-//		MX_USB_HOST_Process();
-		if (xQueueReceive(usbQueue, USBString, portMAX_DELAY) == pdTRUE) {
-//			if(f_mount(&USBHFatFS, "", 1) == FR_OK)	{
-				if (f_open(&USBHFile, currFilename, FA_WRITE | FA_OPEN_ALWAYS) == FR_OK) {
-					f_lseek(&USBHFile,USBHFile.fsize);
-					f_printf(&USBHFile,USBString);
-					f_close(&USBHFile);
-				}
+//	for (;;) {
+//		if (xQueueReceive(usbQueue, USBString, portMAX_DELAY) == pdTRUE) {
+//
+//			fr = f_open(&USBHFile, currFilename, FA_WRITE | FA_OPEN_ALWAYS);
+//			if (fr == FR_OK) {
+//				fr = f_lseek(&USBHFile,USBHFile.fsize);
+//				fr = f_printf(&USBHFile,USBString);
+//				fr = f_close(&USBHFile);
+//				if (fr != FR_OK) {
+//					// fclose error
+//					__NOP();
+//				}
 //			}
-		}
-	}
+//			else
+//			{
+//				// fopen error
+//				__NOP();
+//			}
+//		}
+//	}
 
+}
+
+void StartUSBRecoveryTask(void *arg)
+{
+    uint32_t last_irq = dbg_usb_irq_count;
+    uint32_t last_tick = xTaskGetTickCount();
+
+    for (;;)
+    {
+        uint32_t now = xTaskGetTickCount();
+        if (dbg_usb_irq_count != last_irq)
+        {
+            last_irq = dbg_usb_irq_count;
+            last_tick = now;
+        }
+        else if ((now - last_tick) > pdMS_TO_TICKS(3000))
+        {
+            uint32_t hprt = USB_HPRT;
+            if (USB_HPRT & USB_HPRT_PCSTS) {   // chiavetta fisicamente presente
+				usb_recovering = 1;
+
+				// 1. Smonta FatFS PRIMA del deinit
+				f_mount(NULL, "", 0);
+				usb_mounted = 0;
+
+				// 2. Deinit dello stack USB
+				USBH_DeInit(&hUsbHostFS);
+
+				// 3. Reinizializza
+				USBH_Init(&hUsbHostFS, USBH_Process, HOST_FS);
+				USBH_RegisterClass(&hUsbHostFS, USBH_MSC_CLASS);
+				USBH_Start(&hUsbHostFS);
+
+				// 4. Forza la maschera degli interrupt (workaround)
+				USB_OTG_FS->GINTMSK |= (USB_OTG_GINTMSK_PRTIM | USB_OTG_GINTMSK_HCIM |
+										USB_OTG_GINTMSK_SOFM | USB_OTG_GINTMSK_RXFLVLM);
+
+				usb_recovering = 0;
+				last_tick = xTaskGetTickCount();   // dai tempo all'enumerazione
+			}
+        }
+        vTaskDelay(pdMS_TO_TICKS(500));
+    }
 }
 
 void LoadUSBConfig()  {

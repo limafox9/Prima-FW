@@ -86,6 +86,9 @@ extern Settings_s settings;
 
 extern USBH_HandleTypeDef hUsbHostFS;
 
+volatile uint8_t usb_mounted    = 0;   // il volume FatFS è montato?
+volatile uint8_t usb_recovering = 0;   // recovery USB in corso?
+
 //uint8_t UART_rxBuffer[UART_DISPLAY_BUFFER_SIZE] = {0};
 
 RTCDateTime_s dt;
@@ -99,11 +102,12 @@ osThreadId programTaskHandle;
 osThreadId displayInfoTaskHandle;
 
 osThreadId usbTaskHandle;
+osThreadId usbRecoveryTaskHandle;
 
 osSemaphoreId semaphoreSensorsHandle;
 osSemaphoreId semaphoreSerialHandle;
-xQueueHandle usbQueue;
-xQueueHandle serialQueue;
+QueueHandle_t usbQueue;
+QueueHandle_t serialQueue;
 
 //float calTemp(float Rt) {
 //	float Z1, Z2, Z3, Z4, temp;
@@ -196,7 +200,15 @@ void SysInit() {
 
 	osDelay(1000);
 
-	LoadSettings();
+	if (LoadSettings() != 0) {
+		DigitsWrite(1, "    ");
+		DigitsWrite(2, "boot");
+		DigitsWrite(3, "    ");
+		DashLed(0xFFFF, ON);
+		ProgressLed(0xFFFF);
+		while (1);
+
+	}
 
 	ClockInit(&hi2c1);
 	PWMPower_Init();
@@ -349,6 +361,9 @@ void SysInit() {
 
 		osThreadDef(usbTask, StartUSBTask, osPriorityNormal, 1, 2048);
 		usbTaskHandle = osThreadCreate(osThread(usbTask), NULL);
+
+		osThreadDef(usbRcvTask, StartUSBRecoveryTask, osPriorityNormal, 1, 128);
+		usbRecoveryTaskHandle = osThreadCreate(osThread(usbRcvTask), NULL);
 
 		if (settings.PreheatRingTemp > 120) settings.PreheatRingTemp = 120;
 		if (settings.PreheatSteamTemp > 180) settings.PreheatSteamTemp = 180;

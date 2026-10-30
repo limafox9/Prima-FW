@@ -73,7 +73,10 @@ void ReadSetting(uint8_t address, void* data, uint8_t size) {
 	EEPROM_Read(address, data, size);
 }
 
-void LoadSettings() {
+uint8_t LoadSettings() {
+
+	uint8_t retval = 0;
+
 	// Get MCU unique ID 96 bit
 	machine.MCUID[0] = *(uint32_t*)(MCU_UID_ADDRESS);
 	machine.MCUID[1] = *(uint32_t*)(MCU_UID_ADDRESS + 0x04);
@@ -132,6 +135,9 @@ void LoadSettings() {
 	EEPROM_Read(EPA_FUN_DRY_CLASS, &settings.FunDryClass, 1);
 	EEPROM_Read(EPA_FUN_PRESS_DISPLAY_OFFSET, &settings.FunPressureDisplay, 1);
 
+	if (settings.LastCleanCycle == 0 && settings.LastServiceCycle == 0) retval = 1;
+
+	return retval;
 }
 
 void WriteSetting(uint8_t address, void* data, uint8_t size) {

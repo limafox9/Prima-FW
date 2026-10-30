@@ -53,9 +53,13 @@ USAGE:
 #define FS	0x1C
 #define GS  0x1D
 
+volatile uint16_t dbg_enq_fail = 0;
+volatile uint16_t dbg_enq_ok = 0;
+
 extern UART_HandleTypeDef UART_PRINTER;
 extern Settings_s settings;
 extern MachineData_s machine;
+extern QueueHandle_t usbQueue;
 void PrintSend(const char* format, ...);
 
 unsigned char reverse_byte(unsigned char x);
@@ -254,7 +258,7 @@ void PrintError(const char* errorString, RTCTimerTime_s* tTime) {
 void PrintSend(const char* format, ...) {
 
 		  va_list args;
-		  char* buf[80];
+		  char buf[80];
 		  va_start(args, format);
 		  vsprintf(buf, format, args);
 		  //printf(buf);
@@ -270,7 +274,7 @@ void PrintSend(const char* format, ...) {
 void Print(const char* format, ...) {
 
 		  va_list args;
-		  char* buf[80];
+		  char buf[80];
 		  va_start(args, format);
 		  vsprintf(buf, format, args);
 		  //printf(buf);
@@ -283,7 +287,14 @@ void Print(const char* format, ...) {
 			  }
 			  if (settings.FunUSBActive == 1) {
 	//			  SdcardWriteAction(currFilename , buf);
-				  xQueueSend(usbQueue, buf, 100);
+				  if (xQueueSend(usbQueue, buf, 100) != pdTRUE)
+				  {
+				      dbg_enq_fail++;   // contatore globale volatile
+				  }
+				  else
+				  {
+				      dbg_enq_ok++;
+				  }
 			  }
 		  }
 

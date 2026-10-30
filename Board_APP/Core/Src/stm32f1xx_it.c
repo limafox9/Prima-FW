@@ -63,6 +63,8 @@ extern DMA_HandleTypeDef hdma_usart3_rx;
 extern DMA_HandleTypeDef hdma_usart3_tx;
 extern TIM_HandleTypeDef htim6;
 
+extern uint32_t dbg_usb_irq_count;
+
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -298,7 +300,7 @@ void TIM6_IRQHandler(void)
 void OTG_FS_IRQHandler(void)
 {
   /* USER CODE BEGIN OTG_FS_IRQn 0 */
-
+	dbg_usb_irq_count++;
   /* USER CODE END OTG_FS_IRQn 0 */
   HAL_HCD_IRQHandler(&hhcd_USB_OTG_FS);
   /* USER CODE BEGIN OTG_FS_IRQn 1 */

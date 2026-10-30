@@ -399,6 +399,74 @@ uint8_t ProgramUnwrapped() {
 
 }
 
+uint8_t ProgramWrapped_Test() {
+	uint8_t success = 1;
+	RTCDateTime_s clockTime;
+	RTCTimerTime_s tCycle, tPhase;
+
+	progRunning = 1;
+	progStop = 0;
+
+	if (!PhaseBegin(600)) return 0;
+
+	uint16_t sterilTime = 0;
+	uint16_t dryTime = 0;
+	sterilTime = 300;
+	dryTime = GetDryTime(settings.FunDryClass, STERILTEMP_134, settings.VacNumber) * 60;
+
+	GetDateTime(&clockTime);
+	PrintHeader("WRAPPED", sensors.T1, dryTime, sterilTime, &clockTime);
+
+	// Heat up
+	if (success) {
+		success = PhaseHeatUp(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP, DV_PREHEAT_CHAMBER_TEMP, 100.0, OT_HEAT);
+	}
+	if (success) {
+		PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
+		success = PhaseRelease(1, OT_RELEASE);
+	}
+
+	ResetTimer(TIMER_CYCLE);
+
+	// Other vacuum
+	for (int i = 0; i < 50; i++) {  // -2 for 1st cycle and steril cycle
+		if (success) {
+			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
+			success = PhaseVacuum(2, 90, 0, OT_VACUUM);
+		}
+		if (success) {
+			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP + 10);
+			success = PhasePressure(2, 110, DV_STEAM_GEN_TEMP_PRESS, DV_STEAM_GEN_TEMP_MIN, OT_PRESSURE);
+		}
+		if (success) {
+			PhasePreheat(DV_HEATING_RING_TEMP, DV_STEAM_GEN_TEMP);
+			success = PhaseRelease(2, OT_RELEASE);
+		}
+	}
+
+	if (success) {
+		PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
+		success = PhaseRelease(3, OT_RELEASE);
+	}
+
+	// Dry
+	if (success) {
+		success = PhaseDry(DRY_FIRST_VAC, DRY_OTHER_VAC, 30, 45);
+	}
+
+	// End
+	PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
+	GetTimer(TIMER_CYCLE, &tCycle);
+	GetDateTime(&clockTime);
+	PhaseFinish(success, &clockTime, &tCycle, 120);
+
+	progRunning = 0;
+	osThreadSuspend(displayInfoTaskHandle);
+
+	progStop = 0;
+
+}
+
 uint8_t ProgramWrapped() {
 	uint8_t success = 1;
 	RTCDateTime_s clockTime;
@@ -512,6 +580,7 @@ uint8_t ProgramWrapped() {
 	// End
 	PhasePreheat(settings.PreheatRingTemp, settings.PreheatSteamTemp);
 	GetTimer(TIMER_CYCLE, &tCycle);
+	clockTime = (const RTCDateTime_s){0};
 	GetDateTime(&clockTime);
 	PhaseFinish(success, &clockTime, &tCycle, 120);
 

@@ -132,6 +132,7 @@ extern uint8_t USBWrite ;
 //void SdcardWriteAction(char *file_name , char *data);
 
 void StartUSBTask();
+void StartUSBRecoveryTask();
 void LoadUSBConfig();
 
 #ifdef __cplusplus

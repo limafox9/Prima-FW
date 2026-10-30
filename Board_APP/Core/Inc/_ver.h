@@ -5,6 +5,6 @@
 
 #define FW_VERSION_MAJOR 	3
 #define FW_VERSION_MINOR 	4
-#define FW_VERSION_REVISION 21
+#define FW_VERSION_REVISION 23
 
 #endif /* INC__VER_H_ */

@@ -102,18 +102,20 @@ static void USBH_UserProcess  (USBH_HandleTypeDef *phost, uint8_t id)
   break;
 
   case HOST_USER_DISCONNECTION:
-  Appli_state = APPLICATION_DISCONNECT;
-  Beep(1, 50, 50);
+//  f_mount(NULL, "", 0);
+//  // FATFS_UnLinkDriver(USBDISKPath);
+//  Appli_state = APPLICATION_DISCONNECT;
+//  Beep(1, 50, 50);
   break;
 
   case HOST_USER_CLASS_ACTIVE:
-  Appli_state = APPLICATION_READY;
-  f_mount(&USBHFatFS, "", 0);
-  Beep(1, 50, 50);
+//  Appli_state = APPLICATION_READY;
+//  f_mount(&USBHFatFS, "", 0);
+//  Beep(1, 50, 50);
   break;
 
   case HOST_USER_CONNECTION:
-  Appli_state = APPLICATION_START;
+//  Appli_state = APPLICATION_START;
   break;
 
   default:

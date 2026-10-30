@@ -50,6 +50,7 @@ USAGE:
 #include "time.h"
 #include "programs.h"
 #include "phases.h"
+#include "usb_host.h"
 
 
 //==============================================================================
@@ -107,6 +108,8 @@ extern Settings_s settings;
 
 extern uint8_t currProgram;
 extern osSemaphoreId semaphoreSensorsHandle;
+
+extern ApplicationTypeDef Appli_state;
 
 e_OpenClosedState lastDoorStatus;
 uint8_t doorOpened;
@@ -405,7 +408,7 @@ void StartSensorsTask() {
 			ringPower = (HAL_GPIO_ReadPin(HEATER_RING_GPIO_Port, HEATER_RING_Pin) == ON) ? ON : OFF;
 			steamPower = (HAL_GPIO_ReadPin(HEATER_STEAM_GEN_GPIO_Port, HEATER_STEAM_GEN_Pin) == ON) ? ON : OFF;
 			GetDateTime(&tLogTime);
-			printf("%02d.%02d.%02d;%0.1f;%0.1f;%0.1f;%0.1f;%0.1f;%0.1f;%04d;%1d;%1d;%1d;%1d;%1d;%1d;%1d;%1d\n",
+			printf("%02d.%02d.%02d;%0.1f;%0.1f;%0.1f;%0.1f;%0.1f;%0.1f;%04d;%1d;%1d;%1d;%1d;%1d;%1d;%1d;%1d;%1d;%1d;%1d\n",
 					tLogTime.Hour, tLogTime.Minute, tLogTime.Second,
 					sensors.T1,
 					sensors.PressureChamber,
@@ -423,7 +426,8 @@ void StartSensorsTask() {
 					ValveWaterSteamGet(),
 					ringPower,
 					steamPower,
-					FanGet()
+					FanGet(),
+					(uint8_t)Appli_state
 					);
 			ResetTimer(TIMER_SENSOR_MONITOR);
 		}

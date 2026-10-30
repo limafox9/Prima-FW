@@ -170,7 +170,7 @@ extern int8_t ambientPressure;
 extern ConfigSettings_s configSettings[];
 
 void SaveSettings();
-void LoadSettings();
+uint8_t LoadSettings();
 void ReadSetting(uint8_t address, void* data, uint8_t size);
 void WriteSetting(uint8_t address, void* data, uint8_t size);
 
