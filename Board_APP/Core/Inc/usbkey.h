@@ -44,7 +44,7 @@ USAGE:
 #include <stdio.h>
 #include "cmsis_os.h"
 
-#define USB_BUFFER_LENGHT 49
+#define USB_BUFFER_LENGHT 100
 
 #define SDCARD_ERROR_OPEN_NORMAL	 		0x1
 #define SDCARD_ERROR_OPEN_WRITE_MODE	0x2

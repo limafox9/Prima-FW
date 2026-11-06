@@ -254,7 +254,7 @@ void PrintError(const char* errorString, RTCTimerTime_s* tTime) {
 void PrintSend(const char* format, ...) {
 
 		  va_list args;
-		  char* buf[80];
+		  char buf[80];
 		  va_start(args, format);
 		  vsprintf(buf, format, args);
 		  //printf(buf);
@@ -270,7 +270,7 @@ void PrintSend(const char* format, ...) {
 void Print(const char* format, ...) {
 
 		  va_list args;
-		  char* buf[80];
+		  char buf[80];
 		  va_start(args, format);
 		  vsprintf(buf, format, args);
 		  //printf(buf);
@@ -292,7 +292,7 @@ void Print(const char* format, ...) {
 void PrintPowerTestHeader() {
 	RTCDateTime_s clockTime;
 	GetDateTime(&clockTime);
-	sprintf(currFilename, "%02d_%02d_%02d-%02d_%02d-PWTEST.txt", clockTime.Year%100, clockTime.Month, clockTime.Day, clockTime.Hour, clockTime.Minute);
+	sprintf(currFilename, "%02d%02d%02d%02d%02d-PWTEST.txt", clockTime.Year%100, clockTime.Month, clockTime.Day, clockTime.Hour, clockTime.Minute);
 
 	Print("\n");
 	Print("******************************************\n");
@@ -326,7 +326,7 @@ void PrintPowerTestHeader() {
 void PrintSettings() {
 	RTCDateTime_s clockTime;
 	GetDateTime(&clockTime);
-	sprintf(currFilename, "%02d_%02d_%02d-%02d_%02d-SETTINGS.txt", clockTime.Year%100, clockTime.Month, clockTime.Day, clockTime.Hour, clockTime.Minute);
+	sprintf(currFilename, "%02d%02d%02d%02d%02d-SETTINGS.txt", clockTime.Year%100, clockTime.Month, clockTime.Day, clockTime.Hour, clockTime.Minute);
 
 	Print("\n");
 	Print("******************************************\n");

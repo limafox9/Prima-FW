@@ -41,6 +41,7 @@ USAGE:
 #include <string.h>
 #include <stdio.h>
 #include "settings.h"
+#include "usb_host.h"
 
 
 #define usbCS0 HAL_GPIO_WritePin(GPIOD, GPIO_PIN_3, GPIO_PIN_RESET)
@@ -60,6 +61,8 @@ uint8_t state_unmount = 0;
 char currFilename[32];
 char USBString[USB_BUFFER_LENGHT];
 uint8_t USBWrite ;
+
+extern ApplicationTypeDef Appli_state;
 
 
 #define MAX_BUFFER 32
@@ -164,15 +167,19 @@ volatile FRESULT fr;
 //HAL_GPIO_WritePin(GPIOD, GPIO_PIN_3, GPIO_PIN_RESET);
 //osDelay(1000);
 
+sprintf(currFilename, "prova.txt");
+
 	for (;;) {
 //		MX_USB_HOST_Process();
 		if (xQueueReceive(usbQueue, USBString, portMAX_DELAY) == pdTRUE) {
 //			if(f_mount(&USBHFatFS, "", 1) == FR_OK)	{
+			//if (Appli_state == APPLICATION_READY) {
 				if (f_open(&USBHFile, currFilename, FA_WRITE | FA_OPEN_ALWAYS) == FR_OK) {
 					f_lseek(&USBHFile,USBHFile.fsize);
 					f_printf(&USBHFile,USBString);
 					f_close(&USBHFile);
 				}
+			//}
 //			}
 		}
 	}

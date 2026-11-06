@@ -92,7 +92,7 @@ uint8_t PhaseBegin(uint8_t timeout) {
 	ResetTimer(TIMER_PHASE);
 
 //	osDelay(1000);
-	sprintf(currFilename, "%02d_%02d_%02d-%02d_%02d-%05d.txt", ct.Year%100, ct.Month, ct.Day, ct.Hour, ct.Minute, settings.CyclesCount);
+	sprintf(currFilename, "%02d%02d%02d%02d%02d-C%05d.txt", ct.Year%100, ct.Month, ct.Day, ct.Hour, ct.Minute, settings.CyclesCount);
 
 	GetTimer(TIMER_PHASE, &tPhase);
 
@@ -205,7 +205,7 @@ uint8_t PhaseBegin(uint8_t timeout) {
 
 	if (currProgram != PROGRAM_RESUME_DRY && retVal != 0) {
 		settings.CyclesCount++;
-		sprintf(currFilename, "%02d_%02d_%02d-%02d_%02d-%05d.txt", ct.Year%100, ct.Month, ct.Day, ct.Hour, ct.Minute, settings.CyclesCount);
+		//sprintf(currFilename, "%02d%02d%02d%02d%02d-C%05d.txt", ct.Year%100, ct.Month, ct.Day, ct.Hour, ct.Minute, settings.CyclesCount);
 		EEPROM_Write(EPA_CYCLE_COUNTER, &settings.CyclesCount, 2);
 		machine.ReadOnlyCyclesCount++;
 		EEPROM_Write(EPA_CYCLE_COUNTER_PERMANENT, &machine.ReadOnlyCyclesCount, 2);

@@ -198,14 +198,29 @@ void SysInit() {
 
 	LoadSettings();
 
+	osDelay(500);
+	int16_t cyclesCount = settings.CyclesCount;
+	int16_t cyclesToClean = settings.CyclesCount - (settings.CleanCyclesInterval + settings.LastCleanCycle);
+	if (cyclesCount == 0 && cyclesToClean == 0) {
+
+		DigitsWrite(1, "        ");
+		DigitsWrite(2, "boot    ");
+		DigitsWrite(3, "        ");
+		DashLed(0xFFFF, ON);
+		ProgressLed(0xFFFF);
+
+		while(1);
+
+	}
+
 	ClockInit(&hi2c1);
 	PWMPower_Init();
 	PrinterInit();
 
 //	PrintLogo();
 //	return;
-
-//
+// ReadSetting();
+	//
 	HAL_ADCEx_Calibration_Start(&hadc1);
 
 //	TM7705_Init(&hspi1);

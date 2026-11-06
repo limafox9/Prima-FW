@@ -103,6 +103,7 @@ static void USBH_UserProcess  (USBH_HandleTypeDef *phost, uint8_t id)
 
   case HOST_USER_DISCONNECTION:
   Appli_state = APPLICATION_DISCONNECT;
+  f_mount(NULL, "", 1);
   Beep(1, 50, 50);
   break;
 
