@@ -2,6 +2,12 @@
 PRIMA Board_APP
 -------------------------------------------------------------------------------
 
+[2.8.73 China] - 2024-06-19
+  CHANGED
+    - Modificato DV_STERIL_PRESS_MIN_134 a 270.0 (precedente a 308.0)
+    - Modificato DV_STERIL_PRESS_MIN_121 a 180.0 (precedente a 200.0)
+    - DB_Protocol OK
+
 [2.8.72 China] - 2024-01-18
   NOTES
     Versione per Cina. Aumentata tolleranza T1-T2 mismatch per consentirgli i
